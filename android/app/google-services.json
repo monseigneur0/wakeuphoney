@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "64370557085",
+    "project_id": "wakeuphoneys2",
+    "storage_bucket": "wakeuphoneys2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64370557085:android:bf0d4de4241e0d28621474",
+        "android_client_info": {
+          "package_name": "com.wakeuptaco.wakeuphoney"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64370557085-ms8oih3gjnlm6g8h34t1eskqmcjc9emp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjlrCyHdhq0cxbGMGJ6zPSYPwidmHK-YI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64370557085-ms8oih3gjnlm6g8h34t1eskqmcjc9emp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
