@@ -5,6 +5,7 @@ import 'package:wakeuphoney/features/couples/couples_list_screen.dart';
 import 'package:wakeuphoney/features/messages/message_edit.dart';
 
 import 'features/messages/messages_screen.dart';
+import 'features/movie/movie_screen.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/profile/profile_screen.dart';
 import 'features/users/google_repo.dart';
@@ -117,6 +118,11 @@ final routerProvider = Provider((ref) {
             name: CoupleProfileScreen.routeName,
             path: CoupleProfileScreen.routeURL,
             builder: (context, state) => const CoupleProfileScreen(),
+          ),
+          GoRoute(
+            name: MovieScreen.routeName,
+            path: MovieScreen.routeURL,
+            builder: (context, state) => const MovieScreen(),
           ),
         ],
       )
