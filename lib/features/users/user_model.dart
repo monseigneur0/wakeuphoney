@@ -1,18 +1,22 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/foundation.dart';
 
 class UserModel {
   final String displayName;
   final String email;
   final String photoURL;
   final String uid;
+
+  final List couples;
   final DateTime creationTime;
   final DateTime lastSignInTime;
   final bool isLoggedIn;
+
   UserModel({
     required this.displayName,
     required this.email,
     required this.photoURL,
     required this.uid,
+    required this.couples,
     required this.creationTime,
     required this.lastSignInTime,
     required this.isLoggedIn,
@@ -23,6 +27,7 @@ class UserModel {
     String? email,
     String? photoURL,
     String? uid,
+    List? couples,
     DateTime? creationTime,
     DateTime? lastSignInTime,
     bool? isLoggedIn,
@@ -32,6 +37,7 @@ class UserModel {
       email: email ?? this.email,
       photoURL: photoURL ?? this.photoURL,
       uid: uid ?? this.uid,
+      couples: couples ?? this.couples,
       creationTime: creationTime ?? this.creationTime,
       lastSignInTime: lastSignInTime ?? this.lastSignInTime,
       isLoggedIn: isLoggedIn ?? this.isLoggedIn,
@@ -44,6 +50,7 @@ class UserModel {
       'email': email,
       'photoURL': photoURL,
       'uid': uid,
+      'couples': couples,
       'creationTime': creationTime.millisecondsSinceEpoch,
       'lastSignInTime': lastSignInTime.millisecondsSinceEpoch,
       'isLoggedIn': isLoggedIn,
@@ -56,6 +63,7 @@ class UserModel {
       email: map['email'] as String,
       photoURL: map['photoURL'] as String,
       uid: map['uid'] as String,
+      couples: List.from(map['couples'] as List),
       creationTime:
           DateTime.fromMillisecondsSinceEpoch(map['creationTime'] as int),
       lastSignInTime:
@@ -66,7 +74,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(displayName: $displayName, email: $email, photoURL: $photoURL, uid: $uid, creationTime: $creationTime, lastSignInTime: $lastSignInTime, isLoggedIn: $isLoggedIn)';
+    return 'UserModel(displayName: $displayName, email: $email, photoURL: $photoURL, uid: $uid, couples: $couples, creationTime: $creationTime, lastSignInTime: $lastSignInTime, isLoggedIn: $isLoggedIn)';
   }
 
   @override
@@ -77,6 +85,7 @@ class UserModel {
         other.email == email &&
         other.photoURL == photoURL &&
         other.uid == uid &&
+        listEquals(other.couples, couples) &&
         other.creationTime == creationTime &&
         other.lastSignInTime == lastSignInTime &&
         other.isLoggedIn == isLoggedIn;
@@ -88,6 +97,7 @@ class UserModel {
         email.hashCode ^
         photoURL.hashCode ^
         uid.hashCode ^
+        couples.hashCode ^
         creationTime.hashCode ^
         lastSignInTime.hashCode ^
         isLoggedIn.hashCode;

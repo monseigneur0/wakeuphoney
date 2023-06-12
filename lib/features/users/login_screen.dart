@@ -45,7 +45,8 @@ class LoginHome extends StatelessWidget {
                   ),
                   label: const Text('Google 로그인'),
                   onPressed: () {
-                    GoogleSignInApi().loginWithGoogle();
+                    GoogleSignInApi().loginWithGoogle(context);
+                    context.goNamed(PracticeHome.routeName);
                   },
                 ),
               ),
@@ -53,8 +54,12 @@ class LoginHome extends StatelessWidget {
                 height: 30,
               ),
               ElevatedButton(
-                  onPressed: () => context.goNamed(PracticeHome.routeName),
-                  child: const Text('go home'))
+                onPressed: () => context.goNamed(PracticeHome.routeName),
+                style: const ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.green),
+                ),
+                child: const Text('go home'),
+              ),
             ],
           ),
         ),

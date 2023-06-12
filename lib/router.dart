@@ -1,7 +1,12 @@
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
+import 'package:wakeuphoney/features/couples/couples_list_screen.dart';
+import 'package:wakeuphoney/features/messages/message_edit.dart';
 
+import 'features/messages/messages_screen.dart';
+import 'features/profile/couple_profile_screen.dart';
+import 'features/profile/profile_screen.dart';
 import 'features/users/google_repo.dart';
 import 'features/users/login_screen.dart';
 import 'practice_home_screen.dart';
@@ -14,70 +19,107 @@ import 'providerscreen/streamprovider.dart';
 
 final routerProvider = Provider((ref) {
   return GoRouter(
-    initialLocation: "/login",
+    initialLocation: "/",
     redirect: (context, state) {
-      final isLoggedIn = ref.read(googleSignInApiProbider).isLoggedIn;
+      final isLoggedIn = ref.watch(googleSignInApiProbider).isLoggedIn;
+      final loginName = ref.watch(googleSignInApiProbider).user?.displayName;
       print('islogged');
       print(isLoggedIn);
+      print(loginName);
       if (!isLoggedIn) {
-        if (state.location != LoginHome.routeURL) {
+        if (state.matchedLocation != LoginHome.routeURL) {
+          print(LoginHome.routeURL);
           return LoginHome.routeURL;
+        }
+      }
+      if (isLoggedIn) {
+        if (state.location == LoginHome.routeURL) {
+          print("no enter login page");
+          return PracticeHome.routeURL;
         }
       }
       return null;
     },
     routes: [
       ShellRoute(
-          builder: (context, state, child) {
-            return child;
-          },
-          routes: [
-            GoRoute(
-              name: PracticeHome.routeName,
-              path: PracticeHome.routeURL,
-              builder: (context, state) => const PracticeHome(),
-            ),
-            GoRoute(
-              name: LoginHome.routeName,
-              path: LoginHome.routeURL,
-              builder: (context, state) => const LoginHome(),
-            ),
-            GoRoute(
-              name: AlarmHome.routeName,
-              path: AlarmHome.routeURL,
-              builder: (context, state) => const AlarmHome(),
-            ),
-            GoRoute(
-              name: ProviderPage.routeName,
-              path: ProviderPage.routeURL,
-              builder: (context, state) => const ProviderPage(),
-            ),
-            GoRoute(
-              name: StateProviderPage.routeName,
-              path: StateProviderPage.routeURL,
-              builder: (context, state) => const StateProviderPage(),
-            ),
-            GoRoute(
-              name: FutureProviderPage.routeName,
-              path: FutureProviderPage.routeURL,
-              builder: (context, state) => const FutureProviderPage(),
-            ),
-            GoRoute(
-              name: StreamProviderPage.routeName,
-              path: StreamProviderPage.routeURL,
-              builder: (context, state) => const StreamProviderPage(),
-            ),
-            GoRoute(
-              name: ChangeNotifierProviderPage.routeName,
-              path: ChangeNotifierProviderPage.routeURL,
-              builder: (context, state) => const ChangeNotifierProviderPage(),
-            ),
-            GoRoute(
-              name: StateNotifierProviderPage.routeName,
-              path: StateNotifierProviderPage.routeURL,
-              builder: (context, state) => const StateNotifierProviderPage(),
-            ),
-          ])
+        builder: (context, state, child) {
+          return child;
+        },
+        routes: [
+          GoRoute(
+            name: PracticeHome.routeName,
+            path: PracticeHome.routeURL,
+            builder: (context, state) => const PracticeHome(),
+          ),
+          GoRoute(
+            name: LoginHome.routeName,
+            path: LoginHome.routeURL,
+            builder: (context, state) => const LoginHome(),
+          ),
+          GoRoute(
+            name: AlarmHome.routeName,
+            path: AlarmHome.routeURL,
+            builder: (context, state) => const AlarmHome(),
+          ),
+          GoRoute(
+            name: ProviderPage.routeName,
+            path: ProviderPage.routeURL,
+            builder: (context, state) => const ProviderPage(),
+          ),
+          GoRoute(
+            name: StateProviderPage.routeName,
+            path: StateProviderPage.routeURL,
+            builder: (context, state) => const StateProviderPage(),
+          ),
+          GoRoute(
+            name: FutureProviderPage.routeName,
+            path: FutureProviderPage.routeURL,
+            builder: (context, state) => const FutureProviderPage(),
+          ),
+          GoRoute(
+            name: StreamProviderPage.routeName,
+            path: StreamProviderPage.routeURL,
+            builder: (context, state) => const StreamProviderPage(),
+          ),
+          GoRoute(
+            name: ChangeNotifierProviderPage.routeName,
+            path: ChangeNotifierProviderPage.routeURL,
+            builder: (context, state) => const ChangeNotifierProviderPage(),
+          ),
+          GoRoute(
+            name: StateNotifierProviderPage.routeName,
+            path: StateNotifierProviderPage.routeURL,
+            builder: (context, state) => const StateNotifierProviderPage(),
+          ),
+          GoRoute(
+            name: CouplesListScreen.routeName,
+            path: CouplesListScreen.routeURL,
+            builder: (context, state) => const CouplesListScreen(),
+          ),
+          GoRoute(
+            name: MessagesScreen.routeName,
+            path: MessagesScreen.routeURL,
+            builder: (context, state) => const MessagesScreen(),
+            routes: [
+              GoRoute(
+                name: MessageEdit.routeName,
+                path: MessageEdit.routeURL,
+                builder: (context, state) => const MessageEdit(),
+              ),
+            ],
+          ),
+          GoRoute(
+            name: ProfileScreen.routeName,
+            path: ProfileScreen.routeURL,
+            builder: (context, state) => const ProfileScreen(),
+          ),
+          GoRoute(
+            name: CoupleProfileScreen.routeName,
+            path: CoupleProfileScreen.routeURL,
+            builder: (context, state) => const CoupleProfileScreen(),
+          ),
+        ],
+      )
     ],
   );
 });
