@@ -6,6 +6,8 @@ import 'package:wakeuphoney/features/messages/message_edit.dart';
 
 import 'features/messages/messages_screen.dart';
 import 'features/movie/movie_screen.dart';
+import 'features/product/product.dart';
+import 'features/product/product_detail.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/profile/profile_screen.dart';
 import 'features/users/google_repo.dart';
@@ -123,6 +125,16 @@ final routerProvider = Provider((ref) {
             name: MovieScreen.routeName,
             path: MovieScreen.routeURL,
             builder: (context, state) => const MovieScreen(),
+          ),
+          GoRoute(
+            name: ProductScreen.routeName,
+            path: ProductScreen.routeURL,
+            builder: (context, state) => const ProductScreen(),
+          ),
+          GoRoute(
+            name: ProductDetailScreen.routeName,
+            path: ProductDetailScreen.routeURL,
+            builder: (context, state) => const ProductDetailScreen(),
           ),
         ],
       )

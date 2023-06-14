@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'features/couples/couples_list_screen.dart';
 import 'features/messages/messages_screen.dart';
 import 'features/movie/movie_screen.dart';
+import 'features/product/product.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/profile/profile_screen.dart';
 import 'features/users/google_repo.dart';
@@ -136,6 +137,14 @@ class PracticeHome extends ConsumerWidget {
                 style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.pink)),
                 child: const Text('MovieScreen'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  context.pushNamed(ProductScreen.routeName);
+                },
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.pink)),
+                child: const Text('ProductScreen'),
               ),
               const Text('numberProvider'),
               Text(number.toString()),

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../providerModels/Suggestion.dart';
+import '../providerModels/suggestion.dart';
 
 final apiServiceProvider = Provider<ApiService>((ref) => ApiService());
 

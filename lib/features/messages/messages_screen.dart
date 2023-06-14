@@ -1,9 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-
-import 'message_edit.dart';
 
 final dateStateProvider =
     StateProvider<List<String>>((ref) => List<String>.generate(
@@ -26,10 +24,137 @@ class MessagesScreen extends ConsumerStatefulWidget {
 }
 
 class MessagesScreenState extends ConsumerState<MessagesScreen> {
-  TextEditingController messageContorller = TextEditingController();
-
   final _blackColor = const Color(0xFF1F2123);
   final _greyColor = const Color(0xFF464A4F);
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
+
+  final CollectionReference _products =
+      FirebaseFirestore.instance.collection('products');
+
+  Future<void> _update(
+      [DocumentSnapshot? documentSnapshot, String? datestring]) async {
+    if (documentSnapshot != null) {
+      _nameController.text = documentSnapshot['name'];
+      _priceController.text = documentSnapshot['price'].toString();
+    }
+    final datestringview = datestring;
+
+    await showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext ctx) {
+          return Padding(
+            padding: EdgeInsets.only(
+                top: 20,
+                left: 20,
+                right: 20,
+                bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(labelText: 'Name'),
+                ),
+                TextField(
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  controller: _priceController,
+                  decoration: const InputDecoration(
+                    labelText: 'Price',
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    ElevatedButton(
+                      child: const Text('Update'),
+                      onPressed: () async {
+                        final String name = _nameController.text;
+                        final double? price =
+                            double.tryParse(_priceController.text);
+                        if (price != null) {
+                          await _products
+                              .doc(documentSnapshot!.id)
+                              .update({"name": name, "price": price});
+                          _nameController.text = '';
+                          _priceController.text = '';
+                          Navigator.of(context).pop();
+                        }
+                      },
+                    ),
+                    Text(datestringview ?? "no date"),
+                  ],
+                )
+              ],
+            ),
+          );
+        });
+  }
+
+  Future<void> _create() async {
+    await showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext ctx) {
+          return Padding(
+            padding: EdgeInsets.only(
+                top: 20,
+                left: 20,
+                right: 20,
+                bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(labelText: 'Name'),
+                ),
+                TextField(
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  controller: _priceController,
+                  decoration: const InputDecoration(
+                    labelText: 'Price',
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    ElevatedButton(
+                      child: const Text('Create'),
+                      onPressed: () async {
+                        final String name = _nameController.text;
+                        final double? price =
+                            double.tryParse(_priceController.text);
+                        if (price != null) {
+                          await _products.add({
+                            "name": name,
+                            "price": price,
+                            "datestring": ref.read(selectedDate),
+                          });
+
+                          _nameController.text = '';
+                          _priceController.text = '';
+                          Navigator.of(context).pop();
+                        }
+                      },
+                    ),
+                    Text(ref.read(selectedDate)),
+                  ],
+                )
+              ],
+            ),
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,58 +172,73 @@ class MessagesScreenState extends ConsumerState<MessagesScreen> {
             const SizedBox(
               height: 10,
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: dateList100.length,
-                prototypeItem: ListTile(
-                  title: Text(
-                    dateList100.first,
-                    style: const TextStyle(
-                      fontSize: 100,
-                    ),
-                  ),
-                ),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
-                    child: Container(
-                      height: 30,
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        color: _greyColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+            StreamBuilder(
+              stream: _products.orderBy("datestring").snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                final List<DocumentSnapshot> documentSnapshot =
+                    streamSnapshot.data!.docs;
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: dateList100.length,
+                    prototypeItem: ListTile(
+                      title: Row(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                ref.read(selectedDate.notifier).state =
-                                    dateList100[index];
-                                print(ref.read(selectedDate));
-                                context.pushNamed(MessageEdit.routeName);
-                              },
-                              child: Text(
-                                dateList100[index],
-                                style: const TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 20,
-                                ),
-                              ),
+                          Text(
+                            dateList100.first,
+                            style: const TextStyle(
+                              fontSize: 100,
                             ),
-                          ),
-                          const SizedBox(
-                            height: 50,
                           ),
                         ],
                       ),
                     ),
-                  );
-                },
-              ),
+                    itemBuilder: (context, index) {
+                      final DocumentSnapshot documentSnapshot =
+                          streamSnapshot.data!.docs[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
+                        child: Container(
+                          height: 30,
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                            color: _greyColor,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    ref.read(selectedDate.notifier).state =
+                                        dateList100[index];
+                                    print(ref.read(selectedDate));
+                                    _nameController.text = '';
+                                    _priceController.text = '';
+                                    _create();
+                                  },
+                                  child: Text(
+                                    dateList100[index],
+                                    style: const TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 50,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
             ),
           ],
         ),
