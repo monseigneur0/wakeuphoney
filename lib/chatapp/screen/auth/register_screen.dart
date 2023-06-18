@@ -1,3 +1,12 @@
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:wakeuphoney/chatapp/screen/home_screen.dart';
+
+import '../../helper/helper_function.dart';
+import '../../service/auth_service.dart';
+import '../../widgets/widgets.dart';
+import 'login_screen.dart';
+
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
 
@@ -39,7 +48,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             "Create your account now to chat and explore",
                             style: TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.w400)),
-                        Image.asset("assets/register.png"),
+                        Image.asset("assets/google.png"),
                         TextFormField(
                           decoration: textInputDecoration.copyWith(
                               labelText: "Full Name",
@@ -114,7 +123,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           width: double.infinity,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                primary: Theme.of(context).primaryColor,
+                                backgroundColor: Theme.of(context).primaryColor,
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30))),
@@ -143,7 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     decoration: TextDecoration.underline),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
-                                    nextScreen(context, const LoginPage());
+                                    nextScreen(context, const LoginScreen());
                                   }),
                           ],
                         )),
@@ -167,7 +176,7 @@ class _RegisterPageState extends State<RegisterPage> {
           await HelperFunctions.saveUserLoggedInStatus(true);
           await HelperFunctions.saveUserEmailSF(email);
           await HelperFunctions.saveUserNameSF(fullName);
-          nextScreenReplace(context, const HomePage());
+          nextScreenReplace(context, const MyChatApp());
         } else {
           showSnackbar(context, Colors.red, value);
           setState(() {

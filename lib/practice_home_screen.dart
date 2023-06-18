@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wakeuphoney/chatapp/screen/auth/login_screen.dart';
 
+import 'chatapp/screen/home_screen.dart';
 import 'features/couples/couples_list_screen.dart';
 import 'features/messages/messages_screen.dart';
 import 'features/movie/movie_screen.dart';
@@ -49,6 +51,18 @@ class PracticeHome extends ConsumerWidget {
             children: [
               const SizedBox(
                 height: 100,
+              ),
+              ElevatedButton(
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.amber)),
+                onPressed: () => context.pushNamed(MyChatApp.routeName),
+                child: const Text('MyChatApp'),
+              ),
+              ElevatedButton(
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.amber)),
+                onPressed: () => context.pushNamed(LoginScreen.routeName),
+                child: const Text('chatlogin'),
               ),
               ElevatedButton(
                 style: const ButtonStyle(

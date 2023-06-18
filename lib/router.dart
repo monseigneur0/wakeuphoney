@@ -1,9 +1,11 @@
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wakeuphoney/chatapp/screen/auth/login_screen.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 import 'package:wakeuphoney/features/couples/couples_list_screen.dart';
 import 'package:wakeuphoney/features/messages/message_edit.dart';
 
+import 'chatapp/screen/home_screen.dart';
 import 'features/messages/messages_screen.dart';
 import 'features/movie/movie_screen.dart';
 import 'features/product/product.dart';
@@ -135,6 +137,16 @@ final routerProvider = Provider((ref) {
             name: ProductDetailScreen.routeName,
             path: ProductDetailScreen.routeURL,
             builder: (context, state) => const ProductDetailScreen(),
+          ),
+          GoRoute(
+            name: MyChatApp.routeName,
+            path: MyChatApp.routeURL,
+            builder: (context, state) => const MyChatApp(),
+          ),
+          GoRoute(
+            name: LoginScreen.routeName,
+            path: LoginScreen.routeURL,
+            builder: (context, state) => const LoginScreen(),
           ),
         ],
       )

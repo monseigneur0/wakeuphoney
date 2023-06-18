@@ -1,8 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:wakeuphoney/chatapp/screen/auth/register_screen.dart';
 
+import '../../helper/helper_function.dart';
+import '../../service/auth_service.dart';
+import '../../service/database_service.dart';
 import '../../widgets/widgets.dart';
+import '../home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
+  static String routeName = "chatlogin";
+  static String routeURL = "/chatlogin";
   const LoginScreen({super.key});
 
   @override
@@ -91,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 20,
                         ),
                         SizedBox(
-                          width: double.infinity,
+                          width: double.infinity, //?
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Theme.of(context).primaryColor,
@@ -111,29 +121,32 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text.rich(TextSpan(
-                          text: "Don't have an account? ",
-                          style: const TextStyle(
-                              color: Colors.black, fontSize: 14),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text: "Register here",
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    decoration: TextDecoration.underline),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    nextScreen(context, const RegisterPage());
-                                  }),
-                          ],
-                        )),
+                        Text.rich(
+                          TextSpan(
+                            text: "Don't have an account? ",
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 14),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: "Register here",
+                                  style: const TextStyle(
+                                      color: Colors.black,
+                                      decoration: TextDecoration.underline),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      nextScreen(context, const RegisterPage());
+                                    }),
+                            ],
+                          ),
+                        ),
                       ],
                     )),
               ),
             ),
     );
   }
-   login() async {
+
+  login() async {
     if (formKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
@@ -149,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
           await HelperFunctions.saveUserLoggedInStatus(true);
           await HelperFunctions.saveUserEmailSF(email);
           await HelperFunctions.saveUserNameSF(snapshot.docs[0]['fullName']);
-          nextScreenReplace(context, const HomePage());
+          nextScreenReplace(context, const MyChatApp());
         } else {
           showSnackbar(context, Colors.red, value);
           setState(() {
