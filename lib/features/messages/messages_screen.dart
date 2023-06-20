@@ -9,6 +9,11 @@ final dateStateProvider =
         (index) => DateFormat.MMMd().format(
               DateTime.now().add(Duration(days: index)),
             )));
+final dateTimeStateProvider =
+    StateProvider<List<DateTime>>((ref) => List<DateTime>.generate(
+          100,
+          (index) => DateTime.now().add(Duration(days: index)),
+        ));
 final selectedDate = StateProvider<String>(
   (ref) => DateFormat.MMMd().format(DateTime.now()),
 );
@@ -175,8 +180,6 @@ class MessagesScreenState extends ConsumerState<MessagesScreen> {
             StreamBuilder(
               stream: _products.orderBy("datestring").snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-                final List<DocumentSnapshot> documentSnapshot =
-                    streamSnapshot.data!.docs;
                 return Expanded(
                   child: ListView.builder(
                     itemCount: dateList100.length,
@@ -193,8 +196,6 @@ class MessagesScreenState extends ConsumerState<MessagesScreen> {
                       ),
                     ),
                     itemBuilder: (context, index) {
-                      final DocumentSnapshot documentSnapshot =
-                          streamSnapshot.data!.docs[index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 10),

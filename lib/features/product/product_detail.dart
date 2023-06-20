@@ -29,12 +29,14 @@ class HomeProductPage extends ConsumerStatefulWidget {
 class HomeProductPageState extends ConsumerState<HomeProductPage> {
 // text fields' controllers
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _priceController = TextEditingController();
 
   final CollectionReference _products =
       FirebaseFirestore.instance.collection('products');
+  final CollectionReference _coupleCollection =
+      FirebaseFirestore.instance.collection('couples');
 
   Future<void> _create() async {
+    _nameController.clear();
     await showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -51,15 +53,7 @@ class HomeProductPageState extends ConsumerState<HomeProductPage> {
               children: [
                 TextField(
                   controller: _nameController,
-                  decoration: const InputDecoration(labelText: 'Name'),
-                ),
-                TextField(
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  controller: _priceController,
-                  decoration: const InputDecoration(
-                    labelText: 'Price',
-                  ),
+                  decoration: const InputDecoration(labelText: 'Name hoho'),
                 ),
                 const SizedBox(
                   height: 20,
@@ -68,15 +62,10 @@ class HomeProductPageState extends ConsumerState<HomeProductPage> {
                   child: const Text('Create'),
                   onPressed: () async {
                     final String name = _nameController.text;
-                    final double? price =
-                        double.tryParse(_priceController.text);
-                    if (price != null) {
-                      await _products.add({"name": name, "price": price});
+                    await _products.add({"name": name, "price": 1});
 
-                      _nameController.text = '';
-                      _priceController.text = '';
-                      Navigator.of(context).pop();
-                    }
+                    _nameController.clear();
+                    Navigator.of(context).pop();
                   },
                 )
               ],
@@ -85,10 +74,10 @@ class HomeProductPageState extends ConsumerState<HomeProductPage> {
         });
   }
 
-  Future<void> _update([DocumentSnapshot? documentSnapshot]) async {
+  Future<void> _update(
+      [DocumentSnapshot? documentSnapshot, DateTime? dateTime]) async {
     if (documentSnapshot != null) {
       _nameController.text = documentSnapshot['name'];
-      _priceController.text = documentSnapshot['price'].toString();
     }
 
     await showModalBottomSheet(
@@ -109,14 +98,6 @@ class HomeProductPageState extends ConsumerState<HomeProductPage> {
                   controller: _nameController,
                   decoration: const InputDecoration(labelText: 'Name'),
                 ),
-                TextField(
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  controller: _priceController,
-                  decoration: const InputDecoration(
-                    labelText: 'Price',
-                  ),
-                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -124,16 +105,19 @@ class HomeProductPageState extends ConsumerState<HomeProductPage> {
                   child: const Text('Update'),
                   onPressed: () async {
                     final String name = _nameController.text;
-                    final double? price =
-                        double.tryParse(_priceController.text);
-                    if (price != null) {
-                      await _products
-                          .doc(documentSnapshot!.id)
-                          .update({"name": name, "price": price});
-                      _nameController.text = '';
-                      _priceController.text = '';
-                      Navigator.of(context).pop();
-                    }
+                    await _products
+                        .doc(documentSnapshot!.id)
+                        .update({"name": name, "price": 12});
+                    await _coupleCollection
+                        .doc("93zTjlpDFqX0AO0TKvIm")
+                        .collection("dailymessages")
+                        .add({
+                      "uid": "IZZ1HICxZ8ggCiJihcJKow38LPK2",
+                      "message": name,
+                      "time": dateTime
+                    });
+                    _nameController.clear();
+                    Navigator.of(context).pop();
                   },
                 )
               ],
@@ -151,7 +135,7 @@ class HomeProductPageState extends ConsumerState<HomeProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    final dateList100 = ref.watch(dateStateProvider);
+    final dateList100 = ref.watch(dateTimeStateProvider);
     return Scaffold(
         appBar: AppBar(
           title: const Center(child: Text('Firebase Firestore Detail')),
@@ -172,7 +156,7 @@ class HomeProductPageState extends ConsumerState<HomeProductPage> {
                     child: ListTile(
                       title: Text(documentSnapshot['name']),
                       subtitle: Text(
-                        dateList100[index],
+                        dateList100[index].toString(),
                         style: const TextStyle(
                           color: Colors.red,
                           fontSize: 20,
@@ -184,7 +168,8 @@ class HomeProductPageState extends ConsumerState<HomeProductPage> {
                           children: [
                             IconButton(
                                 icon: const Icon(Icons.edit),
-                                onPressed: () => _update(documentSnapshot)),
+                                onPressed: () => _update(
+                                    documentSnapshot, dateList100[index])),
                             IconButton(
                                 icon: const Icon(Icons.delete),
                                 onPressed: () => _delete(documentSnapshot.id)),
