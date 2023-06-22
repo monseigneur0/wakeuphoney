@@ -30,12 +30,10 @@ class HomeProductPageState extends ConsumerState<HomeProductPage> {
 // text fields' controllers
   final TextEditingController _nameController = TextEditingController();
 
-  final CollectionReference _products =
-      FirebaseFirestore.instance.collection('products');
   final CollectionReference _coupleCollection =
       FirebaseFirestore.instance.collection('couples');
 
-  Future<void> _create() async {
+  Future<void> _create(DateTime? dateTime) async {
     _nameController.clear();
     await showModalBottomSheet(
         isScrollControlled: true,
@@ -62,8 +60,14 @@ class HomeProductPageState extends ConsumerState<HomeProductPage> {
                   child: const Text('Create'),
                   onPressed: () async {
                     final String name = _nameController.text;
-                    await _products.add({"name": name, "price": 1});
-
+                    await _coupleCollection
+                        .doc("93zTjlpDFqX0AO0TKvIm")
+                        .collection("dailymessages")
+                        .add({
+                      "uid": "IZZ1HICxZ8ggCiJihcJKow38LPK2",
+                      "message": name,
+                      "time": dateTime
+                    });
                     _nameController.clear();
                     Navigator.of(context).pop();
                   },
@@ -77,7 +81,7 @@ class HomeProductPageState extends ConsumerState<HomeProductPage> {
   Future<void> _update(
       [DocumentSnapshot? documentSnapshot, DateTime? dateTime]) async {
     if (documentSnapshot != null) {
-      _nameController.text = documentSnapshot['name'];
+      _nameController.text = documentSnapshot['message'];
     }
 
     await showModalBottomSheet(
@@ -105,13 +109,12 @@ class HomeProductPageState extends ConsumerState<HomeProductPage> {
                   child: const Text('Update'),
                   onPressed: () async {
                     final String name = _nameController.text;
-                    await _products
-                        .doc(documentSnapshot!.id)
-                        .update({"name": name, "price": 12});
+
                     await _coupleCollection
                         .doc("93zTjlpDFqX0AO0TKvIm")
                         .collection("dailymessages")
-                        .add({
+                        .doc(documentSnapshot!.id)
+                        .update({
                       "uid": "IZZ1HICxZ8ggCiJihcJKow38LPK2",
                       "message": name,
                       "time": dateTime
@@ -126,8 +129,12 @@ class HomeProductPageState extends ConsumerState<HomeProductPage> {
         });
   }
 
-  Future<void> _delete(String productId) async {
-    await _products.doc(productId).delete();
+  Future<void> _delete(String messageId) async {
+    await _coupleCollection
+        .doc("93zTjlpDFqX0AO0TKvIm")
+        .collection("dailymessages")
+        .doc(messageId)
+        .delete();
 
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('You have successfully deleted a product')));
@@ -142,7 +149,10 @@ class HomeProductPageState extends ConsumerState<HomeProductPage> {
           actions: const [],
         ),
         body: StreamBuilder(
-          stream: _products.snapshots(),
+          stream: _coupleCollection
+              .doc("93zTjlpDFqX0AO0TKvIm")
+              .collection("dailymessages")
+              .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
             if (streamSnapshot.hasData) {
               return ListView.builder(
@@ -154,7 +164,10 @@ class HomeProductPageState extends ConsumerState<HomeProductPage> {
                   return Card(
                     margin: const EdgeInsets.all(10),
                     child: ListTile(
-                      title: Text(documentSnapshot['name']),
+                      title: Text(
+                        documentSnapshot['message'],
+                        style: const TextStyle(fontSize: 40),
+                      ),
                       subtitle: Text(
                         dateList100[index].toString(),
                         style: const TextStyle(
@@ -189,7 +202,7 @@ class HomeProductPageState extends ConsumerState<HomeProductPage> {
         ),
 // Add new product
         floatingActionButton: FloatingActionButton(
-          onPressed: () => _create(),
+          onPressed: () => _create(DateTime.now()),
           child: const Icon(Icons.add),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
