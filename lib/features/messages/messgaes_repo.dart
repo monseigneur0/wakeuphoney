@@ -1,4 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wakeuphoney/features/messages/message_model.dart';
+
+final steamMessageServiceProvider =
+    Provider<MessagesRepo>((ref) => MessagesRepo());
 
 class MessagesRepo {
   FirebaseFirestore db = FirebaseFirestore.instance;
@@ -13,12 +18,40 @@ class MessagesRepo {
     print(userId);
   }
 
-  getChats(String groupId) async {
-    return userCollection
+  Stream<MessageModel> getChatsStream(String groupId) {
+    return coupleCollection
         .doc(groupId)
-        .collection("messages")
+        .collection("dailymessages")
+        .orderBy("time")
+        .snapshots()
+        .map((event) =>
+            MessageModel.fromMap(event.docs as Map<String, dynamic>));
+  }
+
+  getChats(String groupId) async {
+    return coupleCollection
+        .doc(groupId)
+        .collection("dailymessages")
         .orderBy("time")
         .snapshots();
+  }
+
+  Stream<List<MessageModel>> getMessageOfDay(String date) {
+    return coupleCollection
+        .doc("93zTjlpDFqX0AO0TKvIm")
+        .collection("dailymessages")
+        .where(
+          "messagedate",
+          isEqualTo: date,
+        )
+        .snapshots()
+        .map((event) {
+      List<MessageModel> messages = [];
+      for (var doc in event.docs) {
+        messages.add(MessageModel.fromMap(doc.data()));
+      }
+      return messages;
+    });
   }
 }
 

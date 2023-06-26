@@ -1,22 +1,40 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
-final dateStateProvider =
-    StateProvider<List<String>>((ref) => List<String>.generate(
-        100,
-        (index) => DateFormat.MMMd().format(
-              DateTime.now().add(Duration(days: index)),
-            )));
+import 'message2_screen.dart';
+import 'messgaes_repo.dart';
+
+final dateStateProvider = StateProvider<List<String>>(
+  (ref) => List<String>.generate(
+    10,
+    (index) => DateFormat.yMMMd().format(
+      DateTime.now().add(
+        Duration(days: index),
+      ),
+    ),
+  ),
+);
+
 final dateTimeStateProvider =
     StateProvider<List<DateTime>>((ref) => List<DateTime>.generate(
           100,
           (index) => DateTime.now().add(Duration(days: index)),
         ));
+
 final selectedDate = StateProvider<String>(
-  (ref) => DateFormat.MMMd().format(DateTime.now()),
+  (ref) => DateFormat.yMMMd().format(DateTime.now()),
 );
+final selectedDateTime = StateProvider<DateTime>(
+  (ref) => DateTime.now(),
+);
+
+final streamValueProvider = StreamProvider.autoDispose((ref) {
+  final streamService = ref.watch(steamMessageServiceProvider);
+  return streamService.getChats("93zTjlpDFqX0AO0TKvIm");
+});
 
 class MessagesScreen extends ConsumerStatefulWidget {
   static String routeName = "messages";
@@ -31,74 +49,139 @@ class MessagesScreen extends ConsumerStatefulWidget {
 class MessagesScreenState extends ConsumerState<MessagesScreen> {
   final _blackColor = const Color(0xFF1F2123);
   final _greyColor = const Color(0xFF464A4F);
+
+  Stream<QuerySnapshot>? thedaymessage;
+
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _priceController = TextEditingController();
 
-  final CollectionReference _products =
-      FirebaseFirestore.instance.collection('products');
+  final CollectionReference _coupleCollection =
+      FirebaseFirestore.instance.collection('couples');
 
-  Future<void> _update(
-      [DocumentSnapshot? documentSnapshot, String? datestring]) async {
-    if (documentSnapshot != null) {
-      _nameController.text = documentSnapshot['name'];
-      _priceController.text = documentSnapshot['price'].toString();
-    }
-    final datestringview = datestring;
+  @override
+  Widget build(BuildContext context) {
+    final streamValue = ref.watch(streamValueProvider);
+    final dateList100 = ref.watch(dateStateProvider);
 
-    await showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        builder: (BuildContext ctx) {
-          return Padding(
-            padding: EdgeInsets.only(
-                top: 20,
-                left: 20,
-                right: 20,
-                bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(labelText: 'Name'),
-                ),
-                TextField(
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  controller: _priceController,
-                  decoration: const InputDecoration(
-                    labelText: 'Price',
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                    ElevatedButton(
-                      child: const Text('Update'),
-                      onPressed: () async {
-                        final String name = _nameController.text;
-                        final double? price =
-                            double.tryParse(_priceController.text);
-                        if (price != null) {
-                          await _products
-                              .doc(documentSnapshot!.id)
-                              .update({"name": name, "price": price});
-                          _nameController.text = '';
-                          _priceController.text = '';
-                          Navigator.of(context).pop();
-                        }
-                      },
-                    ),
-                    Text(datestringview ?? "no date"),
-                  ],
-                )
-              ],
+    final List<String> listDateString = ref.watch(dateStateProvider);
+    final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
+
+    bool hasMessage = true;
+
+    const title = 'Messgae_daily';
+    return MaterialApp(
+      title: title,
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Center(child: Text(title)),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  context.pushNamed(Message2Screen.routeName);
+                },
+                icon: const Icon(Icons.connecting_airports_outlined))
+          ],
+        ),
+        backgroundColor: _blackColor,
+        body: Column(
+          children: [
+            const SizedBox(
+              height: 10,
             ),
-          );
-        });
+            Expanded(
+              child: ListView.separated(
+                itemCount: dateList100.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
+                    child: Container(
+                      height: 100,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: _greyColor,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    print(ref.read(selectedDate));
+                                    ref.read(selectedDate.notifier).state =
+                                        DateFormat.yMMMd()
+                                            .format(listDateTime[index]);
+                                    ref.read(selectedDateTime.notifier).state =
+                                        listDateTime[index];
+                                    _nameController.text = '';
+                                    _create();
+                                  },
+                                  child: Text(
+                                    dateList100[index],
+                                    style: const TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 50,
+                              ),
+                              StreamBuilder(
+                                stream: thedaymessage,
+                                builder: (context, snapshot) {
+                                  if (DateFormat.yMMMd()
+                                          .format(listDateTime[index]) ==
+                                      snapshot.data?.docs[index]
+                                          ['messagedate']) {
+                                    hasMessage = true;
+                                    return Text(
+                                        snapshot.data?.docs[index]['message']);
+                                  } else {
+                                    return const Text("no messages");
+                                  }
+                                },
+                              ),
+                              ElevatedButton(
+                                onPressed: () => _update(),
+                                child: const Icon(Icons.edit),
+                              ),
+                              IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {}),
+                            ],
+                          ),
+                          streamValue.when(data: (data) {
+                            print(data);
+                            return Wrap(children: [
+                              Text(
+                                data.toString(),
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ]);
+                          }, error: (Object error, StackTrace stacktrace) {
+                            print(error.toString());
+                            return Text(error.toString());
+                          }, loading: () {
+                            return const CircularProgressIndicator();
+                          }),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    const SizedBox(width: 40),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _create() async {
@@ -120,14 +203,6 @@ class MessagesScreenState extends ConsumerState<MessagesScreen> {
                   controller: _nameController,
                   decoration: const InputDecoration(labelText: 'Name'),
                 ),
-                TextField(
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  controller: _priceController,
-                  decoration: const InputDecoration(
-                    labelText: 'Price',
-                  ),
-                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -137,19 +212,19 @@ class MessagesScreenState extends ConsumerState<MessagesScreen> {
                       child: const Text('Create'),
                       onPressed: () async {
                         final String name = _nameController.text;
-                        final double? price =
-                            double.tryParse(_priceController.text);
-                        if (price != null) {
-                          await _products.add({
-                            "name": name,
-                            "price": price,
-                            "datestring": ref.read(selectedDate),
-                          });
+                        await _coupleCollection
+                            .doc("93zTjlpDFqX0AO0TKvIm")
+                            .collection("dailymessages")
+                            .add({
+                          "message": name,
+                          "time": DateTime.now(),
+                          "messagedate": ref.read(selectedDate),
+                          "messgaedatetime": ref.read(selectedDateTime),
+                          "uid": "IZZ1HICxZ8ggCiJihcJKow38LPK2"
+                        });
 
-                          _nameController.text = '';
-                          _priceController.text = '';
-                          Navigator.of(context).pop();
-                        }
+                        _nameController.clear();
+                        Navigator.of(context).pop();
                       },
                     ),
                     Text(ref.read(selectedDate)),
@@ -161,98 +236,70 @@ class MessagesScreenState extends ConsumerState<MessagesScreen> {
         });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final dateList100 = ref.watch(dateStateProvider);
-    const title = 'Messgae_daily';
-    return MaterialApp(
-      title: title,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(title),
-        ),
-        backgroundColor: _blackColor,
-        body: Column(
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            StreamBuilder(
-              stream: _products.orderBy("datestring").snapshots(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: dateList100.length,
-                    prototypeItem: ListTile(
-                      title: Row(
-                        children: [
-                          Text(
-                            dateList100.first,
-                            style: const TextStyle(
-                              fontSize: 100,
-                            ),
-                          ),
-                        ],
-                      ),
+  Future<void> _update(
+      [DocumentSnapshot? documentSnapshot, String? datestring]) async {
+    if (documentSnapshot != null) {
+      _nameController.text = documentSnapshot['name'];
+    }
+    final datestringview = datestring;
+
+    await showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext ctx) {
+          return Padding(
+            padding: EdgeInsets.only(
+                top: 20,
+                left: 20,
+                right: 20,
+                bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(labelText: 'Name'),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    ElevatedButton(
+                      child: const Text('Update'),
+                      onPressed: () async {
+                        final String name = _nameController.text;
+                        await _coupleCollection
+                            .doc("93zTjlpDFqX0AO0TKvIm")
+                            .collection("dailymessages")
+                            .doc(documentSnapshot!.id)
+                            .update({
+                          "message": name,
+                          "time": DateTime.now,
+                          "uid": "IZZ1HICxZ8ggCiJihcJKow38LPK2"
+                        });
+                        _nameController.clear();
+                        Navigator.of(context).pop();
+                      },
                     ),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
-                        child: Container(
-                          height: 30,
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                            color: _greyColor,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    ref.read(selectedDate.notifier).state =
-                                        dateList100[index];
-                                    print(ref.read(selectedDate));
-                                    _nameController.text = '';
-                                    _priceController.text = '';
-                                    _create();
-                                  },
-                                  child: Text(
-                                    dateList100[index],
-                                    style: const TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 50,
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
+                    Text(ref.read(selectedDate)),
+                  ],
+                )
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
-}
 
-class DateMessage extends StatelessWidget {
-  const DateMessage({super.key});
+  Future<void> _delete(String messageId) async {
+    await _coupleCollection
+        .doc("93zTjlpDFqX0AO0TKvIm")
+        .collection("dailymessages")
+        .doc(messageId)
+        .delete();
 
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('You have successfully deleted a product')));
   }
 }

@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DaillyDatabaseService {
-  final CollectionReference peopleCollection =
-      FirebaseFirestore.instance.collection('people');
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
   final CollectionReference coupleCollection =
@@ -28,11 +26,11 @@ class DaillyDatabaseService {
     });
   }
 
-  getDailyMessages(String coupleId) {
+  getDailyMessages(String coupleId) async {
     return coupleCollection
         .doc(coupleId)
         .collection("dailymessages")
-        .orderBy("time")
+        .orderBy("messgaedatetime")
         .snapshots();
   }
 }

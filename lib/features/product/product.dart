@@ -13,7 +13,7 @@ class ProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Firebase Firestore',
+      title: 'Firebase Products',
       home: HomeProductPage(),
     );
   }
@@ -33,6 +33,70 @@ class HomeProductPageState extends State<HomeProductPage> {
 
   final CollectionReference _products =
       FirebaseFirestore.instance.collection('products');
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Center(child: Text('Firebase Products')),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  context.pushNamed(ProductDetailScreen.routeName);
+                },
+                icon: const Icon(Icons.connecting_airports_outlined))
+          ],
+        ),
+        body: StreamBuilder(
+          stream: _products.orderBy("datestring").snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+            if (streamSnapshot.hasData) {
+              return ListView.builder(
+                itemCount: streamSnapshot.data!.docs.length,
+                itemBuilder: (context, index) {
+                  final DocumentSnapshot documentSnapshot =
+                      streamSnapshot.data!.docs[index];
+                  return Card(
+                    margin: const EdgeInsets.all(10),
+                    child: ListTile(
+                      title: Text(documentSnapshot['name']),
+                      subtitle: Text(documentSnapshot['price'].toString()),
+                      trailing: SizedBox(
+                        width: 200,
+                        child: Row(
+                          children: [
+                            Text(documentSnapshot['datestring']),
+                            IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () => _update(documentSnapshot)),
+                            IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () => _delete(documentSnapshot.id)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
+
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ),
+// Add new product
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _nameController.text = '';
+            _priceController.text = '';
+            _create();
+          },
+          child: const Icon(Icons.add),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
+  }
 
   Future<void> _create() async {
     await showModalBottomSheet(
@@ -147,69 +211,5 @@ class HomeProductPageState extends State<HomeProductPage> {
 
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('You have successfully deleted a product')));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Center(child: Text('Firebase Firestore')),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  context.pushNamed(ProductDetailScreen.routeName);
-                },
-                icon: const Icon(Icons.connecting_airports_outlined))
-          ],
-        ),
-        body: StreamBuilder(
-          stream: _products.orderBy("datestring").snapshots(),
-          builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-            if (streamSnapshot.hasData) {
-              return ListView.builder(
-                itemCount: streamSnapshot.data!.docs.length,
-                itemBuilder: (context, index) {
-                  final DocumentSnapshot documentSnapshot =
-                      streamSnapshot.data!.docs[index];
-                  return Card(
-                    margin: const EdgeInsets.all(10),
-                    child: ListTile(
-                      title: Text(documentSnapshot['name']),
-                      subtitle: Text(documentSnapshot['price'].toString()),
-                      trailing: SizedBox(
-                        width: 150,
-                        child: Row(
-                          children: [
-                            Text(documentSnapshot['datestring']),
-                            IconButton(
-                                icon: const Icon(Icons.edit),
-                                onPressed: () => _update(documentSnapshot)),
-                            IconButton(
-                                icon: const Icon(Icons.delete),
-                                onPressed: () => _delete(documentSnapshot.id)),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              );
-            }
-
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          },
-        ),
-// Add new product
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _nameController.text = '';
-            _priceController.text = '';
-            _create();
-          },
-          child: const Icon(Icons.add),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
   }
 }

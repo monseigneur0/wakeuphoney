@@ -6,6 +6,8 @@ import 'package:wakeuphoney/features/couples/couples_list_screen.dart';
 import 'package:wakeuphoney/features/messages/message_edit.dart';
 
 import 'chatapp/screen/home_screen.dart';
+import 'features/dailymessages/daily_screen.dart';
+import 'features/messages/message2_screen.dart';
 import 'features/messages/messages_screen.dart';
 import 'features/movie/movie_screen.dart';
 import 'features/product/product.dart';
@@ -112,6 +114,16 @@ final routerProvider = Provider((ref) {
                 builder: (context, state) => const MessageEdit(),
               ),
             ],
+          ),
+          GoRoute(
+            name: Message2Screen.routeName,
+            path: Message2Screen.routeURL,
+            builder: (context, state) => const Message2Screen(),
+          ),
+          GoRoute(
+            name: DailyMessageScreen.routeName,
+            path: DailyMessageScreen.routeURL,
+            builder: (context, state) => const DailyMessageScreen(),
           ),
           GoRoute(
             name: ProfileScreen.routeName,

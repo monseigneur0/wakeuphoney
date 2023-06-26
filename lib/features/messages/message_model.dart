@@ -1,12 +1,10 @@
-import 'dart:convert';
-
 class MessageModel {
   final String message;
   final String senderid;
   final DateTime date;
-  final String image;
-  final String voice;
-  final String video;
+  final String? image;
+  final String? voice;
+  final String? video;
 
   MessageModel({
     required this.message,
@@ -56,11 +54,6 @@ class MessageModel {
       video: map['video'] as String,
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory MessageModel.fromJson(String source) =>
-      MessageModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

@@ -5,6 +5,7 @@ import 'package:wakeuphoney/chatapp/screen/auth/login_screen.dart';
 
 import 'chatapp/screen/home_screen.dart';
 import 'features/couples/couples_list_screen.dart';
+import 'features/dailymessages/daily_screen.dart';
 import 'features/messages/messages_screen.dart';
 import 'features/movie/movie_screen.dart';
 import 'features/product/product.dart';
@@ -118,6 +119,15 @@ class PracticeHome extends ConsumerWidget {
                     backgroundColor:
                         MaterialStatePropertyAll(Colors.deepPurple)),
                 child: const Text('MessagesScreen'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  context.pushNamed(DailyMessageScreen.routeName);
+                },
+                style: const ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll(Colors.deepPurple)),
+                child: const Text('DailyMessageScreen'),
               ),
               ElevatedButton(
                 onPressed: () {
