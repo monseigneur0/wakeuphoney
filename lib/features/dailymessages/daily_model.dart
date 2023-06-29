@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 
 class UserModel {
@@ -137,55 +139,83 @@ class CoupleModel {
 
 class DailyMessageModel {
   final String message;
-  final String sender;
+  final String messagedate;
+  final DateTime messgaedatetime;
   final DateTime time;
+  final String uid;
   DailyMessageModel({
     required this.message,
-    required this.sender,
+    required this.messagedate,
+    required this.messgaedatetime,
     required this.time,
+    required this.uid,
   });
 
   DailyMessageModel copyWith({
     String? message,
-    String? sender,
+    String? messagedate,
+    DateTime? messgaedatetime,
     DateTime? time,
+    String? uid,
   }) {
     return DailyMessageModel(
       message: message ?? this.message,
-      sender: sender ?? this.sender,
+      messagedate: messagedate ?? this.messagedate,
+      messgaedatetime: messgaedatetime ?? this.messgaedatetime,
       time: time ?? this.time,
+      uid: uid ?? this.uid,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'message': message,
-      'sender': sender,
+      'messagedate': messagedate,
+      'messgaedatetime': messgaedatetime.millisecondsSinceEpoch,
       'time': time.millisecondsSinceEpoch,
+      'uid': uid,
     };
   }
 
   factory DailyMessageModel.fromMap(Map<String, dynamic> map) {
     return DailyMessageModel(
       message: map['message'] as String,
-      sender: map['sender'] as String,
-      time: DateTime.fromMillisecondsSinceEpoch(map['time'] as int),
+      messagedate: map['messagedate'] as String,
+      messgaedatetime: DateTime.fromMillisecondsSinceEpoch(
+          map['messgaedatetime'].millisecondsSinceEpoch),
+      time: DateTime.fromMillisecondsSinceEpoch(
+          map['time'].millisecondsSinceEpoch),
+      uid: map['uid'] as String,
     );
   }
 
+  String toJson() => json.encode(toMap());
+
+  factory DailyMessageModel.fromJson(String source) =>
+      DailyMessageModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
   @override
-  String toString() =>
-      'DailyMessageModel(message: $message, sender: $sender, time: $time)';
+  String toString() {
+    return 'DailyMessageModel(message: $message, messagedate: $messagedate, messgaedatetime: $messgaedatetime, time: $time, uid: $uid)';
+  }
 
   @override
   bool operator ==(covariant DailyMessageModel other) {
     if (identical(this, other)) return true;
 
     return other.message == message &&
-        other.sender == sender &&
-        other.time == time;
+        other.messagedate == messagedate &&
+        other.messgaedatetime == messgaedatetime &&
+        other.time == time &&
+        other.uid == uid;
   }
 
   @override
-  int get hashCode => message.hashCode ^ sender.hashCode ^ time.hashCode;
+  int get hashCode {
+    return message.hashCode ^
+        messagedate.hashCode ^
+        messgaedatetime.hashCode ^
+        time.hashCode ^
+        uid.hashCode;
+  }
 }

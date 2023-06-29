@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/chatapp/screen/auth/login_screen.dart';
@@ -7,6 +8,7 @@ import 'package:wakeuphoney/features/messages/message_edit.dart';
 
 import 'chatapp/screen/home_screen.dart';
 import 'features/dailymessages/daily_screen.dart';
+import 'features/dailymessages/daily_screen2.dart';
 import 'features/messages/message2_screen.dart';
 import 'features/messages/messages_screen.dart';
 import 'features/movie/movie_screen.dart';
@@ -50,7 +52,65 @@ final routerProvider = Provider((ref) {
     routes: [
       ShellRoute(
         builder: (context, state, child) {
-          return child;
+          return Scaffold(
+            body: Center(
+              child: child,
+            ),
+            bottomNavigationBar: BottomAppBar(
+              color: Colors.black87,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () => context.goNamed(AlarmHome.routeName),
+                    icon: const Icon(
+                      Icons.add_alarm,
+                      color: Colors.white,
+                      size: 33,
+                    ),
+                  ),
+
+                  IconButton(
+                    onPressed: () => context.goNamed(Message2Screen.routeName),
+                    icon: const Icon(
+                      Icons.message_outlined,
+                      color: Colors.white,
+                      size: 33,
+                    ),
+                  ),
+
+                  IconButton(
+                    onPressed: () => context.goNamed(PracticeHome.routeName),
+                    icon: const Icon(
+                      Icons.home,
+                      color: Colors.white,
+                      size: 33,
+                    ),
+                  ),
+
+                  IconButton(
+                    onPressed: () => context.goNamed(ProfileScreen.routeName),
+                    icon: const Icon(
+                      Icons.person,
+                      color: Colors.white,
+                      size: 33,
+                    ),
+                  ),
+
+                  // IconButton(
+                  //   onPressed: () {
+                  //     context.go("/home");
+                  //   },
+                  //   icon: const Icon(
+                  //     Icons.home,
+                  //     color: Colors.white,
+                  //     size: 33,
+                  //   ),
+                  // ),
+                ],
+              ),
+            ),
+          );
         },
         routes: [
           GoRoute(
@@ -124,6 +184,11 @@ final routerProvider = Provider((ref) {
             name: DailyMessageScreen.routeName,
             path: DailyMessageScreen.routeURL,
             builder: (context, state) => const DailyMessageScreen(),
+          ),
+          GoRoute(
+            name: DailyMessageScreen2.routeName,
+            path: DailyMessageScreen2.routeURL,
+            builder: (context, state) => const DailyMessageScreen2(),
           ),
           GoRoute(
             name: ProfileScreen.routeName,

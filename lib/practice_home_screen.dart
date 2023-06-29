@@ -37,6 +37,7 @@ class PracticeHome extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Riverpod Explorer1'),
+        backgroundColor: Colors.black87,
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -51,7 +52,7 @@ class PracticeHome extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
-                height: 100,
+                height: 50,
               ),
               ElevatedButton(
                 style: const ButtonStyle(

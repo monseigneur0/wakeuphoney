@@ -1,6 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class DaillyDatabaseService {
+import '../messages/message_model.dart';
+import 'daily_model.dart';
+
+final dailyRepositoryProvider = Provider((ref) => DailyRepository());
+
+class DailyRepository {
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
   final CollectionReference coupleCollection =
@@ -32,5 +38,47 @@ class DaillyDatabaseService {
         .collection("dailymessages")
         .orderBy("messgaedatetime")
         .snapshots();
+  }
+
+  // Stream<DailyMessageModel> getDailyMessage(String date) {
+  //   return coupleCollection
+  //       .doc("93zTjlpDFqX0AO0TKvIm")
+  //       .collection("dailymessages")
+  //       .doc("Os7njRq3RDo04xKFg3OJ")
+  //       .snapshots()
+  //       .map((event) =>
+  //           DailyMessageModel.fromMap(event.data() as Map<String, dynamic>));
+  // }
+  Stream<DailyMessageModel> getDailyMessage(String date) {
+    return coupleCollection
+        .doc("93zTjlpDFqX0AO0TKvIm")
+        .collection("dailymessages")
+        .where("messagedate", isEqualTo: date)
+        .snapshots()
+        .map((event) => event.docs
+            .map((e) => DailyMessageModel.fromMap(e.data()))
+            .toList()
+            .first);
+  }
+
+  Future<MessageModel> getDailyMessagesList(String date) {
+    return coupleCollection
+        .doc("93zTjlpDFqX0AO0TKvIm")
+        .collection("dailymessages")
+        .where("messagedate", isEqualTo: date)
+        .snapshots()
+        .first
+        .then((value) => MessageModel.fromMap(value as Map<String, dynamic>));
+  }
+
+  Stream<List<DailyMessageModel>> getDailyMessagesListStream(String date) {
+    return coupleCollection
+        .doc("93zTjlpDFqX0AO0TKvIm")
+        .collection("dailymessages")
+        .where("messagedate", isEqualTo: date)
+        .snapshots()
+        .map((event) => event.docs
+            .map((e) => DailyMessageModel.fromMap(e.data()))
+            .toList());
   }
 }

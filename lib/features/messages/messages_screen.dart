@@ -9,7 +9,7 @@ import 'messgaes_repo.dart';
 
 final dateStateProvider = StateProvider<List<String>>(
   (ref) => List<String>.generate(
-    10,
+    100,
     (index) => DateFormat.yMMMd().format(
       DateTime.now().add(
         Duration(days: index),
@@ -51,6 +51,8 @@ class MessagesScreenState extends ConsumerState<MessagesScreen> {
   final _greyColor = const Color(0xFF464A4F);
 
   Stream<QuerySnapshot>? thedaymessage;
+  final CollectionReference coupleCollection =
+      FirebaseFirestore.instance.collection("couples");
 
   final TextEditingController _nameController = TextEditingController();
 
@@ -63,6 +65,7 @@ class MessagesScreenState extends ConsumerState<MessagesScreen> {
     final dateList100 = ref.watch(dateStateProvider);
 
     final List<String> listDateString = ref.watch(dateStateProvider);
+
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
 
     bool hasMessage = true;
@@ -139,9 +142,49 @@ class MessagesScreenState extends ConsumerState<MessagesScreen> {
                                       snapshot.data?.docs[index]
                                           ['messagedate']) {
                                     hasMessage = true;
+                                    coupleCollection
+                                        .doc("93zTjlpDFqX0AO0TKvIm")
+                                        .collection("dailymessages")
+                                        .where(
+                                          "messagedate",
+                                          isEqualTo: DateFormat.yMMMd()
+                                              .format(listDateTime[index]),
+                                        )
+                                        .get()
+                                        .then(
+                                      (value) {
+                                        for (var docSnapshot in value.docs) {
+                                          Text('$docSnapshot');
+                                          print(DateFormat.yMMMd()
+                                              .format(listDateTime[index]));
+                                        }
+                                      },
+                                    );
+
                                     return Text(
                                         snapshot.data?.docs[index]['message']);
                                   } else {
+                                    // return const Text("no messages");
+                                    coupleCollection
+                                        .doc("93zTjlpDFqX0AO0TKvIm")
+                                        .collection("dailymessages")
+                                        .where(
+                                          "messagedate",
+                                          isEqualTo: DateFormat.yMMMd()
+                                              .format(listDateTime[index]),
+                                        )
+                                        .get()
+                                        .then(
+                                      (value) {
+                                        for (var docSnapshot in value.docs) {
+                                          Text('$docSnapshot');
+                                          final gogogod = docSnapshot;
+                                          print(DateFormat.yMMMd()
+                                              .format(listDateTime[index]));
+                                          return gogogod;
+                                        }
+                                      },
+                                    );
                                     return const Text("no messages");
                                   }
                                 },
@@ -155,20 +198,20 @@ class MessagesScreenState extends ConsumerState<MessagesScreen> {
                                   onPressed: () {}),
                             ],
                           ),
-                          streamValue.when(data: (data) {
-                            print(data);
-                            return Wrap(children: [
-                              Text(
-                                data.toString(),
-                                style: const TextStyle(fontSize: 10),
-                              ),
-                            ]);
-                          }, error: (Object error, StackTrace stacktrace) {
-                            print(error.toString());
-                            return Text(error.toString());
-                          }, loading: () {
-                            return const CircularProgressIndicator();
-                          }),
+                          // streamValue.when(data: (data) {
+                          //   print(data);
+                          //   return Wrap(children: [
+                          //     Text(
+                          //       data.toString(),
+                          //       style: const TextStyle(fontSize: 10),
+                          //     ),
+                          //   ]);
+                          // }, error: (Object error, StackTrace stacktrace) {
+                          //   print(error.toString());
+                          //   return Text(error.toString());
+                          // }, loading: () {
+                          //   return const CircularProgressIndicator();
+                          // }),
                         ],
                       ),
                     ),

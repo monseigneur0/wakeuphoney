@@ -119,7 +119,7 @@ class ProfileScreen extends ConsumerWidget {
         ],
       )),
       body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 170),
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 100),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

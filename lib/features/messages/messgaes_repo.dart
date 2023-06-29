@@ -36,6 +36,24 @@ class MessagesRepo {
         .snapshots();
   }
 
+  Stream<List<MessageModel>> getMessageOfDays(String date) {
+    return coupleCollection
+        .doc("93zTjlpDFqX0AO0TKvIm")
+        .collection("dailymessages")
+        .where(
+          "messagedate",
+          isEqualTo: date,
+        )
+        .snapshots()
+        .map((event) {
+      List<MessageModel> messages = [];
+      for (var doc in event.docs) {
+        messages.add(MessageModel.fromMap(doc.data()));
+      }
+      return messages;
+    });
+  }
+
   Stream<List<MessageModel>> getMessageOfDay(String date) {
     return coupleCollection
         .doc("93zTjlpDFqX0AO0TKvIm")

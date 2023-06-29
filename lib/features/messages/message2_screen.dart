@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../core/common/error_text.dart';
+import '../../core/common/loader.dart';
+import '../dailymessages/daily_controller.dart';
 import 'messages_screen.dart';
 import 'messgaes_repo.dart';
 
@@ -34,9 +37,11 @@ class Message2ScreenState extends ConsumerState<Message2Screen> {
 
   @override
   Widget build(BuildContext context) {
+    final dateList100 = ref.watch(dateStateProvider);
+
     final List<String> listDateString = ref.watch(dateStateProvider);
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
-    bool hasMessage = true;
+    bool hasMessage = false;
     return Scaffold(
       appBar: AppBar(
         title: const Text('hello messgaegs i will win!!'),
@@ -46,29 +51,30 @@ class Message2ScreenState extends ConsumerState<Message2Screen> {
           const SizedBox(
             height: 20,
           ),
-          FutureBuilder(
-              future: _coupleCollection
-                  .doc("93zTjlpDFqX0AO0TKvIm")
-                  .collection("dailymessages")
-                  .doc("Ah5amy72ZlzIwCLYhiiH")
-                  .get()
-                  .then((value) => value.data().toString()),
-              builder: (context, snapshot) {
-                // 해당 부분은 data를 아직 받아 오지 못했을 때 실행되는 부분
-                if (snapshot.hasData == false) {
-                  return const CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
-                }
+          // works well!!!
+          // FutureBuilder(
+          //     future: _coupleCollection
+          //         .doc("93zTjlpDFqX0AO0TKvIm")
+          //         .collection("dailymessages")
+          //         .doc("Ah5amy72ZlzIwCLYhiiH")
+          //         .get()
+          //         .then((value) => value.data().toString()),
+          //     builder: (context, snapshot) {
+          //       // 해당 부분은 data를 아직 받아 오지 못했을 때 실행되는 부분
+          //       if (snapshot.hasData == false) {
+          //         return const CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
+          //       }
 
-                // error가 발생하게 될 경우 반환하게 되는 부분
-                else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}'); // 에러명을 텍스트에 뿌려줌
-                }
+          //       // error가 발생하게 될 경우 반환하게 되는 부분
+          //       else if (snapshot.hasError) {
+          //         return Text('Error: ${snapshot.error}'); // 에러명을 텍스트에 뿌려줌
+          //       }
 
-                // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 부분
-                else {
-                  return Text(snapshot.data.toString());
-                }
-              }),
+          //       // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 부분
+          //       else {
+          //         return Text(snapshot.data.toString());
+          //       }
+          //     }),
           Expanded(
             child: ListView.separated(
               itemCount: listDateString.length,
@@ -80,72 +86,28 @@ class Message2ScreenState extends ConsumerState<Message2Screen> {
                 return ListTile(
                   leading: const Icon(Icons.chevron_right),
                   tileColor: Colors.amber[100],
-                  title: Text(DateFormat.yMMMd().format(listDateTime[index])),
-                  // subtitle: StreamBuilder(
-                  //   stream: ref.watch(getMessageOfDayProvider(listDateString[index].toString()).),
-                  //   builder: (context, snapshot) {
-                  //     return Text("dd");
-                  //   },
-                  // ),
-                  // subtitle: ref
-                  //     .watch(getMessageOfDayProvider(
-                  //         listDateString[index].toString()))
-                  //     .when(
-                  //       data: (messageModels) =>
-                  //           Text(messageModels.first.message),
-                  //       error: (error, stackTrace) {
-                  //         print(error.toString());
-                  //         return ErrorText(error: error.toString());
-                  //       },
-                  //       loading: () => const Loader(),
-                  //     ),
-                  // subtitle: StreamBuilder(
-                  //   stream: thedaymessage,
-                  //   builder: (context, snapshot) {
-                  //     return DateFormat.yMMMd().format(listDateTime[index]) ==
-                  //             snapshot.data?.docs[index]['messagedate']
-                  //         ? Text(snapshot.data?.docs[index]['message'])
-                  //         : const Text("no messages");
-                  //   },
-                  // ),
-                  subtitle: StreamBuilder(
-                    stream: thedaymessage,
-                    builder: (context, snapshot) {
-                      Timestamp t = snapshot.data?.docs[index]
-                              ['messgaedatetime'] ??
-                          Timestamp.now();
-                      DateTime newdate = t.toDate();
+                  title: ref
+                      .watch(getDailyMessageProvider(dateList100[index]))
+                      .when(
+                        data: (message) {
+                          return Text(
+                              "${DateFormat.yMMMd().format(listDateTime[index])}     ${message.message}");
+                        },
+                        error: (error, stackTrace) {
+                          print("error");
 
-                      print("newdate");
-                      print(newdate);
-                      if (DateFormat.yMMMd().format(listDateTime[index]) ==
-                          snapshot.data?.docs[index]['messagedate']) {
-                        print(snapshot.data?.docs[index]['messgaedatetime']);
-                        // if (listDateTime[index].year ==  snapshot.data?.docs[index]['messgaedatetime'] &&) {
-                        print(DateTime.now());
-                        print(DateTime.utc(
-                            listDateTime[index].year,
-                            listDateTime[index].month,
-                            listDateTime[index].day));
-                        print(DateTime(
-                            listDateTime[index].year,
-                            listDateTime[index].month,
-                            listDateTime[index].day));
-                        hasMessage = true;
-                        return Text(snapshot.data?.docs[index]['message'] +
-                            snapshot.data?.docs[index]['messagedate']);
-                      } else {
-                        return Text(
-                            "no messages${DateFormat.yMMMd().format(listDateTime[index])}");
-                      }
-                    },
-                  ),
+                          return ErrorText(
+                              error:
+                                  "${DateFormat.yMMMd().format(listDateTime[index])}                              ");
+                        },
+                        loading: () => const Loader(),
+                      ),
                   onTap: () {
                     ref.read(selectedDate.notifier).state =
                         DateFormat.yMMMd().format(listDateTime[index]);
                     ref.read(selectedDateTime.notifier).state =
                         listDateTime[index];
-                    hasMessage ? _update() : _create();
+                    _create();
                     _messgaeController.clear();
                   },
                   trailing: const Icon(Icons.chevron_left),
@@ -242,7 +204,7 @@ class Message2ScreenState extends ConsumerState<Message2Screen> {
               Row(
                 children: [
                   ElevatedButton(
-                    child: const Text('Create'),
+                    child: const Text('_update'),
                     onPressed: () async {
                       final String name = _messgaeController.text;
                       await _coupleCollection

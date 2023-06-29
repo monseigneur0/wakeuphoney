@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/dailymessages/daily_repo.dart';
 
 import '../messages/messages_screen.dart';
 import 'daily_message_tile.dart';
+import 'daily_screen2.dart';
 
 class DailyMessageScreen extends ConsumerStatefulWidget {
   static String routeName = "messages3";
@@ -25,9 +27,7 @@ class DailyMessageScreenState extends ConsumerState<DailyMessageScreen> {
   }
 
   getChatandAdmin() {
-    DaillyDatabaseService()
-        .getDailyMessages("93zTjlpDFqX0AO0TKvIm")
-        .then((val) {
+    DailyRepository().getDailyMessages("93zTjlpDFqX0AO0TKvIm").then((val) {
       setState(() {
         thedaymessage = val;
       });
@@ -40,6 +40,13 @@ class DailyMessageScreenState extends ConsumerState<DailyMessageScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('hello messgaegs i will win!!'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                context.pushNamed(DailyMessageScreen2.routeName);
+              },
+              icon: const Icon(Icons.connecting_airports_outlined))
+        ],
       ),
       body: Stack(
         children: [
