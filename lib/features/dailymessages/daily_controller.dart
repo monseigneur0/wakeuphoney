@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakeuphoney/features/dailymessages/daily_repo.dart';
 
 import 'daily_model.dart';
+import 'daily_repo.dart';
 
 final dailyControllerProvider =
     StateNotifierProvider<DailyController, bool>((ref) => DailyController(
