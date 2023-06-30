@@ -4,23 +4,21 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/chatapp/screen/auth/login_screen.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 import 'package:wakeuphoney/features/couples/couples_list_screen.dart';
+import 'package:wakeuphoney/providertutorial/providerscreen/changenotifierprovider.dart';
+import 'package:wakeuphoney/providertutorial/providerscreen/futureprovider.dart';
+import 'package:wakeuphoney/providertutorial/providerscreen/provider.dart';
+import 'package:wakeuphoney/providertutorial/providerscreen/state_provider.dart';
+import 'package:wakeuphoney/providertutorial/providerscreen/statenodifierprovider.dart';
+import 'package:wakeuphoney/providertutorial/providerscreen/streamprovider.dart';
 
 import 'chatapp/screen/home_screen.dart';
 import 'features/dailymessages/daily_screen.dart';
 import 'features/dailymessages/daily_screen2.dart';
-import 'features/dailymessages/message2_screen.dart';
-import 'features/dailymessages/messages_screen.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/profile/profile_screen.dart';
 import 'features/users/google_repo.dart';
 import 'features/users/login_screen.dart';
 import 'practice_home_screen.dart';
-import 'providertutorial/providerscreen/changenotifierprovider.dart';
-import 'providertutorial/providerscreen/futureprovider.dart';
-import 'providertutorial/providerscreen/provider.dart';
-import 'providertutorial/providerscreen/state_provider.dart';
-import 'providertutorial/providerscreen/statenodifierprovider.dart';
-import 'providertutorial/providerscreen/streamprovider.dart';
 
 final routerProvider = Provider((ref) {
   return GoRouter(
@@ -67,7 +65,8 @@ final routerProvider = Provider((ref) {
                   ),
 
                   IconButton(
-                    onPressed: () => context.goNamed(Message2Screen.routeName),
+                    onPressed: () =>
+                        context.goNamed(DailyMessage2Screen.routeName),
                     icon: const Icon(
                       Icons.message_outlined,
                       color: Colors.white,
@@ -160,31 +159,14 @@ final routerProvider = Provider((ref) {
             builder: (context, state) => const CouplesListScreen(),
           ),
           GoRoute(
-            name: MessagesScreen.routeName,
-            path: MessagesScreen.routeURL,
-            builder: (context, state) => const MessagesScreen(),
-            // routes: [
-            //   GoRoute(
-            //     name: MessageEdit.routeName,
-            //     path: MessageEdit.routeURL,
-            //     builder: (context, state) => const MessageEdit(),
-            //   ),
-            // ],
-          ),
-          GoRoute(
-            name: Message2Screen.routeName,
-            path: Message2Screen.routeURL,
-            builder: (context, state) => const Message2Screen(),
-          ),
-          GoRoute(
             name: DailyMessageScreen.routeName,
             path: DailyMessageScreen.routeURL,
             builder: (context, state) => const DailyMessageScreen(),
           ),
           GoRoute(
-            name: DailyMessageScreen2.routeName,
-            path: DailyMessageScreen2.routeURL,
-            builder: (context, state) => const DailyMessageScreen2(),
+            name: DailyMessage2Screen.routeName,
+            path: DailyMessage2Screen.routeURL,
+            builder: (context, state) => const DailyMessage2Screen(),
           ),
           GoRoute(
             name: ProfileScreen.routeName,

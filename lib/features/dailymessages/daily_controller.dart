@@ -32,10 +32,6 @@ class DailyController extends StateNotifier<bool> {
     return _dailyRepository.getDailyMessage(date);
   }
 
-  // Future<MessageModel> getDailyMessagesList(String date) {
-  //   return _dailyRepository.getDailyMessagesList(date);
-  // }
-
   Stream<List<DailyMessageModel>> getDailyMessagesListStream(String date) {
     return _dailyRepository.getDailyMessagesListStream(date);
   }

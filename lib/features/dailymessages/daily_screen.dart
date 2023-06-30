@@ -38,11 +38,11 @@ class DailyMessageScreenState extends ConsumerState<DailyMessageScreen> {
     final List<String> listDateString = ref.watch(dateStateProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('i will win!!!!!'),
+        title: const Text('hello i will win!!'),
         actions: [
           IconButton(
               onPressed: () {
-                context.pushNamed(DailyMessageScreen2.routeName);
+                context.pushNamed(DailyMessage2Screen.routeName);
               },
               icon: const Icon(Icons.connecting_airports_outlined))
         ],
