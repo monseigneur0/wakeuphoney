@@ -4,14 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/chatapp/screen/auth/login_screen.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 import 'package:wakeuphoney/features/couples/couples_list_screen.dart';
-import 'package:wakeuphoney/features/messages/message_edit.dart';
 
 import 'chatapp/screen/home_screen.dart';
 import 'features/dailymessages/daily_screen.dart';
 import 'features/dailymessages/daily_screen2.dart';
-import 'features/messages/message2_screen.dart';
-import 'features/messages/messages_screen.dart';
-import 'features/movie/movie_screen.dart';
 import 'features/product/product.dart';
 import 'features/product/product_detail.dart';
 import 'features/profile/couple_profile_screen.dart';
@@ -71,7 +67,8 @@ final routerProvider = Provider((ref) {
                   ),
 
                   IconButton(
-                    onPressed: () => context.goNamed(Message2Screen.routeName),
+                    onPressed: () =>
+                        context.goNamed(DailyMessage2Screen.routeName),
                     icon: const Icon(
                       Icons.message_outlined,
                       color: Colors.white,
@@ -164,31 +161,14 @@ final routerProvider = Provider((ref) {
             builder: (context, state) => const CouplesListScreen(),
           ),
           GoRoute(
-            name: MessagesScreen.routeName,
-            path: MessagesScreen.routeURL,
-            builder: (context, state) => const MessagesScreen(),
-            routes: [
-              GoRoute(
-                name: MessageEdit.routeName,
-                path: MessageEdit.routeURL,
-                builder: (context, state) => const MessageEdit(),
-              ),
-            ],
-          ),
-          GoRoute(
-            name: Message2Screen.routeName,
-            path: Message2Screen.routeURL,
-            builder: (context, state) => const Message2Screen(),
-          ),
-          GoRoute(
             name: DailyMessageScreen.routeName,
             path: DailyMessageScreen.routeURL,
             builder: (context, state) => const DailyMessageScreen(),
           ),
           GoRoute(
-            name: DailyMessageScreen2.routeName,
-            path: DailyMessageScreen2.routeURL,
-            builder: (context, state) => const DailyMessageScreen2(),
+            name: DailyMessage2Screen.routeName,
+            path: DailyMessage2Screen.routeURL,
+            builder: (context, state) => const DailyMessage2Screen(),
           ),
           GoRoute(
             name: ProfileScreen.routeName,
@@ -199,11 +179,6 @@ final routerProvider = Provider((ref) {
             name: CoupleProfileScreen.routeName,
             path: CoupleProfileScreen.routeURL,
             builder: (context, state) => const CoupleProfileScreen(),
-          ),
-          GoRoute(
-            name: MovieScreen.routeName,
-            path: MovieScreen.routeURL,
-            builder: (context, state) => const MovieScreen(),
           ),
           GoRoute(
             name: ProductScreen.routeName,

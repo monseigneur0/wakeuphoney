@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../messages/messages_screen.dart';
+import '../../core/providers/providers.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   static String routeName = "productdetail";

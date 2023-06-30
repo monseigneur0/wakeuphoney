@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../messages/message_model.dart';
 import 'daily_model.dart';
 
 final dailyRepositoryProvider = Provider((ref) => DailyRepository());
@@ -59,16 +58,6 @@ class DailyRepository {
             .map((e) => DailyMessageModel.fromMap(e.data()))
             .toList()
             .first);
-  }
-
-  Future<MessageModel> getDailyMessagesList(String date) {
-    return coupleCollection
-        .doc("93zTjlpDFqX0AO0TKvIm")
-        .collection("dailymessages")
-        .where("messagedate", isEqualTo: date)
-        .snapshots()
-        .first
-        .then((value) => MessageModel.fromMap(value as Map<String, dynamic>));
   }
 
   Stream<List<DailyMessageModel>> getDailyMessagesListStream(String date) {
