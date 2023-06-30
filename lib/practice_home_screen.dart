@@ -2,25 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/chatapp/screen/auth/login_screen.dart';
+import 'package:wakeuphoney/providertutorial/providerscreen/changenotifierprovider.dart';
+import 'package:wakeuphoney/providertutorial/providerscreen/futureprovider.dart';
+import 'package:wakeuphoney/providertutorial/providerscreen/provider.dart';
+import 'package:wakeuphoney/providertutorial/providerscreen/state_provider.dart';
+import 'package:wakeuphoney/providertutorial/providerscreen/statenodifierprovider.dart';
+import 'package:wakeuphoney/providertutorial/providerscreen/streamprovider.dart';
 
 import 'chatapp/screen/home_screen.dart';
+import 'core/providers/providers.dart';
 import 'features/couples/couples_list_screen.dart';
 import 'features/dailymessages/daily_screen.dart';
-import 'features/product/product.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/profile/profile_screen.dart';
 import 'features/users/google_repo.dart';
-import 'main.dart';
-import 'providerscreen/state_provider.dart';
 import 'package:go_router/go_router.dart';
 
 import 'features/alarm/alarm_screen.dart';
 import 'features/users/login_screen.dart';
-import 'providerscreen/changenotifierprovider.dart';
-import 'providerscreen/futureprovider.dart';
-import 'providerscreen/provider.dart';
-import 'providerscreen/statenodifierprovider.dart';
-import 'providerscreen/streamprovider.dart';
 
 class PracticeHome extends ConsumerWidget {
   static String routeName = "practice";
@@ -143,14 +142,6 @@ class PracticeHome extends ConsumerWidget {
                 style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.pink)),
                 child: const Text('CoupleProfileScreen'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  context.pushNamed(ProductScreen.routeName);
-                },
-                style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.pink)),
-                child: const Text('ProductScreen'),
               ),
               const Text('numberProvider'),
               Text(number.toString()),

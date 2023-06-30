@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/dailymessages/daily_repo.dart';
 
-import '../../core/providers/providers.dart';
 import 'daily_message_tile.dart';
 import 'daily_screen2.dart';
 
