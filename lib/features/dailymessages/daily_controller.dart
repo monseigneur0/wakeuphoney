@@ -1,6 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/dailymessages/daily_repo.dart';
-import 'package:wakeuphoney/features/messages/message_model.dart';
 
 import 'daily_model.dart';
 
@@ -33,9 +32,9 @@ class DailyController extends StateNotifier<bool> {
     return _dailyRepository.getDailyMessage(date);
   }
 
-  Future<MessageModel> getDailyMessagesList(String date) {
-    return _dailyRepository.getDailyMessagesList(date);
-  }
+  // Future<MessageModel> getDailyMessagesList(String date) {
+  //   return _dailyRepository.getDailyMessagesList(date);
+  // }
 
   Stream<List<DailyMessageModel>> getDailyMessagesListStream(String date) {
     return _dailyRepository.getDailyMessagesListStream(date);

@@ -5,9 +5,8 @@ import 'package:intl/intl.dart';
 
 import '../../core/common/error_text.dart';
 import '../../core/common/loader.dart';
-import '../dailymessages/daily_controller.dart';
-import 'messages_screen.dart';
-import 'messgaes_repo.dart';
+import 'daily_controller.dart';
+import 'daily_repo.dart';
 
 class Message2Screen extends ConsumerStatefulWidget {
   static String routeName = "messages2";
@@ -22,20 +21,6 @@ class Message2ScreenState extends ConsumerState<Message2Screen> {
   Stream<QuerySnapshot>? thedaymessage;
 
   @override
-  void initState() {
-    getChatandAdmin();
-    super.initState();
-  }
-
-  getChatandAdmin() {
-    MessagesRepo().getChats("93zTjlpDFqX0AO0TKvIm").then((val) {
-      setState(() {
-        thedaymessage = val;
-      });
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     final dateList100 = ref.watch(dateStateProvider);
 
@@ -44,7 +29,7 @@ class Message2ScreenState extends ConsumerState<Message2Screen> {
     bool hasMessage = false;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('hello messgaegs i will win!!'),
+        title: const Text('hello messgaegs i will win!!!'),
       ),
       body: Column(
         children: [
@@ -84,7 +69,6 @@ class Message2ScreenState extends ConsumerState<Message2Screen> {
               ),
               itemBuilder: (context, index) {
                 return ListTile(
-                  leading: const Icon(Icons.chevron_right),
                   tileColor: Colors.amber[100],
                   title: ref
                       .watch(getDailyMessageProvider(dateList100[index]))

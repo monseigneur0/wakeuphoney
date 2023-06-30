@@ -4,27 +4,23 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/chatapp/screen/auth/login_screen.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 import 'package:wakeuphoney/features/couples/couples_list_screen.dart';
-import 'package:wakeuphoney/features/messages/message_edit.dart';
 
 import 'chatapp/screen/home_screen.dart';
 import 'features/dailymessages/daily_screen.dart';
 import 'features/dailymessages/daily_screen2.dart';
-import 'features/messages/message2_screen.dart';
-import 'features/messages/messages_screen.dart';
-import 'features/movie/movie_screen.dart';
-import 'features/product/product.dart';
-import 'features/product/product_detail.dart';
+import 'features/dailymessages/message2_screen.dart';
+import 'features/dailymessages/messages_screen.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/profile/profile_screen.dart';
 import 'features/users/google_repo.dart';
 import 'features/users/login_screen.dart';
 import 'practice_home_screen.dart';
-import 'providerscreen/changenotifierprovider.dart';
-import 'providerscreen/futureprovider.dart';
-import 'providerscreen/provider.dart';
-import 'providerscreen/state_provider.dart';
-import 'providerscreen/statenodifierprovider.dart';
-import 'providerscreen/streamprovider.dart';
+import 'providertutorial/providerscreen/changenotifierprovider.dart';
+import 'providertutorial/providerscreen/futureprovider.dart';
+import 'providertutorial/providerscreen/provider.dart';
+import 'providertutorial/providerscreen/state_provider.dart';
+import 'providertutorial/providerscreen/statenodifierprovider.dart';
+import 'providertutorial/providerscreen/streamprovider.dart';
 
 final routerProvider = Provider((ref) {
   return GoRouter(
@@ -167,13 +163,13 @@ final routerProvider = Provider((ref) {
             name: MessagesScreen.routeName,
             path: MessagesScreen.routeURL,
             builder: (context, state) => const MessagesScreen(),
-            routes: [
-              GoRoute(
-                name: MessageEdit.routeName,
-                path: MessageEdit.routeURL,
-                builder: (context, state) => const MessageEdit(),
-              ),
-            ],
+            // routes: [
+            //   GoRoute(
+            //     name: MessageEdit.routeName,
+            //     path: MessageEdit.routeURL,
+            //     builder: (context, state) => const MessageEdit(),
+            //   ),
+            // ],
           ),
           GoRoute(
             name: Message2Screen.routeName,
@@ -199,21 +195,6 @@ final routerProvider = Provider((ref) {
             name: CoupleProfileScreen.routeName,
             path: CoupleProfileScreen.routeURL,
             builder: (context, state) => const CoupleProfileScreen(),
-          ),
-          GoRoute(
-            name: MovieScreen.routeName,
-            path: MovieScreen.routeURL,
-            builder: (context, state) => const MovieScreen(),
-          ),
-          GoRoute(
-            name: ProductScreen.routeName,
-            path: ProductScreen.routeURL,
-            builder: (context, state) => const ProductScreen(),
-          ),
-          GoRoute(
-            name: ProductDetailScreen.routeName,
-            path: ProductDetailScreen.routeURL,
-            builder: (context, state) => const ProductDetailScreen(),
           ),
           GoRoute(
             name: MyChatApp.routeName,

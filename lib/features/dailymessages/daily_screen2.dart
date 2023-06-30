@@ -5,7 +5,7 @@ import 'package:wakeuphoney/features/dailymessages/daily_controller.dart';
 
 import '../../core/common/error_text.dart';
 import '../../core/common/loader.dart';
-import '../messages/messages_screen.dart';
+import 'daily_repo.dart';
 
 class DailyMessageScreen2 extends ConsumerStatefulWidget {
   static String routeName = "messages4";

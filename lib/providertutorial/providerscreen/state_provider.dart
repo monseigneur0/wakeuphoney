@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../main.dart';
+import '../../core/providers/providers.dart';
 
 final valueStateProvider = StateProvider<int>((ref) => 32);
 

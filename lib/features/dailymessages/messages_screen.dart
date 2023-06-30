@@ -4,37 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import 'daily_repo.dart';
 import 'message2_screen.dart';
-import 'messgaes_repo.dart';
-
-final dateStateProvider = StateProvider<List<String>>(
-  (ref) => List<String>.generate(
-    100,
-    (index) => DateFormat.yMMMd().format(
-      DateTime.now().add(
-        Duration(days: index),
-      ),
-    ),
-  ),
-);
-
-final dateTimeStateProvider =
-    StateProvider<List<DateTime>>((ref) => List<DateTime>.generate(
-          100,
-          (index) => DateTime.now().add(Duration(days: index)),
-        ));
-
-final selectedDate = StateProvider<String>(
-  (ref) => DateFormat.yMMMd().format(DateTime.now()),
-);
-final selectedDateTime = StateProvider<DateTime>(
-  (ref) => DateTime.now(),
-);
-
-final streamValueProvider = StreamProvider.autoDispose((ref) {
-  final streamService = ref.watch(steamMessageServiceProvider);
-  return streamService.getChats("93zTjlpDFqX0AO0TKvIm");
-});
 
 class MessagesScreen extends ConsumerStatefulWidget {
   static String routeName = "messages";
@@ -61,7 +32,6 @@ class MessagesScreenState extends ConsumerState<MessagesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final streamValue = ref.watch(streamValueProvider);
     final dateList100 = ref.watch(dateStateProvider);
 
     final List<String> listDateString = ref.watch(dateStateProvider);

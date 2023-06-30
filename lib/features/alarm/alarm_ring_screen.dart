@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import '../../core/common/error_text.dart';
 import '../../core/common/loader.dart';
 import '../dailymessages/daily_controller.dart';
-import '../messages/messages_screen.dart';
+import '../dailymessages/daily_repo.dart';
 
 class AlarmRingScreen extends ConsumerWidget {
   final AlarmSettings alarmSettings;

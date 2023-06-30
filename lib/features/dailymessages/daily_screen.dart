@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/dailymessages/daily_repo.dart';
 
-import '../messages/messages_screen.dart';
 import 'daily_message_tile.dart';
 import 'daily_screen2.dart';
 
@@ -39,7 +38,7 @@ class DailyMessageScreenState extends ConsumerState<DailyMessageScreen> {
     final List<String> listDateString = ref.watch(dateStateProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('hello messgaegs i will win!!'),
+        title: const Text('i will win!!!!!'),
         actions: [
           IconButton(
               onPressed: () {
