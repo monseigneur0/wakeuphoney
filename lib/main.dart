@@ -30,10 +30,3 @@ class WakeUpHoney extends ConsumerWidget {
     );
   }
 }
-
-final numberProvider = Provider<int>((ref) {
-  return 22;
-});
-final numberStateProvider = StateProvider<int>((ref) {
-  return 42;
-});

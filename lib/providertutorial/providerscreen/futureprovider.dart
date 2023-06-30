@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakeuphoney/providerrepository/api_service.dart';
+import 'package:wakeuphoney/providertutorial/providerrepository/api_service.dart';
 
 import '../providerModels/suggestion.dart';
 
