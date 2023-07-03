@@ -8,6 +8,9 @@ final numberProvider = Provider<int>((ref) {
 final numberStateProvider = StateProvider<int>((ref) {
   return 42;
 });
+final navStateProvider = StateProvider<int>((ref) {
+  return 0;
+});
 
 final dateStateProvider = StateProvider<List<String>>(
   (ref) => List<String>.generate(

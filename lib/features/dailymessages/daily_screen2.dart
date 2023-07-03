@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../../core/common/error_text.dart';
 import '../../core/common/loader.dart';
 import '../../core/providers/providers.dart';
 import '../dailymessages/daily_controller.dart';
@@ -25,6 +24,7 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
     bool hasMessage = false;
     return Scaffold(
+      backgroundColor: Colors.grey[900],
       appBar: AppBar(
         title: const Text('hello255 i will win!!'),
       ),
@@ -58,42 +58,69 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
           //       }
           //     }),
           Expanded(
-            child: ListView.separated(
+            child: ListView.builder(
               itemCount: listDateTime.length,
-              separatorBuilder: (BuildContext context, int index) =>
-                  const SizedBox(
-                height: 20,
-              ),
               itemBuilder: (context, index) {
-                return ListTile(
-                  leading: const Icon(Icons.chevron_right),
-                  tileColor: Colors.amber[100],
-                  title: ref
-                      .watch(getDailyMessageProvider(dateList100[index]))
-                      .when(
-                        data: (message) {
-                          return Text(
-                              "${DateFormat.yMMMd().format(listDateTime[index])}     ${message.message}");
-                        },
-                        error: (error, stackTrace) {
-                          print("error");
+                return ref
+                    .watch(getDailyMessageProvider(dateList100[index]))
+                    .when(
+                      data: (message) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 25),
+                          child: ListTile(
+                            tileColor: Colors.grey[600],
+                            shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                            ),
+                            title: Text(
+                              message.message,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 25),
+                            ),
+                            subtitle: Text(
+                                DateFormat.MMMd().format(listDateTime[index])),
+                            onTap: () {
+                              ref.read(selectedDate.notifier).state =
+                                  DateFormat.yMMMd()
+                                      .format(listDateTime[index]);
+                              ref.read(selectedDateTime.notifier).state =
+                                  listDateTime[index];
+                              _update();
+                              _messgaeController.text = message.message;
+                            },
+                          ),
+                        );
+                      },
+                      error: (error, stackTrace) {
+                        print("error$error ");
 
-                          return ErrorText(
-                              error:
-                                  "${DateFormat.yMMMd().format(listDateTime[index])}                              ");
-                        },
-                        loading: () => const Loader(),
-                      ),
-                  onTap: () {
-                    ref.read(selectedDate.notifier).state =
-                        DateFormat.yMMMd().format(listDateTime[index]);
-                    ref.read(selectedDateTime.notifier).state =
-                        listDateTime[index];
-                    _create();
-                    _messgaeController.clear();
-                  },
-                  trailing: const Icon(Icons.chevron_left),
-                );
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 25),
+                          child: ListTile(
+                            tileColor: Colors.grey[800],
+                            shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                            ),
+                            title: Text(
+                                DateFormat.MMMd().format(listDateTime[index])),
+                            onTap: () {
+                              ref.read(selectedDate.notifier).state =
+                                  DateFormat.yMMMd()
+                                      .format(listDateTime[index]);
+                              ref.read(selectedDateTime.notifier).state =
+                                  listDateTime[index];
+                              _create();
+                              _messgaeController.clear();
+                            },
+                          ),
+                        );
+                      },
+                      loading: () => const Loader(),
+                    );
               },
             ),
           ),
@@ -106,6 +133,8 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
 
   final CollectionReference _coupleCollection =
       FirebaseFirestore.instance.collection('couples');
+
+  final _formKey = GlobalKey<FormState>();
 
   Future<void> _create() async {
     await showModalBottomSheet(
@@ -122,10 +151,20 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextField(
-                controller: _messgaeController,
-                decoration: InputDecoration(
-                    labelText: 'message at ${ref.read(selectedDate)}'),
+              Form(
+                key: _formKey,
+                child: TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty || value == "") {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                  autofocus: true,
+                  controller: _messgaeController,
+                  decoration: InputDecoration(
+                      labelText: 'message at ${ref.read(selectedDate)}'),
+                ),
               ),
               const SizedBox(
                 height: 20,
@@ -133,22 +172,32 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
               Row(
                 children: [
                   ElevatedButton(
-                    child: const Text('Create'),
+                    child: const Text('Save'),
                     onPressed: () async {
-                      final String name = _messgaeController.text;
-                      await _coupleCollection
-                          .doc("93zTjlpDFqX0AO0TKvIm")
-                          .collection("dailymessages")
-                          .add({
-                        "message": name,
-                        "time": DateTime.now(),
-                        "messagedate": ref.read(selectedDate),
-                        "messgaedatetime": ref.read(selectedDateTime),
-                        "uid": "IZZ1HICxZ8ggCiJihcJKow38LPK2"
-                      });
+                      if (_formKey.currentState!.validate()) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("message is saved")));
+                        Navigator.of(context).pop();
+                        final String message = _messgaeController.text;
+                        ref.watch(selectedDateTime.notifier).state =
+                            DateTime.now();
+                        ref
+                            .watch(dailyControllerProvider.notifier)
+                            .createDailyMessage(
+                                message, "IZZ1HICxZ8ggCiJihcJKow38LPK2");
+                        // await _coupleCollection
+                        //     .doc("93zTjlpDFqX0AO0TKvIm")
+                        //     .collection("dailymessages")
+                        //     .add({
+                        //   "message": message,
+                        //   "time": DateTime.now(),
+                        //   "messagedate": ref.read(selectedDate),
+                        //   "messagedatetime": ref.watch(selectedDateTime),
+                        //   "uid": "IZZ1HICxZ8ggCiJihcJKow38LPK2",
+                        // });
+                      }
 
-                      _messgaeController.text = '';
-                      Navigator.of(context).pop();
+                      _messgaeController.clear();
                     },
                   ),
                 ],
@@ -175,10 +224,21 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextField(
-                controller: _messgaeController,
-                decoration: InputDecoration(
-                    labelText: 'message at ${ref.read(selectedDate)}'),
+              Form(
+                key: _formKey,
+                child: TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty || value == "") {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                  autofocus: true,
+                  autovalidateMode: AutovalidateMode.always,
+                  controller: _messgaeController,
+                  decoration: InputDecoration(
+                      labelText: 'message at ${ref.read(selectedDate)}'),
+                ),
               ),
               const SizedBox(
                 height: 20,
@@ -186,22 +246,26 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
               Row(
                 children: [
                   ElevatedButton(
-                    child: const Text('_update'),
+                    child: const Text('Edit'),
                     onPressed: () async {
-                      final String name = _messgaeController.text;
-                      await _coupleCollection
-                          .doc("93zTjlpDFqX0AO0TKvIm")
-                          .collection("dailymessages")
-                          .add({
-                        "message": name,
-                        "time": DateTime.now(),
-                        "messagedate": ref.read(selectedDate),
-                        "messgaedatetime": ref.read(selectedDateTime),
-                        "uid": "IZZ1HICxZ8ggCiJihcJKow38LPK2"
-                      });
+                      if (_formKey.currentState!.validate()) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("message is edited")));
+                        final String message = _messgaeController.text;
+                        await _coupleCollection
+                            .doc("93zTjlpDFqX0AO0TKvIm")
+                            .collection("dailymessages")
+                            .add({
+                          "message": message,
+                          "time": DateTime.now(),
+                          "messagedate": ref.read(selectedDate),
+                          "messagedatetime": ref.read(selectedDateTime),
+                          "uid": "IZZ1HICxZ8ggCiJihcJKow38LPK2"
+                        });
 
-                      _messgaeController.text = '';
-                      Navigator.of(context).pop();
+                        _messgaeController.clear();
+                        Navigator.of(context).pop();
+                      }
                     },
                   ),
                 ],

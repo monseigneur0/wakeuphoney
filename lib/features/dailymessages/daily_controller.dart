@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../core/providers/providers.dart';
 import 'daily_model.dart';
 import 'daily_repo.dart';
 
@@ -13,14 +14,10 @@ final getDailyMessageProvider = StreamProvider.family((ref, String date) {
   final dailyController = ref.watch(dailyControllerProvider.notifier);
   return dailyController.getDailyMessage(date);
 });
-final getDailyMessagesListStreamProvider =
-    StreamProvider.family((ref, String date) {
-  final dailyController = ref.watch(dailyControllerProvider.notifier);
-  return dailyController.getDailyMessagesListStream(date);
-});
 
 class DailyController extends StateNotifier<bool> {
   final DailyRepository _dailyRepository;
+
   final Ref _ref;
 
   DailyController({required DailyRepository dailyRepository, required Ref ref})
@@ -32,7 +29,9 @@ class DailyController extends StateNotifier<bool> {
     return _dailyRepository.getDailyMessage(date);
   }
 
-  Stream<List<DailyMessageModel>> getDailyMessagesListStream(String date) {
-    return _dailyRepository.getDailyMessagesListStream(date);
+  void createDailyMessage(message, uid) async {
+    await _dailyRepository.createDailyMessage(
+        message, _ref.watch(selectedDate), _ref.watch(selectedDateTime), uid);
+    // res.fold((l)=> showSnackBar(context, l.message))
   }
 }

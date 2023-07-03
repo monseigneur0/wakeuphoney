@@ -16,16 +16,17 @@ import 'features/dailymessages/daily_screen.dart';
 import 'features/dailymessages/daily_screen2.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/profile/profile_screen.dart';
-import 'features/users/google_repo.dart';
-import 'features/users/login_screen.dart';
+import 'features/auth/auth_repository.dart';
+import 'features/auth/login_screen.dart';
 import 'practice_home_screen.dart';
 
 final routerProvider = Provider((ref) {
   return GoRouter(
     initialLocation: "/",
     redirect: (context, state) {
-      final isLoggedIn = ref.watch(googleSignInApiProbider).isLoggedIn;
-      final loginName = ref.watch(googleSignInApiProbider).user?.displayName;
+      final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
+      final loginName =
+          ref.watch(authRepositoryProvider).currentUser?.displayName;
       print('islogged');
       print(isLoggedIn);
       print(loginName);
@@ -50,6 +51,35 @@ final routerProvider = Provider((ref) {
             body: Center(
               child: child,
             ),
+            // bottomNavigationBar: BottomNavigationBar(
+            //   items: const <BottomNavigationBarItem>[
+            //     BottomNavigationBarItem(
+            //       icon: Icon(Icons.home),
+            //       label: 'Home',
+            //     ),
+            //     BottomNavigationBarItem(
+            //       icon: Icon(Icons.business),
+            //       label: 'Business',
+            //     ),
+            //     BottomNavigationBarItem(
+            //       icon: Icon(Icons.school),
+            //       label: 'School',
+            //     ),
+            //   ],
+            //   currentIndex: ref.watch(navStateProvider),
+            //   selectedItemColor: Colors.amber[800],
+            //   onTap: (val) {
+            //     switch (val) {
+            //       case 0:
+            //         if (ref.watch(navStateProvider.notifier).state == val) {}
+            //         break;
+            //       case 1:
+            //         context.goNamed(AlarmHome.routeName);
+            //     }
+            //     ref.watch(navStateProvider.notifier).state = val;
+            //     return;
+            //   },
+            // ),
             bottomNavigationBar: BottomAppBar(
               color: Colors.black87,
               child: Row(
@@ -86,7 +116,7 @@ final routerProvider = Provider((ref) {
                   IconButton(
                     onPressed: () => context.goNamed(ProfileScreen.routeName),
                     icon: const Icon(
-                      Icons.person,
+                      Icons.favorite,
                       color: Colors.white,
                       size: 33,
                     ),
@@ -122,6 +152,13 @@ final routerProvider = Provider((ref) {
             name: AlarmHome.routeName,
             path: AlarmHome.routeURL,
             builder: (context, state) => const AlarmHome(),
+            pageBuilder: (context, state) => CustomTransitionPage<void>(
+              key: state.pageKey,
+              child: const AlarmHome(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) =>
+                      FadeTransition(opacity: animation, child: child),
+            ),
           ),
           GoRoute(
             name: ProviderPage.routeName,

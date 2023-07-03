@@ -1,13 +1,13 @@
 class DailyMessageModel {
   final String message;
   final String messagedate;
-  final DateTime messgaedatetime;
+  final DateTime messagedatetime;
   final DateTime time;
   final String uid;
   DailyMessageModel({
     required this.message,
     required this.messagedate,
-    required this.messgaedatetime,
+    required this.messagedatetime,
     required this.time,
     required this.uid,
   });
@@ -15,14 +15,14 @@ class DailyMessageModel {
   DailyMessageModel copyWith({
     String? message,
     String? messagedate,
-    DateTime? messgaedatetime,
+    DateTime? messagedatetime,
     DateTime? time,
     String? uid,
   }) {
     return DailyMessageModel(
       message: message ?? this.message,
       messagedate: messagedate ?? this.messagedate,
-      messgaedatetime: messgaedatetime ?? this.messgaedatetime,
+      messagedatetime: messagedatetime ?? this.messagedatetime,
       time: time ?? this.time,
       uid: uid ?? this.uid,
     );
@@ -32,7 +32,7 @@ class DailyMessageModel {
     return <String, dynamic>{
       'message': message,
       'messagedate': messagedate,
-      'messgaedatetime': messgaedatetime.millisecondsSinceEpoch,
+      'messagedatetime': messagedatetime.millisecondsSinceEpoch,
       'time': time.millisecondsSinceEpoch,
       'uid': uid,
     };
@@ -42,8 +42,8 @@ class DailyMessageModel {
     return DailyMessageModel(
       message: map['message'] as String,
       messagedate: map['messagedate'] as String,
-      messgaedatetime: DateTime.fromMillisecondsSinceEpoch(
-          map['messgaedatetime'].millisecondsSinceEpoch),
+      messagedatetime: DateTime.fromMillisecondsSinceEpoch(
+          map['messagedatetime'].millisecondsSinceEpoch),
       time: DateTime.fromMillisecondsSinceEpoch(
           map['time'].millisecondsSinceEpoch),
       uid: map['uid'] as String,
@@ -52,7 +52,7 @@ class DailyMessageModel {
 
   @override
   String toString() {
-    return 'DailyMessageModel(message: $message, messagedate: $messagedate, messgaedatetime: $messgaedatetime, time: $time, uid: $uid)';
+    return 'DailyMessageModel(message: $message, messagedate: $messagedate, messagedatetime: $messagedatetime, time: $time, uid: $uid)';
   }
 
   @override
@@ -61,7 +61,7 @@ class DailyMessageModel {
 
     return other.message == message &&
         other.messagedate == messagedate &&
-        other.messgaedatetime == messgaedatetime &&
+        other.messagedatetime == messagedatetime &&
         other.time == time &&
         other.uid == uid;
   }
@@ -70,7 +70,7 @@ class DailyMessageModel {
   int get hashCode {
     return message.hashCode ^
         messagedate.hashCode ^
-        messgaedatetime.hashCode ^
+        messagedatetime.hashCode ^
         time.hashCode ^
         uid.hashCode;
   }

@@ -15,11 +15,11 @@ import 'features/couples/couples_list_screen.dart';
 import 'features/dailymessages/daily_screen.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/profile/profile_screen.dart';
-import 'features/users/google_repo.dart';
+import 'features/auth/auth_repository.dart';
 import 'package:go_router/go_router.dart';
 
 import 'features/alarm/alarm_screen.dart';
-import 'features/users/login_screen.dart';
+import 'features/auth/login_screen.dart';
 
 class PracticeHome extends ConsumerWidget {
   static String routeName = "practice";
@@ -38,8 +38,9 @@ class PracticeHome extends ConsumerWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-            child: Text(ref.watch(googleSignInApiProbider).user?.displayName ??
-                "no user"),
+            child: Text(
+                ref.watch(authRepositoryProvider).currentUser?.displayName ??
+                    "no user"),
           )
         ],
       ),
@@ -92,7 +93,7 @@ class PracticeHome extends ConsumerWidget {
                         CupertinoDialogAction(
                           onPressed: () {
                             ref
-                                .watch(googleSignInApiProbider)
+                                .watch(authRepositoryProvider)
                                 .logout()
                                 .then((value) =>
                                     context.goNamed(AlarmHome.routeName))

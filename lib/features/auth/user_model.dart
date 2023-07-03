@@ -6,16 +6,17 @@ class UserModel {
   final String photoURL;
   final String uid;
 
+  final String couple;
   final List couples;
   final DateTime creationTime;
   final DateTime lastSignInTime;
   final bool isLoggedIn;
-
   UserModel({
     required this.displayName,
     required this.email,
     required this.photoURL,
     required this.uid,
+    required this.couple,
     required this.couples,
     required this.creationTime,
     required this.lastSignInTime,
@@ -27,6 +28,7 @@ class UserModel {
     String? email,
     String? photoURL,
     String? uid,
+    String? couple,
     List? couples,
     DateTime? creationTime,
     DateTime? lastSignInTime,
@@ -37,6 +39,7 @@ class UserModel {
       email: email ?? this.email,
       photoURL: photoURL ?? this.photoURL,
       uid: uid ?? this.uid,
+      couple: couple ?? this.couple,
       couples: couples ?? this.couples,
       creationTime: creationTime ?? this.creationTime,
       lastSignInTime: lastSignInTime ?? this.lastSignInTime,
@@ -50,9 +53,10 @@ class UserModel {
       'email': email,
       'photoURL': photoURL,
       'uid': uid,
+      'couple': couple,
       'couples': couples,
-      'creationTime': creationTime.millisecondsSinceEpoch,
-      'lastSignInTime': lastSignInTime.millisecondsSinceEpoch,
+      'creationTime': creationTime,
+      'lastSignInTime': lastSignInTime,
       'isLoggedIn': isLoggedIn,
     };
   }
@@ -63,18 +67,17 @@ class UserModel {
       email: map['email'] as String,
       photoURL: map['photoURL'] as String,
       uid: map['uid'] as String,
-      couples: List.from(map['couples'] as List),
-      creationTime:
-          DateTime.fromMillisecondsSinceEpoch(map['creationTime'] as int),
-      lastSignInTime:
-          DateTime.fromMillisecondsSinceEpoch(map['lastSignInTime'] as int),
+      couple: map['couple'] as String,
+      couples: List.from((map['couples'] as List)),
+      creationTime: (map['creationTime']).toDate(),
+      lastSignInTime: (map['lastSignInTime']).toDate(),
       isLoggedIn: map['isLoggedIn'] as bool,
     );
   }
 
   @override
   String toString() {
-    return 'UserModel(displayName: $displayName, email: $email, photoURL: $photoURL, uid: $uid, couples: $couples, creationTime: $creationTime, lastSignInTime: $lastSignInTime, isLoggedIn: $isLoggedIn)';
+    return 'UserModel(displayName: $displayName, email: $email, photoURL: $photoURL, uid: $uid, couple: $couple, couples: $couples, creationTime: $creationTime, lastSignInTime: $lastSignInTime, isLoggedIn: $isLoggedIn)';
   }
 
   @override
@@ -85,6 +88,7 @@ class UserModel {
         other.email == email &&
         other.photoURL == photoURL &&
         other.uid == uid &&
+        other.couple == couple &&
         listEquals(other.couples, couples) &&
         other.creationTime == creationTime &&
         other.lastSignInTime == lastSignInTime &&
@@ -97,6 +101,7 @@ class UserModel {
         email.hashCode ^
         photoURL.hashCode ^
         uid.hashCode ^
+        couple.hashCode ^
         couples.hashCode ^
         creationTime.hashCode ^
         lastSignInTime.hashCode ^

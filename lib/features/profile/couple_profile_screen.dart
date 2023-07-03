@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../practice_home_screen.dart';
 import '../alarm/alarm_screen.dart';
-import '../users/google_repo.dart';
+import '../auth/auth_repository.dart';
 
 class CoupleProfileScreen extends ConsumerWidget {
   static String routeName = "coupleprofilescreen";
@@ -18,7 +18,7 @@ class CoupleProfileScreen extends ConsumerWidget {
         backgroundColor: Theme.of(context).primaryColor,
         elevation: 0,
         title: const Text(
-          "Profile",
+          "Couple Profile",
           style: TextStyle(
               color: Colors.white, fontSize: 27, fontWeight: FontWeight.bold),
         ),
@@ -92,7 +92,7 @@ class CoupleProfileScreen extends ConsumerWidget {
                         IconButton(
                           onPressed: () async {
                             ref
-                                .watch(googleSignInApiProbider)
+                                .watch(authRepositoryProvider)
                                 .logout()
                                 .then((value) =>
                                     context.goNamed(AlarmHome.routeName))
