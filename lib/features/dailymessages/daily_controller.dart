@@ -1,4 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 
 import '../../core/providers/providers.dart';
 import 'daily_model.dart';
@@ -26,7 +27,8 @@ class DailyController extends StateNotifier<bool> {
         super(false); //loading
 
   Stream<DailyMessageModel> getDailyMessage(String date) {
-    return _dailyRepository.getDailyMessage(date);
+    final uid = _ref.watch(authProvider).currentUser!.uid;
+    return _dailyRepository.getDailyMessage(uid, date);
   }
 
   void createDailyMessage(message, uid) async {

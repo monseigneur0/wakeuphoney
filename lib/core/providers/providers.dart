@@ -37,3 +37,6 @@ final selectedDate = StateProvider(
 final selectedDateTime = StateProvider<DateTime>(
   (ref) => DateTime.now(),
 );
+
+final leftSecondsMatch = StateProvider<int>((ref) => 0);
+final onceClickedMatch = StateProvider<bool>((ref) => false);

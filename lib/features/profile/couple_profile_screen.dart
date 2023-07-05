@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wakeuphoney/features/profile/profile_controller.dart';
 
+import '../../core/common/loader.dart';
 import '../../practice_home_screen.dart';
 import '../alarm/alarm_screen.dart';
 import '../auth/auth_repository.dart';
@@ -13,18 +16,108 @@ class CoupleProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userprofile = ref.watch(authRepositoryProvider).currentUser!;
+    final userProfileStream = ref.watch(getUserProfileStreamProvider);
+
+    final coupleUid = ref.watch(getUserProfileStreamProvider);
+    final coupleProfile = ref.watch(
+        getUserProfileStreamByIdProvider(coupleUid.value!.couples.first));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         elevation: 0,
         title: const Text(
-          "Couple Profile",
+          "My Honey",
           style: TextStyle(
               color: Colors.white, fontSize: 27, fontWeight: FontWeight.bold),
         ),
       ),
-      drawer: Drawer(
-          child: ListView(
+      body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 100),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(
+              Icons.account_circle,
+              size: 100,
+              color: Colors.grey[700],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("Honey Name", style: TextStyle(fontSize: 17)),
+                coupleProfile.when(
+                  data: (data) => Text(data.displayName),
+                  error: (error, stackTrace) {
+                    print("error$error ");
+                    return const Text("no couple");
+                  },
+                  loading: () => const Loader(),
+                ),
+              ],
+            ),
+            const Divider(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("Email", style: TextStyle(fontSize: 17)),
+                coupleProfile.when(
+                  data: (data) => Text(data.email),
+                  error: (error, stackTrace) {
+                    print("error$error ");
+                    return const Text("no couple");
+                  },
+                  loading: () => const Loader(),
+                ),
+              ],
+            ),
+            const Divider(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("couple Id", style: TextStyle(fontSize: 17)),
+                Text(
+                    userProfileStream.when(
+                      data: (data) => data.couple,
+                      error: (error, stackTrace) {
+                        print("error    $error ");
+                        return "error ";
+                      },
+                      loading: () => "const Loader()",
+                    ),
+                    style: const TextStyle(fontSize: 10)),
+                // Text(userProvideruid.hasValue ? "hasValue" : "no val"),
+              ],
+            ),
+          ],
+        ),
+      ),
+      endDrawer: ProfileDrawer(userprofile: userprofile, ref: ref),
+    );
+  }
+}
+
+class ProfileDrawer extends StatelessWidget {
+  const ProfileDrawer({
+    super.key,
+    required this.userprofile,
+    required this.ref,
+  });
+
+  final User userprofile;
+  final WidgetRef ref;
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
         padding: const EdgeInsets.symmetric(vertical: 50),
         children: <Widget>[
           Icon(
@@ -35,10 +128,10 @@ class CoupleProfileScreen extends ConsumerWidget {
           const SizedBox(
             height: 15,
           ),
-          const Text(
-            "no amen",
+          Text(
+            userprofile.displayName ?? "no name",
             textAlign: TextAlign.center,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(
             height: 30,
@@ -65,9 +158,21 @@ class CoupleProfileScreen extends ConsumerWidget {
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             leading: const Icon(Icons.group),
-            title: const Text(
-              "Profile",
-              style: TextStyle(color: Colors.black),
+            title: Text(
+              userprofile.email.toString(),
+              style: const TextStyle(color: Colors.black),
+            ),
+          ),
+          ListTile(
+            onTap: () {},
+            selected: true,
+            selectedColor: Theme.of(context).primaryColor,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            leading: const Icon(Icons.group),
+            title: Text(
+              userprofile.uid.toString(),
+              style: const TextStyle(color: Colors.black),
             ),
           ),
           ListTile(
@@ -90,7 +195,7 @@ class CoupleProfileScreen extends ConsumerWidget {
                           ),
                         ),
                         IconButton(
-                          onPressed: () async {
+                          onPressed: () {
                             ref
                                 .watch(authRepositoryProvider)
                                 .logout()
@@ -116,49 +221,6 @@ class CoupleProfileScreen extends ConsumerWidget {
             ),
           )
         ],
-      )),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 170),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(
-              Icons.account_circle,
-              size: 200,
-              color: Colors.grey[700],
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text("Full Name", style: TextStyle(fontSize: 17)),
-                Text("no name", style: TextStyle(fontSize: 17)),
-              ],
-            ),
-            const Divider(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text("Email", style: TextStyle(fontSize: 17)),
-                Text("no email", style: TextStyle(fontSize: 17)),
-              ],
-            ),
-            const Divider(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text("uid Id", style: TextStyle(fontSize: 17)),
-                Text("uid default", style: TextStyle(fontSize: 10)),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }

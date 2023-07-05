@@ -10,6 +10,12 @@ import 'match_model.dart';
 final getUserProfileStreamProvider = StreamProvider<UserModel>((ref) {
   return ref.watch(profileControllerProvider.notifier).getUserProfileStream();
 });
+final getUserProfileStreamByIdProvider =
+    StreamProvider.family((ref, String uid) {
+  return ref
+      .watch(profileControllerProvider.notifier)
+      .getUserProfileStreamById(uid);
+});
 
 final getMatchProcessProvider = StreamProvider<MatchModel>((ref) {
   return ref.watch(profileControllerProvider.notifier).getMatchProcess();
@@ -28,7 +34,6 @@ final coupleIdProvider = StateProvider((ref) {
 final StateNotifierProvider<ProfileController, bool> profileControllerProvider =
     StateNotifierProvider<ProfileController, bool>((ref) {
   final profileRepo = ref.watch(profileRepositoryProvider);
-
   return ProfileController(profileRepo: profileRepo, ref: ref);
 });
 
@@ -44,11 +49,17 @@ class ProfileController extends StateNotifier<bool> {
 
   Stream<UserModel> getUserProfileStream() {
     String uid = _ref.watch(authProvider).currentUser!.uid;
+    print("ProfileController getUserProfileStream $uid");
+    return _profileRepo.getUserProfileStream(uid);
+  }
+
+  Stream<UserModel> getUserProfileStreamById(String uid) {
     return _profileRepo.getUserProfileStream(uid);
   }
 
   void matchProcess() async {
     String uid = _ref.watch(authProvider).currentUser!.uid;
+    await _profileRepo.deleteMatches(_ref.watch(authProvider).currentUser!.uid);
 
     int inthoneycode = Random().nextInt(900000) + 100000;
     await _profileRepo.matchStartProcess(uid, inthoneycode);
@@ -69,6 +80,7 @@ class ProfileController extends StateNotifier<bool> {
   void matchCoupleIdProcessDone(int honeycode) async {
     print("coupleid");
     print(_ref.watch(coupleIdProvider));
+    await _profileRepo.deleteMatches(_ref.watch(authProvider).currentUser!.uid);
     await _profileRepo.matchCoupleIdProcessDone(
         _ref.watch(authProvider).currentUser!.uid,
         _ref.watch(coupleIdProvider),

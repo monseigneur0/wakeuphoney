@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/providers/providers.dart';
@@ -23,6 +24,7 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
 
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
     bool hasMessage = false;
+    final uid = ref.watch(authProvider).currentUser!.uid;
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
@@ -87,7 +89,7 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
                                       .format(listDateTime[index]);
                               ref.read(selectedDateTime.notifier).state =
                                   listDateTime[index];
-                              _update();
+                              _update(uid);
                               _messgaeController.text = message.message;
                             },
                           ),
@@ -113,7 +115,7 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
                                       .format(listDateTime[index]);
                               ref.read(selectedDateTime.notifier).state =
                                   listDateTime[index];
-                              _create();
+                              _create(uid);
                               _messgaeController.clear();
                             },
                           ),
@@ -136,7 +138,7 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  Future<void> _create() async {
+  Future<void> _create(String uid) async {
     await showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -183,8 +185,7 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
                             DateTime.now();
                         ref
                             .watch(dailyControllerProvider.notifier)
-                            .createDailyMessage(
-                                message, "IZZ1HICxZ8ggCiJihcJKow38LPK2");
+                            .createDailyMessage(message, uid);
                         // await _coupleCollection
                         //     .doc("93zTjlpDFqX0AO0TKvIm")
                         //     .collection("dailymessages")
@@ -209,7 +210,7 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
     );
   }
 
-  Future<void> _update() async {
+  Future<void> _update(String uid) async {
     await showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -260,7 +261,7 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
                           "time": DateTime.now(),
                           "messagedate": ref.read(selectedDate),
                           "messagedatetime": ref.read(selectedDateTime),
-                          "uid": "IZZ1HICxZ8ggCiJihcJKow38LPK2"
+                          "uid": uid
                         });
 
                         _messgaeController.clear();

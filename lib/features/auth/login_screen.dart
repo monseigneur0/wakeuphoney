@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakeuphoney/features/auth/auth_controller.dart';
 import 'package:wakeuphoney/practice_home_screen.dart';
 
 import 'auth_repository.dart';
@@ -82,37 +81,8 @@ class LoginHome extends ConsumerWidget {
               const SizedBox(
                 height: 30,
               ),
-              SizedBox(
-                width: 200.0,
-                height: 48.0,
-                child: ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.black,
-                    side: const BorderSide(
-                      width: 3.0,
-                      color: Colors.blue,
-                    ),
-                    backgroundColor: Colors.white,
-                    minimumSize: const Size(double.infinity, 50),
-                  ),
-                  icon: const Image(
-                    image: AssetImage('assets/google.png'),
-                    height: 30,
-                  ),
-                  label: const Text('Google Sign In'),
-                  onPressed: () {
-                    ref
-                        .watch(authControllerProvider.notifier)
-                        .signInWithGoogleUser(context);
-                    context.goNamed(PracticeHome.routeName);
-                  },
-                ),
-              ),
               const SizedBox(
-                height: 30,
-              ),
-              const SizedBox(
-                height: 30,
+                height: 90,
               ),
               ElevatedButton(
                 onPressed: () => context.goNamed(PracticeHome.routeName),

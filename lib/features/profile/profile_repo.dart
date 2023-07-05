@@ -19,15 +19,6 @@ class ProfileRepo {
   CollectionReference get _matches =>
       _firestore.collection(FirebaseConstants.matchCollection);
 
-  Future getUserProfile(String uid) async {
-    await _users.doc(uid).get().then(
-      (value) {
-        return value.data() as UserModel;
-      },
-    );
-    return null;
-  }
-
   Stream<UserModel> getUserProfileStream(String uid) {
     return _users.doc(uid).snapshots().map(
         (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
@@ -110,6 +101,22 @@ class ProfileRepo {
         .then((value) => value.docs.forEach((element) {
               _matches.doc(element.id).delete();
               print(element.id);
+            }));
+  }
+
+  Future deleteMatches(String uid) async {
+    _matches
+        .where("time",
+            isLessThan: DateTime.now().subtract(const Duration(minutes: 10)))
+        .get()
+        .then((value) => value.docs.forEach((element) {
+              _matches.doc(element.id).delete();
+            }));
+    _matches
+        .where("uid", isEqualTo: uid)
+        .get()
+        .then((value) => value.docs.forEach((element) {
+              _matches.doc(element.id).delete();
             }));
   }
 }

@@ -15,21 +15,21 @@ import 'chatapp/screen/home_screen.dart';
 import 'features/dailymessages/daily_screen.dart';
 import 'features/dailymessages/daily_screen2.dart';
 import 'features/profile/couple_profile_screen.dart';
-import 'features/profile/profile_screen.dart';
+import 'features/profile/profile_controller.dart';
+import 'features/profile/match_screen.dart';
 import 'features/auth/auth_repository.dart';
 import 'features/auth/login_screen.dart';
 import 'practice_home_screen.dart';
 
 final routerProvider = Provider((ref) {
+  final hasCoupleId = ref.watch(getUserProfileStreamProvider);
   return GoRouter(
     initialLocation: "/",
     redirect: (context, state) {
       final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
       final loginName =
           ref.watch(authRepositoryProvider).currentUser?.displayName;
-      print('islogged');
-      print(isLoggedIn);
-      print(loginName);
+      print('islogged   $isLoggedIn  $loginName');
       if (!isLoggedIn) {
         if (state.matchedLocation != LoginHome.routeURL) {
           print(LoginHome.routeURL);
@@ -209,6 +209,28 @@ final routerProvider = Provider((ref) {
             name: ProfileScreen.routeName,
             path: ProfileScreen.routeURL,
             builder: (context, state) => const ProfileScreen(),
+            redirect: (context, state) {
+              final hasCoupleIdBool = hasCoupleId.when(
+                data: (data) => data.couples.isNotEmpty,
+                error: (error, stackTrace) {
+                  print("error router  $error ");
+                  return false;
+                },
+                loading: () => false,
+              );
+              print('hasCoupleId $hasCoupleId $hasCoupleIdBool');
+              if (!hasCoupleIdBool) {
+                if (state.matchedLocation != ProfileScreen.routeURL) {
+                  print(ProfileScreen.routeURL);
+                  return ProfileScreen.routeURL;
+                }
+              }
+              if (hasCoupleIdBool) {
+                print("couple exist");
+                return CoupleProfileScreen.routeURL;
+              }
+              return ProfileScreen.routeURL;
+            },
           ),
           GoRoute(
             name: CoupleProfileScreen.routeName,

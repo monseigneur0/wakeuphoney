@@ -14,7 +14,7 @@ import 'core/providers/providers.dart';
 import 'features/couples/couples_list_screen.dart';
 import 'features/dailymessages/daily_screen.dart';
 import 'features/profile/couple_profile_screen.dart';
-import 'features/profile/profile_screen.dart';
+import 'features/profile/match_screen.dart';
 import 'features/auth/auth_repository.dart';
 import 'package:go_router/go_router.dart';
 
@@ -31,6 +31,7 @@ class PracticeHome extends ConsumerWidget {
     final number = ref.watch(numberProvider);
     final numberState = ref.watch(numberStateProvider);
     final valueState = ref.watch(valueStateProvider);
+    final currentUserModel = ref.watch(authRepositoryProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Riverpod Explorer1'),
@@ -38,9 +39,7 @@ class PracticeHome extends ConsumerWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-            child: Text(
-                ref.watch(authRepositoryProvider).currentUser?.displayName ??
-                    "no user"),
+            child: Text(currentUserModel.currentUser?.displayName ?? "no user"),
           )
         ],
       ),
@@ -52,6 +51,7 @@ class PracticeHome extends ConsumerWidget {
               const SizedBox(
                 height: 50,
               ),
+              Text(currentUserModel.currentUser!.email ?? "email"),
               ElevatedButton(
                 style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.amber)),

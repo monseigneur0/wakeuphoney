@@ -58,9 +58,9 @@ class DailyRepository {
             DailyMessageModel.fromMap(event.data() as Map<String, dynamic>));
   }
 
-  Stream<DailyMessageModel> getDailyMessage(String date) {
+  Stream<DailyMessageModel> getDailyMessage(String uid, String date) {
     return _coupleCollection
-        .doc("93zTjlpDFqX0AO0TKvIm")
+        .doc(uid)
         .collection("dailymessages")
         .where("messagedate", isEqualTo: date)
         .limit(1)
