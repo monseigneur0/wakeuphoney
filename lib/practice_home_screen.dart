@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'core/providers/providers.dart';
@@ -13,13 +16,47 @@ import 'package:go_router/go_router.dart';
 import 'features/alarm/alarm_screen.dart';
 import 'features/auth/login_screen.dart';
 
-class PracticeHome extends ConsumerWidget {
+class PracticeHome extends ConsumerStatefulWidget {
   static String routeName = "practice";
   static String routeURL = "/";
+
   const PracticeHome({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _PracticeHomeState();
+}
+
+class _PracticeHomeState extends ConsumerState<PracticeHome> {
+  // final String iOSTestId = 'ca-app-pub-5897230132206634/3120978311';
+  final String iOSTestId = 'ca-app-pub-3940256099942544/2934735716';
+  final String androidTestId = 'ca-app-pub-3940256099942544/6300978111';
+
+  BannerAd? _bannerAd;
+
+  @override
+  void initState() {
+    super.initState();
+
+    BannerAd(
+      size: AdSize.banner,
+      adUnitId: Platform.isIOS ? iOSTestId : androidTestId,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print('Failed to load a banner ad: ${err.message}');
+          ad.dispose();
+        },
+      ),
+      request: const AdRequest(),
+    ).load();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final number = ref.watch(numberProvider);
     final numberState = ref.watch(numberStateProvider);
     final currentUserModel = ref.watch(authRepositoryProvider);
@@ -128,6 +165,15 @@ class PracticeHome extends ConsumerWidget {
               const Text('numberStateProvider'),
               Text(numberState.toString()),
               const Text('valueStateProvider'),
+              if (_bannerAd != null)
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: SizedBox(
+                    width: _bannerAd!.size.width.toDouble(),
+                    height: _bannerAd!.size.height.toDouble(),
+                    child: AdWidget(ad: _bannerAd!),
+                  ),
+                ),
             ],
           ),
         ],
