@@ -8,6 +8,7 @@ import 'package:wakeuphoney/core/utils.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 
 import '../../core/common/loader.dart';
+import 'match_controller.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   static String routeName = "profilescreen";
@@ -153,17 +154,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 .watch(checkMatchProcessProvider(honeyCode))
                                 .when(
                                   data: (data) => ref
-                                      .watch(coupleIdProvider.notifier)
+                                      .watch(coupleIdStateProvider.notifier)
                                       .state = data.uid,
                                   error: (error, stackTrace) {
                                     print("error$error ");
                                   },
                                   loading: () => const Loader(),
                                 );
-                            ref.watch(getMatchProcessProvider);
                             _honeyCodeController.clear();
                             ref
-                                .watch(profileControllerProvider.notifier)
+                                .watch(matchConrollerProvider.notifier)
                                 .matchCoupleIdProcessDone(honeyCode);
                           } else {
                             showSnackBar(context, "no matching honey");
@@ -189,7 +189,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         onceClickedMatch2
                             ? null
                             : ref
-                                .watch(profileControllerProvider.notifier)
+                                .watch(matchConrollerProvider.notifier)
                                 .matchProcess();
                         onceClickedMatch2
                             ? totalSeconds = leftTime
@@ -207,10 +207,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               child: Column(
                 children: [
                   Text(
-                    ref.watch(getMatchProcessProvider).when(
+                    ref.watch(getMatchCodeViewProvider).when(
                           data: (data) => (data.vertifynumber.toString()),
                           error: (error, stackTrace) {
-                            print("error getMatchProcessProvider   $error ");
+                            print("error getMatchCodeViewProvider   $error ");
                             return "error ";
                           },
                           loading: () => "const Loader()",
@@ -218,11 +218,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     style: const TextStyle(fontSize: 50),
                   ),
                   // Text(
-                  //   ref.watch(getMatchProcessProvider).when(
+                  //   ref.watch(getMatchCodeViewProvider).when(
                   //         data: (data) => (data.time.toString()),
                   //         error: (error, stackTrace) {
                   //           print(
-                  //               "error getMatchProcessProvider   $error ");
+                  //               "error getMatchCodeViewProvider   $error ");
                   //           return "error ";
                   //         },
                   //         loading: () => "const Loader()",

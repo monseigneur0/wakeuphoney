@@ -28,12 +28,11 @@ class DailyController extends StateNotifier<bool> {
 
   Stream<DailyMessageModel> getDailyMessage(String date) {
     final uid = _ref.watch(authProvider).currentUser!.uid;
-    return _dailyRepository.getDailyMessage(uid, date);
+    return _dailyRepository.getDailyMessage(uid, date, "messages");
   }
 
   void createDailyMessage(message, uid) async {
-    await _dailyRepository.createDailyMessage(
-        message, _ref.watch(selectedDate), _ref.watch(selectedDateTime), uid);
-    // res.fold((l)=> showSnackBar(context, l.message))
+    await _dailyRepository.createDailyMessage(message, _ref.watch(selectedDate),
+        _ref.watch(selectedDateTime), "messages", uid);
   }
 }

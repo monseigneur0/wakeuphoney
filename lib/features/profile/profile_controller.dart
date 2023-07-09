@@ -1,11 +1,9 @@
-import 'dart:math';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/auth/user_model.dart';
 import 'package:wakeuphoney/features/profile/profile_repo.dart';
 
-import 'match_model.dart';
+import '../auth/auth_controller.dart';
 
 final getUserProfileStreamProvider = StreamProvider<UserModel>((ref) {
   return ref.watch(profileControllerProvider.notifier).getUserProfileStream();
@@ -17,18 +15,18 @@ final getUserProfileStreamByIdProvider =
       .getUserProfileStreamById(uid);
 });
 
-final getMatchProcessProvider = StreamProvider<MatchModel>((ref) {
-  return ref.watch(profileControllerProvider.notifier).getMatchProcess();
-});
-
-final checkMatchProcessProvider = StreamProvider.family((ref, int honeyCode) {
-  return ref
-      .watch(profileControllerProvider.notifier)
-      .checkMatchProcess(honeyCode);
-});
-
 final coupleIdProvider = StateProvider((ref) {
-  return "coupleid";
+  return ref.watch(profileControllerProvider.notifier).getCoupleUidWow();
+});
+
+final coupleIdStateProvider = StateProvider((ref) {
+  var gogogo = ref.watch(profileControllerProvider.notifier).getCoupleUid();
+  return gogogo;
+});
+
+final coupleIdFutureProvider = FutureProvider((ref) {
+  var gogogo = ref.watch(profileControllerProvider.notifier).getCoupleUid();
+  return gogogo;
 });
 
 final StateNotifierProvider<ProfileController, bool> profileControllerProvider =
@@ -57,33 +55,24 @@ class ProfileController extends StateNotifier<bool> {
     return _profileRepo.getUserProfileStream(uid);
   }
 
-  void matchProcess() async {
+  getCoupleUid() {
     String uid = _ref.watch(authProvider).currentUser!.uid;
-    await _profileRepo.deleteMatches(_ref.watch(authProvider).currentUser!.uid);
-
-    int inthoneycode = Random().nextInt(900000) + 100000;
-    await _profileRepo.matchStartProcess(uid, inthoneycode);
+    var ghghgh = _profileRepo.getCoupleUid(uid);
+    return ghghgh;
   }
 
-  Stream<MatchModel> getMatchProcess() {
+  getCoupleUidWow() {
     String uid = _ref.watch(authProvider).currentUser!.uid;
-    // String useruid = _ref.watch(userModelProvider)!.uid;
-    // print(useruid);
-    return _profileRepo.getMatchStartProcess(uid);
-    //_ref.watch(userProvider)!.uid is null, why?
-  }
 
-  Stream<MatchModel> checkMatchProcess(int honeyCode) {
-    return _profileRepo.checkMatchProcess(honeyCode);
-  }
-
-  void matchCoupleIdProcessDone(int honeycode) async {
-    print("coupleid");
-    print(_ref.watch(coupleIdProvider));
-    await _profileRepo.deleteMatches(_ref.watch(authProvider).currentUser!.uid);
-    await _profileRepo.matchCoupleIdProcessDone(
-        _ref.watch(authProvider).currentUser!.uid,
-        _ref.watch(coupleIdProvider),
-        honeycode);
+    return _ref.watch(getUserDataProvider(uid)).when(
+        data: (data) {
+          _ref.watch(coupleIdProvider.notifier).state = data.couple;
+          return data.couple;
+        },
+        error: (error, stackTrace) {
+          return "error getUserDataProvider ${_ref.watch(coupleIdProvider)}";
+        },
+        loading: () =>
+            "loading getUserDataProvider ${_ref.watch(coupleIdProvider)}");
   }
 }

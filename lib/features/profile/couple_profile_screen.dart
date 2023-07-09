@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -96,6 +97,14 @@ class CoupleProfileScreen extends ConsumerWidget {
                 // Text(userProvideruid.hasValue ? "hasValue" : "no val"),
               ],
             ),
+            Text(ref.watch(coupleIdStateProvider).toString()),
+            Text(ref.watch(coupleIdFutureProvider).when(
+                  data: (data) => data["couple"],
+                  error: (error, stackTrace) {
+                    return "error$error ";
+                  },
+                  loading: () => "const Loader()",
+                ))
           ],
         ),
       ),
@@ -219,7 +228,39 @@ class ProfileDrawer extends StatelessWidget {
               "Logout",
               style: TextStyle(color: Colors.black),
             ),
-          )
+          ),
+          ElevatedButton(
+            onPressed: () {
+              showCupertinoDialog(
+                context: context,
+                builder: (context) => CupertinoAlertDialog(
+                  title: const Text("Are you sure?"),
+                  content: const Text("Plx dont go"),
+                  actions: [
+                    CupertinoDialogAction(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text("No"),
+                    ),
+                    CupertinoDialogAction(
+                      onPressed: () {
+                        ref
+                            .watch(authRepositoryProvider)
+                            .logout()
+                            .then(
+                                (value) => context.goNamed(AlarmHome.routeName))
+                            .then((value) => Navigator.of(context).pop());
+                      },
+                      isDestructiveAction: true,
+                      child: const Text("Yes"),
+                    ),
+                  ],
+                ),
+              );
+            },
+            style: const ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(Colors.black)),
+            child: const Text('logout check'),
+          ),
         ],
       ),
     );

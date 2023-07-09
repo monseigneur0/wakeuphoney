@@ -10,6 +10,9 @@ import '../dailymessages/daily_controller.dart';
 
 class AlarmRingScreen extends ConsumerWidget {
   final AlarmSettings alarmSettings;
+
+  static String routeName = "alarmring";
+  static String routeURL = "/alarmring";
   const AlarmRingScreen({
     super.key,
     required this.alarmSettings,
@@ -31,15 +34,19 @@ class AlarmRingScreen extends ConsumerWidget {
             ),
             ref.watch(getDailyMessageProvider(dateList100[0])).when(
                   data: (message) {
-                    return Text(
-                        "${DateFormat.yMMMd().format(listDateTime[0])}     ${message.message}");
+                    return Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                        "${DateFormat.yMMMd().format(listDateTime[0])}     ${message.message}",
+                        style: const TextStyle(fontSize: 30),
+                      ),
+                    );
                   },
                   error: (error, stackTrace) {
                     print("error");
 
                     return ErrorText(
-                        error:
-                            "${DateFormat.yMMMd().format(listDateTime[0])}                              ");
+                        error: DateFormat.yMMMd().format(listDateTime[0]));
                   },
                   loading: () => const Loader(),
                 ),

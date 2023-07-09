@@ -3,10 +3,10 @@ import 'package:intl/intl.dart';
 
 //survive
 final numberProvider = Provider<int>((ref) {
-  return 22;
+  return 1;
 });
 final numberStateProvider = StateProvider<int>((ref) {
-  return 42;
+  return 1;
 });
 final navStateProvider = StateProvider<int>((ref) {
   return 0;

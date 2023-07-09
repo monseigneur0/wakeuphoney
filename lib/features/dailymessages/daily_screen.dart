@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakeuphoney/features/dailymessages/daily_repo.dart';
 
 import '../../core/providers/providers.dart';
 import 'daily_message_tile.dart';
@@ -26,13 +25,7 @@ class DailyMessageScreenState extends ConsumerState<DailyMessageScreen> {
     super.initState();
   }
 
-  getChatandAdmin() {
-    DailyRepository().getDailyMessages("93zTjlpDFqX0AO0TKvIm").then((val) {
-      setState(() {
-        thedaymessage = val;
-      });
-    });
-  }
+  getChatandAdmin() {}
 
   @override
   Widget build(BuildContext context) {

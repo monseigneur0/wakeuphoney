@@ -1,20 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakeuphoney/chatapp/screen/auth/login_screen.dart';
-import 'package:wakeuphoney/providertutorial/providerscreen/changenotifierprovider.dart';
-import 'package:wakeuphoney/providertutorial/providerscreen/futureprovider.dart';
-import 'package:wakeuphoney/providertutorial/providerscreen/provider.dart';
-import 'package:wakeuphoney/providertutorial/providerscreen/state_provider.dart';
-import 'package:wakeuphoney/providertutorial/providerscreen/statenodifierprovider.dart';
-import 'package:wakeuphoney/providertutorial/providerscreen/streamprovider.dart';
 
-import 'chatapp/screen/home_screen.dart';
 import 'core/providers/providers.dart';
 import 'features/couples/couples_list_screen.dart';
 import 'features/dailymessages/daily_screen.dart';
 import 'features/profile/couple_profile_screen.dart';
-import 'features/profile/match_screen.dart';
+import 'features/match/match_screen.dart';
 import 'features/auth/auth_repository.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,7 +22,6 @@ class PracticeHome extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final number = ref.watch(numberProvider);
     final numberState = ref.watch(numberStateProvider);
-    final valueState = ref.watch(valueStateProvider);
     final currentUserModel = ref.watch(authRepositoryProvider);
     return Scaffold(
       appBar: AppBar(
@@ -52,18 +43,6 @@ class PracticeHome extends ConsumerWidget {
                 height: 50,
               ),
               Text(currentUserModel.currentUser!.email ?? "email"),
-              ElevatedButton(
-                style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.amber)),
-                onPressed: () => context.pushNamed(MyChatApp.routeName),
-                child: const Text('MyChatApp'),
-              ),
-              ElevatedButton(
-                style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.amber)),
-                onPressed: () => context.pushNamed(LoginScreen.routeName),
-                child: const Text('chatlogin'),
-              ),
               ElevatedButton(
                 style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.amber)),
@@ -149,73 +128,6 @@ class PracticeHome extends ConsumerWidget {
               const Text('numberStateProvider'),
               Text(numberState.toString()),
               const Text('valueStateProvider'),
-              Text(valueState.toString()),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ProviderPage(),
-                    ),
-                  );
-                },
-                child: const Text('Provider'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const StateProviderPage(),
-                    ),
-                  );
-                },
-                child: const Text('StateProviderPage'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const FutureProviderPage(),
-                    ),
-                  );
-                },
-                child: const Text('FutureProvider'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const StreamProviderPage(),
-                    ),
-                  );
-                },
-                child: const Text('StreamProvider'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ChangeNotifierProviderPage(),
-                    ),
-                  );
-                },
-                child: const Text('ChangeNotifierProvider'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const StateNotifierProviderPage(),
-                    ),
-                  );
-                },
-                child: const Text('StateNotifierProvider'),
-              ),
             ],
           ),
         ],

@@ -8,8 +8,11 @@ import '../../widgets/alarm_tile.dart';
 import 'alarm_edit_screen.dart';
 import 'alarm_ring_screen.dart';
 
-final alarmSettingsProvider =
-    StateProvider<List<AlarmSettings>>((ref) => <AlarmSettings>[]);
+final alarmSettingsProvider = StateProvider<AlarmSettings>((ref) =>
+    AlarmSettings(
+        id: 112,
+        dateTime: DateTime.now(),
+        assetAudioPath: 'assets/mozart.mp3'));
 
 class AlarmHome extends ConsumerStatefulWidget {
   static String routeName = "alarm";
@@ -47,6 +50,14 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
         ));
     loadAlarms();
   }
+  // Future<void> navigateToRingScreen(AlarmSettings alarmSettings) async {
+  //   await Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
+  //       ));
+  //   loadAlarms();
+  // }
 
   Future<void> navigateToAlarmScreen(AlarmSettings? settings) async {
     final res = await showModalBottomSheet<bool?>(

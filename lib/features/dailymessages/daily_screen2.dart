@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:wakeuphoney/core/constants/firebase_constants.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/providers/providers.dart';
+import '../../core/utils.dart';
 import '../dailymessages/daily_controller.dart';
 
 class DailyMessage2Screen extends ConsumerStatefulWidget {
@@ -19,16 +21,24 @@ class DailyMessage2Screen extends ConsumerStatefulWidget {
 
 class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final dateList100 = ref.watch(dateStateProvider);
 
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
     bool hasMessage = false;
     final uid = ref.watch(authProvider).currentUser!.uid;
+
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
-        title: const Text('hello255 i will win!!'),
+        title: const Text('wake up letters'),
+        actions: const [],
       ),
       body: Column(
         children: [
@@ -76,13 +86,21 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
                             ),
-                            title: Text(
-                              message.message,
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 25),
+                            title: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 10),
+                              child: Text(
+                                message.message,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 30),
+                              ),
                             ),
-                            subtitle: Text(
-                                DateFormat.MMMd().format(listDateTime[index])),
+                            subtitle: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 10),
+                              child: Text(DateFormat.MMMd()
+                                  .format(listDateTime[index])),
+                            ),
                             onTap: () {
                               ref.read(selectedDate.notifier).state =
                                   DateFormat.yMMMd()
@@ -107,8 +125,11 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
                             ),
-                            title: Text(
-                                DateFormat.MMMd().format(listDateTime[index])),
+                            title: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text(DateFormat.MMMd()
+                                  .format(listDateTime[index])),
+                            ),
                             onTap: () {
                               ref.read(selectedDate.notifier).state =
                                   DateFormat.yMMMd()
@@ -133,8 +154,8 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
 
   final TextEditingController _messgaeController = TextEditingController();
 
-  final CollectionReference _coupleCollection =
-      FirebaseFirestore.instance.collection('couples');
+  final CollectionReference _userCollection =
+      FirebaseFirestore.instance.collection(FirebaseConstants.usersCollection);
 
   final _formKey = GlobalKey<FormState>();
 
@@ -177,15 +198,33 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
                     child: const Text('Save'),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("message is saved")));
+                        showSnackBar(context, "messgae is saved");
                         Navigator.of(context).pop();
                         final String message = _messgaeController.text;
                         ref.watch(selectedDateTime.notifier).state =
                             DateTime.now();
+                        //메세지 작성
                         ref
                             .watch(dailyControllerProvider.notifier)
                             .createDailyMessage(message, uid);
+                        CollectionReference users = FirebaseFirestore.instance
+                            .collection(FirebaseConstants.usersCollection);
+                        var documentSnapshotCoupleId =
+                            await users.doc(uid).get();
+                        var donf = documentSnapshotCoupleId.data()
+                            as Map<String, dynamic>;
+                        print(donf["couple"]);
+                        print(documentSnapshotCoupleId.get("couple"));
+                        // await _userCollection
+                        //     .doc(uid)
+                        //     .collection("4NQ4WxUEvCet83iVoOLYKNbx8QG2")
+                        //     .add({
+                        //   "message": message,
+                        //   "time": DateTime.now(),
+                        //   "messagedate": ref.read(selectedDate),
+                        //   "messagedatetime": ref.watch(selectedDateTime),
+                        //   "uid": uid,
+                        // });
                         // await _coupleCollection
                         //     .doc("93zTjlpDFqX0AO0TKvIm")
                         //     .collection("dailymessages")
@@ -253,16 +292,16 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text("message is edited")));
                         final String message = _messgaeController.text;
-                        await _coupleCollection
-                            .doc("93zTjlpDFqX0AO0TKvIm")
-                            .collection("dailymessages")
-                            .add({
-                          "message": message,
-                          "time": DateTime.now(),
-                          "messagedate": ref.read(selectedDate),
-                          "messagedatetime": ref.read(selectedDateTime),
-                          "uid": uid
-                        });
+                        // await _coupleCollection
+                        //     .doc("93zTjlpDFqX0AO0TKvIm")
+                        //     .collection("dailymessages")
+                        //     .add({
+                        //   "message": message,
+                        //   "time": DateTime.now(),
+                        //   "messagedate": ref.read(selectedDate),
+                        //   "messagedatetime": ref.read(selectedDateTime),
+                        //   "uid": uid
+                        // });
 
                         _messgaeController.clear();
                         Navigator.of(context).pop();

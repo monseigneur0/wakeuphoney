@@ -1,30 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakeuphoney/chatapp/screen/auth/login_screen.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 import 'package:wakeuphoney/features/couples/couples_list_screen.dart';
-import 'package:wakeuphoney/providertutorial/providerscreen/changenotifierprovider.dart';
-import 'package:wakeuphoney/providertutorial/providerscreen/futureprovider.dart';
-import 'package:wakeuphoney/providertutorial/providerscreen/provider.dart';
-import 'package:wakeuphoney/providertutorial/providerscreen/state_provider.dart';
-import 'package:wakeuphoney/providertutorial/providerscreen/statenodifierprovider.dart';
-import 'package:wakeuphoney/providertutorial/providerscreen/streamprovider.dart';
 
-import 'chatapp/screen/home_screen.dart';
+import 'features/alarm/alarm_ring_screen.dart';
 import 'features/dailymessages/daily_screen.dart';
 import 'features/dailymessages/daily_screen2.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/profile/profile_controller.dart';
-import 'features/profile/match_screen.dart';
+import 'features/match/match_screen.dart';
 import 'features/auth/auth_repository.dart';
 import 'features/auth/login_screen.dart';
 import 'practice_home_screen.dart';
 
 final routerProvider = Provider((ref) {
   final hasCoupleId = ref.watch(getUserProfileStreamProvider);
+  final alarmSettings = ref.watch(alarmSettingsProvider);
   return GoRouter(
-    initialLocation: "/",
+    initialLocation: "/messages5",
     redirect: (context, state) {
       final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
       final loginName =
@@ -93,7 +87,6 @@ final routerProvider = Provider((ref) {
                       size: 33,
                     ),
                   ),
-
                   IconButton(
                     onPressed: () =>
                         context.goNamed(DailyMessage2Screen.routeName),
@@ -103,7 +96,6 @@ final routerProvider = Provider((ref) {
                       size: 33,
                     ),
                   ),
-
                   IconButton(
                     onPressed: () => context.goNamed(PracticeHome.routeName),
                     icon: const Icon(
@@ -112,7 +104,6 @@ final routerProvider = Provider((ref) {
                       size: 33,
                     ),
                   ),
-
                   IconButton(
                     onPressed: () => context.goNamed(ProfileScreen.routeName),
                     icon: const Icon(
@@ -121,17 +112,6 @@ final routerProvider = Provider((ref) {
                       size: 33,
                     ),
                   ),
-
-                  // IconButton(
-                  //   onPressed: () {
-                  //     context.go("/home");
-                  //   },
-                  //   icon: const Icon(
-                  //     Icons.home,
-                  //     color: Colors.white,
-                  //     size: 33,
-                  //   ),
-                  // ),
                 ],
               ),
             ),
@@ -161,34 +141,10 @@ final routerProvider = Provider((ref) {
             ),
           ),
           GoRoute(
-            name: ProviderPage.routeName,
-            path: ProviderPage.routeURL,
-            builder: (context, state) => const ProviderPage(),
-          ),
-          GoRoute(
-            name: StateProviderPage.routeName,
-            path: StateProviderPage.routeURL,
-            builder: (context, state) => const StateProviderPage(),
-          ),
-          GoRoute(
-            name: FutureProviderPage.routeName,
-            path: FutureProviderPage.routeURL,
-            builder: (context, state) => const FutureProviderPage(),
-          ),
-          GoRoute(
-            name: StreamProviderPage.routeName,
-            path: StreamProviderPage.routeURL,
-            builder: (context, state) => const StreamProviderPage(),
-          ),
-          GoRoute(
-            name: ChangeNotifierProviderPage.routeName,
-            path: ChangeNotifierProviderPage.routeURL,
-            builder: (context, state) => const ChangeNotifierProviderPage(),
-          ),
-          GoRoute(
-            name: StateNotifierProviderPage.routeName,
-            path: StateNotifierProviderPage.routeURL,
-            builder: (context, state) => const StateNotifierProviderPage(),
+            name: AlarmRingScreen.routeName,
+            path: AlarmRingScreen.routeURL,
+            builder: (context, state) =>
+                AlarmRingScreen(alarmSettings: alarmSettings),
           ),
           GoRoute(
             name: CouplesListScreen.routeName,
@@ -236,16 +192,6 @@ final routerProvider = Provider((ref) {
             name: CoupleProfileScreen.routeName,
             path: CoupleProfileScreen.routeURL,
             builder: (context, state) => const CoupleProfileScreen(),
-          ),
-          GoRoute(
-            name: MyChatApp.routeName,
-            path: MyChatApp.routeURL,
-            builder: (context, state) => const MyChatApp(),
-          ),
-          GoRoute(
-            name: LoginScreen.routeName,
-            path: LoginScreen.routeURL,
-            builder: (context, state) => const LoginScreen(),
           ),
         ],
       )
