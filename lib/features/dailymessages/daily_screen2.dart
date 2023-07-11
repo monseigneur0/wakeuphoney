@@ -1,14 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:wakeuphoney/core/constants/firebase_constants.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/providers/providers.dart';
 import '../../core/utils.dart';
 import '../dailymessages/daily_controller.dart';
+import 'daily_screen.dart';
 
 class DailyMessage2Screen extends ConsumerStatefulWidget {
   static String routeName = "messages5";
@@ -20,10 +21,33 @@ class DailyMessage2Screen extends ConsumerStatefulWidget {
 }
 
 class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
+  final String iOSTestId = 'ca-app-pub-5897230132206634/3120978311';
+  final String androidTestId = 'ca-app-pub-3940256099942544/6300978111';
+
+  BannerAd? _bannerAd;
+
+  List item = [];
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
+    // BannerAd(
+    //   size: AdSize.banner,
+    //   adUnitId: Platform.isIOS ? iOSTestId : androidTestId,
+    //   listener: BannerAdListener(
+    //     onAdLoaded: (ad) {
+    //       setState(() {
+    //         _bannerAd = ad as BannerAd;
+    //       });
+    //     },
+    //     onAdFailedToLoad: (ad, err) {
+    //       print('Failed to load a banner ad: ${err.message}');
+    //       ad.dispose();
+    //     },
+    //   ),
+    //   request: const AdRequest(),
+    // ).load();
   }
 
   @override
@@ -35,40 +59,23 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
     final uid = ref.watch(authProvider).currentUser!.uid;
 
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text('wake up letters'),
-        actions: const [],
+        actions: [
+          IconButton(
+              onPressed: () {
+                context.pushNamed(DailyMessageScreen.routeName);
+              },
+              icon: const Icon(Icons.connecting_airports_outlined))
+        ],
+        backgroundColor: const Color(0xFFD72499),
       ),
       body: Column(
         children: [
           const SizedBox(
             height: 20,
           ),
-          // works well!!!
-          // FutureBuilder(
-          //     future: _coupleCollection
-          //         .doc("93zTjlpDFqX0AO0TKvIm")
-          //         .collection("dailymessages")
-          //         .doc("Ah5amy72ZlzIwCLYhiiH")
-          //         .get()
-          //         .then((value) => value.data().toString()),
-          //     builder: (context, snapshot) {
-          //       // 해당 부분은 data를 아직 받아 오지 못했을 때 실행되는 부분
-          //       if (snapshot.hasData == false) {
-          //         return const CircularProgressIndicator(); // CircularProgressIndicator : 로딩 에니메이션
-          //       }
-
-          //       // error가 발생하게 될 경우 반환하게 되는 부분
-          //       else if (snapshot.hasError) {
-          //         return Text('Error: ${snapshot.error}'); // 에러명을 텍스트에 뿌려줌
-          //       }
-
-          //       // 데이터를 정상적으로 받아오게 되면 다음 부분을 실행하게 되는 부분
-          //       else {
-          //         return Text(snapshot.data.toString());
-          //       }
-          //     }),
           Expanded(
             child: ListView.builder(
               itemCount: listDateTime.length,
@@ -81,7 +88,7 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 25),
                           child: ListTile(
-                            tileColor: Colors.grey[600],
+                            tileColor: Colors.grey[800],
                             shape: const RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
@@ -98,15 +105,14 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
                             subtitle: Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 10),
-                              child: Text(DateFormat.MMMd()
-                                  .format(listDateTime[index])),
+                              child: Text(
+                                DateFormat.MMMd().format(listDateTime[index]),
+                              ),
                             ),
                             onTap: () {
                               ref.read(selectedDate.notifier).state =
                                   DateFormat.yMMMd()
                                       .format(listDateTime[index]);
-                              ref.read(selectedDateTime.notifier).state =
-                                  listDateTime[index];
                               _update(uid);
                               _messgaeController.text = message.message;
                             },
@@ -126,7 +132,8 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
                                   BorderRadius.all(Radius.circular(20)),
                             ),
                             title: Padding(
-                              padding: const EdgeInsets.all(5.0),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 35),
                               child: Text(DateFormat.MMMd()
                                   .format(listDateTime[index])),
                             ),
@@ -135,7 +142,9 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
                                   DateFormat.yMMMd()
                                       .format(listDateTime[index]);
                               ref.read(selectedDateTime.notifier).state =
-                                  listDateTime[index];
+                                  DateTime.now().add(
+                                Duration(days: index),
+                              );
                               _create(uid);
                               _messgaeController.clear();
                             },
@@ -149,13 +158,31 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
           ),
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            // if (_bannerAd != null)
+            //   Align(
+            //     alignment: Alignment.bottomCenter,
+            //     child: SizedBox(
+            //       width: _bannerAd!.size.width.toDouble(),
+            //       height: _bannerAd!.size.height.toDouble(),
+            //       child: AdWidget(ad: _bannerAd!),
+            //     ),
+            //   ),
+          ],
+        ),
+      ),
     );
   }
 
   final TextEditingController _messgaeController = TextEditingController();
 
-  final CollectionReference _userCollection =
-      FirebaseFirestore.instance.collection(FirebaseConstants.usersCollection);
+  // final CollectionReference _userCollection =
+  //     FirebaseFirestore.instance.collection(FirebaseConstants.usersCollection);
 
   final _formKey = GlobalKey<FormState>();
 
@@ -201,40 +228,11 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
                         showSnackBar(context, "messgae is saved");
                         Navigator.of(context).pop();
                         final String message = _messgaeController.text;
-                        ref.watch(selectedDateTime.notifier).state =
-                            DateTime.now();
+
                         //메세지 작성
                         ref
                             .watch(dailyControllerProvider.notifier)
-                            .createDailyMessage(message, uid);
-                        CollectionReference users = FirebaseFirestore.instance
-                            .collection(FirebaseConstants.usersCollection);
-                        var documentSnapshotCoupleId =
-                            await users.doc(uid).get();
-                        var donf = documentSnapshotCoupleId.data()
-                            as Map<String, dynamic>;
-                        print(donf["couple"]);
-                        print(documentSnapshotCoupleId.get("couple"));
-                        // await _userCollection
-                        //     .doc(uid)
-                        //     .collection("4NQ4WxUEvCet83iVoOLYKNbx8QG2")
-                        //     .add({
-                        //   "message": message,
-                        //   "time": DateTime.now(),
-                        //   "messagedate": ref.read(selectedDate),
-                        //   "messagedatetime": ref.watch(selectedDateTime),
-                        //   "uid": uid,
-                        // });
-                        // await _coupleCollection
-                        //     .doc("93zTjlpDFqX0AO0TKvIm")
-                        //     .collection("dailymessages")
-                        //     .add({
-                        //   "message": message,
-                        //   "time": DateTime.now(),
-                        //   "messagedate": ref.read(selectedDate),
-                        //   "messagedatetime": ref.watch(selectedDateTime),
-                        //   "uid": "IZZ1HICxZ8ggCiJihcJKow38LPK2",
-                        // });
+                            .createDailyMessage(message);
                       }
 
                       _messgaeController.clear();
@@ -292,16 +290,9 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text("message is edited")));
                         final String message = _messgaeController.text;
-                        // await _coupleCollection
-                        //     .doc("93zTjlpDFqX0AO0TKvIm")
-                        //     .collection("dailymessages")
-                        //     .add({
-                        //   "message": message,
-                        //   "time": DateTime.now(),
-                        //   "messagedate": ref.read(selectedDate),
-                        //   "messagedatetime": ref.read(selectedDateTime),
-                        //   "uid": uid
-                        // });
+                        ref
+                            .watch(dailyControllerProvider.notifier)
+                            .updateDailyMessage(message, uid);
 
                         _messgaeController.clear();
                         Navigator.of(context).pop();

@@ -26,22 +26,47 @@ class DailyRepository {
             .first);
   }
 
-  FutureVoid createDailyMessage(String message, String selectedDate,
-      DateTime selectedDateTime, String coupleId, String uid) async {
+  FutureVoid createDailyMessage(
+      DailyMessageModel dailyMessageModel, String uid) async {
     try {
       return right(
-        _usersCollection.doc(uid).collection(coupleId).add({
-          "message": message,
-          "time": DateTime.now(),
-          "messagedate": selectedDate,
-          "messagedatetime": selectedDateTime,
-          "uid": uid,
-        }),
+        _usersCollection
+            .doc(uid)
+            .collection("messages")
+            .add(dailyMessageModel.toMap()),
       );
     } on FirebaseException catch (e) {
       throw e.message!;
     } catch (e) {
       return left(Failure(e.toString()));
     }
+  }
+
+  Stream<List<DailyMessageModel>> getDailyMessageList(String uid) {
+    return _usersCollection.doc(uid).collection("messages").snapshots().map(
+        (event) =>
+            event.docs.map((e) => DailyMessageModel.fromMap(e.data())).toList()
+              ..sort((a, b) => a.messagedatetime.compareTo(b.messagedatetime)));
+  }
+
+  updateDailyMessage(String message, String selectedDate, String uid) async {
+    await _usersCollection
+        .doc(uid)
+        .collection("messages")
+        .where("messagedate", isEqualTo: selectedDate)
+        .get()
+        .then((value) => _usersCollection
+            .doc(uid)
+            .collection("messages")
+            .doc(value.docs.first.id)
+            .update({"message": message}));
+  }
+
+  createResponseMessage(
+      DailyMessageModel messagehere, String uid, String coupleUid) async {
+    await _usersCollection
+        .doc(coupleUid)
+        .collection("messages")
+        .add(messagehere.toMap());
   }
 }

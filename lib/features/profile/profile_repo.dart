@@ -33,4 +33,9 @@ class ProfileRepo {
     var documentSnapshotCoupleId = await _users.doc(uid).get();
     return documentSnapshotCoupleId.data();
   }
+
+  getCoupleUidFuture(String uid) async {
+    var documentSnapshotCoupleId = await _users.doc(uid).get();
+    return documentSnapshotCoupleId.data();
+  }
 }

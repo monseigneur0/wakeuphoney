@@ -3,13 +3,22 @@ class DailyMessageModel {
   final String messagedate;
   final DateTime messagedatetime;
   final DateTime time;
-  final String uid;
+  final String sender;
+  final String reciver;
+  final String photo;
+  final String audio;
+  final String video;
+
   DailyMessageModel({
     required this.message,
     required this.messagedate,
     required this.messagedatetime,
     required this.time,
-    required this.uid,
+    required this.sender,
+    required this.reciver,
+    required this.photo,
+    required this.audio,
+    required this.video,
   });
 
   DailyMessageModel copyWith({
@@ -17,14 +26,22 @@ class DailyMessageModel {
     String? messagedate,
     DateTime? messagedatetime,
     DateTime? time,
-    String? uid,
+    String? sender,
+    String? reciver,
+    String? photo,
+    String? audio,
+    String? video,
   }) {
     return DailyMessageModel(
       message: message ?? this.message,
       messagedate: messagedate ?? this.messagedate,
       messagedatetime: messagedatetime ?? this.messagedatetime,
       time: time ?? this.time,
-      uid: uid ?? this.uid,
+      sender: sender ?? this.sender,
+      reciver: reciver ?? this.reciver,
+      photo: photo ?? this.photo,
+      audio: audio ?? this.audio,
+      video: video ?? this.video,
     );
   }
 
@@ -32,9 +49,13 @@ class DailyMessageModel {
     return <String, dynamic>{
       'message': message,
       'messagedate': messagedate,
-      'messagedatetime': messagedatetime.millisecondsSinceEpoch,
-      'time': time.millisecondsSinceEpoch,
-      'uid': uid,
+      'messagedatetime': messagedatetime,
+      'time': time,
+      'sender': sender,
+      'reciver': reciver,
+      'photo': photo,
+      'audio': audio,
+      'video': video,
     };
   }
 
@@ -46,13 +67,17 @@ class DailyMessageModel {
           map['messagedatetime'].millisecondsSinceEpoch),
       time: DateTime.fromMillisecondsSinceEpoch(
           map['time'].millisecondsSinceEpoch),
-      uid: map['uid'] as String,
+      sender: map['sender'] as String,
+      reciver: map['reciver'] as String,
+      photo: map['photo'] as String,
+      audio: map['audio'] as String,
+      video: map['video'] as String,
     );
   }
 
   @override
   String toString() {
-    return 'DailyMessageModel(message: $message, messagedate: $messagedate, messagedatetime: $messagedatetime, time: $time, uid: $uid)';
+    return 'DailyMessageModel(message: $message, messagedate: $messagedate, messagedatetime: $messagedatetime, time: $time, sender: $sender, reciver: $reciver, photo: $photo, audio: $audio, video: $video)';
   }
 
   @override
@@ -63,7 +88,11 @@ class DailyMessageModel {
         other.messagedate == messagedate &&
         other.messagedatetime == messagedatetime &&
         other.time == time &&
-        other.uid == uid;
+        other.sender == sender &&
+        other.reciver == reciver &&
+        other.photo == photo &&
+        other.audio == audio &&
+        other.video == video;
   }
 
   @override
@@ -72,6 +101,10 @@ class DailyMessageModel {
         messagedate.hashCode ^
         messagedatetime.hashCode ^
         time.hashCode ^
-        uid.hashCode;
+        sender.hashCode ^
+        reciver.hashCode ^
+        photo.hashCode ^
+        audio.hashCode ^
+        video.hashCode;
   }
 }

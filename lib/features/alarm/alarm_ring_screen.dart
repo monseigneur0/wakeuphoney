@@ -1,5 +1,6 @@
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
@@ -7,6 +8,7 @@ import '../../core/common/error_text.dart';
 import '../../core/common/loader.dart';
 import '../../core/providers/providers.dart';
 import '../dailymessages/daily_controller.dart';
+import '../dailymessages/response_screen.dart';
 
 class AlarmRingScreen extends ConsumerWidget {
   final AlarmSettings alarmSettings;
@@ -80,6 +82,7 @@ class AlarmRingScreen extends ConsumerWidget {
                   onPressed: () {
                     Alarm.stop(alarmSettings.id)
                         .then((_) => Navigator.pop(context));
+                    context.pushNamed(ResponseScreen.routeName);
                   },
                   child: Text(
                     "Stop",

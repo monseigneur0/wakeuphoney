@@ -10,16 +10,16 @@ import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import '../../core/common/loader.dart';
 import 'match_controller.dart';
 
-class ProfileScreen extends ConsumerStatefulWidget {
-  static String routeName = "profilescreen";
-  static String routeURL = "/profilescreen";
-  const ProfileScreen({super.key});
+class MatchScreen extends ConsumerStatefulWidget {
+  static String routeName = "Matchscreen";
+  static String routeURL = "/Matchscreen";
+  const MatchScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ProfileScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _MatchScreenState();
 }
 
-class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+class _MatchScreenState extends ConsumerState<MatchScreen> {
   bool _visible = false;
 
   static const tenMinutes = 600;

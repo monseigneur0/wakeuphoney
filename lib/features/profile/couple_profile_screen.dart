@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 
 import '../../core/common/loader.dart';
@@ -10,22 +11,49 @@ import '../../practice_home_screen.dart';
 import '../alarm/alarm_screen.dart';
 import '../auth/auth_repository.dart';
 
-class CoupleProfileScreen extends ConsumerWidget {
+class CoupleProfileScreen extends ConsumerStatefulWidget {
   static String routeName = "coupleprofilescreen";
   static String routeURL = "/coupleprofilescreen";
   const CoupleProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CoupleProfileScreenState();
+}
+
+class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
+  late SharedPreferences prefs;
+
+  Future initPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    String lalalala = "";
+    ref
+        .watch(getUserProfileStreamProvider)
+        .whenData((value) => lalalala = value.couple.toString());
+    await prefs.setString("coupleuid", lalalala);
+    print("lalalala");
+    print(lalalala);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initPrefs();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final userprofile = ref.watch(authRepositoryProvider).currentUser!;
     final userProfileStream = ref.watch(getUserProfileStreamProvider);
 
     final coupleUid = ref.watch(getUserProfileStreamProvider);
     final coupleProfile = ref.watch(
         getUserProfileStreamByIdProvider(coupleUid.value!.couples.first));
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: const Color(0xFFD72499),
         elevation: 0,
         title: const Text(
           "My Honey",
@@ -97,7 +125,7 @@ class CoupleProfileScreen extends ConsumerWidget {
                 // Text(userProvideruid.hasValue ? "hasValue" : "no val"),
               ],
             ),
-            Text(ref.watch(coupleIdStateProvider).toString()),
+            // Text(ref.watch(coupleIdStateProvider).toString()),
             Text(ref.watch(coupleIdFutureProvider).when(
                   data: (data) => data["couple"],
                   error: (error, stackTrace) {

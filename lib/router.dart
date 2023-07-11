@@ -7,11 +7,13 @@ import 'package:wakeuphoney/features/couples/couples_list_screen.dart';
 import 'features/alarm/alarm_ring_screen.dart';
 import 'features/dailymessages/daily_screen.dart';
 import 'features/dailymessages/daily_screen2.dart';
+import 'features/dailymessages/myhistory_screen.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/profile/profile_controller.dart';
 import 'features/match/match_screen.dart';
 import 'features/auth/auth_repository.dart';
 import 'features/auth/login_screen.dart';
+import 'features/dailymessages/response_screen.dart';
 import 'practice_home_screen.dart';
 
 final routerProvider = Provider((ref) {
@@ -88,6 +90,14 @@ final routerProvider = Provider((ref) {
                     ),
                   ),
                   IconButton(
+                    onPressed: () => context.goNamed(MyHistoryScreen.routeName),
+                    icon: const Icon(
+                      Icons.repeat,
+                      color: Colors.white,
+                      size: 33,
+                    ),
+                  ),
+                  IconButton(
                     onPressed: () =>
                         context.goNamed(DailyMessage2Screen.routeName),
                     icon: const Icon(
@@ -105,7 +115,7 @@ final routerProvider = Provider((ref) {
                     ),
                   ),
                   IconButton(
-                    onPressed: () => context.goNamed(ProfileScreen.routeName),
+                    onPressed: () => context.goNamed(MatchScreen.routeName),
                     icon: const Icon(
                       Icons.favorite,
                       color: Colors.white,
@@ -157,14 +167,24 @@ final routerProvider = Provider((ref) {
             builder: (context, state) => const DailyMessageScreen(),
           ),
           GoRoute(
+            name: ResponseScreen.routeName,
+            path: ResponseScreen.routeURL,
+            builder: (context, state) => const ResponseScreen(),
+          ),
+          GoRoute(
+            name: MyHistoryScreen.routeName,
+            path: MyHistoryScreen.routeURL,
+            builder: (context, state) => const MyHistoryScreen(),
+          ),
+          GoRoute(
             name: DailyMessage2Screen.routeName,
             path: DailyMessage2Screen.routeURL,
             builder: (context, state) => const DailyMessage2Screen(),
           ),
           GoRoute(
-            name: ProfileScreen.routeName,
-            path: ProfileScreen.routeURL,
-            builder: (context, state) => const ProfileScreen(),
+            name: MatchScreen.routeName,
+            path: MatchScreen.routeURL,
+            builder: (context, state) => const MatchScreen(),
             redirect: (context, state) {
               final hasCoupleIdBool = hasCoupleId.when(
                 data: (data) => data.couples.isNotEmpty,
@@ -176,16 +196,16 @@ final routerProvider = Provider((ref) {
               );
               print('hasCoupleId $hasCoupleId $hasCoupleIdBool');
               if (!hasCoupleIdBool) {
-                if (state.matchedLocation != ProfileScreen.routeURL) {
-                  print(ProfileScreen.routeURL);
-                  return ProfileScreen.routeURL;
+                if (state.matchedLocation != MatchScreen.routeURL) {
+                  print(MatchScreen.routeURL);
+                  return MatchScreen.routeURL;
                 }
               }
               if (hasCoupleIdBool) {
                 print("couple exist");
                 return CoupleProfileScreen.routeURL;
               }
-              return ProfileScreen.routeURL;
+              return MatchScreen.routeURL;
             },
           ),
           GoRoute(

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../widgets/alarm_tile.dart';
@@ -27,6 +28,11 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
   late List<AlarmSettings> alarms;
   static StreamSubscription? subscription;
 
+  final String iOSTestId = 'ca-app-pub-5897230132206634/3120978311';
+  final String androidTestId = 'ca-app-pub-3940256099942544/6300978111';
+
+  BannerAd? _bannerAd;
+
   @override
   void initState() {
     super.initState();
@@ -34,6 +40,22 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
     subscription ??= Alarm.ringStream.stream.listen(
       (alarmSettings) => navigateToRingScreen(alarmSettings),
     );
+    // BannerAd(
+    //   size: AdSize.banner,
+    //   adUnitId: Platform.isIOS ? iOSTestId : androidTestId,
+    //   listener: BannerAdListener(
+    //     onAdLoaded: (ad) {
+    //       setState(() {
+    //         _bannerAd = ad as BannerAd;
+    //       });
+    //     },
+    //     onAdFailedToLoad: (ad, err) {
+    //       print('Failed to load a banner ad: ${err.message}');
+    //       ad.dispose();
+    //     },
+    //   ),
+    //   request: const AdRequest(),
+    // ).load();
   }
 
   void loadAlarms() {
@@ -50,14 +72,6 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
         ));
     loadAlarms();
   }
-  // Future<void> navigateToRingScreen(AlarmSettings alarmSettings) async {
-  //   await Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
-  //       ));
-  //   loadAlarms();
-  // }
 
   Future<void> navigateToAlarmScreen(AlarmSettings? settings) async {
     final res = await showModalBottomSheet<bool?>(
@@ -83,39 +97,43 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-          title: const Text(
-            'alarm home wake up',
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Colors.amber),
+        title: const Text(
+          'alarm home wake up',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: const Color(0xFFD72499),
+      ),
       body: SafeArea(
-          child: alarms.isNotEmpty
-              ? ListView.separated(
-                  itemCount: alarms.length,
-                  separatorBuilder: (context, index) => const Divider(),
-                  itemBuilder: (context, index) {
-                    return AlarmTile(
-                      key: Key(alarms[index].id.toString()),
-                      title: TimeOfDay(
-                        hour: alarms[index].dateTime.hour,
-                        minute: alarms[index].dateTime.minute,
-                      ).format(context),
-                      onPressed: () => navigateToAlarmScreen(alarms[index]),
-                      onDismissed: () {
-                        Alarm.stop(alarms[index].id).then((_) => loadAlarms());
-                      },
-                    );
-                  },
-                )
-              : const Center(
-                  child: Text(
-                    'No alarms set',
-                    style: TextStyle(
-                      fontSize: 30,
-                    ),
+        child: alarms.isNotEmpty
+            ? ListView.separated(
+                itemCount: alarms.length,
+                separatorBuilder: (context, index) => const Divider(),
+                itemBuilder: (context, index) {
+                  return AlarmTile(
+                    key: Key(alarms[index].id.toString()),
+                    title: TimeOfDay(
+                      hour: alarms[index].dateTime.hour,
+                      minute: alarms[index].dateTime.minute,
+                    ).format(context),
+                    onPressed: () => navigateToAlarmScreen(alarms[index]),
+                    onDismissed: () {
+                      Alarm.stop(alarms[index].id).then((_) => loadAlarms());
+                    },
+                  );
+                },
+              )
+            : const Center(
+                child: Text(
+                  'No alarms set',
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.white,
                   ),
-                )),
+                ),
+              ),
+      ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -141,6 +159,24 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
                 size: 33,
               ),
             ),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 50),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            // if (_bannerAd != null)
+            //   Align(
+            //     alignment: Alignment.bottomCenter,
+            //     child: SizedBox(
+            //       width: _bannerAd!.size.width.toDouble(),
+            //       height: _bannerAd!.size.height.toDouble(),
+            //       child: AdWidget(ad: _bannerAd!),
+            //     ),
+            //   ),
           ],
         ),
       ),

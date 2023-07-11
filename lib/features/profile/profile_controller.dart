@@ -15,17 +15,19 @@ final getUserProfileStreamByIdProvider =
       .getUserProfileStreamById(uid);
 });
 
+////////////////////////////////////////////////////
 final coupleIdProvider = StateProvider((ref) {
   return ref.watch(profileControllerProvider.notifier).getCoupleUidWow();
 });
 
-final coupleIdStateProvider = StateProvider((ref) {
-  var gogogo = ref.watch(profileControllerProvider.notifier).getCoupleUid();
+final coupleIdStateProvider = StateProvider<String>((ref) {
+  String gogogo = ref.watch(profileControllerProvider.notifier).getCoupleUid();
   return gogogo;
 });
 
 final coupleIdFutureProvider = FutureProvider((ref) {
-  var gogogo = ref.watch(profileControllerProvider.notifier).getCoupleUid();
+  var gogogo =
+      ref.watch(profileControllerProvider.notifier).getCoupleUiFuture();
   return gogogo;
 });
 
@@ -55,9 +57,16 @@ class ProfileController extends StateNotifier<bool> {
     return _profileRepo.getUserProfileStream(uid);
   }
 
-  getCoupleUid() {
+  String getCoupleUid() {
     String uid = _ref.watch(authProvider).currentUser!.uid;
-    var ghghgh = _profileRepo.getCoupleUid(uid);
+    String ghghgh = _profileRepo.getCoupleUid(uid);
+
+    return ghghgh;
+  }
+
+  getCoupleUiFuture() {
+    String uid = _ref.watch(authProvider).currentUser!.uid;
+    var ghghgh = _profileRepo.getCoupleUidFuture(uid);
     return ghghgh;
   }
 

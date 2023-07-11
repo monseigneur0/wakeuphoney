@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,6 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'core/providers/providers.dart';
 import 'features/couples/couples_list_screen.dart';
 import 'features/dailymessages/daily_screen.dart';
+import 'features/dailymessages/daily_screen2.dart';
+import 'features/dailymessages/myhistory_screen.dart';
+import 'features/dailymessages/response_screen.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/match/match_screen.dart';
 import 'features/auth/auth_repository.dart';
@@ -27,8 +27,8 @@ class PracticeHome extends ConsumerStatefulWidget {
 }
 
 class _PracticeHomeState extends ConsumerState<PracticeHome> {
-  // final String iOSTestId = 'ca-app-pub-5897230132206634/3120978311';
-  final String iOSTestId = 'ca-app-pub-3940256099942544/2934735716';
+  final String iOSTestId = 'ca-app-pub-5897230132206634/3120978311';
+  // final String iOSTestId = 'ca-app-pub-3940256099942544/2934735716';
   final String androidTestId = 'ca-app-pub-3940256099942544/6300978111';
 
   BannerAd? _bannerAd;
@@ -37,22 +37,22 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
   void initState() {
     super.initState();
 
-    BannerAd(
-      size: AdSize.banner,
-      adUnitId: Platform.isIOS ? iOSTestId : androidTestId,
-      listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          setState(() {
-            _bannerAd = ad as BannerAd;
-          });
-        },
-        onAdFailedToLoad: (ad, err) {
-          print('Failed to load a banner ad: ${err.message}');
-          ad.dispose();
-        },
-      ),
-      request: const AdRequest(),
-    ).load();
+    // BannerAd(
+    //   size: AdSize.banner,
+    //   adUnitId: Platform.isIOS ? iOSTestId : androidTestId,
+    //   listener: BannerAdListener(
+    //     onAdLoaded: (ad) {
+    //       setState(() {
+    //         _bannerAd = ad as BannerAd;
+    //       });
+    //     },
+    //     onAdFailedToLoad: (ad, err) {
+    //       print('Failed to load a banner ad: ${err.message}');
+    //       ad.dispose();
+    //     },
+    //   ),
+    //   request: const AdRequest(),
+    // ).load();
   }
 
   @override
@@ -96,44 +96,39 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  showCupertinoDialog(
-                    context: context,
-                    builder: (context) => CupertinoAlertDialog(
-                      title: const Text("Are you sure?"),
-                      content: const Text("Plx dont go"),
-                      actions: [
-                        CupertinoDialogAction(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: const Text("No"),
-                        ),
-                        CupertinoDialogAction(
-                          onPressed: () {
-                            ref
-                                .watch(authRepositoryProvider)
-                                .logout()
-                                .then((value) =>
-                                    context.goNamed(AlarmHome.routeName))
-                                .then((value) => Navigator.of(context).pop());
-                          },
-                          isDestructiveAction: true,
-                          child: const Text("Yes"),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.black)),
-                child: const Text('logout check'),
-              ),
-              ElevatedButton(
-                onPressed: () {
                   context.pushNamed(DailyMessageScreen.routeName);
                 },
                 style: const ButtonStyle(
                     backgroundColor:
                         MaterialStatePropertyAll(Colors.deepPurple)),
                 child: const Text('DailyMessageScreen'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  context.pushNamed(DailyMessage2Screen.routeName);
+                },
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll(Colors.blue[800])),
+                child: const Text('DailyMessageScreen2222'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  context.pushNamed(ResponseScreen.routeName);
+                },
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll(Colors.yellow[800])),
+                child: const Text('ResponseScreen'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  context.pushNamed(MyHistoryScreen.routeName);
+                },
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll(Colors.blue[600])),
+                child: const Text('MyHistoryScreen'),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -146,7 +141,7 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  context.pushNamed(ProfileScreen.routeName);
+                  context.pushNamed(MatchScreen.routeName);
                 },
                 style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.green)),
@@ -165,15 +160,15 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
               const Text('numberStateProvider'),
               Text(numberState.toString()),
               const Text('valueStateProvider'),
-              if (_bannerAd != null)
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: SizedBox(
-                    width: _bannerAd!.size.width.toDouble(),
-                    height: _bannerAd!.size.height.toDouble(),
-                    child: AdWidget(ad: _bannerAd!),
-                  ),
-                ),
+              // if (_bannerAd != null)
+              //   Align(
+              //     alignment: Alignment.topCenter,
+              //     child: SizedBox(
+              //       width: _bannerAd!.size.width.toDouble(),
+              //       height: _bannerAd!.size.height.toDouble(),
+              //       child: AdWidget(ad: _bannerAd!),
+              //     ),
+              //   ),
             ],
           ),
         ],
