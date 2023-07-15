@@ -27,20 +27,30 @@ class AlarmRingScreen extends ConsumerWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: ListView(
+          // mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text(
-              "You alarm (${alarmSettings.id}) is ringing...",
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            ref.watch(getDailyMessageProvider(dateList100[0])).when(
+            // Text(
+            //   "You alarm (${alarmSettings.id}) is ringing...",
+            //   style: Theme.of(context).textTheme.titleLarge,
+            // ),
+            ref.watch(getDailyCoupleMessageProvider(dateList100[0])).when(
                   data: (message) {
                     return Padding(
                       padding: const EdgeInsets.all(20.0),
-                      child: Text(
-                        "${DateFormat.yMMMd().format(listDateTime[0])}     ${message.message}",
-                        style: const TextStyle(fontSize: 30),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width - 40,
+                            child: message.photo.isNotEmpty
+                                ? Image.network(message.photo)
+                                : Container(),
+                          ),
+                          Text(
+                            message.message,
+                            style: const TextStyle(fontSize: 30),
+                          ),
+                        ],
                       ),
                     );
                   },
@@ -52,37 +62,37 @@ class AlarmRingScreen extends ConsumerWidget {
                   },
                   loading: () => const Loader(),
                 ),
-            const Text("🔔", style: TextStyle(fontSize: 50)),
+            // const Text("🔔", style: TextStyle(fontSize: 50)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                RawMaterialButton(
-                  onPressed: () {
-                    final now = DateTime.now();
-                    Alarm.set(
-                      alarmSettings: alarmSettings.copyWith(
-                        dateTime: DateTime(
-                          now.year,
-                          now.month,
-                          now.day,
-                          now.hour,
-                          now.minute,
-                          0,
-                          0,
-                        ).add(const Duration(minutes: 1)),
-                      ),
-                    ).then((_) => Navigator.pop(context));
-                  },
-                  child: Text(
-                    "Snooze",
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                ),
+                // RawMaterialButton(
+                //   onPressed: () {
+                //     final now = DateTime.now();
+                //     Alarm.set(
+                //       alarmSettings: alarmSettings.copyWith(
+                //         dateTime: DateTime(
+                //           now.year,
+                //           now.month,
+                //           now.day,
+                //           now.hour,
+                //           now.minute,
+                //           0,
+                //           0,
+                //         ).add(const Duration(minutes: 1)),
+                //       ),
+                //     ).then((_) => Navigator.pop(context));
+                //   },
+                //   child: Text(
+                //     "Snooze",
+                //     style: Theme.of(context).textTheme.titleLarge,
+                //   ),
+                // ),
                 RawMaterialButton(
                   onPressed: () {
                     Alarm.stop(alarmSettings.id)
-                        .then((_) => Navigator.pop(context));
-                    context.pushNamed(ResponseScreen.routeName);
+                        .then((_) => Navigator.pop(context))
+                        .then((_) => context.goNamed(ResponseScreen.routeName));
                   },
                   child: Text(
                     "Stop",

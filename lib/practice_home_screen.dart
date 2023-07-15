@@ -4,9 +4,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'core/providers/providers.dart';
 import 'features/couples/couples_list_screen.dart';
+import 'features/dailymessages/daily_letter2_screen.dart';
+import 'features/dailymessages/daily_letter3_screen.dart';
+import 'features/dailymessages/daily_letter4_screen.dart';
+import 'features/dailymessages/daily_letter_screen.dart';
 import 'features/dailymessages/daily_screen.dart';
 import 'features/dailymessages/daily_screen2.dart';
-import 'features/dailymessages/myhistory_screen.dart';
+import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/dailymessages/response_screen.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/match/match_screen.dart';
@@ -28,7 +32,6 @@ class PracticeHome extends ConsumerStatefulWidget {
 
 class _PracticeHomeState extends ConsumerState<PracticeHome> {
   final String iOSTestId = 'ca-app-pub-5897230132206634/3120978311';
-  // final String iOSTestId = 'ca-app-pub-3940256099942544/2934735716';
   final String androidTestId = 'ca-app-pub-3940256099942544/6300978111';
 
   BannerAd? _bannerAd;
@@ -123,12 +126,47 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  context.pushNamed(MyHistoryScreen.routeName);
+                  context.pushNamed(DailyLetterScreen.routeName);
                 },
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStatePropertyAll(Colors.blue[600])),
-                child: const Text('MyHistoryScreen'),
+                child: const Text('DailyLetterScreen'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  context.pushNamed(DailyLetter2Screen.routeName);
+                },
+                style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.red[600])),
+                child: const Text('DailyLetterScreen2222'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  context.pushNamed(DailyLetter3Screen.routeName);
+                },
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll(Colors.purple[600])),
+                child: const Text('DailyLetter33Screen333'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  context.pushNamed(DailyLetter4Screen.routeName);
+                },
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll(Colors.grey[600])),
+                child: const Text('DailyLetterScreen444'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  context.pushNamed(CoupleLetterScreen.routeName);
+                },
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll(Colors.green[600])),
+                child: const Text('CoupleHistoryScreen'),
               ),
               ElevatedButton(
                 onPressed: () {

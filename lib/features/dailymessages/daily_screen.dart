@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -73,9 +74,16 @@ class DailyMessageScreenState extends ConsumerState<DailyMessageScreen> {
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
 
     final uid = ref.watch(authProvider).currentUser!.uid;
-    final messageList = ref.watch(getDailyMessageListProvider);
+
+    final messageList = ref.watch(getDailyMessageListProvider).whenData(
+        (value) => value
+            .filter((t) => t.messagedatetime.isBefore(DateTime.now()))
+            .toList());
+
+    final messageLists = ref.watch(getDailyMessageListProvider);
 
     int lengthoflist = 0;
+
     messageList.whenData(
       (value) => lengthoflist = value
           .where((element) =>
@@ -152,18 +160,8 @@ class DailyMessageScreenState extends ConsumerState<DailyMessageScreen> {
                                 ref.watch(authProvider).currentUser!.uid)
                             .toList();
                         newList[index].messagedate ==
-                                DateFormat.yMMMd().format(DateTime.now())
-                            ? ref.watch(numberStateProvider.notifier).state =
-                                index +
-                                    message
-                                        .where((element) =>
-                                            element.sender ==
-                                            ref
-                                                .watch(authProvider)
-                                                .currentUser!
-                                                .uid)
-                                        .length
-                            : null;
+                            DateFormat.yMMMd().format(DateTime.now());
+
                         print(index);
                         message.sort((a, b) =>
                             a.messagedatetime.compareTo(b.messagedatetime));

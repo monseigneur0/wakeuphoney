@@ -3,14 +3,21 @@ import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/core/failure.dart';
 
+import '../../core/constants/firebase_constants.dart';
+import '../../core/providers/firebase_providers.dart';
 import '../../core/type_defs.dart';
 import 'daily_model.dart';
 
-final dailyRepositoryProvider = Provider((ref) => DailyRepository());
+final dailyRepositoryProvider =
+    Provider((ref) => DailyRepository(firestore: ref.watch(firestoreProvider)));
 
 class DailyRepository {
-  final CollectionReference _usersCollection =
-      FirebaseFirestore.instance.collection('users');
+  final FirebaseFirestore _firestore;
+  DailyRepository({required FirebaseFirestore firestore})
+      : _firestore = firestore;
+
+  CollectionReference get _usersCollection =>
+      _firestore.collection(FirebaseConstants.usersCollection);
 
   Stream<DailyMessageModel> getDailyMessage(
       String uid, String date, String coupleUid) {
@@ -49,6 +56,20 @@ class DailyRepository {
               ..sort((a, b) => a.messagedatetime.compareTo(b.messagedatetime)));
   }
 
+  Stream<List<DailyMessageModel>> getDailyMessageHistoryList(String uid) {
+    return _usersCollection.doc(uid).collection("messages").snapshots().map(
+          (event) => event.docs
+              .map((e) => DailyMessageModel.fromMap(e.data()))
+              .toList()
+            // ..where((element) => element.messagedatetime.isBefore(DateTime.now()
+            //     .subtract(Duration(
+            //         seconds: DateTime.now().hour * 3600 +
+            //             DateTime.now().minute * 60 +
+            //             DateTime.now().second))))
+            ..sort((a, b) => a.messagedatetime.compareTo(b.messagedatetime)),
+        );
+  }
+
   updateDailyMessage(String message, String selectedDate, String uid) async {
     await _usersCollection
         .doc(uid)
@@ -60,6 +81,19 @@ class DailyRepository {
             .collection("messages")
             .doc(value.docs.first.id)
             .update({"message": message}));
+  }
+
+  updateDailyImage(String image, String selectedDate, String uid) async {
+    await _usersCollection
+        .doc(uid)
+        .collection("messages")
+        .where("messagedate", isEqualTo: selectedDate)
+        .get()
+        .then((value) => _usersCollection
+            .doc(uid)
+            .collection("messages")
+            .doc(value.docs.first.id)
+            .update({"photo": image}));
   }
 
   createResponseMessage(

@@ -72,6 +72,7 @@ class DailyMessageModel {
       photo: map['photo'] as String,
       audio: map['audio'] as String,
       video: map['video'] as String,
+      // type = map['customer_type'] as String? ?? 'customer'
     );
   }
 

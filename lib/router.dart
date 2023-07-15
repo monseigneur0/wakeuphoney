@@ -5,9 +5,14 @@ import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 import 'package:wakeuphoney/features/couples/couples_list_screen.dart';
 
 import 'features/alarm/alarm_ring_screen.dart';
+import 'features/dailymessages/daily_create_screen.dart';
+import 'features/dailymessages/daily_letter2_screen.dart';
+import 'features/dailymessages/daily_letter3_screen.dart';
+import 'features/dailymessages/daily_letter4_screen.dart';
+import 'features/dailymessages/daily_letter_screen.dart';
 import 'features/dailymessages/daily_screen.dart';
 import 'features/dailymessages/daily_screen2.dart';
-import 'features/dailymessages/myhistory_screen.dart';
+import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/profile/profile_controller.dart';
 import 'features/match/match_screen.dart';
@@ -90,7 +95,8 @@ final routerProvider = Provider((ref) {
                     ),
                   ),
                   IconButton(
-                    onPressed: () => context.goNamed(MyHistoryScreen.routeName),
+                    onPressed: () =>
+                        context.goNamed(DailyLetter3Screen.routeName),
                     icon: const Icon(
                       Icons.repeat,
                       color: Colors.white,
@@ -99,7 +105,7 @@ final routerProvider = Provider((ref) {
                   ),
                   IconButton(
                     onPressed: () =>
-                        context.goNamed(DailyMessage2Screen.routeName),
+                        context.goNamed(CoupleLetterScreen.routeName),
                     icon: const Icon(
                       Icons.message_outlined,
                       color: Colors.white,
@@ -172,9 +178,34 @@ final routerProvider = Provider((ref) {
             builder: (context, state) => const ResponseScreen(),
           ),
           GoRoute(
-            name: MyHistoryScreen.routeName,
-            path: MyHistoryScreen.routeURL,
-            builder: (context, state) => const MyHistoryScreen(),
+            name: DailyLetterScreen.routeName,
+            path: DailyLetterScreen.routeURL,
+            builder: (context, state) => const DailyLetterScreen(),
+          ),
+          GoRoute(
+            name: DailyLetter2Screen.routeName,
+            path: DailyLetter2Screen.routeURL,
+            builder: (context, state) => const DailyLetter2Screen(),
+          ),
+          GoRoute(
+            name: DailyLetter3Screen.routeName,
+            path: DailyLetter3Screen.routeURL,
+            builder: (context, state) => const DailyLetter3Screen(),
+          ),
+          GoRoute(
+            name: DailyLetter4Screen.routeName,
+            path: DailyLetter4Screen.routeURL,
+            builder: (context, state) => const DailyLetter4Screen(),
+          ),
+          GoRoute(
+            name: DailyLetterCreateScreen.routeName,
+            path: DailyLetterCreateScreen.routeURL,
+            builder: (context, state) => const DailyLetterCreateScreen(),
+          ),
+          GoRoute(
+            name: CoupleLetterScreen.routeName,
+            path: CoupleLetterScreen.routeURL,
+            builder: (context, state) => const CoupleLetterScreen(),
           ),
           GoRoute(
             name: DailyMessage2Screen.routeName,

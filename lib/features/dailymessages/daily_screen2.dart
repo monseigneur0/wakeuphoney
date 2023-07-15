@@ -28,6 +28,10 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
 
   List item = [];
 
+  final TextEditingController _messgaeController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
@@ -61,7 +65,7 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('wake up letters'),
+        title: const Text('wake up letters!2'),
         actions: [
           IconButton(
               onPressed: () {
@@ -179,13 +183,6 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
     );
   }
 
-  final TextEditingController _messgaeController = TextEditingController();
-
-  // final CollectionReference _userCollection =
-  //     FirebaseFirestore.instance.collection(FirebaseConstants.usersCollection);
-
-  final _formKey = GlobalKey<FormState>();
-
   Future<void> _create(String uid) async {
     await showModalBottomSheet(
       isScrollControlled: true,
@@ -204,6 +201,8 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
               Form(
                 key: _formKey,
                 child: TextFormField(
+                  maxLines: 5,
+                  keyboardType: TextInputType.multiline,
                   validator: (value) {
                     if (value == null || value.isEmpty || value == "") {
                       return 'Please enter some text';
@@ -222,6 +221,10 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
               Row(
                 children: [
                   ElevatedButton(
+                    style: const ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll(Color(0xFFD72499)),
+                    ),
                     child: const Text('Save'),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
@@ -265,6 +268,8 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
               Form(
                 key: _formKey,
                 child: TextFormField(
+                  maxLines: 5,
+                  keyboardType: TextInputType.multiline,
                   validator: (value) {
                     if (value == null || value.isEmpty || value == "") {
                       return 'Please enter some text';
@@ -275,7 +280,9 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
                   autovalidateMode: AutovalidateMode.always,
                   controller: _messgaeController,
                   decoration: InputDecoration(
-                      labelText: 'message at ${ref.read(selectedDate)}'),
+                    labelText: 'message at ${ref.read(selectedDate)}',
+                    border: const OutlineInputBorder(),
+                  ),
                 ),
               ),
               const SizedBox(
@@ -284,6 +291,10 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
               Row(
                 children: [
                   ElevatedButton(
+                    style: const ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll(Color(0xFFD72499)),
+                    ),
                     child: const Text('Edit'),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {

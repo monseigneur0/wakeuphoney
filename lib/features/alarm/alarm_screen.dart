@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
@@ -40,22 +41,22 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
     subscription ??= Alarm.ringStream.stream.listen(
       (alarmSettings) => navigateToRingScreen(alarmSettings),
     );
-    // BannerAd(
-    //   size: AdSize.banner,
-    //   adUnitId: Platform.isIOS ? iOSTestId : androidTestId,
-    //   listener: BannerAdListener(
-    //     onAdLoaded: (ad) {
-    //       setState(() {
-    //         _bannerAd = ad as BannerAd;
-    //       });
-    //     },
-    //     onAdFailedToLoad: (ad, err) {
-    //       print('Failed to load a banner ad: ${err.message}');
-    //       ad.dispose();
-    //     },
-    //   ),
-    //   request: const AdRequest(),
-    // ).load();
+    BannerAd(
+      size: AdSize.banner,
+      adUnitId: Platform.isIOS ? iOSTestId : androidTestId,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print('Failed to load a banner ad: ${err.message}');
+          ad.dispose();
+        },
+      ),
+      request: const AdRequest(),
+    ).load();
   }
 
   void loadAlarms() {
@@ -64,12 +65,12 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
     setState(() {});
   }
 
-  Future<void> navigateToRingScreen(AlarmSettings alarmSettings) async {
-    await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
-        ));
+  void navigateToRingScreen(AlarmSettings alarmSettings) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
+      ),
+    );
     loadAlarms();
   }
 
@@ -79,7 +80,7 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
       isScrollControlled: true,
       builder: (context) {
         return FractionallySizedBox(
-          heightFactor: 0.6,
+          heightFactor: 0.7,
           child: ExampleAlarmEditScreen(alarmSettings: settings),
         );
       },
@@ -97,14 +98,38 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text(
-          'alarm home wake up',
+          'Alarms',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: const Color(0xFFD72499),
+        backgroundColor: Colors.black87,
+        actions: [
+          IconButton(
+            onPressed: () => ringnow(),
+            icon: const Icon(
+              Icons.add_alarm,
+              size: 33,
+            ),
+          ),
+          IconButton(
+            onPressed: () => Alarm.stop(42),
+            icon: const Icon(
+              Icons.cancel,
+              size: 33,
+            ),
+          ),
+          IconButton(
+            onPressed: () => navigateToAlarmScreen(null),
+            icon: const Icon(
+              Icons.add,
+              size: 33,
+              color: Color(0xFFD72499),
+            ),
+          ),
+        ],
       ),
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: alarms.isNotEmpty
             ? ListView.separated(
@@ -134,51 +159,48 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
                 ),
               ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              onPressed: () => ringnow(),
-              icon: const Icon(
-                Icons.add_alarm,
-                size: 33,
-              ),
-            ),
-            IconButton(
-              onPressed: () => Alarm.stop(42),
-              icon: const Icon(
-                Icons.cancel,
-                size: 33,
-              ),
-            ),
-            IconButton(
-              onPressed: () => navigateToAlarmScreen(null),
-              icon: const Icon(
-                Icons.add,
-                size: 33,
-              ),
-            ),
-          ],
-        ),
-      ),
+      // bottomNavigationBar: BottomAppBar(
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //     children: [
+      //       IconButton(
+      //         onPressed: () => ringnow(),
+      //         icon: const Icon(
+      //           Icons.add_alarm,
+      //           size: 33,
+      //         ),
+      //       ),
+      //       IconButton(
+      //         onPressed: () => Alarm.stop(42),
+      //         icon: const Icon(
+      //           Icons.cancel,
+      //           size: 33,
+      //         ),
+      //       ),
+      //       IconButton(
+      //         onPressed: () => navigateToAlarmScreen(null),
+      //         icon: const Icon(
+      //           Icons.add,
+      //           size: 33,
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 50),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            // if (_bannerAd != null)
-            //   Align(
-            //     alignment: Alignment.bottomCenter,
-            //     child: SizedBox(
-            //       width: _bannerAd!.size.width.toDouble(),
-            //       height: _bannerAd!.size.height.toDouble(),
-            //       child: AdWidget(ad: _bannerAd!),
-            //     ),
-            //   ),
-          ],
-        ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (_bannerAd != null)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: _bannerAd!.size.width.toDouble(),
+                height: _bannerAd!.size.height.toDouble(),
+                child: AdWidget(ad: _bannerAd!),
+              ),
+            ),
+        ],
       ),
     );
   }

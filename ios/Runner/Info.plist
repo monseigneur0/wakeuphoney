@@ -62,6 +62,12 @@
      </array>
   	<key>GADApplicationIdentifier</key>
     <string>ca-app-pub-5897230132206634~8736837898</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Used to demonstrate image picker plugin</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Used to capture audio for image picker plugin</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Used to demonstrate image picker plugin</string>
     <key>SKAdNetworkItems</key>
       <array>
         <dict>
