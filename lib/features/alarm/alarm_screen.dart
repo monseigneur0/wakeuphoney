@@ -66,8 +66,6 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
   }
 
   void navigateToRingScreen(AlarmSettings alarmSettings) {
-    ref.watch(alarmSettings1Provider.notifier).state = alarmSettings;
-
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
