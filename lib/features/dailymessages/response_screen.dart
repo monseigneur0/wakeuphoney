@@ -30,12 +30,14 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
   String imageUrl = "";
 
   File? bannerFile;
+
   void selectBannerImage() async {
-    final res = await pickImage();
+    ImagePicker imagePicker = ImagePicker();
+    final res = await imagePicker.pickImage(source: ImageSource.camera);
 
     if (res != null) {
       setState(() {
-        bannerFile = File(res.files.first.path!);
+        bannerFile = File(res.path);
       });
     }
   }
@@ -47,142 +49,155 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
     final dateList100 = ref.watch(dateStateProvider);
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
-          "No Response, No Wake Up",
+        title: Text(
+          DateFormat.yMMMd().format(listDateTime[0]),
+          style: const TextStyle(color: Colors.black),
         ),
         actions: const [],
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.white,
       ),
-      body: Column(
+      body: ListView(
         children: [
-          Container(
-            height: 1,
-            decoration: BoxDecoration(color: Colors.grey[700]),
-          ),
-          ref.watch(getDailyMessageProvider(dateList100[0])).when(
-                data: (message) {
-                  return Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          DateFormat.yMMMd().format(listDateTime[0]),
-                          style:
-                              TextStyle(fontSize: 15, color: Colors.grey[300]),
-                        ),
-                        Container(
-                          height: 10,
-                          // decoration: BoxDecoration(color: Colors.grey[700]),
-                        ),
-                        Text(
-                          message.message,
-                          style: const TextStyle(
-                              fontSize: 30, color: Colors.white),
-                        ),
-                      ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                // Container(
+                //   height: 1,
+                //   decoration: BoxDecoration(color: Colors.grey[700]),
+                // ),
+                ref.watch(getDailyMessageProvider(dateList100[0])).when(
+                      data: (message) {
+                        return Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                height: 10,
+                                // decoration: BoxDecoration(color: Colors.grey[700]),
+                              ),
+                              Text(
+                                message.message,
+                                style: const TextStyle(
+                                    fontSize: 30, color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      error: (error, stackTrace) {
+                        print("error");
+
+                        return ErrorText(
+                            error: DateFormat.yMMMd().format(listDateTime[0]));
+                      },
+                      loading: () => const Loader(),
                     ),
-                  );
-                },
-                error: (error, stackTrace) {
-                  print("error");
-
-                  return ErrorText(
-                      error: DateFormat.yMMMd().format(listDateTime[0]));
-                },
-                loading: () => const Loader(),
-              ),
-          Form(
-            key: _formKey,
-            child: TextFormField(
-              minLines: 5,
-              maxLines: 10,
-              keyboardType: TextInputType.multiline,
-              validator: (value) {
-                if (value == null || value.isEmpty || value == "") {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-              autofocus: true,
-              controller: _messgaeController,
-              style: const TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                  labelText:
-                      'message at ${DateFormat.yMMMd().format(listDateTime[0])}'),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ElevatedButton(
-                style: const ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.black),
+                Form(
+                  key: _formKey,
+                  child: TextFormField(
+                    minLines: 5,
+                    maxLines: 10,
+                    keyboardType: TextInputType.multiline,
+                    validator: (value) {
+                      if (value == null || value.isEmpty || value == "") {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                    autofocus: true,
+                    controller: _messgaeController,
+                    cursorColor: Colors.black,
+                    style: const TextStyle(color: Colors.black),
+                    decoration: InputDecoration(
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 2.0),
+                        ),
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 2.0),
+                        ),
+                        border: const OutlineInputBorder(),
+                        labelStyle: const TextStyle(color: Colors.black),
+                        labelText:
+                            'message at ${DateFormat.yMMMd().format(listDateTime[0])}'),
+                  ),
                 ),
-                child: bannerFile != null
-                    ? SizedBox(
-                        height: 30, width: 30, child: Image.file(bannerFile!))
-                    :
-                    // ElevatedButton(
-                    //     style: const ButtonStyle(
-                    //       backgroundColor:
-                    //           MaterialStatePropertyAll(Colors.black),
-                    //     ),
-                    //     child:
-                    const Icon(
-                        Icons.photo_album_outlined,
-                        size: 40,
-                        // color: Colors.white,
-                      ),
-                onPressed: () async {
-                  ImagePicker imagePicker = ImagePicker();
-                  XFile? file =
-                      await imagePicker.pickImage(source: ImageSource.gallery);
-                  print('${file?.path}');
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      child: bannerFile != null
+                          ? SizedBox(
+                              height: 30,
+                              width: 30,
+                              child: Image.file(bannerFile!))
+                          :
+                          // ElevatedButton(
+                          //     style: const ButtonStyle(
+                          //       backgroundColor:
+                          //           MaterialStatePropertyAll(Colors.black),
+                          //     ),
+                          //     child:
+                          const Icon(
+                              Icons.camera_alt_outlined,
+                              size: 40,
+                              // color: Colors.black,
+                            ),
+                      onTap: () {
+                        selectBannerImage();
+                      },
+                    ),
+                    ElevatedButton(
+                      style: const ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(Color(0xFFD72499))),
+                      child: const Text('I woke up!'),
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          showSnackBar(context, "messgae is saved");
+                          final String message = _messgaeController.text;
 
-                  String uniqueFileName =
-                      DateTime.now().toString().replaceAll(' ', '');
+                          String uniqueFileName =
+                              DateTime.now().toString().replaceAll(' ', '');
 
-                  //Get a reference to storage root
-                  Reference referenceRoot = FirebaseStorage.instance.ref();
-                  Reference referenceDirImages = referenceRoot.child('images');
+                          //Get a reference to storage root
+                          Reference referenceRoot =
+                              FirebaseStorage.instance.ref();
+                          Reference referenceDirImages =
+                              referenceRoot.child('images');
 
-                  //Create a reference for the image to be stored
-                  Reference referenceImageToUpload =
-                      referenceDirImages.child(uniqueFileName);
+                          //Create a reference for the image to be stored
+                          Reference referenceImageToUpload =
+                              referenceDirImages.child(uniqueFileName);
 
-                  //Handle errors/success
-                  try {
-                    //Store the file
-                    await referenceImageToUpload.putFile(File(file!.path));
-                    //Success: get the download URL
-                    imageUrl = await referenceImageToUpload.getDownloadURL();
-                  } catch (error) {
-                    //Some error occurred
-                  }
-                },
-              ),
-              ElevatedButton(
-                style: const ButtonStyle(
-                    backgroundColor:
-                        MaterialStatePropertyAll(Color(0xFFD72499))),
-                child: const Text('I woke up!'),
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    showSnackBar(context, "messgae is saved");
-                    final String message = _messgaeController.text;
-                    //메세지 작성
-                    ref
-                        .watch(dailyControllerProvider.notifier)
-                        .createResponseMessage(message, uid);
-                  }
-
-                  _messgaeController.clear();
-                },
-              ),
-            ],
+                          //Handle errors/success
+                          try {
+                            //Store the file
+                            await referenceImageToUpload
+                                .putFile(File(bannerFile!.path));
+                            //Success: get the download URL
+                            imageUrl =
+                                await referenceImageToUpload.getDownloadURL();
+                          } catch (error) {
+                            //Some error occurred
+                          }
+                          //메세지 작성
+                          ref
+                              .watch(dailyControllerProvider.notifier)
+                              .createResponseMessage(message, imageUrl);
+                        }
+                        _messgaeController.clear();
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),

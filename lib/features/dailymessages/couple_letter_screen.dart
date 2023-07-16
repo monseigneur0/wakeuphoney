@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 
 import '../../core/common/loader.dart';
@@ -43,12 +44,12 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("my answers for honey"),
+        title: const Text("My Answers"),
         backgroundColor: Colors.black87,
       ),
       backgroundColor: Colors.black,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
             height: 1,
@@ -56,8 +57,10 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
           ),
           listMessageHistory.when(
             data: (value) {
-              return Expanded(
-                child: ListView.builder(
+              return SizedBox(
+                height: MediaQuery.of(context).size.height - 190,
+                child: ScrollablePositionedList.builder(
+                  initialScrollIndex: listMessageHistory.value!.length,
                   itemCount: listMessageHistory.value!.length,
                   itemBuilder: (context, index) {
                     return value[index].sender == uid
@@ -146,10 +149,10 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
             },
             loading: () => const Loader(),
           ),
-          Container(
-            height: 1,
-            decoration: const BoxDecoration(color: Colors.white),
-          ),
+          // Container(
+          //   height: 1,
+          //   decoration: const BoxDecoration(color: Colors.white),
+          // ),
           const SizedBox(
             height: 60,
           ),

@@ -17,3 +17,9 @@ Future<FilePickerResult?> pickImage() async {
 
   return image;
 }
+
+Future<FilePickerResult?> takePhoto() async {
+  final image = await FilePicker.platform.pickFiles(type: FileType.image);
+
+  return image;
+}

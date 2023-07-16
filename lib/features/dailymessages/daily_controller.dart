@@ -126,8 +126,9 @@ class DailyController extends StateNotifier<bool> {
         image, _ref.watch(selectedDate), uid);
   }
 
-  void createResponseMessage(message, uid) async {
+  void createResponseMessage(message, imageUrl) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uid = _ref.watch(authProvider).currentUser!.uid;
 
     DailyMessageModel messagehere = DailyMessageModel(
         message: message,
@@ -137,7 +138,7 @@ class DailyController extends StateNotifier<bool> {
         time: DateTime.now(),
         sender: uid,
         reciver: prefs.getString("coupleuid") ?? "",
-        photo: "",
+        photo: imageUrl,
         audio: "",
         video: "");
     await _dailyRepository.createResponseMessage(

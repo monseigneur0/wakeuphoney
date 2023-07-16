@@ -14,8 +14,8 @@ import 'package:wakeuphoney/features/dailymessages/daily_model.dart';
 import '../../core/common/loader.dart';
 import '../../core/providers/firebase_providers.dart';
 import '../../core/utils.dart';
+import 'couple_letter_screen.dart';
 import 'daily_create_screen.dart';
-import 'daily_letter4_screen.dart';
 
 class DailyLetter3Screen extends ConsumerStatefulWidget {
   static String routeName = "dailyletter3";
@@ -91,12 +91,12 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Letters3"),
+        title: const Text("My Letters"),
         backgroundColor: Colors.black87,
         actions: [
           IconButton(
               onPressed: () {
-                context.pushNamed(DailyLetter4Screen.routeName);
+                context.pushNamed(CoupleLetterScreen.routeName);
               },
               icon: const Icon(
                 Icons.connecting_airports_outlined,

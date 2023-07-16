@@ -8,11 +8,16 @@ import '../auth/auth_controller.dart';
 final getUserProfileStreamProvider = StreamProvider<UserModel>((ref) {
   return ref.watch(profileControllerProvider.notifier).getUserProfileStream();
 });
+
 final getUserProfileStreamByIdProvider =
     StreamProvider.family((ref, String uid) {
   return ref
       .watch(profileControllerProvider.notifier)
       .getUserProfileStreamById(uid);
+});
+
+final getCoupleProfileStreamProvider = StreamProvider((ref) {
+  return ref.watch(profileControllerProvider.notifier).getCoupleProfileStream();
 });
 
 ////////////////////////////////////////////////////
@@ -54,6 +59,14 @@ class ProfileController extends StateNotifier<bool> {
   }
 
   Stream<UserModel> getUserProfileStreamById(String uid) {
+    return _profileRepo.getUserProfileStream(uid);
+  }
+
+  Stream<UserModel> getCoupleProfileStream() {
+    final uid = _ref
+        .watch(getUserDataProvider(_ref.watch(authProvider).currentUser!.uid))
+        .value!
+        .couple;
     return _profileRepo.getUserProfileStream(uid);
   }
 

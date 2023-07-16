@@ -23,7 +23,7 @@ import 'practice_home_screen.dart';
 
 final routerProvider = Provider((ref) {
   final hasCoupleId = ref.watch(getUserProfileStreamProvider);
-  final alarmSettings = ref.watch(alarmSettingsProvider);
+  final alarmSettings = ref.watch(alarmSettings1Provider);
   return GoRouter(
     initialLocation: "/messages5",
     redirect: (context, state) {
@@ -105,7 +105,7 @@ final routerProvider = Provider((ref) {
                   ),
                   IconButton(
                     onPressed: () =>
-                        context.goNamed(CoupleLetterScreen.routeName),
+                        context.goNamed(DailyLetter4Screen.routeName),
                     icon: const Icon(
                       Icons.message_outlined,
                       color: Colors.white,

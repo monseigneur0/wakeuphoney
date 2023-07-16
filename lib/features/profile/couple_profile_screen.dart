@@ -31,13 +31,10 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
         .watch(getUserProfileStreamProvider)
         .whenData((value) => lalalala = value.couple.toString());
     await prefs.setString("coupleuid", lalalala);
-    print("lalalala");
-    print(lalalala);
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initPrefs();
   }
@@ -53,88 +50,111 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFD72499),
+        backgroundColor: Colors.black,
         elevation: 0,
         title: const Text(
-          "My Honey",
+          "Profile",
           style: TextStyle(
-              color: Colors.white, fontSize: 27, fontWeight: FontWeight.bold),
+              color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
         ),
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 100),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(
-              Icons.account_circle,
-              size: 100,
-              color: Colors.grey[700],
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      backgroundColor: Colors.black,
+      body: Column(
+        children: [
+          Container(
+            height: 1,
+            decoration: BoxDecoration(color: Colors.grey[800]),
+          ),
+          Container(
+            height: 50,
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Text("Honey Name", style: TextStyle(fontSize: 17)),
-                coupleProfile.when(
-                  data: (data) => Text(data.displayName),
-                  error: (error, stackTrace) {
-                    print("error$error ");
-                    return const Text("no couple");
-                  },
-                  loading: () => const Loader(),
-                ),
-              ],
-            ),
-            const Divider(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text("Email", style: TextStyle(fontSize: 17)),
-                coupleProfile.when(
-                  data: (data) => Text(data.email),
-                  error: (error, stackTrace) {
-                    print("error$error ");
-                    return const Text("no couple");
-                  },
-                  loading: () => const Loader(),
-                ),
-              ],
-            ),
-            const Divider(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text("couple Id", style: TextStyle(fontSize: 17)),
-                Text(
-                    userProfileStream.when(
-                      data: (data) => data.couple,
-                      error: (error, stackTrace) {
-                        print("error    $error ");
-                        return "error ";
-                      },
-                      loading: () => "const Loader()",
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      height: 100,
+                      child: userProfileStream.when(
+                        data: (data) =>
+                            Image.network(data.photoURL, fit: BoxFit.cover),
+                        error: (error, stackTrace) {
+                          print("error$error ");
+                          return const Image(
+                            image: AssetImage('assets/human.jpg'),
+                            height: 30,
+                          );
+                        },
+                        loading: () => const Loader(),
+                      ),
                     ),
-                    style: const TextStyle(fontSize: 10)),
-                // Text(userProvideruid.hasValue ? "hasValue" : "no val"),
+                    userProfileStream.when(
+                      data: (data) => Text(
+                        data.displayName,
+                        style: const TextStyle(
+                          fontSize: 30,
+                          color: Colors.white,
+                        ),
+                      ),
+                      error: (error, stackTrace) {
+                        print("error$error ");
+                        return const Text("no couple");
+                      },
+                      loading: () => const Loader(),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  height: 1,
+                  decoration: BoxDecoration(color: Colors.grey[700]),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      height: 100,
+                      child: coupleProfile.when(
+                        data: (data) =>
+                            Image.network(data.photoURL, fit: BoxFit.cover),
+                        error: (error, stackTrace) {
+                          print("error$error ");
+                          return const Image(
+                            image: AssetImage('assets/human.jpg'),
+                            height: 30,
+                          );
+                        },
+                        loading: () => const Loader(),
+                      ),
+                    ),
+                    coupleProfile.when(
+                      data: (data) => Text(
+                        data.displayName,
+                        style: const TextStyle(
+                          fontSize: 30,
+                          color: Colors.white,
+                        ),
+                      ),
+                      error: (error, stackTrace) {
+                        print("error$error ");
+                        return const Text("no couple");
+                      },
+                      loading: () => const Loader(),
+                    ),
+                  ],
+                ),
               ],
             ),
-            // Text(ref.watch(coupleIdStateProvider).toString()),
-            Text(ref.watch(coupleIdFutureProvider).when(
-                  data: (data) => data["couple"],
-                  error: (error, stackTrace) {
-                    return "error$error ";
-                  },
-                  loading: () => "const Loader()",
-                ))
-          ],
-        ),
+          ),
+        ],
       ),
       endDrawer: ProfileDrawer(userprofile: userprofile, ref: ref),
     );
@@ -154,6 +174,7 @@ class ProfileDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Colors.grey[800],
       child: ListView(
         padding: const EdgeInsets.symmetric(vertical: 50),
         children: <Widget>[
@@ -185,7 +206,7 @@ class ProfileDrawer extends StatelessWidget {
             leading: const Icon(Icons.group),
             title: const Text(
               "Homes",
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: Colors.white),
             ),
           ),
           ListTile(
@@ -197,7 +218,7 @@ class ProfileDrawer extends StatelessWidget {
             leading: const Icon(Icons.group),
             title: Text(
               userprofile.email.toString(),
-              style: const TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
           ListTile(

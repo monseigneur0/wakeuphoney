@@ -10,7 +10,7 @@ import '../../widgets/alarm_tile.dart';
 import 'alarm_edit_screen.dart';
 import 'alarm_ring_screen.dart';
 
-final alarmSettingsProvider = StateProvider<AlarmSettings>((ref) =>
+final alarmSettings1Provider = StateProvider<AlarmSettings>((ref) =>
     AlarmSettings(
         id: 112,
         dateTime: DateTime.now(),
@@ -66,6 +66,8 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
   }
 
   void navigateToRingScreen(AlarmSettings alarmSettings) {
+    ref.watch(alarmSettings1Provider.notifier).state = alarmSettings;
+
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
