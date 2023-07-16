@@ -3,6 +3,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'core/providers/providers.dart';
+import 'features/alarm/alarm2_screen.dart';
 import 'features/couples/couples_list_screen.dart';
 import 'features/dailymessages/daily_letter2_screen.dart';
 import 'features/dailymessages/daily_letter3_screen.dart';
@@ -88,6 +89,12 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                     backgroundColor: MaterialStatePropertyAll(Colors.amber)),
                 onPressed: () => context.pushNamed(AlarmHome.routeName),
                 child: const Text('AlarmHome'),
+              ),
+              ElevatedButton(
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.green)),
+                onPressed: () => context.pushNamed(AlarmHome2.routeName),
+                child: const Text('AlarmHome2'),
               ),
               ElevatedButton(
                 style: const ButtonStyle(

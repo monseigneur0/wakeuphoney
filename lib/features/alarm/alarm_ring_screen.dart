@@ -2,9 +2,7 @@ import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 
-import '../../core/common/error_text.dart';
 import '../../core/common/loader.dart';
 import '../../core/providers/providers.dart';
 import '../dailymessages/daily_controller.dart';
@@ -57,8 +55,16 @@ class AlarmRingScreen extends ConsumerWidget {
                   error: (error, stackTrace) {
                     print("error");
 
-                    return ErrorText(
-                        error: DateFormat.yMMMd().format(listDateTime[0]));
+                    return Column(
+                      children: const [
+                        SizedBox(
+                          height: 200,
+                        ),
+                        Text("no letter...")
+                      ],
+                    );
+                    // ErrorText(
+                    //     error: DateFormat.yMMMd().format(listDateTime[0]));
                   },
                   loading: () => const Loader(),
                 ),

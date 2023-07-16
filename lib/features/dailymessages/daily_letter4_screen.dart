@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:wakeuphoney/features/dailymessages/daily_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/providers/firebase_providers.dart';
@@ -39,7 +40,7 @@ class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Answers"),
+        title: Text(AppLocalizations.of(context)!.answers),
         backgroundColor: Colors.black87,
         // actions: [
         //   IconButton(

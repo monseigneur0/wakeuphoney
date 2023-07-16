@@ -11,22 +11,16 @@ import '../../widgets/alarm_tile.dart';
 import 'alarm_edit_screen.dart';
 import 'alarm_ring_screen.dart';
 
-final alarmSettings1Provider = StateProvider<AlarmSettings>((ref) =>
-    AlarmSettings(
-        id: 112,
-        dateTime: DateTime.now(),
-        assetAudioPath: 'assets/mozart.mp3'));
-
-class AlarmHome extends ConsumerStatefulWidget {
-  static String routeName = "alarm";
-  static String routeURL = "/alarm";
-  const AlarmHome({super.key});
+class AlarmHome2 extends ConsumerStatefulWidget {
+  static String routeName = "alarm2";
+  static String routeURL = "/alarm2";
+  const AlarmHome2({super.key});
 
   @override
-  AlarmHomeState createState() => AlarmHomeState();
+  AlarmHome2State createState() => AlarmHome2State();
 }
 
-class AlarmHomeState extends ConsumerState<AlarmHome> {
+class AlarmHome2State extends ConsumerState<AlarmHome2> {
   late List<AlarmSettings> alarms;
   static StreamSubscription? subscription;
 

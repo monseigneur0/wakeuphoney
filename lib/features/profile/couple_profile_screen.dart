@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,9 +7,9 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
-import '../../practice_home_screen.dart';
 import '../alarm/alarm_screen.dart';
 import '../auth/auth_repository.dart';
 
@@ -52,11 +54,12 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
-        title: const Text(
-          "Profile",
-          style: TextStyle(
-              color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
-        ),
+        title: Text(AppLocalizations.of(context)!.profile),
+        // const Text(
+        //   "Profile",
+        //   style: TextStyle(
+        //       color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+        // ),
       ),
       backgroundColor: Colors.black,
       body: Column(
@@ -199,117 +202,126 @@ class ProfileDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              context.pushNamed(PracticeHome.routeName);
+              context.pushNamed(AlarmHome.routeName);
             },
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            leading: const Icon(Icons.group),
-            title: const Text(
-              "Homes",
-              style: TextStyle(color: Colors.white),
+            leading: const Icon(
+              Icons.alarm,
+              color: Colors.white,
             ),
-          ),
-          ListTile(
-            onTap: () {},
-            selected: true,
-            selectedColor: Theme.of(context).primaryColor,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            leading: const Icon(Icons.group),
             title: Text(
-              userprofile.email.toString(),
+              AppLocalizations.of(context)!.alarms,
               style: const TextStyle(color: Colors.white),
             ),
           ),
-          ListTile(
-            onTap: () {},
-            selected: true,
-            selectedColor: Theme.of(context).primaryColor,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            leading: const Icon(Icons.group),
-            title: Text(
-              userprofile.uid.toString(),
-              style: const TextStyle(color: Colors.black),
-            ),
-          ),
-          ListTile(
-            onTap: () async {
-              showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text("Logout"),
-                      content: const Text("Are you sure you want to logout?"),
-                      actions: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(
-                            Icons.cancel,
-                            color: Colors.red,
+          // ListTile(
+          //   onTap: () {},
+          //   selected: true,
+          //   selectedColor: Theme.of(context).primaryColor,
+          //   contentPadding:
+          //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          //   leading: const Icon(Icons.group),
+          //   title: Text(
+          //     userprofile.email.toString(),
+          //     style: const TextStyle(color: Colors.white),
+          //   ),
+          // ),
+          // ListTile(
+          //   onTap: () {},
+          //   selected: true,
+          //   selectedColor: Theme.of(context).primaryColor,
+          //   contentPadding:
+          //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          //   leading: const Icon(Icons.group),
+          //   title: Text(
+          //     userprofile.uid.toString(),
+          //     style: const TextStyle(color: Colors.black),
+          //   ),
+          // ),
+          Platform.isIOS
+              ? ListTile(
+                  onTap: () {
+                    showCupertinoDialog(
+                      context: context,
+                      builder: (context) => CupertinoAlertDialog(
+                        title: Text(AppLocalizations.of(context)!.sure),
+                        content: const Text("Plx don't go"),
+                        actions: [
+                          CupertinoDialogAction(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: Text(AppLocalizations.of(context)!.no),
                           ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            ref
-                                .watch(authRepositoryProvider)
-                                .logout()
-                                .then((value) =>
-                                    context.goNamed(AlarmHome.routeName))
-                                .then((value) => Navigator.of(context).pop());
-                          },
-                          icon: const Icon(
-                            Icons.done,
-                            color: Colors.green,
+                          CupertinoDialogAction(
+                            onPressed: () {
+                              ref
+                                  .watch(authRepositoryProvider)
+                                  .logout()
+                                  .then((value) =>
+                                      context.goNamed(AlarmHome.routeName))
+                                  .then((value) => Navigator.of(context).pop());
+                            },
+                            isDestructiveAction: true,
+                            child: Text(AppLocalizations.of(context)!.yes),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     );
-                  });
-            },
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            leading: const Icon(Icons.exit_to_app),
-            title: const Text(
-              "Logout",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              showCupertinoDialog(
-                context: context,
-                builder: (context) => CupertinoAlertDialog(
-                  title: const Text("Are you sure?"),
-                  content: const Text("Plx dont go"),
-                  actions: [
-                    CupertinoDialogAction(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child: const Text("No"),
-                    ),
-                    CupertinoDialogAction(
-                      onPressed: () {
-                        ref
-                            .watch(authRepositoryProvider)
-                            .logout()
-                            .then(
-                                (value) => context.goNamed(AlarmHome.routeName))
-                            .then((value) => Navigator.of(context).pop());
-                      },
-                      isDestructiveAction: true,
-                      child: const Text("Yes"),
-                    ),
-                  ],
+                  },
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  leading: const Icon(Icons.exit_to_app),
+                  title: Text(
+                    AppLocalizations.of(context)!.logout,
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                )
+              : ListTile(
+                  onTap: () async {
+                    showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text(AppLocalizations.of(context)!.logout),
+                            content: Text(AppLocalizations.of(context)!.sure),
+                            actions: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: const Icon(
+                                  Icons.cancel,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  ref
+                                      .watch(authRepositoryProvider)
+                                      .logout()
+                                      .then((value) =>
+                                          context.goNamed(AlarmHome.routeName))
+                                      .then((value) =>
+                                          Navigator.of(context).pop());
+                                },
+                                icon: const Icon(
+                                  Icons.done,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ],
+                          );
+                        });
+                  },
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  leading: const Icon(Icons.exit_to_app),
+                  title: Text(
+                    AppLocalizations.of(context)!.logout,
+                    style: const TextStyle(color: Colors.black),
+                  ),
                 ),
-              );
-            },
-            style: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.black)),
-            child: const Text('logout check'),
-          ),
         ],
       ),
     );

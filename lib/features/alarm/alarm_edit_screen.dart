@@ -1,5 +1,6 @@
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ExampleAlarmEditScreen extends StatefulWidget {
   final AlarmSettings? alarmSettings;
@@ -17,7 +18,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
   late TimeOfDay selectedTime;
   late bool loopAudio;
   late bool vibrate;
-  late bool showNotification;
+  late bool showNotification = true;
   late String assetAudio;
 
   @override
@@ -109,7 +110,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
                 child: Text(
-                  "Cancel",
+                  AppLocalizations.of(context)!.cancel,
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge!
@@ -119,7 +120,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
               TextButton(
                 onPressed: saveAlarm,
                 child: Text(
-                  "Save",
+                  AppLocalizations.of(context)!.save,
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge!
@@ -146,7 +147,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Loop alarm audio',
+                AppLocalizations.of(context)!.loopalarmaudio,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               Switch(
@@ -159,7 +160,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Vibrate',
+                AppLocalizations.of(context)!.vibrate,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               Switch(
@@ -168,24 +169,24 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
               ),
             ],
           ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     Text(
+          //       'Show notification',
+          //       style: Theme.of(context).textTheme.titleMedium,
+          //     ),
+          //     Switch(
+          //       value: showNotification,
+          //       onChanged: (value) => setState(() => showNotification = value),
+          //     ),
+          //   ],
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Show notification',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              Switch(
-                value: showNotification,
-                onChanged: (value) => setState(() => showNotification = value),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Sound',
+                AppLocalizations.of(context)!.sound,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               DropdownButton(

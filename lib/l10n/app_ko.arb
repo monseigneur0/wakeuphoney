@@ -1,0 +1,19 @@
+{
+    "helloworld": "헬로 월드",
+    "profile": "프로필",
+    "alarms": "알람",
+    "save": "저장",
+    "cancel": "취소",
+    "myletters": "내 편지",
+    "answers": "답장",
+    "myanswers": "내 답장",
+    "dafaultletter": "기본 편지",
+    "letterat": "편지",
+    "loopalarmaudio": "반복",
+    "vibrate": "진동",
+    "sound": "음악",
+    "logout": "로그아웃",
+    "yes": "예",
+    "no": "아니요",
+    "sure": "정말 로그아웃할거에요?"
+}

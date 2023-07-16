@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/features/dailymessages/daily_controller.dart';
 import 'package:wakeuphoney/features/dailymessages/daily_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/providers/firebase_providers.dart';
@@ -91,7 +92,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My Letters"),
+        title: Text(AppLocalizations.of(context)!.myletters),
         backgroundColor: Colors.black87,
         actions: [
           IconButton(
@@ -117,10 +118,10 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
+            children: [
               Text(
-                "Default Message",
-                style: TextStyle(
+                AppLocalizations.of(context)!.dafaultletter,
+                style: const TextStyle(
                   fontSize: 15,
                   color: Colors.white,
                 ),

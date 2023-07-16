@@ -1,0 +1,23 @@
+{
+  "helloworld": "Hello World!",
+  "@helloworld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "profile": "Profile",
+  "alarms": "Alarms",
+  "save": "Save",
+  "cancel": "Cancel",
+  "myletters": "My Letters",
+  "answers": "Answers",
+  "myanswers": "My Answers",
+  "dafaultletter": "Default Letter",
+  "letterat": "Letter at",
+  "loopalarmaudio": "Loop alarm audio",
+  "vibrate": "Vibrate",
+  "sound": "Sound",
+  "logout": "Logout",
+  "login": "Login",
+  "yes": "Yes",
+  "no": "No",
+  "sure": "Are you sure?"
+}

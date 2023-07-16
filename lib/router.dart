@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 import 'package:wakeuphoney/features/couples/couples_list_screen.dart';
 
+import 'features/alarm/alarm2_screen.dart';
 import 'features/alarm/alarm_ring_screen.dart';
 import 'features/dailymessages/daily_create_screen.dart';
 import 'features/dailymessages/daily_letter2_screen.dart';
@@ -25,7 +26,7 @@ final routerProvider = Provider((ref) {
   final hasCoupleId = ref.watch(getUserProfileStreamProvider);
   final alarmSettings = ref.watch(alarmSettings1Provider);
   return GoRouter(
-    initialLocation: "/messages5",
+    initialLocation: "/dailyletter3",
     redirect: (context, state) {
       final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
       final loginName =
@@ -161,6 +162,11 @@ final routerProvider = Provider((ref) {
             path: AlarmRingScreen.routeURL,
             builder: (context, state) =>
                 AlarmRingScreen(alarmSettings: alarmSettings),
+          ),
+          GoRoute(
+            name: AlarmHome2.routeName,
+            path: AlarmHome2.routeURL,
+            builder: (context, state) => const AlarmHome2(),
           ),
           GoRoute(
             name: CouplesListScreen.routeName,
