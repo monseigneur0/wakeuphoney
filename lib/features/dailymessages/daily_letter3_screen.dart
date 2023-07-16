@@ -116,28 +116,28 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
           Container(
             height: 5,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                AppLocalizations.of(context)!.dafaultletter,
-                style: const TextStyle(
-                  fontSize: 15,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-          Container(
-            height: 5,
-          ),
-          Container(
-            height: 1,
-            decoration: BoxDecoration(color: Colors.grey[900]),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //   children: [
+          //     Text(
+          //       AppLocalizations.of(context)!.dafaultletter,
+          //       style: const TextStyle(
+          //         fontSize: 15,
+          //         color: Colors.white,
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // Container(
+          //   height: 5,
+          // ),
+          // Container(
+          //   height: 1,
+          //   decoration: BoxDecoration(color: Colors.grey[900]),
+          // ),
+          // const SizedBox(
+          //   height: 5,
+          // ),
           // Row(
           //   mainAxisAlignment: MainAxisAlignment.start,
           //   children: const [

@@ -1,6 +1,7 @@
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:day_night_time_picker/day_night_time_picker.dart';
 
 class ExampleAlarmEditScreen extends StatefulWidget {
   final AlarmSettings? alarmSettings;
@@ -56,6 +57,13 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
     if (res != null) setState(() => selectedTime = res);
   }
 
+  Time time = Time(hour: 11, minute: 30, second: 20);
+  void onTimeChanged(Time newTime) {
+    setState(() {
+      time = newTime;
+    });
+  }
+
   AlarmSettings buildAlarmSettings() {
     final now = DateTime.now();
     final id = creating
@@ -80,7 +88,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
       dateTime: dateTime,
       loopAudio: loopAudio,
       vibrate: vibrate,
-      notificationTitle: showNotification ? 'Alarm example' : null,
+      notificationTitle: showNotification ? 'Alarm ' : null,
       notificationBody: showNotification ? 'Your alarm ($id) is ringing' : null,
       assetAudioPath: assetAudio,
     );
@@ -99,11 +107,60 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //다만든거
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Row(
+            children: const [
+              // TextButton(
+              //   onPressed: () {
+              //     Navigator.of(context).push(
+              //       showPicker(
+              //         context: context,
+              //         value: time,
+              //         sunrise: const TimeOfDay(hour: 6, minute: 0), // optional
+              //         sunset: const TimeOfDay(hour: 18, minute: 0), // optional
+              //         duskSpanInMinutes: 120, // optional
+              //         onChange: onTimeChanged,
+              //       ),
+              //     );
+              //   },
+              //   child: const Text(
+              //     "Open time picker",
+              //     style: TextStyle(color: Colors.black),
+              //   ),
+              // ),
+            ],
+          ),
+          // RawMaterialButton(
+          //   onPressed: () {
+          //     Navigator.of(context).push(
+          //       showPicker(
+          //         context: context,
+          //         value: timeto,
+          //         sunrise: const TimeOfDay(hour: 6, minute: 0), // optional
+          //         sunset: const TimeOfDay(hour: 18, minute: 0), // optional
+          //         duskSpanInMinutes: 120, // optional
+          //         onChange: onTimeChanged,
+          //       ),
+          //     );
+          //   },
+          //   fillColor: Colors.grey[200],
+          //   child: Container(
+          //     margin: const EdgeInsets.all(20),
+          //     child: Text(
+          //       selectedTime.format(context),
+          //       style: Theme.of(context)
+          //           .textTheme
+          //           .displayMedium!
+          //           .copyWith(color: Colors.blueAccent),
+          //     ),
+          //   ),
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

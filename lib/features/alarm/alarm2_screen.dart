@@ -24,8 +24,8 @@ class AlarmHome2State extends ConsumerState<AlarmHome2> {
   late List<AlarmSettings> alarms;
   static StreamSubscription? subscription;
 
-  final String iOSTestId = 'ca-app-pub-5897230132206634/3120978311';
-  final String androidTestId = 'ca-app-pub-3940256099942544/6300978111';
+  final String iOSId = 'ca-app-pub-5897230132206634/3120978311';
+  final String androidId = 'ca-app-pub-3940256099942544/6300978111';
 
   BannerAd? _bannerAd;
 
@@ -38,7 +38,7 @@ class AlarmHome2State extends ConsumerState<AlarmHome2> {
     );
     BannerAd(
       size: AdSize.banner,
-      adUnitId: Platform.isIOS ? iOSTestId : androidTestId,
+      adUnitId: Platform.isIOS ? iOSId : androidId,
       listener: BannerAdListener(
         onAdLoaded: (ad) {
           setState(() {

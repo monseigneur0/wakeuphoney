@@ -113,14 +113,14 @@ final routerProvider = Provider((ref) {
                       size: 33,
                     ),
                   ),
-                  IconButton(
-                    onPressed: () => context.goNamed(PracticeHome.routeName),
-                    icon: const Icon(
-                      Icons.home,
-                      color: Colors.white,
-                      size: 33,
-                    ),
-                  ),
+                  // IconButton(
+                  //   onPressed: () => context.goNamed(PracticeHome.routeName),
+                  //   icon: const Icon(
+                  //     Icons.home,
+                  //     color: Colors.white,
+                  //     size: 33,
+                  //   ),
+                  // ),
                   IconButton(
                     onPressed: () => context.goNamed(MatchScreen.routeName),
                     icon: const Icon(

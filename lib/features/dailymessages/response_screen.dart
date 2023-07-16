@@ -6,7 +6,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-import '../../core/common/error_text.dart';
 import '../../core/common/loader.dart';
 import '../../core/providers/firebase_providers.dart';
 import '../../core/providers/providers.dart';
@@ -68,7 +67,7 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                 //   height: 1,
                 //   decoration: BoxDecoration(color: Colors.grey[700]),
                 // ),
-                ref.watch(getDailyMessageProvider(dateList100[0])).when(
+                ref.watch(getDailyCoupleMessageProvider(dateList100[0])).when(
                       data: (message) {
                         return Padding(
                           padding: const EdgeInsets.all(20.0),
@@ -91,8 +90,17 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                       error: (error, stackTrace) {
                         print("error");
 
-                        return ErrorText(
-                            error: DateFormat.yMMMd().format(listDateTime[0]));
+                        return Column(
+                          children: const [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Text("no letter..."),
+                            SizedBox(
+                              height: 50,
+                            ),
+                          ],
+                        );
                       },
                       loading: () => const Loader(),
                     ),

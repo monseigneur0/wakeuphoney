@@ -58,9 +58,12 @@ class AlarmRingScreen extends ConsumerWidget {
                     return Column(
                       children: const [
                         SizedBox(
-                          height: 200,
+                          height: 50,
                         ),
-                        Text("no letter...")
+                        Text("no letter..."),
+                        SizedBox(
+                          height: 50,
+                        ),
                       ],
                     );
                     // ErrorText(
