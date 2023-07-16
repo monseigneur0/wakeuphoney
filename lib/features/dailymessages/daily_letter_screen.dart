@@ -104,7 +104,7 @@ class _DailyLetterScreenState extends ConsumerState<DailyLetterScreen> {
               );
             },
             error: (error, stackTrace) {
-              print("error$error ");
+              // print("error$error ");
               return null;
             },
             loading: () => const Loader(),

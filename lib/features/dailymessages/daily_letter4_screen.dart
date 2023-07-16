@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -20,7 +24,33 @@ class DailyLetter4Screen extends ConsumerStatefulWidget {
 }
 
 class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
+  final String iOSId3 = 'ca-app-pub-5897230132206634/6527311215';
+  final String androidId3 = 'ca-app-pub-5897230132206634/8880397412';
+  BannerAd? _bannerAd;
+
   List allMessages = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    BannerAd(
+      size: AdSize.banner,
+      adUnitId: Platform.isIOS ? iOSId3 : androidId3,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          // print('Failed to load a banner ad: ${err.message}');
+          ad.dispose();
+        },
+      ),
+      request: const AdRequest(),
+    ).load();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,117 +82,132 @@ class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
       ),
       backgroundColor: Colors.black,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
             height: 1,
             decoration: BoxDecoration(color: Colors.grey[800]),
           ),
-          Container(
-            decoration: const BoxDecoration(color: Colors.black),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height - 220,
-              child: ScrollablePositionedList.builder(
-                initialScrollIndex: listHistoryMessage.when(
-                  data: (value) => value.length,
-                  error: (error, stackTrace) {
-                    print("error$error ");
-                    return 0;
-                  },
-                  loading: () => 0,
-                ),
-                itemCount: listHistoryMessage.when(
-                  data: (value) => value.length,
-                  error: (error, stackTrace) {
-                    print("error$error ");
-                    return 0;
-                  },
-                  loading: () => 0,
-                ),
-                scrollDirection: Axis.vertical,
-                itemBuilder: (context, index) {
-                  return listHistoryMessage.when(
-                    data: (value) {
-                      return value[index].sender == uid
-                          ? Column(
-                              children: [
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width - 40,
-                                  child: value[index].photo.isNotEmpty
-                                      ? Image.network(value[index].photo)
-                                      : Container(),
-                                ),
-                                ListTile(
-                                  title: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        value[index].message,
-                                        style: const TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.white,
+          listHistoryMessage.when(
+            data: (value) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height - 180,
+                child: ScrollablePositionedList.builder(
+                  initialScrollIndex: value.length,
+                  itemCount: value.length,
+                  itemBuilder: (context, index) {
+                    return value[index].sender == uid
+                        ? Column(
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width - 40,
+                                child: value[index].photo.isNotEmpty
+                                    ? CachedNetworkImage(
+                                        imageUrl: value[index].photo,
+                                        placeholder: (context, url) =>
+                                            Container(
+                                          height: 70,
                                         ),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
+                                      )
+                                    : Container(),
+                              ),
+                              ListTile(
+                                title: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      value[index].message,
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.white,
                                       ),
-                                    ],
-                                  ),
-                                  subtitle: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        DateFormat.MMMd().format(
-                                            value[index].messagedatetime),
-                                        style:
-                                            TextStyle(color: Colors.grey[500]),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Column(
-                              children: [
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width - 40,
-                                  child: value[index].photo.isNotEmpty
-                                      ? Image.network(value[index].photo)
-                                      : Container(),
-                                ),
-                                ListTile(
-                                  title: Text(
-                                    value[index].message,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
                                     ),
-                                  ),
-                                  subtitle: Text(
-                                    DateFormat.MMMd()
-                                        .format(value[index].messagedatetime),
-                                    style: const TextStyle(
-                                        color: Color(0xFFD72499)),
+                                  ],
+                                ),
+                                subtitle: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      DateFormat.MMMd()
+                                          .format(value[index].messagedatetime),
+                                      style: TextStyle(color: Colors.grey[500]),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width - 40,
+                                child: value[index].photo.isNotEmpty
+                                    ? CachedNetworkImage(
+                                        imageUrl: value[index].photo,
+                                        placeholder: (context, url) =>
+                                            Container(
+                                          height: 70,
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
+                                      )
+                                    : Container(),
+                              ),
+                              ListTile(
+                                title: Text(
+                                  value[index].message,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
                                   ),
                                 ),
-                              ],
-                            );
-                    },
-                    error: (error, stackTrace) {
-                      print("error$error ");
-                      return Container();
-                    },
-                    loading: () => const Loader(),
-                  );
-                },
-              ),
-            ),
+                                subtitle: Text(
+                                  DateFormat.MMMd()
+                                      .format(value[index].messagedatetime),
+                                  style:
+                                      const TextStyle(color: Color(0xFFD72499)),
+                                ),
+                              ),
+                            ],
+                          );
+                  },
+                ),
+              );
+            },
+            error: (error, stackTrace) {
+              // print("error$error ");
+              return Container();
+            },
+            loading: () => const Loader(),
           ),
-          Container(
-            height: 1,
-            decoration: const BoxDecoration(color: Colors.white),
-          ),
-          const SizedBox(
-            height: 60,
-          ),
+          // Container(
+          //   height: 1,
+          //   decoration: const BoxDecoration(color: Colors.white),
+          // ),
+          // const SizedBox(
+          //   height: 60,
+          // ),
         ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (_bannerAd != null)
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  width: _bannerAd!.size.width.toDouble(),
+                  height: _bannerAd!.size.height.toDouble(),
+                  child: AdWidget(ad: _bannerAd!),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

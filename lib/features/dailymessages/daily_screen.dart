@@ -147,7 +147,7 @@ class DailyMessageScreenState extends ConsumerState<DailyMessageScreen> {
                   controller: _controller,
                   child: messageList.when(
                     error: (error, stackTrace) {
-                      print("error$error ");
+                      // print("error$error ");
                       return const Text("error");
                     },
                     loading: () => const Loader(),
@@ -162,7 +162,7 @@ class DailyMessageScreenState extends ConsumerState<DailyMessageScreen> {
                         newList[index].messagedate ==
                             DateFormat.yMMMd().format(DateTime.now());
 
-                        print(index);
+                        // print(index);
                         message.sort((a, b) =>
                             a.messagedatetime.compareTo(b.messagedatetime));
                       }
@@ -309,8 +309,8 @@ class DailyMessageScreenState extends ConsumerState<DailyMessageScreen> {
                             await users.doc(uid).get();
                         var donf = documentSnapshotCoupleId.data()
                             as Map<String, dynamic>;
-                        print(donf["couple"]);
-                        print(documentSnapshotCoupleId.get("couple"));
+                        // print(donf["couple"]);
+                        // print(documentSnapshotCoupleId.get("couple"));
                       }
 
                       _messgaeController.clear();

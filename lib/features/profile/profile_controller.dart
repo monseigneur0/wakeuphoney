@@ -54,7 +54,6 @@ class ProfileController extends StateNotifier<bool> {
 
   Stream<UserModel> getUserProfileStream() {
     String uid = _ref.watch(authProvider).currentUser!.uid;
-    print("ProfileController getUserProfileStream $uid");
     return _profileRepo.getUserProfileStream(uid);
   }
 

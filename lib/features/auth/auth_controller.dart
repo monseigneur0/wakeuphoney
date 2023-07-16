@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/auth/auth_repository.dart';
+import 'package:wakeuphoney/features/auth/login_screen.dart';
 import 'package:wakeuphoney/features/auth/user_model.dart';
 
-import '../../core/utils.dart';
+import '../match/match_screen.dart';
 
 final userModelProvider = StateProvider<UserModel?>((ref) => null);
 
@@ -28,19 +30,42 @@ class AuthController extends StateNotifier<bool> {
   Stream<User?> get authStateChange => _authRepository.authStateChange;
 
   void signInWithGoogleUser(BuildContext context) async {
-    final user = await _authRepository.signInWithGoogleUser(context);
+    final user = await _authRepository
+        .signInWithGoogleUser(context)
+        .then((_) => _authRepository.loginWithGoogleDb(context))
+        .then((value) => context.go(MatchScreen.routeURL));
+
+    // user.fold(
+    //     (l) => showSnackBar(context, l.message),
+    //     (userModel) =>
+    //         _ref.read(userModelProvider.notifier).update((state) => userModel));
+  }
+
+  void signInWithGoogle(BuildContext context) async {
+    final user = await _authRepository.signInWithGoogle();
+
+    // .then((value) => _authRepository.loginWithGoogleDb(context))
+    // .then((value) => context.go(MatchScreen.routeURL));
 
     user.fold(
-        (l) => showSnackBar(context, l.message),
+        (l) => context.go(LoginHome.routeURL),
         (userModel) =>
             _ref.read(userModelProvider.notifier).update((state) => userModel));
+  }
+
+  void signInWithGoogleEnd(BuildContext context) async {
+    await _authRepository.signInWithGoogleEnd();
+
+    // .then((value) => _authRepository.loginWithGoogleDb(context))
+    // .then((value) => context.go(MatchScreen.routeURL));
   }
 
   Stream<UserModel> getUserData(String uid) {
     return _authRepository.getUserData(uid);
   }
 
-  void logout() async {
+  void logout(BuildContext context) async {
     _authRepository.logout();
+    context.go(LoginHome.routeURL);
   }
 }

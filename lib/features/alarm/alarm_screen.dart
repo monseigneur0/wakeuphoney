@@ -31,7 +31,7 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
   static StreamSubscription? subscription;
 
   final String iOSTestId = 'ca-app-pub-5897230132206634/3120978311';
-  final String androidTestId = 'ca-app-pub-3940256099942544/6300978111';
+  final String androidTestId = 'ca-app-pub-5897230132206634/5879003590';
 
   BannerAd? _bannerAd;
 
@@ -52,7 +52,7 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
           });
         },
         onAdFailedToLoad: (ad, err) {
-          print('Failed to load a banner ad: ${err.message}');
+          // print('Failed to load a banner ad: ${err.message}');
           ad.dispose();
         },
       ),
@@ -132,33 +132,36 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
       ),
       backgroundColor: Colors.black,
       body: SafeArea(
-        child: alarms.isNotEmpty
-            ? ListView.separated(
-                itemCount: alarms.length,
-                separatorBuilder: (context, index) => const Divider(),
-                itemBuilder: (context, index) {
-                  return AlarmTile(
-                    key: Key(alarms[index].id.toString()),
-                    title: TimeOfDay(
-                      hour: alarms[index].dateTime.hour,
-                      minute: alarms[index].dateTime.minute,
-                    ).format(context),
-                    onPressed: () => navigateToAlarmScreen(alarms[index]),
-                    onDismissed: () {
-                      Alarm.stop(alarms[index].id).then((_) => loadAlarms());
-                    },
-                  );
-                },
-              )
-            : const Center(
-                child: Text(
-                  'No alarms set',
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.white,
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height - 180,
+          child: alarms.isNotEmpty
+              ? ListView.separated(
+                  itemCount: alarms.length,
+                  separatorBuilder: (context, index) => const Divider(),
+                  itemBuilder: (context, index) {
+                    return AlarmTile(
+                      key: Key(alarms[index].id.toString()),
+                      title: TimeOfDay(
+                        hour: alarms[index].dateTime.hour,
+                        minute: alarms[index].dateTime.minute,
+                      ).format(context),
+                      onPressed: () => navigateToAlarmScreen(alarms[index]),
+                      onDismissed: () {
+                        Alarm.stop(alarms[index].id).then((_) => loadAlarms());
+                      },
+                    );
+                  },
+                )
+              : Center(
+                  child: Text(
+                    AppLocalizations.of(context)!.noalarmset,
+                    style: const TextStyle(
+                      fontSize: 30,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
+        ),
       ),
       // bottomNavigationBar: BottomAppBar(
       //   child: Row(

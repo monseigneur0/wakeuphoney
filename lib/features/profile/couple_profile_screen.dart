@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +12,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../core/common/loader.dart';
 import '../alarm/alarm_screen.dart';
 import '../auth/auth_repository.dart';
+import '../auth/login_screen.dart';
 
 class CoupleProfileScreen extends ConsumerStatefulWidget {
   static String routeName = "coupleprofilescreen";
@@ -82,10 +83,17 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                     SizedBox(
                       height: 100,
                       child: userProfileStream.when(
-                        data: (data) =>
-                            Image.network(data.photoURL, fit: BoxFit.cover),
+                        data: (data) => CachedNetworkImage(
+                          imageUrl: data.photoURL,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Container(
+                            height: 70,
+                          ),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        ),
                         error: (error, stackTrace) {
-                          print("error$error ");
+                          // print("error$error ");
                           return const Image(
                             image: AssetImage('assets/human.jpg'),
                             height: 30,
@@ -103,7 +111,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                         ),
                       ),
                       error: (error, stackTrace) {
-                        print("error$error ");
+                        // print("error$error ");
                         return const Text("no couple");
                       },
                       loading: () => const Loader(),
@@ -126,10 +134,17 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                     SizedBox(
                       height: 100,
                       child: coupleProfile.when(
-                        data: (data) =>
-                            Image.network(data.photoURL, fit: BoxFit.cover),
+                        data: (data) => CachedNetworkImage(
+                          imageUrl: data.photoURL,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Container(
+                            height: 70,
+                          ),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        ),
                         error: (error, stackTrace) {
-                          print("error$error ");
+                          // print("error$error ");
                           return const Image(
                             image: AssetImage('assets/human.jpg'),
                             height: 30,
@@ -147,7 +162,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                         ),
                       ),
                       error: (error, stackTrace) {
-                        print("error$error ");
+                        // print("error$error ");
                         return const Text("no couple");
                       },
                       loading: () => const Loader(),
@@ -159,7 +174,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
           ),
         ],
       ),
-      endDrawer: ProfileDrawer(userprofile: userprofile, ref: ref),
+      endDrawer: ProfileDrawer(ref: ref),
     );
   }
 }
@@ -167,15 +182,14 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
 class ProfileDrawer extends StatelessWidget {
   const ProfileDrawer({
     super.key,
-    required this.userprofile,
     required this.ref,
   });
 
-  final User userprofile;
   final WidgetRef ref;
 
   @override
   Widget build(BuildContext context) {
+    final userprofile = ref.watch(authRepositoryProvider).currentUser!;
     return Drawer(
       backgroundColor: Colors.grey[800],
       child: ListView(
@@ -254,12 +268,9 @@ class ProfileDrawer extends StatelessWidget {
                           ),
                           CupertinoDialogAction(
                             onPressed: () {
-                              ref
-                                  .watch(authRepositoryProvider)
-                                  .logout()
-                                  .then((value) =>
-                                      context.goNamed(AlarmHome.routeName))
-                                  .then((value) => Navigator.of(context).pop());
+                              ref.watch(authRepositoryProvider).logout();
+                              Navigator.of(context).pop();
+                              context.goNamed(LoginHome.routeName);
                             },
                             isDestructiveAction: true,
                             child: Text(AppLocalizations.of(context)!.yes),
@@ -297,13 +308,9 @@ class ProfileDrawer extends StatelessWidget {
                               ),
                               IconButton(
                                 onPressed: () {
-                                  ref
-                                      .watch(authRepositoryProvider)
-                                      .logout()
-                                      .then((value) =>
-                                          context.goNamed(AlarmHome.routeName))
-                                      .then((value) =>
-                                          Navigator.of(context).pop());
+                                  ref.watch(authRepositoryProvider).logout();
+                                  Navigator.of(context).pop();
+                                  context.goNamed(LoginHome.routeName);
                                 },
                                 icon: const Icon(
                                   Icons.done,

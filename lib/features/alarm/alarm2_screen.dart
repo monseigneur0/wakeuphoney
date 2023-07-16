@@ -46,7 +46,7 @@ class AlarmHome2State extends ConsumerState<AlarmHome2> {
           });
         },
         onAdFailedToLoad: (ad, err) {
-          print('Failed to load a banner ad: ${err.message}');
+          // print('Failed to load a banner ad: ${err.message}');
           ad.dispose();
         },
       ),

@@ -141,7 +141,7 @@ class _HistoryList extends StatelessWidget {
                 );
               },
               error: (error, stackTrace) {
-                print("error$error ");
+                // print("error$error ");
                 return null;
               },
               loading: () => const Loader(),
@@ -269,7 +269,7 @@ class _FutureList extends StatelessWidget {
                       );
               },
               error: (error, stackTrace) {
-                print("error$error ");
+                // print("error$error ");
                 return null;
               },
               loading: () => const Loader(),

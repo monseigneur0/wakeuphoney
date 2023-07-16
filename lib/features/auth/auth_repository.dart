@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:go_router/go_router.dart';
@@ -9,8 +10,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/core/type_defs.dart';
+import 'package:wakeuphoney/features/match/match_screen.dart';
 
 import '../../core/constants/firebase_constants.dart';
+import '../../core/failure.dart';
 import '../../practice_home_screen.dart';
 import 'login_screen.dart';
 import 'user_model.dart';
@@ -36,18 +39,18 @@ class AuthRepository {
   CollectionReference get _users =>
       _firestore.collection(FirebaseConstants.usersCollection);
 
-  Stream<User?> get authStateChange => _firebaseAuth.authStateChanges();
-
-  User? get currentUser => _firebaseAuth.currentUser;
   bool get isLoggedIn => currentUser != null;
+  User? get currentUser => _firebaseAuth.currentUser;
+  Stream<User?> get authStateChange => _firebaseAuth.authStateChanges();
 
   Future<UserCredential?> loginWithGoogle(BuildContext context) async {
     try {
       // Trigger the authentication flow
       GoogleSignInAccount? user = await _googleSignIn.signIn();
+      if (user == null) throw Exception("Not logged in");
 
       // Obtain the auth details from the request
-      GoogleSignInAuthentication? googleAuth = await user!.authentication;
+      GoogleSignInAuthentication? googleAuth = await user.authentication;
       // Create a new credential
       var credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
@@ -57,56 +60,178 @@ class AuthRepository {
       final UserCredential userCredential =
           await _firebaseAuth.signInWithCredential(credential);
 
-///////////////////////////////////////////////////////////////////////////////////////////
-
-      _firebaseAuth.authStateChanges().listen(
-        (User? user) {
-          if (user == null) {
-            print('User is currently signed out!');
-            context.goNamed(LoginHome.routeName);
-          } else {
-            print(user);
-            UserModel userModelNow = UserModel(
-              displayName: user.displayName ?? "no Name",
-              email: user.email ?? "noemail@hello.com",
-              photoURL: user.photoURL ?? "",
-              uid: user.uid,
-              couple: "this is right",
-              couples: [],
-              creationTime: DateTime.now(),
-              lastSignInTime: DateTime.now(),
-              isLoggedIn: true,
-            );
-
-            _users.where("uid", isEqualTo: user.uid).get().then((event) {
-              event.docs.isEmpty
-                  ? _firestore
-                      .collection("users")
-                      .doc(user.uid)
-                      .set(userModelNow.toMap())
-                      .then((value) =>
-                          print("documentSnapshot add with id : ${user.uid}"))
-                  : _firestore
-                      .collection("users")
-                      .doc(event.docs.first.id)
-                      .update({
-                      "lastSignInTime": user.metadata.lastSignInTime
-                    }).then(
-                      (value) => print(
-                          "user already exists, don't write in db ${event.docs.first.id}"),
-                      onError: (e) => print("Error getting document: $e"),
-                    );
-            });
-            context.go(PracticeHome.routeURL);
-          }
-        },
-      );
-
       return userCredential;
     } on FirebaseException catch (e) {
       throw e.message!;
     } catch (e) {
       throw e.toString();
+    }
+  }
+
+  void loginWithGoogleDb(BuildContext context) {
+    _firebaseAuth.authStateChanges().listen(
+      (User? user) {
+        if (user == null) {
+          // print('User is currently signed out!');
+          context.goNamed(LoginHome.routeName);
+        } else {
+          // print(user);
+          UserModel userModelNow = UserModel(
+            displayName: user.displayName ?? "no Name",
+            email: user.email ?? "noemail@hello.com",
+            photoURL: user.photoURL ?? "",
+            uid: user.uid,
+            couple: "this is right",
+            couples: [],
+            creationTime: DateTime.now(),
+            lastSignInTime: DateTime.now(),
+            isLoggedIn: true,
+          );
+
+          _users.where("uid", isEqualTo: user.uid).get().then((event) {
+            event.docs.isEmpty
+                ? _firestore
+                    .collection("users")
+                    .doc(user.uid)
+                    .set(userModelNow.toMap())
+                    .then(
+                      (value) =>
+                          print("documentSnapshot add with id : ${user.uid}"),
+                    )
+                : _firestore
+                    .collection("users")
+                    .doc(event.docs.first.id)
+                    .update(
+                        {"lastSignInTime": user.metadata.lastSignInTime}).then(
+                    (value) => print(
+                        "user already exists, don't write in db ${event.docs.first.id}"),
+                    onError: (e) => print("Error getting document: $e"),
+                  );
+          });
+          context.go(MatchScreen.routeURL);
+        }
+      },
+    );
+  }
+
+  Future<UserCredential?> signInWithGoogleEnd() async {
+    try {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      // Once signed in, return the UserCredential
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+    }
+    return null;
+  }
+
+  static Future<User?> signInWithGoogleWow(
+      {required BuildContext context}) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user;
+
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
+
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      try {
+        final UserCredential userCredential =
+            await auth.signInWithCredential(credential);
+
+        user = userCredential.user;
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'account-exists-with-different-credential') {
+          // handle the error here
+        } else if (e.code == 'invalid-credential') {
+          // handle the error here
+        }
+      } catch (e) {
+        // handle the error here
+      }
+    }
+
+    return user;
+  }
+
+  static Future<FirebaseApp> initializeFirebase({
+    required BuildContext context,
+  }) async {
+    FirebaseApp firebaseApp = await Firebase.initializeApp();
+
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const LoginHome(),
+        ),
+      );
+    }
+
+    return firebaseApp;
+  }
+
+  FutureEither<UserModel> signInWithGoogle() async {
+    try {
+      UserCredential userCredential;
+
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+
+      final googleAuth = await googleUser?.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      userCredential = await _firebaseAuth.signInWithCredential(credential);
+
+      UserModel userModel;
+
+      if (userCredential.additionalUserInfo!.isNewUser) {
+        userModel = UserModel(
+          displayName: userCredential.user!.displayName ?? "no Name",
+          email: userCredential.user!.email ?? "noemail@hello.com",
+          photoURL: userCredential.user!.photoURL ?? "",
+          uid: userCredential.user!.uid,
+          couple: "",
+          couples: [],
+          creationTime:
+              userCredential.user!.metadata.creationTime ?? DateTime.now(),
+          lastSignInTime:
+              userCredential.user!.metadata.lastSignInTime ?? DateTime.now(),
+          isLoggedIn: true,
+        );
+        await _users.doc(userCredential.user!.uid).set(userModel.toMap());
+      } else {
+        userModel = await getUserData(userCredential.user!.uid).first;
+      }
+      return right(userModel);
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
     }
   }
 
@@ -116,11 +241,11 @@ class AuthRepository {
       GoogleSignInAccount? user = await _googleSignIn.signIn();
 
       // Obtain the auth details from the request
-      GoogleSignInAuthentication? googleAuth = await user!.authentication;
+      GoogleSignInAuthentication? googleAuth = await user?.authentication;
       // Create a new credential
       var credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
       );
       // Once signed in, return the UserCredential
       final UserCredential userCredential =
@@ -137,6 +262,27 @@ class AuthRepository {
           creationTime: DateTime.now(),
           lastSignInTime: DateTime.now(),
           isLoggedIn: isLoggedIn);
+
+      UserModel userModel;
+
+      if (userCredential.additionalUserInfo!.isNewUser) {
+        userModel = UserModel(
+          displayName: userCredential.user!.displayName ?? "no Name",
+          email: userCredential.user!.email ?? "noemail@hello.com",
+          photoURL: userCredential.user!.photoURL ?? "",
+          uid: userCredential.user!.uid,
+          couple: "",
+          couples: [],
+          creationTime:
+              userCredential.user!.metadata.creationTime ?? DateTime.now(),
+          lastSignInTime:
+              userCredential.user!.metadata.lastSignInTime ?? DateTime.now(),
+          isLoggedIn: true,
+        );
+        await _users.doc(userCredential.user!.uid).set(userModel.toMap());
+      } else {
+        userModel = await getUserData(userCredential.user!.uid).first;
+      }
 
       _firebaseAuth.authStateChanges().listen(
         (User? user) {
@@ -220,8 +366,8 @@ class AuthRepository {
     return fon;
   }
 
-  Future logout() async {
+  void logout() async {
     await _firebaseAuth.signOut();
-    await _googleSignIn.disconnect();
+    await _googleSignIn.signOut();
   }
 }

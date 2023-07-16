@@ -11,6 +11,7 @@ import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/features/dailymessages/daily_controller.dart';
 import 'package:wakeuphoney/features/dailymessages/daily_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/providers/firebase_providers.dart';
@@ -29,8 +30,8 @@ class DailyLetter3Screen extends ConsumerStatefulWidget {
 }
 
 class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
-  final String iOSTestId = 'ca-app-pub-5897230132206634/3120978311';
-  final String androidTestId = 'ca-app-pub-3940256099942544/6300978111';
+  final String iOSId2 = 'ca-app-pub-5897230132206634/5936284276';
+  final String androidId2 = 'ca-app-pub-5897230132206634/3350483532';
 
   BannerAd? _bannerAd;
 
@@ -57,22 +58,22 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
   void initState() {
     super.initState();
 
-    // BannerAd(
-    //   size: AdSize.banner,
-    //   adUnitId: Platform.isIOS ? iOSTestId : androidTestId,
-    //   listener: BannerAdListener(
-    //     onAdLoaded: (ad) {
-    //       setState(() {
-    //         _bannerAd = ad as BannerAd;
-    //       });
-    //     },
-    //     onAdFailedToLoad: (ad, err) {
-    //       print('Failed to load a banner ad: ${err.message}');
-    //       ad.dispose();
-    //     },
-    //   ),
-    //   request: const AdRequest(),
-    // ).load();
+    BannerAd(
+      size: AdSize.banner,
+      adUnitId: Platform.isIOS ? iOSId2 : androidId2,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          // print('Failed to load a banner ad: ${err.message}');
+          ad.dispose();
+        },
+      ),
+      request: const AdRequest(),
+    ).load();
   }
 
   @override
@@ -160,7 +161,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
           Container(
             decoration: const BoxDecoration(color: Colors.black),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height - 220,
+              height: MediaQuery.of(context).size.height - 180,
               child: ListView.builder(
                 itemCount: 100,
                 scrollDirection: Axis.vertical,
@@ -200,7 +201,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                                         XFile? file =
                                             await imagePicker.pickImage(
                                                 source: ImageSource.gallery);
-                                        print('${file?.path}');
+                                        // print('${file?.path}');
 
                                         String uniqueFileName = DateTime.now()
                                             .toString()
@@ -240,7 +241,16 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                                         }
                                       },
                                       child: messageNow.photo.isNotEmpty
-                                          ? Image.network(messageNow.photo)
+                                          ? CachedNetworkImage(
+                                              imageUrl: messageNow.photo,
+                                              placeholder: (context, url) =>
+                                                  Container(
+                                                height: 70,
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      const Icon(Icons.error),
+                                            )
                                           : Container(),
                                     ),
                                   ),
@@ -384,7 +394,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                             );
                     },
                     error: (error, stackTrace) {
-                      print("error$error ");
+                      // print("error$error ");
                       return null;
                     },
                     loading: () => const Loader(),
@@ -395,24 +405,24 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
           ),
         ],
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: Padding(
-      //   padding: const EdgeInsets.symmetric(),
-      //   child: Row(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: [
-      //       if (_bannerAd != null)
-      //         Align(
-      //           alignment: Alignment.bottomCenter,
-      //           child: SizedBox(
-      //             width: _bannerAd!.size.width.toDouble(),
-      //             height: _bannerAd!.size.height.toDouble(),
-      //             child: AdWidget(ad: _bannerAd!),
-      //           ),
-      //         ),
-      //     ],
-      //   ),
-      // ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (_bannerAd != null)
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  width: _bannerAd!.size.width.toDouble(),
+                  height: _bannerAd!.size.height.toDouble(),
+                  child: AdWidget(ad: _bannerAd!),
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -608,7 +618,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                             ImagePicker imagePicker = ImagePicker();
                             XFile? file = await imagePicker.pickImage(
                                 source: ImageSource.gallery);
-                            print('${file?.path}');
+                            // print('${file?.path}');
 
                             String uniqueFileName =
                                 DateTime.now().toString().replaceAll(' ', '');
@@ -794,7 +804,7 @@ class _FutureList extends StatelessWidget {
                       );
               },
               error: (error, stackTrace) {
-                print("error$error ");
+                // print("error$error ");
                 return null;
               },
               loading: () => const Loader(),

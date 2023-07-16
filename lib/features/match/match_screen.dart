@@ -2,12 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/core/utils.dart';
+import 'package:wakeuphoney/features/auth/login_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
+import '../auth/auth_repository.dart';
+import '../profile/couple_profile_screen.dart';
 import 'match_controller.dart';
 
 class MatchScreen extends ConsumerStatefulWidget {
@@ -85,62 +90,91 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userprofile = ref.watch(authRepositoryProvider).currentUser ??
+        context.go(LoginHome.routeName);
+
     final leftTime = ref.watch(leftSecondsMatch);
     final onceClickedMatch2 = ref.watch(onceClickedMatch);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Colors.grey[900],
         elevation: 0,
-        title: const Text(
-          "Connect to My Honey",
-          style: TextStyle(
-              color: Colors.white, fontSize: 27, fontWeight: FontWeight.bold),
+        title: Text(
+          AppLocalizations.of(context)!.connectto,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+          ),
         ),
       ),
+      backgroundColor: Colors.black,
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             const SizedBox(
-              height: 50,
+              height: 30,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset(
+                'assets/alarmbear.png',
+                height: 100,
+              ),
+            ),
+            const SizedBox(
+              height: 30,
             ),
             _visible
                 ? Container()
                 : Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 60, vertical: 10),
-                    child: Form(
-                      key: _formKey,
-                      child: TextFormField(
-                        keyboardType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty || value == "") {
-                            return 'Please enter honey code';
-                          } else {
-                            if (value.length < 6 || value.length > 6) {
-                              return 'not 6 numbers';
-                            }
-                          }
-                          return null;
-                        },
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        controller: _honeyCodeController,
-                        decoration: const InputDecoration(
-                          labelText: 'Write 6 numbers',
-                          hintText: '123456',
+                    padding: const EdgeInsets.symmetric(horizontal: 100),
+                    child: Container(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 5),
+                        child: Form(
+                          key: _formKey,
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            validator: (value) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value == "") {
+                                return 'Please enter honey code';
+                              } else {
+                                if (value.length < 6 || value.length > 6) {
+                                  return 'not 6 numbers';
+                                }
+                              }
+                              return null;
+                            },
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            controller: _honeyCodeController,
+                            decoration: const InputDecoration(
+                              labelText: 'Write 6 numbers',
+                              hintText: '123456',
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
+            const SizedBox(
+              height: 10,
+            ),
             _visible
                 ? Container()
                 : ElevatedButton(
                     style: const ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(Colors.red)),
+                        backgroundColor:
+                            MaterialStatePropertyAll(Color(0xFFD72499))),
                     onPressed: () {
                       if (_honeyCodeController.text.isNotEmpty) {
                         final int honeyCode =
@@ -171,7 +205,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                         }
                       }
                     },
-                    child: const Text("Match"),
+                    child: Text(AppLocalizations.of(context)!.connectwith),
                   ),
             const SizedBox(
               height: 50,
@@ -179,6 +213,9 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
             _visible
                 ? Container()
                 : ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Colors.grey[800])),
                     onPressed: () {
                       // Call setState. This tells Flutter to rebuild the
                       // UI with the changes.
@@ -197,7 +234,8 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                         ref.watch(onceClickedMatch.notifier).state = true;
                       });
                     },
-                    child: const Text("generate honey code")),
+                    child: Text(AppLocalizations.of(context)!.generateauthcode),
+                  ),
             AnimatedOpacity(
               // If the widget is visible, animate to 0.0 (invisible).
               // If the widget is hidden, animate to 1.0 (fully visible).
@@ -215,7 +253,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                           },
                           loading: () => "const Loader()",
                         ),
-                    style: const TextStyle(fontSize: 50),
+                    style: const TextStyle(color: Colors.white, fontSize: 50),
                   ),
                   // Text(
                   //   ref.watch(getMatchCodeViewProvider).when(
@@ -244,7 +282,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                 : ElevatedButton(
                     style: const ButtonStyle(
                         backgroundColor:
-                            MaterialStatePropertyAll(Colors.amber)),
+                            MaterialStatePropertyAll(Color(0xFFD72499))),
                     onPressed: () {
                       isRunning ? null : onStartPressed();
                       // Call setState. This tells Flutter to rebuild the
@@ -257,6 +295,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
           ],
         ),
       ),
+      endDrawer: ProfileDrawer(ref: ref),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:alarm/alarm.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -41,7 +42,14 @@ class AlarmRingScreen extends ConsumerWidget {
                           SizedBox(
                             width: MediaQuery.of(context).size.width - 40,
                             child: message.photo.isNotEmpty
-                                ? Image.network(message.photo)
+                                ? CachedNetworkImage(
+                                    imageUrl: message.photo,
+                                    placeholder: (context, url) => Container(
+                                      height: 70,
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  )
                                 : Container(),
                           ),
                           Text(
@@ -53,7 +61,7 @@ class AlarmRingScreen extends ConsumerWidget {
                     );
                   },
                   error: (error, stackTrace) {
-                    print("error");
+                    // print("error");
 
                     return Column(
                       children: const [

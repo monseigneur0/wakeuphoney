@@ -19,5 +19,11 @@
   "login": "Login",
   "yes": "Yes",
   "no": "No",
-  "sure": "Are you sure?"
+  "noalarmset": "No alarms set",
+  "sure": "Are you sure?",
+  "connectto": "Connect to My Honey",
+  "connectwith": "Connect with auth code",
+  "match": "Match",
+  "generateauthcode": "Generate Auth Code",
+  "backtowrite": "Back to write auth code"
 }

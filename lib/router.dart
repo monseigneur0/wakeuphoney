@@ -41,12 +41,17 @@ final routerProvider = Provider((ref) {
       if (isLoggedIn) {
         if (state.location == LoginHome.routeURL) {
           print("no enter login page");
-          return PracticeHome.routeURL;
+          return MatchScreen.routeURL;
         }
       }
       return null;
     },
     routes: [
+      GoRoute(
+        name: LoginHome.routeName,
+        path: LoginHome.routeURL,
+        builder: (context, state) => const LoginHome(),
+      ),
       ShellRoute(
         builder: (context, state, child) {
           return Scaffold(
@@ -99,7 +104,7 @@ final routerProvider = Provider((ref) {
                     onPressed: () =>
                         context.goNamed(DailyLetter3Screen.routeName),
                     icon: const Icon(
-                      Icons.repeat,
+                      Icons.local_post_office_outlined,
                       color: Colors.white,
                       size: 33,
                     ),
@@ -139,11 +144,6 @@ final routerProvider = Provider((ref) {
             name: PracticeHome.routeName,
             path: PracticeHome.routeURL,
             builder: (context, state) => const PracticeHome(),
-          ),
-          GoRoute(
-            name: LoginHome.routeName,
-            path: LoginHome.routeURL,
-            builder: (context, state) => const LoginHome(),
           ),
           GoRoute(
             name: AlarmHome.routeName,

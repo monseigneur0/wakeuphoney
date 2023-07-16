@@ -1,9 +1,14 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/providers/providers.dart';
@@ -20,7 +25,32 @@ class CoupleLetterScreen extends ConsumerStatefulWidget {
 }
 
 class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
+  final String iOSId4 = 'ca-app-pub-5897230132206634/2698132449';
+  final String androidId4 = 'ca-app-pub-5897230132206634/2588066206';
+  BannerAd? _bannerAd;
   List allMessages = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    BannerAd(
+      size: AdSize.banner,
+      adUnitId: Platform.isIOS ? iOSId4 : androidId4,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          // print('Failed to load a banner ad: ${err.message}');
+          ad.dispose();
+        },
+      ),
+      request: const AdRequest(),
+    ).load();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +74,7 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My Answers"),
+        title: Text(AppLocalizations.of(context)!.myanswers),
         backgroundColor: Colors.black87,
       ),
       backgroundColor: Colors.black,
@@ -58,10 +88,10 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
           listMessageHistory.when(
             data: (value) {
               return SizedBox(
-                height: MediaQuery.of(context).size.height - 190,
+                height: MediaQuery.of(context).size.height - 180,
                 child: ScrollablePositionedList.builder(
-                  initialScrollIndex: listMessageHistory.value!.length,
-                  itemCount: listMessageHistory.value!.length,
+                  initialScrollIndex: value.length,
+                  itemCount: value.length,
                   itemBuilder: (context, index) {
                     return value[index].sender == uid
                         ? Column(
@@ -69,8 +99,18 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width - 40,
                                 child: value[index].photo.isNotEmpty
-                                    ? Image.network(value[index].photo)
-                                    : Container(),
+                                    ? CachedNetworkImage(
+                                        imageUrl: value[index].photo,
+                                        placeholder: (context, url) =>
+                                            Container(
+                                          height: 70,
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
+                                      )
+                                    : Container(
+                                        height: 70,
+                                      ),
                               ),
                               ListTile(
                                 title: Row(
@@ -111,8 +151,18 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width - 40,
                                 child: value[index].photo.isNotEmpty
-                                    ? Image.network(value[index].photo)
-                                    : Container(),
+                                    ? CachedNetworkImage(
+                                        imageUrl: value[index].photo,
+                                        placeholder: (context, url) =>
+                                            Container(
+                                          height: 70,
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
+                                      )
+                                    : Container(
+                                        height: 70,
+                                      ),
                               ),
                               ListTile(
                                 title: Text(
@@ -153,10 +203,25 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
           //   height: 1,
           //   decoration: const BoxDecoration(color: Colors.white),
           // ),
-          const SizedBox(
-            height: 60,
-          ),
         ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (_bannerAd != null)
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  width: _bannerAd!.size.width.toDouble(),
+                  height: _bannerAd!.size.height.toDouble(),
+                  child: AdWidget(ad: _bannerAd!),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
