@@ -53,7 +53,7 @@ class ProfileController extends StateNotifier<bool> {
         super(false);
 
   Stream<UserModel> getUserProfileStream() {
-    String uid = _ref.watch(authProvider).currentUser!.uid;
+    String uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
     return _profileRepo.getUserProfileStream(uid);
   }
 
@@ -63,27 +63,27 @@ class ProfileController extends StateNotifier<bool> {
 
   Stream<UserModel> getCoupleProfileStream() {
     final uid = _ref
-        .watch(getUserDataProvider(_ref.watch(authProvider).currentUser!.uid))
+        .watch(getUserDataProvider("39xWyVZmEqRxPmmSsOVSE2UvQnE2"))
         .value!
         .couple;
     return _profileRepo.getUserProfileStream(uid);
   }
 
   String getCoupleUid() {
-    String uid = _ref.watch(authProvider).currentUser!.uid;
+    String uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
     String ghghgh = _profileRepo.getCoupleUid(uid);
 
     return ghghgh;
   }
 
   getCoupleUiFuture() {
-    String uid = _ref.watch(authProvider).currentUser!.uid;
+    String uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
     var ghghgh = _profileRepo.getCoupleUidFuture(uid);
     return ghghgh;
   }
 
   getCoupleUidWow() {
-    String uid = _ref.watch(authProvider).currentUser!.uid;
+    String uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
 
     return _ref.watch(getUserDataProvider(uid)).when(
         data: (data) {

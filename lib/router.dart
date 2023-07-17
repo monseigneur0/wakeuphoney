@@ -17,7 +17,6 @@ import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/profile/profile_controller.dart';
 import 'features/match/match_screen.dart';
-import 'features/auth/auth_repository.dart';
 import 'features/auth/login_screen.dart';
 import 'features/dailymessages/response_screen.dart';
 import 'practice_home_screen.dart';
@@ -26,26 +25,22 @@ final routerProvider = Provider((ref) {
   final hasCoupleId = ref.watch(getUserProfileStreamProvider);
   final alarmSettings = ref.watch(alarmSettings1Provider);
   return GoRouter(
-    initialLocation: "/dailyletter3",
-    redirect: (context, state) {
-      final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
-      final loginName =
-          ref.watch(authRepositoryProvider).currentUser?.displayName;
-      print('islogged   $isLoggedIn  $loginName');
-      if (!isLoggedIn) {
-        if (state.matchedLocation != LoginHome.routeURL) {
-          print(LoginHome.routeURL);
-          return LoginHome.routeURL;
-        }
-      }
-      if (isLoggedIn) {
-        if (state.location == LoginHome.routeURL) {
-          print("no enter login page");
-          return MatchScreen.routeURL;
-        }
-      }
-      return null;
-    },
+    initialLocation: "/login",
+    // redirect: (context, state) {
+    //   final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
+    //   if (!isLoggedIn) {
+    //     if (state.matchedLocation != LoginHome.routeURL) {
+    //       return LoginHome.routeURL;
+    //     }
+    //   }
+    //   if (isLoggedIn) {
+    //     if (state.location == LoginHome.routeURL) {
+    //       print("no enter login page");
+    //       return MatchScreen.routeURL;
+    //     }
+    //   }
+    //   return null;
+    // },
     routes: [
       GoRoute(
         name: LoginHome.routeName,

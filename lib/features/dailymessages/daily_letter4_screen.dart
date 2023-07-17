@@ -54,7 +54,7 @@ class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
 
   @override
   Widget build(BuildContext context) {
-    final uid = ref.watch(authProvider).currentUser!.uid;
+    final uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
 
     final listHistoryMessage =
         ref.watch(getDailyMessageHistoryListProvider).whenData((value) {

@@ -54,7 +54,7 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final uid = ref.watch(authProvider).currentUser!.uid;
+    final uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
 
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
 

@@ -44,7 +44,6 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userprofile = ref.watch(authRepositoryProvider).currentUser!;
     final userProfileStream = ref.watch(getUserProfileStreamProvider);
 
     final coupleUid = ref.watch(getUserProfileStreamProvider);

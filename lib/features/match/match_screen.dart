@@ -2,16 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/core/utils.dart';
-import 'package:wakeuphoney/features/auth/login_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
-import '../auth/auth_repository.dart';
 import '../profile/couple_profile_screen.dart';
 import 'match_controller.dart';
 
@@ -90,9 +87,6 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userprofile = ref.watch(authRepositoryProvider).currentUser ??
-        context.go(LoginHome.routeName);
-
     final leftTime = ref.watch(leftSecondsMatch);
     final onceClickedMatch2 = ref.watch(onceClickedMatch);
     return Scaffold(

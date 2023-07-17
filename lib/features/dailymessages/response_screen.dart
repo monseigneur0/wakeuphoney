@@ -43,7 +43,7 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final uid = ref.watch(authProvider).currentUser!.uid;
+    final uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
 
     final dateList100 = ref.watch(dateStateProvider);
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);

@@ -83,12 +83,22 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
               const SizedBox(
                 height: 50,
               ),
-              Text(currentUserModel.currentUser!.email ?? "email"),
+              const Text("email"),
               ElevatedButton(
                 style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.amber)),
                 onPressed: () => context.pushNamed(AlarmHome.routeName),
                 child: const Text('AlarmHome'),
+              ),
+              IconButton(
+                onPressed: () {
+                  ref.watch(authRepositoryProvider).logout();
+                  context.goNamed(LoginHome.routeName);
+                },
+                icon: const Icon(
+                  Icons.done,
+                  color: Colors.green,
+                ),
               ),
               ElevatedButton(
                 style: const ButtonStyle(
