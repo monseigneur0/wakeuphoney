@@ -60,7 +60,7 @@ class DailyMessage2ScreenState extends ConsumerState<DailyMessage2Screen> {
 
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
     bool hasMessage = false;
-    final uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
+    final uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
 
     return Scaffold(
       backgroundColor: Colors.black,

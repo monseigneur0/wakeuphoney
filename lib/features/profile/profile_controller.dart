@@ -1,5 +1,4 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/auth/user_model.dart';
 import 'package:wakeuphoney/features/profile/profile_repo.dart';
 
@@ -53,7 +52,7 @@ class ProfileController extends StateNotifier<bool> {
         super(false);
 
   Stream<UserModel> getUserProfileStream() {
-    String uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
+    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
     return _profileRepo.getUserProfileStream(uid);
   }
 
@@ -63,27 +62,27 @@ class ProfileController extends StateNotifier<bool> {
 
   Stream<UserModel> getCoupleProfileStream() {
     final uid = _ref
-        .watch(getUserDataProvider("39xWyVZmEqRxPmmSsOVSE2UvQnE2"))
+        .watch(getUserDataProvider("IZZ1HICxZ8ggCiJihcJKow38LPK2"))
         .value!
         .couple;
     return _profileRepo.getUserProfileStream(uid);
   }
 
   String getCoupleUid() {
-    String uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
+    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
     String ghghgh = _profileRepo.getCoupleUid(uid);
 
     return ghghgh;
   }
 
   getCoupleUiFuture() {
-    String uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
+    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
     var ghghgh = _profileRepo.getCoupleUidFuture(uid);
     return ghghgh;
   }
 
   getCoupleUidWow() {
-    String uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
+    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
 
     return _ref.watch(getUserDataProvider(uid)).when(
         data: (data) {

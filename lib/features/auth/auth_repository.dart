@@ -20,6 +20,7 @@ class AuthRepository {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
   final FirebaseFirestore _firestore;
+
   AuthRepository({
     required FirebaseAuth auth,
     required GoogleSignIn googleSignIn,
@@ -38,15 +39,17 @@ class AuthRepository {
   Future<UserCredential?> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
+    if (googleUser == null) {}
     // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
-
+    if (googleAuth == null) {
+      return null;
+    }
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
     );
 
     // Once signed in, return the UserCredential
@@ -71,6 +74,10 @@ class AuthRepository {
       prefs.setString("uid", userCredential.user!.uid);
       await _users.doc(userCredential.user!.uid).set(userModel.toMap());
       return userCredential;
+    } else if (userCredential.user!.uid.isNotEmpty) {
+      await _users
+          .doc(userCredential.user!.uid)
+          .update({"lastSignInTime": DateTime.now()});
     }
     return null;
   }
@@ -396,10 +403,11 @@ class AuthRepository {
         (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
   }
 
-  Future<UserModel> getUserModelData(String uid) async {
-    var fon = await _users.doc(uid).get().then(
-        (value) => UserModel.fromMap(value.data() as Map<String, dynamic>));
-    return fon;
+  Stream<UserModel> getMyUserData() {
+    const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
+    // final uid = _sharedPref.getString("uid");
+    return _users.doc(uid).snapshots().map(
+        (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
   }
 
   void logout() async {

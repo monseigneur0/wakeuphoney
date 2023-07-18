@@ -4,16 +4,26 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/auth/auth_controller.dart';
 import 'package:wakeuphoney/practice_home_screen.dart';
 
-class LoginHome extends ConsumerWidget {
+import 'auth_repository.dart';
+
+class LoginHome extends ConsumerStatefulWidget {
   static String routeName = "login";
   static String routeURL = "/login";
   const LoginHome({super.key});
-  // void signInWithGoogle(BuildContext context, WidgetRef ref) {
-  //   ref.read(authControllerProvider.notifier).signInWithGoogleEnd(context);
-  // }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _LoginHomeState();
+}
+
+class _LoginHomeState extends ConsumerState<LoginHome> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Wake up, honey!',
       theme: ThemeData(
@@ -25,7 +35,9 @@ class LoginHome extends ConsumerWidget {
           actions: [
             IconButton(
                 onPressed: () {
-                  context.pushNamed(PracticeHome.routeName);
+                  ref.watch(authRepositoryProvider).isLoggedIn
+                      ? context.pushNamed(PracticeHome.routeName)
+                      : context.pushNamed(LoginHome.routeName);
                 },
                 icon: const Icon(
                   Icons.connecting_airports_outlined,
@@ -89,7 +101,7 @@ class LoginHome extends ConsumerWidget {
                   onPressed: () {
                     ref
                         .watch(authControllerProvider.notifier)
-                        .singInWithGoogle();
+                        .singInWithGoogle(context);
                   },
                   icon: Image.asset(
                     'assets/google.png',

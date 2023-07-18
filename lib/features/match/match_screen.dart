@@ -14,7 +14,7 @@ import 'match_controller.dart';
 
 class MatchScreen extends ConsumerStatefulWidget {
   static String routeName = "Matchscreen";
-  static String routeURL = "/Matchscreen";
+  static String routeURL = "/match";
   const MatchScreen({super.key});
 
   @override
@@ -113,7 +113,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Image.asset(
-                'assets/alarmbear.png',
+                'assets/alarmbearno.png',
                 height: 100,
               ),
             ),

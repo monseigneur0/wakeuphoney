@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -8,27 +10,41 @@ import 'package:wakeuphoney/features/auth/user_model.dart';
 
 final userModelProvider = StateProvider<UserModel?>((ref) => null);
 
-final authControllerProvider = StateNotifierProvider<AuthController, bool>(
-    (ref) => AuthController(
-        authRepository: ref.watch(authRepositoryProvider), ref: ref));
+final authControllerProvider =
+    AsyncNotifierProvider<AuthController, void>(() => AuthController());
 
 final getUserDataProvider = StreamProvider.family((ref, String uid) {
   final authController = ref.watch(authControllerProvider.notifier);
   return authController.getUserData(uid);
 });
+final getMyUserDataProvider = StreamProvider((ref) {
+  final authController = ref.watch(authControllerProvider.notifier);
+  return authController.getMyUserData();
+});
 
-class AuthController extends StateNotifier<bool> {
-  final AuthRepository _authRepository;
-  final Ref _ref;
-  AuthController({required AuthRepository authRepository, required Ref ref})
-      : _authRepository = authRepository,
-        _ref = ref,
-        super(false);
+class AuthController extends AsyncNotifier<void> {
+  late final AuthRepository _authRepository;
+  @override
+  FutureOr<void> build() {
+    _authRepository = ref.read(authRepositoryProvider);
+  }
 
   Stream<User?> get authStateChange => _authRepository.authStateChange;
 
-  void singInWithGoogle() async {
-    final user = _authRepository.signInWithGoogle();
+  void singInWithGoogle(BuildContext context) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(
+      () async => await _authRepository.signInWithGoogle(),
+    );
+    if (state.hasError) {
+    } else {
+      context.go("/profile");
+    }
+    // _authRepository.signInWithGoogle().then((value) => value != null
+    //     ? context.goNamed(MatchScreen.routeName)
+    //     : context.goNamed(LoginHome.routeName));
+
+    // context.goNamed(MatchScreen.routeName);
   }
 
   // void signInWithGoogleUser(BuildContext context) async {
@@ -64,6 +80,10 @@ class AuthController extends StateNotifier<bool> {
 
   Stream<UserModel> getUserData(String uid) {
     return _authRepository.getUserData(uid);
+  }
+
+  Stream<UserModel> getMyUserData() {
+    return _authRepository.getMyUserData();
   }
 
   void logout(BuildContext context) async {

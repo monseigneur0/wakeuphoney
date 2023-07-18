@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wakeuphoney/features/auth/auth_controller.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -16,7 +17,7 @@ import '../auth/login_screen.dart';
 
 class CoupleProfileScreen extends ConsumerStatefulWidget {
   static String routeName = "coupleprofilescreen";
-  static String routeURL = "/coupleprofilescreen";
+  static String routeURL = "/profile";
   const CoupleProfileScreen({super.key});
 
   @override
@@ -188,7 +189,8 @@ class ProfileDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userprofile = ref.watch(authRepositoryProvider).currentUser!;
+    final userprofile =
+        ref.watch(authControllerProvider.notifier).getMyUserData();
     return Drawer(
       backgroundColor: Colors.grey[800],
       child: ListView(
@@ -202,10 +204,10 @@ class ProfileDrawer extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          Text(
-            userprofile.displayName ?? "no name",
+          const Text(
+            " userprofile.first.then((value) => value.displayName) as String",
             textAlign: TextAlign.center,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(
             height: 30,

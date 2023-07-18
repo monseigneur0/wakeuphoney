@@ -48,26 +48,26 @@ class DailyController extends StateNotifier<bool> {
         super(false); //loading
 
   Stream<DailyMessageModel> getDailyMessage(String date) {
-    const uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
+    const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
     return _dailyRepository.getDailyMessage(uid, date, "messages");
   }
 
   Stream<DailyMessageModel> getDailyCoupleMessage(String date) {
     final uid = _ref
-        .watch(getUserDataProvider("39xWyVZmEqRxPmmSsOVSE2UvQnE2"))
+        .watch(getUserDataProvider("IZZ1HICxZ8ggCiJihcJKow38LPK2"))
         .value!
         .couple;
     return _dailyRepository.getDailyMessage(uid, date, "messages");
   }
 
   Stream<List<DailyMessageModel>> getDailyMessageList() {
-    const uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
+    const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
     return _dailyRepository.getDailyMessageList(uid);
   }
 
   Stream<List<DailyMessageModel>> getDailyCoupleMessageHistoryList() {
     final uid = _ref
-        .watch(getUserDataProvider("39xWyVZmEqRxPmmSsOVSE2UvQnE2"))
+        .watch(getUserDataProvider("IZZ1HICxZ8ggCiJihcJKow38LPK2"))
         .value!
         .couple;
     //그냥 uid 에서 커플꺼로 바꿈
@@ -75,14 +75,14 @@ class DailyController extends StateNotifier<bool> {
   }
 
   Stream<List<DailyMessageModel>> getDailyMessageHistoryList() {
-    const uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
+    const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
 
     return _dailyRepository.getDailyMessageHistoryList(uid);
   }
 
   void createDailyMessage(messagef) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
+    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
     DailyMessageModel messagehere = DailyMessageModel(
         message: messagef,
         messagedate: _ref.watch(selectedDate),
@@ -99,7 +99,7 @@ class DailyController extends StateNotifier<bool> {
 
   void createDailyMessageImage(messagef, imageUrl) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
+    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
     DailyMessageModel messagehere = DailyMessageModel(
         message: messagef,
         messagedate: _ref.watch(selectedDate),
@@ -115,20 +115,20 @@ class DailyController extends StateNotifier<bool> {
   }
 
   void updateDailyMessage(message, id) async {
-    String uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
+    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
     await _dailyRepository.updateDailyMessage(
         message, _ref.watch(selectedDate), uid);
   }
 
   void updateDailyImage(image) async {
-    String uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
+    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
     await _dailyRepository.updateDailyImage(
         image, _ref.watch(selectedDate), uid);
   }
 
   void createResponseMessage(message, imageUrl) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
+    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
 
     DailyMessageModel messagehere = DailyMessageModel(
         message: message,

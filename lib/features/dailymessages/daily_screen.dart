@@ -73,7 +73,7 @@ class DailyMessageScreenState extends ConsumerState<DailyMessageScreen> {
   Widget build(BuildContext context) {
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
 
-    final uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
+    const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
 
     final messageList = ref.watch(getDailyMessageListProvider).whenData(
         (value) => value
@@ -86,7 +86,7 @@ class DailyMessageScreenState extends ConsumerState<DailyMessageScreen> {
 
     messageList.whenData(
       (value) => lengthoflist = value
-          .where((element) => element.sender == "39xWyVZmEqRxPmmSsOVSE2UvQnE2")
+          .where((element) => element.sender == "IZZ1HICxZ8ggCiJihcJKow38LPK2")
           .length,
     );
 
@@ -152,11 +152,11 @@ class DailyMessageScreenState extends ConsumerState<DailyMessageScreen> {
                     loading: () => const Loader(),
                     data: (message) {
                       if (message[index].sender ==
-                          "39xWyVZmEqRxPmmSsOVSE2UvQnE2") {
+                          "IZZ1HICxZ8ggCiJihcJKow38LPK2") {
                         List<DailyMessageModel> newList = message
                             .where((element) =>
                                 element.sender ==
-                                "39xWyVZmEqRxPmmSsOVSE2UvQnE2")
+                                "IZZ1HICxZ8ggCiJihcJKow38LPK2")
                             .toList();
                         newList[index].messagedate ==
                             DateFormat.yMMMd().format(DateTime.now());
@@ -166,7 +166,7 @@ class DailyMessageScreenState extends ConsumerState<DailyMessageScreen> {
                             a.messagedatetime.compareTo(b.messagedatetime));
                       }
                       return message[index].sender ==
-                              "39xWyVZmEqRxPmmSsOVSE2UvQnE2"
+                              "IZZ1HICxZ8ggCiJihcJKow38LPK2"
                           ? Padding(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 25),

@@ -78,7 +78,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
 
   @override
   Widget build(BuildContext context) {
-    const uid = "39xWyVZmEqRxPmmSsOVSE2UvQnE2";
+    const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
 
     final List<DateTime> listDateTime =
         ref.watch(dateTimeNotTodayStateProvider);

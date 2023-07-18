@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
-import 'package:wakeuphoney/features/couples/couples_list_screen.dart';
 
 import 'features/alarm/alarm2_screen.dart';
 import 'features/alarm/alarm_ring_screen.dart';
+import 'features/auth/auth_repository.dart';
 import 'features/dailymessages/daily_create_screen.dart';
 import 'features/dailymessages/daily_letter2_screen.dart';
 import 'features/dailymessages/daily_letter3_screen.dart';
@@ -21,26 +21,74 @@ import 'features/auth/login_screen.dart';
 import 'features/dailymessages/response_screen.dart';
 import 'practice_home_screen.dart';
 
-final routerProvider = Provider((ref) {
-  final hasCoupleId = ref.watch(getUserProfileStreamProvider);
-  final alarmSettings = ref.watch(alarmSettings1Provider);
+final noLoginRouterProvider = Provider((ref) {
   return GoRouter(
     initialLocation: "/login",
-    // redirect: (context, state) {
-    //   final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
-    //   if (!isLoggedIn) {
-    //     if (state.matchedLocation != LoginHome.routeURL) {
-    //       return LoginHome.routeURL;
-    //     }
-    //   }
-    //   if (isLoggedIn) {
-    //     if (state.location == LoginHome.routeURL) {
-    //       print("no enter login page");
-    //       return MatchScreen.routeURL;
-    //     }
-    //   }
-    //   return null;
-    // },
+    routes: [
+      GoRoute(
+        name: LoginHome.routeName,
+        path: LoginHome.routeURL,
+        builder: (context, state) => const LoginHome(),
+      )
+    ],
+  );
+});
+
+final matchRouterProvider = Provider((ref) {
+  final hasCoupleId = ref.watch(getUserProfileStreamProvider);
+
+  return GoRouter(
+    routes: [
+      GoRoute(
+        name: MatchScreen.routeName,
+        path: MatchScreen.routeURL,
+        builder: (context, state) => const MatchScreen(),
+        redirect: (context, state) {
+          final hasCoupleIdBool = hasCoupleId.when(
+            data: (data) => data.couples.isNotEmpty,
+            error: (error, stackTrace) {
+              print("error router  $error ");
+              return false;
+            },
+            loading: () => false,
+          );
+          print('hasCoupleId $hasCoupleId $hasCoupleIdBool');
+          if (!hasCoupleIdBool) {
+            if (state.matchedLocation != MatchScreen.routeURL) {
+              print(MatchScreen.routeURL);
+              return MatchScreen.routeURL;
+            }
+          }
+          if (hasCoupleIdBool) {
+            print("couple exist");
+            return CoupleProfileScreen.routeURL;
+          }
+          return MatchScreen.routeURL;
+        },
+      )
+    ],
+  );
+});
+
+final routerProvider = Provider((ref) {
+  final hasCoupleId = ref.watch(getUserProfileStreamProvider);
+
+  final alarmSettings = ref.watch(alarmSettings1Provider);
+  return GoRouter(
+    initialLocation: "/match",
+    redirect: (context, state) {
+      final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
+      if (!isLoggedIn) {
+        if (state.matchedLocation != LoginHome.routeURL) {
+          return LoginHome.routeURL;
+        }
+      }
+      // if (isLoggedIn) {
+      //   print("no enter login page");
+      //   return MatchScreen.routeURL;
+      // }
+      return null;
+    },
     routes: [
       GoRoute(
         name: LoginHome.routeName,
@@ -141,6 +189,33 @@ final routerProvider = Provider((ref) {
             builder: (context, state) => const PracticeHome(),
           ),
           GoRoute(
+            name: MatchScreen.routeName,
+            path: MatchScreen.routeURL,
+            builder: (context, state) => const MatchScreen(),
+            redirect: (context, state) {
+              final hasCoupleIdBool = hasCoupleId.when(
+                data: (data) => data.couples.isNotEmpty,
+                error: (error, stackTrace) {
+                  print("error router  $error ");
+                  return false;
+                },
+                loading: () => false,
+              );
+              print('hasCoupleId $hasCoupleId $hasCoupleIdBool');
+              if (!hasCoupleIdBool) {
+                if (state.matchedLocation != MatchScreen.routeURL) {
+                  print(MatchScreen.routeURL);
+                  return MatchScreen.routeURL;
+                }
+              }
+              // if (hasCoupleIdBool) {
+              //   print("couple exist");
+              //   return CoupleProfileScreen.routeURL;
+              // }
+              return MatchScreen.routeURL;
+            },
+          ),
+          GoRoute(
             name: AlarmHome.routeName,
             path: AlarmHome.routeURL,
             builder: (context, state) => const AlarmHome(),
@@ -162,11 +237,6 @@ final routerProvider = Provider((ref) {
             name: AlarmHome2.routeName,
             path: AlarmHome2.routeURL,
             builder: (context, state) => const AlarmHome2(),
-          ),
-          GoRoute(
-            name: CouplesListScreen.routeName,
-            path: CouplesListScreen.routeURL,
-            builder: (context, state) => const CouplesListScreen(),
           ),
           GoRoute(
             name: DailyMessageScreen.routeName,
@@ -212,33 +282,6 @@ final routerProvider = Provider((ref) {
             name: DailyMessage2Screen.routeName,
             path: DailyMessage2Screen.routeURL,
             builder: (context, state) => const DailyMessage2Screen(),
-          ),
-          GoRoute(
-            name: MatchScreen.routeName,
-            path: MatchScreen.routeURL,
-            builder: (context, state) => const MatchScreen(),
-            redirect: (context, state) {
-              final hasCoupleIdBool = hasCoupleId.when(
-                data: (data) => data.couples.isNotEmpty,
-                error: (error, stackTrace) {
-                  print("error router  $error ");
-                  return false;
-                },
-                loading: () => false,
-              );
-              print('hasCoupleId $hasCoupleId $hasCoupleIdBool');
-              if (!hasCoupleIdBool) {
-                if (state.matchedLocation != MatchScreen.routeURL) {
-                  print(MatchScreen.routeURL);
-                  return MatchScreen.routeURL;
-                }
-              }
-              if (hasCoupleIdBool) {
-                print("couple exist");
-                return CoupleProfileScreen.routeURL;
-              }
-              return MatchScreen.routeURL;
-            },
           ),
           GoRoute(
             name: CoupleProfileScreen.routeName,

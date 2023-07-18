@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'core/providers/providers.dart';
 import 'features/alarm/alarm2_screen.dart';
-import 'features/couples/couples_list_screen.dart';
 import 'features/dailymessages/daily_letter2_screen.dart';
 import 'features/dailymessages/daily_letter3_screen.dart';
 import 'features/dailymessages/daily_letter4_screen.dart';
@@ -108,6 +107,12 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
               ),
               ElevatedButton(
                 style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.blue)),
+                onPressed: () => context.pushNamed(MatchScreen.routeName),
+                child: const Text('MatchScreen'),
+              ),
+              ElevatedButton(
+                style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.pink)),
                 onPressed: () {
                   context.go(LoginHome.routeURL);
@@ -184,15 +189,6 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                     backgroundColor:
                         MaterialStatePropertyAll(Colors.green[600])),
                 child: const Text('CoupleHistoryScreen'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  context.pushNamed(CouplesListScreen.routeName);
-                },
-                style: const ButtonStyle(
-                    backgroundColor:
-                        MaterialStatePropertyAll(Colors.deepOrange)),
-                child: const Text('CouplesListScreen'),
               ),
               ElevatedButton(
                 onPressed: () {
