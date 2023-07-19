@@ -7,7 +7,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
@@ -28,6 +27,7 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
   final String iOSId4 = 'ca-app-pub-5897230132206634/2698132449';
   final String androidId4 = 'ca-app-pub-5897230132206634/2588066206';
   BannerAd? _bannerAd;
+
   List allMessages = [];
 
   @override
@@ -54,7 +54,7 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
+    const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
 
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
 
@@ -194,8 +194,8 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
               );
             },
             error: (error, stackTrace) {
-              print("error$error ");
-              return const Text("error");
+              // print("error$error ");
+              return Container();
             },
             loading: () => const Loader(),
           ),

@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakeuphoney/features/auth/auth_controller.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wakeuphoney/practice_home_screen.dart';
 
 import '../../core/common/loader.dart';
 import '../alarm/alarm_screen.dart';
@@ -223,6 +224,21 @@ class ProfileDrawer extends StatelessWidget {
                 const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             leading: const Icon(
               Icons.alarm,
+              color: Colors.white,
+            ),
+            title: Text(
+              AppLocalizations.of(context)!.alarms,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              context.pushNamed(PracticeHome.routeName);
+            },
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            leading: const Icon(
+              Icons.home,
               color: Colors.white,
             ),
             title: Text(

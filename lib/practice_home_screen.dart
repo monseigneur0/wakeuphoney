@@ -211,6 +211,11 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
               const Text('numberStateProvider'),
               Text(numberState.toString()),
               const Text('valueStateProvider'),
+              ElevatedButton(
+                  onPressed: () {
+                    ref.read(numberStateProvider.notifier).state++;
+                  },
+                  child: const Text('Increment')),
               // if (_bannerAd != null)
               //   Align(
               //     alignment: Alignment.topCenter,

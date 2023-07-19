@@ -110,12 +110,20 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
             const SizedBox(
               height: 30,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset(
-                'assets/alarmbearno.png',
-                height: 100,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset(
+                      'assets/alarmbearno.png',
+                      height: 100,
+                    ),
+                  ),
+                  onTap: () {},
+                ),
+              ],
             ),
             const SizedBox(
               height: 30,
@@ -154,6 +162,16 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                             decoration: const InputDecoration(
                               labelText: 'Write 6 numbers',
                               hintText: '123456',
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.black, width: 2.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.black, width: 2.0),
+                              ),
+                              border: OutlineInputBorder(),
+                              labelStyle: TextStyle(color: Colors.black),
                             ),
                           ),
                         ),
