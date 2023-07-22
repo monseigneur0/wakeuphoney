@@ -190,8 +190,7 @@ class ProfileDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userprofile =
-        ref.watch(authControllerProvider.notifier).getMyUserData();
+    final userprofile = ref.watch(getMyUserDataProvider);
     return Drawer(
       backgroundColor: Colors.grey[800],
       child: ListView(
@@ -205,11 +204,19 @@ class ProfileDrawer extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          const Text(
-            " userprofile.first.then((value) => value.displayName) as String",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontWeight: FontWeight.bold),
+          userprofile.when(
+            data: (data) => Text(
+              data.email,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            error: (error, stackTrace) {
+              // print("error$error ");
+              return const Text("no couple");
+            },
+            loading: () => const Loader(),
           ),
+
           const SizedBox(
             height: 30,
           ),

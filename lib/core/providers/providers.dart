@@ -5,10 +5,16 @@ import 'package:intl/intl.dart';
 final numberProvider = Provider<int>((ref) {
   return 1;
 });
+
 final numberStateProvider = StateProvider<int>((ref) {
   return 1;
 });
+
 final navStateProvider = StateProvider<int>((ref) {
+  return 0;
+});
+
+final uidStateProvider = StateProvider<int>((ref) {
   return 0;
 });
 

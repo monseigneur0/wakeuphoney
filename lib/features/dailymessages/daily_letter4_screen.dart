@@ -11,7 +11,6 @@ import 'package:wakeuphoney/features/dailymessages/daily_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
-import '../../core/providers/firebase_providers.dart';
 
 class DailyLetter4Screen extends ConsumerStatefulWidget {
   static String routeName = "dailyletter4";
@@ -54,7 +53,7 @@ class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
 
   @override
   Widget build(BuildContext context) {
-    final uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
+    const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
 
     final listHistoryMessage =
         ref.watch(getDailyMessageHistoryListProvider).whenData((value) {
@@ -117,13 +116,26 @@ class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
                                 title: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Text(
-                                      value[index].message,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                      ),
-                                    ),
+                                    value[index].message.length > 30
+                                        ? SizedBox(
+                                            width: 200,
+                                            child: Text(
+                                              value[index].message,
+                                              style: const TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          )
+                                        : SizedBox(
+                                            child: Text(
+                                              value[index].message,
+                                              style: const TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
                                   ],
                                 ),
                                 subtitle: Row(

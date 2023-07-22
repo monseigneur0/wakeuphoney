@@ -35,7 +35,6 @@ class AuthRepository {
   User? get currentUser => _firebaseAuth.currentUser;
   bool get isLoggedIn => currentUser != null;
   Stream<User?> get authStateChange => _firebaseAuth.authStateChanges();
-
   Future<UserCredential?> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -403,11 +402,17 @@ class AuthRepository {
         (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
   }
 
-  Stream<UserModel> getMyUserData() {
-    const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
-    // final uid = _sharedPref.getString("uid");
-    return _users.doc(uid).snapshots().map(
-        (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
+  // Stream<UserModel> getMyUserData() {
+  //   // const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
+  //   // final uid = _sharedPref.getString("uid");
+  //   var uid = getUidSharedPref().toString();
+  //   return _users.doc(uid).snapshots().map(
+  //       (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
+  // }
+
+  getUidSharedPref() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString("uid");
   }
 
   void logout() async {

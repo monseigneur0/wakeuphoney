@@ -160,7 +160,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                                 AutovalidateMode.onUserInteraction,
                             controller: _honeyCodeController,
                             decoration: const InputDecoration(
-                              labelText: 'Write 6 numbers',
+                              labelText: '6 numbers',
                               hintText: '123456',
                               focusedBorder: OutlineInputBorder(
                                 borderSide:
@@ -212,7 +212,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                                 .watch(matchConrollerProvider.notifier)
                                 .matchCoupleIdProcessDone(honeyCode);
                           } else {
-                            showSnackBar(context, "no matching honey");
+                            showSnackBar(context, "not matched");
                           }
                         }
                       }

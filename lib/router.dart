@@ -21,61 +21,13 @@ import 'features/auth/login_screen.dart';
 import 'features/dailymessages/response_screen.dart';
 import 'practice_home_screen.dart';
 
-final noLoginRouterProvider = Provider((ref) {
-  return GoRouter(
-    initialLocation: "/login",
-    routes: [
-      GoRoute(
-        name: LoginHome.routeName,
-        path: LoginHome.routeURL,
-        builder: (context, state) => const LoginHome(),
-      )
-    ],
-  );
-});
-
-final matchRouterProvider = Provider((ref) {
-  final hasCoupleId = ref.watch(getUserProfileStreamProvider);
-
-  return GoRouter(
-    routes: [
-      GoRoute(
-        name: MatchScreen.routeName,
-        path: MatchScreen.routeURL,
-        builder: (context, state) => const MatchScreen(),
-        redirect: (context, state) {
-          final hasCoupleIdBool = hasCoupleId.when(
-            data: (data) => data.couples.isNotEmpty,
-            error: (error, stackTrace) {
-              print("error router  $error ");
-              return false;
-            },
-            loading: () => false,
-          );
-          print('hasCoupleId $hasCoupleId $hasCoupleIdBool');
-          if (!hasCoupleIdBool) {
-            if (state.matchedLocation != MatchScreen.routeURL) {
-              print(MatchScreen.routeURL);
-              return MatchScreen.routeURL;
-            }
-          }
-          if (hasCoupleIdBool) {
-            print("couple exist");
-            return CoupleProfileScreen.routeURL;
-          }
-          return MatchScreen.routeURL;
-        },
-      )
-    ],
-  );
-});
-
 final routerProvider = Provider((ref) {
   final hasCoupleId = ref.watch(getUserProfileStreamProvider);
 
   final alarmSettings = ref.watch(alarmSettings1Provider);
+
   return GoRouter(
-    initialLocation: "/match",
+    initialLocation: "/alarm",
     redirect: (context, state) {
       final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
       if (!isLoggedIn) {
@@ -83,10 +35,6 @@ final routerProvider = Provider((ref) {
           return LoginHome.routeURL;
         }
       }
-      // if (isLoggedIn) {
-      //   print("no enter login page");
-      //   return MatchScreen.routeURL;
-      // }
       return null;
     },
     routes: [
@@ -289,6 +237,54 @@ final routerProvider = Provider((ref) {
             builder: (context, state) => const CoupleProfileScreen(),
           ),
         ],
+      )
+    ],
+  );
+});
+final noLoginRouterProvider = Provider((ref) {
+  return GoRouter(
+    initialLocation: "/login",
+    routes: [
+      GoRoute(
+        name: LoginHome.routeName,
+        path: LoginHome.routeURL,
+        builder: (context, state) => const LoginHome(),
+      )
+    ],
+  );
+});
+
+final matchRouterProvider = Provider((ref) {
+  final hasCoupleId = ref.watch(getUserProfileStreamProvider);
+
+  return GoRouter(
+    routes: [
+      GoRoute(
+        name: MatchScreen.routeName,
+        path: MatchScreen.routeURL,
+        builder: (context, state) => const MatchScreen(),
+        redirect: (context, state) {
+          final hasCoupleIdBool = hasCoupleId.when(
+            data: (data) => data.couples.isNotEmpty,
+            error: (error, stackTrace) {
+              print("error router  $error ");
+              return false;
+            },
+            loading: () => false,
+          );
+          print('hasCoupleId $hasCoupleId $hasCoupleIdBool');
+          if (!hasCoupleIdBool) {
+            if (state.matchedLocation != MatchScreen.routeURL) {
+              print(MatchScreen.routeURL);
+              return MatchScreen.routeURL;
+            }
+          }
+          if (hasCoupleIdBool) {
+            print("couple exist");
+            return CoupleProfileScreen.routeURL;
+          }
+          return MatchScreen.routeURL;
+        },
       )
     ],
   );
