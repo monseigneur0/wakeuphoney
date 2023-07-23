@@ -404,6 +404,7 @@ class AuthRepository {
   }
 
   Stream<UserModel> getMyUserData() {
+
     const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
     // final uid = _sharedPref.getString("uid");
     return _users.doc(uid).snapshots().map(

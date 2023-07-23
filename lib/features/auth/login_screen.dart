@@ -18,7 +18,6 @@ class LoginHome extends ConsumerStatefulWidget {
 class _LoginHomeState extends ConsumerState<LoginHome> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -77,14 +76,30 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
               //     },
               //   ),
               // ),
-
-              const Text(
-                'Dive into anything',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 0.5,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Flexible(
+                    child: Container(
+                      padding: const EdgeInsets.all(15),
+                      margin: const EdgeInsets.only(bottom: 5),
+                      decoration: BoxDecoration(
+                        color: Colors.indigo.shade600,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(19),
+                          bottomLeft: Radius.circular(19),
+                          bottomRight: Radius.circular(19),
+                        ),
+                      ),
+                      child: const Text(
+                        "message",
+                        style: TextStyle(color: Colors.white, fontSize: 15),
+                      ),
+                    ),
+                  ),
+                  CustomPaint(painter: Triangle(Colors.indigo.shade600)),
+                ],
               ),
               const SizedBox(height: 30),
               Padding(
@@ -158,5 +173,27 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
         ),
       ),
     );
+  }
+}
+
+// Create a custom triangle
+class Triangle extends CustomPainter {
+  final Color backgroundColor;
+  Triangle(this.backgroundColor);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint()..color = backgroundColor;
+
+    var path = Path();
+    path.lineTo(-5, 0);
+    path.lineTo(0, 60);
+    path.lineTo(5, 60);
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }

@@ -92,7 +92,7 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
 
   @override
   void dispose() {
-    // subscription?.cancel();
+    subscription?.cancel();
     super.dispose();
   }
 
@@ -106,20 +106,20 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
         ),
         backgroundColor: Colors.black87,
         actions: [
-          // IconButton(
-          //   onPressed: () => ringnow(),
-          //   icon: const Icon(
-          //     Icons.add_alarm,
-          //     size: 33,
-          //   ),
-          // ),
-          // IconButton(
-          //   onPressed: () => Alarm.stop(42),
-          //   icon: const Icon(
-          //     Icons.cancel,
-          //     size: 33,
-          //   ),
-          // ),
+          IconButton(
+            onPressed: () => ringnow(),
+            icon: const Icon(
+              Icons.add_alarm,
+              size: 33,
+            ),
+          ),
+          IconButton(
+            onPressed: () => Alarm.stop(42),
+            icon: const Icon(
+              Icons.cancel,
+              size: 33,
+            ),
+          ),
           IconButton(
             onPressed: () => navigateToAlarmScreen(null),
             icon: const Icon(

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,21 +54,29 @@ class DailyController extends StateNotifier<bool> {
   }
 
   Stream<DailyMessageModel> getDailyCoupleMessage(String date) {
-    final uid = _ref
-        .watch(getUserDataProvider("IZZ1HICxZ8ggCiJihcJKow38LPK2"))
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid ;
+    auser != null ? uid = auser.uid : uid = "";
+    final coupleUid = _ref
+        .watch(getUserDataProvider(uid))
         .value!
         .couple;
-    return _dailyRepository.getDailyMessage(uid, date, "messages");
+    return _dailyRepository.getDailyMessage(coupleUid, date, "messages");
   }
 
   Stream<List<DailyMessageModel>> getDailyMessageList() {
-    const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
+     User? auser = _ref.watch(authProvider).currentUser;
+    String uid ;
+    auser != null ? uid = auser.uid : uid = "";
     return _dailyRepository.getDailyMessageList(uid);
   }
 
   Stream<List<DailyMessageModel>> getDailyCoupleMessageHistoryList() {
-    final uid = _ref
-        .watch(getUserDataProvider("IZZ1HICxZ8ggCiJihcJKow38LPK2"))
+     User? auser = _ref.watch(authProvider).currentUser;
+    String uid ;
+    auser != null ? uid = auser.uid : uid = "";
+    final coupleUid = _ref
+        .watch(getUserDataProvider(uid))
         .value!
         .couple;
     //그냥 uid 에서 커플꺼로 바꿈
@@ -75,14 +84,18 @@ class DailyController extends StateNotifier<bool> {
   }
 
   Stream<List<DailyMessageModel>> getDailyMessageHistoryList() {
-    const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
+     User? auser = _ref.watch(authProvider).currentUser;
+    String uid ;
+    auser != null ? uid = auser.uid : uid = "";
 
     return _dailyRepository.getDailyMessageHistoryList(uid);
   }
 
   void createDailyMessage(messagef) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
+     User? auser = _ref.watch(authProvider).currentUser;
+    String uid ;
+    auser != null ? uid = auser.uid : uid = "";
     DailyMessageModel messagehere = DailyMessageModel(
         message: messagef,
         messagedate: _ref.watch(selectedDate),
@@ -99,7 +112,9 @@ class DailyController extends StateNotifier<bool> {
 
   void createDailyMessageImage(messagef, imageUrl) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
+     User? auser = _ref.watch(authProvider).currentUser;
+    String uid ;
+    auser != null ? uid = auser.uid : uid = "";
     DailyMessageModel messagehere = DailyMessageModel(
         message: messagef,
         messagedate: _ref.watch(selectedDate),
@@ -115,20 +130,26 @@ class DailyController extends StateNotifier<bool> {
   }
 
   void updateDailyMessage(message, id) async {
-    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
+     User? auser = _ref.watch(authProvider).currentUser;
+    String uid ;
+    auser != null ? uid = auser.uid : uid = "";
     await _dailyRepository.updateDailyMessage(
         message, _ref.watch(selectedDate), uid);
   }
 
   void updateDailyImage(image) async {
-    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
+     User? auser = _ref.watch(authProvider).currentUser;
+    String uid ;
+    auser != null ? uid = auser.uid : uid = "";
     await _dailyRepository.updateDailyImage(
         image, _ref.watch(selectedDate), uid);
   }
 
   void createResponseMessage(message, imageUrl) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
+     User? auser = _ref.watch(authProvider).currentUser;
+    String uid ;
+    auser != null ? uid = auser.uid : uid = "";
 
     DailyMessageModel messagehere = DailyMessageModel(
         message: message,

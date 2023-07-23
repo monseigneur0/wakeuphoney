@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/match/match_repo.dart';
 
@@ -34,15 +35,18 @@ class MatchController extends StateNotifier<bool> {
         super(false);
 
   void matchProcess() async {
-    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
-    await _matchRepository.deleteMatches("IZZ1HICxZ8ggCiJihcJKow38LPK2");
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid ;
+    auser != null ? uid = auser.uid : uid = "";    await _matchRepository.deleteMatches(uid);
 
     int inthoneycode = Random().nextInt(900000) + 100000;
     await _matchRepository.matchStartProcess(uid, inthoneycode);
   }
 
   Stream<MatchModel> getMatchCodeView() {
-    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
+User? auser = _ref.watch(authProvider).currentUser;
+    String uid ;
+    auser != null ? uid = auser.uid : uid = "";
     // String useruid = _ref.watch(userModelProvider)!.uid;
     // print(useruid);
     return _matchRepository.getMatchCodeView(uid);
@@ -54,11 +58,12 @@ class MatchController extends StateNotifier<bool> {
   }
 
   void matchCoupleIdProcessDone(int honeycode) async {
-    print("coupleid");
-    print(_ref.watch(coupleIdProvider));
-    await _matchRepository.deleteMatches("IZZ1HICxZ8ggCiJihcJKow38LPK2");
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid ;
+    auser != null ? uid = auser.uid : uid = "";
+    await _matchRepository.deleteMatches(uid); 
     await _matchRepository.matchCoupleIdProcessDone(
-        "IZZ1HICxZ8ggCiJihcJKow38LPK2",
+      uid,
         _ref.watch(coupleIdProvider.notifier).toString(),
         honeycode);
   }

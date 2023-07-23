@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/auth/auth_repository.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
 import 'package:wakeuphoney/features/auth/user_model.dart';
@@ -83,7 +84,10 @@ class AuthController extends AsyncNotifier<void> {
   }
 
   Stream<UserModel> getMyUserData() {
-    return _authRepository.getMyUserData();
+    User? auser = ref.watch(authProvider).currentUser;
+    String uid ;
+    auser != null ? uid = auser.uid : uid = "";
+    return _authRepository.getUserData(uid);
   }
 
   void logout(BuildContext context) async {

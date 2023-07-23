@@ -48,9 +48,9 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
   Widget build(BuildContext context) {
     final userProfileStream = ref.watch(getUserProfileStreamProvider);
 
-    final coupleUid = ref.watch(getUserProfileStreamProvider);
-    final coupleProfile = ref.watch(
-        getUserProfileStreamByIdProvider(coupleUid.value!.couples.first));
+    final uid = ref.watch(getUserProfileStreamProvider);
+    final coupleProfile =
+        ref.watch(getUserProfileStreamByIdProvider(uid.value?.couple ?? ""));
 
     return Scaffold(
       appBar: AppBar(
@@ -190,8 +190,7 @@ class ProfileDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userprofile =
-        ref.watch(authControllerProvider.notifier).getMyUserData();
+    final userprofile = ref.watch(getMyUserDataProvider);
     return Drawer(
       backgroundColor: Colors.grey[800],
       child: ListView(
@@ -205,10 +204,17 @@ class ProfileDrawer extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          const Text(
-            " userprofile.first.then((value) => value.displayName) as String",
+          Text(
+            userprofile.when(
+              data: (data) => data.email,
+              error: (error, stackTrace) {
+                // print("error$error ");
+                return "no couple";
+              },
+              loading: () => "Loading",
+            ),
             textAlign: TextAlign.center,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(
             height: 30,
@@ -242,7 +248,7 @@ class ProfileDrawer extends StatelessWidget {
               color: Colors.white,
             ),
             title: Text(
-              AppLocalizations.of(context)!.alarms,
+              AppLocalizations.of(context)!.profile,
               style: const TextStyle(color: Colors.white),
             ),
           ),

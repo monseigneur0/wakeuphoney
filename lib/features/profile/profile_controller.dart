@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/auth/user_model.dart';
 import 'package:wakeuphoney/features/profile/profile_repo.dart';
 
+import '../../core/providers/firebase_providers.dart';
 import '../auth/auth_controller.dart';
 
 final getUserProfileStreamProvider = StreamProvider<UserModel>((ref) {
@@ -52,7 +54,9 @@ class ProfileController extends StateNotifier<bool> {
         super(false);
 
   Stream<UserModel> getUserProfileStream() {
-    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid ;
+    auser != null ? uid = auser.uid : uid = "";
     return _profileRepo.getUserProfileStream(uid);
   }
 
@@ -61,29 +65,35 @@ class ProfileController extends StateNotifier<bool> {
   }
 
   Stream<UserModel> getCoupleProfileStream() {
-    final uid = _ref
-        .watch(getUserDataProvider("IZZ1HICxZ8ggCiJihcJKow38LPK2"))
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid ;
+    auser != null ? uid = auser.uid : uid = "";
+    final coupleUid = _ref
+        .watch(getUserDataProvider(uid))
         .value!
         .couple;
-    return _profileRepo.getUserProfileStream(uid);
+    return _profileRepo.getUserProfileStream(coupleUid);
   }
 
   String getCoupleUid() {
-    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
-    String ghghgh = _profileRepo.getCoupleUid(uid);
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid ;
+    auser != null ? uid = auser.uid : uid = "";    String ghghgh = _profileRepo.getCoupleUid(uid);
 
     return ghghgh;
   }
 
   getCoupleUiFuture() {
-    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
-    var ghghgh = _profileRepo.getCoupleUidFuture(uid);
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid ;
+    auser != null ? uid = auser.uid : uid = "";    var ghghgh = _profileRepo.getCoupleUidFuture(uid);
     return ghghgh;
   }
 
   getCoupleUidWow() {
-    String uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
-
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid ;
+    auser != null ? uid = auser.uid : uid = "";
     return _ref.watch(getUserDataProvider(uid)).when(
         data: (data) {
           _ref.watch(coupleIdProvider.notifier).state = data.couple;
