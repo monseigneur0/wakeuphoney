@@ -1,9 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/auth/auth_controller.dart';
-import 'package:wakeuphoney/practice_home_screen.dart';
 
+import '../../practice_home_screen.dart';
 import 'auth_repository.dart';
 
 class LoginHome extends ConsumerStatefulWidget {
@@ -16,6 +18,23 @@ class LoginHome extends ConsumerStatefulWidget {
 }
 
 class _LoginHomeState extends ConsumerState<LoginHome> {
+  bool _visible = false;
+  List<String> messageList = [
+    "Hello",
+    "Good morning",
+    "Honey, wake up",
+    "Write a letter",
+    "Send a photo",
+    "check the letter in the morning",
+    "Watch the photo in the bed",
+    "Reply to the letter",
+    "Can you reply in the morning bed?",
+    "Write a letter for morning alarm",
+    "How are you?",
+    "I miss you",
+  ];
+  int randomNum = 0;
+
   @override
   void initState() {
     super.initState();
@@ -24,10 +43,6 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Wake up, honey!',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
@@ -44,7 +59,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                 ))
           ],
           backgroundColor: Colors.grey[900],
-          title: const Text('Wake up, honey!'),
+          title: const Text('Wake up, Gom!'),
         ),
         body: Center(
           child: Column(
@@ -52,64 +67,61 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
               const SizedBox(
                 height: 20,
               ),
-              // SizedBox(
-              //   width: 200.0,
-              //   height: 48.0,
-              //   child: ElevatedButton.icon(
-              //     style: ElevatedButton.styleFrom(
-              //       foregroundColor: Colors.black,
-              //       side: const BorderSide(
-              //         width: 3.0,
-              //         color: Colors.blue,
-              //       ),
-              //       backgroundColor: Colors.white,
-              //       minimumSize: const Size(double.infinity, 50),
-              //     ),
-              //     icon: const Image(
-              //       image: AssetImage('assets/apple.png'),
-              //       height: 30,
-              //     ),
-              //     label: const Text('Apple Sign In'),
-              //     onPressed: () {
-              //       ref.watch(authRepositoryProvider).signInWithApple(context);
-              //       context.goNamed(PracticeHome.routeName);
-              //     },
-              //   ),
-              // ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Flexible(
-                    child: Container(
-                      padding: const EdgeInsets.all(15),
-                      margin: const EdgeInsets.only(bottom: 5),
-                      decoration: BoxDecoration(
-                        color: Colors.indigo.shade600,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(19),
-                          bottomLeft: Radius.circular(19),
-                          bottomRight: Radius.circular(19),
+              AnimatedOpacity(
+                opacity: _visible ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      child: Container(
+                        width: 250,
+                        height: 85,
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[800],
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(19),
+                            topRight: Radius.circular(19),
+                            bottomLeft: Radius.circular(19),
+                            bottomRight: Radius.circular(19),
+                          ),
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              messageList[randomNum],
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 15),
+                            ),
+                          ),
                         ),
                       ),
-                      child: const Text(
-                        "message",
-                        style: TextStyle(color: Colors.white, fontSize: 15),
-                      ),
                     ),
-                  ),
-                  CustomPaint(painter: Triangle(Colors.indigo.shade600)),
-                ],
-              ),
-              const SizedBox(height: 30),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.asset(
-                  'assets/alarmbearno.png',
-                  height: 250,
+                  ],
                 ),
               ),
-              const SizedBox(height: 20),
+              AnimatedOpacity(
+                opacity: _visible ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 0),
+                child: CustomPaint(painter: Triangle(Colors.grey.shade800)),
+              ),
+              const SizedBox(height: 30),
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    _visible = !_visible;
+                    randomNum = Random().nextInt(10);
+                  });
+                },
+                icon: Image.asset(
+                  'assets/alarmbearno.png',
+                ),
+                iconSize: 200,
+              ),
+              const SizedBox(height: 50),
               Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: ElevatedButton.icon(
@@ -135,39 +147,6 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                   ),
                 ),
               ),
-
-              // SizedBox(
-              //   width: 200.0,
-              //   height: 48.0,
-              //   child: ElevatedButton.icon(
-              //     style: ElevatedButton.styleFrom(
-              //       foregroundColor: Colors.black,
-              //       side: const BorderSide(
-              //         width: 3.0,
-              //         color: Colors.blue,
-              //       ),
-              //       backgroundColor: Colors.white,
-              //       minimumSize: const Size(double.infinity, 50),
-              //     ),
-              //     icon: const Image(
-              //       image: AssetImage('assets/google.png'),
-              //       height: 30,
-              //     ),
-              //     label: const Text('Google Sign In'),
-              //     onPressed: () {
-              //       ref.watch(authRepositoryProvider).loginWithGoogle(context);
-              //       context.goNamed(PracticeHome.routeName);
-              //     },
-              //   ),
-              // ),
-
-              // ElevatedButton(
-              //   onPressed: () => context.goNamed(PracticeHome.routeName),
-              //   style: const ButtonStyle(
-              //     backgroundColor: MaterialStatePropertyAll(Colors.green),
-              //   ),
-              //   child: const Text('go home'),
-              // ),
             ],
           ),
         ),
@@ -186,9 +165,8 @@ class Triangle extends CustomPainter {
     var paint = Paint()..color = backgroundColor;
 
     var path = Path();
-    path.lineTo(-5, 0);
-    path.lineTo(0, 60);
-    path.lineTo(5, 60);
+    path.lineTo(-30, 0);
+    path.lineTo(-30, 20);
     canvas.drawPath(path, paint);
   }
 

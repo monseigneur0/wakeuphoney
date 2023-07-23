@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'core/providers/providers.dart';
-import 'features/alarm/alarm2_screen.dart';
-import 'features/dailymessages/daily_letter2_screen.dart';
 import 'features/dailymessages/daily_letter3_screen.dart';
 import 'features/dailymessages/daily_letter4_screen.dart';
-import 'features/dailymessages/daily_letter_screen.dart';
-import 'features/dailymessages/daily_screen.dart';
-import 'features/dailymessages/daily_screen2.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/dailymessages/response_screen.dart';
 import 'features/profile/couple_profile_screen.dart';
@@ -31,33 +25,6 @@ class PracticeHome extends ConsumerStatefulWidget {
 }
 
 class _PracticeHomeState extends ConsumerState<PracticeHome> {
-  final String iOSTestId = 'ca-app-pub-5897230132206634/3120978311';
-  final String androidTestId = 'ca-app-pub-3940256099942544/6300978111';
-
-  BannerAd? _bannerAd;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // BannerAd(
-    //   size: AdSize.banner,
-    //   adUnitId: Platform.isIOS ? iOSTestId : androidTestId,
-    //   listener: BannerAdListener(
-    //     onAdLoaded: (ad) {
-    //       setState(() {
-    //         _bannerAd = ad as BannerAd;
-    //       });
-    //     },
-    //     onAdFailedToLoad: (ad, err) {
-    //       print('Failed to load a banner ad: ${err.message}');
-    //       ad.dispose();
-    //     },
-    //   ),
-    //   request: const AdRequest(),
-    // ).load();
-  }
-
   @override
   Widget build(BuildContext context) {
     final number = ref.watch(numberProvider);
@@ -101,12 +68,6 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
               ),
               ElevatedButton(
                 style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.green)),
-                onPressed: () => context.pushNamed(AlarmHome2.routeName),
-                child: const Text('AlarmHome2'),
-              ),
-              ElevatedButton(
-                style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.blue)),
                 onPressed: () => context.pushNamed(MatchScreen.routeName),
                 child: const Text('MatchScreen'),
@@ -119,24 +80,7 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                 },
                 child: const Text('Login Home'),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  context.pushNamed(DailyMessageScreen.routeName);
-                },
-                style: const ButtonStyle(
-                    backgroundColor:
-                        MaterialStatePropertyAll(Colors.deepPurple)),
-                child: const Text('DailyMessageScreen'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  context.pushNamed(DailyMessage2Screen.routeName);
-                },
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStatePropertyAll(Colors.blue[800])),
-                child: const Text('DailyMessageScreen2222'),
-              ),
+
               ElevatedButton(
                 onPressed: () {
                   context.pushNamed(ResponseScreen.routeName);
@@ -145,23 +89,6 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                     backgroundColor:
                         MaterialStatePropertyAll(Colors.yellow[800])),
                 child: const Text('ResponseScreen'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  context.pushNamed(DailyLetterScreen.routeName);
-                },
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStatePropertyAll(Colors.blue[600])),
-                child: const Text('DailyLetterScreen'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  context.pushNamed(DailyLetter2Screen.routeName);
-                },
-                style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.red[600])),
-                child: const Text('DailyLetterScreen2222'),
               ),
               ElevatedButton(
                 onPressed: () {

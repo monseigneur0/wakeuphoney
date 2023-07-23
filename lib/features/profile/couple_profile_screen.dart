@@ -47,10 +47,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final userProfileStream = ref.watch(getUserProfileStreamProvider);
-
-    final uid = ref.watch(getUserProfileStreamProvider);
-    final coupleProfile =
-        ref.watch(getUserProfileStreamByIdProvider(uid.value?.couple ?? ""));
+    final userCoupleProfileStream = ref.watch(getCoupleProfileStreamProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -113,7 +110,13 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                       ),
                       error: (error, stackTrace) {
                         // print("error$error ");
-                        return const Text("no couple");
+                        return const Text(
+                          "no couple",
+                          style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.white,
+                          ),
+                        );
                       },
                       loading: () => const Loader(),
                     ),
@@ -134,7 +137,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                   children: [
                     SizedBox(
                       height: 100,
-                      child: coupleProfile.when(
+                      child: userCoupleProfileStream.when(
                         data: (data) => CachedNetworkImage(
                           imageUrl: data.photoURL,
                           fit: BoxFit.cover,
@@ -154,7 +157,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                         loading: () => const Loader(),
                       ),
                     ),
-                    coupleProfile.when(
+                    userCoupleProfileStream.when(
                       data: (data) => Text(
                         data.displayName,
                         style: const TextStyle(
@@ -164,7 +167,13 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                       ),
                       error: (error, stackTrace) {
                         // print("error$error ");
-                        return const Text("no couple");
+                        return const Text(
+                          "no couple",
+                          style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.white,
+                          ),
+                        );
                       },
                       loading: () => const Loader(),
                     ),
@@ -291,9 +300,9 @@ class ProfileDrawer extends StatelessWidget {
                           ),
                           CupertinoDialogAction(
                             onPressed: () {
-                              ref.watch(authRepositoryProvider).logout();
                               Navigator.of(context).pop();
                               context.goNamed(LoginHome.routeName);
+                              ref.watch(authRepositoryProvider).logout();
                             },
                             isDestructiveAction: true,
                             child: Text(AppLocalizations.of(context)!.yes),
@@ -331,9 +340,9 @@ class ProfileDrawer extends StatelessWidget {
                               ),
                               IconButton(
                                 onPressed: () {
+                                  context.goNamed(LoginHome.routeName);
                                   ref.watch(authRepositoryProvider).logout();
                                   Navigator.of(context).pop();
-                                  context.goNamed(LoginHome.routeName);
                                 },
                                 icon: const Icon(
                                   Icons.done,

@@ -17,7 +17,7 @@
     "no": "아니요",
     "noalarmset": "알람이 없어요",
     "sure": "정말 로그아웃할거에요?",
-    "connectto": "계정 연결하기",
+    "connectto": "계정 서로 연결하기",
     "connectwith": "인증 코드로 연결하기",
     "match": "연결",
     "generateauthcode": "인증 코드 생성",

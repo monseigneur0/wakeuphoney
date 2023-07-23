@@ -39,7 +39,7 @@ class AuthController extends AsyncNotifier<void> {
     );
     if (state.hasError) {
     } else {
-      context.go("/profile");
+      context.go("/match");
     }
     // _authRepository.signInWithGoogle().then((value) => value != null
     //     ? context.goNamed(MatchScreen.routeName)
@@ -85,7 +85,7 @@ class AuthController extends AsyncNotifier<void> {
 
   Stream<UserModel> getMyUserData() {
     User? auser = ref.watch(authProvider).currentUser;
-    String uid ;
+    String uid;
     auser != null ? uid = auser.uid : uid = "";
     return _authRepository.getUserData(uid);
   }

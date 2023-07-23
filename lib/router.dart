@@ -3,16 +3,11 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 
-import 'features/alarm/alarm2_screen.dart';
 import 'features/alarm/alarm_ring_screen.dart';
 import 'features/auth/auth_repository.dart';
 import 'features/dailymessages/daily_create_screen.dart';
-import 'features/dailymessages/daily_letter2_screen.dart';
 import 'features/dailymessages/daily_letter3_screen.dart';
 import 'features/dailymessages/daily_letter4_screen.dart';
-import 'features/dailymessages/daily_letter_screen.dart';
-import 'features/dailymessages/daily_screen.dart';
-import 'features/dailymessages/daily_screen2.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/profile/profile_controller.dart';
@@ -153,17 +148,19 @@ final routerProvider = Provider((ref) {
                 loading: () => false,
               );
               print('hasCoupleId $hasCoupleId $hasCoupleIdBool');
-              if (!hasCoupleIdBool) {
-                if (state.matchedLocation != MatchScreen.routeURL) {
+              if (hasCoupleIdBool) {
+                print("hasCoupleIdBool");
+                print(hasCoupleIdBool);
+                if (state.matchedLocation == MatchScreen.routeURL) {
                   print(MatchScreen.routeURL);
-                  return MatchScreen.routeURL;
+                  return CoupleProfileScreen.routeURL;
                 }
               }
               // if (hasCoupleIdBool) {
               //   print("couple exist");
               //   return CoupleProfileScreen.routeURL;
               // }
-              return CoupleProfileScreen.routeURL;
+              return MatchScreen.routeURL;
             },
           ),
           GoRoute(
@@ -185,29 +182,9 @@ final routerProvider = Provider((ref) {
                 AlarmRingScreen(alarmSettings: alarmSettings),
           ),
           GoRoute(
-            name: AlarmHome2.routeName,
-            path: AlarmHome2.routeURL,
-            builder: (context, state) => const AlarmHome2(),
-          ),
-          GoRoute(
-            name: DailyMessageScreen.routeName,
-            path: DailyMessageScreen.routeURL,
-            builder: (context, state) => const DailyMessageScreen(),
-          ),
-          GoRoute(
             name: ResponseScreen.routeName,
             path: ResponseScreen.routeURL,
             builder: (context, state) => const ResponseScreen(),
-          ),
-          GoRoute(
-            name: DailyLetterScreen.routeName,
-            path: DailyLetterScreen.routeURL,
-            builder: (context, state) => const DailyLetterScreen(),
-          ),
-          GoRoute(
-            name: DailyLetter2Screen.routeName,
-            path: DailyLetter2Screen.routeURL,
-            builder: (context, state) => const DailyLetter2Screen(),
           ),
           GoRoute(
             name: DailyLetter3Screen.routeName,
@@ -228,11 +205,6 @@ final routerProvider = Provider((ref) {
             name: CoupleLetterScreen.routeName,
             path: CoupleLetterScreen.routeURL,
             builder: (context, state) => const CoupleLetterScreen(),
-          ),
-          GoRoute(
-            name: DailyMessage2Screen.routeName,
-            path: DailyMessage2Screen.routeURL,
-            builder: (context, state) => const DailyMessage2Screen(),
           ),
           GoRoute(
             name: CoupleProfileScreen.routeName,
