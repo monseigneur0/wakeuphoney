@@ -7,7 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/common/loader.dart';
-import '../../core/providers/firebase_providers.dart';
 import '../../core/providers/providers.dart';
 import '../../core/utils.dart';
 import 'daily_controller.dart';
@@ -43,8 +42,6 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
-
     final dateList100 = ref.watch(dateStateProvider);
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
     return Scaffold(
@@ -164,7 +161,7 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                       style: const ButtonStyle(
                           backgroundColor:
                               MaterialStatePropertyAll(Color(0xFFD72499))),
-                      child: const Text('I woke up!'),
+                      child: const Text('Send'),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           showSnackBar(context, "messgae is saved");

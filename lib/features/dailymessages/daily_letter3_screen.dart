@@ -12,9 +12,9 @@ import 'package:wakeuphoney/features/dailymessages/daily_controller.dart';
 import 'package:wakeuphoney/features/dailymessages/daily_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:wakeuphoney/features/profile/profile_controller.dart';
 
 import '../../core/common/loader.dart';
-import '../../core/providers/firebase_providers.dart';
 import '../../core/utils.dart';
 import 'couple_letter_screen.dart';
 import 'daily_create_screen.dart';
@@ -90,6 +90,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
     list.sort(
       (a, b) => a.compareTo(b),
     );
+    final user = ref.watch(getUserProfileStreamProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -107,304 +108,337 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
         ],
       ),
       backgroundColor: Colors.black,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(
-            height: 1,
-            decoration: BoxDecoration(color: Colors.grey[700]),
-          ),
-          Container(
-            height: 5,
-          ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //   children: [
-          //     Text(
-          //       AppLocalizations.of(context)!.dafaultletter,
-          //       style: const TextStyle(
-          //         fontSize: 15,
-          //         color: Colors.white,
-          //       ),
-          //     ),
-          //   ],
-          // ),
-          // Container(
-          //   height: 5,
-          // ),
-          // Container(
-          //   height: 1,
-          //   decoration: BoxDecoration(color: Colors.grey[900]),
-          // ),
-          // const SizedBox(
-          //   height: 5,
-          // ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.start,
-          //   children: const [
-          //     Padding(
-          //       padding: EdgeInsets.only(
-          //         left: 15,
-          //         top: 15,
-          //         bottom: 3,
-          //       ),
-          //       child: Text(
-          //         "Tomorrow",
-          //         style: TextStyle(
-          //           fontSize: 15,
-          //           color: Colors.white,
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
-          Container(
-            decoration: const BoxDecoration(color: Colors.black),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height - 180,
-              child: ListView.builder(
-                itemCount: 100,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (context, index) {
-                  return listMessage.when(
-                    data: (value) {
-                      var messageNow = value.singleWhere(
-                        (element) =>
-                            element.messagedate ==
-                            DateFormat.yMMMd().format(listDateTime[index]),
-                        orElse: () => DailyMessageModel(
-                          message: "no message",
-                          messagedate: "messagedate",
-                          messagedatetime: DateTime.now(),
-                          time: DateTime.now(),
-                          sender: "",
-                          reciver: "",
-                          photo: "",
-                          audio: "",
-                          video: "",
-                        ),
-                      );
-                      return messageNow.message != "no message"
-                          ? Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height: 10,
-                                  ),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width - 40,
-                                    child: GestureDetector(
-                                      onTap: () async {
-                                        ImagePicker imagePicker = ImagePicker();
-                                        XFile? file =
-                                            await imagePicker.pickImage(
-                                                source: ImageSource.gallery);
-                                        // print('${file?.path}');
-
-                                        String uniqueFileName = DateTime.now()
-                                            .toString()
-                                            .replaceAll(' ', '');
-
-                                        //Get a reference to storage root
-                                        Reference referenceRoot =
-                                            FirebaseStorage.instance.ref();
-                                        Reference referenceDirImages =
-                                            referenceRoot.child('images');
-
-                                        //Create a reference for the image to be stored
-                                        Reference referenceImageToUpload =
-                                            referenceDirImages
-                                                .child(uniqueFileName);
-
-                                        //Handle errors/success
-                                        try {
-                                          //Store the file
-                                          await referenceImageToUpload
-                                              .putFile(File(file!.path));
-                                          //Success: get the download URL
-                                          imageUrl =
-                                              await referenceImageToUpload
-                                                  .getDownloadURL();
-                                          ref
-                                                  .read(selectedDate.notifier)
-                                                  .state =
-                                              DateFormat.yMMMd()
-                                                  .format(listDateTime[index]);
-                                          ref
-                                              .watch(dailyControllerProvider
-                                                  .notifier)
-                                              .updateDailyImage(imageUrl);
-                                        } catch (error) {
-                                          //Some error occurred
-                                        }
-                                      },
-                                      child: messageNow.photo.isNotEmpty
-                                          ? CachedNetworkImage(
-                                              imageUrl: messageNow.photo,
-                                              placeholder: (context, url) =>
-                                                  Container(
-                                                height: 70,
-                                              ),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      const Icon(Icons.error),
-                                            )
-                                          : Container(),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    tileColor: Colors.black,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(20)),
-                                    ),
-                                    title: Text(
-                                      messageNow.message,
-                                      // "wow",
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    subtitle: Text(
-                                      DateFormat.MMMd()
-                                          .format(listDateTime[index]),
-                                      style: TextStyle(color: Colors.grey[400]),
-                                    ),
-                                    onTap: () {
-                                      ref.read(selectedDate.notifier).state =
-                                          DateFormat.yMMMd()
-                                              .format(listDateTime[index]);
-                                      bool isImageEmpty =
-                                          messageNow.photo.isEmpty;
-                                      _update(uid, isImageEmpty);
-                                      _messgaeController.text =
-                                          messageNow.message;
-                                    },
-                                  ),
-                                  // SizedBox(
-                                  //   width:
-                                  //       MediaQuery.of(context).size.width - 40,
-                                  //   child: messageNow.photo.isNotEmpty
-                                  //       ? Image.network(messageNow.photo)
-                                  //       : Container(),
-                                  // ),
-
-                                  // SizedBox(
-                                  //   child: GestureDetector(
-                                  //     onTap: () {
-                                  //       selectBannerImage();
-                                  //     },
-                                  //     child: Container(
-                                  //       width: double.infinity,
-                                  //       decoration: BoxDecoration(
-                                  //         borderRadius:
-                                  //             BorderRadius.circular(10),
-                                  //       ),
-                                  //       child: bannerFile != null
-                                  //           ? Image.file(bannerFile!)
-                                  //           : messageNow.photo.isEmpty ||
-                                  //                   messageNow.photo ==
-                                  //                       Constants.bannerDefault
-                                  //               ? const Center(
-                                  //                   child: Icon(
-                                  //                     Icons.camera_alt_outlined,
-                                  //                     size: 40,
-                                  //                     color: Colors.white,
-                                  //                   ),
-                                  //                 )
-                                  //               : Image.network(
-                                  //                   messageNow.photo),
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                  Container(
-                                    height: 1,
-                                    decoration:
-                                        BoxDecoration(color: Colors.grey[800]),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Column(
-                                children: [
-                                  ListTile(
-                                    title: Text(
-                                      value
-                                          .singleWhere(
-                                            (element) =>
-                                                element.messagedate ==
-                                                DateFormat.yMMMd().format(
-                                                    listDateTime[index]),
-                                            orElse: () => DailyMessageModel(
-                                              message: "no message",
-                                              messagedate: "messagedate",
-                                              messagedatetime: DateTime.now(),
-                                              time: DateTime.now(),
-                                              sender: "",
-                                              reciver: "",
-                                              photo: "",
-                                              audio: "",
-                                              video: "",
-                                            ),
-                                          )
-                                          .message,
-                                      // "wow",
-                                      style: TextStyle(color: Colors.grey[800]),
-                                    ),
-                                    subtitle: Text(
-                                      DateFormat.MMMd()
-                                          .format(listDateTime[index]),
-                                      style: TextStyle(color: Colors.grey[800]),
-                                    ),
-                                    onTap: () {
-                                      ref.read(selectedDate.notifier).state =
-                                          DateFormat.yMMMd()
-                                              .format(listDateTime[index]);
-                                      ref
-                                              .read(selectedDateTime.notifier)
-                                              .state =
-                                          DateTime.now()
-                                              .add(Duration(
-                                                  seconds: 24 * 60 * 60 -
-                                                      DateTime.now().hour *
-                                                          3600 -
-                                                      DateTime.now().minute *
-                                                          60 -
-                                                      DateTime.now().second))
-                                              .add(Duration(days: index));
-                                      // _create(uid);
-                                      context.pushNamed(
-                                          DailyLetterCreateScreen.routeName);
-
-                                      _messgaeController.clear();
-                                    },
-                                  ),
-                                  Container(
-                                    height: 1,
-                                    decoration:
-                                        BoxDecoration(color: Colors.grey[800]),
-                                  ),
-                                ],
+      body: user.when(
+        data: (data) => data.couples.isEmpty,
+        error: (error, stackTrace) {
+          return true;
+        },
+        loading: () => true,
+      )
+          ? const Center(
+              child: Text(
+                "No Match, No Message",
+                style: TextStyle(color: Colors.white),
+              ),
+            )
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  height: 1,
+                  decoration: BoxDecoration(color: Colors.grey[700]),
+                ),
+                Container(
+                  height: 5,
+                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //   children: [
+                //     Text(
+                //       AppLocalizations.of(context)!.dafaultletter,
+                //       style: const TextStyle(
+                //         fontSize: 15,
+                //         color: Colors.white,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // Container(
+                //   height: 5,
+                // ),
+                // Container(
+                //   height: 1,
+                //   decoration: BoxDecoration(color: Colors.grey[900]),
+                // ),
+                // const SizedBox(
+                //   height: 5,
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.start,
+                //   children: const [
+                //     Padding(
+                //       padding: EdgeInsets.only(
+                //         left: 15,
+                //         top: 15,
+                //         bottom: 3,
+                //       ),
+                //       child: Text(
+                //         "Tomorrow",
+                //         style: TextStyle(
+                //           fontSize: 15,
+                //           color: Colors.white,
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                Container(
+                  decoration: const BoxDecoration(color: Colors.black),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height - 180,
+                    child: ListView.builder(
+                      itemCount: 100,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        return listMessage.when(
+                          data: (value) {
+                            var messageNow = value.singleWhere(
+                              (element) =>
+                                  element.messagedate ==
+                                  DateFormat.yMMMd()
+                                      .format(listDateTime[index]),
+                              orElse: () => DailyMessageModel(
+                                message: "no message",
+                                messagedate: "messagedate",
+                                messagedatetime: DateTime.now(),
+                                time: DateTime.now(),
+                                sender: "",
+                                reciver: "",
+                                photo: "",
+                                audio: "",
+                                video: "",
                               ),
                             );
-                    },
-                    error: (error, stackTrace) {
-                      // print("error$error ");
-                      return null;
-                    },
-                    loading: () => const Loader(),
-                  );
-                },
-              ),
+                            return messageNow.message != "no message"
+                                ? Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          height: 10,
+                                        ),
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              40,
+                                          child: GestureDetector(
+                                            onTap: () async {
+                                              ImagePicker imagePicker =
+                                                  ImagePicker();
+                                              XFile? file =
+                                                  await imagePicker.pickImage(
+                                                      source:
+                                                          ImageSource.gallery);
+                                              // print('${file?.path}');
+
+                                              String uniqueFileName =
+                                                  DateTime.now()
+                                                      .toString()
+                                                      .replaceAll(' ', '');
+
+                                              //Get a reference to storage root
+                                              Reference referenceRoot =
+                                                  FirebaseStorage.instance
+                                                      .ref();
+                                              Reference referenceDirImages =
+                                                  referenceRoot.child('images');
+
+                                              //Create a reference for the image to be stored
+                                              Reference referenceImageToUpload =
+                                                  referenceDirImages
+                                                      .child(uniqueFileName);
+
+                                              //Handle errors/success
+                                              try {
+                                                //Store the file
+                                                await referenceImageToUpload
+                                                    .putFile(File(file!.path));
+                                                //Success: get the download URL
+                                                imageUrl =
+                                                    await referenceImageToUpload
+                                                        .getDownloadURL();
+                                                ref
+                                                    .read(selectedDate.notifier)
+                                                    .state = DateFormat
+                                                        .yMMMd()
+                                                    .format(
+                                                        listDateTime[index]);
+                                                ref
+                                                    .watch(
+                                                        dailyControllerProvider
+                                                            .notifier)
+                                                    .updateDailyImage(imageUrl);
+                                              } catch (error) {
+                                                //Some error occurred
+                                              }
+                                            },
+                                            child: messageNow.photo.isNotEmpty
+                                                ? CachedNetworkImage(
+                                                    imageUrl: messageNow.photo,
+                                                    placeholder:
+                                                        (context, url) =>
+                                                            Container(
+                                                      height: 70,
+                                                    ),
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        const Icon(Icons.error),
+                                                  )
+                                                : Container(),
+                                          ),
+                                        ),
+                                        ListTile(
+                                          tileColor: Colors.black,
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(20)),
+                                          ),
+                                          title: Text(
+                                            messageNow.message,
+                                            // "wow",
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                          subtitle: Text(
+                                            DateFormat.MMMd()
+                                                .format(listDateTime[index]),
+                                            style: TextStyle(
+                                                color: Colors.grey[400]),
+                                          ),
+                                          onTap: () {
+                                            ref
+                                                    .read(selectedDate.notifier)
+                                                    .state =
+                                                DateFormat.yMMMd().format(
+                                                    listDateTime[index]);
+                                            bool isImageEmpty =
+                                                messageNow.photo.isEmpty;
+                                            _update(uid, isImageEmpty);
+                                            _messgaeController.text =
+                                                messageNow.message;
+                                          },
+                                        ),
+                                        // SizedBox(
+                                        //   width:
+                                        //       MediaQuery.of(context).size.width - 40,
+                                        //   child: messageNow.photo.isNotEmpty
+                                        //       ? Image.network(messageNow.photo)
+                                        //       : Container(),
+                                        // ),
+
+                                        // SizedBox(
+                                        //   child: GestureDetector(
+                                        //     onTap: () {
+                                        //       selectBannerImage();
+                                        //     },
+                                        //     child: Container(
+                                        //       width: double.infinity,
+                                        //       decoration: BoxDecoration(
+                                        //         borderRadius:
+                                        //             BorderRadius.circular(10),
+                                        //       ),
+                                        //       child: bannerFile != null
+                                        //           ? Image.file(bannerFile!)
+                                        //           : messageNow.photo.isEmpty ||
+                                        //                   messageNow.photo ==
+                                        //                       Constants.bannerDefault
+                                        //               ? const Center(
+                                        //                   child: Icon(
+                                        //                     Icons.camera_alt_outlined,
+                                        //                     size: 40,
+                                        //                     color: Colors.white,
+                                        //                   ),
+                                        //                 )
+                                        //               : Image.network(
+                                        //                   messageNow.photo),
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        Container(
+                                          height: 1,
+                                          decoration: BoxDecoration(
+                                              color: Colors.grey[800]),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Column(
+                                      children: [
+                                        ListTile(
+                                          title: Text(
+                                            value
+                                                .singleWhere(
+                                                  (element) =>
+                                                      element.messagedate ==
+                                                      DateFormat.yMMMd().format(
+                                                          listDateTime[index]),
+                                                  orElse: () =>
+                                                      DailyMessageModel(
+                                                    message: "no message",
+                                                    messagedate: "messagedate",
+                                                    messagedatetime:
+                                                        DateTime.now(),
+                                                    time: DateTime.now(),
+                                                    sender: "",
+                                                    reciver: "",
+                                                    photo: "",
+                                                    audio: "",
+                                                    video: "",
+                                                  ),
+                                                )
+                                                .message,
+                                            // "wow",
+                                            style: TextStyle(
+                                                color: Colors.grey[800]),
+                                          ),
+                                          subtitle: Text(
+                                            DateFormat.MMMd()
+                                                .format(listDateTime[index]),
+                                            style: TextStyle(
+                                                color: Colors.grey[800]),
+                                          ),
+                                          onTap: () {
+                                            ref
+                                                    .read(selectedDate.notifier)
+                                                    .state =
+                                                DateFormat.yMMMd().format(
+                                                    listDateTime[index]);
+                                            ref
+                                                .read(selectedDateTime.notifier)
+                                                .state = DateTime
+                                                    .now()
+                                                .add(Duration(
+                                                    seconds: 24 * 60 * 60 -
+                                                        DateTime.now().hour *
+                                                            3600 -
+                                                        DateTime.now().minute *
+                                                            60 -
+                                                        DateTime.now().second))
+                                                .add(Duration(days: index));
+                                            // _create(uid);
+                                            context.pushNamed(
+                                                DailyLetterCreateScreen
+                                                    .routeName);
+
+                                            _messgaeController.clear();
+                                          },
+                                        ),
+                                        Container(
+                                          height: 1,
+                                          decoration: BoxDecoration(
+                                              color: Colors.grey[800]),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                          },
+                          error: (error, stackTrace) {
+                            // print("error$error ");
+                            return null;
+                          },
+                          loading: () => const Loader(),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(),

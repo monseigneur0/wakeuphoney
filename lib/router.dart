@@ -10,18 +10,16 @@ import 'features/dailymessages/daily_letter3_screen.dart';
 import 'features/dailymessages/daily_letter4_screen.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/profile/couple_profile_screen.dart';
-import 'features/profile/profile_controller.dart';
+import 'features/profile/feedback_screen.dart';
 import 'features/match/match_screen.dart';
 import 'features/auth/login_screen.dart';
 import 'features/dailymessages/response_screen.dart';
 import 'practice_home_screen.dart';
 
 final routerProvider = Provider((ref) {
-  final hasCoupleId = ref.watch(getUserProfileStreamProvider);
-
-  final alarmSettings = ref.watch(alarmSettings1Provider);
+  final alarmSettings = ref.watch(alarmSettingsProvider);
   return GoRouter(
-    initialLocation: "/alarm",
+    initialLocation: "/dailyletter3",
     redirect: (context, state) {
       final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
       if (!isLoggedIn) {
@@ -86,7 +84,7 @@ final routerProvider = Provider((ref) {
                     icon: const Icon(
                       Icons.add_alarm,
                       color: Colors.white,
-                      size: 33,
+                      size: 25,
                     ),
                   ),
                   IconButton(
@@ -95,7 +93,7 @@ final routerProvider = Provider((ref) {
                     icon: const Icon(
                       Icons.local_post_office_outlined,
                       color: Colors.white,
-                      size: 33,
+                      size: 25,
                     ),
                   ),
                   IconButton(
@@ -104,7 +102,7 @@ final routerProvider = Provider((ref) {
                     icon: const Icon(
                       Icons.message_outlined,
                       color: Colors.white,
-                      size: 33,
+                      size: 25,
                     ),
                   ),
                   // IconButton(
@@ -112,7 +110,7 @@ final routerProvider = Provider((ref) {
                   //   icon: const Icon(
                   //     Icons.home,
                   //     color: Colors.white,
-                  //     size: 33,
+                  //     size: 25,
                   //   ),
                   // ),
                   IconButton(
@@ -120,7 +118,7 @@ final routerProvider = Provider((ref) {
                     icon: const Icon(
                       Icons.favorite_border_outlined,
                       color: Colors.white,
-                      size: 33,
+                      size: 25,
                     ),
                   ),
                 ],
@@ -133,35 +131,6 @@ final routerProvider = Provider((ref) {
             name: PracticeHome.routeName,
             path: PracticeHome.routeURL,
             builder: (context, state) => const PracticeHome(),
-          ),
-          GoRoute(
-            name: MatchScreen.routeName,
-            path: MatchScreen.routeURL,
-            builder: (context, state) => const MatchScreen(),
-            redirect: (context, state) {
-              final hasCoupleIdBool = hasCoupleId.when(
-                data: (data) => data.couples.isNotEmpty,
-                error: (error, stackTrace) {
-                  print("error router  $error ");
-                  return false;
-                },
-                loading: () => false,
-              );
-              print('hasCoupleId $hasCoupleId $hasCoupleIdBool');
-              if (hasCoupleIdBool) {
-                print("hasCoupleIdBool");
-                print(hasCoupleIdBool);
-                if (state.matchedLocation == MatchScreen.routeURL) {
-                  print(MatchScreen.routeURL);
-                  return CoupleProfileScreen.routeURL;
-                }
-              }
-              // if (hasCoupleIdBool) {
-              //   print("couple exist");
-              //   return CoupleProfileScreen.routeURL;
-              // }
-              return MatchScreen.routeURL;
-            },
           ),
           GoRoute(
             name: AlarmHome.routeName,
@@ -211,56 +180,17 @@ final routerProvider = Provider((ref) {
             path: CoupleProfileScreen.routeURL,
             builder: (context, state) => const CoupleProfileScreen(),
           ),
+          GoRoute(
+            name: FeedbackScreen.routeName,
+            path: FeedbackScreen.routeURL,
+            builder: (context, state) => const FeedbackScreen(),
+          ),
+          GoRoute(
+            name: MatchScreen.routeName,
+            path: MatchScreen.routeURL,
+            builder: (context, state) => const MatchScreen(),
+          ),
         ],
-      )
-    ],
-  );
-});
-
-final noLoginRouterProvider = Provider((ref) {
-  return GoRouter(
-    initialLocation: "/alarm",
-    routes: [
-      GoRoute(
-        name: LoginHome.routeName,
-        path: LoginHome.routeURL,
-        builder: (context, state) => const LoginHome(),
-      )
-    ],
-  );
-});
-
-final matchRouterProvider = Provider((ref) {
-  final hasCoupleId = ref.watch(getUserProfileStreamProvider);
-
-  return GoRouter(
-    routes: [
-      GoRoute(
-        name: MatchScreen.routeName,
-        path: MatchScreen.routeURL,
-        builder: (context, state) => const MatchScreen(),
-        redirect: (context, state) {
-          final hasCoupleIdBool = hasCoupleId.when(
-            data: (data) => data.couples.isNotEmpty,
-            error: (error, stackTrace) {
-              print("error router  $error ");
-              return false;
-            },
-            loading: () => false,
-          );
-          print('hasCoupleId $hasCoupleId $hasCoupleIdBool');
-          if (!hasCoupleIdBool) {
-            if (state.matchedLocation != MatchScreen.routeURL) {
-              print(MatchScreen.routeURL);
-              return MatchScreen.routeURL;
-            }
-          }
-          if (hasCoupleIdBool) {
-            print("couple exist");
-            return CoupleProfileScreen.routeURL;
-          }
-          return MatchScreen.routeURL;
-        },
       )
     ],
   );

@@ -36,16 +36,18 @@ class MatchController extends StateNotifier<bool> {
 
   void matchProcess() async {
     User? auser = _ref.watch(authProvider).currentUser;
-    String uid ;
-    auser != null ? uid = auser.uid : uid = "";    await _matchRepository.deleteMatches(uid);
+    String uid;
+    auser != null ? uid = auser.uid : uid = "";
+
+    await _matchRepository.deleteMatches(uid);
 
     int inthoneycode = Random().nextInt(900000) + 100000;
     await _matchRepository.matchStartProcess(uid, inthoneycode);
   }
 
   Stream<MatchModel> getMatchCodeView() {
-User? auser = _ref.watch(authProvider).currentUser;
-    String uid ;
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
     auser != null ? uid = auser.uid : uid = "";
     // String useruid = _ref.watch(userModelProvider)!.uid;
     // print(useruid);
@@ -59,12 +61,10 @@ User? auser = _ref.watch(authProvider).currentUser;
 
   void matchCoupleIdProcessDone(int honeycode) async {
     User? auser = _ref.watch(authProvider).currentUser;
-    String uid ;
+    String uid;
     auser != null ? uid = auser.uid : uid = "";
-    await _matchRepository.deleteMatches(uid); 
+    await _matchRepository.deleteMatches(uid);
     await _matchRepository.matchCoupleIdProcessDone(
-      uid,
-        _ref.watch(coupleIdProvider.notifier).toString(),
-        honeycode);
+        uid, _ref.watch(coupleIdProvider.notifier).toString(), honeycode);
   }
 }

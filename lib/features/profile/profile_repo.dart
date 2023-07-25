@@ -13,6 +13,8 @@ class ProfileRepo {
 
   CollectionReference get _users =>
       _firestore.collection(FirebaseConstants.usersCollection);
+  CollectionReference get _feedbacks =>
+      _firestore.collection(FirebaseConstants.feedbackCollection);
 
   Stream<UserModel> getUserProfileStream(String uid) {
     return _users.doc(uid).snapshots().map(
@@ -37,5 +39,14 @@ class ProfileRepo {
   getCoupleUidFuture(String uid) async {
     var documentSnapshotCoupleId = await _users.doc(uid).get();
     return documentSnapshotCoupleId.data();
+  }
+
+  Future createFeedback(String uid, String contents, String imageUrl) async {
+    await _feedbacks.add({
+      "uid": uid,
+      "contents": contents,
+      "image": imageUrl,
+      "time": DateTime.now(),
+    });
   }
 }

@@ -105,15 +105,18 @@ class AlarmRingScreen extends ConsumerWidget {
                 //     style: Theme.of(context).textTheme.titleLarge,
                 //   ),
                 // ),
-                RawMaterialButton(
+                ElevatedButton(
+                  style: const ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll(Color(0xFFD72499))),
                   onPressed: () {
                     Alarm.stop(alarmSettings.id)
                         .then((_) => Navigator.pop(context))
                         .then((_) => context.goNamed(ResponseScreen.routeName));
                   },
-                  child: Text(
+                  child: const Text(
                     "Stop",
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ],

@@ -21,5 +21,18 @@
     "connectwith": "인증 코드로 연결하기",
     "match": "연결",
     "generateauthcode": "인증 코드 생성",
-    "backtowrite": "돌아가서 인증 코드 입력하기"
+    "backtowrite": "돌아가서 인증 코드 입력하기",
+    "hello": "안녕",
+    "goodmorning": "좋은 아침이야",
+    "honeywakeup": "자기야 일어나",
+    "writealetter": "편지 쓸래?",
+    "sendaphoto": "사진 보내봐",
+    "checktheletter": "아침에 편지 확인해봐",
+    "watchthephoto": "사진 확인해봐",
+    "replyletter": "답장해줄래?",
+    "canyoureply": "아침에 답장해줄래?",
+    "writemorning": "아침 편지 써줄래?",
+    "howareyou": "잘 지내?",
+    "imissyou": "보고싶어",
+    "feedback": "피드백 보내기"
 }

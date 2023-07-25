@@ -7,6 +7,7 @@ import 'package:wakeuphoney/features/auth/auth_controller.dart';
 
 import '../../practice_home_screen.dart';
 import 'auth_repository.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginHome extends ConsumerStatefulWidget {
   static String routeName = "login";
@@ -19,20 +20,6 @@ class LoginHome extends ConsumerStatefulWidget {
 
 class _LoginHomeState extends ConsumerState<LoginHome> {
   bool _visible = false;
-  List<String> messageList = [
-    "Hello",
-    "Good morning",
-    "Honey, wake up",
-    "Write a letter",
-    "Send a photo",
-    "check the letter in the morning",
-    "Watch the photo in the bed",
-    "Reply to the letter",
-    "Can you reply in the morning bed?",
-    "Write a letter for morning alarm",
-    "How are you?",
-    "I miss you",
-  ];
   int randomNum = 0;
 
   @override
@@ -42,6 +29,20 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> messageList = [
+      AppLocalizations.of(context)!.hello,
+      AppLocalizations.of(context)!.goodmorning,
+      AppLocalizations.of(context)!.honeywakeup,
+      AppLocalizations.of(context)!.writealetter,
+      AppLocalizations.of(context)!.sendaphoto,
+      AppLocalizations.of(context)!.checktheletter,
+      AppLocalizations.of(context)!.watchthephoto,
+      AppLocalizations.of(context)!.replyletter,
+      AppLocalizations.of(context)!.canyoureply,
+      AppLocalizations.of(context)!.writemorning,
+      AppLocalizations.of(context)!.howareyou,
+      AppLocalizations.of(context)!.imissyou,
+    ];
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.black,
@@ -74,28 +75,26 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Flexible(
-                      child: Container(
-                        width: 250,
-                        height: 85,
-                        padding: const EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[800],
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(19),
-                            topRight: Radius.circular(19),
-                            bottomLeft: Radius.circular(19),
-                            bottomRight: Radius.circular(19),
-                          ),
+                    Container(
+                      width: 250,
+                      height: 85,
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[800],
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(19),
+                          topRight: Radius.circular(19),
+                          bottomLeft: Radius.circular(19),
+                          bottomRight: Radius.circular(19),
                         ),
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              messageList[randomNum],
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 15),
-                            ),
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            messageList[randomNum],
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 15),
                           ),
                         ),
                       ),
@@ -165,8 +164,8 @@ class Triangle extends CustomPainter {
     var paint = Paint()..color = backgroundColor;
 
     var path = Path();
-    path.lineTo(-30, 0);
-    path.lineTo(-30, 20);
+    path.lineTo(-10, 0);
+    path.lineTo(-10, 20);
     canvas.drawPath(path, paint);
   }
 

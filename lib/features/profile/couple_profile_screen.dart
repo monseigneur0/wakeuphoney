@@ -9,12 +9,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakeuphoney/features/auth/auth_controller.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wakeuphoney/practice_home_screen.dart';
 
 import '../../core/common/loader.dart';
 import '../alarm/alarm_screen.dart';
 import '../auth/auth_repository.dart';
 import '../auth/login_screen.dart';
+import 'feedback_screen.dart';
 
 class CoupleProfileScreen extends ConsumerStatefulWidget {
   static String routeName = "coupleprofilescreen";
@@ -205,17 +205,19 @@ class ProfileDrawer extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.symmetric(vertical: 50),
         children: <Widget>[
-          Icon(
-            Icons.account_circle,
-            size: 150,
-            color: Colors.grey[700],
+          IconButton(
+            onPressed: () {},
+            icon: Image.asset(
+              'assets/alarmbearno.png',
+            ),
+            iconSize: 50,
           ),
           const SizedBox(
             height: 15,
           ),
           Text(
             userprofile.when(
-              data: (data) => data.email,
+              data: (data) => data.displayName,
               error: (error, stackTrace) {
                 // print("error$error ");
                 return "no couple";
@@ -248,16 +250,16 @@ class ProfileDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              context.pushNamed(PracticeHome.routeName);
+              context.pushNamed(FeedbackScreen.routeName);
             },
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             leading: const Icon(
-              Icons.home,
+              Icons.feedback_outlined,
               color: Colors.white,
             ),
             title: Text(
-              AppLocalizations.of(context)!.profile,
+              AppLocalizations.of(context)!.feedback,
               style: const TextStyle(color: Colors.white),
             ),
           ),

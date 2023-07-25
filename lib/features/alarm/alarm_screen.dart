@@ -11,7 +11,7 @@ import '../../widgets/alarm_tile.dart';
 import 'alarm_edit_screen.dart';
 import 'alarm_ring_screen.dart';
 
-final alarmSettings1Provider = StateProvider<AlarmSettings>((ref) =>
+final alarmSettingsProvider = StateProvider<AlarmSettings>((ref) =>
     AlarmSettings(
         id: 112,
         dateTime: DateTime.now(),
@@ -72,6 +72,11 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
         builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
       ),
     );
+    // Navigator.pushNamed(
+    //   context,
+    //   AlarmRingScreen.routeName,
+    //   arguments: alarmSettings,
+    // );
     loadAlarms();
   }
 
@@ -106,20 +111,20 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
         ),
         backgroundColor: Colors.black87,
         actions: [
-          IconButton(
-            onPressed: () => ringnow(),
-            icon: const Icon(
-              Icons.add_alarm,
-              size: 33,
-            ),
-          ),
-          IconButton(
-            onPressed: () => Alarm.stop(42),
-            icon: const Icon(
-              Icons.cancel,
-              size: 33,
-            ),
-          ),
+          // IconButton(
+          //   onPressed: () => ringnow(),
+          //   icon: const Icon(
+          //     Icons.add_alarm,
+          //     size: 33,
+          //   ),
+          // ),
+          // IconButton(
+          //   onPressed: () => Alarm.stop(42),
+          //   icon: const Icon(
+          //     Icons.cancel,
+          //     size: 33,
+          //   ),
+          // ),
           IconButton(
             onPressed: () => navigateToAlarmScreen(null),
             icon: const Icon(

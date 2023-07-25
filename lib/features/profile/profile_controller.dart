@@ -55,7 +55,7 @@ class ProfileController extends StateNotifier<bool> {
 
   Stream<UserModel> getUserProfileStream() {
     User? auser = _ref.watch(authProvider).currentUser;
-    String uid ;
+    String uid;
     auser != null ? uid = auser.uid : uid = "";
     return _profileRepo.getUserProfileStream(uid);
   }
@@ -66,33 +66,32 @@ class ProfileController extends StateNotifier<bool> {
 
   Stream<UserModel> getCoupleProfileStream() {
     User? auser = _ref.watch(authProvider).currentUser;
-    String uid ;
+    String uid;
     auser != null ? uid = auser.uid : uid = "";
-    final coupleUid = _ref
-        .watch(getUserDataProvider(uid))
-        .value!
-        .couple;
+    final coupleUid = _ref.watch(getUserDataProvider(uid)).value!.couple;
     return _profileRepo.getUserProfileStream(coupleUid);
   }
 
   String getCoupleUid() {
     User? auser = _ref.watch(authProvider).currentUser;
-    String uid ;
-    auser != null ? uid = auser.uid : uid = "";    String ghghgh = _profileRepo.getCoupleUid(uid);
+    String uid;
+    auser != null ? uid = auser.uid : uid = "";
+    String ghghgh = _profileRepo.getCoupleUid(uid);
 
     return ghghgh;
   }
 
   getCoupleUiFuture() {
     User? auser = _ref.watch(authProvider).currentUser;
-    String uid ;
-    auser != null ? uid = auser.uid : uid = "";    var ghghgh = _profileRepo.getCoupleUidFuture(uid);
+    String uid;
+    auser != null ? uid = auser.uid : uid = "";
+    var ghghgh = _profileRepo.getCoupleUidFuture(uid);
     return ghghgh;
   }
 
   getCoupleUidWow() {
     User? auser = _ref.watch(authProvider).currentUser;
-    String uid ;
+    String uid;
     auser != null ? uid = auser.uid : uid = "";
     return _ref.watch(getUserDataProvider(uid)).when(
         data: (data) {
@@ -104,5 +103,12 @@ class ProfileController extends StateNotifier<bool> {
         },
         loading: () =>
             "loading getUserDataProvider ${_ref.watch(coupleIdProvider)}");
+  }
+
+  void createFeedback(contents, imageUrl) async {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "";
+    await _profileRepo.createFeedback(uid, contents, imageUrl);
   }
 }

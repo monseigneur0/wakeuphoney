@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/core/utils.dart';
@@ -13,11 +11,8 @@ import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
-import '../../practice_home_screen.dart';
-import '../alarm/alarm_screen.dart';
-import '../auth/auth_controller.dart';
-import '../auth/auth_repository.dart';
 import '../auth/login_screen.dart';
+import '../profile/couple_profile_screen.dart';
 import 'match_controller.dart';
 
 class MatchScreen extends ConsumerStatefulWidget {
@@ -91,10 +86,28 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
   }
 
   final TextEditingController _honeyCodeController = TextEditingController();
+
+  bool _visiblebear = false;
+  int randomNum = 0;
+
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    List<String> messageList = [
+      AppLocalizations.of(context)!.hello,
+      AppLocalizations.of(context)!.goodmorning,
+      AppLocalizations.of(context)!.honeywakeup,
+      AppLocalizations.of(context)!.writealetter,
+      AppLocalizations.of(context)!.sendaphoto,
+      AppLocalizations.of(context)!.checktheletter,
+      AppLocalizations.of(context)!.watchthephoto,
+      AppLocalizations.of(context)!.replyletter,
+      AppLocalizations.of(context)!.canyoureply,
+      AppLocalizations.of(context)!.writemorning,
+      AppLocalizations.of(context)!.howareyou,
+      AppLocalizations.of(context)!.imissyou,
+    ];
     final leftTime = ref.watch(leftSecondsMatch);
     final onceClickedMatch2 = ref.watch(onceClickedMatch);
 
@@ -254,223 +267,254 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                 ),
               ),
               backgroundColor: Colors.black,
-              body: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+              body: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        GestureDetector(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.asset(
-                              'assets/alarmbearno.png',
-                              height: 100,
+                        AnimatedOpacity(
+                          opacity: _visiblebear ? 1.0 : 0.0,
+                          duration: const Duration(milliseconds: 0),
+                          child: Container(
+                            width: 250,
+                            height: 75,
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[800],
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(19),
+                                topRight: Radius.circular(19),
+                                bottomLeft: Radius.circular(19),
+                                bottomRight: Radius.circular(19),
+                              ),
+                            ),
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text(
+                                  messageList[randomNum],
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 15),
+                                ),
+                              ),
                             ),
                           ),
-                          onTap: () {},
+                        ),
+                        AnimatedOpacity(
+                          opacity: _visiblebear ? 1.0 : 0.0,
+                          duration: const Duration(milliseconds: 0),
+                          child: CustomPaint(
+                              painter: Triangle(Colors.grey.shade800)),
+                        ),
+                        const SizedBox(height: 30),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _visiblebear = !_visiblebear;
+                              randomNum = Random().nextInt(10);
+                            });
+                          },
+                          icon: Image.asset(
+                            'assets/alarmbearno.png',
+                          ),
+                          iconSize: 50,
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    _visible
-                        ? Container()
-                        : Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 100),
-                            child: Container(
-                              color: Colors.white,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 5),
-                                child: Form(
-                                  key: _formKey,
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.digitsOnly,
-                                    ],
-                                    validator: (value) {
-                                      if (value == null ||
-                                          value.isEmpty ||
-                                          value == "") {
-                                        return 'Please enter honey code';
-                                      } else {
-                                        if (value.length < 6 ||
-                                            value.length > 6) {
-                                          return 'not 6 numbers';
-                                        }
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  _visible
+                      ? Container()
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 100),
+                          child: Container(
+                            color: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 5),
+                              child: Form(
+                                key: _formKey,
+                                child: TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.digitsOnly,
+                                  ],
+                                  validator: (value) {
+                                    if (value == null ||
+                                        value.isEmpty ||
+                                        value == "") {
+                                      return 'Please enter honey code';
+                                    } else {
+                                      if (value.length < 6 ||
+                                          value.length > 6) {
+                                        return 'not 6 numbers';
                                       }
-                                      return null;
-                                    },
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    controller: _honeyCodeController,
-                                    decoration: const InputDecoration(
-                                      labelText: 'Write 6 numbers',
-                                      hintText: '123456',
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.black, width: 2.0),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Colors.black, width: 2.0),
-                                      ),
-                                      border: OutlineInputBorder(),
-                                      labelStyle:
-                                          TextStyle(color: Colors.black),
+                                    }
+                                    return null;
+                                  },
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  controller: _honeyCodeController,
+                                  decoration: const InputDecoration(
+                                    labelText: 'Write 6 numbers',
+                                    hintText: '123456',
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.black, width: 2.0),
                                     ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.black, width: 2.0),
+                                    ),
+                                    border: OutlineInputBorder(),
+                                    labelStyle: TextStyle(color: Colors.black),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    _visible
-                        ? Container()
-                        : ElevatedButton(
-                            style: const ButtonStyle(
-                                backgroundColor: MaterialStatePropertyAll(
-                                    Color(0xFFD72499))),
-                            onPressed: () {
-                              if (_honeyCodeController.text.isNotEmpty) {
-                                final int honeyCode =
-                                    int.parse(_honeyCodeController.text);
-                                if (_formKey.currentState!.validate()) {
-                                  if (ref
+                        ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  _visible
+                      ? Container()
+                      : ElevatedButton(
+                          style: const ButtonStyle(
+                              backgroundColor:
+                                  MaterialStatePropertyAll(Color(0xFFD72499))),
+                          onPressed: () {
+                            if (_honeyCodeController.text.isNotEmpty) {
+                              final int honeyCode =
+                                  int.parse(_honeyCodeController.text);
+                              if (_formKey.currentState!.validate()) {
+                                if (ref
+                                    .watch(checkMatchProcessProvider(honeyCode))
+                                    .hasValue) {
+                                  showSnackBar(context, "matched");
+                                  ref
                                       .watch(
                                           checkMatchProcessProvider(honeyCode))
-                                      .hasValue) {
-                                    showSnackBar(context, "matched");
-                                    ref
-                                        .watch(checkMatchProcessProvider(
-                                            honeyCode))
-                                        .when(
-                                          data: (data) => ref
-                                              .watch(coupleIdStateProvider
-                                                  .notifier)
-                                              .state = data.uid,
-                                          error: (error, stackTrace) {
-                                            print("error$error ");
-                                          },
-                                          loading: () => const Loader(),
-                                        );
-                                    _honeyCodeController.clear();
-                                    ref
-                                        .watch(matchConrollerProvider.notifier)
-                                        .matchCoupleIdProcessDone(honeyCode);
-                                  } else {
-                                    showSnackBar(context, "no matching honey");
-                                  }
+                                      .when(
+                                        data: (data) => ref
+                                            .watch(
+                                                coupleIdStateProvider.notifier)
+                                            .state = data.uid,
+                                        error: (error, stackTrace) {
+                                          print("error$error ");
+                                        },
+                                        loading: () => const Loader(),
+                                      );
+                                  _honeyCodeController.clear();
+                                  ref
+                                      .watch(matchConrollerProvider.notifier)
+                                      .matchCoupleIdProcessDone(honeyCode);
+                                } else {
+                                  showSnackBar(context, "no matching honey");
                                 }
                               }
-                            },
-                            child:
-                                Text(AppLocalizations.of(context)!.connectwith),
-                          ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    _visible
-                        ? Container()
-                        : ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStatePropertyAll(Colors.grey[800])),
-                            onPressed: () {
-                              // Call setState. This tells Flutter to rebuild the
-                              // UI with the changes.
-                              setState(() {
-                                _visible = !_visible;
-                                isRunning ? null : onStartPressed();
-                                print("onceClicked $onceClickedMatch2");
-                                onceClickedMatch2
-                                    ? null
-                                    : ref
-                                        .watch(matchConrollerProvider.notifier)
-                                        .matchProcess();
-                                onceClickedMatch2
-                                    ? totalSeconds = leftTime
-                                    : totalSeconds = tenMinutes;
-                                ref.watch(onceClickedMatch.notifier).state =
-                                    true;
-                              });
-                            },
-                            child: Text(
-                                AppLocalizations.of(context)!.generateauthcode),
-                          ),
-                    AnimatedOpacity(
-                      // If the widget is visible, animate to 0.0 (invisible).
-                      // If the widget is hidden, animate to 1.0 (fully visible).
-                      opacity: _visible ? 1.0 : 0.0,
-                      duration: const Duration(milliseconds: 100000),
-                      // The green box must be a child of the AnimatedOpacity widget.
-                      child: Column(
-                        children: [
-                          Text(
-                            ref.watch(getMatchCodeViewProvider).when(
-                                  data: (data) =>
-                                      (data.vertifynumber.toString()),
-                                  error: (error, stackTrace) {
-                                    print(
-                                        "error getMatchCodeViewProvider   $error ");
-                                    return "error ";
-                                  },
-                                  loading: () => "const Loader()",
-                                ),
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 50),
-                          ),
-                          // Text(
-                          //   ref.watch(getMatchCodeViewProvider).when(
-                          //         data: (data) => (data.time.toString()),
-                          //         error: (error, stackTrace) {
-                          //           print(
-                          //               "error getMatchCodeViewProvider   $error ");
-                          //           return "error ";
-                          //         },
-                          //         loading: () => "const Loader()",
-                          //       ),
-                          // ),
-                          Text(
-                            format(totalSeconds),
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 30,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    !_visible
-                        ? Container()
-                        : ElevatedButton(
-                            style: const ButtonStyle(
-                                backgroundColor: MaterialStatePropertyAll(
-                                    Color(0xFFD72499))),
-                            onPressed: () {
+                            }
+                          },
+                          child:
+                              Text(AppLocalizations.of(context)!.connectwith),
+                        ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  _visible
+                      ? Container()
+                      : ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStatePropertyAll(Colors.grey[800])),
+                          onPressed: () {
+                            // Call setState. This tells Flutter to rebuild the
+                            // UI with the changes.
+                            setState(() {
+                              _visible = !_visible;
                               isRunning ? null : onStartPressed();
-                              // Call setState. This tells Flutter to rebuild the
-                              // UI with the changes.
-                              setState(() {
-                                _visible = !_visible;
-                              });
-                            },
-                            child: const Text("view honey code")),
-                  ],
-                ),
+                              print("onceClicked $onceClickedMatch2");
+                              onceClickedMatch2
+                                  ? null
+                                  : ref
+                                      .watch(matchConrollerProvider.notifier)
+                                      .matchProcess();
+                              onceClickedMatch2
+                                  ? totalSeconds = leftTime
+                                  : totalSeconds = tenMinutes;
+                              ref.watch(onceClickedMatch.notifier).state = true;
+                            });
+                          },
+                          child: Text(
+                              AppLocalizations.of(context)!.generateauthcode),
+                        ),
+                  AnimatedOpacity(
+                    // If the widget is visible, animate to 0.0 (invisible).
+                    // If the widget is hidden, animate to 1.0 (fully visible).
+                    opacity: _visible ? 1.0 : 0.0,
+                    duration: const Duration(milliseconds: 100000),
+                    // The green box must be a child of the AnimatedOpacity widget.
+                    child: Column(
+                      children: [
+                        Text(
+                          ref.watch(getMatchCodeViewProvider).when(
+                                data: (data) => (data.vertifynumber.toString()),
+                                error: (error, stackTrace) {
+                                  print(
+                                      "error getMatchCodeViewProvider   $error ");
+                                  return "error ";
+                                },
+                                loading: () => "const Loader()",
+                              ),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 50),
+                        ),
+                        // Text(
+                        //   ref.watch(getMatchCodeViewProvider).when(
+                        //         data: (data) => (data.time.toString()),
+                        //         error: (error, stackTrace) {
+                        //           print(
+                        //               "error getMatchCodeViewProvider   $error ");
+                        //           return "error ";
+                        //         },
+                        //         loading: () => "const Loader()",
+                        //       ),
+                        // ),
+                        Text(
+                          format(totalSeconds),
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  !_visible
+                      ? Container()
+                      : ElevatedButton(
+                          style: const ButtonStyle(
+                              backgroundColor:
+                                  MaterialStatePropertyAll(Color(0xFFD72499))),
+                          onPressed: () {
+                            isRunning ? null : onStartPressed();
+                            // Call setState. This tells Flutter to rebuild the
+                            // UI with the changes.
+                            setState(() {
+                              _visible = !_visible;
+                            });
+                          },
+                          child: const Text("view honey code")),
+                ],
               ),
               endDrawer: ProfileDrawer(ref: ref),
             ),
@@ -701,184 +745,6 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
         );
       },
       loading: () => const Loader(),
-    );
-  }
-}
-
-class ProfileDrawer extends StatelessWidget {
-  const ProfileDrawer({
-    super.key,
-    required this.ref,
-  });
-
-  final WidgetRef ref;
-
-  @override
-  Widget build(BuildContext context) {
-    final userprofile = ref.watch(getMyUserDataProvider);
-    return Drawer(
-      backgroundColor: Colors.grey[800],
-      child: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 50),
-        children: <Widget>[
-          Icon(
-            Icons.account_circle,
-            size: 150,
-            color: Colors.grey[700],
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Text(
-            userprofile.when(
-              data: (data) => data.email,
-              error: (error, stackTrace) {
-                // print("error$error ");
-                return "no couple";
-              },
-              loading: () => "Loading",
-            ),
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          const Divider(
-            height: 2,
-          ),
-          ListTile(
-            onTap: () {
-              context.pushNamed(AlarmHome.routeName);
-            },
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            leading: const Icon(
-              Icons.alarm,
-              color: Colors.white,
-            ),
-            title: Text(
-              AppLocalizations.of(context)!.alarms,
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
-          ListTile(
-            onTap: () {
-              context.pushNamed(PracticeHome.routeName);
-            },
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            leading: const Icon(
-              Icons.home,
-              color: Colors.white,
-            ),
-            title: Text(
-              AppLocalizations.of(context)!.profile,
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
-          // ListTile(
-          //   onTap: () {},
-          //   selected: true,
-          //   selectedColor: Theme.of(context).primaryColor,
-          //   contentPadding:
-          //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-          //   leading: const Icon(Icons.group),
-          //   title: Text(
-          //     userprofile.email.toString(),
-          //     style: const TextStyle(color: Colors.white),
-          //   ),
-          // ),
-          // ListTile(
-          //   onTap: () {},
-          //   selected: true,
-          //   selectedColor: Theme.of(context).primaryColor,
-          //   contentPadding:
-          //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-          //   leading: const Icon(Icons.group),
-          //   title: Text(
-          //     userprofile.uid.toString(),
-          //     style: const TextStyle(color: Colors.black),
-          //   ),
-          // ),
-          Platform.isIOS
-              ? ListTile(
-                  onTap: () {
-                    showCupertinoDialog(
-                      context: context,
-                      builder: (context) => CupertinoAlertDialog(
-                        title: Text(AppLocalizations.of(context)!.sure),
-                        content: const Text("Plx don't go"),
-                        actions: [
-                          CupertinoDialogAction(
-                            onPressed: () => Navigator.of(context).pop(),
-                            child: Text(AppLocalizations.of(context)!.no),
-                          ),
-                          CupertinoDialogAction(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              context.goNamed(LoginHome.routeName);
-                              ref.watch(authRepositoryProvider).logout();
-                            },
-                            isDestructiveAction: true,
-                            child: Text(AppLocalizations.of(context)!.yes),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  leading: const Icon(Icons.exit_to_app),
-                  title: Text(
-                    AppLocalizations.of(context)!.logout,
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                )
-              : ListTile(
-                  onTap: () async {
-                    showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text(AppLocalizations.of(context)!.logout),
-                            content: Text(AppLocalizations.of(context)!.sure),
-                            actions: [
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                icon: const Icon(
-                                  Icons.cancel,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  context.goNamed(LoginHome.routeName);
-                                  ref.watch(authRepositoryProvider).logout();
-                                  Navigator.of(context).pop();
-                                },
-                                icon: const Icon(
-                                  Icons.done,
-                                  color: Colors.green,
-                                ),
-                              ),
-                            ],
-                          );
-                        });
-                  },
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  leading: const Icon(Icons.exit_to_app),
-                  title: Text(
-                    AppLocalizations.of(context)!.logout,
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                ),
-        ],
-      ),
     );
   }
 }

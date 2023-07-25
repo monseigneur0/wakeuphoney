@@ -116,13 +116,26 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
                                 title: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Text(
-                                      value[index].message,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                      ),
-                                    ),
+                                    value[index].message.length > 30
+                                        ? SizedBox(
+                                            width: 200,
+                                            child: Text(
+                                              value[index].message,
+                                              style: const TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          )
+                                        : SizedBox(
+                                            child: Text(
+                                              value[index].message,
+                                              style: const TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
                                   ],
                                 ),
                                 subtitle: Row(
@@ -165,13 +178,26 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
                                       ),
                               ),
                               ListTile(
-                                title: Text(
-                                  value[index].message,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                                title: value[index].message.length > 30
+                                    ? SizedBox(
+                                        width: 200,
+                                        child: Text(
+                                          value[index].message,
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      )
+                                    : SizedBox(
+                                        child: Text(
+                                          value[index].message,
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
                                 subtitle: Text(
                                   DateFormat.MMMd()
                                       .format(value[index].messagedatetime),

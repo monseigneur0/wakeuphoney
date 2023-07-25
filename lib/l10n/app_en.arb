@@ -25,5 +25,18 @@
   "connectwith": "Connect with auth code",
   "match": "Match",
   "generateauthcode": "Generate Auth Code",
-  "backtowrite": "Back to write auth code"
+  "backtowrite": "Back to write auth code",
+  "hello": "Hello",
+  "goodmorning": "Good morning",
+  "honeywakeup": "Honey, wake up",
+  "writealetter": "Write a letter",
+  "sendaphoto": "Send a photo",
+  "checktheletter": "check the letter in the morning",
+  "watchthephoto": "Watch the photo in the bed",
+  "replyletter": "Reply to the letter",
+  "canyoureply": "Can you reply in the morning bed?",
+  "writemorning": "Write a letter for morning alarm",
+  "howareyou": "How are you?",
+  "imissyou": "I miss you",
+  "feedback": "Send us feedback"
 }
