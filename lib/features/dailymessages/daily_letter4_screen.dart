@@ -90,7 +90,7 @@ class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
           listHistoryMessage.when(
             data: (value) {
               return SizedBox(
-                height: MediaQuery.of(context).size.height - 180,
+                height: MediaQuery.of(context).size.height - 220,
                 child: ScrollablePositionedList.builder(
                   initialScrollIndex: value.length,
                   itemCount: value.length,

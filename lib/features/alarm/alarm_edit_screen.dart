@@ -250,6 +250,18 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
                 value: assetAudio,
                 items: const [
                   DropdownMenuItem<String>(
+                    value: 'assets/nature.mp3',
+                    child: Text('Nature'),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: 'assets/childhood.mp3',
+                    child: Text('Childhood'),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: 'assets/happylife.mp3',
+                    child: Text('Happy Life'),
+                  ),
+                  DropdownMenuItem<String>(
                     value: 'assets/mozart.mp3',
                     child: Text('Mozart'),
                   ),

@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 
-import 'features/alarm/alarm_ring_screen.dart';
 import 'features/auth/auth_repository.dart';
 import 'features/dailymessages/daily_create_screen.dart';
 import 'features/dailymessages/daily_letter3_screen.dart';
@@ -143,12 +142,6 @@ final routerProvider = Provider((ref) {
                   (context, animation, secondaryAnimation, child) =>
                       FadeTransition(opacity: animation, child: child),
             ),
-          ),
-          GoRoute(
-            name: AlarmRingScreen.routeName,
-            path: AlarmRingScreen.routeURL,
-            builder: (context, state) =>
-                AlarmRingScreen(alarmSettings: alarmSettings),
           ),
           GoRoute(
             name: ResponseScreen.routeName,

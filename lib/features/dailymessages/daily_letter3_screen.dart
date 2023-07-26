@@ -175,7 +175,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                 Container(
                   decoration: const BoxDecoration(color: Colors.black),
                   child: SizedBox(
-                    height: MediaQuery.of(context).size.height - 180,
+                    height: MediaQuery.of(context).size.height - 220,
                     child: ListView.builder(
                       itemCount: 100,
                       scrollDirection: Axis.vertical,
@@ -203,6 +203,8 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                                 ? Padding(
                                     padding: const EdgeInsets.all(4.0),
                                     child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Container(
                                           height: 10,
@@ -347,84 +349,75 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                                         //     ),
                                         //   ),
                                         // ),
-                                        Container(
-                                          height: 1,
-                                          decoration: BoxDecoration(
-                                              color: Colors.grey[800]),
-                                        ),
                                       ],
                                     ),
                                   )
-                                : Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Column(
-                                      children: [
-                                        ListTile(
-                                          title: Text(
-                                            value
-                                                .singleWhere(
-                                                  (element) =>
-                                                      element.messagedate ==
-                                                      DateFormat.yMMMd().format(
-                                                          listDateTime[index]),
-                                                  orElse: () =>
-                                                      DailyMessageModel(
-                                                    message: "no message",
-                                                    messagedate: "messagedate",
-                                                    messagedatetime:
-                                                        DateTime.now(),
-                                                    time: DateTime.now(),
-                                                    sender: "",
-                                                    reciver: "",
-                                                    photo: "",
-                                                    audio: "",
-                                                    video: "",
-                                                  ),
-                                                )
-                                                .message,
-                                            // "wow",
-                                            style: TextStyle(
-                                                color: Colors.grey[800]),
-                                          ),
-                                          subtitle: Text(
-                                            DateFormat.MMMd()
-                                                .format(listDateTime[index]),
-                                            style: TextStyle(
-                                                color: Colors.grey[800]),
-                                          ),
-                                          onTap: () {
-                                            ref
-                                                    .read(selectedDate.notifier)
-                                                    .state =
-                                                DateFormat.yMMMd().format(
-                                                    listDateTime[index]);
-                                            ref
-                                                .read(selectedDateTime.notifier)
-                                                .state = DateTime
-                                                    .now()
-                                                .add(Duration(
-                                                    seconds: 24 * 60 * 60 -
-                                                        DateTime.now().hour *
-                                                            3600 -
-                                                        DateTime.now().minute *
-                                                            60 -
-                                                        DateTime.now().second))
-                                                .add(Duration(days: index));
-                                            // _create(uid);
-                                            context.pushNamed(
-                                                DailyLetterCreateScreen
-                                                    .routeName);
-
-                                            _messgaeController.clear();
-                                          },
-                                        ),
-                                        Container(
-                                          height: 1,
-                                          decoration: BoxDecoration(
+                                : Column(
+                                    children: [
+                                      ListTile(
+                                        title: Text(
+                                          value
+                                              .singleWhere(
+                                                (element) =>
+                                                    element.messagedate ==
+                                                    DateFormat.yMMMd().format(
+                                                        listDateTime[index]),
+                                                orElse: () => DailyMessageModel(
+                                                  message: "no message",
+                                                  messagedate: "messagedate",
+                                                  messagedatetime:
+                                                      DateTime.now(),
+                                                  time: DateTime.now(),
+                                                  sender: "",
+                                                  reciver: "",
+                                                  photo: "",
+                                                  audio: "",
+                                                  video: "",
+                                                ),
+                                              )
+                                              .message,
+                                          // "wow",
+                                          style: TextStyle(
                                               color: Colors.grey[800]),
                                         ),
-                                      ],
-                                    ),
+                                        subtitle: Text(
+                                          DateFormat.MMMd()
+                                              .format(listDateTime[index]),
+                                          style: TextStyle(
+                                              color: Colors.grey[800]),
+                                        ),
+                                        onTap: () {
+                                          ref
+                                                  .read(selectedDate.notifier)
+                                                  .state =
+                                              DateFormat.yMMMd()
+                                                  .format(listDateTime[index]);
+                                          ref
+                                              .read(selectedDateTime.notifier)
+                                              .state = DateTime
+                                                  .now()
+                                              .add(Duration(
+                                                  seconds: 24 * 60 * 60 -
+                                                      DateTime.now().hour *
+                                                          3600 -
+                                                      DateTime.now().minute *
+                                                          60 -
+                                                      DateTime.now().second))
+                                              .add(Duration(days: index));
+                                          // _create(uid);
+                                          context.pushNamed(
+                                              DailyLetterCreateScreen
+                                                  .routeName);
+
+                                          _messgaeController.clear();
+                                        },
+                                      ),
+                                      Container(
+                                        height: 1,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[800]),
+                                      ),
+                                    ],
                                   );
                           },
                           error: (error, stackTrace) {

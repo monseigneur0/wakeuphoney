@@ -66,17 +66,23 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
     setState(() {});
   }
 
-  void navigateToRingScreen(AlarmSettings alarmSettings) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
-      ),
-    );
-    // Navigator.pushNamed(
-    //   context,
-    //   AlarmRingScreen.routeName,
-    //   arguments: alarmSettings,
+  Future<void> navigateToRingScreen(AlarmSettings alarmSettings) async {
+    // await Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
+    //   ),
     // );
+    // // Navigator.pushNamed(
+    // //   context,
+    // //   AlarmRingScreen.routeName,
+    // //   arguments: alarmSettings,
+    // // );
+    // loadAlarms();
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
+        ));
     loadAlarms();
   }
 
@@ -111,20 +117,20 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
         ),
         backgroundColor: Colors.black87,
         actions: [
-          // IconButton(
-          //   onPressed: () => ringnow(),
-          //   icon: const Icon(
-          //     Icons.add_alarm,
-          //     size: 33,
-          //   ),
-          // ),
-          // IconButton(
-          //   onPressed: () => Alarm.stop(42),
-          //   icon: const Icon(
-          //     Icons.cancel,
-          //     size: 33,
-          //   ),
-          // ),
+          IconButton(
+            onPressed: () => ringnow(),
+            icon: const Icon(
+              Icons.add_alarm,
+              size: 33,
+            ),
+          ),
+          IconButton(
+            onPressed: () => Alarm.stop(42),
+            icon: const Icon(
+              Icons.cancel,
+              size: 33,
+            ),
+          ),
           IconButton(
             onPressed: () => navigateToAlarmScreen(null),
             icon: const Icon(

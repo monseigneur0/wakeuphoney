@@ -88,7 +88,7 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
           listMessageHistory.when(
             data: (value) {
               return SizedBox(
-                height: MediaQuery.of(context).size.height - 180,
+                height: MediaQuery.of(context).size.height - 220,
                 child: ScrollablePositionedList.builder(
                   initialScrollIndex: value.length,
                   itemCount: value.length,
@@ -232,22 +232,19 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (_bannerAd != null)
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: _bannerAd!.size.width.toDouble(),
-                  height: _bannerAd!.size.height.toDouble(),
-                  child: AdWidget(ad: _bannerAd!),
-                ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (_bannerAd != null)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: _bannerAd!.size.width.toDouble(),
+                height: _bannerAd!.size.height.toDouble(),
+                child: AdWidget(ad: _bannerAd!),
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }

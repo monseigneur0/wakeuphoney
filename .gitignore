@@ -119,3 +119,4 @@ ios/Podfile.lock
 macos/Flutter/GeneratedPluginRegistrant.swift
 macos/Flutter/GeneratedPluginRegistrant.swift
 ios/Podfile.lock
+android/keystore/keystore.password

@@ -5,9 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 
 import '../../core/constants/firebase_constants.dart';
+import '../../core/providers/firebase_providers.dart';
 import 'user_model.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) => AuthRepository(
@@ -404,7 +404,6 @@ class AuthRepository {
   }
 
   Stream<UserModel> getMyUserData() {
-
     const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
     // final uid = _sharedPref.getString("uid");
     return _users.doc(uid).snapshots().map(

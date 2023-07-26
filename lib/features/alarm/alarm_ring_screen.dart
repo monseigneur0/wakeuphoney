@@ -22,7 +22,6 @@ class AlarmRingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dateList100 = ref.watch(dateStateProvider);
-    final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
 
     return Scaffold(
       body: SafeArea(

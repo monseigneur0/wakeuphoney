@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/providers/providers.dart';
@@ -197,6 +199,7 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                               .createResponseMessage(message, imageUrl);
                         }
                         _messgaeController.clear();
+                        context.go(AlarmHome.routeURL);
                       },
                     ),
                   ],
