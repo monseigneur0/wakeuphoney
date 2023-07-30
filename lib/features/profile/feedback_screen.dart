@@ -30,7 +30,10 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
 
   void selectBannerImage() async {
     ImagePicker imagePicker = ImagePicker();
-    final res = await imagePicker.pickImage(source: ImageSource.gallery);
+    final res = await imagePicker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 15,
+    );
 
     if (res != null) {
       setState(() {

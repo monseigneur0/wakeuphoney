@@ -33,7 +33,10 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
 
   void selectBannerImage() async {
     ImagePicker imagePicker = ImagePicker();
-    final res = await imagePicker.pickImage(source: ImageSource.camera);
+    final res = await imagePicker.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 15,
+    );
 
     if (res != null) {
       setState(() {

@@ -54,9 +54,11 @@ class ProfileController extends StateNotifier<bool> {
         super(false);
 
   Stream<UserModel> getUserProfileStream() {
+    print("getUserProfileStream");
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
-    auser != null ? uid = auser.uid : uid = "";
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    print("uid$uid");
     return _profileRepo.getUserProfileStream(uid);
   }
 
@@ -67,15 +69,21 @@ class ProfileController extends StateNotifier<bool> {
   Stream<UserModel> getCoupleProfileStream() {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
-    auser != null ? uid = auser.uid : uid = "";
-    final coupleUid = _ref.watch(getUserDataProvider(uid)).value!.couple;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+
+    final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
+    String coupleUid;
+    coupleUidValue != null
+        ? coupleUid = coupleUidValue.couple
+        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+
     return _profileRepo.getUserProfileStream(coupleUid);
   }
 
   String getCoupleUid() {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
-    auser != null ? uid = auser.uid : uid = "";
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     String ghghgh = _profileRepo.getCoupleUid(uid);
 
     return ghghgh;
@@ -84,7 +92,7 @@ class ProfileController extends StateNotifier<bool> {
   getCoupleUiFuture() {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
-    auser != null ? uid = auser.uid : uid = "";
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     var ghghgh = _profileRepo.getCoupleUidFuture(uid);
     return ghghgh;
   }
@@ -92,7 +100,7 @@ class ProfileController extends StateNotifier<bool> {
   getCoupleUidWow() {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
-    auser != null ? uid = auser.uid : uid = "";
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     return _ref.watch(getUserDataProvider(uid)).when(
         data: (data) {
           _ref.watch(coupleIdProvider.notifier).state = data.couple;
@@ -108,7 +116,7 @@ class ProfileController extends StateNotifier<bool> {
   void createFeedback(contents, imageUrl) async {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
-    auser != null ? uid = auser.uid : uid = "";
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     await _profileRepo.createFeedback(uid, contents, imageUrl);
   }
 }

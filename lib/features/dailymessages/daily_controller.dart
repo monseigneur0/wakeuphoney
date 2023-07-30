@@ -49,60 +49,73 @@ class DailyController extends StateNotifier<bool> {
         super(false); //loading
 
   Stream<DailyMessageModel> getDailyMessage(String date) {
-    const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     return _dailyRepository.getDailyMessage(uid, date, "messages");
   }
 
   Stream<DailyMessageModel> getDailyCoupleMessage(String date) {
     User? auser = _ref.watch(authProvider).currentUser;
-    String uid ;
-    auser != null ? uid = auser.uid : uid = "";
-    final coupleUid = _ref
-        .watch(getUserDataProvider(uid))
-        .value!
-        .couple;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+
+    final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
+    String coupleUid;
+    coupleUidValue != null
+        ? coupleUid = coupleUidValue.couple
+        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+
     return _dailyRepository.getDailyMessage(coupleUid, date, "messages");
   }
 
   Stream<List<DailyMessageModel>> getDailyMessageList() {
-     User? auser = _ref.watch(authProvider).currentUser;
-    String uid ;
-    auser != null ? uid = auser.uid : uid = "";
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     return _dailyRepository.getDailyMessageList(uid);
   }
 
   Stream<List<DailyMessageModel>> getDailyCoupleMessageHistoryList() {
-     User? auser = _ref.watch(authProvider).currentUser;
-    String uid ;
-    auser != null ? uid = auser.uid : uid = "";
-    final coupleUid = _ref
-        .watch(getUserDataProvider(uid))
-        .value!
-        .couple;
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
+    String coupleUid;
+    coupleUidValue != null
+        ? coupleUid = coupleUidValue.couple
+        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
     //그냥 uid 에서 커플꺼로 바꿈
-    return _dailyRepository.getDailyMessageHistoryList(uid);
+    return _dailyRepository.getDailyMessageHistoryList(coupleUid);
   }
 
   Stream<List<DailyMessageModel>> getDailyMessageHistoryList() {
-     User? auser = _ref.watch(authProvider).currentUser;
-    String uid ;
-    auser != null ? uid = auser.uid : uid = "";
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
 
     return _dailyRepository.getDailyMessageHistoryList(uid);
   }
 
   void createDailyMessage(messagef) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-     User? auser = _ref.watch(authProvider).currentUser;
-    String uid ;
-    auser != null ? uid = auser.uid : uid = "";
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+
+    final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
+    String coupleUid;
+    coupleUidValue != null
+        ? coupleUid = coupleUidValue.couple
+        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+
     DailyMessageModel messagehere = DailyMessageModel(
         message: messagef,
         messagedate: _ref.watch(selectedDate),
         messagedatetime: _ref.watch(selectedDateTime),
         time: DateTime.now(),
         sender: uid,
-        reciver: prefs.getString("coupleuid") ?? "",
+        reciver: coupleUid,
         photo: "",
         audio: "",
         video: "");
@@ -112,16 +125,23 @@ class DailyController extends StateNotifier<bool> {
 
   void createDailyMessageImage(messagef, imageUrl) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-     User? auser = _ref.watch(authProvider).currentUser;
-    String uid ;
-    auser != null ? uid = auser.uid : uid = "";
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+
+    final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
+    String coupleUid;
+    coupleUidValue != null
+        ? coupleUid = coupleUidValue.couple
+        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+
     DailyMessageModel messagehere = DailyMessageModel(
         message: messagef,
         messagedate: _ref.watch(selectedDate),
         messagedatetime: _ref.watch(selectedDateTime),
         time: DateTime.now(),
         sender: uid,
-        reciver: prefs.getString("coupleuid") ?? "",
+        reciver: coupleUid,
         photo: imageUrl,
         audio: "",
         video: "");
@@ -129,27 +149,33 @@ class DailyController extends StateNotifier<bool> {
     await _dailyRepository.createDailyMessage(messagehere, uid);
   }
 
-  void updateDailyMessage(message, id) async {
-     User? auser = _ref.watch(authProvider).currentUser;
-    String uid ;
-    auser != null ? uid = auser.uid : uid = "";
+  void updateDailyMessage(message) async {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     await _dailyRepository.updateDailyMessage(
         message, _ref.watch(selectedDate), uid);
   }
 
   void updateDailyImage(image) async {
-     User? auser = _ref.watch(authProvider).currentUser;
-    String uid ;
-    auser != null ? uid = auser.uid : uid = "";
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     await _dailyRepository.updateDailyImage(
         image, _ref.watch(selectedDate), uid);
   }
 
   void createResponseMessage(message, imageUrl) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-     User? auser = _ref.watch(authProvider).currentUser;
-    String uid ;
-    auser != null ? uid = auser.uid : uid = "";
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+
+    final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
+    String coupleUid;
+    coupleUidValue != null
+        ? coupleUid = coupleUidValue.couple
+        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
     DailyMessageModel messagehere = DailyMessageModel(
         message: message,
@@ -158,11 +184,10 @@ class DailyController extends StateNotifier<bool> {
         messagedatetime: _ref.watch(selectedDateTime),
         time: DateTime.now(),
         sender: uid,
-        reciver: prefs.getString("coupleuid") ?? "",
+        reciver: coupleUid,
         photo: imageUrl,
         audio: "",
         video: "");
-    await _dailyRepository.createResponseMessage(
-        messagehere, uid, prefs.getString("coupleuid") ?? "");
+    await _dailyRepository.createResponseMessage(messagehere, uid, coupleUid);
   }
 }

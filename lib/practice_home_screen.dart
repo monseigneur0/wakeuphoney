@@ -49,7 +49,7 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
               const SizedBox(
                 height: 50,
               ),
-              const Text("email"),
+              Text(currentUserModel.currentUser?.email ?? "email"),
               ElevatedButton(
                 style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.amber)),

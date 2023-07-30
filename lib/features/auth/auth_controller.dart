@@ -86,7 +86,7 @@ class AuthController extends AsyncNotifier<void> {
   Stream<UserModel> getMyUserData() {
     User? auser = ref.watch(authProvider).currentUser;
     String uid;
-    auser != null ? uid = auser.uid : uid = "";
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     return _authRepository.getUserData(uid);
   }
 

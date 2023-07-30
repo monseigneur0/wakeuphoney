@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/core/utils.dart';
@@ -11,8 +14,11 @@ import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
+import '../alarm/alarm_screen.dart';
+import '../auth/auth_controller.dart';
+import '../auth/auth_repository.dart';
 import '../auth/login_screen.dart';
-import '../profile/couple_profile_screen.dart';
+import '../profile/feedback_screen.dart';
 import 'match_controller.dart';
 
 class MatchScreen extends ConsumerStatefulWidget {
@@ -134,6 +140,61 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                   Container(
                     height: 1,
                     decoration: BoxDecoration(color: Colors.grey[800]),
+                  ),
+                  Container(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      AnimatedOpacity(
+                        opacity: _visiblebear ? 1.0 : 0.0,
+                        duration: const Duration(milliseconds: 0),
+                        child: Container(
+                          width: 250,
+                          height: 75,
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[800],
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(19),
+                              topRight: Radius.circular(19),
+                              bottomLeft: Radius.circular(19),
+                              bottomRight: Radius.circular(19),
+                            ),
+                          ),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text(
+                                messageList[randomNum],
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 15),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      AnimatedOpacity(
+                        opacity: _visiblebear ? 1.0 : 0.0,
+                        duration: const Duration(milliseconds: 0),
+                        child: CustomPaint(
+                            painter: Triangle(Colors.grey.shade800)),
+                      ),
+                      const SizedBox(height: 30),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _visiblebear = !_visiblebear;
+                            randomNum = Random().nextInt(10);
+                          });
+                        },
+                        icon: Image.asset(
+                          'assets/alarmbearno.png',
+                        ),
+                        iconSize: 50,
+                      ),
+                    ],
                   ),
                   Container(
                     height: 50,
@@ -276,7 +337,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         AnimatedOpacity(
                           opacity: _visiblebear ? 1.0 : 0.0,
@@ -519,7 +580,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
               endDrawer: ProfileDrawer(ref: ref),
             ),
       error: (error, stackTrace) {
-        // print("error$error ");
+        print("error hasCoupleId  $error ");
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.grey[900],
@@ -737,7 +798,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                             _visible = !_visible;
                           });
                         },
-                        child: const Text("view honey code")),
+                        child: Text(AppLocalizations.of(context)!.viewcode)),
               ],
             ),
           ),
@@ -745,6 +806,216 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
         );
       },
       loading: () => const Loader(),
+    );
+  }
+}
+
+class ProfileDrawer extends StatelessWidget {
+  const ProfileDrawer({
+    super.key,
+    required this.ref,
+  });
+
+  final WidgetRef ref;
+
+  @override
+  Widget build(BuildContext context) {
+    final userprofile = ref.watch(getMyUserDataProvider);
+    return Drawer(
+      backgroundColor: Colors.grey[800],
+      child: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 50),
+        children: <Widget>[
+          IconButton(
+            onPressed: () {},
+            icon: Image.asset(
+              'assets/alarmbearno.png',
+            ),
+            iconSize: 50,
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Text(
+            userprofile.when(
+              data: (data) => data.displayName,
+              error: (error, stackTrace) {
+                // print("error$error ");
+                return "Try again";
+              },
+              loading: () => "Loading",
+            ),
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          const Divider(
+            height: 2,
+          ),
+          ListTile(
+            onTap: () {
+              context.pushNamed(AlarmHome.routeName);
+            },
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            leading: const Icon(
+              Icons.alarm,
+              color: Colors.white,
+            ),
+            title: Text(
+              AppLocalizations.of(context)!.alarms,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              context.pushNamed(FeedbackScreen.routeName);
+            },
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            leading: const Icon(
+              Icons.feedback_outlined,
+              color: Colors.white,
+            ),
+            title: Text(
+              AppLocalizations.of(context)!.feedback,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+          // ListTile(
+          //   onTap: () {
+          //     context.pushNamed(ResponseScreen.routeName);
+          //   },
+          //   contentPadding:
+          //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          //   leading: const Icon(
+          //     Icons.feedback_outlined,
+          //     color: Colors.white,
+          //   ),
+          //   title: const Text(
+          //     "ResponseScreen",
+          //     style: TextStyle(color: Colors.white),
+          //   ),
+          // ),
+          // ListTile(
+          //   onTap: () {
+          //     context.pushNamed(PracticeHome.routeName);
+          //   },
+          //   contentPadding:
+          //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          //   leading: const Icon(
+          //     Icons.feedback_outlined,
+          //     color: Colors.white,
+          //   ),
+          //   title: const Text(
+          //     "PracticeHome",
+          //     style: TextStyle(color: Colors.white),
+          //   ),
+          // ),
+          // ListTile(
+          //   onTap: () {},
+          //   selected: true,
+          //   selectedColor: Theme.of(context).primaryColor,
+          //   contentPadding:
+          //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          //   leading: const Icon(Icons.group),
+          //   title: Text(
+          //     userprofile.email.toString(),
+          //     style: const TextStyle(color: Colors.white),
+          //   ),
+          // ),
+          // ListTile(
+          //   onTap: () {},
+          //   selected: true,
+          //   selectedColor: Theme.of(context).primaryColor,
+          //   contentPadding:
+          //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          //   leading: const Icon(Icons.group),
+          //   title: Text(
+          //     userprofile.uid.toString(),
+          //     style: const TextStyle(color: Colors.black),
+          //   ),
+          // ),
+          Platform.isIOS
+              ? ListTile(
+                  onTap: () {
+                    showCupertinoDialog(
+                      context: context,
+                      builder: (context) => CupertinoAlertDialog(
+                        title: Text(AppLocalizations.of(context)!.sure),
+                        content: const Text("Logout"),
+                        actions: [
+                          CupertinoDialogAction(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: Text(AppLocalizations.of(context)!.no),
+                          ),
+                          CupertinoDialogAction(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              context.goNamed(LoginHome.routeName);
+                              ref.watch(authRepositoryProvider).logout();
+                            },
+                            isDestructiveAction: true,
+                            child: Text(AppLocalizations.of(context)!.yes),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  leading: const Icon(Icons.exit_to_app),
+                  title: Text(
+                    AppLocalizations.of(context)!.logout,
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                )
+              : ListTile(
+                  onTap: () async {
+                    showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text(AppLocalizations.of(context)!.logout),
+                            content: Text(AppLocalizations.of(context)!.sure),
+                            actions: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: const Icon(
+                                  Icons.cancel,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  context.goNamed(LoginHome.routeName);
+                                  ref.watch(authRepositoryProvider).logout();
+                                  Navigator.of(context).pop();
+                                },
+                                icon: const Icon(
+                                  Icons.done,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ],
+                          );
+                        });
+                  },
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  leading: const Icon(Icons.exit_to_app),
+                  title: Text(
+                    AppLocalizations.of(context)!.logout,
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                ),
+        ],
+      ),
     );
   }
 }

@@ -34,6 +34,7 @@ class WakeUpHoney extends ConsumerWidget {
     FlutterNativeSplash.remove();
 
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       routerConfig: ref.watch(routerProvider),
       localizationsDelegates: const [
         AppLocalizations.delegate,

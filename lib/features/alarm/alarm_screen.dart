@@ -117,20 +117,20 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
         ),
         backgroundColor: Colors.black87,
         actions: [
-          IconButton(
-            onPressed: () => ringnow(),
-            icon: const Icon(
-              Icons.add_alarm,
-              size: 33,
-            ),
-          ),
-          IconButton(
-            onPressed: () => Alarm.stop(42),
-            icon: const Icon(
-              Icons.cancel,
-              size: 33,
-            ),
-          ),
+          // IconButton(
+          //   onPressed: () => ringnow(),
+          //   icon: const Icon(
+          //     Icons.add_alarm,
+          //     size: 33,
+          //   ),
+          // ),
+          // IconButton(
+          //   onPressed: () => Alarm.stop(42),
+          //   icon: const Icon(
+          //     Icons.cancel,
+          //     size: 33,
+          //   ),
+          // ),
           IconButton(
             onPressed: () => navigateToAlarmScreen(null),
             icon: const Icon(
@@ -150,16 +150,20 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
                   itemCount: alarms.length,
                   separatorBuilder: (context, index) => const Divider(),
                   itemBuilder: (context, index) {
-                    return AlarmTile(
-                      key: Key(alarms[index].id.toString()),
-                      title: TimeOfDay(
-                        hour: alarms[index].dateTime.hour,
-                        minute: alarms[index].dateTime.minute,
-                      ).format(context),
-                      onPressed: () => navigateToAlarmScreen(alarms[index]),
-                      onDismissed: () {
-                        Alarm.stop(alarms[index].id).then((_) => loadAlarms());
-                      },
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: AlarmTile(
+                        key: Key(alarms[index].id.toString()),
+                        title: TimeOfDay(
+                          hour: alarms[index].dateTime.hour,
+                          minute: alarms[index].dateTime.minute,
+                        ).format(context),
+                        onPressed: () => navigateToAlarmScreen(alarms[index]),
+                        onDismissed: () {
+                          Alarm.stop(alarms[index].id)
+                              .then((_) => loadAlarms());
+                        },
+                      ),
                     );
                   },
                 )

@@ -403,13 +403,6 @@ class AuthRepository {
         (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
   }
 
-  Stream<UserModel> getMyUserData() {
-    const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
-    // final uid = _sharedPref.getString("uid");
-    return _users.doc(uid).snapshots().map(
-        (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
-  }
-
   void logout() async {
     await _firebaseAuth.signOut();
     await _googleSignIn.signOut();

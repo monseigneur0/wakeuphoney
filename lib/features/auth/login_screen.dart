@@ -1,12 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/auth/auth_controller.dart';
 
-import '../../practice_home_screen.dart';
-import 'auth_repository.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginHome extends ConsumerStatefulWidget {
@@ -44,21 +41,22 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
       AppLocalizations.of(context)!.imissyou,
     ];
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
-          actions: [
-            IconButton(
-                onPressed: () {
-                  ref.watch(authRepositoryProvider).isLoggedIn
-                      ? context.pushNamed(PracticeHome.routeName)
-                      : context.pushNamed(LoginHome.routeName);
-                },
-                icon: const Icon(
-                  Icons.connecting_airports_outlined,
-                  color: Color(0xFFD72499),
-                ))
-          ],
+          // actions: [
+          //   IconButton(
+          //       onPressed: () {
+          //         ref.watch(authRepositoryProvider).isLoggedIn
+          //             ? context.pushNamed(PracticeHome.routeName)
+          //             : context.pushNamed(LoginHome.routeName);
+          //       },
+          //       icon: const Icon(
+          //         Icons.connecting_airports_outlined,
+          //         color: Color(0xFFD72499),
+          //       ))
+          // ],
           backgroundColor: Colors.grey[900],
           title: const Text('Wake up, Gom!'),
         ),
@@ -164,8 +162,8 @@ class Triangle extends CustomPainter {
     var paint = Paint()..color = backgroundColor;
 
     var path = Path();
-    path.lineTo(-10, 0);
-    path.lineTo(-10, 20);
+    path.lineTo(-20, 0);
+    path.lineTo(-20, 20);
     canvas.drawPath(path, paint);
   }
 

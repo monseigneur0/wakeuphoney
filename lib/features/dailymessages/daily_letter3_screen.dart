@@ -78,8 +78,6 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
 
   @override
   Widget build(BuildContext context) {
-    const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
-
     final List<DateTime> listDateTime =
         ref.watch(dateTimeNotTodayStateProvider);
 
@@ -220,8 +218,9 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                                                   ImagePicker();
                                               XFile? file =
                                                   await imagePicker.pickImage(
-                                                      source:
-                                                          ImageSource.gallery);
+                                                source: ImageSource.gallery,
+                                                imageQuality: 15,
+                                              );
                                               // print('${file?.path}');
 
                                               String uniqueFileName =
@@ -308,7 +307,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                                                     listDateTime[index]);
                                             bool isImageEmpty =
                                                 messageNow.photo.isEmpty;
-                                            _update(uid, isImageEmpty);
+                                            _update(isImageEmpty);
                                             _messgaeController.text =
                                                 messageNow.message;
                                           },
@@ -577,7 +576,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
     );
   }
 
-  Future<void> _update(String uid, bool isImageEmpty) async {
+  Future<void> _update(bool isImageEmpty) async {
     await showModalBottomSheet(
       backgroundColor: Colors.grey[900],
       isScrollControlled: true,
@@ -644,7 +643,9 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                           onPressed: () async {
                             ImagePicker imagePicker = ImagePicker();
                             XFile? file = await imagePicker.pickImage(
-                                source: ImageSource.gallery);
+                              source: ImageSource.gallery,
+                              imageQuality: 15,
+                            );
                             // print('${file?.path}');
 
                             String uniqueFileName =
@@ -690,7 +691,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                         final String message = _messgaeController.text;
                         ref
                             .watch(dailyControllerProvider.notifier)
-                            .updateDailyMessage(message, uid);
+                            .updateDailyMessage(message);
 
                         _messgaeController.clear();
                         Navigator.of(context).pop();

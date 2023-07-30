@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 
+import 'features/alarm/alarm_ring_screen.dart';
 import 'features/auth/auth_repository.dart';
 import 'features/dailymessages/daily_create_screen.dart';
 import 'features/dailymessages/daily_letter3_screen.dart';
@@ -37,6 +38,12 @@ final routerProvider = Provider((ref) {
         name: LoginHome.routeName,
         path: LoginHome.routeURL,
         builder: (context, state) => const LoginHome(),
+      ),
+      GoRoute(
+        name: AlarmRingScreen.routeName,
+        path: AlarmRingScreen.routeURL,
+        builder: (context, state) =>
+            AlarmRingScreen(alarmSettings: alarmSettings),
       ),
       ShellRoute(
         builder: (context, state, child) {
@@ -90,7 +97,7 @@ final routerProvider = Provider((ref) {
                     onPressed: () =>
                         context.goNamed(DailyLetter3Screen.routeName),
                     icon: const Icon(
-                      Icons.local_post_office_outlined,
+                      Icons.favorite_border_outlined,
                       color: Colors.white,
                       size: 25,
                     ),
@@ -99,7 +106,7 @@ final routerProvider = Provider((ref) {
                     onPressed: () =>
                         context.goNamed(DailyLetter4Screen.routeName),
                     icon: const Icon(
-                      Icons.message_outlined,
+                      Icons.local_post_office_outlined,
                       color: Colors.white,
                       size: 25,
                     ),
@@ -115,7 +122,7 @@ final routerProvider = Provider((ref) {
                   IconButton(
                     onPressed: () => context.goNamed(MatchScreen.routeName),
                     icon: const Icon(
-                      Icons.favorite_border_outlined,
+                      Icons.person_outline_rounded,
                       color: Colors.white,
                       size: 25,
                     ),

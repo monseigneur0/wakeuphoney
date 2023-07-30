@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -10,7 +11,9 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
+import '../../core/providers/firebase_providers.dart';
 import '../../core/providers/providers.dart';
+import '../auth/auth_controller.dart';
 import 'daily_controller.dart';
 
 class CoupleLetterScreen extends ConsumerStatefulWidget {
@@ -54,7 +57,14 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
+    User? auser = ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    final coupleUidValue = ref.watch(getUserDataProvider(uid)).value;
+    String coupleUid;
+    coupleUidValue != null
+        ? coupleUid = coupleUidValue.couple
+        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
 
@@ -116,7 +126,7 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
                                 title: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    value[index].message.length > 30
+                                    value[index].message.length > 20
                                         ? SizedBox(
                                             width: 200,
                                             child: Text(
@@ -178,7 +188,7 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
                                       ),
                               ),
                               ListTile(
-                                title: value[index].message.length > 30
+                                title: value[index].message.length > 20
                                     ? SizedBox(
                                         width: 200,
                                         child: Text(

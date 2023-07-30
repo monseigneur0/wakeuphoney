@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -11,6 +12,7 @@ import 'package:wakeuphoney/features/dailymessages/daily_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
+import '../../core/providers/firebase_providers.dart';
 
 class DailyLetter4Screen extends ConsumerStatefulWidget {
   static String routeName = "dailyletter4";
@@ -53,7 +55,9 @@ class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
 
   @override
   Widget build(BuildContext context) {
-    const uid = "IZZ1HICxZ8ggCiJihcJKow38LPK2";
+    User? auser = ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
 
     final listHistoryMessage =
         ref.watch(getDailyMessageHistoryListProvider).whenData((value) {
@@ -116,7 +120,7 @@ class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
                                 title: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    value[index].message.length > 30
+                                    value[index].message.length > 20
                                         ? SizedBox(
                                             width: 200,
                                             child: Text(
@@ -168,7 +172,7 @@ class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
                                     : Container(),
                               ),
                               ListTile(
-                                title: value[index].message.length > 30
+                                title: value[index].message.length > 20
                                     ? SizedBox(
                                         width: 200,
                                         child: Text(
