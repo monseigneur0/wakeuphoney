@@ -945,7 +945,7 @@ class ProfileDrawer extends StatelessWidget {
                       context: context,
                       builder: (context) => CupertinoAlertDialog(
                         title: Text(AppLocalizations.of(context)!.sure),
-                        content: const Text("Logout"),
+                        content: Text(AppLocalizations.of(context)!.logout),
                         actions: [
                           CupertinoDialogAction(
                             onPressed: () => Navigator.of(context).pop(),
@@ -1011,6 +1011,88 @@ class ProfileDrawer extends StatelessWidget {
                   leading: const Icon(Icons.exit_to_app),
                   title: Text(
                     AppLocalizations.of(context)!.logout,
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                ),
+          const SizedBox(
+            height: 50,
+          ),
+          Platform.isIOS
+              ? ListTile(
+                  onTap: () {
+                    showCupertinoDialog(
+                      context: context,
+                      builder: (context) => CupertinoAlertDialog(
+                        title: Text(AppLocalizations.of(context)!.delete),
+                        content: Text(AppLocalizations.of(context)!.deletesure),
+                        actions: [
+                          CupertinoDialogAction(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: Text(AppLocalizations.of(context)!.no),
+                          ),
+                          CupertinoDialogAction(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              context.goNamed(LoginHome.routeName);
+                              ref.watch(authRepositoryProvider).deleteUser();
+                            },
+                            isDestructiveAction: true,
+                            child: Text(AppLocalizations.of(context)!.yes),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  leading: const Icon(Icons.exit_to_app),
+                  title: Text(
+                    AppLocalizations.of(context)!.delete,
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                )
+              : ListTile(
+                  onTap: () async {
+                    showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text(AppLocalizations.of(context)!.delete),
+                            content:
+                                Text(AppLocalizations.of(context)!.deletesure),
+                            actions: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: const Icon(
+                                  Icons.cancel,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  context.goNamed(LoginHome.routeName);
+                                  ref
+                                      .watch(authRepositoryProvider)
+                                      .deleteUser();
+                                  Navigator.of(context).pop();
+                                },
+                                icon: const Icon(
+                                  Icons.done,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ],
+                          );
+                        });
+                  },
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  leading: const Icon(Icons.exit_to_app),
+                  title: Text(
+                    AppLocalizations.of(context)!.delete,
                     style: const TextStyle(color: Colors.black),
                   ),
                 ),

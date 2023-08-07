@@ -116,7 +116,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                 icon: Image.asset(
                   'assets/alarmbearno.png',
                 ),
-                iconSize: 200,
+                iconSize: 130,
               ),
               const SizedBox(height: 50),
               Padding(
@@ -125,7 +125,32 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                   onPressed: () {
                     ref
                         .watch(authControllerProvider.notifier)
-                        .singInWithGoogle(context);
+                        .signInWithApple(context);
+                  },
+                  icon: Image.asset(
+                    'assets/apple.png',
+                    width: 35,
+                  ),
+                  label: const Text(
+                    'Continue with Apple',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey[900],
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    ref
+                        .watch(authControllerProvider.notifier)
+                        .signInWithGoogle(context);
                   },
                   icon: Image.asset(
                     'assets/google.png',

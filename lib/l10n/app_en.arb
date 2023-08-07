@@ -39,5 +39,7 @@
   "writemorning": "Write a letter for morning alarm",
   "howareyou": "How are you?",
   "imissyou": "I miss you",
-  "feedback": "Send us feedback"
+  "feedback": "Send us feedback",
+  "delete": "Account Deletion",
+  "deletesure": "All data in account will be deleted. Impossible to restore. Are you sure to delete?"
 }

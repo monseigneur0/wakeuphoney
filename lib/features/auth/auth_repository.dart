@@ -383,20 +383,43 @@ class AuthRepository {
 //     }
 //   }
 
-//   Future<UserCredential> signInWithApple(BuildContext context) async {
-//     try {
-//       final appleProvider = AppleAuthProvider();
+  Future<UserCredential> signInWithApple() async {
+    try {
+      final appleProvider = AppleAuthProvider();
 
-//       final UserCredential appleUserCredential =
-//           await _firebaseAuth.signInWithProvider(appleProvider);
+      final UserCredential appleUserCredential =
+          await _firebaseAuth.signInWithProvider(appleProvider);
 
-//       return appleUserCredential;
-//     } on FirebaseException catch (e) {
-//       throw e.message!;
-//     } catch (e) {
-//       throw e.toString();
-//     }
-//   }
+      UserModel userModel;
+
+      if (appleUserCredential.additionalUserInfo!.isNewUser) {
+        userModel = UserModel(
+          displayName: appleUserCredential.user!.displayName ?? "no Name",
+          email: appleUserCredential.user!.email ?? "noemail@hello.com",
+          photoURL: appleUserCredential.user!.photoURL ?? "",
+          uid: appleUserCredential.user!.uid,
+          couple: "this is right",
+          couples: [],
+          creationTime: DateTime.now(),
+          lastSignInTime: DateTime.now(),
+          isLoggedIn: true,
+        );
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString("uid", appleUserCredential.user!.uid);
+        await _users.doc(appleUserCredential.user!.uid).set(userModel.toMap());
+        return appleUserCredential;
+      } else if (appleUserCredential.user!.uid.isNotEmpty) {
+        await _users
+            .doc(appleUserCredential.user!.uid)
+            .update({"lastSignInTime": DateTime.now()});
+      }
+      return appleUserCredential;
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
 
   Stream<UserModel> getUserData(String uid) {
     return _users.doc(uid).snapshots().map(
@@ -406,5 +429,13 @@ class AuthRepository {
   void logout() async {
     await _firebaseAuth.signOut();
     await _googleSignIn.signOut();
+  }
+
+  void deleteUser() async {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user != null) {
+        user.delete();
+      }
+    });
   }
 }

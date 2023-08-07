@@ -32,7 +32,7 @@ class AuthController extends AsyncNotifier<void> {
 
   Stream<User?> get authStateChange => _authRepository.authStateChange;
 
-  void singInWithGoogle(BuildContext context) async {
+  void signInWithGoogle(BuildContext context) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(
       () async => await _authRepository.signInWithGoogle(),
@@ -78,6 +78,14 @@ class AuthController extends AsyncNotifier<void> {
   //   // .then((value) => _authRepository.loginWithGoogleDb(context))
   //   // .then((value) => context.go(MatchScreen.routeURL));
   // }
+
+  void signInWithApple(BuildContext context) async {
+    await _authRepository.signInWithApple();
+    if (state.hasError) {
+    } else {
+      context.go("/match");
+    }
+  }
 
   Stream<UserModel> getUserData(String uid) {
     return _authRepository.getUserData(uid);

@@ -35,5 +35,7 @@
     "writemorning": "아침 편지 써줄래?",
     "howareyou": "잘 지내?",
     "imissyou": "보고싶어",
-    "feedback": "피드백 보내기"
+    "feedback": "피드백 보내기",
+    "delete": "계정 삭제",
+    "deletesure": "계정의 모든 정보가 삭제됩니다. 복구 불가능하게 삭제하실건가요?"
 }

@@ -49,6 +49,7 @@
 		5865F2002A2EF830005587BB /* one_piece.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = one_piece.mp3; sourceTree = "<group>"; };
 		5878CBC72A7500CB00D38A71 /* childhood.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = childhood.mp3; path = ../../assets/childhood.mp3; sourceTree = "<group>"; };
 		5878CBC82A7500CB00D38A71 /* happylife.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = happylife.mp3; path = ../../assets/happylife.mp3; sourceTree = "<group>"; };
+		58EEB9942A819F8100D25D31 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		69DEE32223E7935AC7988514 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		6C3B99E74B4B3435DC15DFFF /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -119,6 +120,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				58EEB9942A819F8100D25D31 /* Runner.entitlements */,
 				5865F1FD2A2EF830005587BB /* google.png */,
 				5865F1FE2A2EF830005587BB /* mozart.mp3 */,
 				5865F1FF2A2EF830005587BB /* nokia.mp3 */,
@@ -407,6 +409,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = V6TW99A4VW;
 				ENABLE_BITCODE = NO;
@@ -543,6 +546,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = V6TW99A4VW;
 				ENABLE_BITCODE = NO;
@@ -573,6 +577,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = V6TW99A4VW;
 				ENABLE_BITCODE = NO;
