@@ -223,6 +223,7 @@ class _MatchUpScreenState extends ConsumerState<MatchUpScreen> {
                 if (_formKey.currentState!.validate()) {
                   if (ref
                       .watch(checkMatchProcessProvider(honeyCode))
+                      .when(data: data, error: error, loading: loading)
                       .hasValue) {
                     showSnackBar(context, "inviteed");
                     _honeyCodeController.clear();
