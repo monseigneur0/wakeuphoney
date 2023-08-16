@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/core/utils.dart';
+import 'package:wakeuphoney/features/match/matchup_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -867,6 +868,21 @@ class ProfileDrawer extends StatelessWidget {
             title: Text(
               AppLocalizations.of(context)!.alarms,
               style: const TextStyle(color: Colors.white),
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              context.pushNamed(MatchUpScreen.routeName);
+            },
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            leading: const Icon(
+              Icons.alarm,
+              color: Colors.white,
+            ),
+            title: const Text(
+              "Match Up",
+              style: TextStyle(color: Colors.white),
             ),
           ),
           ListTile(

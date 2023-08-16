@@ -60,11 +60,11 @@ class AuthRepository {
 
     if (userCredential.additionalUserInfo!.isNewUser) {
       userModel = UserModel(
-        displayName: userCredential.user!.displayName ?? "no Name",
+        displayName: userCredential.user!.displayName ?? "Please send feedback",
         email: userCredential.user!.email ?? "noemail@hello.com",
         photoURL: userCredential.user!.photoURL ?? "",
         uid: userCredential.user!.uid,
-        couple: "this is right",
+        couple: "",
         couples: [],
         creationTime: DateTime.now(),
         lastSignInTime: DateTime.now(),
@@ -389,16 +389,18 @@ class AuthRepository {
 
       final UserCredential appleUserCredential =
           await _firebaseAuth.signInWithProvider(appleProvider);
+      print(appleUserCredential.additionalUserInfo?.username);
 
       UserModel userModel;
 
       if (appleUserCredential.additionalUserInfo!.isNewUser) {
         userModel = UserModel(
-          displayName: appleUserCredential.user!.displayName ?? "no Name",
+          displayName:
+              appleUserCredential.user!.displayName ?? "Please send feedback",
           email: appleUserCredential.user!.email ?? "noemail@hello.com",
           photoURL: appleUserCredential.user!.photoURL ?? "",
           uid: appleUserCredential.user!.uid,
-          couple: "this is right",
+          couple: "",
           couples: [],
           creationTime: DateTime.now(),
           lastSignInTime: DateTime.now(),
