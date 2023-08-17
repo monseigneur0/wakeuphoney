@@ -221,19 +221,17 @@ class _MatchUpScreenState extends ConsumerState<MatchUpScreen> {
               if (_honeyCodeController.text.isNotEmpty) {
                 final int honeyCode = int.parse(_honeyCodeController.text);
                 if (_formKey.currentState!.validate()) {
-                  if (ref
+                  ref
                       .watch(checkMatchProcessProvider(honeyCode))
-                      .when(data: data, error: error, loading: loading)
-                      .hasValue) {
-                    showSnackBar(context, "inviteed");
-                    _honeyCodeController.clear();
-                    // PEaTihL8yRdGEknlFfQ9F7XdoUt2 apple
-                    ref
+                      .when(data: if(data.hasValue) {
+                        showSnackBar(context, "inviteed");
+                        _honeyCodeController.clear();
+                        // PEaTihL8yRdGEknlFfQ9F7XdoUt2 apple
+                        ref
                         .watch(matchConrollerProvider.notifier)
                         .matchCoupleIdProcessDone(honeyCode);
-                  } else {
-                    showSnackBar(context, "no invited honey");
-                  }
+                      }, error: (error, stacktrace) =>  showSnackBar(context, "no invited honey");, 
+                            loading: () => const Loader();
                 }
               }
             },
