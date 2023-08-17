@@ -110,9 +110,6 @@ class _MatchUpScreenState extends ConsumerState<MatchUpScreen> {
           const SizedBox(
             height: 30,
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-          ),
           const SizedBox(
             height: 30,
           ),
@@ -130,20 +127,18 @@ class _MatchUpScreenState extends ConsumerState<MatchUpScreen> {
           const SizedBox(
             height: 5,
           ),
-          Text(
+          
             ref.watch(getMatchCodeViewProvider).when(
-                  data: (data) => data.vertifynumber.toString(),
+                  data: (data) => Text(data.vertifynumber.toString(), 
+                                       style: const TextStyle(color: Colors.white, fontSize: 50),),
                   error: (error, stackTrace) {
                     print("error getMatchCodeViewProvider   $error ");
                     ref
                         .watch(getNewMatchCodeViewProvider)
                         .whenData((value) => value.vertifynumber.toString());
-                    return "error ";
+                    return Text("error ");
                   },
-                  loading: () => "const Loader()",
-                ),
-            style: const TextStyle(color: Colors.white, fontSize: 50),
-          ),
+                  loading: () => const Loader(),),
           ElevatedButton(
             style: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll(Colors.grey[800])),
