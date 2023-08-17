@@ -23,6 +23,7 @@ final routerProvider = Provider((ref) {
     initialLocation: "/dailyletter3",
     redirect: (context, state) {
       final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
+      print("isLoggedIn $isLoggedIn");
       if (!isLoggedIn) {
         if (state.matchedLocation != LoginHome.routeURL) {
           return LoginHome.routeURL;

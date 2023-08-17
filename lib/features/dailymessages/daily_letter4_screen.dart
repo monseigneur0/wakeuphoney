@@ -207,7 +207,13 @@ class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
             },
             error: (error, stackTrace) {
               // print("error$error ");
-              return Container();
+              return Container(
+                child: const Center(
+                    child: Text(
+                  "주고 받은 메세지가 없어요",
+                  style: TextStyle(color: Colors.white, fontSize: 40),
+                )),
+              );
             },
             loading: () => const Loader(),
           ),

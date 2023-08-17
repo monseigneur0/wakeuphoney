@@ -10,7 +10,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/core/utils.dart';
-import 'package:wakeuphoney/features/match/matchup_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -34,7 +33,7 @@ class MatchScreen extends ConsumerStatefulWidget {
 class _MatchScreenState extends ConsumerState<MatchScreen> {
   bool _visible = false;
 
-  static const tenMinutes = 600;
+  static const tenMinutes = 3600;
   int totalSeconds = tenMinutes;
   bool isRunning = false;
   bool onceClickedMatch3 = false;
@@ -82,14 +81,21 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
     }
 
     var duration = Duration(seconds: seconds);
-    print("duration $duration");
+    // print("duration $duration");
     return duration.toString().split(".").first.substring(2, 7);
   }
 
   @override
   void initState() {
     super.initState();
-    _visible = false;
+    onStartPressed();
+  }
+
+  @override
+  void dispose() {
+    totalSeconds = 0;
+    _honeyCodeController.dispose();
+    super.dispose();
   }
 
   final TextEditingController _honeyCodeController = TextEditingController();
@@ -121,6 +127,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
     final hasCoupleId = ref.watch(getUserProfileStreamProvider);
     final userProfileStream = ref.watch(getUserProfileStreamProvider);
     final userCoupleProfileStream = ref.watch(getCoupleProfileStreamProvider);
+    late String wow;
 
     return hasCoupleId.when(
       data: (data) => data.couples.isNotEmpty
@@ -322,186 +329,67 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                 elevation: 0,
                 title: Text(
                   AppLocalizations.of(context)!.connectto,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  ),
                 ),
               ),
               backgroundColor: Colors.black,
-              body: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        AnimatedOpacity(
-                          opacity: _visiblebear ? 1.0 : 0.0,
-                          duration: const Duration(milliseconds: 0),
-                          child: Container(
-                            width: 250,
-                            height: 75,
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[800],
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(19),
-                                topRight: Radius.circular(19),
-                                bottomLeft: Radius.circular(19),
-                                bottomRight: Radius.circular(19),
-                              ),
-                            ),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Text(
-                                  messageList[randomNum],
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 15),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        AnimatedOpacity(
-                          opacity: _visiblebear ? 1.0 : 0.0,
-                          duration: const Duration(milliseconds: 0),
-                          child: CustomPaint(
-                              painter: Triangle(Colors.grey.shade800)),
-                        ),
-                        const SizedBox(height: 30),
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _visiblebear = !_visiblebear;
-                              randomNum = Random().nextInt(10);
-                            });
-                          },
-                          icon: Image.asset(
-                            'assets/alarmbearno.png',
-                          ),
-                          iconSize: 50,
-                        ),
-                      ],
+              body: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 30,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  _visible
-                      ? Container()
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 100),
-                          child: Container(
-                            color: Colors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 5),
-                              child: Form(
-                                key: _formKey,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  inputFormatters: <TextInputFormatter>[
-                                    FilteringTextInputFormatter.digitsOnly,
-                                  ],
-                                  validator: (value) {
-                                    if (value == null ||
-                                        value.isEmpty ||
-                                        value == "") {
-                                      return 'Please enter honey code';
-                                    } else {
-                                      if (value.length < 6 ||
-                                          value.length > 6) {
-                                        return 'not 6 numbers';
-                                      }
-                                    }
-                                    return null;
-                                  },
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  controller: _honeyCodeController,
-                                  decoration: const InputDecoration(
-                                    labelText: 'Write 6 numbers',
-                                    hintText: '123456',
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.black, width: 2.0),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.black, width: 2.0),
-                                    ),
-                                    border: OutlineInputBorder(),
-                                    labelStyle: TextStyle(color: Colors.black),
-                                  ),
-                                ),
-                              ),
-                            ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    const Text(
+                      "서로의 초대코드를 입력하면 연결돼요.",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "내 초대코드 (남은시간) ${format(totalSeconds)} ",
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    TextFormField(
+                      enabled: false,
+                      initialValue: ref.watch(getMatchCodeViewProvider).when(
+                            data: (data) => wow = data.vertifynumber.toString(),
+                            error: (error, stackTrace) => "error",
+                            loading: () => "Loading",
                           ),
-                        ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  _visible
-                      ? Container()
-                      : ElevatedButton(
-                          style: const ButtonStyle(
-                              backgroundColor:
-                                  MaterialStatePropertyAll(Color(0xFFD72499))),
-                          onPressed: () {
-                            if (_honeyCodeController.text.isNotEmpty) {
-                              final int honeyCode =
-                                  int.parse(_honeyCodeController.text);
-                              if (_formKey.currentState!.validate()) {
-                                if (ref
-                                    .watch(checkMatchProcessProvider(honeyCode))
-                                    .hasValue) {
-                                  showSnackBar(context, "matched");
-                                  ref
-                                      .watch(
-                                          checkMatchProcessProvider(honeyCode))
-                                      .when(
-                                        data: (data) => ref
-                                            .watch(
-                                                coupleIdStateProvider.notifier)
-                                            .state = data.uid,
-                                        error: (error, stackTrace) {
-                                          print("error$error ");
-                                        },
-                                        loading: () => const Loader(),
-                                      );
-                                  _honeyCodeController.clear();
-                                  ref
-                                      .watch(matchConrollerProvider.notifier)
-                                      .matchCoupleIdProcessDone(honeyCode);
-                                } else {
-                                  showSnackBar(context, "no matching honey");
-                                }
-                              }
-                            }
-                          },
-                          child:
-                              Text(AppLocalizations.of(context)!.connectwith),
-                        ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  _visible
-                      ? Container()
-                      : ElevatedButton(
+                      style: const TextStyle(fontSize: 40, color: Colors.white),
+                      maxLength: 6,
+                      // textInputAction: wow,반드시 설ㅓ할 것
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.grey[900],
+                        labelStyle: const TextStyle(color: Colors.white),
+                        hintStyle:
+                            const TextStyle(fontSize: 30, color: Colors.white),
+                        focusColor: Colors.red,
+                        border: InputBorder.none,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor:
                                   MaterialStatePropertyAll(Colors.grey[800])),
                           onPressed: () {
-                            // Call setState. This tells Flutter to rebuild the
-                            // UI with the changes.
                             setState(() {
-                              _visible = !_visible;
                               isRunning ? null : onStartPressed();
                               print("onceClicked $onceClickedMatch2");
                               onceClickedMatch2
@@ -515,68 +403,113 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                               ref.watch(onceClickedMatch.notifier).state = true;
                             });
                           },
-                          child: Text(
-                              AppLocalizations.of(context)!.generateauthcode),
-                        ),
-                  AnimatedOpacity(
-                    // If the widget is visible, animate to 0.0 (invisible).
-                    // If the widget is hidden, animate to 1.0 (fully visible).
-                    opacity: _visible ? 1.0 : 0.0,
-                    duration: const Duration(milliseconds: 100000),
-                    // The green box must be a child of the AnimatedOpacity widget.
-                    child: Column(
-                      children: [
-                        Text(
-                          ref.watch(getMatchCodeViewProvider).when(
-                                data: (data) => (data.vertifynumber.toString()),
-                                error: (error, stackTrace) {
-                                  print(
-                                      "error getMatchCodeViewProvider   $error ");
-                                  return "error ";
-                                },
-                                loading: () => "const Loader()",
-                              ),
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 50),
-                        ),
-                        // Text(
-                        //   ref.watch(getMatchCodeViewProvider).when(
-                        //         data: (data) => (data.time.toString()),
-                        //         error: (error, stackTrace) {
-                        //           print(
-                        //               "error getMatchCodeViewProvider   $error ");
-                        //           return "error ";
-                        //         },
-                        //         loading: () => "const Loader()",
-                        //       ),
-                        // ),
-                        Text(
-                          format(totalSeconds),
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 30,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          child: const Icon(Icons.refresh),
+                          // child: Text(AppLocalizations.of(context)!.generateauthcode),
                         ),
                       ],
                     ),
-                  ),
-                  !_visible
-                      ? Container()
-                      : ElevatedButton(
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    const Text(
+                      "상대의 초대코드를 전달받았나요?",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      color: Colors.black,
+                      child: Form(
+                        key: _formKey,
+                        child: TextFormField(
+                          style: const TextStyle(
+                              fontSize: 30, color: Colors.white),
+                          keyboardType: TextInputType.number,
+                          maxLength: 6,
+                          // textInputAction: wow,반드시 설ㅓ할 것
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty || value == "") {
+                              return null;
+                            } else {
+                              if (value.length < 6 ||
+                                  value.length > 6 ||
+                                  value == wow) {
+                                return null;
+                              }
+                            }
+                            return null;
+                          },
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          controller: _honeyCodeController,
+                          cursorColor: Colors.white,
+
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.grey[900],
+                            labelText: '초대코드 입력',
+                            labelStyle: const TextStyle(color: Colors.grey),
+
+                            hintText: '000000',
+                            hintStyle: const TextStyle(
+                                fontSize: 30, color: Colors.grey),
+                            focusColor: Colors.red,
+                            // focusedBorder: OutlineInputBorder(
+                            //   borderSide: BorderSide(color: Colors.black, width: 2.0),
+                            // ),
+                            // enabledBorder: const OutlineInputBorder(
+                            //   borderSide: BorderSide(color: Colors.green, width: 2.0),
+                            // ),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
                           style: const ButtonStyle(
                               backgroundColor:
                                   MaterialStatePropertyAll(Color(0xFFD72499))),
                           onPressed: () {
-                            isRunning ? null : onStartPressed();
-                            // Call setState. This tells Flutter to rebuild the
-                            // UI with the changes.
-                            setState(() {
-                              _visible = !_visible;
-                            });
+                            if (_honeyCodeController.text.isNotEmpty) {
+                              final int honeyCode =
+                                  int.parse(_honeyCodeController.text);
+                              if (_formKey.currentState!.validate()) {
+                                ref
+                                    .watch(checkMatchProcessProvider(honeyCode))
+                                    .when(
+                                        data: (data) {
+                                          if (data.uid.isNotEmpty) {
+                                            ref
+                                                .watch(matchConrollerProvider
+                                                    .notifier)
+                                                .matchCoupleIdProcessDone(
+                                                    data.uid);
+                                            print(data.uid);
+                                            // PEaTihL8yRdGEknlFfQ9F7XdoUt2 apple
+                                            _honeyCodeController.clear();
+                                            showSnackBar(context, "inviteed");
+                                          }
+                                        },
+                                        error: (error, stacktrace) =>
+                                            showSnackBar(
+                                                context, "no invited honey"),
+                                        loading: () => const Loader());
+                              }
+                            }
                           },
-                          child: const Text("view honey code")),
-                ],
+                          child:
+                              Text(AppLocalizations.of(context)!.connectwith),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               endDrawer: ProfileDrawer(ref: ref),
             ),
@@ -692,18 +625,22 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                                 ref
                                     .watch(checkMatchProcessProvider(honeyCode))
                                     .when(
-                                      data: (data) => ref
-                                          .watch(coupleIdStateProvider.notifier)
-                                          .state = data.uid,
+                                      data: (data) {
+                                        ref
+                                            .watch(
+                                                coupleIdStateProvider.notifier)
+                                            .state = data.uid;
+                                        ref
+                                            .watch(
+                                                matchConrollerProvider.notifier)
+                                            .matchCoupleIdProcessDone(data.uid);
+                                      },
                                       error: (error, stackTrace) {
                                         print("error$error ");
                                       },
                                       loading: () => const Loader(),
                                     );
                                 _honeyCodeController.clear();
-                                ref
-                                    .watch(matchConrollerProvider.notifier)
-                                    .matchCoupleIdProcessDone(honeyCode);
                               } else {
                                 showSnackBar(context, "no matching honey");
                               }
@@ -870,21 +807,21 @@ class ProfileDrawer extends StatelessWidget {
               style: const TextStyle(color: Colors.white),
             ),
           ),
-          ListTile(
-            onTap: () {
-              context.pushNamed(MatchUpScreen.routeName);
-            },
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            leading: const Icon(
-              Icons.alarm,
-              color: Colors.white,
-            ),
-            title: const Text(
-              "Match Up",
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
+          // ListTile(
+          //   onTap: () {
+          //     context.pushNamed(MatchUpScreen.routeName);
+          //   },
+          //   contentPadding:
+          //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          //   leading: const Icon(
+          //     Icons.alarm,
+          //     color: Colors.white,
+          //   ),
+          //   title: const Text(
+          //     "Match Up",
+          //     style: TextStyle(color: Colors.white),
+          //   ),
+          // ),
           ListTile(
             onTap: () {
               context.pushNamed(FeedbackScreen.routeName);

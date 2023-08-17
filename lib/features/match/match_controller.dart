@@ -100,17 +100,21 @@ class MatchController extends StateNotifier<bool> {
     return matched;
   }
 
-  void matchCoupleIdProcessDone(int honeycode) async {
+  void matchCoupleIdProcessDone(String coupleId) async {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     await _matchRepository.deleteMatches(uid);
+    if (uid == coupleId) {
+      return null;
+    }
     // await _matchRepository.matchCoupleIdProcessDone(
     //     uid,
     //     _ref.watch(getMatchedCoupleIdProvider(honeycode)).toString(),
     //     honeycode);
-    String coupleId = _ref.watch(coupleIdProvider.notifier).toString();
-    await _matchRepository.matchCoupleIdProcessDone(uid, coupleId, honeycode);
+    // String coupleId = _ref.watch(coupleIdProvider.notifier).toString();
+    // String coupleId = _ref.watch(checkMatchProcessProvider(honeycode)).whenData((value) => value.uid);
+    await _matchRepository.matchCoupleIdProcessDone(uid, coupleId, 123);
   }
 
   Stream<String> getMatchedCoupleId(int honeycode) {

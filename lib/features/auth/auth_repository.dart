@@ -39,7 +39,6 @@ class AuthRepository {
   Future<UserCredential?> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    if (googleUser == null) {}
     // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
@@ -62,7 +61,8 @@ class AuthRepository {
       userModel = UserModel(
         displayName: userCredential.user!.displayName ?? "Please send feedback",
         email: userCredential.user!.email ?? "noemail@hello.com",
-        photoURL: userCredential.user!.photoURL ?? "",
+        photoURL: userCredential.user!.photoURL ??
+            "https://firebasestorage.googleapis.com/v0/b/wakeuphoneys2.appspot.com/o/images%2Fgoogleprofileimg.png?alt=media&token=76e62fad-11c3-4c66-ba8a-2400efbedb5a",
         uid: userCredential.user!.uid,
         couple: "",
         couples: [],
@@ -79,7 +79,7 @@ class AuthRepository {
           .doc(userCredential.user!.uid)
           .update({"lastSignInTime": DateTime.now()});
     }
-    return null;
+    return userCredential;
   }
 
 //   Future<UserCredential?> loginWithGoogle(BuildContext context) async {
@@ -398,7 +398,8 @@ class AuthRepository {
           displayName:
               appleUserCredential.user!.displayName ?? "Please send feedback",
           email: appleUserCredential.user!.email ?? "noemail@hello.com",
-          photoURL: appleUserCredential.user!.photoURL ?? "",
+          photoURL: appleUserCredential.user!.photoURL ??
+              "https://firebasestorage.googleapis.com/v0/b/wakeuphoneys2.appspot.com/o/images%2Fgoogleprofileimg.png?alt=media&token=76e62fad-11c3-4c66-ba8a-2400efbedb5a",
           uid: appleUserCredential.user!.uid,
           couple: "",
           couples: [],

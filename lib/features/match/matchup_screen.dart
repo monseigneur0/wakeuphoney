@@ -7,6 +7,7 @@ import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/core/utils.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../core/common/loader.dart';
 import 'match_controller.dart';
 
 class MatchUpScreen extends ConsumerStatefulWidget {
@@ -67,7 +68,7 @@ class _MatchUpScreenState extends ConsumerState<MatchUpScreen> {
     }
 
     var duration = Duration(seconds: seconds);
-    print("duration1 $duration");
+    // print("duration1 $duration");
     return duration.toString().split(".").first.substring(2, 7);
   }
 //시간용 끝
@@ -93,9 +94,7 @@ class _MatchUpScreenState extends ConsumerState<MatchUpScreen> {
   Widget build(BuildContext context) {
     final leftTime = ref.watch(leftSecondsMatch);
     final onceClickedMatch2 = ref.watch(onceClickedMatch);
-
-    final startTime =
-        ref.watch(getMatchCodeViewProvider).whenData((value) => value.time);
+    late String wow;
 
     return Scaffold(
       appBar: AppBar(
@@ -104,135 +103,177 @@ class _MatchUpScreenState extends ConsumerState<MatchUpScreen> {
         title: const Text("match upppppppp"),
       ),
       backgroundColor: Colors.black,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          const Text(
-            "서로의 초대코드를 입력하면 연결돼요.",
-            style: TextStyle(color: Colors.white),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            "내 초대코드 (남은시간) ${format(totalSeconds)} ",
-            style: const TextStyle(color: Colors.white),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          
-            ref.watch(getMatchCodeViewProvider).when(
-                  data: (data) => Text(data.vertifynumber.toString(), 
-                                       style: const TextStyle(color: Colors.white, fontSize: 50),),
-                  error: (error, stackTrace) {
-                    print("error getMatchCodeViewProvider   $error ");
-                    ref
-                        .watch(getNewMatchCodeViewProvider)
-                        .whenData((value) => value.vertifynumber.toString());
-                    return Text("error ");
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 50),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 30,
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            const Text(
+              "서로의 초대코드를 입력하면 연결돼요.",
+              style: TextStyle(color: Colors.white),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              "내 초대코드 (남은시간) ${format(totalSeconds)} ",
+              style: const TextStyle(color: Colors.white),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            TextFormField(
+              enabled: false,
+              initialValue: ref.watch(getMatchCodeViewProvider).when(
+                    data: (data) => wow = data.vertifynumber.toString(),
+                    error: (error, stackTrace) => "error",
+                    loading: () => "Loading",
+                  ),
+              style: const TextStyle(fontSize: 40, color: Colors.white),
+              maxLength: 6,
+              // textInputAction: wow,반드시 설ㅓ할 것
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.grey[900],
+                labelStyle: const TextStyle(color: Colors.white),
+                hintStyle: const TextStyle(fontSize: 30, color: Colors.white),
+                focusColor: Colors.red,
+                border: InputBorder.none,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll(Colors.grey[800])),
+                  onPressed: () {
+                    setState(() {
+                      isRunning ? null : onStartPressed();
+                      print("onceClicked $onceClickedMatch2");
+                      onceClickedMatch2
+                          ? null
+                          : ref
+                              .watch(matchConrollerProvider.notifier)
+                              .matchProcess();
+                      onceClickedMatch2
+                          ? totalSeconds = leftTime
+                          : totalSeconds = tenMinutes;
+                      ref.watch(onceClickedMatch.notifier).state = true;
+                    });
                   },
-                  loading: () => const Loader(),),
-          ElevatedButton(
-            style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.grey[800])),
-            onPressed: () {
-              setState(() {
-                isRunning ? null : onStartPressed();
-                print("onceClicked $onceClickedMatch2");
-                onceClickedMatch2
-                    ? null
-                    : ref.watch(matchConrollerProvider.notifier).matchProcess();
-                onceClickedMatch2
-                    ? totalSeconds = leftTime
-                    : totalSeconds = tenMinutes;
-                ref.watch(onceClickedMatch.notifier).state = true;
-              });
-            },
-            child: Text(AppLocalizations.of(context)!.generateauthcode),
-          ),
-          const SizedBox(
-            height: 50,
-          ),
-          const Text(
-            "상대의 초대코드를 전달받았나요?",
-            style: TextStyle(color: Colors.white),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 100),
-            child: Container(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                child: Form(
-                  key: _formKey,
-                  child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    validator: (value) {
-                      if (value == null || value.isEmpty || value == "") {
-                        return 'Please enter invite code';
-                      } else {
-                        if (value.length < 6 || value.length > 6) {
-                          return '6 numbers required';
-                        }
-                      }
+                  child: const Icon(Icons.refresh),
+                  // child: Text(AppLocalizations.of(context)!.generateauthcode),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            const Text(
+              "상대의 초대코드를 전달받았나요?",
+              style: TextStyle(color: Colors.white),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              color: Colors.black,
+              child: Form(
+                key: _formKey,
+                child: TextFormField(
+                  style: const TextStyle(fontSize: 30, color: Colors.white),
+                  keyboardType: TextInputType.number,
+                  maxLength: 6,
+                  // textInputAction: wow,반드시 설ㅓ할 것
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  validator: (value) {
+                    if (value == null || value.isEmpty || value == "") {
                       return null;
-                    },
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    controller: _honeyCodeController,
-                    decoration: const InputDecoration(
-                      labelText: 'Write 6 numbers',
-                      hintText: '123456',
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black, width: 2.0),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black, width: 2.0),
-                      ),
-                      border: OutlineInputBorder(),
-                      labelStyle: TextStyle(color: Colors.black),
-                    ),
+                    } else {
+                      if (value.length < 6 ||
+                          value.length > 6 ||
+                          value == wow) {
+                        return null;
+                      }
+                    }
+                    return null;
+                  },
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  controller: _honeyCodeController,
+                  cursorColor: Colors.white,
+
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey[900],
+                    labelText: '초대코드 입력',
+                    labelStyle: const TextStyle(color: Colors.grey),
+
+                    hintText: '000000',
+                    hintStyle:
+                        const TextStyle(fontSize: 30, color: Colors.grey),
+                    focusColor: Colors.red,
+                    // focusedBorder: OutlineInputBorder(
+                    //   borderSide: BorderSide(color: Colors.black, width: 2.0),
+                    // ),
+                    // enabledBorder: const OutlineInputBorder(
+                    //   borderSide: BorderSide(color: Colors.green, width: 2.0),
+                    // ),
+                    border: InputBorder.none,
                   ),
                 ),
               ),
             ),
-          ),
-          ElevatedButton(
-            style: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Color(0xFFD72499))),
-            onPressed: () {
-              if (_honeyCodeController.text.isNotEmpty) {
-                final int honeyCode = int.parse(_honeyCodeController.text);
-                if (_formKey.currentState!.validate()) {
-                  ref
-                      .watch(checkMatchProcessProvider(honeyCode))
-                      .when(data: if(data.hasValue) {
-                        showSnackBar(context, "inviteed");
-                        _honeyCodeController.clear();
-                        // PEaTihL8yRdGEknlFfQ9F7XdoUt2 apple
-                        ref
-                        .watch(matchConrollerProvider.notifier)
-                        .matchCoupleIdProcessDone(honeyCode);
-                      }, error: (error, stacktrace) =>  showSnackBar(context, "no invited honey");, 
-                            loading: () => const Loader();
-                }
-              }
-            },
-            child: Text(AppLocalizations.of(context)!.connectwith),
-          ),
-        ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  style: const ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll(Color(0xFFD72499))),
+                  onPressed: () {
+                    if (_honeyCodeController.text.isNotEmpty) {
+                      final int honeyCode =
+                          int.parse(_honeyCodeController.text);
+                      if (_formKey.currentState!.validate()) {
+                        ref.watch(checkMatchProcessProvider(honeyCode)).when(
+                            data: (data) {
+                              if (data.uid.isNotEmpty) {
+                                ref
+                                    .watch(matchConrollerProvider.notifier)
+                                    .matchCoupleIdProcessDone(data.uid);
+                                print(data.uid);
+                                // PEaTihL8yRdGEknlFfQ9F7XdoUt2 apple
+                                _honeyCodeController.clear();
+                                showSnackBar(context, "inviteed");
+                                Navigator.pop(context);
+                              }
+                            },
+                            error: (error, stacktrace) =>
+                                showSnackBar(context, "no invited honey"),
+                            loading: () => const Loader());
+                      }
+                    }
+                  },
+                  child: Text(AppLocalizations.of(context)!.connectwith),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

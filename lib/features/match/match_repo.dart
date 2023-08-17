@@ -100,7 +100,7 @@ class MatchRepository {
 
     //삭제
     await _matches
-        .where("vertifynumber", isEqualTo: vertifyNumber)
+        .where("uid", isEqualTo: uid)
         .get()
         .then((value) => value.docs.forEach((element) {
               _matches.doc(element.id).delete();

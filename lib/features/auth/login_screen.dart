@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -119,31 +120,33 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                 iconSize: 130,
               ),
               const SizedBox(height: 50),
-              Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    ref
-                        .watch(authControllerProvider.notifier)
-                        .signInWithApple(context);
-                  },
-                  icon: Image.asset(
-                    'assets/apple.png',
-                    width: 35,
-                  ),
-                  label: const Text(
-                    'Continue with Apple',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey[900],
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
-              ),
+              Platform.isIOS
+                  ? Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          ref
+                              .watch(authControllerProvider.notifier)
+                              .signInWithApple(context);
+                        },
+                        icon: Image.asset(
+                          'assets/apple.png',
+                          width: 35,
+                        ),
+                        label: const Text(
+                          'Continue with Apple',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey[900],
+                          minimumSize: const Size(double.infinity, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
+                    )
+                  : Container(),
               Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: ElevatedButton.icon(
