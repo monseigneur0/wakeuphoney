@@ -9,21 +9,8 @@ import '../../core/providers/firebase_providers.dart';
 import '../profile/profile_controller.dart';
 import 'match_model.dart';
 
-//안쓰네?
-final getNewMatchCodeViewProvider = StreamProvider<MatchModel>((ref) {
-  return ref.watch(matchConrollerProvider.notifier).getNewMatchCodeView();
-});
-
-//안쓰네?
 final getMatchCodeProvider = FutureProvider<MatchModel>((ref) {
   return ref.watch(matchConrollerProvider.notifier).getMatchCode();
-});
-
-//안쓰네?
-final getMatchedCoupleIdProvider = StreamProvider.family((ref, int honeyCode) {
-  return ref
-      .watch(matchConrollerProvider.notifier)
-      .getMatchedCoupleId(honeyCode);
 });
 
 final getMatchCodeViewProvider = StreamProvider<MatchModel>((ref) {
@@ -75,10 +62,11 @@ class MatchController extends StateNotifier<bool> {
     getMatchCodeBool().then((value) {
       if (value) {
         //있으면 고거 그대로 보내줘
+        print("already exist");
         return getMatchCodeView();
       }
     });
-
+    print("new code");
     return _matchRepository.matchModelStartProcess(uid, inthoneycode);
   }
 
@@ -123,31 +111,5 @@ class MatchController extends StateNotifier<bool> {
     // String coupleId = _ref.watch(coupleIdProvider.notifier).toString();
     // String coupleId = _ref.watch(checkMatchProcessProvider(honeycode)).whenData((value) => value.uid);
     await _matchRepository.matchCoupleIdProcessDone(uid, coupleId, 123);
-  }
-
-//안쓰네?
-  Stream<MatchModel> getNewMatchCodeView() {
-    User? auser = _ref.watch(authProvider).currentUser;
-    String uid;
-    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
-    int inthoneycode = Random().nextInt(900000) + 100000;
-    _matchRepository.matchStartProcess(uid, inthoneycode);
-    // String useruid = _ref.watch(userModelProvider)!.uid;
-    // print(useruid);
-    return _matchRepository.getMatchCodeView(uid);
-    //_ref.watch(userProvider)!.uid is null, why?
-  }
-
-//안쓰네?
-  Future<DateTime> getMatchCodeTime() {
-    User? auser = _ref.watch(authProvider).currentUser;
-    String uid;
-    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
-    return _matchRepository.getMatchCodeTime(uid);
-  }
-
-//안쓰네?
-  Stream<String> getMatchedCoupleId(int honeycode) {
-    return _matchRepository.getMatchedCoupleId(honeycode);
   }
 }

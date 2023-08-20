@@ -62,15 +62,6 @@ class MatchRepository {
         .isNotEmpty);
   }
 
-  Future<DateTime> getMatchCodeTime(String uid) {
-    return _matches.where("uid", isEqualTo: uid).get().then((value) => value
-        .docs
-        .map((e) => MatchModel.fromMap(e.data() as Map<String, dynamic>))
-        .toList()
-        .first
-        .time);
-  }
-
   Stream<MatchModel> checkMatchProcess(int honeyCode) {
     return _matches
         .where("vertifynumber", isEqualTo: honeyCode)
@@ -81,6 +72,7 @@ class MatchRepository {
             .first);
   }
 
+// 안ㅡ네
   Stream<String> getMatchedCoupleId(int honeyCode) {
     return _matches
         .where("vertifynumber", isEqualTo: honeyCode)
@@ -91,17 +83,6 @@ class MatchRepository {
             .first
             .uid);
   }
-
-  // Future<bool> checkMatchProcessbool(int honeyCode) async {
-  //   return _matches
-  //       .where("vertifynumber", isEqualTo: honeyCode)
-  //       .snapshots()
-  //       .map((event) => event.docs
-  //           .map((e) => MatchModel.fromMap(e.data() as Map<String, dynamic>))
-  //           .toList()
-  //           .first)
-  //       .isEmpty;
-  // }
 
   Future matchCoupleIdProcessDone(
       String uid, String coupleId, int vertifyNumber) async {
