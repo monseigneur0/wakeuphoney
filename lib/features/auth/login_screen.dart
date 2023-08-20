@@ -17,7 +17,7 @@ class LoginHome extends ConsumerStatefulWidget {
 }
 
 class _LoginHomeState extends ConsumerState<LoginHome> {
-  bool _visible = false;
+  bool _visible = true;
   int randomNum = 0;
 
   @override

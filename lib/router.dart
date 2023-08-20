@@ -9,7 +9,6 @@ import 'features/dailymessages/daily_create_screen.dart';
 import 'features/dailymessages/daily_letter3_screen.dart';
 import 'features/dailymessages/daily_letter4_screen.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
-import 'features/match/matchup_screen.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/profile/feedback_screen.dart';
 import 'features/match/match_screen.dart';
@@ -113,14 +112,14 @@ final routerProvider = Provider((ref) {
                       size: 25,
                     ),
                   ),
-                  // IconButton(
-                  //   onPressed: () => context.goNamed(PracticeHome.routeName),
-                  //   icon: const Icon(
-                  //     Icons.home,
-                  //     color: Colors.white,
-                  //     size: 25,
-                  //   ),
-                  // ),
+                  IconButton(
+                    onPressed: () => context.goNamed(PracticeHome.routeName),
+                    icon: const Icon(
+                      Icons.home,
+                      color: Colors.white,
+                      size: 25,
+                    ),
+                  ),
                   IconButton(
                     onPressed: () => context.goNamed(MatchScreen.routeName),
                     icon: const Icon(
@@ -191,11 +190,6 @@ final routerProvider = Provider((ref) {
             name: MatchScreen.routeName,
             path: MatchScreen.routeURL,
             builder: (context, state) => const MatchScreen(),
-          ),
-          GoRoute(
-            name: MatchUpScreen.routeName,
-            path: MatchUpScreen.routeURL,
-            builder: (context, state) => const MatchUpScreen(),
           ),
         ],
       )

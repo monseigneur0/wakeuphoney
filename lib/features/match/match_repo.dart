@@ -27,12 +27,39 @@ class MatchRepository {
     });
   }
 
+  /// add matchmodel wow
+  Future<MatchModel> matchModelStartProcess(
+      String uid, int vertifyNumber) async {
+    final MatchModel match;
+    match = MatchModel(
+        uid: uid, time: DateTime.now(), vertifynumber: vertifyNumber);
+    await _matches.add(match);
+    return match;
+  }
+
   Stream<MatchModel> getMatchCodeView(String uid) {
     return _matches.where("uid", isEqualTo: uid).snapshots().map((event) =>
         event.docs
             .map((e) => MatchModel.fromMap(e.data() as Map<String, dynamic>))
             .toList()
             .first);
+  }
+
+  Future<bool> getMatchCodeBool(String uid) {
+    _matches
+        .where("time",
+            isLessThan: DateTime.now().subtract(const Duration(minutes: 60)))
+        .get()
+        .then((value) => value.docs.forEach((element) {
+              _matches.doc(element.id).delete();
+            }));
+    return _matches.where("uid", isEqualTo: uid).get().then((event) => event
+        .docs
+        .map((e) => MatchModel.fromMap(e.data() as Map<String, dynamic>))
+        .toList()
+        .first
+        .uid
+        .isNotEmpty);
   }
 
   Future<DateTime> getMatchCodeTime(String uid) {
