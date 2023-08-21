@@ -67,7 +67,7 @@ dependencies:
 
   font_awesome_flutter: ^10.4.0
 
-  day_night_time_picker: ^1.3.0
+  day_night_time_picker: ^1.3.0+1
   weekday_selector: ^1.1.0
 
   scroll_to_index: ^3.0.1
