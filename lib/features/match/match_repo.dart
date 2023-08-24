@@ -28,11 +28,7 @@ class MatchRepository {
   }
 
   /// add matchmodel wow
-  Future<MatchModel> matchModelStartProcess(
-      String uid, int vertifyNumber) async {
-    final MatchModel match;
-    match = MatchModel(
-        uid: uid, time: DateTime.now(), vertifynumber: vertifyNumber);
+  Future<MatchModel> matchModelStartProcess(MatchModel match) async {
     await _matches.add(match);
     return match;
   }
@@ -46,6 +42,7 @@ class MatchRepository {
   }
 
   Future<bool> getMatchCodeBool(String uid) {
+    print("getMatchCodeBool");
     _matches
         .where("time",
             isLessThan: DateTime.now().subtract(const Duration(minutes: 60)))

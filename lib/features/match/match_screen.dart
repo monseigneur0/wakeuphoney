@@ -423,41 +423,42 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                     //     border: InputBorder.none,
                     //   ),
                     // ),
-                    ref.watch(getMatchCodeProvider).when(
-                          data: (data) => TextFormField(
-                            enabled: false,
-                            initialValue: data.vertifynumber.toString(),
-
-                            style: const TextStyle(
-                                fontSize: 40, color: Colors.white),
-                            maxLength: 6,
-                            // textInputAction: wow,반드시 설ㅓ할 것 enter누르면 편하니
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
-
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.grey[900],
-                              labelStyle: const TextStyle(color: Colors.white),
-                              hintStyle: const TextStyle(
-                                  fontSize: 30, color: Colors.white),
-                              focusColor: Colors.red,
-                              border: InputBorder.none,
-                            ),
+                    TextFormField(
+                      enabled: false,
+                      initialValue: ref.watch(getMatchCodeProvider).when(
+                            data: (match) {
+                              if (match.uid.isNotEmpty) {
+                                return match.vertifynumber.toString();
+                              }
+                              return null;
+                            },
+                            error: (error, stackTrace) {
+                              // ref
+                              //     .watch(matchConrollerProvider.notifier)
+                              //     .matchProcess();
+                              return 'error';
+                            },
+                            loading: () => "const Loader()",
                           ),
-                          error: (error, stackTrace) {
-                            ref
-                                .watch(matchConrollerProvider.notifier)
-                                .matchProcess();
-                            return const Center(
-                                child: Text(
-                              'error',
-                              style: TextStyle(color: Colors.white),
-                            ));
-                          },
-                          loading: () => const Loader(),
-                        ),
+
+                      style: const TextStyle(fontSize: 40, color: Colors.white),
+                      maxLength: 6,
+                      // textInputAction: wow,반드시 설ㅓ할 것 enter누르면 편하니
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.grey[900],
+                        labelStyle: const TextStyle(color: Colors.white),
+                        hintStyle:
+                            const TextStyle(fontSize: 30, color: Colors.white),
+                        focusColor: Colors.red,
+                        border: InputBorder.none,
+                      ),
+                    ),
+
                     // Row(
                     //   mainAxisAlignment: MainAxisAlignment.end,
                     //   children: [

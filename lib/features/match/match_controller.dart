@@ -9,7 +9,7 @@ import '../../core/providers/firebase_providers.dart';
 import '../profile/profile_controller.dart';
 import 'match_model.dart';
 
-final getMatchCodeProvider = FutureProvider<MatchModel>((ref) {
+final getMatchCodeProvider = StreamProvider<MatchModel>((ref) {
   return ref.watch(matchConrollerProvider.notifier).getMatchCode();
 });
 
@@ -52,22 +52,19 @@ class MatchController extends StateNotifier<bool> {
     await _matchRepository.matchStartProcess(uid, inthoneycode);
   }
 
-  Future<MatchModel> getMatchCode() {
+  Stream<MatchModel> getMatchCode() {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     int inthoneycode = Random().nextInt(900000) + 100000;
+    // final MatchModel match =
+    //     MatchModel(uid: uid, time: DateTime.now(), vertifynumber: inthoneycode);
+    // _matchRepository.matchModelStartProcess(match);
     //이거 전부 컨트롤러로 만들어서 하나하나 다시 가져와서 만들어야겠네;;;;
     //있는지 없는지 판단 자기 uid 로 검사
-    getMatchCodeBool().then((value) {
-      if (value) {
-        //있으면 고거 그대로 보내줘
-        print("already exist");
-        return getMatchCodeView();
-      }
-    });
+
     print("new code");
-    return _matchRepository.matchModelStartProcess(uid, inthoneycode);
+    return _matchRepository.getMatchCodeView(uid);
   }
 
   Future<bool> getMatchCodeBool() {
