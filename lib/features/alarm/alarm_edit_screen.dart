@@ -55,11 +55,11 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
   Future<void> pickTime() async {
     _time = Time(hour: selectedTime.hour, minute: selectedTime.minute);
     final res = await Navigator.of(context).push(showPicker(
-      showSecondSelector: true,
+      showSecondSelector: false,
       context: context,
       value: _time,
       onChange: onTimeChanged,
-      minuteInterval: TimePickerInterval.FIVE,
+      minuteInterval: TimePickerInterval.ONE,
       iosStylePicker: true,
       minHour: 0,
       maxHour: 23,
@@ -67,9 +67,8 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
       width: 360,
       // dialogInsetPadding:
       //     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 24.0),
-      hourLabel: 'hrs',
-      minuteLabel: 'mins',
-      secondLabel: 'secs',
+      hourLabel: ':',
+      minuteLabel: ' ',
       // Optional onChange to receive value as DateTime
       onChangeDateTime: (DateTime dateTime) {
         // print(dateTime);
