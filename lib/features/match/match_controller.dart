@@ -67,6 +67,21 @@ class MatchController extends StateNotifier<bool> {
     return _matchRepository.getMatchCodeView(uid);
   }
 
+  Stream<MatchModel> createMatchCode() {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    int inthoneycode = Random().nextInt(900000) + 100000;
+    // final Mat   chModel match =
+    //     MatchModel(uid: uid, time: DateTime.now(), vertifynumber: inthoneycode);
+    // _matchRepository.matchModelStartProcess(match);
+    //이거 전부 컨트롤러로 만들어서 하나하나 다시 가져와서 만들어야겠네;;;;
+    //있는지 없는지 판단 자기 uid 로 검사
+
+    print("new code");
+    return _matchRepository.getMatchCodeView(uid);
+  }
+
   Future<bool> getMatchCodeBool() {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;

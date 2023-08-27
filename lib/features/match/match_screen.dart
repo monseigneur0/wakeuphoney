@@ -430,7 +430,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                               if (match.uid.isNotEmpty) {
                                 return match.vertifynumber.toString();
                               }
-                              return null;
+                              return;
                             },
                             error: (error, stackTrace) {
                               // ref

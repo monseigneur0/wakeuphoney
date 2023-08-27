@@ -41,6 +41,16 @@ class MatchRepository {
             .first);
   }
 
+  Stream<MatchModel> checkMatchProcess(int honeyCode) {
+    return _matches
+        .where("vertifynumber", isEqualTo: honeyCode)
+        .snapshots()
+        .map((event) => event.docs
+            .map((e) => MatchModel.fromMap(e.data() as Map<String, dynamic>))
+            .toList()
+            .first);
+  }
+
   Future<bool> getMatchCodeBool(String uid) {
     print("getMatchCodeBool");
     _matches
@@ -57,16 +67,6 @@ class MatchRepository {
         .first
         .uid
         .isNotEmpty);
-  }
-
-  Stream<MatchModel> checkMatchProcess(int honeyCode) {
-    return _matches
-        .where("vertifynumber", isEqualTo: honeyCode)
-        .snapshots()
-        .map((event) => event.docs
-            .map((e) => MatchModel.fromMap(e.data() as Map<String, dynamic>))
-            .toList()
-            .first);
   }
 
 // 안ㅡ네
