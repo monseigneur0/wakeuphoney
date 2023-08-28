@@ -50,5 +50,5 @@ final selectedDateTime = StateProvider<DateTime>(
   (ref) => DateTime.now(),
 );
 
-final leftSecondsMatch = StateProvider<int>((ref) => 0);
+final leftSecondsMatch = StateProvider<int>((ref) => 3600);
 final onceClickedMatch = StateProvider<bool>((ref) => false);

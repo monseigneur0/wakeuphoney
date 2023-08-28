@@ -51,6 +51,7 @@ class MatchRepository {
             .first);
   }
 
+//no use
   Future<bool> getMatchCodeBool(String uid) {
     print("getMatchCodeBool");
     _matches
@@ -67,6 +68,14 @@ class MatchRepository {
         .first
         .uid
         .isNotEmpty);
+  }
+
+  Future<MatchModel> getMatchCodeFuture(String uid) {
+    return _matches.where("uid", isEqualTo: uid).get().then((event) => event
+        .docs
+        .map((e) => MatchModel.fromMap(e.data() as Map<String, dynamic>))
+        .toList()
+        .first);
   }
 
 // 안ㅡ네

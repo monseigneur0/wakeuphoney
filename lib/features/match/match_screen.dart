@@ -40,18 +40,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
 
   void onTick(Timer timer) {
     if (totalSeconds < 1) {
-      if (mounted) {
-        setState(() {
-          // totalSeconds = tenMinutes;
-          onPausePressed();
-        });
-      }
-    } else {
-      if (mounted) {
-        setState(() {});
-      }
-      totalSeconds = totalSeconds - 1;
-      ref.watch(leftSecondsMatch.notifier).state = totalSeconds;
+      totalSeconds = ref.watch(leftSecondsMatch.notifier).state--;
     }
   }
 
@@ -348,7 +337,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                       height: 20,
                     ),
                     Text(
-                      "내 초대코드 (남은시간) ${format(totalSeconds)} ",
+                      "내 초대코드 (남은시간) ${format(ref.watch(leftSecondsMatch))} ",
                       style: const TextStyle(color: Colors.white),
                     ),
                     const SizedBox(
@@ -425,22 +414,26 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                     // ),
                     TextFormField(
                       enabled: false,
-                      initialValue: ref.watch(getMatchCodeProvider).when(
-                            data: (match) {
-                              if (match.uid.isNotEmpty) {
-                                return match.vertifynumber.toString();
-                              }
-                              return;
-                            },
-                            error: (error, stackTrace) {
-                              // ref
-                              //     .watch(matchConrollerProvider.notifier)
-                              //     .matchProcess();
-                              return 'error';
-                            },
-                            loading: () => "const Loader()",
-                          ),
-
+                      // initialValue: ref.watch(getMatchCodeProvider).when(
+                      //       data: (match) {
+                      //         if (match.uid.isNotEmpty) {
+                      //           return match.vertifynumber.toString();
+                      //         }
+                      //         return "123456";
+                      //       },
+                      //       error: (error, stackTrace) {
+                      //         // ref
+                      //         //     .watch(matchConrollerProvider.notifier)
+                      //         //     .matchProcess();
+                      //         return 'error';
+                      //       },
+                      //       loading: () => "const Loader()",
+                      //     ),
+                      initialValue: ref
+                          .watch(matchConrollerProvider.notifier)
+                          .createMatch()
+                          .vertifynumber
+                          .toString(),
                       style: const TextStyle(fontSize: 40, color: Colors.white),
                       maxLength: 6,
                       // textInputAction: wow,반드시 설ㅓ할 것 enter누르면 편하니
