@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakeuphoney/features/match/match_repo.dart';
 
 import '../../core/providers/firebase_providers.dart';
+import '../../core/providers/providers.dart';
 import '../profile/profile_controller.dart';
 import 'match_model.dart';
 
@@ -41,6 +43,44 @@ class MatchController extends StateNotifier<bool> {
   })  : _matchRepository = matchRepository,
         _ref = ref,
         super(false);
+
+  static const tenMinutes = 3600;
+  int totalSeconds = tenMinutes;
+  bool isRunning = false;
+  bool onceClickedMatch3 = false;
+
+  late Timer timer;
+
+  String leftCodeTime() {
+    return format(totalSeconds);
+  }
+
+  void onTick(Timer timer) {
+    if (totalSeconds < 1) {
+      totalSeconds = _ref.watch(leftSecondsMatch.notifier).state--;
+    }
+  }
+
+  void onStartPressed() {
+    timer = Timer.periodic(
+      const Duration(seconds: 1),
+      onTick,
+    );
+  }
+
+  void onPausePressed() {
+    timer.cancel();
+  }
+
+  String format(int seconds) {
+    if (_ref.watch(leftSecondsMatch) <= seconds) {
+      seconds = _ref.watch(leftSecondsMatch);
+    }
+
+    var duration = Duration(seconds: seconds);
+    // print("duration $duration");
+    return duration.toString().split(".").first.substring(2, 7);
+  }
 
   MatchModel createMatch() {
     User? auser = _ref.watch(authProvider).currentUser;
