@@ -67,8 +67,23 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
     }
 
     var duration = Duration(seconds: seconds);
-    // print("duration $duration");
+    print("duration $duration");
     return duration.toString().split(".").first.substring(2, 7);
+  }
+
+  int leftTimeToInt(DateTime time) {
+    return 1;
+  }
+
+//int leftSeconds
+  String leftTimeFormat(DateTime time) {
+    var leftMili = Duration(
+        seconds: 3600 +
+            time.millisecondsSinceEpoch -
+            DateTime.now().millisecondsSinceEpoch);
+    print("durationleftMili $leftMili");
+
+    return leftMili.toString().split(".").first.substring(2, 7);
   }
 
   @override
@@ -337,7 +352,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                       height: 20,
                     ),
                     Text(
-                      "내 초대코드 (남은시간) ${format(ref.watch(leftSecondsMatch))} ",
+                      "내 초대코드 (남은시간) ${leftTimeFormat(ref.watch(matchConrollerProvider.notifier).getCreateCode().time)} ",
                       style: const TextStyle(color: Colors.white),
                     ),
                     const SizedBox(
@@ -429,9 +444,16 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                       //       },
                       //       loading: () => "const Loader()",
                       //     ),
+
+                      //이 밑에 말고 앞으로는 그냥 Model로 해보자
+                      // initialValue: ref
+                      //     .watch(matchConrollerProvider.notifier)
+                      //     .createMatch()
+                      //     .vertifynumber
+                      //     .toString(),
                       initialValue: ref
                           .watch(matchConrollerProvider.notifier)
-                          .createMatch()
+                          .getCreateCode()
                           .vertifynumber
                           .toString(),
                       style: const TextStyle(fontSize: 40, color: Colors.white),

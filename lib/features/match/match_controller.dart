@@ -193,4 +193,19 @@ class MatchController extends StateNotifier<bool> {
     // String coupleId = _ref.watch(checkMatchProcessProvider(honeycode)).whenData((value) => value.uid);
     await _matchRepository.matchCoupleIdProcessDone(uid, coupleId, 123);
   }
+
+  MatchModel getCreateCode() {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    int inthoneycode = Random().nextInt(900000) + 100000;
+
+    _matchRepository.matchStartProcess(uid, inthoneycode);
+    final MatchModel match = MatchModel(
+      uid: uid,
+      time: DateTime.now(),
+      vertifynumber: inthoneycode,
+    );
+    return match;
+  }
 }
