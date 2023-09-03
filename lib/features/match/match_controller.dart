@@ -208,4 +208,8 @@ class MatchController extends StateNotifier<bool> {
     );
     return match;
   }
+
+  int tick() {
+    return 10;
+  }
 }
