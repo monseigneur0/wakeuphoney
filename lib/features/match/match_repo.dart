@@ -70,12 +70,29 @@ class MatchRepository {
         .isNotEmpty);
   }
 
-  Future<MatchModel> getMatchCodeFuture(String uid) {
-    return _matches.where("uid", isEqualTo: uid).get().then((event) => event
-        .docs
-        .map((e) => MatchModel.fromMap(e.data() as Map<String, dynamic>))
-        .toList()
-        .first);
+  Future<MatchModel?> getMatchCodeFuture(String uid, int honeyCode) async {
+    await _matches
+        .where("time",
+            isLessThan: DateTime.now().subtract(const Duration(minutes: 60)))
+        .get()
+        .then((value) => value.docs.forEach((element) {
+              _matches.doc(element.id).delete();
+            }));
+
+    try {
+      final wow =
+          await _matches.where("uid", isEqualTo: uid).get().then((event) {
+        if (event.docs.isNotEmpty) {
+          return event.docs
+              .map((e) => MatchModel.fromMap(e.data() as Map<String, dynamic>))
+              .toList()
+              .first;
+        }
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+    return null;
   }
 
 // 안ㅡ네
@@ -130,11 +147,11 @@ class MatchRepository {
         .then((value) => value.docs.forEach((element) {
               _matches.doc(element.id).delete();
             }));
-    _matches
-        .where("uid", isEqualTo: uid)
-        .get()
-        .then((value) => value.docs.forEach((element) {
-              _matches.doc(element.id).delete();
-            }));
+    // _matches
+    //     .where("uid", isEqualTo: uid)
+    //     .get()
+    //     .then((value) => value.docs.forEach((element) {
+    //           _matches.doc(element.id).delete();
+    //         }));
   }
 }

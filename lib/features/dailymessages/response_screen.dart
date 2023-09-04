@@ -92,8 +92,8 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                       error: (error, stackTrace) {
                         print("error");
 
-                        return Column(
-                          children: const [
+                        return const Column(
+                          children: [
                             SizedBox(
                               height: 50,
                             ),
@@ -202,7 +202,9 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                               .createResponseMessage(message, imageUrl);
                         }
                         _messgaeController.clear();
-                        context.go(AlarmHome.routeURL);
+                        if (context.mounted) {
+                          context.go(AlarmHome.routeURL);
+                        }
                       },
                     ),
                   ],

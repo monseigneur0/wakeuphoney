@@ -58,6 +58,8 @@ class MatchController extends StateNotifier<bool> {
   void onTick(Timer timer) {
     if (totalSeconds < 1) {
       totalSeconds = _ref.watch(leftSecondsMatch.notifier).state--;
+    } else {
+      totalSeconds = totalSeconds--;
     }
   }
 
@@ -73,10 +75,6 @@ class MatchController extends StateNotifier<bool> {
   }
 
   String format(int seconds) {
-    if (_ref.watch(leftSecondsMatch) <= seconds) {
-      seconds = _ref.watch(leftSecondsMatch);
-    }
-
     var duration = Duration(seconds: seconds);
     // print("duration $duration");
     return duration.toString().split(".").first.substring(2, 7);
@@ -114,18 +112,16 @@ class MatchController extends StateNotifier<bool> {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
-    late final MatchModel old;
-    try {
-      MatchModel old = await _matchRepository.getMatchCodeFuture(uid);
-      print("old $old");
-      if (old.uid == uid) {}
-    } catch (e) {
-      int inthoneycode = Random().nextInt(900000) + 100000;
+    //일단 가져와 한시간 지난 애들 삭제랑 가져오기
+    int inthoneycode = Random().nextInt(900000) + 100000;
+    MatchModel? currentCode =
+        await _matchRepository.getMatchCodeFuture(uid, inthoneycode);
+    if (currentCode == null) {
+      currentCode = MatchModel(
+          uid: uid, time: DateTime.now(), vertifynumber: inthoneycode);
       _matchRepository.matchStartProcess(uid, inthoneycode);
-      print("getOrCreateMatchCode Error $e");
     }
-
-    return _matchRepository.getMatchCodeFuture(uid);
+    return currentCode;
   }
 
   Stream<MatchModel> getMatchCode() {
@@ -210,6 +206,6 @@ class MatchController extends StateNotifier<bool> {
   }
 
   int tick() {
-    return 10;
+    return 3598;
   }
 }
