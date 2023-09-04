@@ -28,11 +28,7 @@ class MatchRepository {
   }
 
   /// add matchmodel wow
-  Future<MatchModel> matchModelStartProcess(
-      String uid, int vertifyNumber) async {
-    final MatchModel match;
-    match = MatchModel(
-        uid: uid, time: DateTime.now(), vertifynumber: vertifyNumber);
+  Future<MatchModel> matchModelStartProcess(MatchModel match) async {
     await _matches.add(match);
     return match;
   }
@@ -45,7 +41,19 @@ class MatchRepository {
             .first);
   }
 
+  Stream<MatchModel> checkMatchProcess(int honeyCode) {
+    return _matches
+        .where("vertifynumber", isEqualTo: honeyCode)
+        .snapshots()
+        .map((event) => event.docs
+            .map((e) => MatchModel.fromMap(e.data() as Map<String, dynamic>))
+            .toList()
+            .first);
+  }
+
+//no use
   Future<bool> getMatchCodeBool(String uid) {
+    print("getMatchCodeBool");
     _matches
         .where("time",
             isLessThan: DateTime.now().subtract(const Duration(minutes: 60)))
@@ -62,25 +70,32 @@ class MatchRepository {
         .isNotEmpty);
   }
 
-  Future<DateTime> getMatchCodeTime(String uid) {
-    return _matches.where("uid", isEqualTo: uid).get().then((value) => value
-        .docs
-        .map((e) => MatchModel.fromMap(e.data() as Map<String, dynamic>))
-        .toList()
-        .first
-        .time);
+  Future<MatchModel?> getMatchCodeFuture(String uid, int honeyCode) async {
+    await _matches
+        .where("time",
+            isLessThan: DateTime.now().subtract(const Duration(minutes: 60)))
+        .get()
+        .then((value) => value.docs.forEach((element) {
+              _matches.doc(element.id).delete();
+            }));
+
+    try {
+      final wow =
+          await _matches.where("uid", isEqualTo: uid).get().then((event) {
+        if (event.docs.isNotEmpty) {
+          return event.docs
+              .map((e) => MatchModel.fromMap(e.data() as Map<String, dynamic>))
+              .toList()
+              .first;
+        }
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+    return null;
   }
 
-  Stream<MatchModel> checkMatchProcess(int honeyCode) {
-    return _matches
-        .where("vertifynumber", isEqualTo: honeyCode)
-        .snapshots()
-        .map((event) => event.docs
-            .map((e) => MatchModel.fromMap(e.data() as Map<String, dynamic>))
-            .toList()
-            .first);
-  }
-
+// 안ㅡ네
   Stream<String> getMatchedCoupleId(int honeyCode) {
     return _matches
         .where("vertifynumber", isEqualTo: honeyCode)
@@ -91,17 +106,6 @@ class MatchRepository {
             .first
             .uid);
   }
-
-  // Future<bool> checkMatchProcessbool(int honeyCode) async {
-  //   return _matches
-  //       .where("vertifynumber", isEqualTo: honeyCode)
-  //       .snapshots()
-  //       .map((event) => event.docs
-  //           .map((e) => MatchModel.fromMap(e.data() as Map<String, dynamic>))
-  //           .toList()
-  //           .first)
-  //       .isEmpty;
-  // }
 
   Future matchCoupleIdProcessDone(
       String uid, String coupleId, int vertifyNumber) async {
@@ -143,11 +147,11 @@ class MatchRepository {
         .then((value) => value.docs.forEach((element) {
               _matches.doc(element.id).delete();
             }));
-    _matches
-        .where("uid", isEqualTo: uid)
-        .get()
-        .then((value) => value.docs.forEach((element) {
-              _matches.doc(element.id).delete();
-            }));
+    // _matches
+    //     .where("uid", isEqualTo: uid)
+    //     .get()
+    //     .then((value) => value.docs.forEach((element) {
+    //           _matches.doc(element.id).delete();
+    //         }));
   }
 }

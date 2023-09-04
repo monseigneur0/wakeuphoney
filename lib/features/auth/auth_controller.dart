@@ -39,7 +39,9 @@ class AuthController extends AsyncNotifier<void> {
     );
     if (state.hasError) {
     } else {
-      context.go("/match");
+      if (context.mounted) {
+        context.go("/match");
+      }
     }
     // _authRepository.signInWithGoogle().then((value) => value != null
     //     ? context.goNamed(MatchScreen.routeName)
@@ -83,7 +85,9 @@ class AuthController extends AsyncNotifier<void> {
     await _authRepository.signInWithApple();
     if (state.hasError) {
     } else {
-      context.go("/match");
+      if (context.mounted) {
+        context.go("/match");
+      }
     }
   }
 

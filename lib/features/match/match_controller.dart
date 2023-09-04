@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,24 +7,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakeuphoney/features/match/match_repo.dart';
 
 import '../../core/providers/firebase_providers.dart';
+import '../../core/providers/providers.dart';
 import '../profile/profile_controller.dart';
 import 'match_model.dart';
 
-//안쓰네?
-final getNewMatchCodeViewProvider = StreamProvider<MatchModel>((ref) {
-  return ref.watch(matchConrollerProvider.notifier).getNewMatchCodeView();
-});
-
-//안쓰네?
-final getMatchCodeProvider = FutureProvider<MatchModel>((ref) {
+final getMatchCodeProvider = StreamProvider<MatchModel>((ref) {
   return ref.watch(matchConrollerProvider.notifier).getMatchCode();
 });
-
-//안쓰네?
-final getMatchedCoupleIdProvider = StreamProvider.family((ref, int honeyCode) {
-  return ref
-      .watch(matchConrollerProvider.notifier)
-      .getMatchedCoupleId(honeyCode);
+final getMatchCodeFutureProvider = FutureProvider<MatchModel>((ref) {
+  return ref.watch(matchConrollerProvider.notifier).getOrCreateMatchCode();
 });
 
 final getMatchCodeViewProvider = StreamProvider<MatchModel>((ref) {
@@ -52,6 +44,57 @@ class MatchController extends StateNotifier<bool> {
         _ref = ref,
         super(false);
 
+  static const tenMinutes = 3600;
+  int totalSeconds = tenMinutes;
+  bool isRunning = false;
+  bool onceClickedMatch3 = false;
+
+  late Timer timer;
+
+  String leftCodeTime() {
+    return format(totalSeconds);
+  }
+
+  void onTick(Timer timer) {
+    if (totalSeconds < 1) {
+      totalSeconds = _ref.watch(leftSecondsMatch.notifier).state--;
+    } else {
+      totalSeconds = totalSeconds--;
+    }
+  }
+
+  void onStartPressed() {
+    timer = Timer.periodic(
+      const Duration(seconds: 1),
+      onTick,
+    );
+  }
+
+  void onPausePressed() {
+    timer.cancel();
+  }
+
+  String format(int seconds) {
+    var duration = Duration(seconds: seconds);
+    // print("duration $duration");
+    return duration.toString().split(".").first.substring(2, 7);
+  }
+
+  MatchModel createMatch() {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    int inthoneycode = Random().nextInt(900000) + 100000;
+
+    _matchRepository.matchStartProcess(uid, inthoneycode);
+    final MatchModel match = MatchModel(
+      uid: uid,
+      time: DateTime.now(),
+      vertifynumber: inthoneycode,
+    );
+    return match;
+  }
+
   void matchProcess() async {
     print("matchProcess");
     User? auser = _ref.watch(authProvider).currentUser;
@@ -65,28 +108,50 @@ class MatchController extends StateNotifier<bool> {
     await _matchRepository.matchStartProcess(uid, inthoneycode);
   }
 
-  Future<MatchModel> getMatchCode() {
+  Future<MatchModel> getOrCreateMatchCode() async {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    //일단 가져와 한시간 지난 애들 삭제랑 가져오기
+    int inthoneycode = Random().nextInt(900000) + 100000;
+    MatchModel? currentCode =
+        await _matchRepository.getMatchCodeFuture(uid, inthoneycode);
+    if (currentCode == null) {
+      currentCode = MatchModel(
+          uid: uid, time: DateTime.now(), vertifynumber: inthoneycode);
+      _matchRepository.matchStartProcess(uid, inthoneycode);
+    }
+    return currentCode;
+  }
+
+  Stream<MatchModel> getMatchCode() {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     int inthoneycode = Random().nextInt(900000) + 100000;
+    // final MatchModel match =
+    //     MatchModel(uid: uid, time: DateTime.now(), vertifynumber: inthoneycode);
+    // _matchRepository.matchModelStartProcess(match);
     //이거 전부 컨트롤러로 만들어서 하나하나 다시 가져와서 만들어야겠네;;;;
     //있는지 없는지 판단 자기 uid 로 검사
-    getMatchCodeBool().then((value) {
-      if (value) {
-        //있으면 고거 그대로 보내줘
-        return getMatchCodeView();
-      }
-    });
-
-    return _matchRepository.matchModelStartProcess(uid, inthoneycode);
+    matchProcess();
+    print("new code");
+    return _matchRepository.getMatchCodeView(uid);
   }
 
-  Future<bool> getMatchCodeBool() {
+  Stream<MatchModel> createMatchCode() {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
-    return _matchRepository.getMatchCodeBool(uid);
+    int inthoneycode = Random().nextInt(900000) + 100000;
+    // final MatchModel match =
+    //     MatchModel(uid: uid, time: DateTime.now(), vertifynumber: inthoneycode);
+    // _matchRepository.matchModelStartProcess(match);
+    //이거 전부 컨트롤러로 만들어서 하나하나 다시 가져와서 만들어야겠네;;;;
+    //있는지 없는지 판단 자기 uid 로 검사
+
+    print("new code");
+    return _matchRepository.getMatchCodeView(uid);
   }
 
   Stream<MatchModel> getMatchCodeView() {
@@ -125,29 +190,22 @@ class MatchController extends StateNotifier<bool> {
     await _matchRepository.matchCoupleIdProcessDone(uid, coupleId, 123);
   }
 
-//안쓰네?
-  Stream<MatchModel> getNewMatchCodeView() {
+  MatchModel getCreateCode() {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     int inthoneycode = Random().nextInt(900000) + 100000;
+
     _matchRepository.matchStartProcess(uid, inthoneycode);
-    // String useruid = _ref.watch(userModelProvider)!.uid;
-    // print(useruid);
-    return _matchRepository.getMatchCodeView(uid);
-    //_ref.watch(userProvider)!.uid is null, why?
+    final MatchModel match = MatchModel(
+      uid: uid,
+      time: DateTime.now(),
+      vertifynumber: inthoneycode,
+    );
+    return match;
   }
 
-//안쓰네?
-  Future<DateTime> getMatchCodeTime() {
-    User? auser = _ref.watch(authProvider).currentUser;
-    String uid;
-    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
-    return _matchRepository.getMatchCodeTime(uid);
-  }
-
-//안쓰네?
-  Stream<String> getMatchedCoupleId(int honeycode) {
-    return _matchRepository.getMatchedCoupleId(honeycode);
+  int tick() {
+    return 3598;
   }
 }

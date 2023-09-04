@@ -22,6 +22,9 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
   late bool showNotification = true;
   late String assetAudio;
 
+  Time _time = Time(hour: 11, minute: 30, second: 20);
+  late Time _selectedTime;
+
   @override
   void initState() {
     super.initState();
@@ -50,17 +53,44 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
   }
 
   Future<void> pickTime() async {
-    final res = await showTimePicker(
-      initialTime: selectedTime,
+    _time = Time(hour: selectedTime.hour, minute: selectedTime.minute);
+    final res = await Navigator.of(context).push(showPicker(
+      showSecondSelector: false,
       context: context,
-    );
-    if (res != null) setState(() => selectedTime = res);
+      value: _time,
+      onChange: onTimeChanged,
+      minuteInterval: TimePickerInterval.ONE,
+      iosStylePicker: true,
+      minHour: 0,
+      maxHour: 23,
+      is24HrFormat: true,
+      width: 360,
+      // dialogInsetPadding:
+      //     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 24.0),
+      hourLabel: ':',
+      minuteLabel: ' ',
+      // Optional onChange to receive value as DateTime
+      onChangeDateTime: (DateTime dateTime) {
+        // print(dateTime);
+        debugPrint("[debug datetime]:  $dateTime");
+      },
+    ));
+    print(_time);
+
+    //     showTimePicker(
+    //   initialTime: selectedTime,
+    //   context: context,
+    // );
+    if (res != null) {
+      setState(() {
+        selectedTime = _time.toTimeOfDay();
+      });
+    }
   }
 
-  Time time = Time(hour: 11, minute: 30, second: 20);
   void onTimeChanged(Time newTime) {
     setState(() {
-      time = newTime;
+      _time = newTime;
     });
   }
 

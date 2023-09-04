@@ -6,6 +6,7 @@ import 'features/dailymessages/daily_letter3_screen.dart';
 import 'features/dailymessages/daily_letter4_screen.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/dailymessages/response_screen.dart';
+import 'features/match/match_up.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/match/match_screen.dart';
 import 'features/auth/auth_repository.dart';
@@ -116,6 +117,15 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                     backgroundColor:
                         MaterialStatePropertyAll(Colors.green[600])),
                 child: const Text('CoupleHistoryScreen'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  context.pushNamed(Home.routeName);
+                },
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll(Colors.green[600])),
+                child: const Text('Home'),
               ),
               ElevatedButton(
                 onPressed: () {

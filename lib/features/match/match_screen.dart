@@ -19,6 +19,7 @@ import '../auth/auth_controller.dart';
 import '../auth/auth_repository.dart';
 import '../auth/login_screen.dart';
 import '../profile/feedback_screen.dart';
+import 'drawer.dart';
 import 'match_controller.dart';
 
 class MatchScreen extends ConsumerStatefulWidget {
@@ -31,66 +32,39 @@ class MatchScreen extends ConsumerStatefulWidget {
 }
 
 class _MatchScreenState extends ConsumerState<MatchScreen> {
-  static const tenMinutes = 3600;
-  int totalSeconds = tenMinutes;
-  bool isRunning = false;
-  bool onceClickedMatch3 = false;
-
-  late Timer timer;
+  String toTick(DateTime time) {
+    int leftSec = 3600 -
+        ((DateTime.now().millisecondsSinceEpoch -
+                time.millisecondsSinceEpoch) ~/
+            1000);
+    Timer timer = Timer.periodic(const Duration(seconds: 1), onTick);
+    return format(leftSec);
+  }
 
   void onTick(Timer timer) {
+    int totalSeconds = 10;
     if (totalSeconds < 1) {
-      if (mounted) {
-        setState(() {
-          // totalSeconds = tenMinutes;
-          onPausePressed();
-        });
+      if (context.mounted) {
+        context.go(AlarmHome.routeURL);
       }
     } else {
       if (mounted) {
-        setState(() {});
+        setState(() {
+          // state 변경에 대한 코드.
+        });
       }
       totalSeconds = totalSeconds - 1;
-      ref.watch(leftSecondsMatch.notifier).state = totalSeconds;
     }
-  }
-
-  void onStartPressed() {
-    timer = Timer.periodic(
-      const Duration(seconds: 1),
-      onTick,
-    );
-    setState(() {
-      isRunning = true;
-    });
-  }
-
-  void onPausePressed() {
-    timer.cancel();
-    setState(() {
-      isRunning = false;
-    });
   }
 
   String format(int seconds) {
-    if (ref.watch(leftSecondsMatch) <= seconds) {
-      seconds = ref.watch(leftSecondsMatch);
-    }
-
     var duration = Duration(seconds: seconds);
     // print("duration $duration");
     return duration.toString().split(".").first.substring(2, 7);
   }
 
   @override
-  void initState() {
-    super.initState();
-    onStartPressed();
-  }
-
-  @override
   void dispose() {
-    totalSeconds = 0;
     _honeyCodeController.dispose();
     super.dispose();
   }
@@ -118,13 +92,10 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
       AppLocalizations.of(context)!.howareyou,
       AppLocalizations.of(context)!.imissyou,
     ];
-    final leftTime = ref.watch(leftSecondsMatch);
-    final onceClickedMatch2 = ref.watch(onceClickedMatch);
 
     final hasCoupleId = ref.watch(getUserProfileStreamProvider);
     final userProfileStream = ref.watch(getUserProfileStreamProvider);
     final userCoupleProfileStream = ref.watch(getCoupleProfileStreamProvider);
-    late String wow;
 
     return hasCoupleId.when(
       data: (data) => data.couples.isNotEmpty
@@ -321,6 +292,8 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
               endDrawer: ProfileDrawer(ref: ref),
             )
           : Scaffold(
+              //singlechildscrollview 위젯이 이동한다
+              resizeToAvoidBottomInset: false,
               appBar: AppBar(
                 backgroundColor: Colors.grey[900],
                 elevation: 0,
@@ -341,147 +314,54 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                       height: 30,
                     ),
                     const Text(
-                      "서로의 초대코드를 입력하면 연결돼요..",
+                      "서로의 초대코드를 입력하면 연결돼요.",
                       style: TextStyle(color: Colors.white),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      "내 초대코드 (남은시간) ${format(totalSeconds)} ",
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    // TextFormField(
-                    //   enabled: false,
-                    //   initialValue: ref.watch(getMatchCodeViewProvider).when(
-                    //         data: (data) {
-                    //           if (data.uid.isNotEmpty) {
-                    //             wow = data.vertifynumber.toString();
-                    //           } else {
-                    //             ref
-                    //                 .watch(matchConrollerProvider.notifier)
-                    //                 .matchProcess();
-                    //           }
-                    //           return null;
-                    //         },
-                    //         error: (error, stackTrace) {
-                    //           ref
-                    //               .watch(matchConrollerProvider.notifier)
-                    //               .matchProcess();
-                    //           return;
-                    //         },
-                    //         loading: () => "Loading",
-                    //       ),
-                    //   style: const TextStyle(fontSize: 40, color: Colors.white),
-                    //   maxLength: 6,
-                    //   // textInputAction: wow,반드시 설ㅓ할 것 enter누르면 편하니
-                    //   inputFormatters: <TextInputFormatter>[
-                    //     FilteringTextInputFormatter.digitsOnly,
-                    //   ],
+                    ref.watch(getMatchCodeFutureProvider).when(
+                          data: (data) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "내 초대코드 (남은시간) ${toTick(data.time)}",
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                TextFormField(
+                                  enabled: false,
 
-                    //   decoration: InputDecoration(
-                    //     filled: true,
-                    //     fillColor: Colors.grey[900],
-                    //     labelStyle: const TextStyle(color: Colors.white),
-                    //     hintStyle:
-                    //         const TextStyle(fontSize: 30, color: Colors.white),
-                    //     focusColor: Colors.red,
-                    //     border: InputBorder.none,
-                    //   ),
-                    // ),
-                    // TextFormField(
-                    //   enabled: false,
-                    //   initialValue: ref.watch(getMatchCodeProvider).when(
-                    //         data: (data) {
-                    //           return data.vertifynumber.toString();
-                    //         },
-                    //         error: (error, stackTrace) {
-                    //           ref
-                    //               .watch(matchConrollerProvider.notifier)
-                    //               .matchProcess();
-                    //           return;
-                    //         },
-                    //         loading: () => "Loading",
-                    //       ),
-                    //   style: const TextStyle(fontSize: 40, color: Colors.white),
-                    //   maxLength: 6,
-                    //   // textInputAction: wow,반드시 설ㅓ할 것 enter누르면 편하니
-                    //   inputFormatters: <TextInputFormatter>[
-                    //     FilteringTextInputFormatter.digitsOnly,
-                    //   ],
+                                  initialValue: data.vertifynumber.toString(),
 
-                    //   decoration: InputDecoration(
-                    //     filled: true,
-                    //     fillColor: Colors.grey[900],
-                    //     labelStyle: const TextStyle(color: Colors.white),
-                    //     hintStyle:
-                    //         const TextStyle(fontSize: 30, color: Colors.white),
-                    //     focusColor: Colors.red,
-                    //     border: InputBorder.none,
-                    //   ),
-                    // ),
-                    // ref.watch(getMatchCodeProvider).when(
-                    //       data: (data) => TextFormField(
-                    //         enabled: false,
-                    //         initialValue: data.vertifynumber.toString(),
+                                  style: const TextStyle(
+                                      fontSize: 40, color: Colors.white),
+                                  maxLength: 6,
+                                  // textInputAction: wow,반드시 설ㅓ할 것 enter누르면 편하니
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.digitsOnly,
+                                  ],
 
-                    //         style: const TextStyle(
-                    //             fontSize: 40, color: Colors.white),
-                    //         maxLength: 6,
-                    //         // textInputAction: wow,반드시 설ㅓ할 것 enter누르면 편하니
-                    //         inputFormatters: <TextInputFormatter>[
-                    //           FilteringTextInputFormatter.digitsOnly,
-                    //         ],
-
-                    //         decoration: InputDecoration(
-                    //           filled: true,
-                    //           fillColor: Colors.grey[900],
-                    //           labelStyle: const TextStyle(color: Colors.white),
-                    //           hintStyle: const TextStyle(
-                    //               fontSize: 30, color: Colors.white),
-                    //           focusColor: Colors.red,
-                    //           border: InputBorder.none,
-                    //         ),
-                    //       ),
-                    //       error: (error, stackTrace) {
-                    //         ref
-                    //             .watch(matchConrollerProvider.notifier)
-                    //             .matchProcess();
-                    //         return const Center(
-                    //             child: Text(
-                    //           'error',
-                    //           style: TextStyle(color: Colors.white),
-                    //         ));
-                    //       },
-                    //       loading: () => const Loader(),
-                    //     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Colors.grey[800]),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              isRunning ? null : onStartPressed();
-                              print("onceClicked $onceClickedMatch2");
-                              ref
-                                  .watch(matchConrollerProvider.notifier)
-                                  .matchProcess();
-                              totalSeconds = tenMinutes;
-                              ref.watch(onceClickedMatch.notifier).state = true;
-                            });
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Colors.grey[900],
+                                    labelStyle:
+                                        const TextStyle(color: Colors.white),
+                                    hintStyle: const TextStyle(
+                                        fontSize: 30, color: Colors.white),
+                                    focusColor: Colors.red,
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ],
+                            );
                           },
-                          child: const Icon(Icons.refresh),
-                          // child: Text(AppLocalizations.of(context)!.generateauthcode),
+                          error: (error, stackTrace) => const Text("error"),
+                          loading: () => const Loader(),
                         ),
-                      ],
-                    ),
                     const SizedBox(
                       height: 30,
                     ),
@@ -550,6 +430,10 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                               backgroundColor:
                                   MaterialStatePropertyAll(Color(0xFFD72499))),
                           onPressed: () {
+                            // to delete
+                            // ref
+                            //     .watch(matchConrollerProvider.notifier)
+                            //     .matchProcess();
                             if (_honeyCodeController.text.isNotEmpty) {
                               final int honeyCode =
                                   int.parse(_honeyCodeController.text);
@@ -592,313 +476,6 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
         return const Center(child: Text('error'));
       },
       loading: () => const Loader(),
-    );
-  }
-}
-
-class ProfileDrawer extends StatelessWidget {
-  const ProfileDrawer({
-    super.key,
-    required this.ref,
-  });
-
-  final WidgetRef ref;
-
-  @override
-  Widget build(BuildContext context) {
-    final userprofile = ref.watch(getMyUserDataProvider);
-    return Drawer(
-      backgroundColor: Colors.grey[800],
-      child: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 50),
-        children: <Widget>[
-          IconButton(
-            onPressed: () {},
-            icon: Image.asset(
-              'assets/alarmbearno.png',
-            ),
-            iconSize: 50,
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Text(
-            userprofile.when(
-              data: (data) => data.displayName,
-              error: (error, stackTrace) {
-                // print("error$error ");
-                return "Try again";
-              },
-              loading: () => "Loading",
-            ),
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          const Divider(
-            height: 2,
-          ),
-          ListTile(
-            onTap: () {
-              context.pushNamed(AlarmHome.routeName);
-            },
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            leading: const Icon(
-              Icons.alarm,
-              color: Colors.white,
-            ),
-            title: Text(
-              AppLocalizations.of(context)!.alarms,
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
-          // ListTile(
-          //   onTap: () {
-          //     context.pushNamed(MatchUpScreen.routeName);
-          //   },
-          //   contentPadding:
-          //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-          //   leading: const Icon(
-          //     Icons.alarm,
-          //     color: Colors.white,
-          //   ),
-          //   title: const Text(
-          //     "Match Up",
-          //     style: TextStyle(color: Colors.white),
-          //   ),
-          // ),
-          ListTile(
-            onTap: () {
-              context.pushNamed(FeedbackScreen.routeName);
-            },
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            leading: const Icon(
-              Icons.feedback_outlined,
-              color: Colors.white,
-            ),
-            title: Text(
-              AppLocalizations.of(context)!.feedback,
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
-          // ListTile(
-          //   onTap: () {
-          //     context.pushNamed(ResponseScreen.routeName);
-          //   },
-          //   contentPadding:
-          //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-          //   leading: const Icon(
-          //     Icons.feedback_outlined,
-          //     color: Colors.white,
-          //   ),
-          //   title: const Text(
-          //     "ResponseScreen",
-          //     style: TextStyle(color: Colors.white),
-          //   ),
-          // ),
-          // ListTile(
-          //   onTap: () {
-          //     context.pushNamed(PracticeHome.routeName);
-          //   },
-          //   contentPadding:
-          //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-          //   leading: const Icon(
-          //     Icons.feedback_outlined,
-          //     color: Colors.white,
-          //   ),
-          //   title: const Text(
-          //     "PracticeHome",
-          //     style: TextStyle(color: Colors.white),
-          //   ),
-          // ),
-          // ListTile(
-          //   onTap: () {},
-          //   selected: true,
-          //   selectedColor: Theme.of(context).primaryColor,
-          //   contentPadding:
-          //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-          //   leading: const Icon(Icons.group),
-          //   title: Text(
-          //     userprofile.email.toString(),
-          //     style: const TextStyle(color: Colors.white),
-          //   ),
-          // ),
-          // ListTile(
-          //   onTap: () {},
-          //   selected: true,
-          //   selectedColor: Theme.of(context).primaryColor,
-          //   contentPadding:
-          //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-          //   leading: const Icon(Icons.group),
-          //   title: Text(
-          //     userprofile.uid.toString(),
-          //     style: const TextStyle(color: Colors.black),
-          //   ),
-          // ),
-          Platform.isIOS
-              ? ListTile(
-                  onTap: () {
-                    showCupertinoDialog(
-                      context: context,
-                      builder: (context) => CupertinoAlertDialog(
-                        title: Text(AppLocalizations.of(context)!.sure),
-                        content: Text(AppLocalizations.of(context)!.logout),
-                        actions: [
-                          CupertinoDialogAction(
-                            onPressed: () => Navigator.of(context).pop(),
-                            child: Text(AppLocalizations.of(context)!.no),
-                          ),
-                          CupertinoDialogAction(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              context.goNamed(LoginHome.routeName);
-                              ref.watch(authRepositoryProvider).logout();
-                            },
-                            isDestructiveAction: true,
-                            child: Text(AppLocalizations.of(context)!.yes),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  leading: const Icon(Icons.exit_to_app),
-                  title: Text(
-                    AppLocalizations.of(context)!.logout,
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                )
-              : ListTile(
-                  onTap: () async {
-                    showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text(AppLocalizations.of(context)!.logout),
-                            content: Text(AppLocalizations.of(context)!.sure),
-                            actions: [
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                icon: const Icon(
-                                  Icons.cancel,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  context.goNamed(LoginHome.routeName);
-                                  ref.watch(authRepositoryProvider).logout();
-                                  Navigator.of(context).pop();
-                                },
-                                icon: const Icon(
-                                  Icons.done,
-                                  color: Colors.green,
-                                ),
-                              ),
-                            ],
-                          );
-                        });
-                  },
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  leading: const Icon(Icons.exit_to_app),
-                  title: Text(
-                    AppLocalizations.of(context)!.logout,
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                ),
-          const SizedBox(
-            height: 50,
-          ),
-          Platform.isIOS
-              ? ListTile(
-                  onTap: () {
-                    showCupertinoDialog(
-                      context: context,
-                      builder: (context) => CupertinoAlertDialog(
-                        title: Text(AppLocalizations.of(context)!.delete),
-                        content: Text(AppLocalizations.of(context)!.deletesure),
-                        actions: [
-                          CupertinoDialogAction(
-                            onPressed: () => Navigator.of(context).pop(),
-                            child: Text(AppLocalizations.of(context)!.no),
-                          ),
-                          CupertinoDialogAction(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              context.goNamed(LoginHome.routeName);
-                              ref.watch(authRepositoryProvider).deleteUser();
-                            },
-                            isDestructiveAction: true,
-                            child: Text(AppLocalizations.of(context)!.yes),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  leading: const Icon(Icons.exit_to_app),
-                  title: Text(
-                    AppLocalizations.of(context)!.delete,
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                )
-              : ListTile(
-                  onTap: () async {
-                    showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text(AppLocalizations.of(context)!.delete),
-                            content:
-                                Text(AppLocalizations.of(context)!.deletesure),
-                            actions: [
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                icon: const Icon(
-                                  Icons.cancel,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  context.goNamed(LoginHome.routeName);
-                                  ref
-                                      .watch(authRepositoryProvider)
-                                      .deleteUser();
-                                  Navigator.of(context).pop();
-                                },
-                                icon: const Icon(
-                                  Icons.done,
-                                  color: Colors.green,
-                                ),
-                              ),
-                            ],
-                          );
-                        });
-                  },
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  leading: const Icon(Icons.exit_to_app),
-                  title: Text(
-                    AppLocalizations.of(context)!.delete,
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                ),
-        ],
-      ),
     );
   }
 }
