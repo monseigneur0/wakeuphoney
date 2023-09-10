@@ -434,11 +434,15 @@ class AuthRepository {
     await _googleSignIn.signOut();
   }
 
-  void deleteUser() async {
+  void deleteUser() {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
         user.delete();
       }
     });
+  }
+
+  void brokeup(String uid) {
+    _users.doc(uid).update({"couple": "", "couples": []});
   }
 }

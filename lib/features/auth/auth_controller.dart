@@ -106,4 +106,11 @@ class AuthController extends AsyncNotifier<void> {
     _authRepository.logout();
     context.go(LoginHome.routeURL);
   }
+
+  void brokeup() {
+    User? auser = ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    _authRepository.brokeup(uid);
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,10 +16,6 @@ final dailyControllerProvider =
           ref: ref,
         ));
 
-final getDailyMessageProvider = StreamProvider.family((ref, String date) {
-  final dailyController = ref.watch(dailyControllerProvider.notifier);
-  return dailyController.getDailyMessage(date);
-});
 final getDailyCoupleMessageProvider = StreamProvider.family((ref, String date) {
   final dailyController = ref.watch(dailyControllerProvider.notifier);
   return dailyController.getDailyCoupleMessage(date);
@@ -37,6 +34,10 @@ final getDailyCoupleMessageHistoryListProvider = StreamProvider((ref) {
   final dailyController = ref.watch(dailyControllerProvider.notifier);
   return dailyController.getDailyCoupleMessageHistoryList();
 });
+final createAllMessageListProvider = StreamProvider((ref) {
+  final dailyController = ref.watch(dailyControllerProvider.notifier);
+  return dailyController.createAllMessageList();
+});
 
 class DailyController extends StateNotifier<bool> {
   final DailyRepository _dailyRepository;
@@ -48,12 +49,12 @@ class DailyController extends StateNotifier<bool> {
         _ref = ref,
         super(false); //loading
 
-  Stream<DailyMessageModel> getDailyMessage(String date) {
-    User? auser = _ref.watch(authProvider).currentUser;
-    String uid;
-    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
-    return _dailyRepository.getDailyMessage(uid, date, "messages");
-  }
+  // Stream<DailyMessageModel> getDailyMessage(String date) {
+  //   User? auser = _ref.watch(authProvider).currentUser;
+  //   String uid;
+  //   auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+  //   return _dailyRepository.getDailyMessage(uid, date, "messages");
+  // }
 
   Stream<DailyMessageModel> getDailyCoupleMessage(String date) {
     User? auser = _ref.watch(authProvider).currentUser;
@@ -97,34 +98,33 @@ class DailyController extends StateNotifier<bool> {
     return _dailyRepository.getDailyMessageHistoryList(uid);
   }
 
-  void createDailyMessage(messagef) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    User? auser = _ref.watch(authProvider).currentUser;
-    String uid;
-    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+  // void createDailyMessage(messagef) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   User? auser = _ref.watch(authProvider).currentUser;
+  //   String uid;
+  //   auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
 
-    final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
-    String coupleUid;
-    coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple
-        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+  //   final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
+  //   String coupleUid;
+  //   coupleUidValue != null
+  //       ? coupleUid = coupleUidValue.couple
+  //       : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
-    DailyMessageModel messagehere = DailyMessageModel(
-        message: messagef,
-        messagedate: _ref.watch(selectedDate),
-        messagedatetime: _ref.watch(selectedDateTime),
-        time: DateTime.now(),
-        sender: uid,
-        reciver: coupleUid,
-        photo: "",
-        audio: "",
-        video: "");
+  //   DailyMessageModel messagehere = DailyMessageModel(
+  //       message: messagef,
+  //       messagedate: _ref.watch(selectedDate),
+  //       messagedatetime: _ref.watch(selectedDateTime),
+  //       time: DateTime.now(),
+  //       sender: uid,
+  //       reciver: coupleUid,
+  //       photo: "",
+  //       audio: "",
+  //       video: "");
 
-    await _dailyRepository.createDailyMessage(messagehere, uid);
-  }
+  //   await _dailyRepository.createDailyMessage(messagehere, uid);
+  // }
 
   void createDailyMessageImage(messagef, imageUrl) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
@@ -166,7 +166,6 @@ class DailyController extends StateNotifier<bool> {
   }
 
   void createResponseMessage(message, imageUrl) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
@@ -189,5 +188,81 @@ class DailyController extends StateNotifier<bool> {
         audio: "",
         video: "");
     await _dailyRepository.createResponseMessage(messagehere, uid, coupleUid);
+  }
+
+  Stream<List<DailyMessageModel>> createAllMessageList() {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    final allList = _dailyRepository.getDailyMessageList(uid);
+    final historyList = _dailyRepository.getHistoryMessageList(uid);
+    Stream<List<DailyMessageModel>> wow = allList;
+    final historyFiltered = allList.where((event) =>
+        event.single.messagedatetime.compareTo(DateTime.now()) == -1);
+
+    final List<DateTime> listDateTime =
+        _ref.watch(dateTimeNotTodayStateProvider);
+
+    final wow1 = List<DateTime>.generate(
+      100,
+      (index) => DateTime.now()
+          .add(Duration(
+              seconds: 24 * 60 * 60 -
+                  DateTime.now().hour * 3600 -
+                  DateTime.now().minute * 60 -
+                  DateTime.now().second))
+          .add(Duration(days: index)),
+    );
+    // List<DailyMessageModel> pureList = _dailyRepository.getDailyMessageList(uid);
+    // final hellow = List<DailyMessageModel>.generate(100, (index) => );
+
+    // final wowowowow = List<DailyMessageModel>.generate(100, (index) {
+    //   final wwww = allList.where((event) {
+    //     return event.single.messagedate ==
+    //         DateFormat.yMMMd().format(listDateTime[index]);
+    //   });
+    //  return  wwww.first.then((value) => value.isNotEmpty ? value.first. : DailyMessageModel(
+    //     message: "메세지를 적어주세요",
+    //     messagedate: "messagedate",
+    //     messagedatetime: DateTime.now(),
+    //     time: DateTime.now(),
+    //     sender: "",
+    //     reciver: "",
+    //     photo: "",
+    //     audio: "",
+    //     video: "",
+    //   ); );
+    //   return DailyMessageModel(
+    //     message: "메세지를 적어주세요",
+    //     messagedate: "messagedate",
+    //     messagedatetime: DateTime.now(),
+    //     time: DateTime.now(),
+    //     sender: "",
+    //     reciver: "",
+    //     photo: "",
+    //     audio: "",
+    //     video: "",
+    //   );
+    // });
+    // print(wowowowow);
+    // var messageNow = allList.singleWhere(
+    //   (element) =>
+    //       element.messagedate == DateFormat.yMMMd().format(listDateTime[index]),
+    //   orElse: () =>
+    // DailyMessageModel(
+    //     message: "메세지를 적어주세요",
+    //     messagedate: "messagedate",
+    //     messagedatetime: DateTime.now(),
+    //     time: DateTime.now(),
+    //     sender: "",
+    //     reciver: "",
+    //     photo: "",
+    //     audio: "",
+    //     video: "",
+    //   ),
+    // );
+    // print(wow);
+    // print(wow1);
+    return allList;
   }
 }

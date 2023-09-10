@@ -245,6 +245,85 @@ class ProfileDrawer extends StatelessWidget {
                     style: const TextStyle(color: Colors.black),
                   ),
                 ),
+          Platform.isIOS
+              ? ListTile(
+                  onTap: () {
+                    showCupertinoDialog(
+                      context: context,
+                      builder: (context) => CupertinoAlertDialog(
+                        title: const Text("상대와 연결 끊기"),
+                        content: Text(AppLocalizations.of(context)!.deletesure),
+                        actions: [
+                          CupertinoDialogAction(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: Text(AppLocalizations.of(context)!.no),
+                          ),
+                          CupertinoDialogAction(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              ref
+                                  .watch(authControllerProvider.notifier)
+                                  .brokeup();
+                            },
+                            isDestructiveAction: true,
+                            child: Text(AppLocalizations.of(context)!.yes),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  leading: const Icon(Icons.exit_to_app),
+                  title: const Text(
+                    "상대와 연결 끊기",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                )
+              : ListTile(
+                  onTap: () async {
+                    showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text("상대와 연결 끊기"),
+                            content:
+                                Text(AppLocalizations.of(context)!.deletesure),
+                            actions: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: const Icon(
+                                  Icons.cancel,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  ref
+                                      .watch(authControllerProvider.notifier)
+                                      .brokeup();
+                                  Navigator.of(context).pop();
+                                },
+                                icon: const Icon(
+                                  Icons.done,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ],
+                          );
+                        });
+                  },
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  leading: const Icon(Icons.exit_to_app),
+                  title: Text(
+                    AppLocalizations.of(context)!.delete,
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                ),
         ],
       ),
     );

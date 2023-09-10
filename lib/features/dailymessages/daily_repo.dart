@@ -56,6 +56,17 @@ class DailyRepository {
               ..sort((a, b) => a.messagedatetime.compareTo(b.messagedatetime)));
   }
 
+  Stream<List<DailyMessageModel>> getHistoryMessageList(String uid) {
+    return _usersCollection
+        .doc(uid)
+        .collection("messages")
+        .where("messagedatetime", isLessThan: DateTime.now())
+        .snapshots()
+        .map((event) =>
+            event.docs.map((e) => DailyMessageModel.fromMap(e.data())).toList()
+              ..sort((a, b) => a.messagedatetime.compareTo(b.messagedatetime)));
+  }
+
   Stream<List<DailyMessageModel>> getDailyMessageHistoryList(String uid) {
     return _usersCollection.doc(uid).collection("messages").snapshots().map(
           (event) => event.docs

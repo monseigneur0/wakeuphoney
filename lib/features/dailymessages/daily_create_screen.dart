@@ -154,7 +154,7 @@ class _DailyLetterCreateScreenState
                   child: const Text('Save'),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      showSnackBar(context, "Loading");
+                      showSnackBar(context, "Saving");
                       final String message = _messgaeController.text;
 
                       String uniqueFileName =
@@ -182,6 +182,7 @@ class _DailyLetterCreateScreenState
                           .watch(dailyControllerProvider.notifier)
                           .createDailyMessageImage(message, imageUrl);
                       Navigator.of(context).pop();
+                      showSnackBar(context, "Saved");
                     }
 
                     _messgaeController.clear();
