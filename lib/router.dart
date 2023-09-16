@@ -21,7 +21,7 @@ import 'practice_home_screen.dart';
 final routerProvider = Provider((ref) {
   final alarmSettings = ref.watch(alarmSettingsProvider);
   return GoRouter(
-    initialLocation: "/alarm",
+    initialLocation: "/dailyletter5",
     redirect: (context, state) {
       final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
       print("isLoggedIn $isLoggedIn");
@@ -96,15 +96,15 @@ final routerProvider = Provider((ref) {
                       size: 25,
                     ),
                   ),
-                  // IconButton(
-                  //   onPressed: () =>
-                  //       context.goNamed(DailyLetter5Screen.routeName),
-                  //   icon: const Icon(
-                  //     Icons.golf_course,
-                  //     color: Colors.white,
-                  //     size: 25,
-                  //   ),
-                  // ),
+                  IconButton(
+                    onPressed: () =>
+                        context.goNamed(DailyLetter5Screen.routeName),
+                    icon: const Icon(
+                      Icons.golf_course,
+                      color: Colors.white,
+                      size: 25,
+                    ),
+                  ),
                   IconButton(
                     onPressed: () =>
                         context.goNamed(DailyLetter3Screen.routeName),
