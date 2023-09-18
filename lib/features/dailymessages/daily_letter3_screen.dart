@@ -176,7 +176,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                 Container(
                   decoration: const BoxDecoration(color: Colors.black),
                   child: SizedBox(
-                    height: MediaQuery.of(context).size.height - 220,
+                    height: MediaQuery.of(context).size.height - 250,
                     child: ListView.builder(
                       itemCount: 100,
                       scrollDirection: Axis.vertical,

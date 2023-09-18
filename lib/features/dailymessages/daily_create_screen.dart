@@ -154,7 +154,7 @@ class _DailyLetterCreateScreenState
                   child: const Text('Save'),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      showSnackBar(context, "Saving");
+                      showSnackBar(context, "Please wait, saving...");
                       final String message = _messgaeController.text;
 
                       String uniqueFileName =

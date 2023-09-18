@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/providers/firebase_providers.dart';
+import 'history_screen.dart';
 
 class DailyLetter4Screen extends ConsumerStatefulWidget {
   static String routeName = "dailyletter4";
@@ -28,8 +30,6 @@ class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
   final String iOSId3 = 'ca-app-pub-5897230132206634/6527311215';
   final String androidId3 = 'ca-app-pub-5897230132206634/8880397412';
   BannerAd? _bannerAd;
-
-  List allMessages = [];
 
   @override
   void initState() {
@@ -75,13 +75,13 @@ class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.answers),
         backgroundColor: Colors.black87,
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {
-        //         context.pushNamed(DailyLetter3Screen.routeName);
-        //       },
-        //       icon: const Icon(Icons.connecting_airports_outlined))
-        // ],
+        actions: [
+          IconButton(
+              onPressed: () {
+                context.goNamed(HistoryMessageScreen.routeName);
+              },
+              icon: const Icon(Icons.connecting_airports_outlined))
+        ],
       ),
       backgroundColor: Colors.black,
       body: Column(
@@ -93,34 +93,93 @@ class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
           ),
           listHistoryMessage.when(
             data: (value) {
-              return SizedBox(
-                height: MediaQuery.of(context).size.height - 220,
-                child: ScrollablePositionedList.builder(
-                  initialScrollIndex: value.length,
-                  itemCount: value.length,
-                  itemBuilder: (context, index) {
-                    return value[index].sender == uid
-                        ? Column(
-                            children: [
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width - 40,
-                                child: value[index].photo.isNotEmpty
-                                    ? CachedNetworkImage(
-                                        imageUrl: value[index].photo,
-                                        placeholder: (context, url) =>
-                                            Container(
-                                          height: 70,
+              return Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height - 250,
+                    child: ScrollablePositionedList.builder(
+                      initialScrollIndex: value.length,
+                      itemCount: value.length,
+                      itemBuilder: (context, index) {
+                        return value[index].sender == uid
+                            ? Column(
+                                children: [
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width - 40,
+                                    child: value[index].photo.isNotEmpty
+                                        ? CachedNetworkImage(
+                                            imageUrl: value[index].photo,
+                                            placeholder: (context, url) =>
+                                                Container(
+                                              height: 70,
+                                            ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.error),
+                                          )
+                                        : Container(),
+                                  ),
+                                  ListTile(
+                                    title: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        value[index].message.length > 20
+                                            ? SizedBox(
+                                                width: 200,
+                                                child: Text(
+                                                  value[index].message,
+                                                  style: const TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              )
+                                            : SizedBox(
+                                                child: Text(
+                                                  value[index].message,
+                                                  style: const TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                      ],
+                                    ),
+                                    subtitle: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          DateFormat.MMMd().format(
+                                              value[index].messagedatetime),
+                                          style: TextStyle(
+                                              color: Colors.grey[500]),
                                         ),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(Icons.error),
-                                      )
-                                    : Container(),
-                              ),
-                              ListTile(
-                                title: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    value[index].message.length > 20
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Column(
+                                children: [
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width - 40,
+                                    child: value[index].photo.isNotEmpty
+                                        ? CachedNetworkImage(
+                                            imageUrl: value[index].photo,
+                                            placeholder: (context, url) =>
+                                                Container(
+                                              height: 70,
+                                            ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.error),
+                                          )
+                                        : Container(),
+                                  ),
+                                  ListTile(
+                                    title: value[index].message.length > 20
                                         ? SizedBox(
                                             width: 200,
                                             child: Text(
@@ -140,69 +199,33 @@ class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
                                               ),
                                             ),
                                           ),
-                                  ],
-                                ),
-                                subtitle: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
+                                    subtitle: Text(
                                       DateFormat.MMMd()
                                           .format(value[index].messagedatetime),
-                                      style: TextStyle(color: Colors.grey[500]),
+                                      style: const TextStyle(
+                                          color: Color(0xFFD72499)),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          )
-                        : Column(
-                            children: [
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width - 40,
-                                child: value[index].photo.isNotEmpty
-                                    ? CachedNetworkImage(
-                                        imageUrl: value[index].photo,
-                                        placeholder: (context, url) =>
-                                            Container(
-                                          height: 70,
-                                        ),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(Icons.error),
-                                      )
-                                    : Container(),
-                              ),
-                              ListTile(
-                                title: value[index].message.length > 20
-                                    ? SizedBox(
-                                        width: 200,
-                                        child: Text(
-                                          value[index].message,
-                                          style: const TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      )
-                                    : SizedBox(
-                                        child: Text(
-                                          value[index].message,
-                                          style: const TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                subtitle: Text(
-                                  DateFormat.MMMd()
-                                      .format(value[index].messagedatetime),
-                                  style:
-                                      const TextStyle(color: Color(0xFFD72499)),
-                                ),
-                              ),
-                            ],
-                          );
-                  },
-                ),
+                                  ),
+                                ],
+                              );
+                      },
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (_bannerAd != null)
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            width: _bannerAd!.size.width.toDouble(),
+                            height: _bannerAd!.size.height.toDouble(),
+                            child: AdWidget(ad: _bannerAd!),
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
               );
             },
             error: (error, stackTrace) {
@@ -226,24 +249,24 @@ class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
           // ),
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (_bannerAd != null)
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: _bannerAd!.size.width.toDouble(),
-                  height: _bannerAd!.size.height.toDouble(),
-                  child: AdWidget(ad: _bannerAd!),
-                ),
-              ),
-          ],
-        ),
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: Padding(
+      //   padding: const EdgeInsets.symmetric(),
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: [
+      //       if (_bannerAd != null)
+      //         Align(
+      //           alignment: Alignment.bottomCenter,
+      //           child: SizedBox(
+      //             width: _bannerAd!.size.width.toDouble(),
+      //             height: _bannerAd!.size.height.toDouble(),
+      //             child: AdWidget(ad: _bannerAd!),
+      //           ),
+      //         ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }

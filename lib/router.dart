@@ -10,6 +10,7 @@ import 'features/dailymessages/daily_letter3_screen.dart';
 import 'features/dailymessages/daily_letter4_screen.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/dailymessages/daily_letter5_screen.dart';
+import 'features/dailymessages/history_screen.dart';
 import 'features/match/match_up.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/profile/feedback_screen.dart';
@@ -21,7 +22,7 @@ import 'practice_home_screen.dart';
 final routerProvider = Provider((ref) {
   final alarmSettings = ref.watch(alarmSettingsProvider);
   return GoRouter(
-    initialLocation: "/dailyletter5",
+    initialLocation: "/historyMessage",
     redirect: (context, state) {
       final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
       print("isLoggedIn $isLoggedIn");
@@ -96,15 +97,15 @@ final routerProvider = Provider((ref) {
                       size: 25,
                     ),
                   ),
-                  IconButton(
-                    onPressed: () =>
-                        context.goNamed(DailyLetter5Screen.routeName),
-                    icon: const Icon(
-                      Icons.golf_course,
-                      color: Colors.white,
-                      size: 25,
-                    ),
-                  ),
+                  // IconButton(
+                  //   onPressed: () =>
+                  //       context.goNamed(DailyLetter5Screen.routeName),
+                  //   icon: const Icon(
+                  //     Icons.golf_course,
+                  //     color: Colors.white,
+                  //     size: 25,
+                  //   ),
+                  // ),
                   IconButton(
                     onPressed: () =>
                         context.goNamed(DailyLetter3Screen.routeName),
@@ -173,6 +174,11 @@ final routerProvider = Provider((ref) {
             name: DailyLetter5Screen.routeName,
             path: DailyLetter5Screen.routeURL,
             builder: (context, state) => const DailyLetter5Screen(),
+          ),
+          GoRoute(
+            name: HistoryMessageScreen.routeName,
+            path: HistoryMessageScreen.routeURL,
+            builder: (context, state) => const HistoryMessageScreen(),
           ),
           GoRoute(
             name: DailyLetterCreateScreen.routeName,
