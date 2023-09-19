@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/core/constants/firebase_constants.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
+import 'package:wakeuphoney/features/auth/user_model.dart';
 
 import 'match_model.dart';
 
@@ -25,6 +26,19 @@ class MatchRepository {
       "vertifynumber": vertifyNumber,
       "time": DateTime.now(),
     });
+  }
+
+  Future<UserModel?> getUser(String uid) async {
+    try {
+      await _users.doc(uid).get().then((event) {
+        if (event.exists) {
+          return UserModel.fromMap(event.data() as Map<String, dynamic>);
+        }
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+    return null;
   }
 
   Stream<MatchModel> checkMatchProcess(int honeyCode) {
@@ -63,25 +77,31 @@ class MatchRepository {
   }
 
   Future matchCoupleIdProcessDone(
-      String uid, String coupleId, int vertifyNumber) async {
+    String uid,
+    String name,
+    String photoURL,
+    String coupleId,
+    String coupleName,
+    String couplePhotoURL,
+  ) async {
     //나한테 상대 아이디 등록
     await _users.doc(uid).update({
       "couples": [
-        ...{coupleId}
-      ]
-    });
-    await _users.doc(uid).update({
+        ...{coupleId},
+      ],
       "couple": coupleId,
+      "coupleDisplayName": coupleName,
+      "couplePhotoURL": couplePhotoURL,
     });
 
     //상대에 내 아이디 등록
     await _users.doc(coupleId).update({
       "couples": [
         ...{uid}
-      ]
-    });
-    await _users.doc(coupleId).update({
+      ],
       "couple": uid,
+      "coupleDisplayName": name,
+      "couplePhotoURL": photoURL,
     });
 
     //삭제

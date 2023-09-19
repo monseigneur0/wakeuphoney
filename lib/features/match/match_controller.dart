@@ -67,12 +67,21 @@ class MatchController extends StateNotifier<bool> {
     if (uid == coupleId) {
       return null;
     }
+    final couple = _matchRepository.getUser(coupleId);
     // await _matchRepository.matchCoupleIdProcessDone(
     //     uid,
     //     _ref.watch(getMatchedCoupleIdProvider(honeycode)).toString(),
     //     honeycode);
     // String coupleId = _ref.watch(coupleIdProvider.notifier).toString();
     // String coupleId = _ref.watch(checkMatchProcessProvider(honeycode)).whenData((value) => value.uid);
-    await _matchRepository.matchCoupleIdProcessDone(uid, coupleId, 123);
+
+    couple.then((value) async =>
+        await _matchRepository.matchCoupleIdProcessDone(
+            uid,
+            auser!.displayName ?? "",
+            auser.photoURL ?? "",
+            coupleId,
+            value!.coupleDisplayName ?? "",
+            value.couplePhotoURL ?? ""));
   }
 }

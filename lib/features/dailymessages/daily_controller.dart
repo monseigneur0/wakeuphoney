@@ -82,7 +82,7 @@ class DailyController extends StateNotifier<bool> {
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
-    String coupleUid;
+    String coupleUid = "";
     coupleUidValue != null
         ? coupleUid = coupleUidValue.couple
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";

@@ -22,7 +22,7 @@ import 'practice_home_screen.dart';
 final routerProvider = Provider((ref) {
   final alarmSettings = ref.watch(alarmSettingsProvider);
   return GoRouter(
-    initialLocation: "/historyMessage",
+    initialLocation: "/alarm",
     redirect: (context, state) {
       final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
       print("isLoggedIn $isLoggedIn");
@@ -117,7 +117,7 @@ final routerProvider = Provider((ref) {
                   ),
                   IconButton(
                     onPressed: () =>
-                        context.goNamed(DailyLetter4Screen.routeName),
+                        context.goNamed(HistoryMessageScreen.routeName),
                     icon: const Icon(
                       Icons.local_post_office_outlined,
                       color: Colors.white,

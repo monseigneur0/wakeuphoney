@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 
 class UserModel {
@@ -8,6 +11,9 @@ class UserModel {
 
   final String couple;
   final List couples;
+  final String? coupleDisplayName;
+  final String? couplePhotoURL;
+
   final DateTime creationTime;
   final DateTime lastSignInTime;
   final bool isLoggedIn;
@@ -18,6 +24,8 @@ class UserModel {
     required this.uid,
     required this.couple,
     required this.couples,
+    this.coupleDisplayName,
+    this.couplePhotoURL,
     required this.creationTime,
     required this.lastSignInTime,
     required this.isLoggedIn,
@@ -30,6 +38,8 @@ class UserModel {
     String? uid,
     String? couple,
     List? couples,
+    String? coupleDisplayName,
+    String? couplePhotoURL,
     DateTime? creationTime,
     DateTime? lastSignInTime,
     bool? isLoggedIn,
@@ -41,6 +51,8 @@ class UserModel {
       uid: uid ?? this.uid,
       couple: couple ?? this.couple,
       couples: couples ?? this.couples,
+      coupleDisplayName: coupleDisplayName ?? this.coupleDisplayName,
+      couplePhotoURL: couplePhotoURL ?? this.couplePhotoURL,
       creationTime: creationTime ?? this.creationTime,
       lastSignInTime: lastSignInTime ?? this.lastSignInTime,
       isLoggedIn: isLoggedIn ?? this.isLoggedIn,
@@ -55,8 +67,10 @@ class UserModel {
       'uid': uid,
       'couple': couple,
       'couples': couples,
-      'creationTime': creationTime,
-      'lastSignInTime': lastSignInTime,
+      'coupleDisplayName': coupleDisplayName,
+      'couplePhotoURL': couplePhotoURL,
+      'creationTime': creationTime.millisecondsSinceEpoch,
+      'lastSignInTime': lastSignInTime.millisecondsSinceEpoch,
       'isLoggedIn': isLoggedIn,
     };
   }
@@ -69,15 +83,26 @@ class UserModel {
       uid: map['uid'] as String,
       couple: map['couple'] as String,
       couples: List.from((map['couples'] as List)),
+      coupleDisplayName: map['coupleDisplayName'] != null
+          ? map['coupleDisplayName'] as String
+          : null,
+      couplePhotoURL: map['couplePhotoURL'] != null
+          ? map['couplePhotoURL'] as String
+          : null,
       creationTime: (map['creationTime']).toDate(),
       lastSignInTime: (map['lastSignInTime']).toDate(),
       isLoggedIn: map['isLoggedIn'] as bool,
     );
   }
 
+  String toJson() => json.encode(toMap());
+
+  factory UserModel.fromJson(String source) =>
+      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
   @override
   String toString() {
-    return 'UserModel(displayName: $displayName, email: $email, photoURL: $photoURL, uid: $uid, couple: $couple, couples: $couples, creationTime: $creationTime, lastSignInTime: $lastSignInTime, isLoggedIn: $isLoggedIn)';
+    return 'UserModel(displayName: $displayName, email: $email, photoURL: $photoURL, uid: $uid, couple: $couple, couples: $couples, coupleDisplayName: $coupleDisplayName, couplePhotoURL: $couplePhotoURL, creationTime: $creationTime, lastSignInTime: $lastSignInTime, isLoggedIn: $isLoggedIn)';
   }
 
   @override
@@ -90,6 +115,8 @@ class UserModel {
         other.uid == uid &&
         other.couple == couple &&
         listEquals(other.couples, couples) &&
+        other.coupleDisplayName == coupleDisplayName &&
+        other.couplePhotoURL == couplePhotoURL &&
         other.creationTime == creationTime &&
         other.lastSignInTime == lastSignInTime &&
         other.isLoggedIn == isLoggedIn;
@@ -103,6 +130,8 @@ class UserModel {
         uid.hashCode ^
         couple.hashCode ^
         couples.hashCode ^
+        coupleDisplayName.hashCode ^
+        couplePhotoURL.hashCode ^
         creationTime.hashCode ^
         lastSignInTime.hashCode ^
         isLoggedIn.hashCode;

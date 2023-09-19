@@ -77,7 +77,7 @@ class DailyRepository {
             //         seconds: DateTime.now().hour * 3600 +
             //             DateTime.now().minute * 60 +
             //             DateTime.now().second))))
-            ..sort((a, b) => a.messagedatetime.compareTo(b.messagedatetime)),
+            ..sort((a, b) => b.messagedatetime.compareTo(a.messagedatetime)),
         );
   }
 

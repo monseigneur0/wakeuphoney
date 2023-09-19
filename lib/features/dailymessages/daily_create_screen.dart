@@ -181,8 +181,10 @@ class _DailyLetterCreateScreenState
                       ref
                           .watch(dailyControllerProvider.notifier)
                           .createDailyMessageImage(message, imageUrl);
+                            if (context.mounted) {
                       Navigator.of(context).pop();
                       showSnackBar(context, "Saved");
+                        }
                     }
 
                     _messgaeController.clear();

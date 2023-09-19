@@ -80,7 +80,7 @@ class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
               onPressed: () {
                 context.goNamed(HistoryMessageScreen.routeName);
               },
-              icon: const Icon(Icons.connecting_airports_outlined))
+              icon: const Icon(Icons.face))
         ],
       ),
       backgroundColor: Colors.black,
