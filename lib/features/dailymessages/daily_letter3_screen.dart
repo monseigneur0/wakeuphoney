@@ -16,7 +16,6 @@ import 'package:wakeuphoney/features/profile/profile_controller.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/utils.dart';
-import 'couple_letter_screen.dart';
 import 'daily_create_screen.dart';
 
 class DailyLetter3Screen extends ConsumerStatefulWidget {
@@ -84,13 +83,6 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
     final listMessage =
         ref.watch(getDailyMessageListProvider).whenData((value) => value);
 
-    List<int> list = [1, 2, 3, 4, 6, 5];
-    List<int> list2 = [1, 2, 3, 4, 6, 5];
-    list.sort(
-      (a, b) => a.compareTo(b),
-    );
-    final newlist = [...list, ...list2];
-    print(newlist);
     final user = ref.watch(getUserProfileStreamProvider);
 
     return Scaffold(

@@ -251,7 +251,7 @@ class ProfileDrawer extends StatelessWidget {
                     showCupertinoDialog(
                       context: context,
                       builder: (context) => CupertinoAlertDialog(
-                        title: const Text("상대와 연결 끊기"),
+                        title: Text(AppLocalizations.of(context)!.breakup),
                         content: Text(AppLocalizations.of(context)!.deletesure),
                         actions: [
                           CupertinoDialogAction(
@@ -275,9 +275,9 @@ class ProfileDrawer extends StatelessWidget {
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   leading: const Icon(Icons.exit_to_app),
-                  title: const Text(
-                    "상대와 연결 끊기",
-                    style: TextStyle(color: Colors.black),
+                  title: Text(
+                    AppLocalizations.of(context)!.breakup,
+                    style: const TextStyle(color: Colors.black),
                   ),
                 )
               : ListTile(
@@ -287,7 +287,7 @@ class ProfileDrawer extends StatelessWidget {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: const Text("상대와 연결 끊기"),
+                            title: Text(AppLocalizations.of(context)!.breakup),
                             content:
                                 Text(AppLocalizations.of(context)!.deletesure),
                             actions: [

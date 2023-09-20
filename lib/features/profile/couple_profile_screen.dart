@@ -7,7 +7,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
 import '../match/drawer.dart';
-import '../match/match_screen.dart';
 
 class CoupleProfileScreen extends ConsumerStatefulWidget {
   static String routeName = "coupleprofilescreen";

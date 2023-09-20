@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -11,7 +14,6 @@ import '../../core/common/loader.dart';
 import '../../core/providers/firebase_providers.dart';
 import '../profile/profile_controller.dart';
 import 'daily_controller.dart';
-import 'daily_letter5_screen.dart';
 
 class HistoryMessageScreen extends ConsumerStatefulWidget {
   static String routeName = "historyMessage";
@@ -24,6 +26,34 @@ class HistoryMessageScreen extends ConsumerStatefulWidget {
 }
 
 class _HistoryMessageScreenState extends ConsumerState<HistoryMessageScreen> {
+  final String iOSId4 = 'ca-app-pub-5897230132206634/2698132449';
+  final String androidId4 = 'ca-app-pub-5897230132206634/2588066206';
+  BannerAd? _bannerAd;
+
+  List allMessages = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    BannerAd(
+      size: AdSize.banner,
+      adUnitId: Platform.isIOS ? iOSId4 : androidId4,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          // print('Failed to load a banner ad: ${err.message}');
+          ad.dispose();
+        },
+      ),
+      request: const AdRequest(),
+    ).load();
+  }
+
   @override
   Widget build(BuildContext context) {
     User? auser = ref.watch(authProvider).currentUser;
@@ -258,6 +288,20 @@ class _HistoryMessageScreenState extends ConsumerState<HistoryMessageScreen> {
               );
             },
             loading: () => const Loader(),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (_bannerAd != null)
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SizedBox(
+                    width: _bannerAd!.size.width.toDouble(),
+                    height: _bannerAd!.size.height.toDouble(),
+                    child: AdWidget(ad: _bannerAd!),
+                  ),
+                ),
+            ],
           ),
         ],
       ),
