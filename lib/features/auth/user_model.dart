@@ -59,6 +59,7 @@ class UserModel {
     );
   }
 
+//.millisecondsSinceEpoch to int
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'displayName': displayName,
@@ -69,8 +70,8 @@ class UserModel {
       'couples': couples,
       'coupleDisplayName': coupleDisplayName,
       'couplePhotoURL': couplePhotoURL,
-      'creationTime': creationTime.millisecondsSinceEpoch,
-      'lastSignInTime': lastSignInTime.millisecondsSinceEpoch,
+      'creationTime': creationTime,
+      'lastSignInTime': lastSignInTime,
       'isLoggedIn': isLoggedIn,
     };
   }

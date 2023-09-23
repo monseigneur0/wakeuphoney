@@ -43,7 +43,7 @@ class ProfileDrawer extends StatelessWidget {
             userprofile.when(
               data: (data) => data.displayName,
               error: (error, stackTrace) {
-                // print("error$error ");
+                print("error$error  data.displayName drawer");
                 return "Try again";
               },
               loading: () => "Loading",

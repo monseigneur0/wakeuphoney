@@ -82,7 +82,7 @@ class AuthController extends AsyncNotifier<void> {
   // }
 
   void signInWithApple(BuildContext context) async {
-    await _authRepository.signInWithApple();
+    await _authRepository.signInWithApple2();
     if (state.hasError) {
     } else {
       if (context.mounted) {

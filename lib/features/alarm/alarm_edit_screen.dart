@@ -144,8 +144,8 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: const [
+          const Row(
+            children: [
               // TextButton(
               //   onPressed: () {
               //     Navigator.of(context).push(
@@ -226,7 +226,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
                 style: Theme.of(context)
                     .textTheme
                     .displayMedium!
-                    .copyWith(color: Colors.blueAccent),
+                    .copyWith(color: Colors.blueAccent, fontSize: 50),
               ),
             ),
           ),
