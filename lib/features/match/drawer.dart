@@ -183,6 +183,7 @@ class ProfileDrawer extends StatelessWidget {
                             onPressed: () {
                               Navigator.of(context).pop();
                               context.goNamed(LoginHome.routeName);
+
                               ref.watch(authRepositoryProvider).deleteUser();
                             },
                             isDestructiveAction: true,

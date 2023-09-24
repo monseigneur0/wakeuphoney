@@ -140,8 +140,11 @@ class AuthRepository {
 
       final userCredential =
           await FirebaseAuth.instance.signInWithCredential(oAuthCredential);
-
+      print(userCredential);
+      print(userCredential.user!.displayName);
       UserModel userModel;
+      print(userCredential.additionalUserInfo!.profile);
+      print(userCredential.additionalUserInfo!.username);
 
       if (userCredential.additionalUserInfo!.isNewUser) {
         userModel = UserModel(
