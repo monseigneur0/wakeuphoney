@@ -119,7 +119,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
       loopAudio: loopAudio,
       vibrate: vibrate,
       notificationTitle: showNotification ? 'Alarm ' : null,
-      notificationBody: showNotification ? 'Your alarm ($id) is ringing' : null,
+      notificationBody: showNotification ? '알람이 울리고 있어요! ($id)' : null,
       assetAudioPath: assetAudio,
     );
     return alarmSettings;
