@@ -41,13 +41,13 @@ class AlarmTile extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w500,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               ),
               const Icon(
                 Icons.keyboard_arrow_right_rounded,
                 size: 35,
-                color: Colors.white,
+                color: Colors.black,
               )
             ],
           ),

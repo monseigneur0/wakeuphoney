@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -36,6 +37,7 @@ class AuthRepository {
   User? get currentUser => _firebaseAuth.currentUser;
   bool get isLoggedIn => currentUser != null;
   Stream<User?> get authStateChange => _firebaseAuth.authStateChanges();
+  var logger = Logger();
 
   Future<UserCredential?> signInWithGoogle() async {
     // Trigger the authentication flow
@@ -89,7 +91,7 @@ class AuthRepository {
 
       final UserCredential appleUserCredential =
           await _firebaseAuth.signInWithProvider(appleProvider);
-      print(
+      logger.d(
           "appleUserCredential UserName:${appleUserCredential.additionalUserInfo?.username}");
 
       UserModel userModel;
@@ -140,11 +142,11 @@ class AuthRepository {
 
       final userCredential =
           await FirebaseAuth.instance.signInWithCredential(oAuthCredential);
-      print(userCredential);
-      print(userCredential.user!.displayName);
+      logger.d(userCredential);
+      logger.d(userCredential.user!.displayName);
       UserModel userModel;
-      print(userCredential.additionalUserInfo!.profile);
-      print(userCredential.additionalUserInfo!.username);
+      logger.d(userCredential.additionalUserInfo!.profile);
+      logger.d(userCredential.additionalUserInfo!.username);
 
       if (userCredential.additionalUserInfo!.isNewUser) {
         userModel = UserModel(

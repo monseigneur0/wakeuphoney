@@ -244,7 +244,7 @@ class DailyController extends StateNotifier<bool> {
     //     video: "",
     //   );
     // });
-    // print(wowowowow);
+    // logger.d(wowowowow);
     // var messageNow = allList.singleWhere(
     //   (element) =>
     //       element.messagedate == DateFormat.yMMMd().format(listDateTime[index]),
@@ -261,8 +261,8 @@ class DailyController extends StateNotifier<bool> {
     //     video: "",
     //   ),
     // );
-    // print(wow);
-    // print(wow1);
+    // logger.d(wow);
+    // logger.d(wow1);
     return allList;
   }
 }

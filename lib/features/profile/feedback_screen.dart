@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 
+import '../../core/constants/design_constants.dart';
 import '../../core/providers/providers.dart';
 import '../../core/utils.dart';
 
@@ -54,7 +55,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
           style: TextStyle(color: Colors.black),
         ),
         actions: const [],
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.myAppBarBackgroundPink,
       ),
       body: ListView(
         children: [

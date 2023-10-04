@@ -7,6 +7,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'core/constants/design_constants.dart';
 import 'firebase_options.dart';
 import 'router.dart';
 
@@ -46,6 +47,12 @@ class WakeUpHoney extends ConsumerWidget {
         Locale('en'),
         Locale('ko'),
       ],
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: AppColors.myPink,
+        ),
+        // useMaterial3: true,
+      ),
     );
   }
 }

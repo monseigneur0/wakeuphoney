@@ -7,6 +7,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../core/constants/design_constants.dart';
 import '../../widgets/alarm_tile.dart';
 import 'alarm_edit_screen.dart';
 import 'alarm_ring_screen.dart';
@@ -52,7 +53,7 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
           });
         },
         onAdFailedToLoad: (ad, err) {
-          // print('Failed to load a banner ad: ${err.message}');
+          // logger.d('Failed to load a banner ad: ${err.message}');
           ad.dispose();
         },
       ),
@@ -113,9 +114,9 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
       appBar: AppBar(
         title: Text(
           AppLocalizations.of(context)!.alarms,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.black),
         ),
-        backgroundColor: Colors.black87,
+        backgroundColor: AppColors.myAppBarBackgroundPink,
         actions: [
           // IconButton(
           //   onPressed: () => ringnow(),
@@ -136,12 +137,12 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
             icon: const Icon(
               Icons.add,
               size: 33,
-              color: Color(0xFFD72499),
+              color: AppColors.myPink,
             ),
           ),
         ],
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.myBackgroundPink,
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height - 180,
@@ -172,7 +173,7 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
                     AppLocalizations.of(context)!.noalarmset,
                     style: const TextStyle(
                       fontSize: 30,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                 ),

@@ -97,7 +97,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                               const Icon(Icons.error),
                         ),
                         error: (error, stackTrace) {
-                          // print("error$error ");
+                          // logger.d("error$error ");
                           return const Image(
                             image: AssetImage('assets/human.jpg'),
                             height: 30,
@@ -115,7 +115,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                         ),
                       ),
                       error: (error, stackTrace) {
-                        // print("error$error ");
+                        // logger.d("error$error ");
                         return const Text(
                           "no couple",
                           style: TextStyle(
@@ -154,7 +154,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                               const Icon(Icons.error),
                         ),
                         error: (error, stackTrace) {
-                          // print("error$error ");
+                          // logger.d("error$error ");
                           return const Image(
                             image: AssetImage('assets/human.jpg'),
                             height: 30,
@@ -172,7 +172,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                         ),
                       ),
                       error: (error, stackTrace) {
-                        // print("error$error ");
+                        // logger.d("error$error ");
                         return const Text(
                           "no couple",
                           style: TextStyle(

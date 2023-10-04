@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 
 import 'insta_body.dart';
 
@@ -47,6 +48,8 @@ class InstaCloneHome extends ConsumerStatefulWidget {
 class _InstaCloneHomeState extends ConsumerState<InstaCloneHome> {
   late int index;
 
+  var logger = Logger();
+
   @override
   void initState() {
     super.initState();
@@ -70,14 +73,14 @@ class _InstaCloneHomeState extends ConsumerState<InstaCloneHome> {
             icon: const Icon(Icons.favorite_outline),
             iconSize: 32,
             onPressed: () {
-              print("tab favorite");
+              logger.d("tab favorite");
             },
           ),
           IconButton(
             icon: const Icon(CupertinoIcons.paperplane),
             iconSize: 32,
             onPressed: () {
-              print("tab paperplane");
+              logger.d("tab paperplane");
             },
           ),
         ],
@@ -89,7 +92,7 @@ class _InstaCloneHomeState extends ConsumerState<InstaCloneHome> {
           setState(
             () => index = newIndex,
           );
-          print(newIndex);
+          logger.d(newIndex);
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),

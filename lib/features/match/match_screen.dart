@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/utils.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
+import '../../core/constants/design_constants.dart';
 import '../alarm/alarm_screen.dart';
 import '../auth/login_screen.dart';
 import 'drawer.dart';
@@ -54,9 +56,11 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
 
   String format(int seconds) {
     var duration = Duration(seconds: seconds);
-    // print("duration $duration");
+    // logger.d("duration $duration");
     return duration.toString().split(".").first.substring(2, 7);
   }
+
+  var logger = Logger();
 
   @override
   void dispose() {
@@ -96,16 +100,19 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
       data: (data) => data.couples.isNotEmpty
           ? Scaffold(
               appBar: AppBar(
-                backgroundColor: Colors.black,
+                backgroundColor: AppColors.myAppBarBackgroundPink,
                 elevation: 0,
-                title: Text(AppLocalizations.of(context)!.profile),
+                title: Text(
+                  AppLocalizations.of(context)!.profile,
+                  style: const TextStyle(color: Colors.black),
+                ),
                 // const Text(
                 //   "Profile",
                 //   style: TextStyle(
                 //       color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
                 // ),
               ),
-              backgroundColor: Colors.black,
+              backgroundColor: AppColors.myBackgroundPink,
               body: Column(
                 children: [
                   Container(
@@ -126,7 +133,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                           height: 75,
                           padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
-                            color: Colors.grey[800],
+                            color: Colors.grey[500],
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(19),
                               topRight: Radius.circular(19),
@@ -140,7 +147,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                               child: Text(
                                 messageList[randomNum],
                                 style: const TextStyle(
-                                    color: Colors.white, fontSize: 15),
+                                    color: Colors.black, fontSize: 15),
                               ),
                             ),
                           ),
@@ -150,7 +157,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                         opacity: _visiblebear ? 1.0 : 0.0,
                         duration: const Duration(milliseconds: 0),
                         child: CustomPaint(
-                            painter: Triangle(Colors.grey.shade800)),
+                            painter: Triangle(Colors.grey.shade500)),
                       ),
                       const SizedBox(height: 30),
                       IconButton(
@@ -191,7 +198,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                                       const Icon(Icons.error),
                                 ),
                                 error: (error, stackTrace) {
-                                  // print("error$error ");
+                                  // logger.d("error$error ");
                                   return const Image(
                                     image: AssetImage('assets/human.jpg'),
                                     height: 30,
@@ -205,16 +212,16 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                                 data.displayName,
                                 style: const TextStyle(
                                   fontSize: 30,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                 ),
                               ),
                               error: (error, stackTrace) {
-                                // print("error$error ");
+                                // logger.d("error$error ");
                                 return const Text(
                                   "no couple",
                                   style: TextStyle(
                                     fontSize: 30,
-                                    color: Colors.white,
+                                    color: Colors.black,
                                   ),
                                 );
                               },
@@ -248,7 +255,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                                       const Icon(Icons.error),
                                 ),
                                 error: (error, stackTrace) {
-                                  // print("error$error ");
+                                  // logger.d("error$error ");
                                   return const Image(
                                     image: AssetImage('assets/human.jpg'),
                                     height: 30,
@@ -262,11 +269,11 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                                 data.displayName,
                                 style: const TextStyle(
                                   fontSize: 30,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                 ),
                               ),
                               error: (error, stackTrace) {
-                                // print("error$error ");
+                                // logger.d("error$error ");
                                 return const Text(
                                   "no couple",
                                   style: TextStyle(
@@ -290,13 +297,14 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
               //singlechildscrollview 위젯이 이동한다
               resizeToAvoidBottomInset: false,
               appBar: AppBar(
-                backgroundColor: Colors.grey[900],
+                backgroundColor: AppColors.myAppBarBackgroundPink,
                 elevation: 0,
                 title: Text(
                   AppLocalizations.of(context)!.connectto,
+                  style: const TextStyle(color: Colors.black),
                 ),
               ),
-              backgroundColor: Colors.black,
+              backgroundColor: AppColors.myBackgroundPink,
               body: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: Column(
@@ -310,7 +318,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                     ),
                     const Text(
                       "서로의 초대코드를 입력하면 연결돼요.",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                     ),
                     const SizedBox(
                       height: 20,
@@ -322,7 +330,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                               children: [
                                 Text(
                                   "내 초대코드 (남은시간) ${toTick(data.time)}",
-                                  style: const TextStyle(color: Colors.white),
+                                  style: const TextStyle(color: Colors.black),
                                 ),
                                 const SizedBox(
                                   height: 5,
@@ -344,7 +352,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                                     filled: true,
                                     fillColor: Colors.grey[900],
                                     labelStyle:
-                                        const TextStyle(color: Colors.white),
+                                        const TextStyle(color: Colors.black),
                                     hintStyle: const TextStyle(
                                         fontSize: 30, color: Colors.white),
                                     focusColor: Colors.red,
@@ -362,13 +370,12 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                     ),
                     const Text(
                       "상대의 초대코드를 전달받았나요?",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     Container(
-                      color: Colors.black,
                       child: Form(
                         key: _formKey,
                         child: TextFormField(
@@ -443,7 +450,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                                                     .notifier)
                                                 .matchCoupleIdProcessDone(
                                                     data.uid);
-                                            print(data.uid);
+                                            logger.d(data.uid);
                                             // PEaTihL8yRdGEknlFfQ9F7XdoUt2 apple
                                             _honeyCodeController.clear();
                                             showSnackBar(context, "inviteed");
@@ -467,7 +474,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
               endDrawer: ProfileDrawer(ref: ref),
             ),
       error: (error, stackTrace) {
-        print("error hasCoupleId  $error ");
+        logger.d("error hasCoupleId  $error ");
         return const Center(child: Text('error'));
       },
       loading: () => const Loader(),
@@ -544,7 +551,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
   //                             source: ImageSource.gallery,
   //                             imageQuality: 15,
   //                           );
-  //                           // print('${file?.path}');
+  //                           // logger.d('${file?.path}');
 
   //                           String uniqueFileName =
   //                               DateTime.now().toString().replaceAll(' ', '');

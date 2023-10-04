@@ -75,7 +75,7 @@ final leftCodeTime = StateProvider<String>((ref) {
 
   String format(int seconds) {
     var duration = Duration(seconds: seconds);
-    // print("duration $duration");
+    // logger.d("duration $duration");
     return duration.toString().split(".").first.substring(2, 7);
   }
 

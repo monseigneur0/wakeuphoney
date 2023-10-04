@@ -6,9 +6,11 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 
 import '../../core/common/loader.dart';
+import '../../core/constants/design_constants.dart';
 import '../../core/providers/providers.dart';
 import '../../core/utils.dart';
 import 'daily_controller.dart';
@@ -49,6 +51,8 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
   Widget build(BuildContext context) {
     final dateList100 = ref.watch(dateStateProvider);
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
+    var logger = Logger();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -57,7 +61,7 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
           style: const TextStyle(color: Colors.black),
         ),
         actions: const [],
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.myAppBarBackgroundPink,
       ),
       body: ListView(
         children: [
@@ -90,7 +94,7 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                         );
                       },
                       error: (error, stackTrace) {
-                        print("error");
+                        logger.d("error");
 
                         return const Column(
                           children: [

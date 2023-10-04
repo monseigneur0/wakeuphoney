@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../core/constants/design_constants.dart';
 import '../../core/providers/providers.dart';
 import '../../core/utils.dart';
 import 'daily_controller.dart';
@@ -40,7 +41,10 @@ class _DailyLetterCreateScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: const Text("편지 쓰기"),
+      ),
+      backgroundColor: AppColors.myAppBarBackgroundPink,
       body: Padding(
         padding: EdgeInsets.only(
             top: 20,
@@ -117,7 +121,7 @@ class _DailyLetterCreateScreenState
                   // ImagePicker imagePicker = ImagePicker();
                   // XFile? file = await imagePicker.pickImage(
                   //     source: ImageSource.gallery);
-                  // print('${file?.path}');
+                  // logger.d('${file?.path}');
 
                   // String uniqueFileName =
                   //     DateTime.now().toString().replaceAll(' ', '');
@@ -181,10 +185,10 @@ class _DailyLetterCreateScreenState
                       ref
                           .watch(dailyControllerProvider.notifier)
                           .createDailyMessageImage(message, imageUrl);
-                            if (context.mounted) {
-                      Navigator.of(context).pop();
-                      showSnackBar(context, "Saved");
-                        }
+                      if (context.mounted) {
+                        Navigator.of(context).pop();
+                        showSnackBar(context, "Saved");
+                      }
                     }
 
                     _messgaeController.clear();

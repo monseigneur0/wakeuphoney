@@ -1,5 +1,6 @@
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 class Home extends StatefulWidget {
   static String routeName = "testhome";
@@ -14,6 +15,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Time _time = Time(hour: 11, minute: 30, second: 20);
   bool iosStyle = true;
+  var logger = Logger();
 
   void onTimeChanged(Time newTime) {
     setState(() {
@@ -55,8 +57,8 @@ class _HomeState extends State<Home> {
                         minuteInterval: TimePickerInterval.FIVE,
                         // Optional onChange to receive value as DateTime
                         onChangeDateTime: (DateTime dateTime) {
-                          // print(dateTime);
-                          debugPrint("[debug datetime]:  $dateTime");
+                          // logger.d(dateTime);
+                          logger.d("[debug datetime]:  $dateTime");
                         },
                       ),
                     );

@@ -47,7 +47,7 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
           });
         },
         onAdFailedToLoad: (ad, err) {
-          // print('Failed to load a banner ad: ${err.message}');
+          // logger.d('Failed to load a banner ad: ${err.message}');
           ad.dispose();
         },
       ),
@@ -230,7 +230,7 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
               );
             },
             error: (error, stackTrace) {
-              // print("error$error ");
+              // logger.d("error$error ");
               return Container(
                 child: const Center(
                     child: Text(

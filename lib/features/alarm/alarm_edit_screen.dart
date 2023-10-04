@@ -2,6 +2,7 @@ import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
+import 'package:logger/logger.dart';
 
 class ExampleAlarmEditScreen extends StatefulWidget {
   final AlarmSettings? alarmSettings;
@@ -24,6 +25,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
 
   Time _time = Time(hour: 11, minute: 30, second: 20);
   late Time _selectedTime;
+  var logger = Logger();
 
   @override
   void initState() {
@@ -71,11 +73,11 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
       minuteLabel: ' ',
       // Optional onChange to receive value as DateTime
       onChangeDateTime: (DateTime dateTime) {
-        // print(dateTime);
-        debugPrint("[debug datetime]:  $dateTime");
+        // logger.d(dateTime);
+        logger.d("[debug datetime]:  $dateTime");
       },
     ));
-    print(_time);
+    logger.d(_time);
 
     //     showTimePicker(
     //   initialTime: selectedTime,
@@ -226,7 +228,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
                 style: Theme.of(context)
                     .textTheme
                     .displayMedium!
-                    .copyWith(color: Colors.blueAccent, fontSize: 50),
+                    .copyWith(color: Colors.blueAccent, fontSize: 40),
               ),
             ),
           ),

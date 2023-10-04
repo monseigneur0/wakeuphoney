@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:wakeuphoney/features/match/match_repo.dart';
 
 import '../../core/providers/firebase_providers.dart';
@@ -34,6 +35,7 @@ class MatchController extends StateNotifier<bool> {
   })  : _matchRepository = matchRepository,
         _ref = ref,
         super(false);
+  var logger = Logger();
 
   Future<MatchModel> getOrCreateMatchCode() async {
     User? auser = _ref.watch(authProvider).currentUser;
@@ -52,7 +54,7 @@ class MatchController extends StateNotifier<bool> {
   }
 
   Stream<MatchModel> checkMatchProcess(int honeyCode) {
-    print("checkMatchProcess");
+    logger.d("checkMatchProcess");
     Stream<MatchModel> matched = _matchRepository.checkMatchProcess(honeyCode);
     matched.asyncMap(
         (event) => _ref.watch(coupleIdProvider.notifier).state = event.uid);

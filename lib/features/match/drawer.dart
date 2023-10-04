@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 
 import '../alarm/alarm_screen.dart';
 import '../auth/auth_controller.dart';
@@ -23,9 +24,11 @@ class ProfileDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var logger = Logger();
+
     final userprofile = ref.watch(getMyUserDataProvider);
     return Drawer(
-      backgroundColor: Colors.grey[800],
+      backgroundColor: Colors.grey[600],
       child: ListView(
         padding: const EdgeInsets.symmetric(vertical: 50),
         children: <Widget>[
@@ -43,7 +46,7 @@ class ProfileDrawer extends StatelessWidget {
             userprofile.when(
               data: (data) => data.displayName,
               error: (error, stackTrace) {
-                print("error$error  data.displayName drawer");
+                logger.d("error$error  data.displayName drawer");
                 return "Try again";
               },
               loading: () => "Loading",

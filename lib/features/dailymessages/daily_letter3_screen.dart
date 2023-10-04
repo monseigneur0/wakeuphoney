@@ -15,6 +15,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 
 import '../../core/common/loader.dart';
+import '../../core/constants/design_constants.dart';
 import '../../core/utils.dart';
 import 'daily_create_screen.dart';
 
@@ -67,7 +68,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
           });
         },
         onAdFailedToLoad: (ad, err) {
-          // print('Failed to load a banner ad: ${err.message}');
+          // logger.d('Failed to load a banner ad: ${err.message}');
           ad.dispose();
         },
       ),
@@ -87,8 +88,11 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.myletters),
-        backgroundColor: Colors.black87,
+        title: Text(
+          AppLocalizations.of(context)!.myletters,
+          style: const TextStyle(color: Colors.black),
+        ),
+        backgroundColor: AppColors.myAppBarBackgroundPink,
         // actions: [
         //   IconButton(
         //       onPressed: () {
@@ -100,12 +104,12 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
         //       ))
         // ],
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.myBackgroundPink,
       body: user.when(
         data: (data) => data.couples.isEmpty
             ? const Center(
                 child: Text(
-                  "No Match, 메세지를 적어주세요",
+                  "Please invite, 상대를 초대해주세요.",
                   style: TextStyle(color: Colors.white),
                 ),
               )
@@ -161,253 +165,289 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                   //   ],
                   // ),
                   Container(
-                    decoration: const BoxDecoration(color: Colors.black),
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height - 250,
-                      child: ListView.builder(
-                        itemCount: 100,
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (context, index) {
-                          return listMessage.when(
-                            data: (value) {
-                              var messageNow = value.singleWhere(
-                                (element) =>
-                                    element.messagedate ==
-                                    DateFormat.yMMMd()
-                                        .format(listDateTime[index]),
-                                orElse: () => DailyMessageModel(
-                                  message: "메세지를 적어주세요",
-                                  messagedate: "messagedate",
-                                  messagedatetime: DateTime.now(),
-                                  time: DateTime.now(),
-                                  sender: "",
-                                  reciver: "",
-                                  photo: "",
-                                  audio: "",
-                                  video: "",
-                                ),
-                              );
-                              return messageNow.message != "메세지를 적어주세요"
-                                  ? Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          height: 10,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(
+                    decoration:
+                        const BoxDecoration(color: AppColors.myBackgroundPink),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height - 270,
+                          child: ListView.builder(
+                            itemCount: 100,
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (context, index) {
+                              return listMessage.when(
+                                data: (value) {
+                                  var messageNow = value.singleWhere(
+                                    (element) =>
+                                        element.messagedate ==
+                                        DateFormat.yMMMd()
+                                            .format(listDateTime[index]),
+                                    orElse: () => DailyMessageModel(
+                                      message: "메세지를 적어주세요",
+                                      messagedate: "messagedate",
+                                      messagedatetime: DateTime.now(),
+                                      time: DateTime.now(),
+                                      sender: "",
+                                      reciver: "",
+                                      photo: "",
+                                      audio: "",
+                                      video: "",
+                                    ),
+                                  );
+                                  return messageNow.message != "메세지를 적어주세요"
+                                      ? Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              height: 10,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  CachedNetworkImage(
-                                                    imageUrl: data.photoURL,
-                                                    fit: BoxFit.fill,
-                                                    placeholder:
-                                                        (context, url) =>
-                                                            Container(
-                                                      height: 50,
-                                                    ),
-                                                    width: 50,
+                                                  Row(
+                                                    children: [
+                                                      CachedNetworkImage(
+                                                        imageUrl: data.photoURL,
+                                                        fit: BoxFit.fill,
+                                                        placeholder:
+                                                            (context, url) =>
+                                                                Container(
+                                                          height: 50,
+                                                        ),
+                                                        width: 50,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 8,
+                                                      ),
+                                                      Text(
+                                                        data.displayName,
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                    ],
                                                   ),
-                                                  const SizedBox(
-                                                    width: 8,
-                                                  ),
-                                                  Text(
-                                                    data.displayName,
-                                                    style: const TextStyle(
-                                                        color: Colors.white),
-                                                  ),
+                                                  const Icon(Icons.more_vert),
+                                                  // IconButton(
+                                                  //   onPressed: () {},
+                                                  //   icon:
+                                                  //       const Icon(Icons.more_vert),
+                                                  //   color: Colors.white,
+                                                  // )
                                                 ],
                                               ),
-                                              const Icon(Icons.more_vert),
-                                              // IconButton(
-                                              //   onPressed: () {},
-                                              //   icon:
-                                              //       const Icon(Icons.more_vert),
-                                              //   color: Colors.white,
-                                              // )
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          child: InteractiveViewer(
-                                            child: messageNow.photo.isNotEmpty
-                                                ? CachedNetworkImage(
-                                                    imageUrl: messageNow.photo,
-                                                    placeholder:
-                                                        (context, url) =>
-                                                            Container(
-                                                      height: 70,
-                                                    ),
-                                                    errorWidget: (context, url,
-                                                            error) =>
-                                                        const Icon(Icons.error),
-                                                  )
-                                                : Container(),
-                                          ),
-                                        ),
-                                        ListTile(
-                                          tileColor: Colors.black,
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(20)),
-                                          ),
-                                          title: Text(
-                                            messageNow.message,
-                                            // "wow",
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20,
                                             ),
-                                          ),
-                                          subtitle: Text(
-                                            DateFormat.MMMd()
-                                                .format(listDateTime[index]),
-                                            style: TextStyle(
-                                                color: Colors.grey[400]),
-                                          ),
-                                          onTap: () {
-                                            ref
-                                                    .read(selectedDate.notifier)
-                                                    .state =
-                                                DateFormat.yMMMd().format(
-                                                    listDateTime[index]);
-                                            bool isImageEmpty =
-                                                messageNow.photo.isEmpty;
-                                            _update(isImageEmpty);
-                                            _messgaeController.text =
-                                                messageNow.message;
-                                          },
-                                        ),
-                                        const SizedBox(
-                                          height: 30,
-                                        ),
-                                        Container(
-                                          height: 1,
-                                          decoration: BoxDecoration(
-                                              color: Colors.grey[800]),
-                                        ),
-                                        // SizedBox(
-                                        //   width:
-                                        //       MediaQuery.of(context).size.width - 40,
-                                        //   child: messageNow.photo.isNotEmpty
-                                        //       ? Image.network(messageNow.photo)
-                                        //       : Container(),
-                                        // ),
-
-                                        // SizedBox(
-                                        //   child: GestureDetector(
-                                        //     onTap: () {
-                                        //       selectBannerImage();
-                                        //     },
-                                        //     child: Container(
-                                        //       width: double.infinity,
-                                        //       decoration: BoxDecoration(
-                                        //         borderRadius:
-                                        //             BorderRadius.circular(10),
-                                        //       ),
-                                        //       child: bannerFile != null
-                                        //           ? Image.file(bannerFile!)
-                                        //           : messageNow.photo.isEmpty ||
-                                        //                   messageNow.photo ==
-                                        //                       Constants.bannerDefault
-                                        //               ? const Center(
-                                        //                   child: Icon(
-                                        //                     Icons.camera_alt_outlined,
-                                        //                     size: 40,
-                                        //                     color: Colors.white,
-                                        //                   ),
-                                        //                 )
-                                        //               : Image.network(
-                                        //                   messageNow.photo),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                      ],
-                                    )
-                                  : Column(
-                                      children: [
-                                        ListTile(
-                                          title: Text(
-                                            value
-                                                .singleWhere(
-                                                  (element) =>
-                                                      element.messagedate ==
-                                                      DateFormat.yMMMd().format(
-                                                          listDateTime[index]),
-                                                  orElse: () =>
-                                                      DailyMessageModel(
-                                                    message: "메세지를 적어주세요",
-                                                    messagedate: "messagedate",
-                                                    messagedatetime:
-                                                        DateTime.now(),
-                                                    time: DateTime.now(),
-                                                    sender: "",
-                                                    reciver: "",
-                                                    photo: "",
-                                                    audio: "",
-                                                    video: "",
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: InteractiveViewer(
+                                                child: messageNow
+                                                        .photo.isNotEmpty
+                                                    ? CachedNetworkImage(
+                                                        imageUrl:
+                                                            messageNow.photo,
+                                                        placeholder:
+                                                            (context, url) =>
+                                                                Container(
+                                                          height: 70,
+                                                        ),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            const Icon(
+                                                                Icons.error),
+                                                      )
+                                                    : Container(),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 5, left: 10, right: 10),
+                                              child: ListTile(
+                                                tileColor: Colors.black,
+                                                shape:
+                                                    const RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(20)),
+                                                ),
+                                                title: Text(
+                                                  messageNow.message,
+                                                  // "wow",
+                                                  style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 20,
                                                   ),
-                                                )
-                                                .message,
-                                            // "wow",
-                                            style: TextStyle(
-                                                color: Colors.grey[800]),
-                                          ),
-                                          subtitle: Text(
-                                            DateFormat.MMMd()
-                                                .format(listDateTime[index]),
-                                            style: TextStyle(
-                                                color: Colors.grey[800]),
-                                          ),
-                                          onTap: () {
-                                            ref
-                                                    .read(selectedDate.notifier)
-                                                    .state =
-                                                DateFormat.yMMMd().format(
-                                                    listDateTime[index]);
-                                            ref
-                                                .read(selectedDateTime.notifier)
-                                                .state = DateTime
-                                                    .now()
-                                                .add(Duration(
-                                                    seconds: 24 * 60 * 60 -
-                                                        DateTime.now().hour *
-                                                            3600 -
-                                                        DateTime.now().minute *
-                                                            60 -
-                                                        DateTime.now().second))
-                                                .add(Duration(days: index));
-                                            // _create(uid);
-                                            context.pushNamed(
-                                                DailyLetterCreateScreen
-                                                    .routeName);
+                                                ),
+                                                subtitle: Text(
+                                                  DateFormat.MMMd().format(
+                                                      listDateTime[index]),
+                                                  style: TextStyle(
+                                                      color: Colors.grey[700]),
+                                                ),
+                                                onTap: () {
+                                                  ref
+                                                          .read(selectedDate
+                                                              .notifier)
+                                                          .state =
+                                                      DateFormat.yMMMd().format(
+                                                          listDateTime[index]);
+                                                  bool isImageEmpty =
+                                                      messageNow.photo.isEmpty;
+                                                  _update(isImageEmpty);
+                                                  _messgaeController.text =
+                                                      messageNow.message;
+                                                },
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 30,
+                                            ),
+                                            Container(
+                                              height: 1,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey[800]),
+                                            ),
+                                            // SizedBox(
+                                            //   width:
+                                            //       MediaQuery.of(context).size.width - 40,
+                                            //   child: messageNow.photo.isNotEmpty
+                                            //       ? Image.network(messageNow.photo)
+                                            //       : Container(),
+                                            // ),
 
-                                            _messgaeController.clear();
-                                          },
-                                        ),
-                                        Container(
-                                          height: 1,
-                                          decoration: BoxDecoration(
-                                              color: Colors.grey[800]),
-                                        ),
-                                      ],
-                                    );
+                                            // SizedBox(
+                                            //   child: GestureDetector(
+                                            //     onTap: () {
+                                            //       selectBannerImage();
+                                            //     },
+                                            //     child: Container(
+                                            //       width: double.infinity,
+                                            //       decoration: BoxDecoration(
+                                            //         borderRadius:
+                                            //             BorderRadius.circular(10),
+                                            //       ),
+                                            //       child: bannerFile != null
+                                            //           ? Image.file(bannerFile!)
+                                            //           : messageNow.photo.isEmpty ||
+                                            //                   messageNow.photo ==
+                                            //                       Constants.bannerDefault
+                                            //               ? const Center(
+                                            //                   child: Icon(
+                                            //                     Icons.camera_alt_outlined,
+                                            //                     size: 40,
+                                            //                     color: Colors.white,
+                                            //                   ),
+                                            //                 )
+                                            //               : Image.network(
+                                            //                   messageNow.photo),
+                                            //     ),
+                                            //   ),
+                                            // ),
+                                          ],
+                                        )
+                                      : Column(
+                                          children: [
+                                            ListTile(
+                                              title: Text(
+                                                value
+                                                    .singleWhere(
+                                                      (element) =>
+                                                          element.messagedate ==
+                                                          DateFormat.yMMMd()
+                                                              .format(
+                                                                  listDateTime[
+                                                                      index]),
+                                                      orElse: () =>
+                                                          DailyMessageModel(
+                                                        message: "메세지를 적어주세요",
+                                                        messagedate:
+                                                            "messagedate",
+                                                        messagedatetime:
+                                                            DateTime.now(),
+                                                        time: DateTime.now(),
+                                                        sender: "",
+                                                        reciver: "",
+                                                        photo: "",
+                                                        audio: "",
+                                                        video: "",
+                                                      ),
+                                                    )
+                                                    .message,
+                                                // "wow",
+                                                style: TextStyle(
+                                                    color: Colors.grey[800]),
+                                              ),
+                                              subtitle: Text(
+                                                DateFormat.MMMd().format(
+                                                    listDateTime[index]),
+                                                style: TextStyle(
+                                                    color: Colors.grey[800]),
+                                              ),
+                                              onTap: () {
+                                                ref
+                                                    .read(selectedDate.notifier)
+                                                    .state = DateFormat
+                                                        .yMMMd()
+                                                    .format(
+                                                        listDateTime[index]);
+                                                ref
+                                                    .read(selectedDateTime
+                                                        .notifier)
+                                                    .state = DateTime
+                                                        .now()
+                                                    .add(Duration(
+                                                        seconds: 24 * 60 * 60 -
+                                                            DateTime.now()
+                                                                    .hour *
+                                                                3600 -
+                                                            DateTime.now()
+                                                                    .minute *
+                                                                60 -
+                                                            DateTime.now()
+                                                                .second))
+                                                    .add(Duration(days: index));
+                                                // _create(uid);
+                                                context.pushNamed(
+                                                    DailyLetterCreateScreen
+                                                        .routeName);
+
+                                                _messgaeController.clear();
+                                              },
+                                            ),
+                                            Container(
+                                              height: 1,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey[800]),
+                                            ),
+                                          ],
+                                        );
+                                },
+                                error: (error, stackTrace) {
+                                  // logger.d("error$error ");
+                                  return null;
+                                },
+                                loading: () => const Loader(),
+                              );
                             },
-                            error: (error, stackTrace) {
-                              // print("error$error ");
-                              return null;
-                            },
-                            loading: () => const Loader(),
-                          );
-                        },
-                      ),
+                          ),
+                        ),
+                        if (_bannerAd != null)
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: SizedBox(
+                              width: _bannerAd!.size.width.toDouble(),
+                              height: _bannerAd!.size.height.toDouble(),
+                              child: AdWidget(ad: _bannerAd!),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
                 ],
@@ -425,148 +465,6 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
         },
         loading: () => const Loader(),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (_bannerAd != null)
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: _bannerAd!.size.width.toDouble(),
-                  height: _bannerAd!.size.height.toDouble(),
-                  child: AdWidget(ad: _bannerAd!),
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> _create(String uid) async {
-    await showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (BuildContext ctx) {
-        return Padding(
-          padding: EdgeInsets.only(
-              top: 20,
-              left: 20,
-              right: 20,
-              bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Form(
-                key: _formKey,
-                child: TextFormField(
-                  minLines: 5,
-                  maxLines: 10,
-                  keyboardType: TextInputType.multiline,
-                  validator: (value) {
-                    if (value == null || value.isEmpty || value == "") {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                  autofocus: true,
-                  controller: _messgaeController,
-                  decoration: InputDecoration(
-                    labelText: 'message at ${ref.read(selectedDate)}',
-                    border: const OutlineInputBorder(),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: selectBannerImage,
-                    child: bannerFile != null
-                        ? SizedBox(
-                            height: 30,
-                            width: 30,
-                            child: Image.file(bannerFile!))
-                        :
-                        // ElevatedButton(
-                        //     style: const ButtonStyle(
-                        //       backgroundColor:
-                        //           MaterialStatePropertyAll(Colors.black),
-                        //     ),
-                        //     child:
-                        const Icon(
-                            Icons.photo_album_outlined,
-                            size: 40,
-                            // color: Colors.white,
-                          ),
-                    // onPressed: () async {
-                    // setState(() {});
-                    // ImagePicker imagePicker = ImagePicker();
-                    // XFile? file = await imagePicker.pickImage(
-                    //     source: ImageSource.gallery);
-                    // print('${file?.path}');
-
-                    // String uniqueFileName =
-                    //     DateTime.now().toString().replaceAll(' ', '');
-
-                    // //Get a reference to storage root
-                    // Reference referenceRoot =
-                    //     FirebaseStorage.instance.ref();
-                    // Reference referenceDirImages =
-                    //     referenceRoot.child('images');
-
-                    // //Create a reference for the image to be stored
-                    // Reference referenceImageToUpload =
-                    //     referenceDirImages.child(uniqueFileName);
-
-                    // //Handle errors/success
-                    // try {
-                    //   //Store the file
-                    //   await referenceImageToUpload
-                    //       .putFile(File(file!.path));
-                    //   //Success: get the download URL
-                    //   imageUrl = await referenceImageToUpload
-                    //       .getDownloadURL();
-                    // } catch (error) {
-                    //   //Some error occurred
-                    // }
-                    // },
-                  ),
-                  // ),
-                  ElevatedButton(
-                    style: const ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll(Color(0xFFD72499)),
-                    ),
-                    child: const Text('Save'),
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        showSnackBar(context, "messgae is saved");
-                        Navigator.of(context).pop();
-                        final String message = _messgaeController.text;
-
-                        //메세지 작성
-                        ref
-                            .watch(dailyControllerProvider.notifier)
-                            .createDailyMessageImage(message, imageUrl);
-                      }
-
-                      _messgaeController.clear();
-                    },
-                  ),
-                ],
-              )
-            ],
-          ),
-        );
-      },
     );
   }
 
@@ -640,7 +538,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                               source: ImageSource.gallery,
                               imageQuality: 15,
                             );
-                            // print('${file?.path}');
+                            // logger.d('${file?.path}');
 
                             String uniqueFileName =
                                 DateTime.now().toString().replaceAll(' ', '');

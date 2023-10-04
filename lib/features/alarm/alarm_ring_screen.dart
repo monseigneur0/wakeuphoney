@@ -62,7 +62,7 @@ import '../dailymessages/response_screen.dart';
 //                 );
 //               },
 //               error: (error, stackTrace) {
-//                 // print("error");
+//                 // logger.d("error");
 
 //                 return Column(
 //                   children: const [
@@ -200,10 +200,10 @@ class AlarmRingScreen extends ConsumerWidget {
                   );
                 },
                 error: (error, stackTrace) {
-                  // print("error");
+                  // logger.d("error");
 
-                  return Column(
-                    children: const [
+                  return const Column(
+                    children: [
                       SizedBox(
                         height: 50,
                       ),

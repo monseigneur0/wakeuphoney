@@ -130,7 +130,7 @@ class _FutureList extends StatelessWidget {
                       );
               },
               error: (error, stackTrace) {
-                // print("error$error ");
+                // logger.d("error$error ");
                 return null;
               },
               loading: () => const Loader(),

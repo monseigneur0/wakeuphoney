@@ -40,7 +40,7 @@ class AuthController extends AsyncNotifier<void> {
     if (state.hasError) {
     } else {
       if (context.mounted) {
-        context.go("/match");
+        context.go("/main");
       }
     }
     // _authRepository.signInWithGoogle().then((value) => value != null

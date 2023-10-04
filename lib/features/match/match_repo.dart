@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/constants/firebase_constants.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/auth/user_model.dart';
@@ -20,6 +21,8 @@ class MatchRepository {
   CollectionReference get _matches =>
       _firestore.collection(FirebaseConstants.matchCollection);
 
+  var logger = Logger();
+
   Future matchStartProcess(String uid, int vertifyNumber) async {
     await _matches.add({
       "uid": uid,
@@ -36,7 +39,7 @@ class MatchRepository {
         }
       });
     } catch (e) {
-      print(e.toString());
+      logger.d(e.toString());
     }
     return null;
   }
@@ -71,7 +74,7 @@ class MatchRepository {
         }
       });
     } catch (e) {
-      print(e.toString());
+      logger.d(e.toString());
     }
     return null;
   }
@@ -110,7 +113,7 @@ class MatchRepository {
         .get()
         .then((value) => value.docs.forEach((element) {
               _matches.doc(element.id).delete();
-              print(element.id);
+              logger.d(element.id);
             }));
   }
 

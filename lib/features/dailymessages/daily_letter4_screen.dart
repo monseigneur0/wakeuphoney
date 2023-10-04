@@ -45,7 +45,7 @@ class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
           });
         },
         onAdFailedToLoad: (ad, err) {
-          // print('Failed to load a banner ad: ${err.message}');
+          // logger.d('Failed to load a banner ad: ${err.message}');
           ad.dispose();
         },
       ),
@@ -229,7 +229,7 @@ class _DailyLetter4ScreenState extends ConsumerState<DailyLetter4Screen> {
               );
             },
             error: (error, stackTrace) {
-              // print("error$error ");
+              // logger.d("error$error ");
               return Container(
                 child: const Center(
                     child: Text(
