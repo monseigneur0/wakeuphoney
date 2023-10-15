@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:wakeuphoney/practice_home_screen.dart';
 
 import '../alarm/alarm_screen.dart';
 import '../auth/auth_controller.dart';
@@ -88,6 +89,21 @@ class ProfileDrawer extends StatelessWidget {
             title: Text(
               AppLocalizations.of(context)!.feedback,
               style: const TextStyle(color: Colors.white),
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              context.pushNamed(PracticeHome.routeName);
+            },
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            leading: const Icon(
+              Icons.feedback_outlined,
+              color: Colors.white,
+            ),
+            title: Text(
+              AppLocalizations.of(context)!.feedback,
+              style: TextStyle(color: Colors.grey[600]),
             ),
           ),
           Platform.isIOS

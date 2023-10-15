@@ -14,7 +14,31 @@
       },
       "oauth_client": [
         {
-          "client_id": "64370557085-ms8oih3gjnlm6g8h34t1eskqmcjc9emp.apps.googleusercontent.com",
+          "client_id": "64370557085-imdd5566vj4fcu3ok811ip7rhma3csit.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wakeuptaco.wakeuphoney",
+            "certificate_hash": "8cfbc12b745db8ebcaa16f76bb2de305a16cead0"
+          }
+        },
+        {
+          "client_id": "64370557085-ldt20tnp6vm6t8s0kbbaaiqralqv286a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wakeuptaco.wakeuphoney",
+            "certificate_hash": "a388a27b2bd34c367e03968e0683408943a59934"
+          }
+        },
+        {
+          "client_id": "64370557085-njhllpl95ab84obc38q3jjpbrv5dje91.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wakeuptaco.wakeuphoney",
+            "certificate_hash": "d23483f6914a98aca4b151fb2942f44745994ce7"
+          }
+        },
+        {
+          "client_id": "64370557085-k7dhkas8f7dfbeb384ge93l7rsk89bh4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,12 +51,20 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "64370557085-ms8oih3gjnlm6g8h34t1eskqmcjc9emp.apps.googleusercontent.com",
+              "client_id": "64370557085-k7dhkas8f7dfbeb384ge93l7rsk89bh4.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "64370557085-pnl2s9291k0dp8ij8ugl25c92psedsdi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wakeuptaco.wakeuphoney"
+              }
             }
           ]
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-5897230132206634~9674778376"
     }
   ],
   "configuration_version": "1"

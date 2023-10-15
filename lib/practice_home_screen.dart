@@ -125,7 +125,7 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStatePropertyAll(Colors.green[600])),
-                child: const Text('Home'),
+                child: const Text('Home date picker'),
               ),
               ElevatedButton(
                 onPressed: () {

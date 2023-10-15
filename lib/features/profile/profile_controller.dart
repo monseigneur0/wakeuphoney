@@ -60,7 +60,7 @@ class ProfileController extends StateNotifier<bool> {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
-    logger.d("uid$uid");
+    logger.d("uid : $uid");
     return _profileRepo.getUserProfileStream(uid);
   }
 

@@ -25,7 +25,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -67,16 +70,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '64370557085',
     projectId: 'wakeuphoneys2',
     storageBucket: 'wakeuphoneys2.appspot.com',
-    iosClientId: '64370557085-pnl2s9291k0dp8ij8ugl25c92psedsdi.apps.googleusercontent.com',
-    iosBundleId: 'com.wakeuptaco.wakeuphoney',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAhtqTd7BqzIs-62C9o0u-aRQWz0U1hswc',
-    appId: '1:64370557085:ios:aeea4d4b85727c97621474',
-    messagingSenderId: '64370557085',
-    projectId: 'wakeuphoneys2',
-    storageBucket: 'wakeuphoneys2.appspot.com',
+    androidClientId: '64370557085-imdd5566vj4fcu3ok811ip7rhma3csit.apps.googleusercontent.com',
     iosClientId: '64370557085-pnl2s9291k0dp8ij8ugl25c92psedsdi.apps.googleusercontent.com',
     iosBundleId: 'com.wakeuptaco.wakeuphoney',
   );

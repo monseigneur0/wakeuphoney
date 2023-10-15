@@ -23,6 +23,12 @@ final getMyUserDataProvider = StreamProvider((ref) {
   return authController.getMyUserData();
 });
 
+final loginCheckProvider = StreamProvider((ref) {
+  final authController = ref.watch(authControllerProvider.notifier);
+
+  return authController.authStateChange;
+});
+
 class AuthController extends AsyncNotifier<void> {
   late final AuthRepository _authRepository;
   @override

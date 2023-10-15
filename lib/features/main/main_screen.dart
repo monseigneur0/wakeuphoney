@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wakeuphoney/features/auth/login_screen.dart';
 
 import '../../core/constants/design_constants.dart';
 import '../alarm/alarm_screen.dart';
+import '../auth/auth_controller.dart';
 import '../dailymessages/daily_letter3_screen.dart';
 import '../dailymessages/history_screen.dart';
 import '../match/match_screen.dart';
@@ -34,40 +36,53 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: ImageIcon(
-              AssetImage('assets/alarm-clock.png'),
-              size: 18,
-            ),
-            label: 'Alarm',
+    final isLoggedInStream = ref.watch(loginCheckProvider);
+
+    return isLoggedInStream.when(
+      data: (user) {
+        if (user == null) {
+          return const LoginHome();
+        }
+        return Scaffold(
+          body: Center(
+            child: _widgetOptions.elementAt(_selectedIndex),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border_outlined),
-            label: 'Letters',
+          bottomNavigationBar: BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: ImageIcon(
+                  AssetImage('assets/alarm-clock.png'),
+                  size: 18,
+                ),
+                label: 'Alarm',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.favorite_border_outlined),
+                label: 'Letters',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.local_post_office_outlined),
+                label: 'History',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person_outline_rounded),
+                label: 'Profile',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: AppColors.myPink,
+            onTap: _onItemTapped,
+            iconSize: 18,
+            selectedFontSize: 10,
+            unselectedFontSize: 7,
+            unselectedItemColor: Colors.grey[600],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_post_office_outlined),
-            label: 'History',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline_rounded),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: AppColors.myPink,
-        onTap: _onItemTapped,
-        iconSize: 18,
-        selectedFontSize: 10,
-        unselectedFontSize: 7,
-        unselectedItemColor: Colors.grey[600],
-      ),
+        );
+      },
+      error: (error, _) =>
+          const Scaffold(body: Center(child: Text('An error occurred'))),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
     );
   }
 }

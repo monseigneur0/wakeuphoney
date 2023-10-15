@@ -55,15 +55,15 @@ class MatchRepository {
   }
 
   Future<MatchModel?> getMatchCodeFuture(String uid, int honeyCode) async {
-    await _matches
-        .where("time",
-            isLessThan: DateTime.now().subtract(const Duration(minutes: 60)))
-        .get()
-        .then((value) => value.docs.forEach((element) {
-              _matches.doc(element.id).delete();
-            }));
-
     try {
+      await _matches
+          .where("time",
+              isLessThan: DateTime.now().subtract(const Duration(minutes: 60)))
+          .get()
+          .then((value) => value.docs.forEach((element) {
+                _matches.doc(element.id).delete();
+              }));
+
       final wow =
           await _matches.where("uid", isEqualTo: uid).get().then((event) {
         if (event.docs.isNotEmpty) {
@@ -74,6 +74,7 @@ class MatchRepository {
         }
       });
     } catch (e) {
+      logger.d("getMatchCodeFuture");
       logger.d(e.toString());
     }
     return null;

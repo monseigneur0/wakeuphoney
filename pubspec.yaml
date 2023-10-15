@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.6+9
+version: 1.0.9+13
 
 environment:
   sdk: '>=2.19.6 <3.0.0'
@@ -37,7 +37,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  alarm: ^1.2.2
+  alarm: ^2.1.0  
   
   firebase_core: ^2.15.1
   firebase_auth: ^4.9.0
@@ -73,6 +73,8 @@ dependencies:
   scroll_to_index: ^3.0.1
   scrollable_positioned_list: ^0.3.8
   flutter_native_splash: ^2.3.2
+  firebase_crashlytics: ^3.3.7
+  firebase_analytics: ^10.5.1
   
 dev_dependencies:
   flutter_test:

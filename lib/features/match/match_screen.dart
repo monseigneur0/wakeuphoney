@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -97,7 +96,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
     final userCoupleProfileStream = ref.watch(getCoupleProfileStreamProvider);
 
     return hasCoupleId.when(
-      data: (data) => data.couples.isNotEmpty
+      data: (data) => data.couple != ""
           ? Scaffold(
               appBar: AppBar(
                 backgroundColor: AppColors.myAppBarBackgroundPink,
@@ -356,7 +355,10 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                                     hintStyle: const TextStyle(
                                         fontSize: 30, color: Colors.white),
                                     focusColor: Colors.red,
-                                    border: InputBorder.none,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -406,7 +408,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.grey[900],
-                            labelText: '초대코드 입력',
+                            // labelText: '초대코드 입력',
                             labelStyle: const TextStyle(color: Colors.grey),
 
                             hintText: '000000',
@@ -419,7 +421,10 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                             // enabledBorder: const OutlineInputBorder(
                             //   borderSide: BorderSide(color: Colors.green, width: 2.0),
                             // ),
-                            border: InputBorder.none,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
                           ),
                         ),
                       ),
@@ -428,9 +433,17 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                          style: const ButtonStyle(
-                              backgroundColor:
-                                  MaterialStatePropertyAll(Color(0xFFD72499))),
+                          style: ButtonStyle(
+                            backgroundColor: const MaterialStatePropertyAll(
+                                Color(0xFFD72499)),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  side: const BorderSide(
+                                      color: Color(0xFFD72499))),
+                            ),
+                          ),
                           onPressed: () {
                             // to delete
                             // ref
@@ -468,6 +481,10 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                         ),
                       ],
                     ),
+                    TextButton(
+                      onPressed: () => throw Exception(),
+                      child: const Text("Throw Test Exception"),
+                    ),
                   ],
                 ),
               ),
@@ -475,140 +492,9 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
             ),
       error: (error, stackTrace) {
         logger.d("error hasCoupleId  $error ");
-        return const Center(child: Text('error'));
+        return Center(child: Text('error $error $stackTrace'));
       },
       loading: () => const Loader(),
     );
   }
-
-  // Future<void> _update() async {
-  //   await showModalBottomSheet(
-  //     backgroundColor: Colors.grey[900],
-  //     isScrollControlled: true,
-  //     context: context,
-  //     builder: (BuildContext ctx) {
-  //       return Padding(
-  //         padding: EdgeInsets.only(
-  //             top: 20,
-  //             left: 20,
-  //             right: 20,
-  //             bottom: MediaQuery.of(ctx).viewInsets.bottom + 20),
-  //         child: Column(
-  //           mainAxisSize: MainAxisSize.min,
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: [
-  //             Form(
-  //               key: _formKey,
-  //               child: TextFormField(
-  //                 cursorColor: Colors.white,
-  //                 style: const TextStyle(color: Colors.white),
-  //                 minLines: 5,
-  //                 maxLines: 10,
-  //                 keyboardType: TextInputType.multiline,
-  //                 validator: (value) {
-  //                   if (value == null || value.isEmpty || value == "") {
-  //                     return 'Please enter some text';
-  //                   }
-  //                   return null;
-  //                 },
-  //                 autofocus: true,
-  //                 autovalidateMode: AutovalidateMode.always,
-  //                 controller: _messgaeController,
-  //                 decoration: InputDecoration(
-  //                   focusedBorder: const OutlineInputBorder(
-  //                     borderSide: BorderSide(color: Colors.white, width: 2.0),
-  //                   ),
-  //                   enabledBorder: const OutlineInputBorder(
-  //                     borderSide: BorderSide(color: Colors.white, width: 2.0),
-  //                   ),
-  //                   labelText: 'message at ${ref.read(selectedDate)}',
-  //                   border: const OutlineInputBorder(),
-  //                   labelStyle: const TextStyle(color: Colors.white),
-  //                 ),
-  //               ),
-  //             ),
-  //             const SizedBox(
-  //               height: 20,
-  //             ),
-  //             Row(
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               children: [
-  //                 isImageEmpty
-  //                     ? ElevatedButton(
-  //                         style: ButtonStyle(
-  //                           backgroundColor:
-  //                               MaterialStatePropertyAll(Colors.grey[900]),
-  //                         ),
-  //                         // child: const Text('Photo'),
-  //                         child: const Icon(
-  //                           Icons.photo_album_outlined,
-  //                           size: 40,
-  //                           color: Colors.white,
-  //                         ),
-  //                         onPressed: () async {
-  //                           ImagePicker imagePicker = ImagePicker();
-  //                           XFile? file = await imagePicker.pickImage(
-  //                             source: ImageSource.gallery,
-  //                             imageQuality: 15,
-  //                           );
-  //                           // logger.d('${file?.path}');
-
-  //                           String uniqueFileName =
-  //                               DateTime.now().toString().replaceAll(' ', '');
-
-  //                           //Get a reference to storage root
-  //                           Reference referenceRoot =
-  //                               FirebaseStorage.instance.ref();
-  //                           Reference referenceDirImages =
-  //                               referenceRoot.child('images');
-
-  //                           //Create a reference for the image to be stored
-  //                           Reference referenceImageToUpload =
-  //                               referenceDirImages.child(uniqueFileName);
-
-  //                           //Handle errors/success
-  //                           try {
-  //                             //Store the file
-  //                             await referenceImageToUpload
-  //                                 .putFile(File(file!.path));
-  //                             //Success: get the download URL
-  //                             imageUrl =
-  //                                 await referenceImageToUpload.getDownloadURL();
-
-  //                             ref
-  //                                 .watch(dailyControllerProvider.notifier)
-  //                                 .updateDailyImage(imageUrl);
-  //                           } catch (error) {
-  //                             //Some error occurred
-  //                           }
-  //                         },
-  //                       )
-  //                     : Container(),
-  //                 ElevatedButton(
-  //                   style: const ButtonStyle(
-  //                     backgroundColor:
-  //                         MaterialStatePropertyAll(Color(0xFFD72499)),
-  //                   ),
-  //                   child: const Text('Edit'),
-  //                   onPressed: () async {
-  //                     if (_formKey.currentState!.validate()) {
-  //                       showSnackBar(context, "message is edited");
-  //                       final String message = _messgaeController.text;
-  //                       ref
-  //                           .watch(dailyControllerProvider.notifier)
-  //                           .updateDailyMessage(message);
-
-  //                       _messgaeController.clear();
-  //                       Navigator.of(context).pop();
-  //                     }
-  //                   },
-  //                 ),
-  //               ],
-  //             )
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 }

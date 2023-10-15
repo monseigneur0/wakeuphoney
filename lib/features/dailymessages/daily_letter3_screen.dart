@@ -110,7 +110,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
             ? const Center(
                 child: Text(
                   "Please invite, 상대를 초대해주세요.",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.black),
                 ),
               )
             : Column(
