@@ -12,6 +12,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
 import '../../core/providers/firebase_providers.dart';
+import '../match/drawer.dart';
 import '../profile/profile_controller.dart';
 import 'daily_controller.dart';
 
@@ -76,282 +77,271 @@ class _HistoryMessageScreenState extends ConsumerState<HistoryMessageScreen> {
     final user = ref.watch(getUserProfileStreamProvider);
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "History",
-            style: TextStyle(color: Colors.black),
-          ),
-          backgroundColor: AppColors.myAppBarBackgroundPink,
-          // actions: [
-          //   IconButton(
-          //       onPressed: () {
-          //         context.goNamed(DailyLetter5Screen.routeName);
-          //       },
-          //       icon: const Icon(Icons.golf_course))
-          // ],
+      appBar: AppBar(
+        title: const Text(
+          "History",
+          style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: AppColors.myBackgroundPink,
-        body: user.when(
-          data: (data) => data.couples.isEmpty
-              ? const Center(
-                  child: Text(
-                    "Please invite, 상대를 초대해주세요.",
-                    style: TextStyle(color: Colors.black),
+        backgroundColor: AppColors.myAppBarBackgroundPink,
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         context.goNamed(DailyLetter5Screen.routeName);
+        //       },
+        //       icon: const Icon(Icons.golf_course))
+        // ],
+      ),
+      backgroundColor: AppColors.myBackgroundPink,
+      body: user.when(
+        data: (data) => data.couples.isEmpty
+            ? const Center(
+                child: Text(
+                  "Please invite, 상대를 초대해주세요.",
+                  style: TextStyle(color: Colors.black),
+                ),
+              )
+            : Column(
+                children: [
+                  Container(
+                    height: 1,
+                    decoration: BoxDecoration(color: Colors.grey[800]),
                   ),
-                )
-              : Column(
-                  children: [
-                    Container(
-                      height: 1,
-                      decoration: BoxDecoration(color: Colors.grey[800]),
-                    ),
-                    listHistoryMessage.when(
-                      data: (historyList) => userProfileStream.when(
-                          data: (user) => SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height - 270,
-                                child: SingleChildScrollView(
-                                  child: ListView.builder(
-                                    shrinkWrap: true, //scroll impossible
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: historyList.length,
-                                    itemBuilder: (context, index) => Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              historyList[index].sender == uid
-                                                  ? Row(
-                                                      children: [
-                                                        CachedNetworkImage(
-                                                          imageUrl:
-                                                              user.photoURL,
-                                                          fit: BoxFit.fill,
-                                                          placeholder:
-                                                              (context, url) =>
-                                                                  Container(
-                                                            height: 50,
-                                                          ),
-                                                          width: 50,
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 8,
-                                                        ),
-                                                        Text(
-                                                          user.displayName,
-                                                          style:
-                                                              const TextStyle(
-                                                                  color: Colors
-                                                                      .black),
-                                                        )
-                                                      ],
-                                                    )
-                                                  : Row(
-                                                      children: [
-                                                        CachedNetworkImage(
-                                                          imageUrl:
-                                                              user.couplePhotoURL ??
-                                                                  "",
-                                                          fit: BoxFit.fill,
-                                                          placeholder:
-                                                              (context, url) =>
-                                                                  Container(
-                                                            height: 50,
-                                                          ),
-                                                          width: 50,
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 8,
-                                                        ),
-                                                        Text(
-                                                          user.coupleDisplayName ??
-                                                              "",
-                                                          style:
-                                                              const TextStyle(
-                                                                  color: Colors
-                                                                      .black),
-                                                        )
-                                                      ],
-                                                    ),
-                                              const Icon(Icons.more_vert),
-                                              // IconButton(
-                                              //   onPressed: () {},
-                                              //   icon: const Icon(Icons.more_vert),
-                                              //   color: Colors.white,
-                                              // )
-                                            ],
-                                          ),
-                                        ),
-                                        Row(
+                  listHistoryMessage.when(
+                    data: (historyList) => userProfileStream.when(
+                        data: (user) => SizedBox(
+                              height: MediaQuery.of(context).size.height - 270,
+                              child: SingleChildScrollView(
+                                child: ListView.builder(
+                                  shrinkWrap: true, //scroll impossible
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: historyList.length,
+                                  itemBuilder: (context, index) => Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const SizedBox(
-                                              width: 60,
-                                            ),
-                                            historyList[index]
-                                                    .message
-                                                    .isNotEmpty
-                                                ? SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width -
-                                                            100,
-                                                    child: Text(
-                                                      historyList[index]
-                                                          .message,
-                                                      style: const TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 30,
+                                            historyList[index].sender == uid
+                                                ? Row(
+                                                    children: [
+                                                      CachedNetworkImage(
+                                                        imageUrl: user.photoURL,
+                                                        fit: BoxFit.fill,
+                                                        placeholder:
+                                                            (context, url) =>
+                                                                Container(
+                                                          height: 50,
+                                                        ),
+                                                        width: 50,
                                                       ),
-                                                    ),
+                                                      const SizedBox(
+                                                        width: 8,
+                                                      ),
+                                                      Text(
+                                                        user.displayName,
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.black),
+                                                      )
+                                                    ],
                                                   )
-                                                : Container(),
+                                                : Row(
+                                                    children: [
+                                                      CachedNetworkImage(
+                                                        imageUrl:
+                                                            user.couplePhotoURL ??
+                                                                "",
+                                                        fit: BoxFit.fill,
+                                                        placeholder:
+                                                            (context, url) =>
+                                                                Container(
+                                                          height: 50,
+                                                        ),
+                                                        width: 50,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 8,
+                                                      ),
+                                                      Text(
+                                                        user.coupleDisplayName ??
+                                                            "",
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.black),
+                                                      )
+                                                    ],
+                                                  ),
+                                            const Icon(Icons.more_vert),
+                                            // IconButton(
+                                            //   onPressed: () {},
+                                            //   icon: const Icon(Icons.more_vert),
+                                            //   color: Colors.white,
+                                            // )
                                           ],
                                         ),
-                                        // Container(
-                                        //   width: double.infinity,
-                                        //   height: 50,
-                                        //   color: Colors.indigo.shade300,
-                                        // ),
-                                        historyList[index].photo.isNotEmpty
-                                            ? CachedNetworkImage(
-                                                imageUrl:
-                                                    historyList[index].photo,
-                                                fit: BoxFit.fill,
-                                                placeholder: (context, url) =>
-                                                    Container(
-                                                  height: 100,
-                                                ),
-                                                //width: MediaQuery.of(context).size.width,
-                                                height: 350,
-                                              )
-                                            : Container(),
-                                        historyList[index]
-                                                .messagedate
-                                                .isNotEmpty
-                                            ? SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width -
-                                                    100,
-                                                child: Text(
-                                                  historyList[index]
-                                                      .messagedate,
-                                                  style: TextStyle(
-                                                    color: Colors.grey[700],
-                                                    fontSize: 20,
+                                      ),
+                                      Row(
+                                        children: [
+                                          const SizedBox(
+                                            width: 60,
+                                          ),
+                                          historyList[index].message.isNotEmpty
+                                              ? SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width -
+                                                      100,
+                                                  child: Text(
+                                                    historyList[index].message,
+                                                    style: const TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 30,
+                                                    ),
                                                   ),
+                                                )
+                                              : Container(),
+                                        ],
+                                      ),
+                                      // Container(
+                                      //   width: double.infinity,
+                                      //   height: 50,
+                                      //   color: Colors.indigo.shade300,
+                                      // ),
+                                      historyList[index].photo.isNotEmpty
+                                          ? CachedNetworkImage(
+                                              imageUrl:
+                                                  historyList[index].photo,
+                                              fit: BoxFit.fill,
+                                              placeholder: (context, url) =>
+                                                  Container(
+                                                height: 100,
+                                              ),
+                                              //width: MediaQuery.of(context).size.width,
+                                              height: 350,
+                                            )
+                                          : Container(),
+                                      historyList[index].messagedate.isNotEmpty
+                                          ? SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  100,
+                                              child: Text(
+                                                historyList[index].messagedate,
+                                                style: TextStyle(
+                                                  color: Colors.grey[700],
+                                                  fontSize: 20,
                                                 ),
-                                              )
-                                            : Container(),
-                                        // Row(
-                                        //   mainAxisAlignment:
-                                        //       MainAxisAlignment.spaceBetween,
-                                        //   children: [
-                                        //     Row(
-                                        //       children: [
-                                        //         IconButton(
-                                        //           onPressed: () {},
-                                        //           icon: const Icon(
-                                        //             Icons.favorite_outline,
-                                        //             color: Colors.white,
-                                        //           ),
-                                        //         ),
-                                        //         IconButton(
-                                        //           onPressed: () {},
-                                        //           icon: const Icon(
-                                        //             CupertinoIcons.chat_bubble,
-                                        //             color: Colors.white,
-                                        //           ),
-                                        //         ),
-                                        //         IconButton(
-                                        //           onPressed: () {},
-                                        //           icon: const Icon(
-                                        //             CupertinoIcons.paperplane,
-                                        //             color: Colors.white,
-                                        //           ),
-                                        //         ),
-                                        //       ],
-                                        //     ),
-                                        //     IconButton(
-                                        //       onPressed: () {},
-                                        //       icon: const Icon(
-                                        //         CupertinoIcons.bookmark,
-                                        //         color: Colors.white,
-                                        //       ),
-                                        //     ),
-                                        //   ],
-                                        // ),
-                                        const SizedBox(
-                                          height: 30,
-                                        ),
-                                        Container(
-                                          height: 1,
-                                          decoration: BoxDecoration(
-                                              color: Colors.grey[800]),
-                                        ),
-                                      ],
-                                    ),
+                                              ),
+                                            )
+                                          : Container(),
+                                      // Row(
+                                      //   mainAxisAlignment:
+                                      //       MainAxisAlignment.spaceBetween,
+                                      //   children: [
+                                      //     Row(
+                                      //       children: [
+                                      //         IconButton(
+                                      //           onPressed: () {},
+                                      //           icon: const Icon(
+                                      //             Icons.favorite_outline,
+                                      //             color: Colors.white,
+                                      //           ),
+                                      //         ),
+                                      //         IconButton(
+                                      //           onPressed: () {},
+                                      //           icon: const Icon(
+                                      //             CupertinoIcons.chat_bubble,
+                                      //             color: Colors.white,
+                                      //           ),
+                                      //         ),
+                                      //         IconButton(
+                                      //           onPressed: () {},
+                                      //           icon: const Icon(
+                                      //             CupertinoIcons.paperplane,
+                                      //             color: Colors.white,
+                                      //           ),
+                                      //         ),
+                                      //       ],
+                                      //     ),
+                                      //     IconButton(
+                                      //       onPressed: () {},
+                                      //       icon: const Icon(
+                                      //         CupertinoIcons.bookmark,
+                                      //         color: Colors.white,
+                                      //       ),
+                                      //     ),
+                                      //   ],
+                                      // ),
+                                      const SizedBox(
+                                        height: 30,
+                                      ),
+                                      Container(
+                                        height: 1,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[800]),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
-                          error: (error, stackTrace) {
-                            return const Row(
-                              children: [
-                                Image(
-                                  image: AssetImage('assets/human.jpg'),
-                                  height: 50,
-                                ),
-                                Text("error, please close app and open app"),
-                              ],
-                            );
-                          },
-                          loading: () => const Loader()),
-                      error: (error, stackTrace) {
-                        return const Row(
-                          children: [
-                            Image(
-                              image: AssetImage('assets/human.jpg'),
-                              height: 50,
                             ),
-                            Text("error, please close app and open app")
-                          ],
-                        );
-                      },
-                      loading: () => const Loader(),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        if (_bannerAd != null)
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: SizedBox(
-                              width: _bannerAd!.size.width.toDouble(),
-                              height: _bannerAd!.size.height.toDouble(),
-                              child: AdWidget(ad: _bannerAd!),
-                            ),
+                        error: (error, stackTrace) {
+                          return const Row(
+                            children: [
+                              Image(
+                                image: AssetImage('assets/human.jpg'),
+                                height: 50,
+                              ),
+                              Text("error, please close app and open app"),
+                            ],
+                          );
+                        },
+                        loading: () => const Loader()),
+                    error: (error, stackTrace) {
+                      return const Row(
+                        children: [
+                          Image(
+                            image: AssetImage('assets/human.jpg'),
+                            height: 50,
                           ),
-                      ],
-                    ),
-                  ],
-                ),
-          error: (error, stackTrace) {
-            return const Row(
-              children: [
-                Image(
-                  image: AssetImage('assets/human.jpg'),
-                  height: 50,
-                ),
-                Text("error, please close app and open app")
-              ],
-            );
-          },
-          loading: () => const Loader(),
-        ));
+                          Text("error, please close app and open app")
+                        ],
+                      );
+                    },
+                    loading: () => const Loader(),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (_bannerAd != null)
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            width: _bannerAd!.size.width.toDouble(),
+                            height: _bannerAd!.size.height.toDouble(),
+                            child: AdWidget(ad: _bannerAd!),
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+        error: (error, stackTrace) {
+          return const Row(
+            children: [
+              Image(
+                image: AssetImage('assets/human.jpg'),
+                height: 50,
+              ),
+              Text("error, please close app and open app")
+            ],
+          );
+        },
+        loading: () => const Loader(),
+      ),
+    );
   }
 }

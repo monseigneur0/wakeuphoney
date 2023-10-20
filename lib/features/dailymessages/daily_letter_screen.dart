@@ -9,7 +9,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/features/dailymessages/daily_controller.dart';
-import 'package:wakeuphoney/features/dailymessages/daily_letter_screen.dart';
 import 'package:wakeuphoney/features/dailymessages/daily_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -20,17 +19,17 @@ import '../../core/constants/design_constants.dart';
 import '../../core/utils.dart';
 import 'daily_create_screen.dart';
 
-class DailyLetter3Screen extends ConsumerStatefulWidget {
-  static String routeName = "dailyletter3";
-  static String routeURL = "/dailyletter3";
-  const DailyLetter3Screen({super.key});
+class DailyLetterScreen extends ConsumerStatefulWidget {
+  static String routeName = "dailyletter";
+  static String routeURL = "/dailyletter";
+  const DailyLetterScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _DailyLetter3ScreenState();
+      _DailyLetterScreenState();
 }
 
-class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
+class _DailyLetterScreenState extends ConsumerState<DailyLetterScreen> {
   final String iOSId2 = 'ca-app-pub-5897230132206634/5936284276';
   final String androidId2 = 'ca-app-pub-5897230132206634/3350483532';
 
@@ -94,16 +93,16 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
           style: const TextStyle(color: Colors.black),
         ),
         backgroundColor: AppColors.myAppBarBackgroundPink,
-        actions: [
-          IconButton(
-              onPressed: () {
-                context.pushNamed(DailyLetterScreen.routeName);
-              },
-              icon: const Icon(
-                Icons.connecting_airports_outlined,
-                color: Color(0xFFD72499),
-              ))
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         context.pushNamed(CoupleLetterScreen.routeName);
+        //       },
+        //       icon: const Icon(
+        //         Icons.connecting_airports_outlined,
+        //         color: Color(0xFFD72499),
+        //       ))
+        // ],
       ),
       backgroundColor: AppColors.myBackgroundPink,
       body: user.when(

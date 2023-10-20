@@ -20,7 +20,7 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 3;
   static const List<Widget> _widgetOptions = <Widget>[
     AlarmHome(),
     DailyLetter3Screen(),
@@ -56,6 +56,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 ),
                 label: 'Alarm',
               ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(Icons.alarm),
+              //   label: 'Alarm2',
+              // ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.favorite_border_outlined),
                 label: 'Letters',

@@ -5,14 +5,17 @@ import 'package:logger/logger.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
 
+import 'features/alarm/alarm2_screen.dart';
 import 'features/alarm/alarm_ring_screen.dart';
 import 'features/auth/auth_repository.dart';
 import 'features/dailymessages/daily_create_screen.dart';
 import 'features/dailymessages/daily_letter3_screen.dart';
-import 'features/dailymessages/daily_letter4_screen.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
-import 'features/dailymessages/daily_letter5_screen.dart';
+import 'features/dailymessages/daily_letter_screen.dart';
 import 'features/dailymessages/history_screen.dart';
+import 'features/match/match2_screen.dart';
+import 'features/match/match3_screen.dart';
+import 'features/match/match4_screen.dart';
 import 'features/match/match_up.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/profile/feedback_screen.dart';
@@ -69,6 +72,11 @@ final routerProvider = Provider((ref) {
         ),
       ),
       GoRoute(
+        name: ExampleAlarmHomeScreen.routeName,
+        path: ExampleAlarmHomeScreen.routeURL,
+        builder: (context, state) => const ExampleAlarmHomeScreen(),
+      ),
+      GoRoute(
         name: ResponseScreen.routeName,
         path: ResponseScreen.routeURL,
         builder: (context, state) => const ResponseScreen(),
@@ -79,14 +87,9 @@ final routerProvider = Provider((ref) {
         builder: (context, state) => const DailyLetter3Screen(),
       ),
       GoRoute(
-        name: DailyLetter4Screen.routeName,
-        path: DailyLetter4Screen.routeURL,
-        builder: (context, state) => const DailyLetter4Screen(),
-      ),
-      GoRoute(
-        name: DailyLetter5Screen.routeName,
-        path: DailyLetter5Screen.routeURL,
-        builder: (context, state) => const DailyLetter5Screen(),
+        name: DailyLetterScreen.routeName,
+        path: DailyLetterScreen.routeURL,
+        builder: (context, state) => const DailyLetterScreen(),
       ),
       GoRoute(
         name: HistoryMessageScreen.routeName,
@@ -117,6 +120,21 @@ final routerProvider = Provider((ref) {
         name: MatchScreen.routeName,
         path: MatchScreen.routeURL,
         builder: (context, state) => const MatchScreen(),
+      ),
+      GoRoute(
+        name: Match2Screen.routeName,
+        path: Match2Screen.routeURL,
+        builder: (context, state) => const Match2Screen(),
+      ),
+      GoRoute(
+        name: Match3Screen.routeName,
+        path: Match3Screen.routeURL,
+        builder: (context, state) => const Match3Screen(),
+      ),
+      GoRoute(
+        name: Match4Screen.routeName,
+        path: Match4Screen.routeURL,
+        builder: (context, state) => const Match4Screen(),
       ),
       GoRoute(
         name: Home.routeName,

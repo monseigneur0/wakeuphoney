@@ -1,10 +1,8 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/utils.dart';
@@ -13,7 +11,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
-import '../alarm/alarm_screen.dart';
 import '../auth/login_screen.dart';
 import 'drawer.dart';
 import 'match_controller.dart';
@@ -28,51 +25,19 @@ class MatchScreen extends ConsumerStatefulWidget {
 }
 
 class _MatchScreenState extends ConsumerState<MatchScreen> {
-  String toTick(DateTime time) {
-    int leftSec = 3600 -
-        ((DateTime.now().millisecondsSinceEpoch -
-                time.millisecondsSinceEpoch) ~/
-            1000);
-    Timer timer = Timer.periodic(const Duration(seconds: 1), onTick);
-    return format(leftSec);
-  }
-
-  void onTick(Timer timer) {
-    int totalSeconds = 10;
-    if (totalSeconds < 1) {
-      if (context.mounted) {
-        context.go(AlarmHome.routeURL);
-      }
-    } else {
-      if (mounted) {
-        setState(() {
-          // state 변경에 대한 코드.
-        });
-      }
-      totalSeconds = totalSeconds - 1;
-    }
-  }
-
-  String format(int seconds) {
-    var duration = Duration(seconds: seconds);
-    // logger.d("duration $duration");
-    return duration.toString().split(".").first.substring(2, 7);
-  }
-
   var logger = Logger();
+
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _honeyCodeController = TextEditingController();
+
+  bool _visiblebear = true;
+  int randomNum = 0;
 
   @override
   void dispose() {
     _honeyCodeController.dispose();
     super.dispose();
   }
-
-  final TextEditingController _honeyCodeController = TextEditingController();
-
-  bool _visiblebear = true;
-  int randomNum = 0;
-
-  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -327,9 +292,9 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  "내 초대코드 (남은시간) ${toTick(data.time)}",
-                                  style: const TextStyle(color: Colors.black),
+                                const Text(
+                                  "내 초대코드 (1시간 유효) ",
+                                  style: TextStyle(color: Colors.black),
                                 ),
                                 const SizedBox(
                                   height: 5,
@@ -480,10 +445,6 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                               Text(AppLocalizations.of(context)!.connectwith),
                         ),
                       ],
-                    ),
-                    TextButton(
-                      onPressed: () => throw Exception(),
-                      child: const Text("Throw Test Exception"),
                     ),
                   ],
                 ),

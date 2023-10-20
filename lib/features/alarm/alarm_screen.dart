@@ -9,7 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/constants/design_constants.dart';
 import '../../widgets/alarm_tile.dart';
-import 'alarm_edit_screen.dart';
+import 'alarm2_edit_screen.dart';
 import 'alarm_ring_screen.dart';
 
 final alarmSettingsProvider = StateProvider<AlarmSettings>((ref) =>
@@ -94,7 +94,7 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
       builder: (context) {
         return FractionallySizedBox(
           heightFactor: 0.7,
-          child: ExampleAlarmEditScreen(alarmSettings: settings),
+          child: ExampleAlarm2EditScreen(alarmSettings: settings),
         );
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),

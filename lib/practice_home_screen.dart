@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'core/providers/providers.dart';
+import 'features/alarm/alarm2_screen.dart';
 import 'features/dailymessages/daily_letter3_screen.dart';
-import 'features/dailymessages/daily_letter4_screen.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/dailymessages/response_screen.dart';
+import 'features/match/match2_screen.dart';
+import 'features/match/match3_screen.dart';
+import 'features/match/match4_screen.dart';
 import 'features/match/match_up.dart';
 import 'features/profile/couple_profile_screen.dart';
 import 'features/match/match_screen.dart';
@@ -75,7 +78,32 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
               ),
               ElevatedButton(
                 style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.blue)),
+                onPressed: () => context.pushNamed(Match2Screen.routeName),
+                child: const Text('Match2Screen'),
+              ),
+              ElevatedButton(
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.blue)),
+                onPressed: () => context.pushNamed(Match3Screen.routeName),
+                child: const Text('Match3Screen'),
+              ),
+              ElevatedButton(
+                style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.pink)),
+                onPressed: () => context.pushNamed(Match4Screen.routeName),
+                child: const Text('PomodoroScreen'),
+              ),
+              ElevatedButton(
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.yellow)),
+                onPressed: () =>
+                    context.pushNamed(ExampleAlarmHomeScreen.routeName),
+                child: const Text('AlarmTestScreen'),
+              ),
+              ElevatedButton(
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.green)),
                 onPressed: () {
                   context.go(LoginHome.routeURL);
                 },
@@ -99,15 +127,6 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                     backgroundColor:
                         MaterialStatePropertyAll(Colors.purple[600])),
                 child: const Text('DailyLetter33Screen333'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  context.pushNamed(DailyLetter4Screen.routeName);
-                },
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStatePropertyAll(Colors.grey[600])),
-                child: const Text('DailyLetterScreen444'),
               ),
               ElevatedButton(
                 onPressed: () {
