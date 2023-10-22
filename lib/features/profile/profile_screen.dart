@@ -1,12 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
 import '../match/drawer.dart';
+import 'dart:math';
+
+import 'package:logger/logger.dart';
+
+import '../../core/constants/design_constants.dart';
+import '../auth/login_screen.dart';
 
 class CoupleProfileScreen extends ConsumerStatefulWidget {
   static String routeName = "coupleprofilescreen";
@@ -19,27 +24,21 @@ class CoupleProfileScreen extends ConsumerStatefulWidget {
 }
 
 class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
-  late SharedPreferences prefs;
+  var logger = Logger();
 
-  Future initPrefs() async {
-    prefs = await SharedPreferences.getInstance();
-    String lalalala = "";
-    ref
-        .watch(getUserProfileStreamProvider)
-        .whenData((value) => lalalala = value.couple.toString());
-    await prefs.setString("coupleuid", lalalala);
-  }
+  final TextEditingController _honeyCodeController = TextEditingController();
+
+  bool _visiblebear = true;
+  int randomNum = 0;
 
   @override
-  void initState() {
-    super.initState();
-    initPrefs();
+  void dispose() {
+    _honeyCodeController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final userProfileStream = ref.watch(getUserProfileStreamProvider);
-    final userCoupleProfileStream = ref.watch(getCoupleProfileStreamProvider);
     List<String> messageList = [
       AppLocalizations.of(context)!.hello,
       AppLocalizations.of(context)!.goodmorning,
@@ -55,23 +54,83 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
       AppLocalizations.of(context)!.imissyou,
     ];
 
+    final userProfileStream = ref.watch(getUserProfileStreamProvider);
+    final userCoupleProfileStream = ref.watch(getCoupleProfileStreamProvider);
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: AppColors.myAppBarBackgroundPink,
         elevation: 0,
-        title: Text(AppLocalizations.of(context)!.profile),
+        title: Text(
+          AppLocalizations.of(context)!.profile,
+          style: const TextStyle(color: Colors.black),
+        ),
         // const Text(
         //   "Profile",
         //   style: TextStyle(
         //       color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
         // ),
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.myBackgroundPink,
       body: Column(
         children: [
           Container(
             height: 1,
             decoration: BoxDecoration(color: Colors.grey[800]),
+          ),
+          Container(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              AnimatedOpacity(
+                opacity: _visiblebear ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 0),
+                child: Container(
+                  width: 250,
+                  height: 75,
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[500],
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(19),
+                      topRight: Radius.circular(19),
+                      bottomLeft: Radius.circular(19),
+                      bottomRight: Radius.circular(19),
+                    ),
+                  ),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        messageList[randomNum],
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 15),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              AnimatedOpacity(
+                opacity: _visiblebear ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 0),
+                child: CustomPaint(painter: Triangle(Colors.grey.shade500)),
+              ),
+              const SizedBox(height: 30),
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    _visiblebear = !_visiblebear;
+                    randomNum = Random().nextInt(10);
+                  });
+                },
+                icon: Image.asset(
+                  'assets/alarmbearno.png',
+                ),
+                iconSize: 50,
+              ),
+            ],
           ),
           Container(
             height: 50,
@@ -111,7 +170,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                         data.displayName,
                         style: const TextStyle(
                           fontSize: 30,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                       error: (error, stackTrace) {
@@ -120,7 +179,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                           "no couple",
                           style: TextStyle(
                             fontSize: 30,
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                         );
                       },
@@ -168,7 +227,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                         data.displayName,
                         style: const TextStyle(
                           fontSize: 30,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                       error: (error, stackTrace) {

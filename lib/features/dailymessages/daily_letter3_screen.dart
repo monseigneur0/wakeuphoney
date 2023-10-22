@@ -16,6 +16,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 
 import '../../core/common/loader.dart';
+import '../../core/constants/constants.dart';
 import '../../core/constants/design_constants.dart';
 import '../../core/utils.dart';
 import 'daily_create_screen.dart';
@@ -94,15 +95,15 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
           style: const TextStyle(color: Colors.black),
         ),
         backgroundColor: AppColors.myAppBarBackgroundPink,
-        actions: [
-          IconButton(
-              onPressed: () {
-                context.pushNamed(DailyLetterScreen.routeName);
-              },
-              icon: const Icon(
-                Icons.connecting_airports_outlined,
-                color: Color(0xFFD72499),
-              ))
+        actions: const [
+          // IconButton(
+          //     onPressed: () {
+          //       context.pushNamed(DailyLetterScreen.routeName);
+          //     },
+          //     icon: const Icon(
+          //       Icons.connecting_airports_outlined,
+          //       color: Color(0xFFD72499),
+          //     ))
         ],
       ),
       backgroundColor: AppColors.myBackgroundPink,
@@ -121,9 +122,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                     height: 1,
                     decoration: BoxDecoration(color: Colors.grey[700]),
                   ),
-                  Container(
-                    height: 5,
-                  ),
+
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   //   children: [
@@ -171,7 +170,8 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: MediaQuery.of(context).size.height - 270,
+                          height: MediaQuery.of(context).size.height -
+                              Constants.adbannerline,
                           child: ListView.builder(
                             itemCount: 100,
                             scrollDirection: Axis.vertical,

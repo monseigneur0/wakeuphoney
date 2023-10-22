@@ -9,7 +9,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/constants/design_constants.dart';
 import '../../widgets/alarm_tile.dart';
-import 'alarm2_edit_screen.dart';
+
+import 'alarm2_shortcut.dart';
+import 'alarm_edit_screen.dart';
 import 'alarm_ring_screen.dart';
 
 final alarmSettingsProvider = StateProvider<AlarmSettings>((ref) =>
@@ -87,6 +89,21 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
     loadAlarms();
   }
 
+  // Future<void> navigateToExampleAlarmScreen(AlarmSettings? settings) async {
+  //   final res = await showModalBottomSheet<bool?>(
+  //     context: context,
+  //     isScrollControlled: true,
+  //     builder: (context) {
+  //       return FractionallySizedBox(
+  //         heightFactor: 0.7,
+  //         child: ExampleAlarm2EditScreen(alarmSettings: settings),
+  //       );
+  //     },
+  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+  //   );
+  //   if (res != null && res == true) loadAlarms();
+  // }
+
   Future<void> navigateToAlarmScreen(AlarmSettings? settings) async {
     final res = await showModalBottomSheet<bool?>(
       context: context,
@@ -94,7 +111,7 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
       builder: (context) {
         return FractionallySizedBox(
           heightFactor: 0.7,
-          child: ExampleAlarm2EditScreen(alarmSettings: settings),
+          child: AlarmEditScreen(alarmSettings: settings),
         );
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -143,41 +160,55 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
         ],
       ),
       backgroundColor: AppColors.myBackgroundPink,
-      body: SafeArea(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height - 180,
-          child: alarms.isNotEmpty
-              ? ListView.separated(
-                  itemCount: alarms.length,
-                  separatorBuilder: (context, index) => const Divider(),
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: AlarmTile(
-                        key: Key(alarms[index].id.toString()),
-                        title: TimeOfDay(
-                          hour: alarms[index].dateTime.hour,
-                          minute: alarms[index].dateTime.minute,
-                        ).format(context),
-                        onPressed: () => navigateToAlarmScreen(alarms[index]),
-                        onDismissed: () {
-                          Alarm.stop(alarms[index].id)
-                              .then((_) => loadAlarms());
-                        },
+      body: Column(
+        children: [
+          if (_bannerAd != null)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: _bannerAd!.size.width.toDouble(),
+                height: _bannerAd!.size.height.toDouble(),
+                child: AdWidget(ad: _bannerAd!),
+              ),
+            ),
+          SafeArea(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height - 256,
+              child: alarms.isNotEmpty
+                  ? ListView.separated(
+                      itemCount: alarms.length,
+                      separatorBuilder: (context, index) => const Divider(),
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: AlarmTile(
+                            key: Key(alarms[index].id.toString()),
+                            title: TimeOfDay(
+                              hour: alarms[index].dateTime.hour,
+                              minute: alarms[index].dateTime.minute,
+                            ).format(context),
+                            onPressed: () =>
+                                navigateToAlarmScreen(alarms[index]),
+                            onDismissed: () {
+                              Alarm.stop(alarms[index].id)
+                                  .then((_) => loadAlarms());
+                            },
+                          ),
+                        );
+                      },
+                    )
+                  : Center(
+                      child: Text(
+                        AppLocalizations.of(context)!.noalarmset,
+                        style: const TextStyle(
+                          fontSize: 30,
+                          color: Colors.black,
+                        ),
                       ),
-                    );
-                  },
-                )
-              : Center(
-                  child: Text(
-                    AppLocalizations.of(context)!.noalarmset,
-                    style: const TextStyle(
-                      fontSize: 30,
-                      color: Colors.black,
                     ),
-                  ),
-                ),
-        ),
+            ),
+          ),
+        ],
       ),
       // bottomNavigationBar: BottomAppBar(
       //   child: Row(
@@ -207,21 +238,39 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
       //     ],
       //   ),
       // ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (_bannerAd != null)
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                width: _bannerAd!.size.width.toDouble(),
-                height: _bannerAd!.size.height.toDouble(),
-                child: AdWidget(ad: _bannerAd!),
-              ),
-            ),
-        ],
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: Row(
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   children: [
+      //     if (_bannerAd != null)
+      //       Align(
+      //         alignment: Alignment.bottomCenter,
+      //         child: SizedBox(
+      //           width: _bannerAd!.size.width.toDouble(),
+      //           height: _bannerAd!.size.height.toDouble(),
+      //           child: AdWidget(ad: _bannerAd!),
+      //         ),
+      //       ),
+      //   ],
+      // ),
+      // floatingActionButton: Padding(
+      //   padding: const EdgeInsets.all(10),
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.end,
+      //     children: [
+      //       ExampleAlarmHomeShortcutButton(refreshAlarms: loadAlarms),
+      //       FloatingActionButton(
+      //         onPressed: () => navigateToAlarmScreen(null),
+      //         backgroundColor: AppColors.myPink,
+      //         child: const ImageIcon(
+      //           AssetImage('assets/alarm-clock.png'),
+      //           size: 29,
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

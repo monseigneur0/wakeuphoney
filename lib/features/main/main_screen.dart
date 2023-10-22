@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wakeuphoney/core/common/loader.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
+import 'package:wakeuphoney/features/profile/profile_screen.dart';
 
 import '../../core/constants/design_constants.dart';
 import '../alarm/alarm_screen.dart';
@@ -8,6 +10,7 @@ import '../auth/auth_controller.dart';
 import '../dailymessages/daily_letter3_screen.dart';
 import '../dailymessages/history_screen.dart';
 import '../match/match_screen.dart';
+import '../profile/profile_controller.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   static String routeName = "mainscreen";
@@ -20,13 +23,7 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  int _selectedIndex = 3;
-  static const List<Widget> _widgetOptions = <Widget>[
-    AlarmHome(),
-    DailyLetter3Screen(),
-    HistoryMessageScreen(),
-    MatchScreen(),
-  ];
+  int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -36,8 +33,27 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLoggedInStream = ref.watch(loginCheckProvider);
+    final hasCoupleId = ref.watch(getUserProfileStreamProvider);
 
+    // return hasCoupleId.when(
+    // data: (data) => data.couple != ""
+
+    final isLoggedInStream = ref.watch(loginCheckProvider);
+    List<Widget> widgetOptions = <Widget>[
+      const AlarmHome(),
+      const DailyLetter3Screen(),
+      const HistoryMessageScreen(),
+      hasCoupleId.when(
+        data: ((data) {
+          if (data.couple != "") {
+            return const CoupleProfileScreen();
+          }
+          return const MatchScreen();
+        }),
+        error: (error, stackTrace) => const MatchScreen(),
+        loading: (() => const Loader()),
+      )
+    ];
     return isLoggedInStream.when(
       data: (user) {
         if (user == null) {
@@ -45,7 +61,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         }
         return Scaffold(
           body: Center(
-            child: _widgetOptions.elementAt(_selectedIndex),
+            child: widgetOptions.elementAt(_selectedIndex),
           ),
           bottomNavigationBar: BottomNavigationBar(
             items: const <BottomNavigationBarItem>[

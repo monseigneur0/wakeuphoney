@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:wakeuphoney/features/main/main_screen.dart';
 
 import 'core/providers/providers.dart';
 import 'features/alarm/alarm2_screen.dart';
@@ -10,7 +12,7 @@ import 'features/match/match2_screen.dart';
 import 'features/match/match3_screen.dart';
 import 'features/match/match4_screen.dart';
 import 'features/match/match_up.dart';
-import 'features/profile/couple_profile_screen.dart';
+import 'features/profile/profile_screen.dart';
 import 'features/match/match_screen.dart';
 import 'features/auth/auth_repository.dart';
 import 'package:go_router/go_router.dart';
@@ -31,6 +33,7 @@ class PracticeHome extends ConsumerStatefulWidget {
 class _PracticeHomeState extends ConsumerState<PracticeHome> {
   @override
   Widget build(BuildContext context) {
+    DateTime dateTime = DateTime.now();
     final number = ref.watch(numberProvider);
     final numberState = ref.watch(numberStateProvider);
     final currentUserModel = ref.watch(authRepositoryProvider);
@@ -54,6 +57,7 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                 height: 50,
               ),
               Text(currentUserModel.currentUser?.email ?? "email"),
+              Text("${DateFormat('E', 'ko_KR').format(dateTime)}요일임당"),
               ElevatedButton(
                 style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.amber)),
@@ -99,7 +103,16 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                     backgroundColor: MaterialStatePropertyAll(Colors.yellow)),
                 onPressed: () =>
                     context.pushNamed(ExampleAlarmHomeScreen.routeName),
-                child: const Text('AlarmTestScreen'),
+                child: const Text(
+                  'AlarmTestScreen',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              ElevatedButton(
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.black)),
+                onPressed: () => context.pushNamed(MainScreen.routeName),
+                child: const Text('MainScreen'),
               ),
               ElevatedButton(
                 style: const ButtonStyle(

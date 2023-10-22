@@ -8,6 +8,7 @@ import '../../core/common/loader.dart';
 import '../../core/providers/providers.dart';
 import '../dailymessages/daily_controller.dart';
 import '../dailymessages/response_screen.dart';
+import '../profile/profile_controller.dart';
 
 // class AlarmRingScreen extends ConsumerWidget {
 //   static String routeName = "alarmring";
@@ -157,6 +158,7 @@ class AlarmRingScreen extends ConsumerWidget {
     final dateList100 = ref.watch(dateStateProvider);
     final getCoupleMessage =
         ref.watch(getDailyCoupleMessageProvider(dateList100[0]));
+    final hasCoupleId = ref.watch(getUserProfileStreamProvider);
 
     return Scaffold(
       body: SafeArea(
@@ -235,18 +237,26 @@ class AlarmRingScreen extends ConsumerWidget {
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
-                  ElevatedButton(
-                    style: const ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Color(0xFFD72499))),
-                    onPressed: () {
-                      context.goNamed(ResponseScreen.routeName);
-                    },
-                    child: const Text(
-                      "reply",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
+                  hasCoupleId.when(
+                      data: (data) {
+                        return data.couple == ""
+                            ? Container()
+                            : ElevatedButton(
+                                style: const ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(
+                                        Color(0xFFD72499))),
+                                onPressed: () {
+                                  Alarm.stop(alarmSettings.id);
+                                  context.goNamed(ResponseScreen.routeName);
+                                },
+                                child: const Text(
+                                  "reply",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              );
+                      },
+                      error: (error, stackTrace) => Container(),
+                      loading: () => const Loader())
                 ],
               ),
             ],

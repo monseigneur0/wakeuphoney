@@ -17,7 +17,7 @@ import 'features/match/match2_screen.dart';
 import 'features/match/match3_screen.dart';
 import 'features/match/match4_screen.dart';
 import 'features/match/match_up.dart';
-import 'features/profile/couple_profile_screen.dart';
+import 'features/profile/profile_screen.dart';
 import 'features/profile/feedback_screen.dart';
 import 'features/match/match_screen.dart';
 import 'features/auth/login_screen.dart';

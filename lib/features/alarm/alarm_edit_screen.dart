@@ -4,25 +4,27 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:logger/logger.dart';
 
-class ExampleAlarmEditScreen extends StatefulWidget {
+class AlarmEditScreen extends StatefulWidget {
   final AlarmSettings? alarmSettings;
 
-  const ExampleAlarmEditScreen({Key? key, this.alarmSettings})
-      : super(key: key);
+  const AlarmEditScreen({Key? key, this.alarmSettings}) : super(key: key);
 
   @override
-  State<ExampleAlarmEditScreen> createState() => _ExampleAlarmEditScreenState();
+  State<AlarmEditScreen> createState() => _AlarmEditScreenState();
 }
 
-class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
-  late bool creating;
+class _AlarmEditScreenState extends State<AlarmEditScreen> {
+  bool loading = false;
 
-  late TimeOfDay selectedTime;
+  late bool creating;
+  late DateTime selectedDateTime;
   late bool loopAudio;
   late bool vibrate;
-  late bool showNotification = true;
+  late bool volumeMax;
+  late bool showNotification;
   late String assetAudio;
 
+  late TimeOfDay selectedTime;
   Time _time = Time(hour: 11, minute: 30, second: 20);
   late Time _selectedTime;
   var logger = Logger();
@@ -33,24 +35,45 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
     creating = widget.alarmSettings == null;
 
     if (creating) {
-      final dt = DateTime.now().add(const Duration(minutes: 1));
-      selectedTime = TimeOfDay(hour: dt.hour, minute: dt.minute);
+      selectedDateTime = DateTime.now().add(const Duration(minutes: 1));
+      selectedDateTime = selectedDateTime.copyWith(second: 0, millisecond: 0);
+      selectedTime = TimeOfDay(
+          hour: selectedDateTime.hour, minute: selectedDateTime.minute);
       loopAudio = true;
       vibrate = true;
+      volumeMax = false;
       showNotification = true;
-      assetAudio = 'assets/mozart.mp3';
+      assetAudio = 'assets/marimba.mp3';
     } else {
       selectedTime = TimeOfDay(
         hour: widget.alarmSettings!.dateTime.hour,
         minute: widget.alarmSettings!.dateTime.minute,
       );
+      selectedDateTime = widget.alarmSettings!.dateTime;
       loopAudio = widget.alarmSettings!.loopAudio;
       vibrate = widget.alarmSettings!.vibrate;
+      volumeMax = widget.alarmSettings!.volumeMax;
       showNotification = widget.alarmSettings!.notificationTitle != null &&
           widget.alarmSettings!.notificationTitle!.isNotEmpty &&
           widget.alarmSettings!.notificationBody != null &&
           widget.alarmSettings!.notificationBody!.isNotEmpty;
       assetAudio = widget.alarmSettings!.assetAudioPath;
+    }
+  }
+
+  String getDay() {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final difference = selectedDateTime.difference(today).inDays;
+
+    if (difference == 0) {
+      return 'Today';
+    } else if (difference == 1) {
+      return 'Tomorrow';
+    } else if (difference == 2) {
+      return 'After tomorrow';
+    } else {
+      return 'In $difference days';
     }
   }
 
@@ -128,13 +151,17 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
   }
 
   void saveAlarm() {
-    Alarm.set(alarmSettings: buildAlarmSettings())
-        .then((_) => Navigator.pop(context, true));
+    setState(() => loading = true);
+    Alarm.set(alarmSettings: buildAlarmSettings()).then((res) {
+      if (res) Navigator.pop(context, true);
+    });
+    setState(() => loading = false);
   }
 
   Future<void> deleteAlarm() async {
-    Alarm.stop(widget.alarmSettings!.id)
-        .then((_) => Navigator.pop(context, true));
+    Alarm.stop(widget.alarmSettings!.id).then((res) {
+      if (res) Navigator.pop(context, true);
+    });
   }
 
   @override
@@ -146,53 +173,6 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Row(
-            children: [
-              // TextButton(
-              //   onPressed: () {
-              //     Navigator.of(context).push(
-              //       showPicker(
-              //         context: context,
-              //         value: time,
-              //         sunrise: const TimeOfDay(hour: 6, minute: 0), // optional
-              //         sunset: const TimeOfDay(hour: 18, minute: 0), // optional
-              //         duskSpanInMinutes: 120, // optional
-              //         onChange: onTimeChanged,
-              //       ),
-              //     );
-              //   },
-              //   child: const Text(
-              //     "Open time picker",
-              //     style: TextStyle(color: Colors.black),
-              //   ),
-              // ),
-            ],
-          ),
-          // RawMaterialButton(
-          //   onPressed: () {
-          //     Navigator.of(context).push(
-          //       showPicker(
-          //         context: context,
-          //         value: timeto,
-          //         sunrise: const TimeOfDay(hour: 6, minute: 0), // optional
-          //         sunset: const TimeOfDay(hour: 18, minute: 0), // optional
-          //         duskSpanInMinutes: 120, // optional
-          //         onChange: onTimeChanged,
-          //       ),
-          //     );
-          //   },
-          //   fillColor: Colors.grey[200],
-          //   child: Container(
-          //     margin: const EdgeInsets.all(20),
-          //     child: Text(
-          //       selectedTime.format(context),
-          //       style: Theme.of(context)
-          //           .textTheme
-          //           .displayMedium!
-          //           .copyWith(color: Colors.blueAccent),
-          //     ),
-          //   ),
-          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -208,15 +188,24 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
               ),
               TextButton(
                 onPressed: saveAlarm,
-                child: Text(
-                  AppLocalizations.of(context)!.save,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(color: Colors.blueAccent),
-                ),
+                child: loading
+                    ? const CircularProgressIndicator()
+                    : Text(
+                        AppLocalizations.of(context)!.save,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge!
+                            .copyWith(color: Colors.blueAccent),
+                      ),
               ),
             ],
+          ),
+          Text(
+            getDay(),
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium!
+                .copyWith(color: Colors.blueAccent.withOpacity(0.8)),
           ),
           RawMaterialButton(
             onPressed: pickTime,
@@ -228,7 +217,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
                 style: Theme.of(context)
                     .textTheme
                     .displayMedium!
-                    .copyWith(color: Colors.blueAccent, fontSize: 40),
+                    .copyWith(color: Colors.blueAccent, fontSize: 30),
               ),
             ),
           ),
@@ -255,6 +244,19 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
               Switch(
                 value: vibrate,
                 onChanged: (value) => setState(() => vibrate = value),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'System volume max',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              Switch(
+                value: volumeMax,
+                onChanged: (value) => setState(() => volumeMax = value),
               ),
             ],
           ),

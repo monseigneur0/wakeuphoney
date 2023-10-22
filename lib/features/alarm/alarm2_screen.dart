@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:wakeuphoney/features/match/match_screen.dart';
 
 import '../../widgets/alarm_tile.dart';
-import '../main/main_screen.dart';
 import 'alarm2_edit_screen.dart';
 import 'alarm2_ring_screen.dart';
 import 'alarm2_shortcut.dart';

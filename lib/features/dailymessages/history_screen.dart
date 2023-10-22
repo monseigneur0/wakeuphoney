@@ -10,6 +10,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../core/common/loader.dart';
+import '../../core/constants/constants.dart';
 import '../../core/constants/design_constants.dart';
 import '../../core/providers/firebase_providers.dart';
 import '../match/drawer.dart';
@@ -109,7 +110,8 @@ class _HistoryMessageScreenState extends ConsumerState<HistoryMessageScreen> {
                   listHistoryMessage.when(
                     data: (historyList) => userProfileStream.when(
                         data: (user) => SizedBox(
-                              height: MediaQuery.of(context).size.height - 270,
+                              height: MediaQuery.of(context).size.height -
+                                  Constants.adbannerline,
                               child: SingleChildScrollView(
                                 child: ListView.builder(
                                   shrinkWrap: true, //scroll impossible
@@ -342,6 +344,7 @@ class _HistoryMessageScreenState extends ConsumerState<HistoryMessageScreen> {
         },
         loading: () => const Loader(),
       ),
+      // endDrawer: ProfileDrawer(ref: ref),
     );
   }
 }
