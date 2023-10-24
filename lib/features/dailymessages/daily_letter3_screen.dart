@@ -259,6 +259,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                                                                 Container(
                                                           height: 70,
                                                         ),
+                                                        height: 350,
                                                         errorWidget: (context,
                                                                 url, error) =>
                                                             const Icon(

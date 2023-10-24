@@ -233,7 +233,7 @@ class AlarmRingScreen extends ConsumerWidget {
                           .then((_) => Navigator.pop(context));
                     },
                     child: const Text(
-                      "Stop",
+                      "종료",
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -250,7 +250,7 @@ class AlarmRingScreen extends ConsumerWidget {
                                   context.goNamed(ResponseScreen.routeName);
                                 },
                                 child: const Text(
-                                  "reply",
+                                  "답장",
                                   style: TextStyle(color: Colors.white),
                                 ),
                               );

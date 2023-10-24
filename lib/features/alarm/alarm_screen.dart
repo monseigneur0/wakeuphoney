@@ -64,9 +64,10 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
   }
 
   void loadAlarms() {
-    alarms = Alarm.getAlarms();
-    alarms.sort((a, b) => a.dateTime.isBefore(b.dateTime) ? 0 : 1);
-    setState(() {});
+    setState(() {
+      alarms = Alarm.getAlarms();
+      alarms.sort((a, b) => a.dateTime.isBefore(b.dateTime) ? 0 : 1);
+    });
   }
 
   Future<void> navigateToRingScreen(AlarmSettings alarmSettings) async {

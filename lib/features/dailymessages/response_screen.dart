@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
-import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
+import 'package:wakeuphoney/features/main/main_screen.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
@@ -207,7 +207,7 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                         }
                         _messgaeController.clear();
                         if (context.mounted) {
-                          context.go(AlarmHome.routeURL);
+                          context.go(MainScreen.routeURL);
                         }
                       },
                     ),

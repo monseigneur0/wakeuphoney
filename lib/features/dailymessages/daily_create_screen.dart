@@ -67,7 +67,6 @@ class _DailyLetterCreateScreenState
         child: isLoading
             ? const Loader()
             : Column(
-                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
@@ -85,7 +84,6 @@ class _DailyLetterCreateScreenState
                         }
                         return null;
                       },
-                      autofocus: true,
                       controller: _messgaeController,
                       cursorColor: Colors.white,
                       style: const TextStyle(color: Colors.white),
@@ -238,78 +236,78 @@ class _DailyLetterCreateScreenState
   }
 }
 
-class ImageUploadButton extends StatefulWidget {
-  const ImageUploadButton({super.key});
+// class ImageUploadButton extends StatefulWidget {
+//   const ImageUploadButton({super.key});
 
-  @override
-  _ImageUploadButtonState createState() => _ImageUploadButtonState();
-}
+//   @override
+//   _ImageUploadButtonState createState() => _ImageUploadButtonState();
+// }
 
-class _ImageUploadButtonState extends State<ImageUploadButton> {
-  File? _image;
-  bool isLoading = false;
+// class _ImageUploadButtonState extends State<ImageUploadButton> {
+//   File? _image;
+//   bool isLoading = false;
 
-  Future<void> getImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+//   Future<void> getImage() async {
+//     final pickedFile =
+//         await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
+//     setState(() {
+//       if (pickedFile != null) {
+//         _image = File(pickedFile.path);
+//       } else {
+//         print('No image selected.');
+//       }
+//     });
+//   }
 
-  Future<void> _uploadImage() async {
-    setState(() {
-      isLoading = true;
-    });
+//   Future<void> _uploadImage() async {
+//     setState(() {
+//       isLoading = true;
+//     });
 
-    final ref = FirebaseStorage.instance
-        .ref()
-        .child('images')
-        .child('${DateTime.now()}.jpg');
+//     final ref = FirebaseStorage.instance
+//         .ref()
+//         .child('images')
+//         .child('${DateTime.now()}.jpg');
 
-    try {
-      await ref.putFile(_image!).whenComplete(() => null);
-      final url = await ref.getDownloadURL();
+//     try {
+//       await ref.putFile(_image!).whenComplete(() => null);
+//       final url = await ref.getDownloadURL();
 
-      // FirebaseFirestore.instance.collection('images').add({'url': url});
+//       // FirebaseFirestore.instance.collection('images').add({'url': url});
 
-      setState(() {
-        isLoading = false;
-      });
-    } catch (e) {
-      print(e.toString());
-    }
-  }
+//       setState(() {
+//         isLoading = false;
+//       });
+//     } catch (e) {
+//       print(e.toString());
+//     }
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        isLoading
-            ? const Loader()
-            : ElevatedButton.icon(
-                onPressed: getImage,
-                icon: const Icon(Icons.image),
-                label: const Text('Pick Image'),
-              ),
-        const SizedBox(height: 10),
-        isLoading
-            ? Container()
-            : (_image != null ? Image.file(_image!) : Container()),
-        const SizedBox(height: 10),
-        isLoading
-            ? Container()
-            : (ElevatedButton.icon(
-                onPressed: _uploadImage,
-                icon: const Icon(Icons.cloud_upload),
-                label: const Text('Upload Image'),
-              )),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: <Widget>[
+//         isLoading
+//             ? const Loader()
+//             : ElevatedButton.icon(
+//                 onPressed: getImage,
+//                 icon: const Icon(Icons.image),
+//                 label: const Text('Pick Image'),
+//               ),
+//         const SizedBox(height: 10),
+//         isLoading
+//             ? Container()
+//             : (_image != null ? Image.file(_image!) : Container()),
+//         const SizedBox(height: 10),
+//         isLoading
+//             ? Container()
+//             : (ElevatedButton.icon(
+//                 onPressed: _uploadImage,
+//                 icon: const Icon(Icons.cloud_upload),
+//                 label: const Text('Upload Image'),
+//               )),
+//       ],
+//     );
+//   }
+// }

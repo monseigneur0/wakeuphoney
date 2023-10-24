@@ -80,7 +80,7 @@ class _HistoryMessageScreenState extends ConsumerState<HistoryMessageScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "History",
+          "기록",
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: AppColors.myAppBarBackgroundPink,
