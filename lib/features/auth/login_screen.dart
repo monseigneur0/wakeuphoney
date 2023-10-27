@@ -120,6 +120,13 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                 iconSize: 130,
               ),
               const SizedBox(height: 50),
+              const Text(
+                "SNS 로그인",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 40,
+                    fontWeight: FontWeight.w700),
+              ),
               Platform.isIOS
                   ? Padding(
                       padding: const EdgeInsets.all(18.0),

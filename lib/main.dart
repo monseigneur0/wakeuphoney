@@ -22,6 +22,10 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  navigatorObservers:
+  [
+    FirebaseAnalyticsObserver(analytics: analytics),
+  ];
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
   MobileAds.instance.initialize();
@@ -34,6 +38,7 @@ void main() async {
 
 class WakeUpHoney extends ConsumerWidget {
   const WakeUpHoney({super.key});
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,6 +46,10 @@ class WakeUpHoney extends ConsumerWidget {
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+
+      // navigatorObservers: [
+      //   FirebaseAnalyticsObserver(analytics: analytics),
+      // ],
       routerConfig: ref.watch(routerProvider),
       localizationsDelegates: const [
         AppLocalizations.delegate,

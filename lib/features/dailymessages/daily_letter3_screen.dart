@@ -272,7 +272,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                                               padding: const EdgeInsets.only(
                                                   top: 5, left: 10, right: 10),
                                               child: ListTile(
-                                                tileColor: Colors.black,
+                                                tileColor: Colors.white,
                                                 shape:
                                                     const RoundedRectangleBorder(
                                                   borderRadius:

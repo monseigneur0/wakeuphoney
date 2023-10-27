@@ -20,7 +20,7 @@ final alarmSettingsProvider = StateProvider<AlarmSettings>((ref) =>
         dateTime: DateTime.now(),
         assetAudioPath: 'assets/mozart.mp3'));
 
-class AlarmHome extends ConsumerStatefulWidget {
+class AlarmHome extends StatefulWidget {
   static String routeName = "alarm";
   static String routeURL = "/alarm";
   const AlarmHome({super.key});
@@ -29,7 +29,7 @@ class AlarmHome extends ConsumerStatefulWidget {
   AlarmHomeState createState() => AlarmHomeState();
 }
 
-class AlarmHomeState extends ConsumerState<AlarmHome> {
+class AlarmHomeState extends State<AlarmHome> {
   late List<AlarmSettings> alarms;
   static StreamSubscription? subscription;
 
@@ -254,24 +254,24 @@ class AlarmHomeState extends ConsumerState<AlarmHome> {
       //       ),
       //   ],
       // ),
-      // floatingActionButton: Padding(
-      //   padding: const EdgeInsets.all(10),
-      //   child: Row(
-      //     mainAxisAlignment: MainAxisAlignment.end,
-      //     children: [
-      //       ExampleAlarmHomeShortcutButton(refreshAlarms: loadAlarms),
-      //       FloatingActionButton(
-      //         onPressed: () => navigateToAlarmScreen(null),
-      //         backgroundColor: AppColors.myPink,
-      //         child: const ImageIcon(
-      //           AssetImage('assets/alarm-clock.png'),
-      //           size: 29,
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ExampleAlarmHomeShortcutButton(refreshAlarms: loadAlarms),
+            FloatingActionButton(
+              onPressed: () => navigateToAlarmScreen(null),
+              backgroundColor: AppColors.myPink,
+              child: const ImageIcon(
+                AssetImage('assets/alarm-clock.png'),
+                size: 29,
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

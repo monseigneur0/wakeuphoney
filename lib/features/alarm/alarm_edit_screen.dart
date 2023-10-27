@@ -2,7 +2,11 @@ import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/date_symbols.dart';
 import 'package:logger/logger.dart';
+import 'package:wakeuphoney/features/alarm/alarm_day_settings.dart';
+import 'package:weekday_selector/weekday_selector.dart';
 
 class AlarmEditScreen extends StatefulWidget {
   final AlarmSettings? alarmSettings;
@@ -24,9 +28,11 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
   late bool showNotification;
   late String assetAudio;
 
+  late AlarmDaySettings alarmDaySettings =
+      AlarmDaySettings(alarmSettings: widget.alarmSettings);
+
   late TimeOfDay selectedTime;
-  Time _time = Time(hour: 11, minute: 30, second: 20);
-  late Time _selectedTime;
+  late Time _time;
   var logger = Logger();
 
   @override
@@ -144,7 +150,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
       loopAudio: loopAudio,
       vibrate: vibrate,
       notificationTitle: showNotification ? 'Alarm ' : null,
-      notificationBody: showNotification ? '알람이 울리고 있어요! ($id)' : null,
+      notificationBody: showNotification ? '알람이 울리고 있어요! 편지를 확인해보세요!' : null,
       assetAudioPath: assetAudio,
     );
     return alarmSettings;
@@ -164,10 +170,46 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
     });
   }
 
+  String intDayToEnglish(int day) {
+    if (day % 7 == DateTime.monday % 7) return 'Monday';
+    if (day % 7 == DateTime.tuesday % 7) return 'Tueday';
+    if (day % 7 == DateTime.wednesday % 7) return 'Wednesday';
+    if (day % 7 == DateTime.thursday % 7) return 'Thursday';
+    if (day % 7 == DateTime.friday % 7) return 'Friday';
+    if (day % 7 == DateTime.saturday % 7) return 'Saturday';
+    if (day % 7 == DateTime.sunday % 7) return 'Sunday';
+    throw '🐞 This should never have happened: $day';
+  }
+
+  printIntAsDay(int day) {
+    logger.d(
+        'Received integer: $day. Corresponds to day: ${intDayToEnglish(day)}');
+  }
+
+  final values = <bool?>[
+    true,
+    false,
+    true,
+    false,
+    true,
+    false,
+    true,
+  ];
+
   @override
   Widget build(BuildContext context) {
     //다만든거
-
+    final locale = Localizations.localeOf(context);
+    final DateSymbols dateSymbols = dateTimeSymbolMap()['$locale'];
+    final textDirection = getTextDirection(locale);
+    print(DateTime.monday);
+    print(values[0].toString());
+    print(values[1].toString());
+    print(values[2].toString());
+    print(values[3].toString());
+    print(values[4].toString());
+    print(values[5].toString());
+    print(values[6].toString());
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
       child: Column(
@@ -207,6 +249,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                 .titleMedium!
                 .copyWith(color: Colors.blueAccent.withOpacity(0.8)),
           ),
+
           RawMaterialButton(
             onPressed: pickTime,
             fillColor: Colors.grey[200],
@@ -220,6 +263,22 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                     .copyWith(color: Colors.blueAccent, fontSize: 30),
               ),
             ),
+          ),
+          WeekdaySelector(
+            onChanged: (v) {
+              printIntAsDay(v);
+              setState(() {
+                values[v % 7] = !values[v % 7]!;
+              });
+              print(values);
+            },
+            values: values,
+            // intl package uses 0 for Monday, but DateTime uses 1 for Monday,
+            // so we need to make sure the values match
+            firstDayOfWeek: dateSymbols.FIRSTDAYOFWEEK + 1,
+            shortWeekdays: dateSymbols.STANDALONENARROWWEEKDAYS,
+            weekdays: dateSymbols.STANDALONEWEEKDAYS,
+            textDirection: textDirection,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -336,4 +395,13 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
       ),
     );
   }
+}
+
+TextDirection getTextDirection(Locale locale) {
+  // See GlobalWidgetsLocalizations
+  // TODO: there must be a better way to figure out whether a locale is RTL or LTR
+  const rtlLanguages = ['ar', 'fa', 'he', 'ps', 'sd', 'ur'];
+  return rtlLanguages.contains(locale.languageCode)
+      ? TextDirection.rtl
+      : TextDirection.ltr;
 }

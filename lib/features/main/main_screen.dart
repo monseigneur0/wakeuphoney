@@ -68,7 +68,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage('assets/alarm-clock.png'),
-                  size: 18,
                 ),
                 label: 'Alarm',
               ),
@@ -92,10 +91,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             currentIndex: _selectedIndex,
             selectedItemColor: AppColors.myPink,
             onTap: _onItemTapped,
-            iconSize: 18,
-            selectedFontSize: 10,
-            unselectedFontSize: 7,
-            unselectedItemColor: Colors.grey[600],
+            iconSize: 22,
+            selectedFontSize: 13,
+            unselectedFontSize: 12,
+            unselectedItemColor: Colors.grey[800],
+            type: BottomNavigationBarType.fixed,
           ),
         );
       },
