@@ -234,7 +234,18 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                                                       ),
                                                     ],
                                                   ),
-                                                  const Icon(Icons.more_vert),
+                                                  IconButton(
+                                                      icon: const Icon(
+                                                          Icons.more_vert),
+                                                      onPressed: () {
+                                                        bool isImageEmpty =
+                                                            messageNow
+                                                                .photo.isEmpty;
+                                                        _update(isImageEmpty);
+                                                        _messgaeController
+                                                                .text =
+                                                            messageNow.message;
+                                                      }),
                                                   // IconButton(
                                                   //   onPressed: () {},
                                                   //   icon:
@@ -302,7 +313,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                                                           listDateTime[index]);
                                                   bool isImageEmpty =
                                                       messageNow.photo.isEmpty;
-                                                  _update(isImageEmpty);
+                                                  // _update(isImageEmpty);
                                                   _messgaeController.text =
                                                       messageNow.message;
                                                 },

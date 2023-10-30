@@ -23,6 +23,8 @@ class _ExampleAlarm2EditScreenState extends State<ExampleAlarm2EditScreen> {
   late bool showNotification;
   late String assetAudio;
 
+  late List<bool> days;
+
   @override
   void initState() {
     super.initState();
@@ -46,6 +48,7 @@ class _ExampleAlarm2EditScreenState extends State<ExampleAlarm2EditScreen> {
           widget.alarmSettings!.notificationBody != null &&
           widget.alarmSettings!.notificationBody!.isNotEmpty;
       assetAudio = widget.alarmSettings!.assetAudioPath;
+      days = days;
     }
   }
 
@@ -98,6 +101,7 @@ class _ExampleAlarm2EditScreenState extends State<ExampleAlarm2EditScreen> {
       notificationTitle: showNotification ? 'Alarm example' : null,
       notificationBody: showNotification ? 'Your alarm ($id) is ringing' : null,
       assetAudioPath: assetAudio,
+      days: days,
     );
     return alarmSettings;
   }

@@ -141,7 +141,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                           width: 35,
                         ),
                         label: const Text(
-                          'Continue with Apple',
+                          'Apple로 로그인',
                           style: TextStyle(fontSize: 18),
                         ),
                         style: ElevatedButton.styleFrom(
@@ -167,7 +167,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                     width: 35,
                   ),
                   label: const Text(
-                    'Continue with Google',
+                    'Google로 로그인',
                     style: TextStyle(fontSize: 18),
                   ),
                   style: ElevatedButton.styleFrom(
