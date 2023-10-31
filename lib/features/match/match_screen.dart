@@ -37,6 +37,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       //singlechildscrollview 위젯이 이동한다
+      //키보드 나와도 괜찮음.scroll대신
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: AppColors.myAppBarBackgroundPink,
@@ -53,7 +54,14 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: 40,
+              height: 20,
+            ),
+            const Text(
+              "편지를 쓰고, 알람을 설정하고, \n아침에 편지를 확인해보세요.",
+              style: TextStyle(color: Colors.black),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             const Text(
               "서로의 초대코드를 입력하면 연결돼요.",
@@ -105,7 +113,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                   loading: () => const Loader(),
                 ),
             const SizedBox(
-              height: 25,
+              height: 20,
             ),
             const Text(
               "상대의 초대코드를 전달받았나요?",

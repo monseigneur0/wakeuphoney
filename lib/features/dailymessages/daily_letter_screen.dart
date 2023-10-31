@@ -19,6 +19,21 @@ import '../../core/constants/design_constants.dart';
 import '../../core/utils.dart';
 import 'daily_create_screen.dart';
 
+//안쓰는 페이지입니다.//안쓰는 페이지입니다.
+//안쓰는 페이지입니다.
+//안쓰는 페이지입니다.
+//안쓰는 페이지입니다.
+//안쓰는 페이지입니다.
+//안쓰는 페이지입니다.
+//안쓰는 페이지입니다.
+//안쓰는 페이지입니다.
+//안쓰는 페이지입니다.
+//안쓰는 페이지입니다.
+//안쓰는 페이지입니다.
+//안쓰는 페이지입니다.
+//안쓰는 페이지입니다.
+//안쓰는 페이지입니다.
+
 class DailyLetterScreen extends ConsumerStatefulWidget {
   static String routeName = "dailyletter";
   static String routeURL = "/dailyletter";
@@ -75,6 +90,7 @@ class _DailyLetterScreenState extends ConsumerState<DailyLetterScreen> {
       request: const AdRequest(),
     ).load();
   }
+//안쓰는 페이지입니다.
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +125,7 @@ class _DailyLetterScreenState extends ConsumerState<DailyLetterScreen> {
         data: (data) => data.couples.isEmpty
             ? const Center(
                 child: Text(
-                  "Please invite, 상대를 초대해주세요.",
+                  " 프로필 페이지에서 상대를 초대해주세요",
                   style: TextStyle(color: Colors.black),
                 ),
               )

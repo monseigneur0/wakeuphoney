@@ -45,6 +45,20 @@ class AuthController extends AsyncNotifier<void> {
     );
     if (state.hasError) {
     } else {
+      // final wow = await getFutureMyUserData();
+      // if (wow == null) {
+      //   if (context.mounted) {
+      //     context.go("/match");
+      //   }
+      // } else if (wow.couple.isEmpty) {
+      //   if (context.mounted) {
+      //     context.go("/match");
+      //   }
+      // } else {
+      //   if (context.mounted) {
+      //     context.go("/main");
+      //   }
+      // }
       if (context.mounted) {
         context.go("/main");
       }
@@ -92,7 +106,7 @@ class AuthController extends AsyncNotifier<void> {
     if (state.hasError) {
     } else {
       if (context.mounted) {
-        context.go("/match");
+        context.go("/main");
       }
     }
   }
@@ -106,6 +120,13 @@ class AuthController extends AsyncNotifier<void> {
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     return _authRepository.getUserData(uid);
+  }
+
+  Future<UserModel?> getFutureMyUserData() {
+    User? auser = ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    return _authRepository.getFutureUserData(uid);
   }
 
   void logout(BuildContext context) async {

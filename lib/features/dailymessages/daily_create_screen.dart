@@ -45,15 +45,17 @@ class _DailyLetterCreateScreenState
 
   @override
   Widget build(BuildContext context) {
-    return origianl(context);
-  }
-  // return Scaffold(
-  //   appBar: AppBar(title: const Text('Image Upload')),
-  //   body: const ImageUploadButton(),
-  // );
+    return
+        //   origianl(context);
+        // }
+        // return Scaffold(
+        //   appBar: AppBar(title: const Text('Image Upload')),
+        //   body: const ImageUploadButton(),
+        // );
 
-  Scaffold origianl(BuildContext context) {
-    return Scaffold(
+        // Scaffold origianl(BuildContext context) {
+        //   return
+        Scaffold(
       appBar: AppBar(
         title: const Text("편지 쓰기"),
       ),
@@ -72,33 +74,35 @@ class _DailyLetterCreateScreenState
                   const SizedBox(
                     height: 40,
                   ),
-                  Form(
-                    key: _formKey,
-                    child: TextFormField(
-                      minLines: 5,
-                      maxLines: 10,
-                      keyboardType: TextInputType.multiline,
-                      validator: (value) {
-                        if (value == null || value.isEmpty || value == "") {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                      controller: _messgaeController,
-                      cursorColor: Colors.white,
-                      style: const TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 2.0),
+                  Expanded(
+                    child: Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        minLines: 5,
+                        maxLines: 10,
+                        keyboardType: TextInputType.multiline,
+                        validator: (value) {
+                          if (value == null || value.isEmpty || value == "") {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
+                        controller: _messgaeController,
+                        cursorColor: Colors.white,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 2.0),
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 2.0),
+                          ),
+                          labelText: 'message at ${ref.read(selectedDate)}',
+                          border: const OutlineInputBorder(),
+                          labelStyle: const TextStyle(color: Colors.white),
                         ),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 2.0),
-                        ),
-                        labelText: 'message at ${ref.read(selectedDate)}',
-                        border: const OutlineInputBorder(),
-                        labelStyle: const TextStyle(color: Colors.white),
                       ),
                     ),
                   ),

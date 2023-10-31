@@ -183,6 +183,19 @@ class AuthRepository {
         (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
   }
 
+  Future<UserModel?> getFutureUserData(String uid) async {
+    try {
+      await _users.doc(uid).get().then((event) {
+        if (event.exists) {
+          return UserModel.fromMap(event.data() as Map<String, dynamic>);
+        }
+      });
+    } catch (e) {
+      logger.d(e.toString());
+    }
+    return null;
+  }
+
   void logout() async {
     await _firebaseAuth.signOut();
     await _googleSignIn.signOut();
