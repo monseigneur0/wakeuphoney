@@ -72,7 +72,8 @@ class _HistoryMessageScreenState extends ConsumerState<HistoryMessageScreen> {
               seconds: 24 * 60 * 60 -
                   DateTime.now().hour * 3600 -
                   DateTime.now().minute * 60 -
-                  DateTime.now().second))))
+                  DateTime.now().second -
+                  1)))) //23:59:59
           .toList();
     });
     final user = ref.watch(getUserProfileStreamProvider);
@@ -175,7 +176,7 @@ class _HistoryMessageScreenState extends ConsumerState<HistoryMessageScreen> {
                                                       )
                                                     ],
                                                   ),
-                                            const Icon(Icons.more_vert),
+                                            // const Icon(Icons.more_vert),
                                             // IconButton(
                                             //   onPressed: () {},
                                             //   icon: const Icon(Icons.more_vert),

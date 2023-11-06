@@ -589,7 +589,7 @@ class _DailyLetter3ScreenState extends ConsumerState<DailyLetter3Screen> {
                       backgroundColor:
                           MaterialStatePropertyAll(Color(0xFFD72499)),
                     ),
-                    child: const Text('Edit'),
+                    child: const Text('수정'),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         showSnackBar(context, "message is edited");

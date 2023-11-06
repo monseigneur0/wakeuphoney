@@ -1,11 +1,17 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/auth/auth_controller.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wakeuphoney/features/auth/login_email_screen.dart';
+import 'package:wakeuphoney/features/main/main_screen.dart';
+
+import '../../core/utils.dart';
 
 class LoginHome extends ConsumerStatefulWidget {
   static String routeName = "login";
@@ -19,6 +25,11 @@ class LoginHome extends ConsumerStatefulWidget {
 class _LoginHomeState extends ConsumerState<LoginHome> {
   bool _visible = true;
   int randomNum = 0;
+  bool emailLogin = false;
+
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController pwdController = TextEditingController();
 
   @override
   void initState() {
@@ -44,6 +55,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.black,
         appBar: AppBar(
           // actions: [
@@ -59,7 +71,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
           //       ))
           // ],
           backgroundColor: Colors.grey[900],
-          title: const Text('Wake up, Gom!'),
+          title: const Text('일어나곰'),
         ),
         body: Center(
           child: Column(
@@ -119,17 +131,18 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                 ),
                 iconSize: 130,
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               const Text(
                 "SNS 로그인",
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 40,
+                    fontSize: 30,
                     fontWeight: FontWeight.w700),
               ),
               Platform.isIOS
                   ? Padding(
-                      padding: const EdgeInsets.all(18.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 18, vertical: 9),
                       child: ElevatedButton.icon(
                         onPressed: () {
                           ref
@@ -142,10 +155,10 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                         ),
                         label: const Text(
                           'Apple로 로그인',
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 18, color: Colors.black),
                         ),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey[900],
+                          backgroundColor: Colors.grey[100],
                           minimumSize: const Size(double.infinity, 50),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
@@ -155,7 +168,8 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                     )
                   : Container(),
               Padding(
-                padding: const EdgeInsets.all(18.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
                 child: ElevatedButton.icon(
                   onPressed: () {
                     ref
@@ -168,10 +182,10 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                   ),
                   label: const Text(
                     'Google로 로그인',
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 18, color: Colors.black),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey[900],
+                    backgroundColor: Colors.grey[100],
                     minimumSize: const Size(double.infinity, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -179,6 +193,118 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              !emailLogin
+                  ? TextButton(
+                      onPressed: () {
+                        // setState(() {
+                        //   emailLogin = true;
+                        // });
+                        context.push(EmailLoginScreen.routeName);
+                      },
+                      child: const Text(
+                        '이메일로 로그인하기',
+                        style: TextStyle(color: Colors.white),
+                      ))
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 5),
+                      child: Container(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            height: 185,
+                            child: Form(
+                                key: _formKey,
+                                child: Column(
+                                  children: [
+                                    TextFormField(
+                                      controller: emailController,
+                                      decoration: const InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText: "이메일"),
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "이메일 주소를 입력하세요";
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    TextFormField(
+                                      controller: pwdController,
+                                      decoration: const InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          labelText: "비밀번호"),
+                                      obscureText: true,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "비밀번호를 입력하세요";
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    GestureDetector(
+                                        onTap: () async {
+                                          try {
+                                            UserCredential userCredential =
+                                                await FirebaseAuth.instance
+                                                    .signInWithEmailAndPassword(
+                                                        email: emailController
+                                                            .text,
+                                                        password: pwdController
+                                                            .text) //아이디와 비밀번호로 로그인 시도
+                                                    .then((value) {
+                                              print(value);
+                                              value.user!.email ==
+                                                      emailController
+                                                          .text //이메일 인증 여부
+                                                  ? context
+                                                      .go(MainScreen.routeURL)
+                                                  : print("이메일 확ㅣ 불");
+                                              // showSnackBar(
+                                              //     context, "이메일 확인 불가");tezPib-5qovxu-bydruk
+
+                                              return value;
+                                            });
+                                          } on FirebaseAuthException catch (e) {
+                                            //로그인 예외처리
+                                            if (e.code == 'user-not-found') {
+                                              print('등록되지 않은 이메일입니다');
+                                            } else if (e.code ==
+                                                'wrong-password') {
+                                              print('비밀번호가 틀렸습니다');
+                                            } else {
+                                              print(e.code);
+                                            }
+                                          }
+                                        },
+                                        child: Container(
+                                          width: 100,
+                                          height: 50,
+                                          color: Colors.black,
+                                          child: const Center(
+                                            child: Text(
+                                              '로그인',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        )),
+                                  ],
+                                )),
+                          ),
+                        ),
+                      ),
+                    ),
             ],
           ),
         ),

@@ -56,6 +56,7 @@ class _DailyLetterCreateScreenState
         // Scaffold origianl(BuildContext context) {
         //   return
         Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("편지 쓰기"),
       ),
@@ -65,44 +66,44 @@ class _DailyLetterCreateScreenState
             top: 20,
             left: 20,
             right: 20,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 20),
+            bottom: MediaQuery.of(context).viewInsets.bottom + 20
+            // bottom: 20,
+            ),
         child: isLoading
             ? const Loader()
             : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const SizedBox(
-                    height: 40,
+                    height: 20,
                   ),
-                  Expanded(
-                    child: Form(
-                      key: _formKey,
-                      child: TextFormField(
-                        minLines: 5,
-                        maxLines: 10,
-                        keyboardType: TextInputType.multiline,
-                        validator: (value) {
-                          if (value == null || value.isEmpty || value == "") {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                        controller: _messgaeController,
-                        cursorColor: Colors.white,
-                        style: const TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.white, width: 2.0),
-                          ),
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.white, width: 2.0),
-                          ),
-                          labelText: 'message at ${ref.read(selectedDate)}',
-                          border: const OutlineInputBorder(),
-                          labelStyle: const TextStyle(color: Colors.white),
+                  Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      minLines: 5,
+                      maxLines: 15,
+                      keyboardType: TextInputType.multiline,
+                      validator: (value) {
+                        if (value == null || value.isEmpty || value == "") {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                      controller: _messgaeController,
+                      cursorColor: Colors.white,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.white, width: 2.0),
                         ),
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.white, width: 2.0),
+                        ),
+                        labelText: 'message at ${ref.read(selectedDate)}',
+                        border: const OutlineInputBorder(),
+                        labelStyle: const TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
@@ -176,7 +177,7 @@ class _DailyLetterCreateScreenState
                           backgroundColor:
                               MaterialStatePropertyAll(Color(0xFFD72499)),
                         ),
-                        child: const Text('Save'),
+                        child: const Text('저장'),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             setState(() {

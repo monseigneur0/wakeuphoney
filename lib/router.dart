@@ -3,11 +3,13 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
+import 'package:wakeuphoney/features/auth/login_main_screen.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
 
 import 'features/alarm/alarm2_screen.dart';
 import 'features/alarm/alarm_ring_screen.dart';
 import 'features/auth/auth_repository.dart';
+import 'features/auth/login_email_screen.dart';
 import 'features/dailymessages/daily_create_screen.dart';
 import 'features/dailymessages/daily_letter3_screen.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
@@ -34,7 +36,7 @@ final routerProvider = Provider((ref) {
       logger.d("isLoggedIn $isLoggedIn");
       if (!isLoggedIn) {
         if (state.matchedLocation != LoginHome.routeURL) {
-          return LoginHome.routeURL;
+          return LoginMainScreen.routeURL;
         }
       }
       // if (isLoggedIn) {
@@ -48,6 +50,13 @@ final routerProvider = Provider((ref) {
         name: LoginHome.routeName,
         path: LoginHome.routeURL,
         builder: (context, state) => const LoginHome(),
+        // routes: [
+        //   GoRoute(
+        //     name: EmailLoginScreen.routeName,
+        //     path: EmailLoginScreen.routeURL,
+        //     builder: (context, state) => const EmailLoginScreen(),
+        //   )
+        // ],
       ),
       GoRoute(
         name: AlarmRingScreen.routeName,
@@ -145,6 +154,16 @@ final routerProvider = Provider((ref) {
         name: MainScreen.routeName,
         path: MainScreen.routeURL,
         builder: (context, state) => const MainScreen(),
+      ),
+      GoRoute(
+        name: EmailLoginScreen.routeName,
+        path: EmailLoginScreen.routeURL,
+        builder: (context, state) => const EmailLoginScreen(),
+      ),
+      GoRoute(
+        name: LoginMainScreen.routeName,
+        path: LoginMainScreen.routeURL,
+        builder: (context, state) => LoginMainScreen(),
       ),
     ],
   );

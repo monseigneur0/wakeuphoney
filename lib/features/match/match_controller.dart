@@ -67,6 +67,7 @@ class MatchController extends StateNotifier<bool> {
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     await _matchRepository.deleteMatches(uid);
     if (uid == coupleId) {
+      print("wtf");
       return null;
     }
     final couple = _matchRepository.getUser(coupleId);

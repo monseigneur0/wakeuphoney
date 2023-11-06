@@ -81,3 +81,4 @@ final leftCodeTime = StateProvider<String>((ref) {
 
   return format(totalSeconds);
 });
+final loginIndex = StateProvider<int>((ref) => 0);

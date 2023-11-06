@@ -58,6 +58,7 @@ class _Match2ScreenState extends ConsumerState<Match2Screen> {
               backgroundColor: AppColors.myBackgroundPink,
               body: Column(
                 children: [
+                  const Text("wowowowowow"),
                   Container(
                     height: 1,
                     decoration: BoxDecoration(color: Colors.grey[800]),
