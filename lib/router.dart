@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
-import 'package:wakeuphoney/features/auth/login_main_screen.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
 
 import 'features/alarm/alarm2_screen.dart';
@@ -36,7 +35,7 @@ final routerProvider = Provider((ref) {
       logger.d("isLoggedIn $isLoggedIn");
       if (!isLoggedIn) {
         if (state.matchedLocation != LoginHome.routeURL) {
-          return LoginMainScreen.routeURL;
+          return LoginHome.routeURL;
         }
       }
       // if (isLoggedIn) {
@@ -50,13 +49,6 @@ final routerProvider = Provider((ref) {
         name: LoginHome.routeName,
         path: LoginHome.routeURL,
         builder: (context, state) => const LoginHome(),
-        // routes: [
-        //   GoRoute(
-        //     name: EmailLoginScreen.routeName,
-        //     path: EmailLoginScreen.routeURL,
-        //     builder: (context, state) => const EmailLoginScreen(),
-        //   )
-        // ],
       ),
       GoRoute(
         name: AlarmRingScreen.routeName,
@@ -160,10 +152,32 @@ final routerProvider = Provider((ref) {
         path: EmailLoginScreen.routeURL,
         builder: (context, state) => const EmailLoginScreen(),
       ),
+    ],
+  );
+});
+final logOutRouterProvider = Provider((ref) {
+  return GoRouter(
+    initialLocation: "/login",
+    routes: [
       GoRoute(
-        name: LoginMainScreen.routeName,
-        path: LoginMainScreen.routeURL,
-        builder: (context, state) => LoginMainScreen(),
+        name: LoginHome.routeName,
+        path: LoginHome.routeURL,
+        builder: (context, state) => const LoginHome(),
+      ),
+      GoRoute(
+        name: PracticeHome.routeName,
+        path: PracticeHome.routeURL,
+        builder: (context, state) => const PracticeHome(),
+      ),
+      GoRoute(
+        name: MainScreen.routeName,
+        path: MainScreen.routeURL,
+        builder: (context, state) => const MainScreen(),
+      ),
+      GoRoute(
+        name: EmailLoginScreen.routeName,
+        path: EmailLoginScreen.routeURL,
+        builder: (context, state) => const EmailLoginScreen(),
       ),
     ],
   );

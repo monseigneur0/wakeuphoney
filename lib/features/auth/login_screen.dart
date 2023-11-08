@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,9 +8,6 @@ import 'package:wakeuphoney/features/auth/auth_controller.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wakeuphoney/features/auth/login_email_screen.dart';
-import 'package:wakeuphoney/features/main/main_screen.dart';
-
-import '../../core/utils.dart';
 
 class LoginHome extends ConsumerStatefulWidget {
   static String routeName = "login";
@@ -139,6 +135,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                     fontSize: 30,
                     fontWeight: FontWeight.w700),
               ),
+              const SizedBox(height: 10),
               Platform.isIOS
                   ? Padding(
                       padding: const EdgeInsets.symmetric(
@@ -167,6 +164,9 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                       ),
                     )
                   : Container(),
+              const SizedBox(
+                height: 10,
+              ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
@@ -196,115 +196,17 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
               const SizedBox(
                 height: 10,
               ),
-              !emailLogin
-                  ? TextButton(
-                      onPressed: () {
-                        // setState(() {
-                        //   emailLogin = true;
-                        // });
-                        context.push(EmailLoginScreen.routeName);
-                      },
-                      child: const Text(
-                        '이메일로 로그인하기',
-                        style: TextStyle(color: Colors.white),
-                      ))
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 5),
-                      child: Container(
-                        color: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            height: 185,
-                            child: Form(
-                                key: _formKey,
-                                child: Column(
-                                  children: [
-                                    TextFormField(
-                                      controller: emailController,
-                                      decoration: const InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          labelText: "이메일"),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return "이메일 주소를 입력하세요";
-                                        }
-                                        return null;
-                                      },
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    TextFormField(
-                                      controller: pwdController,
-                                      decoration: const InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          labelText: "비밀번호"),
-                                      obscureText: true,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return "비밀번호를 입력하세요";
-                                        }
-                                        return null;
-                                      },
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    GestureDetector(
-                                        onTap: () async {
-                                          try {
-                                            UserCredential userCredential =
-                                                await FirebaseAuth.instance
-                                                    .signInWithEmailAndPassword(
-                                                        email: emailController
-                                                            .text,
-                                                        password: pwdController
-                                                            .text) //아이디와 비밀번호로 로그인 시도
-                                                    .then((value) {
-                                              print(value);
-                                              value.user!.email ==
-                                                      emailController
-                                                          .text //이메일 인증 여부
-                                                  ? context
-                                                      .go(MainScreen.routeURL)
-                                                  : print("이메일 확ㅣ 불");
-                                              // showSnackBar(
-                                              //     context, "이메일 확인 불가");tezPib-5qovxu-bydruk
-
-                                              return value;
-                                            });
-                                          } on FirebaseAuthException catch (e) {
-                                            //로그인 예외처리
-                                            if (e.code == 'user-not-found') {
-                                              print('등록되지 않은 이메일입니다');
-                                            } else if (e.code ==
-                                                'wrong-password') {
-                                              print('비밀번호가 틀렸습니다');
-                                            } else {
-                                              print(e.code);
-                                            }
-                                          }
-                                        },
-                                        child: Container(
-                                          width: 100,
-                                          height: 50,
-                                          color: Colors.black,
-                                          child: const Center(
-                                            child: Text(
-                                              '로그인',
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                        )),
-                                  ],
-                                )),
-                          ),
-                        ),
-                      ),
-                    ),
+              TextButton(
+                  onPressed: () {
+                    // setState(() {
+                    //   emailLogin = true;
+                    // });
+                    context.push(EmailLoginScreen.routeURL);
+                  },
+                  child: const Text(
+                    '이메일로 로그인하기',
+                    style: TextStyle(color: Colors.white),
+                  ))
             ],
           ),
         ),

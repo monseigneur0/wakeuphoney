@@ -5,6 +5,8 @@ import 'package:wakeuphoney/core/common/loader.dart';
 import 'package:wakeuphoney/core/constants/design_constants.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
 
+import '../../core/utils.dart';
+
 //  test123@wakeupgom.com
 //  tezPib-5qovxu-bydruk
 class EmailLoginScreen extends StatefulWidget {
@@ -29,12 +31,21 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text("이메일로 로그인"),
+        backgroundColor: AppColors.myAppBarBackgroundPink,
+        title: const Text(
+          "이메일로 로그인",
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: Column(
         children: [
+          const SizedBox(
+            height: 30,
+          ),
           const Center(
-            child: Text("이메일과 비밀번호를 입력해주세요."),
+            child: Text(
+              "이메일과 비밀번호를 입력해주세요.",
+            ),
           ),
           Form(
               key: _formKey,
@@ -104,54 +115,40 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                               } on FirebaseAuthException catch (e) {
                                 if (e.code == 'user-not-found') {
                                   print("등록되지 않은 이메일입니다.");
+                                  if (context.mounted) {
+                                    showSnackBar(context, "등록되지 않은 이메일입니다.");
+                                  }
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
                                 } else if (e.code == 'wrong-password') {
                                   print("비밀번호가 틀ㅣ니다.");
+
+                                  if (context.mounted) {
+                                    showSnackBar(context, "비밀번호가 틀립니다.");
+                                  }
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
                                 } else {
                                   print(e.code);
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
                                 }
                               }
                             },
-                            child: const Text('로그인'),
+                            style: const ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(AppColors.myPink)),
+                            child: const Text(
+                              '로그인',
+                              style: TextStyle(color: Colors.black),
+                            ),
                           ),
                     const SizedBox(
                       height: 20,
                     ),
-                    GestureDetector(
-                      onTap: () async {
-                        try {
-                          UserCredential userCredential =
-                              await FirebaseAuth.instance
-                                  .signInWithEmailAndPassword(
-                            email: emailController.text,
-                            password: pwdController.text,
-                          )
-                                  .then((value) {
-                            print(value);
-                            value.user!.email == emailController.text
-                                ? context.go(MainScreen.routeURL)
-                                : print("이메일 이상함");
-                            return value;
-                          });
-                        } on FirebaseAuthException catch (e) {
-                          if (e.code == 'user-not-found') {
-                            print("등록되지 않은 이메일입니다.");
-                          } else if (e.code == 'wrong-password') {
-                            print("비밀번호가 틀ㅣ니다.");
-                          } else {
-                            print(e.code);
-                          }
-                        }
-                      },
-                      child: Container(
-                        width: 100,
-                        height: 50,
-                        color: AppColors.myPink,
-                        child: const Center(
-                            child: Text(
-                          'login',
-                        )),
-                      ),
-                    )
                   ],
                 ),
               ))

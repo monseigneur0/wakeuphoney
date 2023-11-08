@@ -10,6 +10,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'core/constants/design_constants.dart';
+import 'features/auth/auth_repository.dart';
 import 'firebase_options.dart';
 import 'router.dart';
 
@@ -43,6 +44,7 @@ class WakeUpHoney extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     FlutterNativeSplash.remove();
+    final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
@@ -50,7 +52,9 @@ class WakeUpHoney extends ConsumerWidget {
       // navigatorObservers: [
       //   FirebaseAnalyticsObserver(analytics: analytics),
       // ],
-      routerConfig: ref.watch(routerProvider),
+      routerConfig: isLoggedIn
+          ? ref.watch(routerProvider)
+          : ref.watch(logOutRouterProvider),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
