@@ -34,7 +34,9 @@ class AuthRepository {
   CollectionReference get _users =>
       _firestore.collection(FirebaseConstants.usersCollection);
 
+//different?
   User? get currentUser => _firebaseAuth.currentUser;
+
   bool get isLoggedIn => currentUser != null;
   Stream<User?> get authStateChange => _firebaseAuth.authStateChanges();
   var logger = Logger();
@@ -62,7 +64,7 @@ class AuthRepository {
 
     if (userCredential.additionalUserInfo!.isNewUser) {
       userModel = UserModel(
-        displayName: userCredential.user!.displayName ?? "Please restart app",
+        displayName: userCredential.user!.displayName ?? "이름을 입력해주세요.",
         email: userCredential.user!.email ?? "noemail@hello.com",
         photoURL: userCredential.user!.photoURL ??
             "https://firebasestorage.googleapis.com/v0/b/wakeuphoneys2.appspot.com/o/images%2Fgoogleprofileimg.png?alt=media&token=76e62fad-11c3-4c66-ba8a-2400efbedb5a",
@@ -87,70 +89,40 @@ class AuthRepository {
 
   Future<UserCredential> signInWithApple() async {
     try {
-      final appleProvider = AppleAuthProvider();
-
-      final UserCredential appleUserCredential =
-          await _firebaseAuth.signInWithProvider(appleProvider);
-      logger.d(
-          "appleUserCredential UserName:${appleUserCredential.additionalUserInfo?.username}");
-
-      UserModel userModel;
-
-      if (appleUserCredential.additionalUserInfo!.isNewUser) {
-        userModel = UserModel(
-          displayName:
-              appleUserCredential.user!.displayName ?? "Please restart app",
-          email: appleUserCredential.user!.email ?? "noemail@hello.com",
-          photoURL: appleUserCredential.user!.photoURL ??
-              "https://firebasestorage.googleapis.com/v0/b/wakeuphoneys2.appspot.com/o/images%2Fgoogleprofileimg.png?alt=media&token=76e62fad-11c3-4c66-ba8a-2400efbedb5a",
-          uid: appleUserCredential.user!.uid,
-          couple: "",
-          couples: [],
-          creationTime: DateTime.now(),
-          lastSignInTime: DateTime.now(),
-          isLoggedIn: true,
-        );
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString("uid", appleUserCredential.user!.uid);
-        await _users.doc(appleUserCredential.user!.uid).set(userModel.toMap());
-        return appleUserCredential;
-      } else if (appleUserCredential.user!.uid.isNotEmpty) {
-        await _users
-            .doc(appleUserCredential.user!.uid)
-            .update({"lastSignInTime": DateTime.now()});
-      }
-      return appleUserCredential;
-    } on FirebaseException catch (e) {
-      throw e.message!;
-    } catch (e) {
-      throw e.toString();
-    }
-  }
-
-  Future<UserCredential> signInWithApple2() async {
-    try {
       final appleCredential = await SignInWithApple.getAppleIDCredential(
         scopes: [
           AppleIDAuthorizationScopes.fullName,
           AppleIDAuthorizationScopes.email,
         ],
       );
+      appleCredential.familyName;
+      appleCredential.givenName;
+      appleCredential.identityToken;
+      logger.d("appleCredential $appleCredential");
+      logger.d("appleCredential.givenName: ${appleCredential.givenName}");
+      logger
+          .d("appleCredential.identityToken: ${appleCredential.identityToken}");
       final oAuthCredential = OAuthProvider("apple.com").credential(
         idToken: appleCredential.identityToken,
         accessToken: appleCredential.authorizationCode,
       );
+      logger.d("oAuthCredential: $oAuthCredential");
+      logger.d("oAuthCredential.rawNonce: ${oAuthCredential.rawNonce}");
 
       final userCredential =
           await FirebaseAuth.instance.signInWithCredential(oAuthCredential);
-      logger.d(userCredential);
-      logger.d(userCredential.user!.displayName);
+      logger.d("userCredential: $userCredential");
+      logger.d(
+          "userCredential.user!.displayName: ${userCredential.user!.displayName}");
       UserModel userModel;
-      logger.d(userCredential.additionalUserInfo!.profile);
-      logger.d(userCredential.additionalUserInfo!.username);
+      logger.d(
+          "userCredential.additionalUserInfo!.profile: ${userCredential.additionalUserInfo!.profile}");
+      logger.d(
+          "userCredential.additionalUserInfo!.username: ${userCredential.additionalUserInfo!.username}");
 
       if (userCredential.additionalUserInfo!.isNewUser) {
         userModel = UserModel(
-          displayName: userCredential.user!.displayName ?? "Please restart app",
+          displayName: appleCredential.givenName ?? "Please restart app",
           email: userCredential.user!.email ?? "noemail@hello.com",
           photoURL: userCredential.user!.photoURL ??
               "https://firebasestorage.googleapis.com/v0/b/wakeuphoneys2.appspot.com/o/images%2Fgoogleprofileimg.png?alt=media&token=76e62fad-11c3-4c66-ba8a-2400efbedb5a",
@@ -199,6 +171,7 @@ class AuthRepository {
   void logout() async {
     await _firebaseAuth.signOut();
     await _googleSignIn.signOut();
+    isLoggedIn;
   }
 
   void deleteUser() {

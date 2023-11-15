@@ -1,17 +1,11 @@
-import 'dart:async';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
-//survive
 final numberProvider = Provider<int>((ref) {
   return 1;
 });
 final numberStateProvider = StateProvider<int>((ref) {
   return 1;
-});
-final navStateProvider = StateProvider<int>((ref) {
-  return 0;
 });
 
 final dateStateProvider = StateProvider<List<String>>(
@@ -51,34 +45,3 @@ final selectedDate = StateProvider(
 final selectedDateTime = StateProvider<DateTime>(
   (ref) => DateTime.now(),
 );
-
-final leftSecondsMatch = StateProvider<int>((ref) => 0);
-final onceClickedMatch = StateProvider<bool>((ref) => false);
-final leftCodeTime = StateProvider<String>((ref) {
-  const tenMinutes = 3600;
-
-  int totalSeconds = tenMinutes;
-  late Timer timer;
-
-  void onTick(Timer timer) {
-    if (totalSeconds < 1) {
-      totalSeconds = ref.watch(leftSecondsMatch.notifier).state--;
-    }
-  }
-
-  void onStartPressed() {
-    timer = Timer.periodic(
-      const Duration(seconds: 1),
-      onTick,
-    );
-  }
-
-  String format(int seconds) {
-    var duration = Duration(seconds: seconds);
-    // logger.d("duration $duration");
-    return duration.toString().split(".").first.substring(2, 7);
-  }
-
-  return format(totalSeconds);
-});
-final loginIndex = StateProvider<int>((ref) => 0);

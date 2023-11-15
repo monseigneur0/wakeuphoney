@@ -7,7 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
-import 'drawer.dart';
+import '../../widgets/drawer.dart';
 import 'match_controller.dart';
 
 class MatchScreen extends ConsumerStatefulWidget {

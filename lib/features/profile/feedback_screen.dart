@@ -45,17 +45,17 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dateList100 = ref.watch(dateStateProvider);
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: AppColors.myAppBarBackgroundPink,
         title: const Text(
           "Feedback",
           style: TextStyle(color: Colors.black),
         ),
         actions: const [],
-        backgroundColor: AppColors.myAppBarBackgroundPink,
       ),
       body: ListView(
         children: [

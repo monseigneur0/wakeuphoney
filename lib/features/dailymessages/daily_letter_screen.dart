@@ -15,24 +15,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 
 import '../../core/common/loader.dart';
+import '../../core/constants/constants.dart';
 import '../../core/constants/design_constants.dart';
 import '../../core/utils.dart';
 import 'daily_create_screen.dart';
-
-//안쓰는 페이지입니다.//안쓰는 페이지입니다.
-//안쓰는 페이지입니다.
-//안쓰는 페이지입니다.
-//안쓰는 페이지입니다.
-//안쓰는 페이지입니다.
-//안쓰는 페이지입니다.
-//안쓰는 페이지입니다.
-//안쓰는 페이지입니다.
-//안쓰는 페이지입니다.
-//안쓰는 페이지입니다.
-//안쓰는 페이지입니다.
-//안쓰는 페이지입니다.
-//안쓰는 페이지입니다.
-//안쓰는 페이지입니다.
 
 class DailyLetterScreen extends ConsumerStatefulWidget {
   static String routeName = "dailyletter";
@@ -90,7 +76,6 @@ class _DailyLetterScreenState extends ConsumerState<DailyLetterScreen> {
       request: const AdRequest(),
     ).load();
   }
-//안쓰는 페이지입니다.
 
   @override
   Widget build(BuildContext context) {
@@ -109,23 +94,23 @@ class _DailyLetterScreenState extends ConsumerState<DailyLetterScreen> {
           style: const TextStyle(color: Colors.black),
         ),
         backgroundColor: AppColors.myAppBarBackgroundPink,
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {
-        //         context.pushNamed(CoupleLetterScreen.routeName);
-        //       },
-        //       icon: const Icon(
-        //         Icons.connecting_airports_outlined,
-        //         color: Color(0xFFD72499),
-        //       ))
-        // ],
+        actions: const [
+          // IconButton(
+          //     onPressed: () {
+          //       context.pushNamed(DailyLetterScreen.routeName);
+          //     },
+          //     icon: const Icon(
+          //       Icons.connecting_airports_outlined,
+          //       color: Color(0xFFD72499),
+          //     ))
+        ],
       ),
       backgroundColor: AppColors.myBackgroundPink,
       body: user.when(
         data: (data) => data.couples.isEmpty
             ? const Center(
                 child: Text(
-                  " 프로필 페이지에서 상대를 초대해주세요",
+                  "프로필 페이지에서 상대를 초대해주세요.",
                   style: TextStyle(color: Colors.black),
                 ),
               )
@@ -136,9 +121,7 @@ class _DailyLetterScreenState extends ConsumerState<DailyLetterScreen> {
                     height: 1,
                     decoration: BoxDecoration(color: Colors.grey[700]),
                   ),
-                  Container(
-                    height: 5,
-                  ),
+
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   //   children: [
@@ -186,7 +169,8 @@ class _DailyLetterScreenState extends ConsumerState<DailyLetterScreen> {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: MediaQuery.of(context).size.height - 270,
+                          height: MediaQuery.of(context).size.height -
+                              Constants.adbannerline,
                           child: ListView.builder(
                             itemCount: 100,
                             scrollDirection: Axis.vertical,
@@ -249,7 +233,18 @@ class _DailyLetterScreenState extends ConsumerState<DailyLetterScreen> {
                                                       ),
                                                     ],
                                                   ),
-                                                  const Icon(Icons.more_vert),
+                                                  IconButton(
+                                                      icon: const Icon(
+                                                          Icons.more_vert),
+                                                      onPressed: () {
+                                                        bool isImageEmpty =
+                                                            messageNow
+                                                                .photo.isEmpty;
+                                                        _update(isImageEmpty);
+                                                        _messgaeController
+                                                                .text =
+                                                            messageNow.message;
+                                                      }),
                                                   // IconButton(
                                                   //   onPressed: () {},
                                                   //   icon:
@@ -274,6 +269,7 @@ class _DailyLetterScreenState extends ConsumerState<DailyLetterScreen> {
                                                                 Container(
                                                           height: 70,
                                                         ),
+                                                        height: 350,
                                                         errorWidget: (context,
                                                                 url, error) =>
                                                             const Icon(
@@ -286,7 +282,7 @@ class _DailyLetterScreenState extends ConsumerState<DailyLetterScreen> {
                                               padding: const EdgeInsets.only(
                                                   top: 5, left: 10, right: 10),
                                               child: ListTile(
-                                                tileColor: Colors.black,
+                                                tileColor: Colors.white,
                                                 shape:
                                                     const RoundedRectangleBorder(
                                                   borderRadius:
@@ -316,7 +312,7 @@ class _DailyLetterScreenState extends ConsumerState<DailyLetterScreen> {
                                                           listDateTime[index]);
                                                   bool isImageEmpty =
                                                       messageNow.photo.isEmpty;
-                                                  _update(isImageEmpty);
+                                                  // _update(isImageEmpty);
                                                   _messgaeController.text =
                                                       messageNow.message;
                                                 },
@@ -592,7 +588,7 @@ class _DailyLetterScreenState extends ConsumerState<DailyLetterScreen> {
                       backgroundColor:
                           MaterialStatePropertyAll(Color(0xFFD72499)),
                     ),
-                    child: const Text('Edit'),
+                    child: const Text('수정'),
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         showSnackBar(context, "message is edited");

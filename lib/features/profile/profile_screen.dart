@@ -5,7 +5,7 @@ import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
-import '../match/drawer.dart';
+import '../../widgets/drawer.dart';
 import 'dart:math';
 
 import 'package:logger/logger.dart';

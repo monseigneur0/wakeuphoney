@@ -22,11 +22,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  navigatorObservers:
-  [
-    FirebaseAnalyticsObserver(analytics: analytics),
-  ];
+  // FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
   MobileAds.instance.initialize();
@@ -48,10 +45,6 @@ class WakeUpHoney extends ConsumerWidget {
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-
-      // navigatorObservers: [
-      //   FirebaseAnalyticsObserver(analytics: analytics),
-      // ],
       routerConfig: isLoggedIn
           ? ref.watch(routerProvider)
           : ref.watch(logOutRouterProvider),

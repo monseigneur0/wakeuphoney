@@ -4,11 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
 
 import 'core/providers/providers.dart';
-import 'features/alarm/alarm2_screen.dart';
-import 'features/dailymessages/daily_letter3_screen.dart';
+import 'features/dailymessages/daily_letter_screen.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/dailymessages/response_screen.dart';
-import 'features/match/match2_screen.dart';
 import 'features/match/match3_screen.dart';
 import 'features/match/match4_screen.dart';
 import 'features/match/match_up.dart';
@@ -83,12 +81,6 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
               ElevatedButton(
                 style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.blue)),
-                onPressed: () => context.pushNamed(Match2Screen.routeName),
-                child: const Text('Match2Screen'),
-              ),
-              ElevatedButton(
-                style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.blue)),
                 onPressed: () => context.pushNamed(Match3Screen.routeName),
                 child: const Text('Match3Screen'),
               ),
@@ -97,16 +89,6 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                     backgroundColor: MaterialStatePropertyAll(Colors.pink)),
                 onPressed: () => context.pushNamed(Match4Screen.routeName),
                 child: const Text('PomodoroScreen'),
-              ),
-              ElevatedButton(
-                style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.yellow)),
-                onPressed: () =>
-                    context.pushNamed(ExampleAlarmHomeScreen.routeName),
-                child: const Text(
-                  'AlarmTestScreen',
-                  style: TextStyle(color: Colors.black),
-                ),
               ),
               ElevatedButton(
                 style: const ButtonStyle(
@@ -134,12 +116,12 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  context.pushNamed(DailyLetter3Screen.routeName);
+                  context.pushNamed(DailyLetterScreen.routeName);
                 },
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStatePropertyAll(Colors.purple[600])),
-                child: const Text('DailyLetter33Screen333'),
+                child: const Text('DailyLetterScreen'),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -179,12 +161,12 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
               Text(number.toString()),
               const Text('numberStateProvider'),
               Text(numberState.toString()),
-              const Text('valueStateProvider'),
+
               ElevatedButton(
                   onPressed: () {
                     ref.read(numberStateProvider.notifier).state++;
                   },
-                  child: const Text('Increment')),
+                  child: const Text('numStateIncrement')),
               // if (_bannerAd != null)
               //   Align(
               //     alignment: Alignment.topCenter,

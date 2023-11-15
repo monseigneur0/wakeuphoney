@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:wakeuphoney/core/common/loader.dart';
 
 import '../../core/constants/design_constants.dart';
@@ -45,22 +44,16 @@ class _DailyLetterCreateScreenState
 
   @override
   Widget build(BuildContext context) {
-    return
-        //   origianl(context);
-        // }
-        // return Scaffold(
-        //   appBar: AppBar(title: const Text('Image Upload')),
-        //   body: const ImageUploadButton(),
-        // );
-
-        // Scaffold origianl(BuildContext context) {
-        //   return
-        Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: AppColors.myBackgroundPink,
       appBar: AppBar(
-        title: const Text("편지 쓰기"),
+        backgroundColor: AppColors.myAppBarBackgroundPink,
+        title: const Text(
+          "편지 쓰기",
+          style: TextStyle(color: Colors.black),
+        ),
       ),
-      backgroundColor: AppColors.myAppBarBackgroundPink,
       body: Padding(
         padding: EdgeInsets.only(
             top: 20,
@@ -90,20 +83,20 @@ class _DailyLetterCreateScreenState
                         return null;
                       },
                       controller: _messgaeController,
-                      cursorColor: Colors.white,
-                      style: const TextStyle(color: Colors.white),
+                      cursorColor: Colors.black,
+                      style: const TextStyle(color: Colors.black),
                       decoration: InputDecoration(
                         focusedBorder: const OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.white, width: 2.0),
+                              BorderSide(color: Colors.black, width: 2.0),
                         ),
                         enabledBorder: const OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.white, width: 2.0),
+                              BorderSide(color: Colors.black, width: 2.0),
                         ),
                         labelText: 'message at ${ref.read(selectedDate)}',
                         border: const OutlineInputBorder(),
-                        labelStyle: const TextStyle(color: Colors.white),
+                        labelStyle: const TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
@@ -111,7 +104,8 @@ class _DailyLetterCreateScreenState
                     height: 20,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       GestureDetector(
                         onTap: () {
@@ -136,7 +130,7 @@ class _DailyLetterCreateScreenState
                             const Icon(
                                 Icons.photo_album_outlined,
                                 size: 40,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                         // onPressed: () async {
                         // setState(() {});

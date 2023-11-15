@@ -7,11 +7,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/practice_home_screen.dart';
 
-import '../alarm/alarm_screen.dart';
-import '../auth/auth_controller.dart';
-import '../auth/auth_repository.dart';
-import '../auth/login_screen.dart';
-import '../profile/feedback_screen.dart';
+import '../features/alarm/alarm_screen.dart';
+import '../features/auth/auth_controller.dart';
+import '../features/auth/auth_repository.dart';
+import '../features/auth/login_screen.dart';
+import '../features/profile/feedback_screen.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -167,21 +167,21 @@ class ProfileDrawer extends StatelessWidget {
                     style: const TextStyle(color: Colors.black),
                   ),
                 ),
-          // ListTile(
-          //   onTap: () {
-          //     context.pushNamed(PracticeHome.routeName);
-          //   },
-          //   contentPadding:
-          //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-          //   leading: Icon(
-          //     Icons.feedback_outlined,
-          //     color: Colors.grey[600],
-          //   ),
-          //   title: Text(
-          //     AppLocalizations.of(context)!.feedback,
-          //     style: TextStyle(color: Colors.grey[600]),
-          //   ),
-          // ),
+          ListTile(
+            onTap: () {
+              context.pushNamed(PracticeHome.routeName);
+            },
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            leading: Icon(
+              Icons.feedback_outlined,
+              color: Colors.grey[600],
+            ),
+            title: Text(
+              AppLocalizations.of(context)!.feedback,
+              style: TextStyle(color: Colors.grey[600]),
+            ),
+          ),
           const SizedBox(
             height: 50,
           ),

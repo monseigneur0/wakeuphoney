@@ -18,6 +18,6 @@ class AppColors {
   static const Color salmon = Color(0xffff6666);
 
   static const Color myPink = Color(0xFFD72499);
-  static const Color myBackgroundPink = Color(0xDDFDF7FB);
+  static const Color myBackgroundPink = Color.fromARGB(221, 255, 250, 250);
   static const Color myAppBarBackgroundPink = Color(0xDDFDE7F6);
 }

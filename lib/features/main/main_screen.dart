@@ -7,7 +7,7 @@ import 'package:wakeuphoney/features/profile/profile_screen.dart';
 import '../../core/constants/design_constants.dart';
 import '../alarm/alarm_screen.dart';
 import '../auth/auth_controller.dart';
-import '../dailymessages/daily_letter3_screen.dart';
+import '../dailymessages/daily_letter_screen.dart';
 import '../dailymessages/history_screen.dart';
 import '../match/match_screen.dart';
 import '../profile/profile_controller.dart';
@@ -41,7 +41,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final isLoggedInStream = ref.watch(loginCheckProvider);
     List<Widget> widgetOptions = <Widget>[
       const AlarmHome(),
-      const DailyLetter3Screen(),
+      const DailyLetterScreen(),
       const HistoryMessageScreen(),
       hasCoupleId.when(
         data: ((data) {

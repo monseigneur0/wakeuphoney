@@ -4,17 +4,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
-
-import 'features/alarm/alarm2_screen.dart';
 import 'features/alarm/alarm_ring_screen.dart';
 import 'features/auth/auth_repository.dart';
 import 'features/auth/login_email_screen.dart';
 import 'features/dailymessages/daily_create_screen.dart';
-import 'features/dailymessages/daily_letter3_screen.dart';
-import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/dailymessages/daily_letter_screen.dart';
+import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/dailymessages/history_screen.dart';
-import 'features/match/match2_screen.dart';
 import 'features/match/match3_screen.dart';
 import 'features/match/match4_screen.dart';
 import 'features/match/match_up.dart';
@@ -38,10 +34,6 @@ final routerProvider = Provider((ref) {
           return LoginHome.routeURL;
         }
       }
-      // if (isLoggedIn) {
-      //   logger.d("no enter login page");
-      //   return MatchScreen.routeURL;
-      // }
       return null;
     },
     routes: [
@@ -73,19 +65,9 @@ final routerProvider = Provider((ref) {
         ),
       ),
       GoRoute(
-        name: ExampleAlarmHomeScreen.routeName,
-        path: ExampleAlarmHomeScreen.routeURL,
-        builder: (context, state) => const ExampleAlarmHomeScreen(),
-      ),
-      GoRoute(
         name: ResponseScreen.routeName,
         path: ResponseScreen.routeURL,
         builder: (context, state) => const ResponseScreen(),
-      ),
-      GoRoute(
-        name: DailyLetter3Screen.routeName,
-        path: DailyLetter3Screen.routeURL,
-        builder: (context, state) => const DailyLetter3Screen(),
       ),
       GoRoute(
         name: DailyLetterScreen.routeName,
@@ -121,11 +103,6 @@ final routerProvider = Provider((ref) {
         name: MatchScreen.routeName,
         path: MatchScreen.routeURL,
         builder: (context, state) => const MatchScreen(),
-      ),
-      GoRoute(
-        name: Match2Screen.routeName,
-        path: Match2Screen.routeURL,
-        builder: (context, state) => const Match2Screen(),
       ),
       GoRoute(
         name: Match3Screen.routeName,

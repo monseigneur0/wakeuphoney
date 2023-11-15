@@ -13,7 +13,7 @@ import '../../core/common/loader.dart';
 import '../../core/constants/constants.dart';
 import '../../core/constants/design_constants.dart';
 import '../../core/providers/firebase_providers.dart';
-import '../match/drawer.dart';
+import '../../widgets/drawer.dart';
 import '../profile/profile_controller.dart';
 import 'daily_controller.dart';
 

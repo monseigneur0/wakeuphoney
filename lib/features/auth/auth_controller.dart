@@ -25,7 +25,6 @@ final getMyUserDataProvider = StreamProvider((ref) {
 
 final loginCheckProvider = StreamProvider((ref) {
   final authController = ref.watch(authControllerProvider.notifier);
-
   return authController.authStateChange;
 });
 
@@ -70,39 +69,8 @@ class AuthController extends AsyncNotifier<void> {
     // context.goNamed(MatchScreen.routeName);
   }
 
-  // void signInWithGoogleUser(BuildContext context) async {
-  //   final user = await _authRepository
-  //       .signInWithGoogleUser(context)
-  //       .then((_) => _authRepository.loginWithGoogleDb(context))
-  //       .then((value) => context.go(MatchScreen.routeURL));
-
-  //   // user.fold(
-  //   //     (l) => showSnackBar(context, l.message),
-  //   //     (userModel) =>
-  //   //         _ref.read(userModelProvider.notifier).update((state) => userModel));
-  // }
-
-  // void signInWithGoogle(BuildContext context) async {
-  //   final user = await _authRepository.signInWithGoogle();
-
-  //   // .then((value) => _authRepository.loginWithGoogleDb(context))
-  //   // .then((value) => context.go(MatchScreen.routeURL));
-
-  //   user.fold(
-  //       (l) => context.go(LoginHome.routeURL),
-  //       (userModel) =>
-  //           _ref.read(userModelProvider.notifier).update((state) => userModel));
-  // }
-
-  // void signInWithGoogleEnd(BuildContext context) async {
-  //   await _authRepository.signInWithGoogleEnd();
-
-  //   // .then((value) => _authRepository.loginWithGoogleDb(context))
-  //   // .then((value) => context.go(MatchScreen.routeURL));
-  // }
-
   void signInWithApple(BuildContext context) async {
-    await _authRepository.signInWithApple2();
+    await _authRepository.signInWithApple();
     if (state.hasError) {
     } else {
       if (context.mounted) {
