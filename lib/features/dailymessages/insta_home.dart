@@ -7,12 +7,14 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const SingleChildScrollView(
-      child: Column(
-        children: [
-          StoryArea(),
-          FeedList(),
-        ],
+    return const Material(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            StoryArea(),
+            FeedList(),
+          ],
+        ),
       ),
     );
   }

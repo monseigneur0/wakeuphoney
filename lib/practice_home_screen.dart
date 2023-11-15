@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:wakeuphoney/features/dailymessages/insta_body.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
 
 import 'core/providers/providers.dart';
@@ -129,7 +130,7 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                 },
                 style: ButtonStyle(
                     backgroundColor:
-                        MaterialStatePropertyAll(Colors.green[600])),
+                        MaterialStatePropertyAll(Colors.blue[600])),
                 child: const Text('CoupleHistoryScreen'),
               ),
               ElevatedButton(
@@ -146,7 +147,7 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                   context.pushNamed(MatchScreen.routeName);
                 },
                 style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.green)),
+                    backgroundColor: MaterialStatePropertyAll(Colors.black)),
                 child: const Text('ProfileScreen'),
               ),
               ElevatedButton(
@@ -154,8 +155,19 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                   context.pushNamed(CoupleProfileScreen.routeName);
                 },
                 style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.pink)),
+                    backgroundColor: MaterialStatePropertyAll(Colors.purple)),
                 child: const Text('CoupleProfileScreen'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Instabody(index: 0)));
+                },
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.pink)),
+                child: const Text('Instagram'),
               ),
               const Text('numberProvider'),
               Text(number.toString()),

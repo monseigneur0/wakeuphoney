@@ -75,6 +75,8 @@ dependencies:
   flutter_native_splash: ^2.3.2
   firebase_crashlytics: ^3.3.7
   firebase_analytics: ^10.5.1
+
+  photo_view: ^0.14.0
   
 dev_dependencies:
   flutter_test:

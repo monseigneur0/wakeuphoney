@@ -5,6 +5,7 @@ import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/date_symbols.dart';
 import 'package:logger/logger.dart';
+import 'package:wakeuphoney/core/constants/design_constants.dart';
 import 'package:wakeuphoney/features/alarm/alarm_day_settings.dart';
 import 'package:weekday_selector/weekday_selector.dart';
 
@@ -28,6 +29,8 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
   late bool showNotification;
   late String assetAudio;
 
+  late List<bool> days;
+
   late AlarmDaySettings alarmDaySettings =
       AlarmDaySettings(alarmSettings: widget.alarmSettings);
 
@@ -47,9 +50,18 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
           hour: selectedDateTime.hour, minute: selectedDateTime.minute);
       loopAudio = true;
       vibrate = true;
-      volumeMax = false;
+      volumeMax = true;
       showNotification = true;
       assetAudio = 'assets/marimba.mp3';
+      days = <bool>[
+        true,
+        false,
+        true,
+        false,
+        true,
+        false,
+        true,
+      ];
     } else {
       selectedTime = TimeOfDay(
         hour: widget.alarmSettings!.dateTime.hour,
@@ -64,6 +76,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
           widget.alarmSettings!.notificationBody != null &&
           widget.alarmSettings!.notificationBody!.isNotEmpty;
       assetAudio = widget.alarmSettings!.assetAudioPath;
+      days = widget.alarmSettings!.days;
     }
   }
 
@@ -149,10 +162,13 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
       dateTime: dateTime,
       loopAudio: loopAudio,
       vibrate: vibrate,
+      volumeMax: volumeMax,
       notificationTitle: showNotification ? 'Alarm ' : null,
       notificationBody: showNotification ? '알람이 울리고 있어요! 편지를 확인해보세요!' : null,
       assetAudioPath: assetAudio,
+      days: days,
     );
+    logger.d(alarmSettings);
     return alarmSettings;
   }
 
@@ -186,16 +202,6 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
         'Received integer: $day. Corresponds to day: ${intDayToEnglish(day)}');
   }
 
-  final values = <bool?>[
-    true,
-    false,
-    true,
-    false,
-    true,
-    false,
-    true,
-  ];
-
   @override
   Widget build(BuildContext context) {
     //다만든거
@@ -203,13 +209,6 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
     final DateSymbols dateSymbols = dateTimeSymbolMap()['$locale'];
     final textDirection = getTextDirection(locale);
     print(DateTime.monday);
-    print(values[0].toString());
-    print(values[1].toString());
-    print(values[2].toString());
-    print(values[3].toString());
-    print(values[4].toString());
-    print(values[5].toString());
-    print(values[6].toString());
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
       child: Column(
@@ -225,7 +224,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge!
-                      .copyWith(color: Colors.blueAccent),
+                      .copyWith(color: AppColors.myPink),
                 ),
               ),
               TextButton(
@@ -237,7 +236,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                         style: Theme.of(context)
                             .textTheme
                             .titleLarge!
-                            .copyWith(color: Colors.blueAccent),
+                            .copyWith(color: AppColors.myPink),
                       ),
               ),
             ],
@@ -247,9 +246,8 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
             style: Theme.of(context)
                 .textTheme
                 .titleMedium!
-                .copyWith(color: Colors.blueAccent.withOpacity(0.8)),
+                .copyWith(color: Colors.black.withOpacity(0.8)),
           ),
-
           RawMaterialButton(
             onPressed: pickTime,
             fillColor: Colors.grey[200],
@@ -260,26 +258,26 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                 style: Theme.of(context)
                     .textTheme
                     .displayMedium!
-                    .copyWith(color: Colors.blueAccent, fontSize: 30),
+                    .copyWith(color: Colors.black, fontSize: 30),
               ),
             ),
           ),
-          // WeekdaySelector(
-          //   onChanged: (v) {
-          //     printIntAsDay(v);
-          //     setState(() {
-          //       values[v % 7] = !values[v % 7]!;
-          //     });
-          //     print(values);
-          //   },
-          //   values: values,
-          //   // intl package uses 0 for Monday, but DateTime uses 1 for Monday,
-          //   // so we need to make sure the values match
-          //   firstDayOfWeek: dateSymbols.FIRSTDAYOFWEEK + 1,
-          //   shortWeekdays: dateSymbols.STANDALONENARROWWEEKDAYS,
-          //   weekdays: dateSymbols.STANDALONEWEEKDAYS,
-          //   textDirection: textDirection,
-          // ),
+          WeekdaySelector(
+            onChanged: (v) {
+              printIntAsDay(v);
+              setState(() {
+                days[v % 7] = !days[v % 7];
+              });
+              print(days);
+            },
+            values: days,
+            // intl package uses 0 for Monday, but DateTime uses 1 for Monday,
+            // so we need to make sure the values match
+            firstDayOfWeek: dateSymbols.FIRSTDAYOFWEEK + 1,
+            shortWeekdays: dateSymbols.STANDALONENARROWWEEKDAYS,
+            weekdays: dateSymbols.STANDALONEWEEKDAYS,
+            textDirection: textDirection,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -319,19 +317,6 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
               ),
             ],
           ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     Text(
-          //       'Show notification',
-          //       style: Theme.of(context).textTheme.titleMedium,
-          //     ),
-          //     Switch(
-          //       value: showNotification,
-          //       onChanged: (value) => setState(() => showNotification = value),
-          //     ),
-          //   ],
-          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
