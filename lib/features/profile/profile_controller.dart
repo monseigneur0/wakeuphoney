@@ -11,6 +11,9 @@ final getUserProfileStreamProvider = StreamProvider<UserModel>((ref) {
   return ref.watch(profileControllerProvider.notifier).getUserProfileStream();
 });
 
+final getMyUserInfoProvider = FutureProvider(
+    (ref) => ref.watch(profileControllerProvider.notifier).getMyUserInfo());
+
 final getUserProfileStreamByIdProvider =
     StreamProvider.family((ref, String uid) {
   return ref
@@ -120,5 +123,13 @@ class ProfileController extends StateNotifier<bool> {
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     await _profileRepo.createFeedback(uid, contents, imageUrl);
+  }
+
+  Future<UserModel> getMyUserInfo() {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+
+    return _profileRepo.getUserInfo(uid);
   }
 }

@@ -49,6 +49,16 @@ class DailyRepository {
     }
   }
 
+  //23.11.30
+  Stream<List<DailyMessageModel>> getLettersList(String uid) {
+    return _usersCollection.doc(uid).collection("messages").snapshots().map(
+        (event) =>
+            event.docs.map((e) => DailyMessageModel.fromMap(e.data())).toList()
+              ..sort(
+                (a, b) => b.messagedatetime.compareTo(a.messagedatetime),
+              ));
+  }
+
   Stream<List<DailyMessageModel>> getDailyMessageList(String uid) {
     return _usersCollection.doc(uid).collection("messages").snapshots().map(
         (event) =>
@@ -92,6 +102,19 @@ class DailyRepository {
             .collection("messages")
             .doc(value.docs.first.id)
             .update({"message": message}));
+  }
+
+  deleteDailyMessage(String selectedDate, String uid) async {
+    await _usersCollection
+        .doc(uid)
+        .collection("messages")
+        .where("messagedate", isEqualTo: selectedDate)
+        .get()
+        .then((value) => _usersCollection
+            .doc(uid)
+            .collection("messages")
+            .doc(value.docs.first.id)
+            .delete());
   }
 
   updateDailyImage(String image, String selectedDate, String uid) async {

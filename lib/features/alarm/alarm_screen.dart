@@ -254,24 +254,24 @@ class AlarmHomeState extends State<AlarmHome> {
       //       ),
       //   ],
       // ),
-      // floatingActionButton: Padding(
-      //   padding: const EdgeInsets.all(10),
-      //   child: Row(
-      //     mainAxisAlignment: MainAxisAlignment.end,
-      //     children: [
-      //       ExampleAlarmHomeShortcutButton(refreshAlarms: loadAlarms),
-      //       FloatingActionButton(
-      //         onPressed: () => navigateToAlarmScreen(null),
-      //         backgroundColor: AppColors.myPink,
-      //         child: const ImageIcon(
-      //           AssetImage('assets/alarm-clock.png'),
-      //           size: 29,
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ExampleAlarmHomeShortcutButton(refreshAlarms: loadAlarms),
+            FloatingActionButton(
+              onPressed: () => navigateToAlarmScreen(null),
+              backgroundColor: AppColors.myPink,
+              child: const ImageIcon(
+                AssetImage('assets/alarm-clock.png'),
+                size: 29,
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

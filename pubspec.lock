@@ -89,6 +89,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+  calendar_date_picker2:
+    dependency: "direct main"
+    description:
+      name: calendar_date_picker2
+      sha256: b91d51b8d0928f9745e0113e86d06b161ac48c52b7530337a3b77283cbc6be27
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.3"
   characters:
     dependency: transitive
     description:
@@ -1053,6 +1061,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  scrollable_clean_calendar:
+    dependency: "direct main"
+    description:
+      name: scrollable_clean_calendar
+      sha256: "2a005dd1a0215f31ecba775b26f5360370e58acf3495d9d7b4816bb6bbcd71a4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.1"
   scrollable_positioned_list:
     dependency: "direct main"
     description:
@@ -1141,6 +1157,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  simple_gesture_detector:
+    dependency: transitive
+    description:
+      name: simple_gesture_detector
+      sha256: "86d08f85f1f58583b7b4b941d989f48ea6ce08c1724a1d10954a277c2ec36592"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -1210,6 +1234,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0"
+  table_calendar:
+    dependency: "direct main"
+    description:
+      name: table_calendar
+      sha256: "1e3521a3e6d3fc7f645a58b135ab663d458ab12504f1ea7f9b4b81d47086c478"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.9"
   term_glyph:
     dependency: transitive
     description:

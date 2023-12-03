@@ -49,4 +49,9 @@ class ProfileRepo {
       "time": DateTime.now(),
     });
   }
+
+  Future<UserModel> getUserInfo(String uid) async {
+    return await _users.doc(uid).get().then(
+        (value) => UserModel.fromMap(value.data() as Map<String, dynamic>));
+  }
 }

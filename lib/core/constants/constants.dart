@@ -34,4 +34,5 @@ class Constants {
   };
 
   static const adbannerline = 256;
+  static const bottomNavBarLine = 206;
 }

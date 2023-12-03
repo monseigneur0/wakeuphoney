@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:wakeuphoney/features/dailymessages/insta_body.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
 
 import 'core/providers/providers.dart';
 import 'features/dailymessages/daily_letter_screen.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
+import 'features/dailymessages/letter_date_screen.dart';
 import 'features/dailymessages/response_screen.dart';
 import 'features/match/match3_screen.dart';
 import 'features/match/match4_screen.dart';
@@ -160,14 +160,11 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Instabody(index: 0)));
+                  context.pushNamed(LetterDateScreen.routeName);
                 },
                 style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.pink)),
-                child: const Text('Instagram'),
+                    backgroundColor: MaterialStatePropertyAll(Colors.green)),
+                child: const Text('LetterDateScreen'),
               ),
               const Text('numberProvider'),
               Text(number.toString()),

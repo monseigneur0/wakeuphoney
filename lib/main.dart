@@ -62,6 +62,13 @@ class WakeUpHoney extends ConsumerWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: AppColors.myPink,
         ),
+        appBarTheme: const AppBarTheme(
+          color: AppColors.myAppBarBackgroundPink,
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+          ),
+        ),
         // useMaterial3: true,
       ),
     );

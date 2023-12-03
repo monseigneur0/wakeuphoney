@@ -262,22 +262,22 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
               ),
             ),
           ),
-          WeekdaySelector(
-            onChanged: (v) {
-              printIntAsDay(v);
-              setState(() {
-                days[v % 7] = !days[v % 7];
-              });
-              print(days);
-            },
-            values: days,
-            // intl package uses 0 for Monday, but DateTime uses 1 for Monday,
-            // so we need to make sure the values match
-            firstDayOfWeek: dateSymbols.FIRSTDAYOFWEEK + 1,
-            shortWeekdays: dateSymbols.STANDALONENARROWWEEKDAYS,
-            weekdays: dateSymbols.STANDALONEWEEKDAYS,
-            textDirection: textDirection,
-          ),
+          // WeekdaySelector(
+          //   onChanged: (v) {
+          //     printIntAsDay(v);
+          //     setState(() {
+          //       days[v % 7] = !days[v % 7];
+          //     });
+          //     print(days);
+          //   },
+          //   values: days,
+          //   // intl package uses 0 for Monday, but DateTime uses 1 for Monday,
+          //   // so we need to make sure the values match
+          //   firstDayOfWeek: dateSymbols.FIRSTDAYOFWEEK + 1,
+          //   shortWeekdays: dateSymbols.STANDALONENARROWWEEKDAYS,
+          //   weekdays: dateSymbols.STANDALONEWEEKDAYS,
+          //   textDirection: textDirection,
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

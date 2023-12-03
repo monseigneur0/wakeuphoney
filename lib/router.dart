@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
+import 'package:wakeuphoney/features/dailymessages/letter_screen.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
 import 'features/alarm/alarm_ring_screen.dart';
 import 'features/auth/auth_repository.dart';
@@ -10,7 +11,10 @@ import 'features/auth/login_email_screen.dart';
 import 'features/dailymessages/daily_create_screen.dart';
 import 'features/dailymessages/daily_letter_screen.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
+import 'features/dailymessages/letter_date_screen.dart';
+import 'features/dailymessages/letter_day_pick_screen.dart';
 import 'features/dailymessages/history_screen.dart';
+import 'features/dailymessages/letter_create_screen.dart';
 import 'features/match/match3_screen.dart';
 import 'features/match/match4_screen.dart';
 import 'features/match/match_up.dart';
@@ -128,6 +132,26 @@ final routerProvider = Provider((ref) {
         name: EmailLoginScreen.routeName,
         path: EmailLoginScreen.routeURL,
         builder: (context, state) => const EmailLoginScreen(),
+      ),
+      GoRoute(
+        name: LetterScreen.routeName,
+        path: LetterScreen.routeURL,
+        builder: (context, state) => const LetterScreen(),
+      ),
+      GoRoute(
+        name: LetterCreateScreen.routeName,
+        path: LetterCreateScreen.routeURL,
+        builder: (context, state) => const LetterCreateScreen(),
+      ),
+      GoRoute(
+        name: LetterDayPickScreen.routeName,
+        path: LetterDayPickScreen.routeURL,
+        builder: (context, state) => const LetterDayPickScreen(),
+      ),
+      GoRoute(
+        name: LetterDateScreen.routeName,
+        path: LetterDateScreen.routeURL,
+        builder: (context, state) => const LetterDateScreen(),
       ),
     ],
   );

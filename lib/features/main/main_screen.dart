@@ -8,7 +8,7 @@ import '../../core/constants/design_constants.dart';
 import '../alarm/alarm_screen.dart';
 import '../auth/auth_controller.dart';
 import '../dailymessages/daily_letter_screen.dart';
-import '../dailymessages/history_screen.dart';
+import '../dailymessages/letter_screen.dart';
 import '../match/match_screen.dart';
 import '../profile/profile_controller.dart';
 
@@ -23,7 +23,7 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  int _selectedIndex = 3;
+  int _selectedIndex = 1;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -41,8 +41,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final isLoggedInStream = ref.watch(loginCheckProvider);
     List<Widget> widgetOptions = <Widget>[
       const AlarmHome(),
-      const DailyLetterScreen(),
-      const HistoryMessageScreen(),
+      // const DailyLetterScreen(),
+      // const HistoryMessageScreen(),
+      const LetterScreen(),
       hasCoupleId.when(
         data: ((data) {
           if (data.couple != "") {
@@ -75,13 +76,17 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               //   icon: Icon(Icons.alarm),
               //   label: 'Alarm2',
               // ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.favorite_border_outlined),
-                label: 'Letters',
-              ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(Icons.favorite_border_outlined),
+              //   label: 'Letters',
+              // ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(Icons.local_post_office_outlined),
+              //   label: 'History',
+              // ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.local_post_office_outlined),
-                label: 'History',
+                label: 'Letters',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person_outline_rounded),

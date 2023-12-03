@@ -16,6 +16,9 @@ final dailyControllerProvider =
           ref: ref,
         ));
 
+final getLettersListProvider = StreamProvider(
+    (ref) => ref.watch(dailyControllerProvider.notifier).getLettersList());
+
 final getDailyCoupleMessageProvider = StreamProvider.family((ref, String date) {
   final dailyController = ref.watch(dailyControllerProvider.notifier);
   return dailyController.getDailyCoupleMessage(date);
@@ -68,6 +71,15 @@ class DailyController extends StateNotifier<bool> {
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
     return _dailyRepository.getDailyMessage(coupleUid, date, "messages");
+  }
+
+  //23.11.30
+  Stream<List<DailyMessageModel>> getLettersList() {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    final myLetter = _dailyRepository.getLettersList(uid);
+    return myLetter;
   }
 
   Stream<List<DailyMessageModel>> getDailyMessageList() {
@@ -155,6 +167,13 @@ class DailyController extends StateNotifier<bool> {
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     await _dailyRepository.updateDailyMessage(
         message, _ref.watch(selectedDate), uid);
+  }
+
+  void deleteDailyMessage() async {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    await _dailyRepository.deleteDailyMessage(_ref.watch(selectedDate), uid);
   }
 
   void updateDailyImage(image) async {
