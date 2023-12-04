@@ -17,7 +17,7 @@ class TableBasicsExample extends StatefulWidget {
 }
 
 class _TableBasicsExampleState extends State<TableBasicsExample> {
-  CalendarFormat _calendarFormat = CalendarFormat.month;
+  final CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
@@ -31,7 +31,10 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
         firstDay: kFirstDay,
         lastDay: kLastDay,
         focusedDay: _focusedDay,
-        calendarFormat: _calendarFormat,
+        // calendarFormat: _calendarFormat,
+        headerVisible: true,
+        daysOfWeekVisible: true,
+        availableCalendarFormats: const {CalendarFormat.month: 'Month'},
         selectedDayPredicate: (day) {
           // Use `selectedDayPredicate` to determine which day is currently selected.
           // If this returns true, then `day` will be marked as selected.
@@ -49,14 +52,14 @@ class _TableBasicsExampleState extends State<TableBasicsExample> {
             });
           }
         },
-        onFormatChanged: (format) {
-          if (_calendarFormat != format) {
-            // Call `setState()` when updating calendar format
-            setState(() {
-              _calendarFormat = format;
-            });
-          }
-        },
+        // onFormatChanged: (format) {
+        //   if (_calendarFormat != format) {
+        //     // Call `setState()` when updating calendar format
+        //     setState(() {
+        //       _calendarFormat = format;
+        //     });
+        //   }
+        // },
         onPageChanged: (focusedDay) {
           // No need to call `setState()` here
           _focusedDay = focusedDay;
@@ -100,11 +103,11 @@ class _CalendarHeader extends StatelessWidget {
               style: const TextStyle(fontSize: 26.0),
             ),
           ),
-          IconButton(
-            icon: const Icon(Icons.calendar_today, size: 20.0),
-            visualDensity: VisualDensity.compact,
-            onPressed: onTodayButtonTap,
-          ),
+          // IconButton(
+          //   icon: const Icon(Icons.calendar_today, size: 20.0),
+          //   visualDensity: VisualDensity.compact,
+          //   onPressed: onTodayButtonTap,
+          // ),
           if (clearButtonVisible)
             IconButton(
               icon: const Icon(Icons.clear, size: 20.0),
@@ -277,10 +280,10 @@ class TableMultiExample extends StatefulWidget {
   const TableMultiExample({super.key});
 
   @override
-  _TableMultiExampleState createState() => _TableMultiExampleState();
+  TableMultiExampleState createState() => TableMultiExampleState();
 }
 
-class _TableMultiExampleState extends State<TableMultiExample> {
+class TableMultiExampleState extends State<TableMultiExample> {
   final ValueNotifier<List<Event>> _selectedEvents = ValueNotifier([]);
 
   // Using a `LinkedHashSet` is recommended due to equality comparison override
@@ -338,9 +341,9 @@ class _TableMultiExampleState extends State<TableMultiExample> {
             firstDay: kFirstDay,
             lastDay: kLastDay,
             focusedDay: _focusedDay,
-            calendarFormat: _calendarFormat,
             eventLoader: _getEventsForDay,
             startingDayOfWeek: StartingDayOfWeek.monday,
+            availableCalendarFormats: const {CalendarFormat.month: 'Month'},
             selectedDayPredicate: (day) {
               // Use values from Set to mark multiple days as selected
               return _selectedDays.contains(day);

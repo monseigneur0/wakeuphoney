@@ -11,6 +11,7 @@ import '../../core/common/loader.dart';
 import 'daily_controller.dart';
 import 'letter_create_screen.dart';
 import 'letter_date_screen.dart';
+import 'letter_day_screen.dart';
 
 class LetterDayPickScreen extends ConsumerStatefulWidget {
   static String routeName = 'letter_day_pick_screen';
@@ -41,16 +42,16 @@ class _LetterDayPickScreenState extends ConsumerState<LetterDayPickScreen> {
             slivers: [
               SliverAppBar(
                 title: const Text('편지를 보낼 날짜를 고르세요.'),
-                // actions: [
-                //   IconButton(
-                //       onPressed: () {
-                //         context.pushNamed(LetterDateScreen.routeName);
-                //       },
-                //       icon: const Icon(
-                //         Icons.looks_two_outlined,
-                //         color: Color(0xFFD72499),
-                //       ))
-                // ],
+                actions: [
+                  IconButton(
+                      onPressed: () {
+                        context.pushNamed(LetterDayScreen.routeName);
+                      },
+                      icon: const Icon(
+                        Icons.looks_two_outlined,
+                        color: Color(0xFFD72499),
+                      ))
+                ],
                 floating: true,
                 flexibleSpace: Container(),
                 expandedHeight: 100,

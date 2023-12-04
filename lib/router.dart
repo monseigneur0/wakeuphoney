@@ -15,6 +15,7 @@ import 'features/dailymessages/letter_date_screen.dart';
 import 'features/dailymessages/letter_day_pick_screen.dart';
 import 'features/dailymessages/history_screen.dart';
 import 'features/dailymessages/letter_create_screen.dart';
+import 'features/dailymessages/letter_day_screen.dart';
 import 'features/match/match3_screen.dart';
 import 'features/match/match4_screen.dart';
 import 'features/match/match_up.dart';
@@ -152,6 +153,11 @@ final routerProvider = Provider((ref) {
         name: LetterDateScreen.routeName,
         path: LetterDateScreen.routeURL,
         builder: (context, state) => const LetterDateScreen(),
+      ),
+      GoRoute(
+        name: LetterDayScreen.routeName,
+        path: LetterDayScreen.routeURL,
+        builder: (context, state) => const LetterDayScreen(),
       ),
     ],
   );
