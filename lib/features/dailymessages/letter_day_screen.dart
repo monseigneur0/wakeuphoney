@@ -2,9 +2,29 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:wakeuphoney/core/utils.dart';
 
-import 'pages/utils_table.dart';
+import '../../core/common/loader.dart';
+import 'daily_controller.dart';
+
+class Event {
+  final String title;
+
+  const Event(this.title);
+
+  @override
+  String toString() => title;
+}
+
+int getHashCode(DateTime key) {
+  return key.day * 1000000 + key.month * 10000 + key.year;
+}
+
+final kToday = DateTime.now();
+final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
+final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
 
 class LetterDayScreen extends ConsumerStatefulWidget {
   static const routeName = 'letter_day';
@@ -20,20 +40,44 @@ class LetterDayScreen extends ConsumerStatefulWidget {
 class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
   final ValueNotifier<List<Event>> _selectedEvents = ValueNotifier([]);
 
+  final Logger logger = Logger();
+
   // Using a `LinkedHashSet` is recommended due to equality comparison override
   final Set<DateTime> _selectedDays = LinkedHashSet<DateTime>(
     equals: isSameDay,
     hashCode: getHashCode,
   );
 
-  CalendarFormat _calendarFormat = CalendarFormat.month;
+  final Set<DateTime> _writeDays = LinkedHashSet<DateTime>(
+    equals: isSameDay,
+    hashCode: getHashCode,
+  );
+
+  final CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
 
+  late Map<DateTime, List<Event>> kEventSource;
+
   @override
-  void dispose() {
-    _selectedEvents.dispose();
-    super.dispose();
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    kEventSource = {
+      for (var item in List.generate(50, (index) => index))
+        DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5): List.generate(
+            item % 4 + 1, (index) => Event('Event $item | ${index + 1}'))
+    }..addAll({
+        kToday: [
+          const Event('Today\'s Event 1'),
+          const Event('Today\'s Event 2'),
+        ],
+      });
   }
+
+  final kEvents = LinkedHashMap<DateTime, List<Event>>(
+    equals: isSameDay,
+    hashCode: getHashCode,
+  )..addAll(kEventSource);
 
   List<Event> _getEventsForDay(DateTime day) {
     // Implementation example
@@ -54,6 +98,7 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
       // Update values in a Set
       if (_selectedDays.contains(selectedDay)) {
         _selectedDays.remove(selectedDay);
+        showSnackBar(context, "text");
       } else {
         _selectedDays.add(selectedDay);
       }
@@ -61,41 +106,83 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
     });
 
     _selectedEvents.value = _getEventsForDays(_selectedDays);
+    print("_onDaySelected");
+  }
+
+  @override
+  void dispose() {
+    _selectedEvents.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final lettersList = ref.watch(getLettersListProvider);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TableCalendar - Multi'),
+        title: const Text('TableCalendar - Multi change'),
       ),
       body: Column(
         children: [
-          TableCalendar<Event>(
-            firstDay: kFirstDay,
-            lastDay: kLastDay,
-            focusedDay: _focusedDay,
-            calendarFormat: _calendarFormat,
-            eventLoader: _getEventsForDay,
-            startingDayOfWeek: StartingDayOfWeek.monday,
-            selectedDayPredicate: (day) {
-              // Use values from Set to mark multiple days as selected
-              return _selectedDays.contains(day);
-            },
-            onDaySelected: _onDaySelected,
-            onFormatChanged: (format) {
-              if (_calendarFormat != format) {
-                setState(() {
-                  _calendarFormat = format;
-                });
+          // TableCalendar<Event>(
+          //   firstDay: kFirstDay,
+          //   lastDay: kLastDay,
+          //   focusedDay: _focusedDay,
+          //   eventLoader: _getEventsForDay,
+          //   availableCalendarFormats: const {CalendarFormat.month: 'Month'},
+          //   startingDayOfWeek: StartingDayOfWeek.monday,
+          //   selectedDayPredicate: (day) {
+          //     // Use values from Set to mark multiple days as selected
+          //     return _selectedDays.contains(day);
+          //   },
+          //   onDaySelected: _onDaySelected,
+          //   onFormatChanged: (format) {
+          //     if (_calendarFormat != format) {
+          //       setState(() {
+          //         _calendarFormat = format;
+          //       });
+          //     }
+          //   },
+          //   onPageChanged: (focusedDay) {
+          //     _focusedDay = focusedDay;
+          //   },
+          // ),
+          lettersList.when(
+            data: (data) {
+              for (var letter in data) {
+                _writeDays.add(letter.messagedatetime);
               }
+              return TableCalendar<Event>(
+                firstDay: kFirstDay,
+                lastDay: kLastDay,
+                focusedDay: _focusedDay,
+                eventLoader: _getEventsForDay,
+                availableCalendarFormats: const {CalendarFormat.month: 'Month'},
+                startingDayOfWeek: StartingDayOfWeek.monday,
+                selectedDayPredicate: (day) {
+                  // Use values from Set to mark multiple days as selected
+                  return _writeDays.contains(day);
+                },
+                onDaySelected: _onDaySelected,
+                onPageChanged: (focusedDay) {
+                  _focusedDay = focusedDay;
+                },
+              );
             },
-            onPageChanged: (focusedDay) {
-              _focusedDay = focusedDay;
+            error: (error, stackTrace) {
+              logger.d("error$error ");
+              return const Center(
+                child: Text(
+                  "주고 받은 편지가 없어요",
+                  style: TextStyle(color: Colors.white, fontSize: 40),
+                ),
+              );
             },
+            loading: () => const Loader(),
           ),
           ElevatedButton(
-            child: const Text('Clear selection'),
+            child: const Text('Clear selection 1'),
             onPressed: () {
               setState(() {
                 _selectedDays.clear();

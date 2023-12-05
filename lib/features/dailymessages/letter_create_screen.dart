@@ -28,12 +28,11 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  File? letterImageFile;
-
   String imageUrl = "";
 
   bool isLoading = false;
 
+  File? letterImageFile;
   void selectLetterImage() async {
     final letterImagePicked = await pickImage();
 
@@ -114,16 +113,17 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
                                   .putFile(File(letterImageFile!.path));
                               imageUrl =
                                   await refImageToUpload.getDownloadURL();
-                              ref
-                                  .watch(dailyControllerProvider.notifier)
-                                  .createDailyMessageImage(
-                                      _letterController.text, imageUrl);
                             } catch (e) {
                               setState(() {
                                 isLoading = false;
                                 logger.e(e.toString());
                               });
                             }
+                            //메세지 작성 위치 조심
+                            ref
+                                .watch(dailyControllerProvider.notifier)
+                                .createDailyMessageImage(
+                                    _letterController.text, imageUrl);
                             if (mounted) {
                               Navigator.of(context).pop();
                               Navigator.of(context).pop();

@@ -181,8 +181,7 @@ class _DailyLetterCreateScreenState
                             showSnackBar(context, "Please wait, saving...");
                             final String message = _messgaeController.text;
 
-                            String uniqueFileName =
-                                DateTime.now().toString().replaceAll(' ', '');
+                            String uniqueFileName = DateTime.now().toString();
 
                             Reference referenceRoot =
                                 FirebaseStorage.instance.ref();

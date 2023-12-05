@@ -76,7 +76,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
           widget.alarmSettings!.notificationBody != null &&
           widget.alarmSettings!.notificationBody!.isNotEmpty;
       assetAudio = widget.alarmSettings!.assetAudioPath;
-      days = widget.alarmSettings!.days;
+      // days = widget.alarmSettings!.days;
     }
   }
 
@@ -166,7 +166,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
       notificationTitle: showNotification ? 'Alarm ' : null,
       notificationBody: showNotification ? '알람이 울리고 있어요! 편지를 확인해보세요!' : null,
       assetAudioPath: assetAudio,
-      days: days,
+      // days: days,
     );
     logger.d(alarmSettings);
     return alarmSettings;

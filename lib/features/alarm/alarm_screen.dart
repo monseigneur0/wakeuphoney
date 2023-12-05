@@ -259,7 +259,7 @@ class AlarmHomeState extends State<AlarmHome> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            // ExampleAlarmHomeShortcutButton(refreshAlarms: loadAlarms),
+            ExampleAlarmHomeShortcutButton(refreshAlarms: loadAlarms),
             FloatingActionButton(
               onPressed: () => navigateToAlarmScreen(null),
               backgroundColor: AppColors.myPink,
