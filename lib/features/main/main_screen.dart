@@ -64,43 +64,46 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           body: Center(
             child: widgetOptions.elementAt(_selectedIndex),
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: ImageIcon(
-                  AssetImage('assets/alarm-clock.png'),
+          bottomNavigationBar: SizedBox(
+            height: 80,
+            child: BottomNavigationBar(
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: ImageIcon(
+                    AssetImage('assets/alarm-clock.png'),
+                  ),
+                  label: 'Alarm',
                 ),
-                label: 'Alarm',
-              ),
-              // BottomNavigationBarItem(
-              //   icon: Icon(Icons.alarm),
-              //   label: 'Alarm2',
-              // ),
-              // BottomNavigationBarItem(
-              //   icon: Icon(Icons.favorite_border_outlined),
-              //   label: 'Letters',
-              // ),
-              // BottomNavigationBarItem(
-              //   icon: Icon(Icons.local_post_office_outlined),
-              //   label: 'History',
-              // ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.local_post_office_outlined),
-                label: 'Letters',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline_rounded),
-                label: 'Profile',
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: AppColors.myPink,
-            onTap: _onItemTapped,
-            iconSize: 20,
-            selectedFontSize: 12,
-            unselectedFontSize: 11,
-            unselectedItemColor: Colors.grey[800],
-            type: BottomNavigationBarType.fixed,
+                // BottomNavigationBarItem(
+                //   icon: Icon(Icons.alarm),
+                //   label: 'Alarm2',
+                // ),
+                // BottomNavigationBarItem(
+                //   icon: Icon(Icons.favorite_border_outlined),
+                //   label: 'Letters',
+                // ),
+                // BottomNavigationBarItem(
+                //   icon: Icon(Icons.local_post_office_outlined),
+                //   label: 'History',
+                // ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.local_post_office_outlined),
+                  label: 'Letters',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person_outline_rounded),
+                  label: 'Profile',
+                ),
+              ],
+              currentIndex: _selectedIndex,
+              selectedItemColor: AppColors.myPink,
+              onTap: _onItemTapped,
+              iconSize: 20,
+              selectedFontSize: 12,
+              unselectedFontSize: 11,
+              unselectedItemColor: Colors.grey[800],
+              type: BottomNavigationBarType.fixed,
+            ),
           ),
         );
       },

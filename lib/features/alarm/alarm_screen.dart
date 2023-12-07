@@ -71,39 +71,19 @@ class AlarmHomeState extends State<AlarmHome> {
   }
 
   Future<void> navigateToRingScreen(AlarmSettings alarmSettings) async {
-    // await Navigator.of(context).push(
-    //   MaterialPageRoute(
-    //     builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
-    //   ),
-    // );
-    // // Navigator.pushNamed(
-    // //   context,
-    // //   AlarmRingScreen.routeName,
-    // //   arguments: alarmSettings,
-    // // );
-    // loadAlarms();
     await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
         ));
     loadAlarms();
+    // await Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
+    //   ),
+    // );
+    // loadAlarms();
   }
-
-  // Future<void> navigateToExampleAlarmScreen(AlarmSettings? settings) async {
-  //   final res = await showModalBottomSheet<bool?>(
-  //     context: context,
-  //     isScrollControlled: true,
-  //     builder: (context) {
-  //       return FractionallySizedBox(
-  //         heightFactor: 0.7,
-  //         child: ExampleAlarm2EditScreen(alarmSettings: settings),
-  //       );
-  //     },
-  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-  //   );
-  //   if (res != null && res == true) loadAlarms();
-  // }
 
   Future<void> navigateToAlarmScreen(AlarmSettings? settings) async {
     final res = await showModalBottomSheet<bool?>(
@@ -135,30 +115,6 @@ class AlarmHomeState extends State<AlarmHome> {
           style: const TextStyle(color: Colors.black),
         ),
         backgroundColor: AppColors.myAppBarBackgroundPink,
-        actions: [
-          // IconButton(
-          //   onPressed: () => ringnow(),
-          //   icon: const Icon(
-          //     Icons.add_alarm,
-          //     size: 33,
-          //   ),
-          // ),
-          // IconButton(
-          //   onPressed: () => Alarm.stop(42),
-          //   icon: const Icon(
-          //     Icons.cancel,
-          //     size: 33,
-          //   ),
-          // ),
-          IconButton(
-            onPressed: () => navigateToAlarmScreen(null),
-            icon: const Icon(
-              Icons.add,
-              size: 33,
-              color: AppColors.myPink,
-            ),
-          ),
-        ],
       ),
       backgroundColor: AppColors.myBackgroundPink,
       body: Column(
@@ -211,49 +167,6 @@ class AlarmHomeState extends State<AlarmHome> {
           ),
         ],
       ),
-      // bottomNavigationBar: BottomAppBar(
-      //   child: Row(
-      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //     children: [
-      //       IconButton(
-      //         onPressed: () => ringnow(),
-      //         icon: const Icon(
-      //           Icons.add_alarm,
-      //           size: 33,
-      //         ),
-      //       ),
-      //       IconButton(
-      //         onPressed: () => Alarm.stop(42),
-      //         icon: const Icon(
-      //           Icons.cancel,
-      //           size: 33,
-      //         ),
-      //       ),
-      //       IconButton(
-      //         onPressed: () => navigateToAlarmScreen(null),
-      //         icon: const Icon(
-      //           Icons.add,
-      //           size: 33,
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: Row(
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   children: [
-      //     if (_bannerAd != null)
-      //       Align(
-      //         alignment: Alignment.bottomCenter,
-      //         child: SizedBox(
-      //           width: _bannerAd!.size.width.toDouble(),
-      //           height: _bannerAd!.size.height.toDouble(),
-      //           child: AdWidget(ad: _bannerAd!),
-      //         ),
-      //       ),
-      //   ],
-      // ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(10),
         child: Row(

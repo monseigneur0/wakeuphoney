@@ -1,13 +1,17 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:wakeuphoney/core/utils.dart';
 
 import '../../core/common/loader.dart';
+import '../../core/providers/providers.dart';
 import 'daily_controller.dart';
+import 'letter_create_screen.dart';
 
 class Event {
   final String title;
@@ -53,31 +57,14 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
     hashCode: getHashCode,
   );
 
-  final CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
 
   late Map<DateTime, List<Event>> kEventSource;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    kEventSource = {
-      for (var item in List.generate(50, (index) => index))
-        DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5): List.generate(
-            item % 4 + 1, (index) => Event('Event $item | ${index + 1}'))
-    }..addAll({
-        kToday: [
-          const Event('Today\'s Event 1'),
-          const Event('Today\'s Event 2'),
-        ],
-      });
-  }
-
   final kEvents = LinkedHashMap<DateTime, List<Event>>(
     equals: isSameDay,
     hashCode: getHashCode,
-  )..addAll(kEventSource);
+  );
 
   List<Event> _getEventsForDay(DateTime day) {
     // Implementation example
@@ -96,16 +83,23 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
     setState(() {
       _focusedDay = focusedDay;
       // Update values in a Set
-      if (_selectedDays.contains(selectedDay)) {
-        _selectedDays.remove(selectedDay);
-        showSnackBar(context, "text");
+      if (selectedDay.isBefore(DateTime.now())) {
+        showSnackBar(context, "편지는 내일부터 쓸 수 있어요");
+        return;
+      }
+      if (_writeDays.contains(selectedDay)) {
+        showSnackBar(context, "이미 편지를 썼어요");
       } else {
-        _selectedDays.add(selectedDay);
+        ref.watch(selectedDate.notifier).state =
+            DateFormat.yMMMd().format(selectedDay);
+        ref.watch(selectedDateTime.notifier).state = selectedDay;
+        context.pushNamed(LetterCreateScreen.routeName);
       }
       print(_selectedDays);
     });
 
     _selectedEvents.value = _getEventsForDays(_selectedDays);
+
     print("_onDaySelected");
   }
 
@@ -121,7 +115,7 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TableCalendar - Multi change'),
+        title: const Text('편지를 보낼 날짜를 고르세요.'),
       ),
       body: Column(
         children: [
@@ -180,15 +174,6 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
               );
             },
             loading: () => const Loader(),
-          ),
-          ElevatedButton(
-            child: const Text('Clear selection 1'),
-            onPressed: () {
-              setState(() {
-                _selectedDays.clear();
-                _selectedEvents.value = [];
-              });
-            },
           ),
           const SizedBox(height: 8.0),
           Expanded(
