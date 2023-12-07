@@ -119,29 +119,6 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
       ),
       body: Column(
         children: [
-          // TableCalendar<Event>(
-          //   firstDay: kFirstDay,
-          //   lastDay: kLastDay,
-          //   focusedDay: _focusedDay,
-          //   eventLoader: _getEventsForDay,
-          //   availableCalendarFormats: const {CalendarFormat.month: 'Month'},
-          //   startingDayOfWeek: StartingDayOfWeek.monday,
-          //   selectedDayPredicate: (day) {
-          //     // Use values from Set to mark multiple days as selected
-          //     return _selectedDays.contains(day);
-          //   },
-          //   onDaySelected: _onDaySelected,
-          //   onFormatChanged: (format) {
-          //     if (_calendarFormat != format) {
-          //       setState(() {
-          //         _calendarFormat = format;
-          //       });
-          //     }
-          //   },
-          //   onPageChanged: (focusedDay) {
-          //     _focusedDay = focusedDay;
-          //   },
-          // ),
           lettersList.when(
             data: (data) {
               for (var letter in data) {

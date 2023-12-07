@@ -37,10 +37,9 @@ class DailyRepository {
       DailyMessageModel dailyMessageModel, String uid) async {
     try {
       return right(
-        _usersCollection
-            .doc(uid)
-            .collection("messages")
-            .add(dailyMessageModel.toMap()),
+        _usersCollection.doc(uid).collection("messages").add(
+              dailyMessageModel.toMap(),
+            ),
       );
     } on FirebaseException catch (e) {
       throw e.message!;

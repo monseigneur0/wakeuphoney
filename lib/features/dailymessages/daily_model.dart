@@ -8,6 +8,7 @@ class DailyMessageModel {
   final String photo;
   final String audio;
   final String video;
+  final bool? isLetter;
 
   DailyMessageModel({
     required this.message,
@@ -19,6 +20,7 @@ class DailyMessageModel {
     required this.photo,
     required this.audio,
     required this.video,
+    this.isLetter,
   });
 
   DailyMessageModel copyWith({
@@ -31,6 +33,7 @@ class DailyMessageModel {
     String? photo,
     String? audio,
     String? video,
+    bool? isLetter,
   }) {
     return DailyMessageModel(
       message: message ?? this.message,
@@ -42,6 +45,7 @@ class DailyMessageModel {
       photo: photo ?? this.photo,
       audio: audio ?? this.audio,
       video: video ?? this.video,
+      isLetter: isLetter ?? this.isLetter,
     );
   }
 
@@ -56,6 +60,7 @@ class DailyMessageModel {
       'photo': photo,
       'audio': audio,
       'video': video,
+      'isLetter': isLetter,
     };
   }
 
@@ -72,13 +77,14 @@ class DailyMessageModel {
       photo: map['photo'] as String,
       audio: map['audio'] as String,
       video: map['video'] as String,
+      isLetter: map['isLetter'] as bool?,
       // type = map['customer_type'] as String? ?? 'customer'
     );
   }
 
   @override
   String toString() {
-    return 'DailyMessageModel(message: $message, messagedate: $messagedate, messagedatetime: $messagedatetime, time: $time, sender: $sender, reciver: $reciver, photo: $photo, audio: $audio, video: $video)';
+    return 'DailyMessageModel(message: $message, messagedate: $messagedate, messagedatetime: $messagedatetime, time: $time, sender: $sender, reciver: $reciver, photo: $photo, audio: $audio, video: $video, isLetter: $isLetter)';
   }
 
   @override
@@ -93,7 +99,8 @@ class DailyMessageModel {
         other.reciver == reciver &&
         other.photo == photo &&
         other.audio == audio &&
-        other.video == video;
+        other.video == video &&
+        other.isLetter == isLetter;
   }
 
   @override
@@ -106,6 +113,7 @@ class DailyMessageModel {
         reciver.hashCode ^
         photo.hashCode ^
         audio.hashCode ^
-        video.hashCode;
+        video.hashCode ^
+        isLetter.hashCode;
   }
 }

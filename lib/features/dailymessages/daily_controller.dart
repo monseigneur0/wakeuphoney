@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/auth/auth_controller.dart';
 
@@ -148,15 +146,17 @@ class DailyController extends StateNotifier<bool> {
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
     DailyMessageModel messagehere = DailyMessageModel(
-        message: messagef,
-        messagedate: _ref.watch(selectedDate),
-        messagedatetime: _ref.watch(selectedDateTime),
-        time: DateTime.now(),
-        sender: uid,
-        reciver: coupleUid,
-        photo: imageUrl,
-        audio: "",
-        video: "");
+      message: messagef,
+      messagedate: _ref.watch(selectedDate),
+      messagedatetime: _ref.watch(selectedDateTime),
+      time: DateTime.now(),
+      sender: uid,
+      reciver: coupleUid,
+      photo: imageUrl,
+      audio: "",
+      video: "",
+      isLetter: true,
+    );
 
     await _dailyRepository.createDailyMessage(messagehere, uid);
   }
@@ -196,16 +196,18 @@ class DailyController extends StateNotifier<bool> {
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
     DailyMessageModel messagehere = DailyMessageModel(
-        message: message,
-        messagedate:
-            DateFormat.yMMMd().format(_ref.watch(dateTimeStateProvider)[0]),
-        messagedatetime: _ref.watch(selectedDateTime),
-        time: DateTime.now(),
-        sender: uid,
-        reciver: coupleUid,
-        photo: imageUrl,
-        audio: "",
-        video: "");
+      message: message,
+      messagedate:
+          DateFormat.yMMMd().format(_ref.watch(dateTimeStateProvider)[0]),
+      messagedatetime: _ref.watch(selectedDateTime),
+      time: DateTime.now(),
+      sender: uid,
+      reciver: coupleUid,
+      photo: imageUrl,
+      audio: "",
+      video: "",
+      isLetter: false,
+    );
     await _dailyRepository.createResponseMessage(messagehere, uid, coupleUid);
   }
 
