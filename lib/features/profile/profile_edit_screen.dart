@@ -210,6 +210,89 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   const SizedBox(
                     height: 20,
                   ),
+
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        "상대 계정 정보",
+                        style: TextStyle(color: Colors.grey[700]),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.white,
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 20,
+                          height: 40,
+                        ),
+                        Text(user.coupleDisplayName ?? "없어요",
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                            )),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.white,
+                    child: const Row(
+                      children: [
+                        SizedBox(
+                          width: 20,
+                          height: 40,
+                        ),
+                        Text("성별", style: TextStyle(fontSize: 20)),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        "내 계정 정보",
+                        style: TextStyle(color: Colors.grey[700]),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.white,
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 20,
+                          height: 40,
+                        ),
+                        Text(user.email,
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                            )),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Row(
                     children: [
                       const SizedBox(
