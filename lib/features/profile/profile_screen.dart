@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wakeuphoney/features/profile/profile_edit_screen.dart';
 
 import '../../core/common/loader.dart';
 import '../../widgets/drawer.dart';
@@ -243,6 +245,14 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                       loading: () => const Loader(),
                     ),
                   ],
+                ),
+                ElevatedButton(
+                  onPressed: () =>
+                      context.pushNamed(ProfileEditScreen.routeName),
+                  style: const ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll(AppColors.myPink)),
+                  child: const Text('edit'),
                 ),
               ],
             ),

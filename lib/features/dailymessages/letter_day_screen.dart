@@ -31,8 +31,8 @@ final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
 final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
 
 class LetterDayScreen extends ConsumerStatefulWidget {
-  static const routeName = 'letter_day';
-  static const routeURL = '/letter_day';
+  static String routeName = 'letter_day';
+  static String routeURL = '/letter_day';
 
   const LetterDayScreen({super.key});
 

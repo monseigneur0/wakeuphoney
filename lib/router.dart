@@ -5,6 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 import 'package:wakeuphoney/features/dailymessages/letter_screen.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
+import 'package:wakeuphoney/features/profile/profile_edit_screen.dart';
 import 'features/alarm/alarm_ring_screen.dart';
 import 'features/auth/auth_repository.dart';
 import 'features/auth/login_email_screen.dart';
@@ -33,7 +34,7 @@ final routerProvider = Provider((ref) {
     redirect: (context, state) {
       final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
       var logger = Logger();
-      logger.d("isLoggedIn $isLoggedIn");
+      // logger.d("isLoggedIn $isLoggedIn");
       if (!isLoggedIn) {
         if (state.matchedLocation != LoginHome.routeURL) {
           return LoginHome.routeURL;
@@ -158,6 +159,11 @@ final routerProvider = Provider((ref) {
         name: LetterDayScreen.routeName,
         path: LetterDayScreen.routeURL,
         builder: (context, state) => const LetterDayScreen(),
+      ),
+      GoRoute(
+        name: ProfileEditScreen.routeName,
+        path: ProfileEditScreen.routeURL,
+        builder: (context, state) => const ProfileEditScreen(),
       ),
     ],
   );

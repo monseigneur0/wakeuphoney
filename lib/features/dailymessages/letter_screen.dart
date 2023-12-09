@@ -96,6 +96,7 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _letterEditController.dispose();
     super.dispose();
   }
 
@@ -155,6 +156,7 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
                                                         BorderRadius.circular(
                                                             30.0),
                                                     child: CachedNetworkImage(
+                                                      width: 40,
                                                       imageUrl: user.photoURL,
                                                       fit: BoxFit.fill,
                                                       placeholder:
@@ -162,7 +164,6 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
                                                               Container(
                                                         height: 40,
                                                       ),
-                                                      width: 40,
                                                     ),
                                                   ),
                                                   const SizedBox(
