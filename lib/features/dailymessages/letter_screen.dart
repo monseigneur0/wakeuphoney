@@ -40,6 +40,7 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
   File? letterEditImageFile;
   String editImageUrl = "";
   bool isLoading = false;
+
   void pickEditImage() async {
     final letterEditImagePicked = await pickImage();
 
@@ -305,12 +306,15 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
                                     child: InteractiveViewer(
                                       child: data[index].photo.isNotEmpty
                                           ? CachedNetworkImage(
+                                              fit: BoxFit.cover,
                                               imageUrl: data[index].photo,
                                               placeholder: (context, url) =>
                                                   Container(
                                                 height: 70,
                                               ),
-                                              height: 300,
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
                                               errorWidget:
                                                   (context, url, error) =>
                                                       const Icon(Icons.error),
