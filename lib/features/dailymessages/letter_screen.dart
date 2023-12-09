@@ -109,17 +109,17 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('우리 편지'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                // context.pushNamed(LetterDateScreen.routeName);
-                // context.pushNamed(LetterDayPickScreen.routeName);
-              },
-              icon: const Icon(
-                Icons.looks_two_outlined,
-                color: Color(0xFFD72499),
-              ))
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         // context.pushNamed(LetterDateScreen.routeName);
+        //         // context.pushNamed(LetterDayPickScreen.routeName);
+        //       },
+        //       icon: const Icon(
+        //         Icons.looks_two_outlined,
+        //         color: Color(0xFFD72499),
+        //       ))
+        // ],
       ),
       body: userInfo.when(
         data: (user) {
@@ -172,30 +172,36 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
                                                   Text(user.displayName),
                                                 ],
                                               )
-                                            : Row(
-                                                children: [
-                                                  ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30.0),
-                                                    child: CachedNetworkImage(
-                                                      imageUrl:
-                                                          user.couplePhotoURL!,
-                                                      fit: BoxFit.fill,
-                                                      placeholder:
-                                                          (context, url) =>
-                                                              Container(
-                                                        height: 40,
+                                            : data[index]
+                                                    .messagedatetime
+                                                    .isBefore(DateTime.now())
+                                                ? Row(
+                                                    children: [
+                                                      ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30.0),
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          imageUrl: user
+                                                              .couplePhotoURL!,
+                                                          fit: BoxFit.fill,
+                                                          placeholder:
+                                                              (context, url) =>
+                                                                  Container(
+                                                            height: 40,
+                                                          ),
+                                                          width: 40,
+                                                        ),
                                                       ),
-                                                      width: 40,
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 7,
-                                                  ),
-                                                  Text(user.coupleDisplayName!),
-                                                ],
-                                              ),
+                                                      const SizedBox(
+                                                        width: 7,
+                                                      ),
+                                                      Text(user
+                                                          .coupleDisplayName!),
+                                                    ],
+                                                  )
+                                                : Container(),
                                         Row(
                                           children: [
                                             Text(

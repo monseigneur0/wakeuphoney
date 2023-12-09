@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/core/common/loader.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
+import 'package:wakeuphoney/features/profile/profile_couple_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_screen.dart';
 
 import '../../core/constants/design_constants.dart';
@@ -53,7 +54,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         }),
         error: (error, stackTrace) => const MatchScreen(),
         loading: (() => const Loader()),
-      )
+      ),
+      const ProfileCoupleScreen(),
     ];
     return isLoggedInStream.when(
       data: (user) {
@@ -89,6 +91,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 BottomNavigationBarItem(
                   icon: Icon(Icons.local_post_office_outlined),
                   label: 'Letters',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person_outline_rounded),
+                  label: 'Profile',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person_outline_rounded),

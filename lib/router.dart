@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 import 'package:wakeuphoney/features/dailymessages/letter_screen.dart';
+import 'package:wakeuphoney/features/image/image_screen.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_edit_screen.dart';
 import 'features/alarm/alarm_ring_screen.dart';
@@ -164,6 +165,11 @@ final routerProvider = Provider((ref) {
         name: ProfileEditScreen.routeName,
         path: ProfileEditScreen.routeURL,
         builder: (context, state) => const ProfileEditScreen(),
+      ),
+      GoRoute(
+        name: ImageScreen.routeName,
+        path: ImageScreen.routeURL,
+        builder: (context, state) => const ImageScreen(),
       ),
     ],
   );

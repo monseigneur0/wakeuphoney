@@ -159,6 +159,7 @@ class DailyController extends StateNotifier<bool> {
     );
 
     await _dailyRepository.createDailyMessage(messagehere, uid);
+    await _dailyRepository.createDailyMessage(messagehere, coupleUid);
   }
 
   void updateDailyMessage(message) async {

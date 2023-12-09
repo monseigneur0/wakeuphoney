@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:wakeuphoney/core/utils.dart';
+import 'package:wakeuphoney/features/image/image_screen.dart';
 
 import '../../core/common/loader.dart';
 import '../auth/auth_controller.dart';
@@ -27,6 +29,19 @@ class ProfileEditScreen extends ConsumerStatefulWidget {
 
 class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   Logger logger = Logger();
+
+  String imageUrl = "";
+  bool isLoading = false;
+  File? profileImageFile;
+  void selectProfileImage() async {
+    final profileImagePicked = await pickImage();
+    if (profileImagePicked != null) {
+      setState(() {
+        profileImageFile = File(profileImagePicked.files.first.path!);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final userProfile = ref.watch(getMyUserInfoProvider);
@@ -45,39 +60,44 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   const SizedBox(
                     height: 30,
                   ),
-                  Center(
-                    child: Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: CachedNetworkImage(
-                            width: 100,
-                            imageUrl: user.photoURL,
-                            fit: BoxFit.fill,
-                            placeholder: (context, url) => const SizedBox(
-                              height: 40,
+                  GestureDetector(
+                    onTap: () {
+                      context.pushNamed(ImageScreen.routeName);
+                    },
+                    child: Center(
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: CachedNetworkImage(
+                              width: 100,
+                              imageUrl: user.photoURL,
+                              fit: BoxFit.fill,
+                              placeholder: (context, url) => const SizedBox(
+                                height: 40,
+                              ),
                             ),
                           ),
-                        ),
-                        Transform.translate(
-                          offset: const Offset(30, -20),
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 0.5,
-                                )),
-                            child: const Icon(
-                              Icons.camera_alt_rounded,
-                              size: 18,
+                          Transform.translate(
+                            offset: const Offset(30, -20),
+                            child: Container(
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 0.5,
+                                  )),
+                              child: const Icon(
+                                Icons.camera_alt_rounded,
+                                size: 18,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   // CircleAvatar(
