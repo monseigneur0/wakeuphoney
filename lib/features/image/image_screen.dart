@@ -53,17 +53,14 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-              child: imageFile != null
-                  ? SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      // width: 250,
-                      child: Image.file(imageFile!),
-                    )
-                  : const Icon(
-                      Icons.photo_album_outlined,
-                      size: 40,
-                      color: Colors.white,
-                    )),
+            child: imageFile != null
+                ? SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    // width: 250,
+                    child: Image.file(imageFile!),
+                  )
+                : Container(),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -81,6 +78,18 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                     String uniqueImageName = DateTime.now().toString();
                     Reference refRoot = ref.watch(storageProvider).ref();
                     Reference refDirImage = refRoot.child('images');
+                    Reference refImageToUpload =
+                        refDirImage.child(uniqueImageName);
+                    try {
+                      await refImageToUpload.putFile(File(imageFile!.path));
+                      imageUrl = await refImageToUpload.getDownloadURL();
+                    } catch (e) {
+                      setState(() {
+                        isLoading = false;
+                        logger.e(e.toString());
+                      });
+                    }
+                    // ref.watch(provider)
                   },
                   child: const Text(
                     "저장",
