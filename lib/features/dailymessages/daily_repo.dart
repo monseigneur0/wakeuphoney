@@ -23,7 +23,7 @@ class DailyRepository {
       String uid, String date, String coupleUid) {
     return _usersCollection
         .doc(uid)
-        .collection(coupleUid)
+        .collection("messages")
         .where("messagedate", isEqualTo: date)
         .limit(1)
         .snapshots()

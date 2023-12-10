@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/image/image_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
@@ -35,6 +38,32 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
   bool _visiblebear = true;
   int randomNum = 0;
 
+  final String iOSId4 = 'ca-app-pub-5897230132206634/6527311215';
+  final String androidId4 = 'ca-app-pub-5897230132206634/8880397412';
+  BannerAd? _bannerAd;
+
+  @override
+  void initState() {
+    super.initState();
+
+    BannerAd(
+      size: AdSize.banner,
+      adUnitId: Platform.isIOS ? iOSId4 : androidId4,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          // logger.d('Failed to load a banner ad: ${err.message}');
+          ad.dispose();
+        },
+      ),
+      request: const AdRequest(),
+    ).load();
+  }
+
   @override
   void dispose() {
     _honeyCodeController.dispose();
@@ -67,7 +96,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
         elevation: 0,
         title: Text(
           AppLocalizations.of(context)!.profile,
-          style: const TextStyle(color: Colors.black),
+          style: const TextStyle(fontSize: 20, color: Colors.black),
         ),
         // const Text(
         //   "Profile",
@@ -78,196 +107,216 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
       backgroundColor: AppColors.myBackgroundPink,
       body: Column(
         children: [
-          Container(
-            height: 1,
-            decoration: BoxDecoration(color: Colors.grey[800]),
-          ),
-          Container(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              AnimatedOpacity(
-                opacity: _visiblebear ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 0),
-                child: Container(
-                  width: 250,
-                  height: 75,
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[500],
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(19),
-                      topRight: Radius.circular(19),
-                      bottomLeft: Radius.circular(19),
-                      bottomRight: Radius.circular(19),
-                    ),
-                  ),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Text(
-                        messageList[randomNum],
-                        style:
-                            const TextStyle(color: Colors.black, fontSize: 15),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              AnimatedOpacity(
-                opacity: _visiblebear ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 0),
-                child: CustomPaint(painter: Triangle(Colors.grey.shade500)),
-              ),
-              const SizedBox(height: 30),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _visiblebear = !_visiblebear;
-                    randomNum = Random().nextInt(10);
-                  });
-                },
-                icon: Image.asset(
-                  'assets/alarmbearno.png',
-                ),
-                iconSize: 50,
-              ),
-            ],
-          ),
-          Container(
-            height: 50,
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
+          Expanded(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Container(
+                  height: 20,
+                ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(
-                      height: 100,
-                      child: userProfileStream.when(
-                        data: (data) => CachedNetworkImage(
-                          imageUrl: data.photoURL,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
-                            height: 70,
+                    AnimatedOpacity(
+                      opacity: _visiblebear ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 0),
+                      child: Container(
+                        width: 250,
+                        height: 75,
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[400],
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(19),
+                            topRight: Radius.circular(19),
+                            bottomLeft: Radius.circular(19),
+                            bottomRight: Radius.circular(19),
                           ),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
                         ),
-                        error: (error, stackTrace) {
-                          // logger.d("error$error ");
-                          return const Image(
-                            image: AssetImage('assets/human.jpg'),
-                            height: 30,
-                          );
-                        },
-                        loading: () => const Loader(),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Text(
+                              messageList[randomNum],
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 15),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                    userProfileStream.when(
-                      data: (data) => Text(
-                        data.displayName,
-                        style: const TextStyle(
-                          fontSize: 30,
-                          color: Colors.black,
-                        ),
-                      ),
-                      error: (error, stackTrace) {
-                        // logger.d("error$error ");
-                        return const Text(
-                          "no couple",
-                          style: TextStyle(
-                            fontSize: 30,
-                            color: Colors.black,
-                          ),
-                        );
+                    AnimatedOpacity(
+                      opacity: _visiblebear ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 0),
+                      child:
+                          CustomPaint(painter: Triangle(Colors.grey.shade400)),
+                    ),
+                    const SizedBox(height: 30),
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _visiblebear = !_visiblebear;
+                          randomNum = Random().nextInt(10);
+                        });
                       },
-                      loading: () => const Loader(),
+                      icon: Image.asset(
+                        'assets/alarmbearno.png',
+                      ),
+                      iconSize: 50,
                     ),
                   ],
-                ),
-                const SizedBox(
-                  height: 15,
                 ),
                 Container(
-                  height: 1,
-                  decoration: BoxDecoration(color: Colors.grey[700]),
+                  height: 50,
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      height: 100,
-                      child: userCoupleProfileStream.when(
-                        data: (data) => CachedNetworkImage(
-                          imageUrl: data.photoURL,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
-                            height: 70,
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            height: 120,
+                            child: userProfileStream.when(
+                              data: (data) => ClipRRect(
+                                borderRadius: BorderRadius.circular(60.0),
+                                child: CachedNetworkImage(
+                                  width: 120,
+                                  imageUrl: data.photoURL,
+                                  fit: BoxFit.fill,
+                                  placeholder: (context, url) => Container(
+                                    height: 40,
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                ),
+                              ),
+                              error: (error, stackTrace) {
+                                // logger.d("error$error ");
+                                return const Image(
+                                  image: AssetImage('assets/human.jpg'),
+                                  height: 30,
+                                );
+                              },
+                              loading: () => const Loader(),
+                            ),
                           ),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
-                        ),
-                        error: (error, stackTrace) {
-                          // logger.d("error$error ");
-                          return const Image(
-                            image: AssetImage('assets/human.jpg'),
-                            height: 30,
-                          );
-                        },
-                        loading: () => const Loader(),
-                      ),
-                    ),
-                    userCoupleProfileStream.when(
-                      data: (data) => Text(
-                        data.displayName,
-                        style: const TextStyle(
-                          fontSize: 30,
-                          color: Colors.black,
-                        ),
-                      ),
-                      error: (error, stackTrace) {
-                        // logger.d("error$error ");
-                        return const Text(
-                          "no couple",
-                          style: TextStyle(
-                            fontSize: 30,
-                            color: Colors.white,
+                          const SizedBox(
+                            height: 5,
                           ),
-                        );
-                      },
-                      loading: () => const Loader(),
-                    ),
-                  ],
-                ),
-                ElevatedButton(
-                  onPressed: () =>
-                      context.pushNamed(ProfileEditScreen.routeName),
-                  style: const ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll(AppColors.myPink)),
-                  child: const Text('edit'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context.pushNamed(ImageScreen.routeName);
-                  },
-                  style: const ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll(AppColors.myPink)),
-                  child: const Text('ImageScreen'),
+                          userProfileStream.when(
+                            data: (data) => Text(
+                              data.displayName,
+                              style: const TextStyle(
+                                fontSize: 30,
+                                color: Colors.black,
+                              ),
+                            ),
+                            error: (error, stackTrace) {
+                              // logger.d("error$error ");
+                              return const Text(
+                                "no couple",
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  color: Colors.black,
+                                ),
+                              );
+                            },
+                            loading: () => const Loader(),
+                          ),
+                        ],
+                      ),
+                      const Icon(
+                        Icons.favorite,
+                        color: AppColors.myPink,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            height: 120,
+                            child: userCoupleProfileStream.when(
+                              data: (data) => ClipRRect(
+                                borderRadius: BorderRadius.circular(60.0),
+                                child: CachedNetworkImage(
+                                  width: 120,
+                                  imageUrl: data.photoURL,
+                                  fit: BoxFit.fill,
+                                  placeholder: (context, url) => Container(
+                                    height: 40,
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                ),
+                              ),
+                              error: (error, stackTrace) {
+                                // logger.d("error$error ");
+                                return const Image(
+                                  image: AssetImage('assets/human.jpg'),
+                                  height: 30,
+                                );
+                              },
+                              loading: () => const Loader(),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          userCoupleProfileStream.when(
+                            data: (data) => Text(
+                              data.displayName,
+                              style: const TextStyle(
+                                fontSize: 30,
+                                color: Colors.black,
+                              ),
+                            ),
+                            error: (error, stackTrace) {
+                              // logger.d("error$error ");
+                              return const Text(
+                                "no couple",
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  color: Colors.white,
+                                ),
+                              );
+                            },
+                            loading: () => const Loader(),
+                          ),
+                        ],
+                      ),
+                      // ElevatedButton(
+                      //   onPressed: () =>
+                      //       context.pushNamed(ProfileEditScreen.routeName),
+                      //   style: const ButtonStyle(
+                      //       backgroundColor:
+                      //           MaterialStatePropertyAll(AppColors.myPink)),
+                      //   child: const Text('edit'),
+                      // ),
+                      // ElevatedButton(
+                      //   onPressed: () {
+                      //     context.pushNamed(ImageScreen.routeName);
+                      //   },
+                      //   style: const ButtonStyle(
+                      //       backgroundColor:
+                      //           MaterialStatePropertyAll(AppColors.myPink)),
+                      //   child: const Text('ImageScreen'),
+                      // ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
+          if (_bannerAd != null)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 70,
+                child: AdWidget(ad: _bannerAd!),
+              ),
+            ),
         ],
       ),
       endDrawer: const ProfileEditScreen(),

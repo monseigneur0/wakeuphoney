@@ -3,9 +3,11 @@ import 'dart:io';
 
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wakeuphoney/features/alarm/alarm_new_ring_screen.dart';
 
 import '../../core/constants/design_constants.dart';
 import '../../widgets/alarm_tile.dart';
@@ -114,77 +116,89 @@ class AlarmHomeState extends State<AlarmHome> {
           AppLocalizations.of(context)!.alarms,
           style: const TextStyle(color: Colors.black),
         ),
-        backgroundColor: AppColors.myAppBarBackgroundPink,
+        actions: [
+          IconButton(
+            onPressed: () => navigateToAlarmScreen(null),
+            icon: const ImageIcon(
+              AssetImage('assets/alarm-clock.png'),
+              size: 29,
+              color: AppColors.myPink,
+            ),
+          ),
+          // IconButton(
+          //   onPressed: () => context.pushNamed(AlarmNewScreen.routeName),
+          //   icon: const ImageIcon(
+          //     AssetImage('assets/alarm-clock.png'),
+          //     size: 29,
+          //     color: AppColors.myPink,
+          //   ),
+          // )
+        ],
       ),
-      backgroundColor: AppColors.myBackgroundPink,
       body: Column(
         children: [
+          Expanded(
+            child: alarms.isNotEmpty
+                ? ListView.separated(
+                    itemCount: alarms.length,
+                    separatorBuilder: (context, index) => const Divider(),
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: AlarmTile(
+                          key: Key(alarms[index].id.toString()),
+                          title: TimeOfDay(
+                            hour: alarms[index].dateTime.hour,
+                            minute: alarms[index].dateTime.minute,
+                          ).format(context),
+                          onPressed: () => navigateToAlarmScreen(alarms[index]),
+                          onDismissed: () {
+                            Alarm.stop(alarms[index].id)
+                                .then((_) => loadAlarms());
+                          },
+                        ),
+                      );
+                    },
+                  )
+                : Center(
+                    child: Text(
+                      AppLocalizations.of(context)!.noalarmset,
+                      style: const TextStyle(
+                        fontSize: 30,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+          ),
           if (_bannerAd != null)
             Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox(
-                width: _bannerAd!.size.width.toDouble(),
-                height: _bannerAd!.size.height.toDouble(),
+                width: MediaQuery.of(context).size.width,
+                height: 70,
                 child: AdWidget(ad: _bannerAd!),
               ),
             ),
-          SafeArea(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height - 256,
-              child: alarms.isNotEmpty
-                  ? ListView.separated(
-                      itemCount: alarms.length,
-                      separatorBuilder: (context, index) => const Divider(),
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: AlarmTile(
-                            key: Key(alarms[index].id.toString()),
-                            title: TimeOfDay(
-                              hour: alarms[index].dateTime.hour,
-                              minute: alarms[index].dateTime.minute,
-                            ).format(context),
-                            onPressed: () =>
-                                navigateToAlarmScreen(alarms[index]),
-                            onDismissed: () {
-                              Alarm.stop(alarms[index].id)
-                                  .then((_) => loadAlarms());
-                            },
-                          ),
-                        );
-                      },
-                    )
-                  : Center(
-                      child: Text(
-                        AppLocalizations.of(context)!.noalarmset,
-                        style: const TextStyle(
-                          fontSize: 30,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-            ),
-          ),
         ],
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            ExampleAlarmHomeShortcutButton(refreshAlarms: loadAlarms),
-            FloatingActionButton(
-              onPressed: () => navigateToAlarmScreen(null),
-              backgroundColor: AppColors.myPink,
-              child: const ImageIcon(
-                AssetImage('assets/alarm-clock.png'),
-                size: 29,
-              ),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: Padding(
+      //   padding: const EdgeInsets.only(bottom: 100, right: 10),
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.end,
+      //     children: [
+      //       ExampleAlarmHomeShortcutButton(refreshAlarms: loadAlarms),
+      //       // FloatingActionButton(
+      //       //   onPressed: () => navigateToAlarmScreen(null),
+      //       //   backgroundColor: AppColors.myPink,
+      //       //   child: const ImageIcon(
+      //       //     AssetImage('assets/alarm-clock.png'),
+      //       //     size: 29,
+      //       //   ),
+      //       // ),
+      //     ],
+      //   ),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

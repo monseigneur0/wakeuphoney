@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
+import 'package:wakeuphoney/features/profile/profile_controller.dart';
 
 import '../../core/utils.dart';
 
@@ -70,7 +71,7 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                   },
                   child: const Text(
                     "취소",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white, fontSize: 20),
                   )),
               TextButton(
                   onPressed: () async {
@@ -89,11 +90,17 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                         logger.e(e.toString());
                       });
                     }
-                    // ref.watch(provider)
+                    ref
+                        .watch(profileControllerProvider.notifier)
+                        .updateProfileImage(imageUrl);
+                    if (mounted) {
+                      Navigator.of(context).pop();
+                      showSnackBar(context, "사진을 저장했어요");
+                    }
                   },
                   child: const Text(
                     "저장",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white, fontSize: 20),
                   )),
             ],
           )

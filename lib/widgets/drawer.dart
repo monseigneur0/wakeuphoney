@@ -167,21 +167,21 @@ class ProfileDrawer extends StatelessWidget {
                     style: const TextStyle(color: Colors.black),
                   ),
                 ),
-          ListTile(
-            onTap: () {
-              context.pushNamed(PracticeHome.routeName);
-            },
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            leading: Icon(
-              Icons.feedback_outlined,
-              color: Colors.grey[600],
-            ),
-            title: Text(
-              AppLocalizations.of(context)!.feedback,
-              style: TextStyle(color: Colors.grey[600]),
-            ),
-          ),
+          // ListTile(
+          //   onTap: () {
+          //     context.pushNamed(PracticeHome.routeName);
+          //   },
+          //   contentPadding:
+          //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          //   leading: Icon(
+          //     Icons.feedback_outlined,
+          //     color: Colors.grey[600],
+          //   ),
+          //   title: Text(
+          //     AppLocalizations.of(context)!.feedback,
+          //     style: TextStyle(color: Colors.grey[600]),
+          //   ),
+          // ),
           const SizedBox(
             height: 50,
           ),

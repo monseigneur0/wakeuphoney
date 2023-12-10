@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wakeuphoney/core/utils.dart';
 import 'package:wakeuphoney/features/image/image_screen.dart';
 
@@ -134,7 +136,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                           height: 40,
                         ),
                         Text(user.displayName,
-                            style: const TextStyle(fontSize: 20)),
+                            style: const TextStyle(fontSize: 18)),
                       ],
                     ),
                   ),
@@ -150,7 +152,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                           width: 20,
                           height: 40,
                         ),
-                        Text("생일", style: TextStyle(fontSize: 20)),
+                        Text("생일", style: TextStyle(fontSize: 18)),
                       ],
                     ),
                   ),
@@ -166,7 +168,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                           width: 20,
                           height: 40,
                         ),
-                        Text("성별", style: TextStyle(fontSize: 20)),
+                        Text("성별", style: TextStyle(fontSize: 18)),
                       ],
                     ),
                   ),
@@ -182,7 +184,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                           width: 20,
                           height: 40,
                         ),
-                        Text("위치", style: TextStyle(fontSize: 20)),
+                        Text("위치", style: TextStyle(fontSize: 18)),
                       ],
                     ),
                   ),
@@ -264,88 +266,139 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   const SizedBox(
                     height: 40,
                   ),
+                  GestureDetector(
+                    onTap: () => launchUrlString("https://sweetgom.com/5"),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.white,
+                      child: const Row(
+                        children: [
+                          SizedBox(
+                            width: 20,
+                            height: 40,
+                          ),
+                          Text("앱 소개", style: TextStyle(fontSize: 18)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     color: Colors.white,
                     child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SizedBox(
-                          width: 20,
-                          height: 40,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 20,
+                              height: 40,
+                            ),
+                            Text("앱 버전 정보", style: TextStyle(fontSize: 18)),
+                          ],
                         ),
-                        Text("성별", style: TextStyle(fontSize: 20)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text("1.0.16", style: TextStyle(fontSize: 18)),
+                            SizedBox(width: 20, height: 40),
+                          ],
+                        ),
                       ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  GestureDetector(
+                    onTap: () => launchUrlString('https://sweetgom.com/4'),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.white,
+                      child: const Row(
+                        children: [
+                          SizedBox(
+                            width: 20,
+                            height: 40,
+                          ),
+                          Text("개인정보처리방침", style: TextStyle(fontSize: 18)),
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(
                     height: 40,
                   ),
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        "내 계정 정보",
-                        style: TextStyle(color: Colors.grey[700]),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.white,
-                    child: Row(
-                      children: [
-                        const SizedBox(
-                          width: 20,
-                          height: 40,
-                        ),
-                        Text(user.email,
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                            )),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        "상대 계정 정보",
-                        style: TextStyle(color: Colors.grey[700]),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.white,
-                    child: Row(
-                      children: [
-                        const SizedBox(
-                          width: 20,
-                          height: 40,
-                        ),
-                        Text(user.coupleDisplayName ?? "없어요",
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                            )),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
+                  // Row(
+                  //   children: [
+                  //     const SizedBox(
+                  //       width: 20,
+                  //     ),
+                  //     Text(
+                  //       "내 계정 정보",
+                  //       style: TextStyle(color: Colors.grey[700]),
+                  //     ),
+                  //   ],
+                  // ),
+                  // const SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Container(
+                  //   width: MediaQuery.of(context).size.width,
+                  //   color: Colors.white,
+                  //   child: Row(
+                  //     children: [
+                  //       const SizedBox(
+                  //         width: 20,
+                  //         height: 40,
+                  //       ),
+                  //       Text(user.email,
+                  //           style: TextStyle(
+                  //             color: Colors.grey[700],
+                  //           )),
+                  //     ],
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 20,
+                  // ),
+                  // Row(
+                  //   children: [
+                  //     const SizedBox(
+                  //       width: 20,
+                  //     ),
+                  //     Text(
+                  //       "상대 계정 정보",
+                  //       style: TextStyle(color: Colors.grey[700]),
+                  //     ),
+                  //   ],
+                  // ),
+                  // const SizedBox(
+                  //   height: 5,
+                  // ),
+                  // Container(
+                  //   width: MediaQuery.of(context).size.width,
+                  //   color: Colors.white,
+                  //   child: Row(
+                  //     children: [
+                  //       const SizedBox(
+                  //         width: 20,
+                  //         height: 40,
+                  //       ),
+                  //       Text(user.coupleDisplayName ?? "없어요",
+                  //           style: TextStyle(
+                  //             color: Colors.grey[700],
+                  //           )),
+                  //     ],
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 40,
+                  // ),
                   const SizedBox(
                     height: 40,
                   ),

@@ -68,7 +68,7 @@ class DailyController extends StateNotifier<bool> {
         ? coupleUid = coupleUidValue.couple
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
-    return _dailyRepository.getDailyMessage(coupleUid, date, "messages");
+    return _dailyRepository.getDailyMessage(uid, date, "messages");
   }
 
   //23.11.30

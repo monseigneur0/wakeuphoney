@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/dailymessages/daily_controller.dart';
 
 import '../../core/common/loader.dart';
+import '../../core/constants/design_constants.dart';
 import '../../core/providers/providers.dart';
 import '../../core/utils.dart';
 
@@ -46,13 +48,16 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('${ref.watch(selectedDate)}에 편지 쓰기')),
+      appBar: AppBar(
+          title: Text(
+              '${DateFormat("yyyy년 MM월 dd일 ").format(ref.watch(selectedDateTime))} 편지')),
       body: isLoading
           ? const Loader()
           : GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
               child: SingleChildScrollView(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -70,73 +75,114 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
                             return null;
                           },
                           decoration: InputDecoration(
-                              labelText: ref.watch(selectedDate)),
+                              labelText: DateFormat("yyyy년 MM월 dd일 ")
+                                  .format(ref.watch(selectedDateTime))),
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              selectLetterImage();
-                            },
-                            child: letterImageFile != null
-                                ? SizedBox(
-                                    height: 300,
-                                    width: 250,
-                                    child: Image.file(letterImageFile!),
-                                  )
-                                : const Icon(
-                                    Icons.photo_album_outlined,
-                                    size: 40,
-                                    color: Colors.black,
-                                  )),
-                        ElevatedButton(
-                          child: const Text('저장'),
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              showSnackBar(context, "저장 중입니다.");
-                              String uniqueImageName =
-                                  DateTime.now().toString();
-                              Reference refRoot =
-                                  ref.watch(storageProvider).ref();
-                              Reference refDirImage = refRoot.child('images');
-                              Reference refImageToUpload =
-                                  refDirImage.child(uniqueImageName);
-                              try {
-                                //Store the file
-                                await refImageToUpload
-                                    .putFile(File(letterImageFile!.path));
-                                imageUrl =
-                                    await refImageToUpload.getDownloadURL();
-                              } catch (e) {
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 60, vertical: 20),
+                      child: Column(
+                        children: [
+                          ElevatedButton(
+                            style: const ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(AppColors.myPink)),
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
                                 setState(() {
-                                  isLoading = false;
-                                  logger.e(e.toString());
+                                  isLoading = true;
                                 });
+                                showSnackBar(context, "저장 중입니다.");
+                                String uniqueImageName =
+                                    DateTime.now().toString();
+                                Reference refRoot =
+                                    ref.watch(storageProvider).ref();
+                                Reference refDirImage = refRoot.child('images');
+                                Reference refImageToUpload =
+                                    refDirImage.child(uniqueImageName);
+                                try {
+                                  //Store the file
+                                  await refImageToUpload
+                                      .putFile(File(letterImageFile!.path));
+                                  imageUrl =
+                                      await refImageToUpload.getDownloadURL();
+                                } catch (e) {
+                                  setState(() {
+                                    isLoading = false;
+                                    logger.e(e.toString());
+                                  });
+                                }
+                                //메세지 작성 위치 조심
+                                ref
+                                    .watch(dailyControllerProvider.notifier)
+                                    .createDailyMessageImage(
+                                        _letterController.text, imageUrl);
+                                if (mounted) {
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                  showSnackBar(context, "Saved");
+                                }
                               }
-                              //메세지 작성 위치 조심
-                              ref
-                                  .watch(dailyControllerProvider.notifier)
-                                  .createDailyMessageImage(
-                                      _letterController.text, imageUrl);
-                              if (mounted) {
-                                Navigator.of(context).pop();
-                                Navigator.of(context).pop();
-                                showSnackBar(context, "Saved");
-                              }
-                            }
-                            _letterController.clear();
-                          },
-                        )
-                      ],
+                              _letterController.clear();
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 80, vertical: 13),
+                              child: SizedBox(
+                                height: 30,
+                                child: Center(
+                                  child: Text(
+                                    '보내기',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                selectLetterImage();
+                              },
+                              child: letterImageFile != null
+                                  ? SizedBox(
+                                      height: 300,
+                                      width: 250,
+                                      child: Image.file(letterImageFile!),
+                                    )
+                                  : Container(
+                                      color: Colors.grey[200],
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.photo_album_outlined,
+                                              size: 40,
+                                              color: Colors.black,
+                                            ),
+                                            Text(
+                                              "사진 첨부하기",
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )),
+                        ],
+                      ),
                     ),
                   ],
                 ),

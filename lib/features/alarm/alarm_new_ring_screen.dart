@@ -4,28 +4,26 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 
 import '../../core/common/loader.dart';
-import '../../core/constants/design_constants.dart';
 import '../../core/providers/providers.dart';
 import '../dailymessages/daily_controller.dart';
 import '../dailymessages/response_screen.dart';
 import '../profile/profile_controller.dart';
 
-class AlarmRingScreen extends ConsumerWidget {
-  static String routeName = "alarmring";
-  static String routeURL = "/alarmring";
-  final AlarmSettings alarmSettings;
+class AlarmNewScreen extends ConsumerStatefulWidget {
+  static String routeName = "alarmnewring";
+  static String routeURL = "/alarmnewring";
 
-  const AlarmRingScreen({
-    super.key,
-    required this.alarmSettings,
-  });
+  const AlarmNewScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    Logger logger = Logger();
+  ConsumerState<ConsumerStatefulWidget> createState() => _AlarmNewScreen();
+}
+
+class _AlarmNewScreen extends ConsumerState<AlarmNewScreen> {
+  @override
+  Widget build(BuildContext context) {
     final dateList100 = ref.watch(dateStateProvider);
     final getCoupleMessage =
         ref.watch(getDailyCoupleMessageProvider(dateList100[0]));
@@ -42,10 +40,6 @@ class AlarmRingScreen extends ConsumerWidget {
                   DateFormat("yyyy년 MM월 dd일 ").format(DateTime.now()),
                   style: const TextStyle(fontSize: 40),
                 ),
-                // Text(
-                //   dateList100.first,
-                //   style: const TextStyle(fontSize: 10),
-                // ),
                 getCoupleMessage.when(
                   data: (message) {
                     return Padding(
@@ -89,7 +83,7 @@ class AlarmRingScreen extends ConsumerWidget {
                     );
                   },
                   error: (error, stackTrace) {
-                    logger.d("error");
+                    // logger.d("error");
 
                     return const Column(
                       children: [
@@ -135,10 +129,7 @@ class AlarmRingScreen extends ConsumerWidget {
                                 backgroundColor:
                                     MaterialStatePropertyAll(Colors.grey),
                               ),
-                              onPressed: () {
-                                Alarm.stop(alarmSettings.id)
-                                    .then((_) => Navigator.pop(context));
-                              },
+                              onPressed: () {},
                               child: Padding(
                                 padding: EdgeInsets.all(
                                     MediaQuery.of(context).size.width / 15),
@@ -149,15 +140,17 @@ class AlarmRingScreen extends ConsumerWidget {
                                 ),
                               ),
                             ),
+                            // hasCoupleId.when(
+                            //   data: (data) {
+                            //     return
                             data.couple == ""
                                 ? Container()
                                 : ElevatedButton(
                                     style: const ButtonStyle(
                                         backgroundColor:
                                             MaterialStatePropertyAll(
-                                                AppColors.myPink)),
+                                                Color(0xFFD72499))),
                                     onPressed: () {
-                                      Alarm.stop(alarmSettings.id);
                                       context.goNamed(ResponseScreen.routeName);
                                     },
                                     child: Padding(
@@ -167,14 +160,18 @@ class AlarmRingScreen extends ConsumerWidget {
                                       child: const Text(
                                         "답장하기",
                                         style: TextStyle(
-                                          fontSize: 25,
-                                          color: Colors.white,
-                                        ),
+                                            fontSize: 25, color: Colors.white),
                                       ),
                                     ),
                                   ),
+                            // },
+                            // error: (error, stackTrace) => Container(),
+                            // loading: () => const Loader(),
+                            // ),
                           ],
-                        )
+                          // CachedNetworkImage(
+                          //       imageUrl: user.couplePhotoURL!),
+                        ),
                       ],
                     );
                   },

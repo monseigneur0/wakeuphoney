@@ -31,6 +31,7 @@ class DailyLetterScreen extends ConsumerStatefulWidget {
 }
 
 class _DailyLetterScreenState extends ConsumerState<DailyLetterScreen> {
+  //letter_screen 에서 사용
   final String iOSId2 = 'ca-app-pub-5897230132206634/5936284276';
   final String androidId2 = 'ca-app-pub-5897230132206634/3350483532';
 

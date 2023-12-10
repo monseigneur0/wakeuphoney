@@ -75,22 +75,22 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
   void initState() {
     super.initState();
 
-    // BannerAd(
-    //   size: AdSize.banner,
-    //   adUnitId: Platform.isIOS ? iOSId2 : androidId2,
-    //   listener: BannerAdListener(
-    //     onAdLoaded: (ad) {
-    //       setState(() {
-    //         _bannerAd = ad as BannerAd;
-    //       });
-    //     },
-    //     onAdFailedToLoad: (ad, err) {
-    //       // logger.d('Failed to load a banner ad: ${err.message}');
-    //       ad.dispose();
-    //     },
-    //   ),
-    //   request: const AdRequest(),
-    // ).load();
+    BannerAd(
+      size: AdSize.banner,
+      adUnitId: Platform.isIOS ? iOSId2 : androidId2,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          // logger.d('Failed to load a banner ad: ${err.message}');
+          ad.dispose();
+        },
+      ),
+      request: const AdRequest(),
+    ).load();
   }
 
   @override
@@ -108,18 +108,21 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('우리 편지'),
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {
-        //         // context.pushNamed(LetterDateScreen.routeName);
-        //         // context.pushNamed(LetterDayPickScreen.routeName);
-        //       },
-        //       icon: const Icon(
-        //         Icons.looks_two_outlined,
-        //         color: Color(0xFFD72499),
-        //       ))
-        // ],
+        title: const Text(
+          '우리 편지',
+          style: TextStyle(fontSize: 20),
+        ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                context.pushNamed(LetterDayScreen.routeName);
+                // context.pushNamed(LetterDayPickScreen.routeName);
+              },
+              icon: const Icon(
+                Icons.add,
+                color: Color(0xFFD72499),
+              ))
+        ],
       ),
       body: userInfo.when(
         data: (user) {
@@ -132,446 +135,501 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
                 )
               : lettersList.when(
                   data: (data) {
-                    return ListView.builder(
-                      itemCount: data.length,
-                      controller: _scrollController,
-                      key: const PageStorageKey<String>("page"),
-                      itemBuilder: (context, index) {
-                        return (data[index].isLetter ?? true)
-                            ? Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 10, left: 10, right: 10),
-                                    child: Row(
+                    return Column(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: data.length,
+                            controller: _scrollController,
+                            key: const PageStorageKey<String>("page"),
+                            itemBuilder: (context, index) {
+                              return (data[index].isLetter ?? true)
+                                  ? Column(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.start,
                                       children: [
-                                        data[index].sender == user.uid
-                                            ? Row(
-                                                children: [
-                                                  ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30.0),
-                                                    child: CachedNetworkImage(
-                                                      width: 40,
-                                                      imageUrl: user.photoURL,
-                                                      fit: BoxFit.fill,
-                                                      placeholder:
-                                                          (context, url) =>
-                                                              Container(
-                                                        height: 40,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 7,
-                                                  ),
-                                                  Text(user.displayName),
-                                                ],
-                                              )
-                                            : data[index]
-                                                    .messagedatetime
-                                                    .isBefore(DateTime.now())
-                                                ? Row(
-                                                    children: [
-                                                      ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30.0),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          imageUrl: user
-                                                              .couplePhotoURL!,
-                                                          fit: BoxFit.fill,
-                                                          placeholder:
-                                                              (context, url) =>
-                                                                  Container(
-                                                            height: 40,
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 10, left: 10, right: 10),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              data[index].sender == user.uid
+                                                  ? Row(
+                                                      children: [
+                                                        ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      30.0),
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            width: 40,
+                                                            imageUrl:
+                                                                user.photoURL,
+                                                            fit: BoxFit.fill,
+                                                            placeholder:
+                                                                (context,
+                                                                        url) =>
+                                                                    Container(
+                                                              height: 40,
+                                                            ),
+                                                            errorWidget: (context,
+                                                                    url,
+                                                                    error) =>
+                                                                const Icon(Icons
+                                                                    .error),
                                                           ),
-                                                          width: 40,
                                                         ),
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 7,
-                                                      ),
-                                                      Text(user
-                                                          .coupleDisplayName!),
-                                                    ],
+                                                        const SizedBox(
+                                                          width: 7,
+                                                        ),
+                                                        Text(user.displayName),
+                                                      ],
+                                                    )
+                                                  : Row(
+                                                      children: [
+                                                        ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      30.0),
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            imageUrl: user
+                                                                .couplePhotoURL!,
+                                                            fit: BoxFit.fill,
+                                                            placeholder:
+                                                                (context,
+                                                                        url) =>
+                                                                    Container(
+                                                              height: 40,
+                                                            ),
+                                                            width: 40,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 7,
+                                                        ),
+                                                        Text(user
+                                                            .coupleDisplayName!),
+                                                      ],
+                                                    ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    data[index].messagedate,
+                                                    style: const TextStyle(
+                                                        fontSize: 12),
+                                                  ),
+                                                  data[index]
+                                                          .messagedatetime
+                                                          .isAfter(
+                                                              DateTime.now())
+                                                      ? PopupMenuButton(
+                                                          itemBuilder:
+                                                              ((context) {
+                                                          return [
+                                                            PopupMenuItem(
+                                                              onTap: () {
+                                                                bool
+                                                                    isImageEmpty =
+                                                                    data[index]
+                                                                        .photo
+                                                                        .isEmpty;
+
+                                                                _update(
+                                                                    isImageEmpty);
+                                                                _letterEditController
+                                                                        .text =
+                                                                    data[index]
+                                                                        .message;
+                                                              },
+                                                              child: const Text(
+                                                                  "수정하기"),
+                                                            ),
+                                                            PopupMenuItem(
+                                                              onTap: () {
+                                                                ref
+                                                                    .watch(selectedDate
+                                                                        .notifier)
+                                                                    .state = data[
+                                                                        index]
+                                                                    .messagedate;
+
+                                                                ref
+                                                                    .watch(dailyControllerProvider
+                                                                        .notifier)
+                                                                    .deleteDailyMessage();
+
+                                                                showSnackBar(
+                                                                    context,
+                                                                    '삭제되었습니다.');
+                                                              },
+                                                              child: const Text(
+                                                                  "삭제하기"),
+                                                            ),
+                                                          ];
+                                                        }))
+                                                      : IconButton(
+                                                          onPressed: () {
+                                                            showSnackBar(
+                                                                context,
+                                                                '과거는 그대로 간직해요');
+                                                          },
+                                                          icon: const Icon(
+                                                              Icons.more_vert))
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 57,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width -
+                                                      60,
+                                                  child: SelectableText(
+                                                    data[index].message,
+                                                    style: const TextStyle(
+                                                        fontSize: 12),
+                                                  )),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 57,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    60,
+                                                child: Text(
+                                                  data[index]
+                                                      .messagedatetime
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                      color: Colors.grey),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          child: InteractiveViewer(
+                                            child: data[index].photo.isNotEmpty
+                                                ? CachedNetworkImage(
+                                                    fit: BoxFit.cover,
+                                                    imageUrl: data[index].photo,
+                                                    placeholder:
+                                                        (context, url) =>
+                                                            Container(
+                                                      height: 70,
+                                                    ),
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        const Icon(Icons.error),
                                                   )
                                                 : Container(),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              data[index].messagedate,
-                                            ),
-                                            data[index]
-                                                    .messagedatetime
-                                                    .isAfter(DateTime.now())
-                                                ? PopupMenuButton(
-                                                    itemBuilder: ((context) {
-                                                    return [
-                                                      PopupMenuItem(
-                                                        onTap: () {
-                                                          bool isImageEmpty =
-                                                              data[index]
-                                                                  .photo
-                                                                  .isEmpty;
-
-                                                          _update(isImageEmpty);
-                                                          _letterEditController
-                                                                  .text =
-                                                              data[index]
-                                                                  .message;
-                                                        },
-                                                        child:
-                                                            const Text("수정하기"),
-                                                      ),
-                                                      PopupMenuItem(
-                                                        onTap: () {
-                                                          ref
-                                                              .watch(
-                                                                  selectedDate
-                                                                      .notifier)
-                                                              .state = data[
-                                                                  index]
-                                                              .messagedate;
-
-                                                          ref
-                                                              .watch(
-                                                                  dailyControllerProvider
-                                                                      .notifier)
-                                                              .deleteDailyMessage();
-
-                                                          showSnackBar(context,
-                                                              '삭제되었습니다.');
-                                                        },
-                                                        child:
-                                                            const Text("삭제하기"),
-                                                      ),
-                                                    ];
-                                                  }))
-                                                : IconButton(
-                                                    onPressed: () {
-                                                      showSnackBar(context,
-                                                          '과거는 그대로 간직해요');
-                                                    },
-                                                    icon: const Icon(
-                                                        Icons.more_vert))
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 57,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width -
-                                                60,
-                                            child: SelectableText(
-                                              data[index].message,
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 57,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
-                                              60,
-                                          child: Text(
-                                            data[index]
-                                                .messagedatetime
-                                                .toString(),
-                                            style: const TextStyle(
-                                                color: Colors.grey),
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: InteractiveViewer(
-                                      child: data[index].photo.isNotEmpty
-                                          ? CachedNetworkImage(
-                                              fit: BoxFit.cover,
-                                              imageUrl: data[index].photo,
-                                              placeholder: (context, url) =>
-                                                  Container(
-                                                height: 70,
-                                              ),
-                                              height: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      const Icon(Icons.error),
-                                            )
-                                          : Container(),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 42.0),
-                                    child: data[index]
-                                            .messagedatetime
-                                            .isAfter(DateTime.now())
-                                        ? Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  IconButton(
-                                                      onPressed: () {
-                                                        showSnackBar(
-                                                            context, "좋아요");
-                                                      },
-                                                      icon: const Icon(Icons
-                                                          .favorite_outline)),
-                                                  data[index].photo.isEmpty
-                                                      ? IconButton(
-                                                          onPressed: () async {
-                                                            pickEditImage();
-                                                            String
-                                                                uniqueEditImageName =
-                                                                DateTime.now()
-                                                                    .toString();
-                                                            Reference refRoot = ref
-                                                                .watch(
-                                                                    storageProvider)
-                                                                .ref();
-                                                            Reference
-                                                                refDirEditImage =
-                                                                refRoot.child(
-                                                                    'images');
-                                                            Reference
-                                                                refEditImageToUpload =
-                                                                refDirEditImage
-                                                                    .child(
-                                                                        uniqueEditImageName);
-                                                            try {
-                                                              await refEditImageToUpload
-                                                                  .putFile(File(
-                                                                      letterEditImageFile!
-                                                                          .path));
-                                                              editImageUrl =
-                                                                  await refEditImageToUpload
-                                                                      .getDownloadURL();
-                                                              ref
-                                                                  .watch(dailyControllerProvider
-                                                                      .notifier)
-                                                                  .updateDailyImage(
-                                                                      editImageUrl);
-                                                            } catch (e) {
-                                                              setState(() {
-                                                                isLoading =
-                                                                    false;
-                                                                logger.e(e
-                                                                    .toString());
-                                                              });
-                                                            }
-                                                          },
-                                                          icon: const Icon(Icons
-                                                              .image_outlined))
-                                                      : Container(),
-                                                  IconButton(
-                                                      onPressed: () {
-                                                        bool isImageEmpty =
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 42.0),
+                                          child:
+                                              data[index]
+                                                      .messagedatetime
+                                                      .isAfter(DateTime.now())
+                                                  ? Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            IconButton(
+                                                                onPressed: () {
+                                                                  showSnackBar(
+                                                                      context,
+                                                                      "좋아요");
+                                                                },
+                                                                icon: const Icon(
+                                                                    Icons
+                                                                        .favorite_outline)),
                                                             data[index]
-                                                                .photo
-                                                                .isEmpty;
-                                                        ref
-                                                            .watch(selectedDate
-                                                                .notifier)
-                                                            .state = data[
-                                                                index]
-                                                            .messagedate;
-                                                        _update(isImageEmpty);
-                                                        _letterEditController
-                                                                .text =
-                                                            data[index].message;
-                                                      },
-                                                      icon: const Icon(Icons
-                                                          .mode_edit_outlined)),
+                                                                    .photo
+                                                                    .isEmpty
+                                                                ? IconButton(
+                                                                    onPressed:
+                                                                        () async {
+                                                                      pickEditImage();
+                                                                      String
+                                                                          uniqueEditImageName =
+                                                                          DateTime.now()
+                                                                              .toString();
+                                                                      Reference refRoot = ref
+                                                                          .watch(
+                                                                              storageProvider)
+                                                                          .ref();
+                                                                      Reference
+                                                                          refDirEditImage =
+                                                                          refRoot
+                                                                              .child('images');
+                                                                      Reference
+                                                                          refEditImageToUpload =
+                                                                          refDirEditImage
+                                                                              .child(uniqueEditImageName);
+                                                                      try {
+                                                                        await refEditImageToUpload
+                                                                            .putFile(File(letterEditImageFile!.path));
+                                                                        editImageUrl =
+                                                                            await refEditImageToUpload.getDownloadURL();
+                                                                        ref.watch(dailyControllerProvider.notifier).updateDailyImage(
+                                                                            editImageUrl);
+                                                                      } catch (e) {
+                                                                        setState(
+                                                                            () {
+                                                                          isLoading =
+                                                                              false;
+                                                                          logger
+                                                                              .e(e.toString());
+                                                                        });
+                                                                      }
+                                                                    },
+                                                                    icon: const Icon(
+                                                                        Icons
+                                                                            .image_outlined))
+                                                                : Container(),
+                                                            IconButton(
+                                                                onPressed: () {
+                                                                  bool
+                                                                      isImageEmpty =
+                                                                      data[index]
+                                                                          .photo
+                                                                          .isEmpty;
+                                                                  ref
+                                                                      .watch(selectedDate
+                                                                          .notifier)
+                                                                      .state = data[
+                                                                          index]
+                                                                      .messagedate;
+                                                                  _update(
+                                                                      isImageEmpty);
+                                                                  _letterEditController
+                                                                      .text = data[
+                                                                          index]
+                                                                      .message;
+                                                                },
+                                                                icon: const Icon(
+                                                                    Icons
+                                                                        .mode_edit_outlined)),
 
-                                                  // IconButton(
-                                                  //   onPressed: () {
-                                                  //     showSnackBar(
-                                                  //         context, "1분 녹음하기");
-                                                  //   },
-                                                  //   icon: const Icon(
-                                                  //       CupertinoIcons.mic),
-                                                  // ),
-                                                ],
-                                              ),
-                                              // IconButton(
-                                              //     onPressed: () {
-                                              //       showSnackBar(context, "삭제되었습니다.");
-                                              //     },
-                                              //     icon: const Icon(
-                                              //         Icons.delete_outline)),
-                                            ],
-                                          )
-                                        : Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  IconButton(
-                                                      onPressed: () {},
-                                                      icon: const Icon(Icons
-                                                          .favorite_outline)),
-                                                  IconButton(
-                                                      onPressed: () {
-                                                        showSnackBar(context,
-                                                            "답장은 당일만 할 수 있어요");
-                                                      },
-                                                      icon: const Icon(
-                                                          CupertinoIcons
-                                                              .chat_bubble)),
-                                                  // IconButton(
-                                                  //     onPressed: () {
-                                                  //       showSnackBar(context, "듣기");
-                                                  //     },
-                                                  //     icon: const Icon(
-                                                  //         CupertinoIcons.speaker_1)),
-                                                ],
-                                              ),
-                                              // IconButton(
-                                              //   onPressed: () {
-                                              //     showSnackBar(
-                                              //         context, "과거는 그대로 간직해요");
-                                              //   },
-                                              //   icon: const Icon(
-                                              //       CupertinoIcons.bookmark),
-                                              // ),
-                                            ],
-                                          ),
-                                  ),
-                                  // Container(
-                                  //   height: 1,
-                                  //   decoration:
-                                  //       BoxDecoration(color: Colors.grey[700]),
-                                  // ),
-
-                                  ///////answer
-                                  index == 0
-                                      ? (data[index].isLetter ?? true)
-                                          ? Container()
-                                          : Container()
-                                      : (data[index - 1].isLetter ?? true)
-                                          ? Container()
-                                          : Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    const SizedBox(
-                                                      width: 50,
-                                                    ),
-                                                    ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20.0),
-                                                      child: CachedNetworkImage(
-                                                        imageUrl: user
-                                                            .couplePhotoURL!,
-                                                        fit: BoxFit.fill,
-                                                        placeholder:
-                                                            (context, url) =>
-                                                                Container(
-                                                          height: 20,
+                                                            // IconButton(
+                                                            //   onPressed: () {
+                                                            //     showSnackBar(
+                                                            //         context, "1분 녹음하기");
+                                                            //   },
+                                                            //   icon: const Icon(
+                                                            //       CupertinoIcons.mic),
+                                                            // ),
+                                                          ],
                                                         ),
-                                                        width: 20,
+                                                        // IconButton(
+                                                        //     onPressed: () {
+                                                        //       showSnackBar(context, "삭제되었습니다.");
+                                                        //     },
+                                                        //     icon: const Icon(
+                                                        //         Icons.delete_outline)),
+                                                      ],
+                                                    )
+                                                  : Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            IconButton(
+                                                                onPressed:
+                                                                    () {},
+                                                                icon: const Icon(
+                                                                    Icons
+                                                                        .favorite_outline)),
+                                                            IconButton(
+                                                                onPressed: () {
+                                                                  showSnackBar(
+                                                                      context,
+                                                                      "답장은 당일만 할 수 있어요");
+                                                                },
+                                                                icon: const Icon(
+                                                                    CupertinoIcons
+                                                                        .chat_bubble)),
+                                                            // IconButton(
+                                                            //     onPressed: () {
+                                                            //       showSnackBar(context, "듣기");
+                                                            //     },
+                                                            //     icon: const Icon(
+                                                            //         CupertinoIcons.speaker_1)),
+                                                          ],
+                                                        ),
+                                                        // IconButton(
+                                                        //   onPressed: () {
+                                                        //     showSnackBar(
+                                                        //         context, "과거는 그대로 간직해요");
+                                                        //   },
+                                                        //   icon: const Icon(
+                                                        //       CupertinoIcons.bookmark),
+                                                        // ),
+                                                      ],
+                                                    ),
+                                        ),
+                                        // Container(
+                                        //   height: 1,
+                                        //   decoration:
+                                        //       BoxDecoration(color: Colors.grey[700]),
+                                        // ),
+
+                                        ///////answer
+                                        index == 0
+                                            ? (data[index].isLetter ?? true)
+                                                ? Container()
+                                                : Container()
+                                            : (data[index - 1].isLetter ?? true)
+                                                ? Container()
+                                                : Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          const SizedBox(
+                                                            width: 50,
+                                                          ),
+                                                          ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20.0),
+                                                            child:
+                                                                CachedNetworkImage(
+                                                              imageUrl: user
+                                                                  .couplePhotoURL!,
+                                                              fit: BoxFit.fill,
+                                                              placeholder:
+                                                                  (context,
+                                                                          url) =>
+                                                                      Container(
+                                                                height: 20,
+                                                              ),
+                                                              width: 20,
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 7,
+                                                          ),
+                                                          Text(user
+                                                              .coupleDisplayName!),
+                                                          Text(data[index - 1]
+                                                              .message),
+                                                        ],
                                                       ),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 7,
-                                                    ),
-                                                    Text(user
-                                                        .coupleDisplayName!),
-                                                    Text(data[index - 1]
-                                                        .message),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    const SizedBox(width: 80),
-                                                    Text(
-                                                      data[index - 1]
-                                                          .messagedatetime
-                                                          .toString(),
-                                                      style: const TextStyle(
-                                                          color: Colors.grey),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    const SizedBox(width: 80),
-                                                    SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width -
-                                                              100,
-                                                      child: InteractiveViewer(
-                                                        child: data[index - 1]
-                                                                .photo
-                                                                .isNotEmpty
-                                                            ? CachedNetworkImage(
-                                                                imageUrl: data[
-                                                                        index -
-                                                                            1]
-                                                                    .photo,
-                                                                placeholder:
-                                                                    (context,
-                                                                            url) =>
-                                                                        Container(
-                                                                  height: 70,
-                                                                ),
-                                                                height: 300,
-                                                                errorWidget: (context,
-                                                                        url,
-                                                                        error) =>
-                                                                    const Icon(Icons
-                                                                        .error),
-                                                              )
-                                                            : Container(),
+                                                      Row(
+                                                        children: [
+                                                          const SizedBox(
+                                                              width: 80),
+                                                          Text(
+                                                            data[index - 1]
+                                                                .messagedatetime
+                                                                .toString(),
+                                                            style:
+                                                                const TextStyle(
+                                                                    color: Colors
+                                                                        .grey),
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                ],
-                              )
-                            : Container();
-                      },
+                                                      Row(
+                                                        children: [
+                                                          const SizedBox(
+                                                              width: 80),
+                                                          SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width -
+                                                                100,
+                                                            child:
+                                                                InteractiveViewer(
+                                                              child: data[index -
+                                                                          1]
+                                                                      .photo
+                                                                      .isNotEmpty
+                                                                  ? CachedNetworkImage(
+                                                                      imageUrl: data[index -
+                                                                              1]
+                                                                          .photo,
+                                                                      placeholder:
+                                                                          (context, url) =>
+                                                                              Container(
+                                                                        height:
+                                                                            70,
+                                                                      ),
+                                                                      height:
+                                                                          300,
+                                                                      errorWidget: (context,
+                                                                              url,
+                                                                              error) =>
+                                                                          const Icon(
+                                                                              Icons.error),
+                                                                    )
+                                                                  : Container(),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                      ],
+                                    )
+                                  : Container();
+                            },
+                          ),
+                        ),
+                        if (_bannerAd != null)
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: 70,
+                              child: AdWidget(ad: _bannerAd!),
+                            ),
+                          ),
+                      ],
                     );
                   },
                   error: (error, stackTrace) {
@@ -597,23 +655,23 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
         },
         loading: () => const Loader(),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            FloatingActionButton(
-              onPressed: () => context.pushNamed(LetterDayScreen.routeName),
-              backgroundColor: AppColors.myPink,
-              child: const Icon(
-                Icons.add,
-                size: 29,
-              ),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: Padding(
+      //   padding: const EdgeInsets.all(10),
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.end,
+      //     children: [
+      //       FloatingActionButton(
+      //         onPressed: () => context.pushNamed(LetterDayScreen.routeName),
+      //         backgroundColor: AppColors.myPink,
+      //         child: const Icon(
+      //           Icons.add,
+      //           size: 29,
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 

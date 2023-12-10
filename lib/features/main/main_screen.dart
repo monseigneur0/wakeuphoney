@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/core/common/loader.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
+import 'package:wakeuphoney/features/dailymessages/letter_day_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_couple_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_screen.dart';
 
 import '../../core/constants/design_constants.dart';
 import '../alarm/alarm_screen.dart';
 import '../auth/auth_controller.dart';
-import '../dailymessages/daily_letter_screen.dart';
 import '../dailymessages/letter_screen.dart';
+import '../letter/letter_feed_screen.dart';
 import '../match/match_screen.dart';
 import '../profile/profile_controller.dart';
 
@@ -24,7 +25,7 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 3;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -45,6 +46,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       // const DailyLetterScreen(),
       // const HistoryMessageScreen(),
       const LetterScreen(),
+      // const LetterFeedScreen(),
+      const LetterDayScreen(),
       hasCoupleId.when(
         data: ((data) {
           if (data.couple != "") {
@@ -55,7 +58,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         error: (error, stackTrace) => const MatchScreen(),
         loading: (() => const Loader()),
       ),
-      const ProfileCoupleScreen(),
+      // const ProfileCoupleScreen(),
     ];
     return isLoggedInStream.when(
       data: (user) {
@@ -84,22 +87,27 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 //   icon: Icon(Icons.favorite_border_outlined),
                 //   label: 'Letters',
                 // ),
-                // BottomNavigationBarItem(
-                //   icon: Icon(Icons.local_post_office_outlined),
-                //   label: 'History',
-                // ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.local_post_office_outlined),
                   label: 'Letters',
                 ),
+                // BottomNavigationBarItem(
+                //   icon: Icon(Icons.feed_outlined),
+                //   label: 'Feed',
+                // ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person_outline_rounded),
-                  label: 'Profile',
+                  backgroundColor: AppColors.myPink,
+                  icon: Icon(Icons.add_comment_outlined),
+                  label: 'Write',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person_outline_rounded),
                   label: 'Profile',
                 ),
+                // BottomNavigationBarItem(
+                //   icon: Icon(Icons.person_outline_rounded),
+                //   label: 'N Profile',
+                // ),
               ],
               currentIndex: _selectedIndex,
               selectedItemColor: AppColors.myPink,

@@ -27,6 +27,7 @@ class HistoryMessageScreen extends ConsumerStatefulWidget {
 }
 
 class _HistoryMessageScreenState extends ConsumerState<HistoryMessageScreen> {
+  //letter_day_screen에서 사용
   final String iOSId4 = 'ca-app-pub-5897230132206634/2698132449';
   final String androidId4 = 'ca-app-pub-5897230132206634/2588066206';
   BannerAd? _bannerAd;

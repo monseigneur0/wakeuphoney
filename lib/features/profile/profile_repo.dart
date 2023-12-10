@@ -54,4 +54,8 @@ class ProfileRepo {
     return await _users.doc(uid).get().then(
         (value) => UserModel.fromMap(value.data() as Map<String, dynamic>));
   }
+
+  updateProfileImage(String uid, String url) async {
+    await _users.doc(uid).update({"photoURL": url});
+  }
 }

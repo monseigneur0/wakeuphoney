@@ -136,4 +136,11 @@ class ProfileController extends StateNotifier<bool> {
 
     return _profileRepo.getUserInfo(uid);
   }
+
+  updateProfileImage(String url) async {
+    User? user = _ref.watch(authProvider).currentUser;
+    String uid;
+    user != null ? uid = user.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    await _profileRepo.updateProfileImage(uid, url);
+  }
 }

@@ -1,7 +1,9 @@
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
@@ -103,6 +105,32 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
     print("_onDaySelected");
   }
 
+  final String iOSId4 = 'ca-app-pub-5897230132206634/2698132449';
+  final String androidId4 = 'ca-app-pub-5897230132206634/2588066206';
+  BannerAd? _bannerAd;
+
+  @override
+  void initState() {
+    super.initState();
+
+    BannerAd(
+      size: AdSize.banner,
+      adUnitId: Platform.isIOS ? iOSId4 : androidId4,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          // logger.d('Failed to load a banner ad: ${err.message}');
+          ad.dispose();
+        },
+      ),
+      request: const AdRequest(),
+    ).load();
+  }
+
   @override
   void dispose() {
     _selectedEvents.dispose();
@@ -115,70 +143,86 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('편지를 보낼 날짜를 고르세요.'),
+        title: const Text(
+          '편지를 보낼 날짜를 고르세요',
+          style: TextStyle(fontSize: 18),
+        ),
       ),
       body: Column(
         children: [
-          lettersList.when(
-            data: (data) {
-              for (var letter in data) {
-                _writeDays.add(letter.messagedatetime);
-              }
-              return TableCalendar<Event>(
-                firstDay: kFirstDay,
-                lastDay: kLastDay,
-                focusedDay: _focusedDay,
-                eventLoader: _getEventsForDay,
-                availableCalendarFormats: const {CalendarFormat.month: 'Month'},
-                startingDayOfWeek: StartingDayOfWeek.monday,
-                selectedDayPredicate: (day) {
-                  // Use values from Set to mark multiple days as selected
-                  return _writeDays.contains(day);
-                },
-                onDaySelected: _onDaySelected,
-                onPageChanged: (focusedDay) {
-                  _focusedDay = focusedDay;
-                },
-              );
-            },
-            error: (error, stackTrace) {
-              logger.d("error$error ");
-              return const Center(
-                child: Text(
-                  "주고 받은 편지가 없어요",
-                  style: TextStyle(color: Colors.white, fontSize: 40),
-                ),
-              );
-            },
-            loading: () => const Loader(),
-          ),
-          const SizedBox(height: 8.0),
           Expanded(
-            child: ValueListenableBuilder<List<Event>>(
-              valueListenable: _selectedEvents,
-              builder: (context, value, _) {
-                return ListView.builder(
-                  itemCount: value.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 4.0,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: ListTile(
-                        onTap: () => print('${value[index]}'),
-                        title: Text('${value[index]}'),
-                      ),
-                    );
+            child: lettersList.when(
+              data: (data) {
+                for (var letter in data) {
+                  _writeDays.add(letter.messagedatetime);
+                }
+                return TableCalendar<Event>(
+                  firstDay: kFirstDay,
+                  lastDay: kLastDay,
+                  focusedDay: _focusedDay,
+                  eventLoader: _getEventsForDay,
+                  availableCalendarFormats: const {
+                    CalendarFormat.month: 'Month'
+                  },
+                  startingDayOfWeek: StartingDayOfWeek.monday,
+                  selectedDayPredicate: (day) {
+                    // Use values from Set to mark multiple days as selected
+                    return _writeDays.contains(day);
+                  },
+                  onDaySelected: _onDaySelected,
+                  onPageChanged: (focusedDay) {
+                    _focusedDay = focusedDay;
                   },
                 );
               },
+              error: (error, stackTrace) {
+                logger.d("error$error ");
+                return const Center(
+                  child: Text(
+                    "주고 받은 편지가 없어요",
+                    style: TextStyle(color: Colors.white, fontSize: 40),
+                  ),
+                );
+              },
+              loading: () => const Loader(),
             ),
           ),
+          // const SizedBox(height: 8.0),
+          // Expanded(
+          //   child: ValueListenableBuilder<List<Event>>(
+          //     valueListenable: _selectedEvents,
+          //     builder: (context, value, _) {
+          //       return ListView.builder(
+          //         itemCount: value.length,
+          //         itemBuilder: (context, index) {
+          //           return Container(
+          //             margin: const EdgeInsets.symmetric(
+          //               horizontal: 12.0,
+          //               vertical: 4.0,
+          //             ),
+          //             decoration: BoxDecoration(
+          //               border: Border.all(),
+          //               borderRadius: BorderRadius.circular(12.0),
+          //             ),
+          //             child: ListTile(
+          //               onTap: () => print('${value[index]}'),
+          //               title: Text('${value[index]}'),
+          //             ),
+          //           );
+          //         },
+          //       );
+          //     },
+          //   ),
+          // ),
+          if (_bannerAd != null)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 70,
+                child: AdWidget(ad: _bannerAd!),
+              ),
+            ),
         ],
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:wakeuphoney/features/alarm/alarm_new_ring_screen.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 import 'package:wakeuphoney/features/dailymessages/letter_screen.dart';
 import 'package:wakeuphoney/features/image/image_screen.dart';
@@ -59,6 +60,11 @@ final routerProvider = Provider((ref) {
         name: PracticeHome.routeName,
         path: PracticeHome.routeURL,
         builder: (context, state) => const PracticeHome(),
+      ),
+      GoRoute(
+        name: AlarmNewScreen.routeName,
+        path: AlarmNewScreen.routeURL,
+        builder: (context, state) => const AlarmNewScreen(),
       ),
       GoRoute(
         name: AlarmHome.routeName,
