@@ -70,7 +70,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             child: widgetOptions.elementAt(_selectedIndex),
           ),
           bottomNavigationBar: SizedBox(
-            height: 80,
+            height: 85,
             child: BottomNavigationBar(
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
