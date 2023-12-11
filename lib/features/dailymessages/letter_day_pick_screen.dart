@@ -8,6 +8,7 @@ import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/core/utils.dart';
 
 import '../../core/common/loader.dart';
+import '../../core/constants/design_constants.dart';
 import 'daily_controller.dart';
 import 'letter_create_screen.dart';
 import 'letter_date_screen.dart';
@@ -49,7 +50,7 @@ class _LetterDayPickScreenState extends ConsumerState<LetterDayPickScreen> {
                       },
                       icon: const Icon(
                         Icons.looks_two_outlined,
-                        color: Color(0xFFD72499),
+                        color: AppColors.myPink,
                       ))
                 ],
                 floating: true,

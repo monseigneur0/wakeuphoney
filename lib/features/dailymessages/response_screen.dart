@@ -169,7 +169,7 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                     ElevatedButton(
                       style: const ButtonStyle(
                           backgroundColor:
-                              MaterialStatePropertyAll(Color(0xFFD72499))),
+                              MaterialStatePropertyAll(AppColors.myPink)),
                       child: const Text('Send'),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {

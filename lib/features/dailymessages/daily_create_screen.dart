@@ -169,7 +169,7 @@ class _DailyLetterCreateScreenState
                       ElevatedButton(
                         style: const ButtonStyle(
                           backgroundColor:
-                              MaterialStatePropertyAll(Color(0xFFD72499)),
+                              MaterialStatePropertyAll(AppColors.myPink),
                         ),
                         child: const Text('저장'),
                         onPressed: () async {

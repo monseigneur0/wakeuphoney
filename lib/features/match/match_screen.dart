@@ -56,15 +56,79 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
             const SizedBox(
               height: 20,
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    const Text(
+                      "SNS 로그인",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    const Icon(
+                      Icons.looks_one_outlined,
+                      size: 40,
+                    ),
+                    Text(
+                      "SNS 로그인",
+                      style: TextStyle(fontSize: 10, color: Colors.grey[300]),
+                    ),
+                  ],
+                ),
+                const Icon(
+                  Icons.more_horiz,
+                  size: 40,
+                ),
+                Column(
+                  children: [
+                    Text(
+                      "상대 연결",
+                      style: TextStyle(fontSize: 10, color: Colors.grey[300]),
+                    ),
+                    const Icon(
+                      Icons.looks_two,
+                      size: 40,
+                    ),
+                    const Text(
+                      "상대 연결",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ],
+                ),
+                const Icon(
+                  Icons.more_horiz,
+                  size: 40,
+                ),
+                Column(
+                  children: [
+                    const Text(
+                      "일어나곰",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    const Icon(
+                      Icons.looks_3_outlined,
+                      size: 40,
+                    ),
+                    Text(
+                      "일어나곰",
+                      style: TextStyle(fontSize: 10, color: Colors.grey[300]),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             const Text(
-              "편지를 쓰고, 알람을 설정하고, \n아침에 편지를 확인해보세요.",
+              "서로의 초대코드를 입력하면 연결돼요.",
               style: TextStyle(color: Colors.black),
             ),
             const SizedBox(
               height: 10,
             ),
             const Text(
-              "서로의 초대코드를 입력하면 연결돼요.",
+              "편지를 쓰고, 알람을 설정하고, \n아침에 편지를 확인해보세요.",
               style: TextStyle(color: Colors.black),
             ),
             const SizedBox(
@@ -183,7 +247,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          side: const BorderSide(color: Color(0xFFD72499))),
+                          side: const BorderSide(color: AppColors.myPink)),
                     ),
                   ),
                   onPressed: () {
@@ -213,7 +277,10 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                       }
                     }
                   },
-                  child: Text(AppLocalizations.of(context)!.connectwith),
+                  child: Text(
+                    AppLocalizations.of(context)!.connectwith,
+                    style: const TextStyle(color: Colors.white),
+                  ),
                 ),
               ],
             ),

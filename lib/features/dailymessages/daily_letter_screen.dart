@@ -102,7 +102,7 @@ class _DailyLetterScreenState extends ConsumerState<DailyLetterScreen> {
           //     },
           //     icon: const Icon(
           //       Icons.connecting_airports_outlined,
-          //       color: Color(0xFFD72499),
+          //       color: AppColors.myPink,
           //     ))
         ],
       ),
@@ -587,7 +587,7 @@ class _DailyLetterScreenState extends ConsumerState<DailyLetterScreen> {
                   ElevatedButton(
                     style: const ButtonStyle(
                       backgroundColor:
-                          MaterialStatePropertyAll(Color(0xFFD72499)),
+                          MaterialStatePropertyAll(AppColors.myPink),
                     ),
                     child: const Text('수정'),
                     onPressed: () async {

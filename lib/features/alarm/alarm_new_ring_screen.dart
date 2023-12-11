@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/common/loader.dart';
+import '../../core/constants/design_constants.dart';
 import '../../core/providers/providers.dart';
 import '../dailymessages/daily_controller.dart';
 import '../dailymessages/response_screen.dart';
@@ -149,7 +150,7 @@ class _AlarmNewScreen extends ConsumerState<AlarmNewScreen> {
                                     style: const ButtonStyle(
                                         backgroundColor:
                                             MaterialStatePropertyAll(
-                                                Color(0xFFD72499))),
+                                                AppColors.myPink)),
                                     onPressed: () {
                                       context.goNamed(ResponseScreen.routeName);
                                     },

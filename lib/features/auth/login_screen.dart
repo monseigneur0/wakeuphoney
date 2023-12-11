@@ -54,7 +54,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
           //       },
           //       icon: const Icon(
           //         Icons.connecting_airports_outlined,
-          //         color: Color(0xFFD72499),
+          //         color: AppColors.myPink,
           //       ))
           // ],
           backgroundColor: AppColors.myAppBarBackgroundPink,
@@ -120,10 +120,72 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                 iconSize: 130,
               ),
               const SizedBox(height: 30),
-              const Text(
-                "SNS 로그인",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      const Text(
+                        "SNS 로그인",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      const Icon(
+                        Icons.looks_one,
+                        size: 40,
+                      ),
+                      Text(
+                        "SNS 로그인",
+                        style: TextStyle(fontSize: 10, color: Colors.grey[300]),
+                      ),
+                    ],
+                  ),
+                  const Icon(
+                    Icons.more_horiz,
+                    size: 40,
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        "상대 연결",
+                        style: TextStyle(fontSize: 10, color: Colors.grey[300]),
+                      ),
+                      const Icon(
+                        Icons.looks_two_outlined,
+                        size: 40,
+                      ),
+                      const Text(
+                        "상대 연결",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ],
+                  ),
+                  const Icon(
+                    Icons.more_horiz,
+                    size: 40,
+                  ),
+                  Column(
+                    children: [
+                      const Text(
+                        "일어나곰",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      const Icon(
+                        Icons.looks_3_outlined,
+                        size: 40,
+                      ),
+                      Text(
+                        "일어나곰",
+                        style: TextStyle(fontSize: 10, color: Colors.grey[300]),
+                      ),
+                    ],
+                  ),
+                ],
               ),
+              const SizedBox(height: 30),
+              // const Text(
+              //   "SNS 로그인",
+              //   style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
+              // ),
               const SizedBox(height: 10),
               Platform.isIOS
                   ? Padding(

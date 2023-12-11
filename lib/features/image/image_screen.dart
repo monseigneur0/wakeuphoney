@@ -8,6 +8,7 @@ import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 
+import '../../core/common/loader.dart';
 import '../../core/utils.dart';
 
 class ImageScreen extends ConsumerStatefulWidget {
@@ -73,35 +74,40 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                     "취소",
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   )),
-              TextButton(
-                  onPressed: () async {
-                    showSnackBar(context, "저장 중입니다.");
-                    String uniqueImageName = DateTime.now().toString();
-                    Reference refRoot = ref.watch(storageProvider).ref();
-                    Reference refDirImage = refRoot.child('images');
-                    Reference refImageToUpload =
-                        refDirImage.child(uniqueImageName);
-                    try {
-                      await refImageToUpload.putFile(File(imageFile!.path));
-                      imageUrl = await refImageToUpload.getDownloadURL();
-                    } catch (e) {
-                      setState(() {
-                        isLoading = false;
-                        logger.e(e.toString());
-                      });
-                    }
-                    ref
-                        .watch(profileControllerProvider.notifier)
-                        .updateProfileImage(imageUrl);
-                    if (mounted) {
-                      Navigator.of(context).pop();
-                      showSnackBar(context, "사진을 저장했어요");
-                    }
-                  },
-                  child: const Text(
-                    "저장",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  )),
+              isLoading
+                  ? const Loader()
+                  : TextButton(
+                      onPressed: () async {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        showSnackBar(context, "저장 중입니다.");
+                        String uniqueImageName = DateTime.now().toString();
+                        Reference refRoot = ref.watch(storageProvider).ref();
+                        Reference refDirImage = refRoot.child('images');
+                        Reference refImageToUpload =
+                            refDirImage.child(uniqueImageName);
+                        try {
+                          await refImageToUpload.putFile(File(imageFile!.path));
+                          imageUrl = await refImageToUpload.getDownloadURL();
+                        } catch (e) {
+                          setState(() {
+                            isLoading = false;
+                            logger.e(e.toString());
+                          });
+                        }
+                        ref
+                            .watch(profileControllerProvider.notifier)
+                            .updateProfileImage(imageUrl);
+                        if (mounted) {
+                          Navigator.of(context).pop();
+                          showSnackBar(context, "사진을 저장했어요");
+                        }
+                      },
+                      child: const Text(
+                        "저장",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      )),
             ],
           )
         ],

@@ -46,7 +46,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       // const DailyLetterScreen(),
       // const HistoryMessageScreen(),
       const LetterScreen(),
-      const LetterFeedScreen(),
+      // const LetterFeedScreen(),
       const LetterDayScreen(),
       hasCoupleId.when(
         data: ((data) {
@@ -65,66 +65,74 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         if (user == null) {
           return const LoginHome();
         }
-        return Scaffold(
-          body: Center(
-            child: widgetOptions.elementAt(_selectedIndex),
-          ),
-          bottomNavigationBar: SizedBox(
-            height: 85,
-            child: BottomNavigationBar(
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: ImageIcon(
-                    AssetImage('assets/alarm-clock.png'),
-                  ),
-                  label: 'Alarm',
-                ),
-                // BottomNavigationBarItem(
-                //   icon: Icon(Icons.alarm),
-                //   label: 'Alarm2',
-                // ),
-                // BottomNavigationBarItem(
-                //   icon: Icon(Icons.favorite_border_outlined),
-                //   label: 'Letters',
-                // ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.local_post_office_outlined),
-                  label: 'Letters',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.feed_outlined),
-                  label: 'Feed',
-                ),
-                BottomNavigationBarItem(
-                  backgroundColor: AppColors.myPink,
-                  icon: Icon(Icons.add_comment_outlined),
-                  label: 'Write',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person_outline_rounded),
-                  label: 'Profile',
-                ),
-                // BottomNavigationBarItem(
-                //   icon: Icon(Icons.person_outline_rounded),
-                //   label: 'N Profile',
-                // ),
-              ],
-              currentIndex: _selectedIndex,
-              selectedItemColor: AppColors.myPink,
-              onTap: _onItemTapped,
-              iconSize: 20,
-              selectedFontSize: 12,
-              unselectedFontSize: 11,
-              unselectedItemColor: Colors.grey[800],
-              type: BottomNavigationBarType.fixed,
-            ),
-          ),
+        return hasCoupleId.when(
+          data: (data) {
+            return data.couple == ""
+                ? const MatchScreen()
+                : Scaffold(
+                    body: Center(
+                      child: widgetOptions.elementAt(_selectedIndex),
+                    ),
+                    bottomNavigationBar: SizedBox(
+                      height: 85,
+                      child: BottomNavigationBar(
+                        items: const <BottomNavigationBarItem>[
+                          BottomNavigationBarItem(
+                            icon: ImageIcon(
+                              AssetImage('assets/alarm-clock.png'),
+                            ),
+                            label: 'Alarm',
+                          ),
+                          // BottomNavigationBarItem(
+                          //   icon: Icon(Icons.alarm),
+                          //   label: 'Alarm2',
+                          // ),
+                          // BottomNavigationBarItem(
+                          //   icon: Icon(Icons.favorite_border_outlined),
+                          //   label: 'Letters',
+                          // ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.local_post_office_outlined),
+                            label: 'Letters',
+                          ),
+                          // BottomNavigationBarItem(
+                          //   icon: Icon(Icons.feed_outlined),
+                          //   label: 'Feed',
+                          // ),
+                          BottomNavigationBarItem(
+                            backgroundColor: AppColors.myPink,
+                            icon: Icon(Icons.add_comment_outlined),
+                            label: 'Write',
+                          ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.person_outline_rounded),
+                            label: 'Profile',
+                          ),
+                          // BottomNavigationBarItem(
+                          //   icon: Icon(Icons.person_outline_rounded),
+                          //   label: 'N Profile',
+                          // ),
+                        ],
+                        currentIndex: _selectedIndex,
+                        selectedItemColor: AppColors.myPink,
+                        onTap: _onItemTapped,
+                        iconSize: 20,
+                        selectedFontSize: 12,
+                        unselectedFontSize: 11,
+                        unselectedItemColor: Colors.grey[800],
+                        type: BottomNavigationBarType.fixed,
+                      ),
+                    ),
+                  );
+          },
+          error: (error, _) =>
+              const Scaffold(body: Center(child: Text('An error occurred'))),
+          loading: () =>
+              const Scaffold(body: Center(child: CircularProgressIndicator())),
         );
       },
-      error: (error, _) =>
-          const Scaffold(body: Center(child: Text('An error occurred'))),
-      loading: () =>
-          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (error, stackTrace) => const MatchScreen(),
+      loading: (() => const Loader()),
     );
   }
 }

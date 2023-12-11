@@ -127,7 +127,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                     ElevatedButton(
                       style: const ButtonStyle(
                           backgroundColor:
-                              MaterialStatePropertyAll(Color(0xFFD72499))),
+                              MaterialStatePropertyAll(AppColors.myPink)),
                       child: const Text('Send'),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {

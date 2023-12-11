@@ -11,6 +11,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
+import '../../core/constants/design_constants.dart';
 import '../../core/providers/firebase_providers.dart';
 import '../../core/providers/providers.dart';
 import '../auth/auth_controller.dart';
@@ -213,7 +214,7 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
                                   DateFormat.MMMd()
                                       .format(value[index].messagedatetime),
                                   style:
-                                      const TextStyle(color: Color(0xFFD72499)),
+                                      const TextStyle(color: AppColors.myPink),
                                 ),
                               ),
                               Container(
