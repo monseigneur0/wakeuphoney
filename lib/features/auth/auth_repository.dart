@@ -34,11 +34,10 @@ class AuthRepository {
   CollectionReference get _users =>
       _firestore.collection(FirebaseConstants.usersCollection);
 
-//different?
   User? get currentUser => _firebaseAuth.currentUser;
-
   bool get isLoggedIn => currentUser != null;
   Stream<User?> get authStateChange => _firebaseAuth.authStateChanges();
+
   var logger = Logger();
 
   Future<UserCredential?> signInWithGoogle() async {

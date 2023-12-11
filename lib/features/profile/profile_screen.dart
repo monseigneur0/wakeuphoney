@@ -35,7 +35,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
 
   final TextEditingController _honeyCodeController = TextEditingController();
 
-  final bool _visiblebear = true;
+  bool _visiblebear = true;
   int randomNum = 0;
 
   final String iOSId4 = 'ca-app-pub-5897230132206634/6527311215';
@@ -96,7 +96,6 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
         elevation: 0,
         title: Text(
           AppLocalizations.of(context)!.profile,
-          style: const TextStyle(fontSize: 20, color: Colors.black),
         ),
         // const Text(
         //   "Profile",
@@ -113,61 +112,62 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                 Container(
                   height: 20,
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //   children: [
-                //     AnimatedOpacity(
-                //       opacity: _visiblebear ? 1.0 : 0.0,
-                //       duration: const Duration(milliseconds: 0),
-                //       child: Container(
-                //         width: 250,
-                //         height: 75,
-                //         padding: const EdgeInsets.all(5),
-                //         decoration: BoxDecoration(
-                //           color: Colors.grey[400],
-                //           borderRadius: const BorderRadius.only(
-                //             topLeft: Radius.circular(19),
-                //             topRight: Radius.circular(19),
-                //             bottomLeft: Radius.circular(19),
-                //             bottomRight: Radius.circular(19),
-                //           ),
-                //         ),
-                //         child: Center(
-                //           child: Padding(
-                //             padding: const EdgeInsets.all(5.0),
-                //             child: Text(
-                //               messageList[randomNum],
-                //               style: const TextStyle(
-                //                   color: Colors.black, fontSize: 15),
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //     AnimatedOpacity(
-                //       opacity: _visiblebear ? 1.0 : 0.0,
-                //       duration: const Duration(milliseconds: 0),
-                //       child:
-                //           CustomPaint(painter: Triangle(Colors.grey.shade400)),
-                //     ),
-                //     const SizedBox(height: 30),
-                //     IconButton(
-                //       onPressed: () {
-                //         setState(() {
-                //           _visiblebear = !_visiblebear;
-                //           randomNum = Random().nextInt(10);
-                //         });
-                //       },
-                //       icon: Image.asset(
-                //         'assets/alarmbearno.png',
-                //       ),
-                //       iconSize: 50,
-                //     ),
-                //   ],
-                // ),
-                // Container(
-                //   height: 50,
-                // ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    AnimatedOpacity(
+                      opacity: _visiblebear ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 0),
+                      child: Container(
+                        width: 250,
+                        height: 75,
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[400],
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(19),
+                            topRight: Radius.circular(19),
+                            bottomLeft: Radius.circular(19),
+                            bottomRight: Radius.circular(19),
+                          ),
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Text(
+                              messageList[randomNum],
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 15),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    AnimatedOpacity(
+                      opacity: _visiblebear ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 0),
+                      child:
+                          CustomPaint(painter: Triangle(Colors.grey.shade400)),
+                    ),
+                    const SizedBox(height: 30),
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _visiblebear = !_visiblebear;
+                          randomNum = Random().nextInt(10);
+                        });
+                      },
+                      icon: Image.asset(
+                        'assets/alarmbearno.png',
+                        width: 80,
+                      ),
+                      iconSize: 50,
+                    ),
+                  ],
+                ),
+                Container(
+                  height: 50,
+                ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Row(
@@ -313,7 +313,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
               alignment: Alignment.bottomCenter,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: 70,
+                height: 300,
                 child: AdWidget(ad: _bannerAd!),
               ),
             ),

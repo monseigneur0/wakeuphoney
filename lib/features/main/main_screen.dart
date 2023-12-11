@@ -25,7 +25,7 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  int _selectedIndex = 3;
+  int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -46,7 +46,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       // const DailyLetterScreen(),
       // const HistoryMessageScreen(),
       const LetterScreen(),
-      // const LetterFeedScreen(),
+      const LetterFeedScreen(),
       const LetterDayScreen(),
       hasCoupleId.when(
         data: ((data) {
@@ -91,10 +91,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                   icon: Icon(Icons.local_post_office_outlined),
                   label: 'Letters',
                 ),
-                // BottomNavigationBarItem(
-                //   icon: Icon(Icons.feed_outlined),
-                //   label: 'Feed',
-                // ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.feed_outlined),
+                  label: 'Feed',
+                ),
                 BottomNavigationBarItem(
                   backgroundColor: AppColors.myPink,
                   icon: Icon(Icons.add_comment_outlined),

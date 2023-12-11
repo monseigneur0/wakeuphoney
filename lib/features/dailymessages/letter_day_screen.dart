@@ -145,7 +145,6 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
       appBar: AppBar(
         title: const Text(
           '편지를 보낼 날짜를 고르세요',
-          style: TextStyle(fontSize: 18),
         ),
       ),
       body: Column(
@@ -219,7 +218,7 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
               alignment: Alignment.bottomCenter,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: 70,
+                height: 300,
                 child: AdWidget(ad: _bannerAd!),
               ),
             ),

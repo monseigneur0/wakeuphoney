@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wakeuphoney/core/constants/design_constants.dart';
 import 'package:wakeuphoney/features/auth/auth_controller.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -21,16 +22,6 @@ class LoginHome extends ConsumerStatefulWidget {
 class _LoginHomeState extends ConsumerState<LoginHome> {
   bool _visible = true;
   int randomNum = 0;
-  bool emailLogin = false;
-
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController pwdController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +43,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.grey[300],
         appBar: AppBar(
           // actions: [
           //   IconButton(
@@ -66,7 +57,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
           //         color: Color(0xFFD72499),
           //       ))
           // ],
-          backgroundColor: Colors.grey[900],
+          backgroundColor: AppColors.myAppBarBackgroundPink,
           title: const Text('일어나곰'),
         ),
         body: Center(
@@ -87,7 +78,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                       height: 85,
                       padding: const EdgeInsets.all(15),
                       decoration: BoxDecoration(
-                        color: Colors.grey[800],
+                        color: Colors.grey[400],
                         borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(19),
                           topRight: Radius.circular(19),
@@ -101,7 +92,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                           child: Text(
                             messageList[randomNum],
                             style: const TextStyle(
-                                color: Colors.white, fontSize: 15),
+                                color: Colors.black, fontSize: 15),
                           ),
                         ),
                       ),
@@ -112,7 +103,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
               AnimatedOpacity(
                 opacity: _visible ? 1.0 : 0.0,
                 duration: const Duration(milliseconds: 0),
-                child: CustomPaint(painter: Triangle(Colors.grey.shade800)),
+                child: CustomPaint(painter: Triangle(Colors.grey.shade400)),
               ),
               const SizedBox(height: 30),
               IconButton(
@@ -124,16 +115,14 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                 },
                 icon: Image.asset(
                   'assets/alarmbearno.png',
+                  width: 100,
                 ),
                 iconSize: 130,
               ),
               const SizedBox(height: 30),
               const Text(
                 "SNS 로그인",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.w700),
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 10),
               Platform.isIOS
@@ -205,7 +194,6 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                   },
                   child: const Text(
                     '이메일로 로그인하기',
-                    style: TextStyle(color: Colors.white),
                   ))
             ],
           ),

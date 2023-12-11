@@ -9,8 +9,6 @@ import 'package:wakeuphoney/features/auth/auth_repository.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
 import 'package:wakeuphoney/features/auth/user_model.dart';
 
-final userModelProvider = StateProvider<UserModel?>((ref) => null);
-
 final authControllerProvider =
     AsyncNotifierProvider<AuthController, void>(() => AuthController());
 
@@ -18,15 +16,11 @@ final getUserDataProvider = StreamProvider.family((ref, String uid) {
   final authController = ref.watch(authControllerProvider.notifier);
   return authController.getUserData(uid);
 });
-final getMyUserDataProvider = StreamProvider((ref) {
-  final authController = ref.watch(authControllerProvider.notifier);
-  return authController.getMyUserData();
-});
+final getMyUserDataProvider = StreamProvider(
+    (ref) => ref.watch(authControllerProvider.notifier).getMyUserData());
 
-final loginCheckProvider = StreamProvider((ref) {
-  final authController = ref.watch(authControllerProvider.notifier);
-  return authController.authStateChange;
-});
+final loginCheckProvider = StreamProvider(
+    (ref) => ref.watch(authControllerProvider.notifier).authStateChange);
 
 class AuthController extends AsyncNotifier<void> {
   late final AuthRepository _authRepository;

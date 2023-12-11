@@ -3,11 +3,9 @@ import 'dart:io';
 
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wakeuphoney/features/alarm/alarm_new_ring_screen.dart';
 
 import '../../core/constants/design_constants.dart';
 import '../../widgets/alarm_tile.dart';
@@ -175,7 +173,7 @@ class AlarmHomeState extends State<AlarmHome> {
               alignment: Alignment.bottomCenter,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: 70,
+                height: 300,
                 child: AdWidget(ad: _bannerAd!),
               ),
             ),

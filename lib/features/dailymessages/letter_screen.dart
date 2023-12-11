@@ -110,7 +110,6 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
       appBar: AppBar(
         title: const Text(
           '우리 편지',
-          style: TextStyle(fontSize: 20),
         ),
         actions: [
           IconButton(
@@ -120,7 +119,7 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
               },
               icon: const Icon(
                 Icons.add,
-                color: Color(0xFFD72499),
+                color: AppColors.myPink,
               ))
         ],
       ),

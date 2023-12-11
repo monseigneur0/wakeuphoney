@@ -8,6 +8,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wakeuphoney/features/auth/auth_controller.dart';
 
 import 'core/constants/design_constants.dart';
 import 'features/auth/auth_repository.dart';
@@ -27,6 +28,7 @@ void main() async {
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
   MobileAds.instance.initialize();
+
   await Alarm.init(showDebugLogs: true);
 
   runApp(const ProviderScope(
@@ -66,10 +68,10 @@ class WakeUpHoney extends ConsumerWidget {
           color: AppColors.myAppBarBackgroundPink,
           titleTextStyle: TextStyle(
             color: Colors.black,
-            fontSize: 20,
+            fontSize: 18,
           ),
         ),
-        // useMaterial3: true,
+        useMaterial3: true,
       ),
     );
   }
