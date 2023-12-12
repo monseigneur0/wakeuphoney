@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wakeuphoney/core/utils.dart';
 import 'package:wakeuphoney/features/image/image_screen.dart';
@@ -36,10 +35,10 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   bool isLoading = false;
   File? profileImageFile;
   void selectProfileImage() async {
-    final profileImagePicked = await pickImage();
+    final profileImagePicked = await selectGalleryImage();
     if (profileImagePicked != null) {
       setState(() {
-        profileImageFile = File(profileImagePicked.files.first.path!);
+        profileImageFile = File(profileImagePicked.path);
       });
     }
   }
@@ -304,7 +303,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text("1.0.16", style: TextStyle(fontSize: 18)),
+                            Text("1.0.17", style: TextStyle(fontSize: 18)),
                             SizedBox(width: 20, height: 40),
                           ],
                         ),

@@ -137,24 +137,21 @@ class AlarmHomeState extends State<AlarmHome> {
         children: [
           Expanded(
             child: alarms.isNotEmpty
-                ? ListView.separated(
+                ? ListView.builder(
                     itemCount: alarms.length,
-                    separatorBuilder: (context, index) => const Divider(),
+                    // separatorBuilder: (context, index) => const Divider(),
                     itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: AlarmTile(
-                          key: Key(alarms[index].id.toString()),
-                          title: TimeOfDay(
-                            hour: alarms[index].dateTime.hour,
-                            minute: alarms[index].dateTime.minute,
-                          ).format(context),
-                          onPressed: () => navigateToAlarmScreen(alarms[index]),
-                          onDismissed: () {
-                            Alarm.stop(alarms[index].id)
-                                .then((_) => loadAlarms());
-                          },
-                        ),
+                      return AlarmTile(
+                        key: Key(alarms[index].id.toString()),
+                        title: TimeOfDay(
+                          hour: alarms[index].dateTime.hour,
+                          minute: alarms[index].dateTime.minute,
+                        ).format(context),
+                        onPressed: () => navigateToAlarmScreen(alarms[index]),
+                        onDismissed: () {
+                          Alarm.stop(alarms[index].id)
+                              .then((_) => loadAlarms());
+                        },
                       );
                     },
                   )

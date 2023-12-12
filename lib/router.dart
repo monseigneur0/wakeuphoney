@@ -19,6 +19,7 @@ import 'features/dailymessages/letter_day_pick_screen.dart';
 import 'features/dailymessages/history_screen.dart';
 import 'features/dailymessages/letter_create_screen.dart';
 import 'features/dailymessages/letter_day_screen.dart';
+import 'features/image/image_profile_screen.dart';
 import 'features/match/match3_screen.dart';
 import 'features/match/match4_screen.dart';
 import 'features/match/match_up.dart';
@@ -176,6 +177,14 @@ final routerProvider = Provider((ref) {
         name: ImageScreen.routeName,
         path: ImageScreen.routeURL,
         builder: (context, state) => const ImageScreen(),
+      ),
+      GoRoute(
+        name: ImageProfileScreen.routeName,
+        path: ImageProfileScreen.routeURL,
+        builder: (context, state) => ImageProfileScreen(
+          imageURL: state.uri.queryParameters['filter']!,
+          herotag: state.uri.queryParameters['herotag']!,
+        ),
       ),
     ],
   );

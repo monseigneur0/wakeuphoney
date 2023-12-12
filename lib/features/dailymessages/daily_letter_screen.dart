@@ -20,6 +20,7 @@ import '../../core/constants/design_constants.dart';
 import '../../core/utils.dart';
 import 'daily_create_screen.dart';
 
+//미사용
 class DailyLetterScreen extends ConsumerStatefulWidget {
   static String routeName = "dailyletter";
   static String routeURL = "/dailyletter";

@@ -36,11 +36,11 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
 
   File? letterImageFile;
   void selectLetterImage() async {
-    final letterImagePicked = await pickImage();
+    final letterImagePicked = await selectGalleryImage();
 
     if (letterImagePicked != null) {
       setState(() {
-        letterImageFile = File(letterImagePicked.files.first.path!);
+        letterImageFile = File(letterImagePicked.path);
       });
     }
   }
@@ -70,7 +70,7 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
                           controller: _letterController,
                           validator: (value) {
                             if (value == null || value.isEmpty || value == "") {
-                              return '편지를 써  주요';
+                              return '편지를 써 줘요';
                             }
                             return null;
                           },

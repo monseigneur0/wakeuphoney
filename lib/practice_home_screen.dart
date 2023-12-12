@@ -22,7 +22,7 @@ import 'features/auth/login_screen.dart';
 
 class PracticeHome extends ConsumerStatefulWidget {
   static String routeName = "practice";
-  static String routeURL = "/";
+  static String routeURL = "/practice";
 
   const PracticeHome({super.key});
 

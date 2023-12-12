@@ -13,11 +13,9 @@ import 'package:wakeuphoney/core/utils.dart';
 import 'package:wakeuphoney/features/dailymessages/daily_controller.dart';
 
 import '../../core/common/loader.dart';
-import '../../core/constants/constants.dart';
 import '../../core/constants/design_constants.dart';
 import '../../core/providers/providers.dart';
 import '../profile/profile_controller.dart';
-import 'letter_day_pick_screen.dart';
 import 'letter_day_screen.dart';
 
 class LetterScreen extends ConsumerStatefulWidget {
@@ -42,11 +40,11 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
   bool isLoading = false;
 
   void pickEditImage() async {
-    final letterEditImagePicked = await pickImage();
+    final letterEditImagePicked = await selectGalleryImage();
 
     if (letterEditImagePicked != null) {
       setState(() {
-        letterEditImageFile = File(letterEditImagePicked.files.first.path!);
+        letterEditImageFile = File(letterEditImagePicked.path);
       });
       String uniqueEditImageName = DateTime.now().toString();
       Reference refRoot = ref.watch(storageProvider).ref();
