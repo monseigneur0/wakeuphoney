@@ -219,7 +219,7 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
               alignment: Alignment.bottomCenter,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: 250,
+                height: MediaQuery.of(context).size.width > 800 ? 300 : 150,
                 child: AdWidget(ad: _bannerAd!),
               ),
             ),
