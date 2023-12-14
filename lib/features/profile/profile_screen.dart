@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/auth/user_model.dart';
-import 'package:wakeuphoney/features/image/image_profile_screen.dart';
+import 'package:wakeuphoney/features/image/image_full_screen.dart';
 import 'package:wakeuphoney/features/image/image_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -112,9 +112,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
           Expanded(
             child: Column(
               children: [
-                Container(
-                  height: 20,
-                ),
+                SizedBox(height: MediaQuery.of(context).size.height / 50),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -152,7 +150,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                       child:
                           CustomPaint(painter: Triangle(Colors.grey.shade400)),
                     ),
-                    const SizedBox(height: 30),
+                    SizedBox(height: MediaQuery.of(context).size.height / 40),
                     IconButton(
                       onPressed: () {
                         setState(() {
@@ -162,15 +160,12 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                       },
                       icon: Image.asset(
                         'assets/alarmbearno.png',
-                        width: 80,
+                        width: MediaQuery.of(context).size.height / 15,
                       ),
-                      iconSize: 50,
                     ),
                   ],
                 ),
-                Container(
-                  height: 50,
-                ),
+                SizedBox(height: MediaQuery.of(context).size.height / 30),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Row(
@@ -248,7 +243,7 @@ class ProfileImage extends StatelessWidget {
           child: userCoupleProfileStream.when(
             data: (data) => GestureDetector(
               onTap: () => context.push(Uri(
-                  path: ImageProfileScreen.routeURL,
+                  path: ImageFullScreen.routeURL,
                   queryParameters: {
                     'filter': data.photoURL,
                     'herotag': herotag

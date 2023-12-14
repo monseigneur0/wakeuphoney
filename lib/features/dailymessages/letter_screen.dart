@@ -73,22 +73,22 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
   void initState() {
     super.initState();
 
-    BannerAd(
-      size: AdSize.banner,
-      adUnitId: Platform.isIOS ? iOSId2 : androidId2,
-      listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          setState(() {
-            _bannerAd = ad as BannerAd;
-          });
-        },
-        onAdFailedToLoad: (ad, err) {
-          // logger.d('Failed to load a banner ad: ${err.message}');
-          ad.dispose();
-        },
-      ),
-      request: const AdRequest(),
-    ).load();
+    // BannerAd(
+    //   size: AdSize.banner,
+    //   adUnitId: Platform.isIOS ? iOSId2 : androidId2,
+    //   listener: BannerAdListener(
+    //     onAdLoaded: (ad) {
+    //       setState(() {
+    //         _bannerAd = ad as BannerAd;
+    //       });
+    //     },
+    //     onAdFailedToLoad: (ad, err) {
+    //       // logger.d('Failed to load a banner ad: ${err.message}');
+    //       ad.dispose();
+    //     },
+    //   ),
+    //   request: const AdRequest(),
+    // ).load();
   }
 
   @override
@@ -617,15 +617,15 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
                             },
                           ),
                         ),
-                        if (_bannerAd != null)
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              height: 70,
-                              child: AdWidget(ad: _bannerAd!),
-                            ),
-                          ),
+                        // if (_bannerAd != null)
+                        //   Align(
+                        //     alignment: Alignment.bottomCenter,
+                        //     child: SizedBox(
+                        //       width: MediaQuery.of(context).size.width,
+                        //       height: 70,
+                        //       child: AdWidget(ad: _bannerAd!),
+                        //     ),
+                        //   ),
                       ],
                     );
                   },

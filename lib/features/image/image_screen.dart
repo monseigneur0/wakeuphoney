@@ -132,7 +132,7 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                     onPressed: () {
                       fnCropImage();
                     },
-                    backgroundColor: const Color(0xFFEA6357),
+                    backgroundColor: Colors.white,
                     tooltip: 'Crop',
                     child: const Icon(Icons.crop),
                   ),

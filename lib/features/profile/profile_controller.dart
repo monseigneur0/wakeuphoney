@@ -146,7 +146,6 @@ class ProfileController extends StateNotifier<bool> {
     coupleUidValue != null
         ? coupleUid = coupleUidValue.couple
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
-    await _profileRepo.updateProfileImage(uid, url);
-    await _profileRepo.updateProfileImage(coupleUid, url);
+    await _profileRepo.updateProfileImage(uid, coupleUid, url);
   }
 }

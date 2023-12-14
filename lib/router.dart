@@ -19,7 +19,7 @@ import 'features/dailymessages/letter_day_pick_screen.dart';
 import 'features/dailymessages/history_screen.dart';
 import 'features/dailymessages/letter_create_screen.dart';
 import 'features/dailymessages/letter_day_screen.dart';
-import 'features/image/image_profile_screen.dart';
+import 'features/image/image_full_screen.dart';
 import 'features/match/match3_screen.dart';
 import 'features/match/match4_screen.dart';
 import 'features/match/match_up.dart';
@@ -177,13 +177,28 @@ final routerProvider = Provider((ref) {
         name: ImageScreen.routeName,
         path: ImageScreen.routeURL,
         builder: (context, state) => const ImageScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage<void>(
+          key: state.pageKey,
+          child: const ImageScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+              FadeTransition(opacity: animation, child: child),
+        ),
       ),
       GoRoute(
-        name: ImageProfileScreen.routeName,
-        path: ImageProfileScreen.routeURL,
-        builder: (context, state) => ImageProfileScreen(
+        name: ImageFullScreen.routeName,
+        path: ImageFullScreen.routeURL,
+        builder: (context, state) => ImageFullScreen(
           imageURL: state.uri.queryParameters['filter']!,
           herotag: state.uri.queryParameters['herotag']!,
+        ),
+        pageBuilder: (context, state) => CustomTransitionPage<void>(
+          key: state.pageKey,
+          child: ImageFullScreen(
+            imageURL: state.uri.queryParameters['filter']!,
+            herotag: state.uri.queryParameters['herotag']!,
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+              FadeTransition(opacity: animation, child: child),
         ),
       ),
     ],

@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class ImageProfileScreen extends StatelessWidget {
-  static String routeName = 'imageprofilescreen';
-  static String routeURL = '/imageprofilescreen';
+class ImageFullScreen extends StatelessWidget {
+  static String routeName = 'ImageFullScreen';
+  static String routeURL = '/ImageFullScreen';
   final String imageURL;
   final String herotag;
 
-  const ImageProfileScreen({
+  const ImageFullScreen({
     super.key,
     required this.imageURL,
     required this.herotag,

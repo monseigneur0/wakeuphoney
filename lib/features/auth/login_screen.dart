@@ -115,11 +115,10 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                 },
                 icon: Image.asset(
                   'assets/alarmbearno.png',
-                  width: 100,
+                  width: MediaQuery.of(context).size.height / 10,
                 ),
-                iconSize: 130,
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: MediaQuery.of(context).size.height / 40),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -181,12 +180,11 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                   ),
                 ],
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: MediaQuery.of(context).size.height / 40),
               // const Text(
               //   "SNS 로그인",
               //   style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
               // ),
-              const SizedBox(height: 10),
               Platform.isIOS
                   ? Padding(
                       padding: const EdgeInsets.symmetric(
@@ -215,9 +213,8 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                       ),
                     )
                   : Container(),
-              const SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: MediaQuery.of(context).size.height / 80),
+
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
@@ -244,19 +241,19 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              SizedBox(height: MediaQuery.of(context).size.height / 80),
+
               TextButton(
-                  onPressed: () {
-                    // setState(() {
-                    //   emailLogin = true;
-                    // });
-                    context.push(EmailLoginScreen.routeURL);
-                  },
-                  child: const Text(
-                    '이메일로 로그인하기',
-                  ))
+                onPressed: () {
+                  // setState(() {
+                  //   emailLogin = true;
+                  // });
+                  context.push(EmailLoginScreen.routeURL);
+                },
+                child: const Text(
+                  '이메일로 로그인하기',
+                ),
+              ),
             ],
           ),
         ),

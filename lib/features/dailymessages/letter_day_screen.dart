@@ -172,6 +172,7 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
                   onPageChanged: (focusedDay) {
                     _focusedDay = focusedDay;
                   },
+                  daysOfWeekHeight: 25,
                 );
               },
               error: (error, stackTrace) {
@@ -218,7 +219,7 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
               alignment: Alignment.bottomCenter,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: 300,
+                height: 250,
                 child: AdWidget(ad: _bannerAd!),
               ),
             ),

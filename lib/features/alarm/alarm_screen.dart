@@ -136,6 +136,7 @@ class AlarmHomeState extends State<AlarmHome> {
       body: Column(
         children: [
           Expanded(
+            flex: 1,
             child: alarms.isNotEmpty
                 ? ListView.builder(
                     itemCount: alarms.length,
@@ -155,14 +156,19 @@ class AlarmHomeState extends State<AlarmHome> {
                       );
                     },
                   )
-                : Center(
-                    child: Text(
-                      AppLocalizations.of(context)!.noalarmset,
-                      style: const TextStyle(
-                        fontSize: 30,
-                        color: Colors.black,
+                : Column(
+                    children: [
+                      const SizedBox(height: 200),
+                      Center(
+                        child: Text(
+                          AppLocalizations.of(context)!.noalarmset,
+                          style: const TextStyle(
+                            fontSize: 30,
+                            color: Colors.black,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
           ),
           if (_bannerAd != null)
