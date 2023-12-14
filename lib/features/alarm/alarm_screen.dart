@@ -158,7 +158,7 @@ class AlarmHomeState extends State<AlarmHome> {
                   )
                 : Column(
                     children: [
-                      const SizedBox(height: 200),
+                      SizedBox(height: MediaQuery.of(context).size.height / 5),
                       Center(
                         child: Text(
                           AppLocalizations.of(context)!.noalarmset,

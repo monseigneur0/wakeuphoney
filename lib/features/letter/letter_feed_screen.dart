@@ -23,13 +23,20 @@ class _LetterFeedScreenState extends ConsumerState<LetterFeedScreen> {
   final ScrollController _scrollController = ScrollController();
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final letterList = ref.watch(getLettersListProvider);
     return Scaffold(
       body: CustomScrollView(
+        controller: _scrollController,
         slivers: [
           SliverAppBar(
-            title: const Text("우리의 편지"),
+            title: const Text("우리의 편지1"),
             actions: [
               IconButton(
                 onPressed: () {

@@ -1,6 +1,8 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/core/common/loader.dart';
+import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
 import 'package:wakeuphoney/features/dailymessages/letter_day_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_couple_screen.dart';
@@ -10,6 +12,7 @@ import '../../core/constants/design_constants.dart';
 import '../alarm/alarm_screen.dart';
 import '../auth/auth_controller.dart';
 import '../dailymessages/letter_screen.dart';
+import '../letter/letter_feed2_screen.dart';
 import '../letter/letter_feed_screen.dart';
 import '../match/match_screen.dart';
 import '../profile/profile_controller.dart';
@@ -28,6 +31,13 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'screen_view',
+      parameters: {
+        'firebase_screen': index,
+        'firebase_screen_class': index,
+      },
+    );
     setState(() {
       _selectedIndex = index;
     });
@@ -35,6 +45,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final analytics = ref.watch(analyticsProvider);
     final hasCoupleId = ref.watch(getUserProfileStreamProvider);
 
     // return hasCoupleId.when(
@@ -47,7 +58,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       // const HistoryMessageScreen(),
       const LetterScreen(),
       // const LetterFeedScreen(),
+      // const LetterFeed2Screen(),
       const LetterDayScreen(),
+      //왜 이중으로?
       hasCoupleId.when(
         data: ((data) {
           if (data.couple != "") {
@@ -98,6 +111,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           // BottomNavigationBarItem(
                           //   icon: Icon(Icons.feed_outlined),
                           //   label: 'Feed',
+                          // ),
+                          // BottomNavigationBarItem(
+                          //   icon: Icon(Icons.feed_outlined),
+                          //   label: 'Feed2',
                           // ),
                           BottomNavigationBarItem(
                             backgroundColor: AppColors.myPink,
