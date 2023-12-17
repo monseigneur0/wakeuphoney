@@ -28,33 +28,166 @@ class _LetterFeed2ScreenState extends ConsumerState<LetterFeed2Screen> {
   Widget build(BuildContext context) {
     final letterList = ref.watch(getLettersListProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('우리의 편지2')),
+      backgroundColor: Colors.grey.shade100,
+      // appBar: AppBar(title: const Text('우리의 편지2')),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Container(
-                decoration: BoxDecoration(color: Colors.grey[300]),
-                child: Column(
-                  children: [
-                    const Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 20,
-                          backgroundImage: NetworkImage(
-                            'https://picsum.photos/id/600/200/200',
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 20,
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 20,
+            ),
+            SizedBox(
+              // color: Colors.deepOrange,
+              height: 500,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        // color: Colors.blue,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: SizedBox(
+                            width: 10,
+                            height: 30,
+                            child: Center(
+                              child: Container(
+                                width: 10,
+                                height: 10,
+                                clipBehavior: Clip.hardEdge,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.black),
+                              ),
+                            ),
                           ),
                         ),
-                        SizedBox(
-                          width: 10,
+                      ),
+                      Transform.translate(
+                        offset: const Offset(0, -10),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: Container(
+                            width: 2,
+                            height: 450,
+                            decoration:
+                                const BoxDecoration(color: Colors.black),
+                          ),
                         ),
-                        Text('우리의 편지 '),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    // color: Colors.teal,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            color: Colors.yellow,
+                            child: const Text(
+                              '2023, 12, 17',
+                              style: TextStyle(fontSize: 20),
+                            )),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            boxShadow: [
+                              BoxShadow(
+                                  blurRadius: 20,
+                                  offset: const Offset(8, 8),
+                                  color: Colors.black.withOpacity(0.3))
+                            ],
+                            color: Colors.white,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 15),
+                            child: Column(
+                              children: [
+                                // Container(
+                                //   height: 40,
+                                //   width:
+                                //       MediaQuery.of(context).size.width - 100,
+                                //   decoration: BoxDecoration(
+                                //     borderRadius: BorderRadius.circular(30),
+                                //     color: Colors.green,
+                                //   ),
+                                //   child: const Center(
+                                //     child: Text(
+                                //       "2023년 12월 17일 ",
+                                //       style: TextStyle(
+                                //           fontSize: 20,
+                                //           fontWeight: FontWeight.w600,
+                                //           color: Colors.white),
+                                //     ),
+                                //   ),
+                                // ),
+                                // const SizedBox(
+                                //   height: 10,
+                                // ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const CircleAvatar(
+                                      radius: 25,
+                                      backgroundImage: NetworkImage(
+                                        'https://picsum.photos/id/600/200/200',
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          '우리의 편지',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              160,
+                                          child: const Text(
+                                            '오늘 우리는 어떘고 이래서 좋았고 그래서 아침에 오늘 뭐 먹고 갈지 그리고 앞으로 어떨지 궁금하고 기대 돼',
+                                            style: TextStyle(fontSize: 16),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                    width:
+                                        MediaQuery.of(context).size.width - 100,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    clipBehavior: Clip.hardEdge,
+                                    child: Image.network(
+                                      'https://picsum.photos/id/610/200/200',
+                                      fit: BoxFit.fill,
+                                    )),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-                    Image.network('https://picsum.photos/id/610/200/200'),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             ListView.builder(

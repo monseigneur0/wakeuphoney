@@ -43,7 +43,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.grey[200],
         appBar: AppBar(
           // actions: [
           //   IconButton(
@@ -134,7 +134,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                       ),
                       Text(
                         "SNS 로그인",
-                        style: TextStyle(fontSize: 10, color: Colors.grey[300]),
+                        style: TextStyle(fontSize: 10, color: Colors.grey[200]),
                       ),
                     ],
                   ),
@@ -146,7 +146,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                     children: [
                       Text(
                         "상대 연결",
-                        style: TextStyle(fontSize: 10, color: Colors.grey[300]),
+                        style: TextStyle(fontSize: 10, color: Colors.grey[200]),
                       ),
                       const Icon(
                         Icons.looks_two_outlined,
@@ -174,7 +174,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                       ),
                       Text(
                         "일어나곰",
-                        style: TextStyle(fontSize: 10, color: Colors.grey[300]),
+                        style: TextStyle(fontSize: 10, color: Colors.grey[200]),
                       ),
                     ],
                   ),
@@ -204,7 +204,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                           style: TextStyle(fontSize: 18, color: Colors.black),
                         ),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey[100],
+                          backgroundColor: Colors.white,
                           minimumSize: const Size(double.infinity, 50),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
@@ -233,7 +233,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                     style: TextStyle(fontSize: 18, color: Colors.black),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey[100],
+                    backgroundColor: Colors.white,
                     minimumSize: const Size(double.infinity, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),

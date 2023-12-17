@@ -28,7 +28,7 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 3;
 
   void _onItemTapped(int index) {
     FirebaseAnalytics.instance.logEvent(
@@ -57,8 +57,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       // const DailyLetterScreen(),
       // const HistoryMessageScreen(),
       const LetterScreen(),
-      // const LetterFeedScreen(),
-      // const LetterFeed2Screen(),
+      const LetterFeedScreen(),
+      const LetterFeed2Screen(),
       const LetterDayScreen(),
       //왜 이중으로?
       hasCoupleId.when(
@@ -94,7 +94,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                             icon: ImageIcon(
                               AssetImage('assets/alarm-clock.png'),
                             ),
-                            label: 'Alarm',
+                            label: '알람',
                           ),
                           // BottomNavigationBarItem(
                           //   icon: Icon(Icons.alarm),
@@ -106,24 +106,24 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           // ),
                           BottomNavigationBarItem(
                             icon: Icon(Icons.local_post_office_outlined),
-                            label: 'Letters',
+                            label: '편지',
                           ),
-                          // BottomNavigationBarItem(
-                          //   icon: Icon(Icons.feed_outlined),
-                          //   label: 'Feed',
-                          // ),
-                          // BottomNavigationBarItem(
-                          //   icon: Icon(Icons.feed_outlined),
-                          //   label: 'Feed2',
-                          // ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.feed_outlined),
+                            label: 'Feed',
+                          ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.feed_outlined),
+                            label: '피드',
+                          ),
                           BottomNavigationBarItem(
                             backgroundColor: AppColors.myPink,
                             icon: Icon(Icons.add_comment_outlined),
-                            label: 'Write',
+                            label: '편지쓰기',
                           ),
                           BottomNavigationBarItem(
                             icon: Icon(Icons.person_outline_rounded),
-                            label: 'Profile',
+                            label: '프로필',
                           ),
                           // BottomNavigationBarItem(
                           //   icon: Icon(Icons.person_outline_rounded),

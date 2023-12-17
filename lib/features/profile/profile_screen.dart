@@ -212,7 +212,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
               alignment: Alignment.bottomCenter,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height > 800 ? 300 : 150,
+                height: MediaQuery.of(context).size.height > 800 ? 200 : 100,
                 child: AdWidget(ad: _bannerAd!),
               ),
             ),
@@ -248,19 +248,30 @@ class ProfileImage extends StatelessWidget {
                     'filter': data.photoURL,
                     'herotag': herotag
                   }).toString()),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(60.0),
-                child: Hero(
-                  tag: herotag,
-                  child: CachedNetworkImage(
-                    width: 120,
-                    imageUrl: data.photoURL,
-                    fit: BoxFit.fill,
-                    placeholder: (context, url) => Container(
-                      height: 40,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(60),
+                  boxShadow: [
+                    BoxShadow(
+                        blurRadius: 20,
+                        offset: const Offset(8, 8),
+                        color: Colors.black.withOpacity(0.3))
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(60.0),
+                  child: Hero(
+                    tag: herotag,
+                    child: CachedNetworkImage(
+                      width: 120,
+                      imageUrl: data.photoURL,
+                      fit: BoxFit.fill,
+                      placeholder: (context, url) => Container(
+                        height: 40,
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
                   ),
                 ),
               ),
