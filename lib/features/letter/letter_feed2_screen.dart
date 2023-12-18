@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -73,10 +72,7 @@ class _LetterFeed2ScreenState extends ConsumerState<LetterFeed2Screen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      '2023, 12, 17',
-                      style: TextStyle(fontSize: 20),
-                    ),
+                    '2023, 12, 17'.text.size(20).make(),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
@@ -91,27 +87,6 @@ class _LetterFeed2ScreenState extends ConsumerState<LetterFeed2Screen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Container(
-                          //   height: 40,
-                          //   width:
-                          //       MediaQuery.of(context).size.width - 100,
-                          //   decoration: BoxDecoration(
-                          //     borderRadius: BorderRadius.circular(30),
-                          //     color: Colors.green,
-                          //   ),
-                          //   child: const Center(
-                          //     child: Text(
-                          //       "2023년 12월 17일 ",
-                          //       style: TextStyle(
-                          //           fontSize: 20,
-                          //           fontWeight: FontWeight.w600,
-                          //           color: Colors.white),
-                          //     ),
-                          //   ),
-                          // ),
-                          // const SizedBox(
-                          //   height: 10,
-                          // ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -152,14 +127,6 @@ class _LetterFeed2ScreenState extends ConsumerState<LetterFeed2Screen> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width - 160,
-                                    child: const Text(
-                                      '오늘 우리는 어떘고 이래서 좋았고 그래서 아침에 오늘 뭐 먹고 갈지 그리고 앞으로 어떨지 궁금하고 기대 돼',
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                  ),
                                   '오늘 우리는 어떘고 이래서 좋았고 그래서 아침에 오늘 뭐 먹고 갈지 그리고 앞으로 어떨지 궁금하고 기대 돼'
                                       .text
                                       .size(16)
@@ -183,7 +150,6 @@ class _LetterFeed2ScreenState extends ConsumerState<LetterFeed2Screen> {
                                 'https://picsum.photos/id/610/200/200',
                                 fit: BoxFit.fill,
                               )),
-
                           Container(
                             width: MediaQuery.of(context).size.width - 90,
                             decoration: BoxDecoration(
@@ -196,61 +162,49 @@ class _LetterFeed2ScreenState extends ConsumerState<LetterFeed2Screen> {
                                     color: Colors.black.withOpacity(0.3))
                               ],
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 20),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const CircleAvatar(
-                                        radius: 20,
-                                        backgroundImage: NetworkImage(
-                                          'https://picsum.photos/id/620/200/200',
-                                        ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const CircleAvatar(
+                                      radius: 20,
+                                      backgroundImage: NetworkImage(
+                                        'https://picsum.photos/id/620/200/200',
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            const Text('박철수',
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                )),
-                                            SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width -
-                                                    190,
-                                                child: const Text(
-                                                    '오늘 점심 맛있었다.오늘 점심 맛있었다.오늘 점심 맛있었다.')),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width - 90,
-                                    clipBehavior: Clip.hardEdge,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30),
                                     ),
-                                    child: Image.network(
-                                      'https://picsum.photos/id/630/200/200',
-                                      fit: BoxFit.fill,
-                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        '박철수'.text.bold.size(16).make(),
+                                        '오늘 점심 맛있었다.오늘 점심 맛있었다.오늘 점심 맛있었다.'
+                                            .text
+                                            .make()
+                                            .box
+                                            .width(MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                190)
+                                            .make(),
+                                      ],
+                                    ).pSymmetric(h: 10),
+                                  ],
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width - 90,
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
                                   ),
-                                ],
-                              ),
-                            ),
+                                  child: Image.network(
+                                    'https://picsum.photos/id/630/200/200',
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ],
+                            ).p(20),
                           ).pSymmetric(v: 20)
                         ],
                       ).p(20),
