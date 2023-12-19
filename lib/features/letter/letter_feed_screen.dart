@@ -7,6 +7,7 @@ import 'package:wakeuphoney/features/dailymessages/daily_controller.dart';
 import 'package:wakeuphoney/features/dailymessages/letter_day_screen.dart';
 
 import '../../core/common/loader.dart';
+import '../profile/profile_controller.dart';
 
 class LetterFeedScreen extends ConsumerStatefulWidget {
   static String routeName = "letterfeedscreen";
@@ -30,7 +31,10 @@ class _LetterFeedScreenState extends ConsumerState<LetterFeedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = ref.watch(getMyUserInfoProvider);
+
     final letterList = ref.watch(getLettersListProvider);
+
     return Scaffold(
       body: CustomScrollView(
         controller: _scrollController,
@@ -49,27 +53,37 @@ class _LetterFeedScreenState extends ConsumerState<LetterFeedScreen> {
               ),
             ],
           ),
-          letterList.when(
-              data: (letter) {
-                return SliverList(
-                  key: const PageStorageKey<String>("page"),
-                  delegate: SliverChildBuilderDelegate(
-                    childCount: letter
-                        .where((element) => element.isLetter == true)
-                        .length,
-                    (context, index) => Builder(
-                      builder: (context) {
-                        return Column(
-                          children: [
-                            Text("$index"),
-                            Text(letter[index].sender),
-                            Text(letter[index].message),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                );
+          userInfo.when(
+              data: (user) {
+                return letterList.when(
+                    data: (letter) {
+                      return SliverList(
+                        key: const PageStorageKey<String>("page"),
+                        delegate: SliverChildBuilderDelegate(
+                          childCount: letter
+                              .where((element) => element.isLetter == true)
+                              .length,
+                          (context, index) => Builder(
+                            builder: (context) {
+                              return Column(
+                                children: [
+                                  Text("$index"),
+                                  Text(letter[index].sender),
+                                  Text(letter[index].message),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    error: (error, stackTrace) {
+                      logger.e(error.toString());
+                      return const Center(
+                        child: Text("사용자를 찾을 수 없어요 \n 다시 접속해주세요."),
+                      );
+                    },
+                    loading: () => const Loader());
               },
               error: (error, stackTrace) {
                 logger.e(error.toString());

@@ -14,6 +14,7 @@ import '../alarm/alarm_screen.dart';
 import '../auth/auth_controller.dart';
 import '../dailymessages/letter_screen.dart';
 import '../letter/letter_feed2_screen.dart';
+import '../letter/letter_feed3_screen.dart';
 import '../letter/letter_feed_screen.dart';
 import '../match/match_screen.dart';
 import '../profile/profile_controller.dart';
@@ -29,7 +30,7 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  int _selectedIndex = 3;
+  int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
     FirebaseAnalytics.instance.logEvent(
@@ -59,7 +60,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       // const DailyLetterScreen(),
       // const HistoryMessageScreen(),
       const LetterScreen(),
-      const LetterFeedScreen(),
+      const LetterFeed3Screen(),
       const LetterFeed2Screen(),
       const LetterDayScreen(),
       //왜 이중으로?
