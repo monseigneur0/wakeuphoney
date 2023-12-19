@@ -21,7 +21,6 @@ class LetterFeed3Screen extends ConsumerStatefulWidget {
 class _LetterFeed3ScreenState extends ConsumerState<LetterFeed3Screen> {
   Logger logger = Logger();
   final ScrollController _scrollController = ScrollController();
-  final _formkey = GlobalKey<FormState>();
 
   final GlobalKey _containerKey = GlobalKey();
   Size? _getSize() {
@@ -55,6 +54,7 @@ class _LetterFeed3ScreenState extends ConsumerState<LetterFeed3Screen> {
     final userInfo = ref.watch(getMyUserInfoProvider);
 
     final letterList = ref.watch(getLettersListProvider);
+    final answerList = ref.watch(getAnswersListProvider);
 
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
@@ -75,16 +75,16 @@ class _LetterFeed3ScreenState extends ConsumerState<LetterFeed3Screen> {
                     // separatorBuilder: (context, index) => const Divider(),
                     itemBuilder: (context, index) {
                       return Container(
-                        color: index % 2 == 0 ? Colors.green : Colors.blue,
+                        // color: index % 2 == 0 ? Colors.green : Colors.blue,
                         child: Column(
                           children: [
                             20.heightBox,
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                TimeBar(
-                                  cardSize: cardSize,
-                                ),
+                                // TimeBar(
+                                //   cardSize: cardSize,
+                                // ),
                                 Column(
                                   key: index == 0 ? _containerKey : null,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -334,6 +334,129 @@ class _LetterFeed3ScreenState extends ConsumerState<LetterFeed3Screen> {
                                                     ],
                                                   ).p(20),
                                                 ).pSymmetric(v: 20),
+                                          answerList.when(
+                                              data: (answer) {
+                                                if (!answer
+                                                    .singleWhere((element) =>
+                                                        element.messagedate ==
+                                                        letter[index]
+                                                            .messagedate)
+                                                    .isLetter!) {
+                                                  return Container();
+                                                }
+                                                return Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width -
+                                                      90,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30),
+                                                    color: Colors.grey.shade200,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.grey
+                                                            .withOpacity(0.5),
+                                                        spreadRadius: 1,
+                                                        blurRadius: 1,
+                                                        offset: const Offset(0,
+                                                            1), // changes position of shadow
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  clipBehavior: Clip.hardEdge,
+                                                  child: Column(
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20),
+                                                            child: CachedNetworkImage(
+                                                                width: 40,
+                                                                imageUrl: user
+                                                                    .couplePhotoURL
+                                                                    .toString()),
+                                                          ),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              user.coupleDisplayName!
+                                                                  .text
+                                                                  .size(16)
+                                                                  .make(),
+                                                              answer
+                                                                  .where((element) =>
+                                                                      element
+                                                                          .messagedate ==
+                                                                      letter[index]
+                                                                          .messagedate)
+                                                                  .first
+                                                                  .message
+                                                                  .text
+                                                                  .make()
+                                                                  .box
+                                                                  .width(MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width -
+                                                                      190)
+                                                                  .make(),
+                                                            ],
+                                                          ).pSymmetric(h: 10),
+                                                        ],
+                                                      ),
+                                                      Container(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width -
+                                                            90,
+                                                        clipBehavior:
+                                                            Clip.hardEdge,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(30),
+                                                        ),
+                                                        child: CachedNetworkImage(
+                                                            fit: BoxFit.fill,
+                                                            imageUrl: answer
+                                                                    .singleWhere((element) =>
+                                                                        element
+                                                                            .messagedate ==
+                                                                        letter[index]
+                                                                            .messagedate)
+                                                                    .photo
+                                                                    .isEmpty
+                                                                ? ""
+                                                                : answer
+                                                                    .singleWhere((element) =>
+                                                                        element
+                                                                            .messagedate ==
+                                                                        letter[index]
+                                                                            .messagedate)
+                                                                    .photo
+                                                                    .toString()),
+                                                      ),
+                                                    ],
+                                                  ).p(20),
+                                                ).pSymmetric(v: 20);
+                                              },
+                                              error: (error, stackTrace) {
+                                                logger.e(error.toString());
+                                                return const Center(
+                                                  child: Text(
+                                                      "사용자를 찾을 수 없어요 \n 다시 접속해주세요."),
+                                                );
+                                              },
+                                              loading: () => const Loader())
                                         ],
                                       ).p(20),
                                     ).pOnly(right: 10),
@@ -342,7 +465,7 @@ class _LetterFeed3ScreenState extends ConsumerState<LetterFeed3Screen> {
                               ],
                             ),
                           ],
-                        ),
+                        ).pOnly(left: 20),
                       );
                     },
                   );

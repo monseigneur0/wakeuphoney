@@ -50,8 +50,25 @@ class DailyRepository {
 
   //23.11.30
   Stream<List<DailyMessageModel>> getLettersList(String uid) {
-    return _usersCollection.doc(uid).collection("messages").snapshots().map(
-        (event) =>
+    return _usersCollection
+        .doc(uid)
+        .collection("messages")
+        .where("isLetter", isEqualTo: true)
+        .snapshots()
+        .map((event) =>
+            event.docs.map((e) => DailyMessageModel.fromMap(e.data())).toList()
+              ..sort(
+                (a, b) => b.messagedatetime.compareTo(a.messagedatetime),
+              ));
+  }
+
+  Stream<List<DailyMessageModel>> getAnswersList(String uid) {
+    return _usersCollection
+        .doc(uid)
+        .collection("messages")
+        .where("isLetter", isEqualTo: false)
+        .snapshots()
+        .map((event) =>
             event.docs.map((e) => DailyMessageModel.fromMap(e.data())).toList()
               ..sort(
                 (a, b) => b.messagedatetime.compareTo(a.messagedatetime),

@@ -16,6 +16,8 @@ final dailyControllerProvider =
 
 final getLettersListProvider = StreamProvider(
     (ref) => ref.watch(dailyControllerProvider.notifier).getLettersList());
+final getAnswersListProvider = StreamProvider(
+    (ref) => ref.watch(dailyControllerProvider.notifier).getAnswersList());
 
 final getDailyCoupleMessageProvider = StreamProvider.family((ref, String date) {
   final dailyController = ref.watch(dailyControllerProvider.notifier);
@@ -77,6 +79,16 @@ class DailyController extends StateNotifier<bool> {
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     final myLetter = _dailyRepository.getLettersList(uid);
+
+    return myLetter;
+  }
+
+  Stream<List<DailyMessageModel>> getAnswersList() {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    final myLetter = _dailyRepository.getAnswersList(uid);
+
     return myLetter;
   }
 
