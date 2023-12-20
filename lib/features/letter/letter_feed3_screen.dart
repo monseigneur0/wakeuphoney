@@ -39,7 +39,6 @@ class _LetterFeed3ScreenState extends ConsumerState<LetterFeed3Screen> {
       setState(() {
         cardSize = _getSize();
       });
-      logger.d(cardSize);
     });
   }
 
@@ -211,6 +210,7 @@ class _LetterFeed3ScreenState extends ConsumerState<LetterFeed3Screen> {
                                                         const Icon(Icons.error),
                                                   ),
                                                 ),
+                                          //////////////////////////////////////
                                           letter.where((element) {
                                             return (element.messagedate ==
                                                     letter[index].messagedate &&
@@ -334,15 +334,12 @@ class _LetterFeed3ScreenState extends ConsumerState<LetterFeed3Screen> {
                                                     ],
                                                   ).p(20),
                                                 ).pSymmetric(v: 20),
+                                          /////////////////////////////////
                                           answerList.when(
                                               data: (answer) {
-                                                if (!answer
-                                                    .singleWhere((element) =>
-                                                        element.messagedate ==
-                                                        letter[index]
-                                                            .messagedate)
-                                                    .isLetter!) {
-                                                  return Container();
+                                                if (false) {
+                                                  return const Text(
+                                                      "답장이 없습니다.");
                                                 }
                                                 return Container(
                                                   width: MediaQuery.of(context)
@@ -390,15 +387,8 @@ class _LetterFeed3ScreenState extends ConsumerState<LetterFeed3Screen> {
                                                                   .text
                                                                   .size(16)
                                                                   .make(),
-                                                              answer
-                                                                  .where((element) =>
-                                                                      element
-                                                                          .messagedate ==
-                                                                      letter[index]
-                                                                          .messagedate)
-                                                                  .first
-                                                                  .message
-                                                                  .text
+                                                              answer.first
+                                                                  .message.text
                                                                   .make()
                                                                   .box
                                                                   .width(MediaQuery.of(
@@ -425,23 +415,15 @@ class _LetterFeed3ScreenState extends ConsumerState<LetterFeed3Screen> {
                                                               BorderRadius
                                                                   .circular(30),
                                                         ),
-                                                        child: CachedNetworkImage(
-                                                            fit: BoxFit.fill,
-                                                            imageUrl: answer
-                                                                    .singleWhere((element) =>
-                                                                        element
-                                                                            .messagedate ==
-                                                                        letter[index]
-                                                                            .messagedate)
-                                                                    .photo
-                                                                    .isEmpty
-                                                                ? ""
-                                                                : answer
-                                                                    .singleWhere((element) =>
-                                                                        element
-                                                                            .messagedate ==
-                                                                        letter[index]
-                                                                            .messagedate)
+                                                        child: answer[index]
+                                                                .photo
+                                                                .isEmpty
+                                                            ? Container()
+                                                            : CachedNetworkImage(
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                                imageUrl: answer[
+                                                                        index]
                                                                     .photo
                                                                     .toString()),
                                                       ),
