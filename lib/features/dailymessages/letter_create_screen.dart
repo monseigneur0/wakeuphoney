@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/dailymessages/daily_controller.dart';
+import 'package:wakeuphoney/features/letter/letter_controller.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
@@ -115,12 +116,15 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
                                   });
                                 }
                                 //메세지 작성 위치 조심
+                                // ref
+                                //     .watch(dailyControllerProvider.notifier)
+                                //     .createDailyMessageImage(
+                                //         _letterController.text, imageUrl);
                                 ref
-                                    .watch(dailyControllerProvider.notifier)
-                                    .createDailyMessageImage(
+                                    .watch(letterControllerProvider.notifier)
+                                    .createLetter(
                                         _letterController.text, imageUrl);
                                 if (mounted) {
-                                  Navigator.of(context).pop();
                                   Navigator.of(context).pop();
                                   showSnackBar(context, "Saved");
                                 }

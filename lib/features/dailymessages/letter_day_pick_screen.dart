@@ -29,7 +29,7 @@ class _LetterDayPickScreenState extends ConsumerState<LetterDayPickScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final lettersList = ref.watch(getLettersListProvider);
+    final lettersList = ref.watch(getLettersList0Provider);
 
     final List<DateTime> listDateTime =
         ref.watch(dateTimeNotTodayStateProvider);

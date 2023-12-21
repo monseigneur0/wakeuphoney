@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class LetterModel {
   final String id;
-  final DateTime letterDateTime;
+  final DateTime dateTimeNow;
   final String sender;
   final DateTime letterTime;
   final String letter;
@@ -19,7 +19,7 @@ class LetterModel {
 
   LetterModel({
     required this.id,
-    required this.letterDateTime,
+    required this.dateTimeNow,
     required this.sender,
     required this.letterTime,
     required this.letter,
@@ -52,7 +52,7 @@ class LetterModel {
   }) {
     return LetterModel(
       id: id ?? this.id,
-      letterDateTime: letterDateTime ?? this.letterDateTime,
+      dateTimeNow: letterDateTime ?? dateTimeNow,
       sender: sender ?? this.sender,
       letterTime: letterTime ?? this.letterTime,
       letter: letter ?? this.letter,
@@ -71,15 +71,15 @@ class LetterModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'letterDateTime': letterDateTime.millisecondsSinceEpoch,
+      'letterDateTime': dateTimeNow,
       'sender': sender,
-      'letterTime': letterTime.millisecondsSinceEpoch,
+      'letterTime': letterTime,
       'letter': letter,
       'letterPhoto': letterPhoto,
       'letterAudio': letterAudio,
       'letterVideo': letterVideo,
       'reciver': reciver,
-      'answerTime': answerTime.millisecondsSinceEpoch,
+      'answerTime': answerTime,
       'answer': answer,
       'answerPhoto': answerPhoto,
       'answerAudio': answerAudio,
@@ -90,16 +90,18 @@ class LetterModel {
   factory LetterModel.fromMap(Map<String, dynamic> map) {
     return LetterModel(
       id: map['id'] as String,
-      letterDateTime:
-          DateTime.fromMillisecondsSinceEpoch(map['letterDateTime'] as int),
+      dateTimeNow: DateTime.fromMillisecondsSinceEpoch(
+          map['letterDateTime'].millisecondsSinceEpoch),
       sender: map['sender'] as String,
-      letterTime: DateTime.fromMillisecondsSinceEpoch(map['letterTime'] as int),
+      letterTime: DateTime.fromMillisecondsSinceEpoch(
+          map['letterTime'].millisecondsSinceEpoch),
       letter: map['letter'] as String,
       letterPhoto: map['letterPhoto'] as String,
       letterAudio: map['letterAudio'] as String,
       letterVideo: map['letterVideo'] as String,
       reciver: map['reciver'] as String,
-      answerTime: DateTime.fromMillisecondsSinceEpoch(map['answerTime'] as int),
+      answerTime: DateTime.fromMillisecondsSinceEpoch(
+          map['answerTime'].millisecondsSinceEpoch),
       answer: map['answer'] as String,
       answerPhoto: map['answerPhoto'] as String,
       answerAudio: map['answerAudio'] as String,
@@ -114,7 +116,7 @@ class LetterModel {
 
   @override
   String toString() {
-    return 'LetterModel(id: $id, letterDateTime: $letterDateTime, sender: $sender, letterTime: $letterTime, letter: $letter, letterPhoto: $letterPhoto, letterAudio: $letterAudio, letterVideo: $letterVideo, reciver: $reciver, answerTime: $answerTime, answer: $answer, answerPhoto: $answerPhoto, answerAudio: $answerAudio, answerVideo: $answerVideo)';
+    return 'LetterModel(id: $id, letterDateTime: $dateTimeNow, sender: $sender, letterTime: $letterTime, letter: $letter, letterPhoto: $letterPhoto, letterAudio: $letterAudio, letterVideo: $letterVideo, reciver: $reciver, answerTime: $answerTime, answer: $answer, answerPhoto: $answerPhoto, answerAudio: $answerAudio, answerVideo: $answerVideo)';
   }
 
   @override
@@ -122,7 +124,7 @@ class LetterModel {
     if (identical(this, other)) return true;
 
     return other.id == id &&
-        other.letterDateTime == letterDateTime &&
+        other.dateTimeNow == dateTimeNow &&
         other.sender == sender &&
         other.letterTime == letterTime &&
         other.letter == letter &&
@@ -140,7 +142,7 @@ class LetterModel {
   @override
   int get hashCode {
     return id.hashCode ^
-        letterDateTime.hashCode ^
+        dateTimeNow.hashCode ^
         sender.hashCode ^
         letterTime.hashCode ^
         letter.hashCode ^

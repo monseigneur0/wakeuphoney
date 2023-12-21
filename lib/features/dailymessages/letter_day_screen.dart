@@ -12,6 +12,7 @@ import 'package:wakeuphoney/core/utils.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/providers/providers.dart';
+import '../letter/letter_controller.dart';
 import 'daily_controller.dart';
 import 'letter_create_screen.dart';
 
@@ -139,6 +140,7 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final lettersList0 = ref.watch(getLettersList0Provider);
     final lettersList = ref.watch(getLettersListProvider);
 
     return Scaffold(
@@ -153,7 +155,7 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
             child: lettersList.when(
               data: (data) {
                 for (var letter in data) {
-                  _writeDays.add(letter.messagedatetime);
+                  _writeDays.add(letter.letterTime);
                 }
                 return TableCalendar<Event>(
                   firstDay: kFirstDay,

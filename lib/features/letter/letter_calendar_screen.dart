@@ -14,6 +14,13 @@ class LetterCalendarScreen extends ConsumerStatefulWidget {
 class _LetterCalendarScreenState extends ConsumerState<LetterCalendarScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Letter Calendar"),
+      ),
+      body: const Center(
+        child: Text("Letter Calendar"),
+      ),
+    );
   }
 }

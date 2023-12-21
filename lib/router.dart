@@ -20,6 +20,7 @@ import 'features/dailymessages/history_screen.dart';
 import 'features/dailymessages/letter_create_screen.dart';
 import 'features/dailymessages/letter_day_screen.dart';
 import 'features/image/image_full_screen.dart';
+import 'features/letter/letter_calendar_screen.dart';
 import 'features/letter/letter_feed3_screen.dart';
 import 'features/match/match3_screen.dart';
 import 'features/match/match4_screen.dart';
@@ -173,6 +174,11 @@ final routerProvider = Provider((ref) {
         name: LetterFeed3Screen.routeName,
         path: LetterFeed3Screen.routeURL,
         builder: (context, state) => const LetterFeed3Screen(),
+      ),
+      GoRoute(
+        name: LetterCalendarScreen.routeName,
+        path: LetterCalendarScreen.routeURL,
+        builder: (context, state) => const LetterCalendarScreen(),
       ),
       GoRoute(
         name: ProfileEditScreen.routeName,

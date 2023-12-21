@@ -15,6 +15,7 @@ import '../auth/auth_controller.dart';
 import '../dailymessages/letter_screen.dart';
 import '../letter/letter_feed2_screen.dart';
 import '../letter/letter_feed3_screen.dart';
+import '../letter/letter_feed4_screen.dart';
 import '../letter/letter_feed_screen.dart';
 import '../match/match_screen.dart';
 import '../profile/profile_controller.dart';
@@ -59,9 +60,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       const AlarmHome(),
       // const DailyLetterScreen(),
       // const HistoryMessageScreen(),
-      const LetterScreen(),
-      const LetterFeed3Screen(),
-      const LetterFeed2Screen(),
+      // const LetterScreen(),
+      // const LetterFeed3Screen(),
+      const LetterFeed4Screen(),
       const LetterDayScreen(),
       //왜 이중으로?
       hasCoupleId.when(
@@ -107,14 +108,14 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           //   icon: Icon(Icons.favorite_border_outlined),
                           //   label: 'Letters',
                           // ),
-                          BottomNavigationBarItem(
-                            icon: Icon(Icons.local_post_office_outlined),
-                            label: '편지',
-                          ),
-                          BottomNavigationBarItem(
-                            icon: Icon(Icons.feed_outlined),
-                            label: 'Feed',
-                          ),
+                          // BottomNavigationBarItem(
+                          //   icon: Icon(Icons.local_post_office_outlined),
+                          //   label: '편지',
+                          // ),
+                          // BottomNavigationBarItem(
+                          //   icon: Icon(Icons.feed_outlined),
+                          //   label: 'Feed',
+                          // ),
                           BottomNavigationBarItem(
                             icon: Icon(Icons.feed_outlined),
                             label: '피드',

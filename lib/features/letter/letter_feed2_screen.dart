@@ -27,7 +27,7 @@ class _LetterFeed2ScreenState extends ConsumerState<LetterFeed2Screen> {
 
   @override
   Widget build(BuildContext context) {
-    final letterList = ref.watch(getLettersListProvider);
+    final letterList = ref.watch(getLettersList0Provider);
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       // appBar: AppBar(title: const Text('우리의 편지2')),

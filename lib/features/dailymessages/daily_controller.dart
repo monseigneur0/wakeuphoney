@@ -14,7 +14,7 @@ final dailyControllerProvider =
           ref: ref,
         ));
 
-final getLettersListProvider = StreamProvider(
+final getLettersList0Provider = StreamProvider(
     (ref) => ref.watch(dailyControllerProvider.notifier).getLettersList());
 final getAnswersListProvider = StreamProvider(
     (ref) => ref.watch(dailyControllerProvider.notifier).getAnswersList());

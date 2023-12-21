@@ -52,7 +52,7 @@ class _LetterFeed3ScreenState extends ConsumerState<LetterFeed3Screen> {
   Widget build(BuildContext context) {
     final userInfo = ref.watch(getMyUserInfoProvider);
 
-    final letterList = ref.watch(getLettersListProvider);
+    final letterList = ref.watch(getLettersList0Provider);
     final answerList = ref.watch(getAnswersListProvider);
 
     return Scaffold(

@@ -102,7 +102,7 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
   Widget build(BuildContext context) {
     final userInfo = ref.watch(getMyUserInfoProvider);
 
-    final lettersList = ref.watch(getLettersListProvider);
+    final lettersList = ref.watch(getLettersList0Provider);
 
     return Scaffold(
       appBar: AppBar(

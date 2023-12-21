@@ -33,7 +33,7 @@ class _LetterFeedScreenState extends ConsumerState<LetterFeedScreen> {
   Widget build(BuildContext context) {
     final userInfo = ref.watch(getMyUserInfoProvider);
 
-    final letterList = ref.watch(getLettersListProvider);
+    final letterList = ref.watch(getLettersList0Provider);
 
     return Scaffold(
       body: CustomScrollView(

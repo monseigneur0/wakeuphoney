@@ -204,6 +204,7 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                           ref
                               .watch(dailyControllerProvider.notifier)
                               .createResponseMessage(message, imageUrl);
+                          // ref.watch();
                         }
                         _messgaeController.clear();
                         if (context.mounted) {
