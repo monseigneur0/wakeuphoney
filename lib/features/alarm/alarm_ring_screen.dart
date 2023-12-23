@@ -39,7 +39,7 @@ class AlarmRingScreen extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
-                  DateFormat("yyyy년 MM월 dd일 ").format(DateTime.now()),
+                  DateFormat("yyyy년 MM월 dd일").format(DateTime.now()),
                   style: const TextStyle(fontSize: 40),
                 ),
                 // Text(

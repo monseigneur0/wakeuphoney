@@ -47,8 +47,11 @@ class _AlarmNewScreen extends ConsumerState<AlarmNewScreen> {
                       padding: const EdgeInsets.all(10.0),
                       child: Column(
                         children: [
-                          SizedBox(
+                          Container(
                             width: MediaQuery.of(context).size.width,
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20)),
                             child: message.photo.isNotEmpty
                                 ? CachedNetworkImage(
                                     imageUrl: message.photo,

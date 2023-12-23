@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -12,6 +13,7 @@ import '../../widgets/alarm_tile.dart';
 
 import 'alarm2_shortcut.dart';
 import 'alarm_edit_screen.dart';
+import 'alarm_new_ring_screen.dart';
 import 'alarm_ring_screen.dart';
 
 final alarmSettingsProvider = StateProvider<AlarmSettings>((ref) =>
@@ -123,14 +125,14 @@ class AlarmHomeState extends State<AlarmHome> {
               color: AppColors.myPink,
             ),
           ),
-          // IconButton(
-          //   onPressed: () => context.pushNamed(AlarmNewScreen.routeName),
-          //   icon: const ImageIcon(
-          //     AssetImage('assets/alarm-clock.png'),
-          //     size: 29,
-          //     color: AppColors.myPink,
-          //   ),
-          // )
+          IconButton(
+            onPressed: () => context.pushNamed(AlarmNewScreen.routeName),
+            icon: const ImageIcon(
+              AssetImage('assets/alarm-clock.png'),
+              size: 29,
+              color: AppColors.myPink,
+            ),
+          )
         ],
       ),
       body: Column(
@@ -182,24 +184,24 @@ class AlarmHomeState extends State<AlarmHome> {
             ),
         ],
       ),
-      // floatingActionButton: Padding(
-      //   padding: const EdgeInsets.only(bottom: 100, right: 10),
-      //   child: Row(
-      //     mainAxisAlignment: MainAxisAlignment.end,
-      //     children: [
-      //       ExampleAlarmHomeShortcutButton(refreshAlarms: loadAlarms),
-      //       // FloatingActionButton(
-      //       //   onPressed: () => navigateToAlarmScreen(null),
-      //       //   backgroundColor: AppColors.myPink,
-      //       //   child: const ImageIcon(
-      //       //     AssetImage('assets/alarm-clock.png'),
-      //       //     size: 29,
-      //       //   ),
-      //       // ),
-      //     ],
-      //   ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 100, right: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ExampleAlarmHomeShortcutButton(refreshAlarms: loadAlarms),
+            // FloatingActionButton(
+            //   onPressed: () => navigateToAlarmScreen(null),
+            //   backgroundColor: AppColors.myPink,
+            //   child: const ImageIcon(
+            //     AssetImage('assets/alarm-clock.png'),
+            //     size: 29,
+            //   ),
+            // ),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
