@@ -8,6 +8,7 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:wakeuphoney/features/letter/letter_controller.dart';
 
 import '../../core/common/loader.dart';
+import '../../core/utils.dart';
 import '../dailymessages/letter_day_screen.dart';
 import '../profile/profile_controller.dart';
 
@@ -23,6 +24,11 @@ class _LetterFeed4ScreenState extends ConsumerState<LetterFeed4Screen> {
   Logger logger = Logger();
 
   final _scrollController = ScrollController();
+
+  final TextEditingController _letterEditController = TextEditingController();
+
+  final _formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final userInfo = ref.watch(getMyUserInfoProvider);
@@ -86,7 +92,7 @@ class _LetterFeed4ScreenState extends ConsumerState<LetterFeed4Screen> {
                                                 BorderRadius.circular(30),
                                             child: CachedNetworkImage(
                                                 //이미지 왜 이렇게 큼?!?!
-                                                width: 60,
+                                                width: 45,
                                                 imageUrl: user.photoURL)),
                                         10.widthBox,
                                         Column(
@@ -97,25 +103,45 @@ class _LetterFeed4ScreenState extends ConsumerState<LetterFeed4Screen> {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width -
-                                                  160,
+                                                  120,
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
                                                   user.displayName.text
-                                                      .size(20)
+                                                      .size(16)
+                                                      .bold
                                                       .make(),
                                                   PopupMenuButton(
                                                     itemBuilder: (context) {
                                                       return [
                                                         PopupMenuItem(
-                                                          onTap: () {},
+                                                          onTap: () {
+                                                            _letterEditController
+                                                                    .text =
+                                                                letters[index]
+                                                                    .letter;
+                                                            _updateLetter(
+                                                                letters[index]
+                                                                    .letterId);
+                                                          },
                                                           child:
                                                               const Text("수정"),
                                                         ),
                                                         PopupMenuItem(
-                                                          onTap: () {},
+                                                          onTap: () {
+                                                            ref
+                                                                .watch(
+                                                                    letterControllerProvider
+                                                                        .notifier)
+                                                                .letterDelete(
+                                                                    letters[index]
+                                                                        .letterId);
+                                                            showSnackBar(
+                                                                context,
+                                                                "삭제되었습니다.");
+                                                          },
                                                           child:
                                                               const Text("삭제"),
                                                         ),
@@ -125,18 +151,16 @@ class _LetterFeed4ScreenState extends ConsumerState<LetterFeed4Screen> {
                                                 ],
                                               ),
                                             ),
-                                            letters[index]
-                                                .letter
-                                                .toString()
-                                                .text
-                                                .size(14)
-                                                .make()
-                                                .box
-                                                .width(MediaQuery.of(context)
-                                                        .size
-                                                        .width -
-                                                    140)
-                                                .make(),
+                                            SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  140,
+                                              child: SelectableText(
+                                                  scrollPhysics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  letters[index].letter),
+                                            )
                                           ],
                                         )
                                       ],
@@ -207,7 +231,7 @@ class _LetterFeed4ScreenState extends ConsumerState<LetterFeed4Screen> {
                                                           BorderRadius.circular(
                                                               25),
                                                       child: CachedNetworkImage(
-                                                          width: 50,
+                                                          width: 40,
                                                           imageUrl: user
                                                               .couplePhotoURL
                                                               .toString()),
@@ -220,6 +244,7 @@ class _LetterFeed4ScreenState extends ConsumerState<LetterFeed4Screen> {
                                                         user.coupleDisplayName!
                                                             .text
                                                             .size(16)
+                                                            .bold
                                                             .make(),
                                                         letters[index]
                                                             .answer
@@ -263,8 +288,8 @@ class _LetterFeed4ScreenState extends ConsumerState<LetterFeed4Screen> {
                                             ).p(15),
                                           ).pSymmetric(v: 20),
                                   ],
-                                ).p(15),
-                              ).pOnly(left: 15),
+                                ).p(10),
+                              ).pOnly(left: 10),
                             ],
                           ),
                         ],
@@ -290,5 +315,53 @@ class _LetterFeed4ScreenState extends ConsumerState<LetterFeed4Screen> {
         );
       }),
     );
+  }
+
+  Future<void> _updateLetter(String letterId) async {
+    await showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Form(
+                key: _formkey,
+                child: TextFormField(
+                  minLines: 3,
+                  maxLines: 10,
+                  keyboardType: TextInputType.multiline,
+                  validator: (value) {
+                    if (value == null || value.isEmpty || value == '') {
+                      return '내용을 적어주세요';
+                    }
+                    return null;
+                  },
+                  controller: _letterEditController,
+                  autofocus: true,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_formkey.currentState!.validate()) {
+                        showSnackBar(context, "메세지가 수정되었습니다.");
+                        ref
+                            .watch(letterControllerProvider.notifier)
+                            .letterEdit(letterId, _letterEditController.text);
+                        _letterEditController.clear();
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    child: const Text('수정'),
+                  ),
+                ],
+              ),
+            ],
+          ).p(20);
+        });
   }
 }

@@ -38,7 +38,7 @@ class LetterController extends StateNotifier<bool> {
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
     LetterModel letterModel = LetterModel(
-      id: "",
+      letterId: "",
       dateTimeNow: DateTime.now(),
       sender: uid,
       letterTime: _ref.watch(selectedDateTime),
@@ -64,5 +64,35 @@ class LetterController extends StateNotifier<bool> {
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
 
     return _letterRepository.getLettersList(uid);
+  }
+
+  letterEdit(String message, String letterId) {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+
+    final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
+    String coupleUid;
+    coupleUidValue != null
+        ? coupleUid = coupleUidValue.couple
+        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+
+    _letterRepository.letterEditMessage(uid, letterId, message);
+    _letterRepository.letterEditMessage(coupleUid, letterId, message);
+  }
+
+  letterDelete(String letterId) {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+
+    final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
+    String coupleUid;
+    coupleUidValue != null
+        ? coupleUid = coupleUidValue.couple
+        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+
+    _letterRepository.letterDelete(uid, letterId);
+    _letterRepository.letterDelete(coupleUid, letterId);
   }
 }

@@ -296,6 +296,8 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
                                                           .width -
                                                       60,
                                                   child: SelectableText(
+                                                    scrollPhysics:
+                                                        const NeverScrollableScrollPhysics(),
                                                     data[index].message,
                                                     style: const TextStyle(
                                                         fontSize: 12),

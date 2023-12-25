@@ -170,7 +170,8 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                       style: const ButtonStyle(
                           backgroundColor:
                               MaterialStatePropertyAll(AppColors.myPink)),
-                      child: const Text('Send'),
+                      child: const Text('Send',
+                          style: TextStyle(color: Colors.black)),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           showSnackBar(context, "messgae is saved");

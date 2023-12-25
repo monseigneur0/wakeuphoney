@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class LetterModel {
-  final String id;
+  final String letterId;
   final DateTime dateTimeNow;
   final String sender;
   final DateTime letterTime;
@@ -18,7 +18,7 @@ class LetterModel {
   final String answerVideo;
 
   LetterModel({
-    required this.id,
+    required this.letterId,
     required this.dateTimeNow,
     required this.sender,
     required this.letterTime,
@@ -35,8 +35,8 @@ class LetterModel {
   });
 
   LetterModel copyWith({
-    String? id,
-    DateTime? letterDateTime,
+    String? letterId,
+    DateTime? dateTimeNow,
     String? sender,
     DateTime? letterTime,
     String? letter,
@@ -51,8 +51,8 @@ class LetterModel {
     String? answerVideo,
   }) {
     return LetterModel(
-      id: id ?? this.id,
-      dateTimeNow: letterDateTime ?? dateTimeNow,
+      letterId: letterId ?? this.letterId,
+      dateTimeNow: dateTimeNow ?? this.dateTimeNow,
       sender: sender ?? this.sender,
       letterTime: letterTime ?? this.letterTime,
       letter: letter ?? this.letter,
@@ -70,8 +70,8 @@ class LetterModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
-      'letterDateTime': dateTimeNow,
+      'letterId': letterId,
+      'dateTimeNow': dateTimeNow,
       'sender': sender,
       'letterTime': letterTime,
       'letter': letter,
@@ -89,9 +89,9 @@ class LetterModel {
 
   factory LetterModel.fromMap(Map<String, dynamic> map) {
     return LetterModel(
-      id: map['id'] as String,
+      letterId: map['letterId'] as String,
       dateTimeNow: DateTime.fromMillisecondsSinceEpoch(
-          map['letterDateTime'].millisecondsSinceEpoch),
+          map['dateTimeNow'].millisecondsSinceEpoch),
       sender: map['sender'] as String,
       letterTime: DateTime.fromMillisecondsSinceEpoch(
           map['letterTime'].millisecondsSinceEpoch),
@@ -116,14 +116,14 @@ class LetterModel {
 
   @override
   String toString() {
-    return 'LetterModel(id: $id, letterDateTime: $dateTimeNow, sender: $sender, letterTime: $letterTime, letter: $letter, letterPhoto: $letterPhoto, letterAudio: $letterAudio, letterVideo: $letterVideo, reciver: $reciver, answerTime: $answerTime, answer: $answer, answerPhoto: $answerPhoto, answerAudio: $answerAudio, answerVideo: $answerVideo)';
+    return 'LetterModel(letterId: $letterId, dateTimeNow: $dateTimeNow, sender: $sender, letterTime: $letterTime, letter: $letter, letterPhoto: $letterPhoto, letterAudio: $letterAudio, letterVideo: $letterVideo, reciver: $reciver, answerTime: $answerTime, answer: $answer, answerPhoto: $answerPhoto, answerAudio: $answerAudio, answerVideo: $answerVideo)';
   }
 
   @override
   bool operator ==(covariant LetterModel other) {
     if (identical(this, other)) return true;
 
-    return other.id == id &&
+    return other.letterId == letterId &&
         other.dateTimeNow == dateTimeNow &&
         other.sender == sender &&
         other.letterTime == letterTime &&
@@ -141,7 +141,7 @@ class LetterModel {
 
   @override
   int get hashCode {
-    return id.hashCode ^
+    return letterId.hashCode ^
         dateTimeNow.hashCode ^
         sender.hashCode ^
         letterTime.hashCode ^

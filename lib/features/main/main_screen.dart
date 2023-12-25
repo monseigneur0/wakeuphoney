@@ -60,7 +60,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       const AlarmHome(),
       // const DailyLetterScreen(),
       // const HistoryMessageScreen(),
-      // const LetterScreen(),
+      const LetterScreen(),
       // const LetterFeed3Screen(),
       const LetterFeed4Screen(),
       const LetterDayScreen(),
@@ -108,10 +108,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           //   icon: Icon(Icons.favorite_border_outlined),
                           //   label: 'Letters',
                           // ),
-                          // BottomNavigationBarItem(
-                          //   icon: Icon(Icons.local_post_office_outlined),
-                          //   label: '편지',
-                          // ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.local_post_office_outlined),
+                            label: '편지',
+                          ),
                           // BottomNavigationBarItem(
                           //   icon: Icon(Icons.feed_outlined),
                           //   label: 'Feed',

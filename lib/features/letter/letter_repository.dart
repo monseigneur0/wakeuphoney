@@ -24,7 +24,12 @@ class LetterRepository {
       _usersCollection
           .doc(uid)
           .collection(FirebaseConstants.lettersCollection)
-          .add(letterModel.toMap());
+          .add(letterModel.toMap())
+          .then((value) => _usersCollection
+              .doc(uid)
+              .collection(FirebaseConstants.lettersCollection)
+              .doc(value.id)
+              .update({"letterId": value.id}));
     } catch (e) {
       logger.e(e.toString());
     }
@@ -64,6 +69,30 @@ class LetterRepository {
     } catch (e) {
       logger.e(e.toString());
       return Stream.error(e);
+    }
+  }
+
+  letterEditMessage(String uid, String letterId, String message) {
+    try {
+      _usersCollection
+          .doc(uid)
+          .collection(FirebaseConstants.lettersCollection)
+          .doc(letterId)
+          .update({"letter": message, "dateTimeNow": Timestamp.now()});
+    } catch (e) {
+      logger.e(e.toString());
+    }
+  }
+
+  letterDelete(String uid, String letterId) {
+    try {
+      _usersCollection
+          .doc(uid)
+          .collection(FirebaseConstants.lettersCollection)
+          .doc(letterId)
+          .delete();
+    } catch (e) {
+      logger.e(e.toString());
     }
   }
 }
