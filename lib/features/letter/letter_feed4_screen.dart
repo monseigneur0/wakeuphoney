@@ -91,7 +91,6 @@ class _LetterFeed4ScreenState extends ConsumerState<LetterFeed4Screen> {
                                             borderRadius:
                                                 BorderRadius.circular(30),
                                             child: CachedNetworkImage(
-                                                //이미지 왜 이렇게 큼?!?!
                                                 width: 45,
                                                 imageUrl: user.photoURL)),
                                         10.widthBox,
@@ -115,6 +114,22 @@ class _LetterFeed4ScreenState extends ConsumerState<LetterFeed4Screen> {
                                                       .make(),
                                                   PopupMenuButton(
                                                     itemBuilder: (context) {
+                                                      if (letters[index]
+                                                          .letterTime
+                                                          .isBefore(
+                                                              DateTime.now())) {
+                                                        return [
+                                                          PopupMenuItem(
+                                                            onTap: () {
+                                                              showSnackBar(
+                                                                  context,
+                                                                  "과거는 지울 수 없어요.");
+                                                            },
+                                                            child: const Text(
+                                                                "삭제"),
+                                                          ),
+                                                        ];
+                                                      }
                                                       return [
                                                         PopupMenuItem(
                                                           onTap: () {
@@ -165,14 +180,13 @@ class _LetterFeed4ScreenState extends ConsumerState<LetterFeed4Screen> {
                                         )
                                       ],
                                     ),
-                                    10.heightBox,
                                     letters[index].letterPhoto.isEmpty
                                         ? Container()
                                         : Container(
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width -
-                                                80,
+                                                70,
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(30),

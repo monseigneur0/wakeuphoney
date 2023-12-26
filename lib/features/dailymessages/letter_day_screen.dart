@@ -165,7 +165,7 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
                   availableCalendarFormats: const {
                     CalendarFormat.month: 'Month'
                   },
-                  startingDayOfWeek: StartingDayOfWeek.monday,
+                  startingDayOfWeek: StartingDayOfWeek.sunday,
                   selectedDayPredicate: (day) {
                     // Use values from Set to mark multiple days as selected
                     return _writeDays.contains(day);

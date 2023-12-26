@@ -75,9 +75,8 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
                             }
                             return null;
                           },
-                          decoration: InputDecoration(
-                              labelText: DateFormat("yyyy년 MM월 dd일 ")
-                                  .format(ref.watch(selectedDateTime))),
+                          decoration: const InputDecoration(
+                              labelText: "어떤 하루를 보냈으면 좋겠어요?"),
                         ),
                       ),
                     ),
@@ -134,16 +133,11 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
                             child: const Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 80, vertical: 13),
-                              child: SizedBox(
-                                height: 30,
-                                child: Center(
-                                  child: Text(
-                                    '보내기',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                              child: Text(
+                                '보내기',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -162,9 +156,13 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
                                       child: Image.file(letterImageFile!),
                                     )
                                   : Container(
-                                      color: Colors.grey[200],
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(30)),
+                                        color: Colors.grey[300],
+                                      ),
                                       child: const Padding(
-                                        padding: EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.all(10.0),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,

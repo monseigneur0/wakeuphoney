@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/core/common/loader.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
+import 'package:wakeuphoney/features/chatgpt/cs_screen.dart';
 import 'package:wakeuphoney/features/dailymessages/letter_day_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_couple_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_screen.dart';
@@ -31,7 +32,7 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 3;
 
   void _onItemTapped(int index) {
     FirebaseAnalytics.instance.logEvent(
@@ -60,7 +61,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       const AlarmHome(),
       // const DailyLetterScreen(),
       // const HistoryMessageScreen(),
-      const LetterScreen(),
+      // const LetterScreen(),
       // const LetterFeed3Screen(),
       const LetterFeed4Screen(),
       const LetterDayScreen(),
@@ -76,6 +77,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         loading: (() => const Loader()),
       ),
       // const ProfileCoupleScreen(),
+      const CustomerServiceScreen(),
     ];
     return isLoggedInStream.when(
       data: (user) {
@@ -108,10 +110,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           //   icon: Icon(Icons.favorite_border_outlined),
                           //   label: 'Letters',
                           // ),
-                          BottomNavigationBarItem(
-                            icon: Icon(Icons.local_post_office_outlined),
-                            label: '편지',
-                          ),
+                          // BottomNavigationBarItem(
+                          //   icon: Icon(Icons.local_post_office_outlined),
+                          //   label: '편지',
+                          // ),
                           // BottomNavigationBarItem(
                           //   icon: Icon(Icons.feed_outlined),
                           //   label: 'Feed',
@@ -128,6 +130,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           BottomNavigationBarItem(
                             icon: Icon(Icons.person_outline_rounded),
                             label: '프로필',
+                          ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.phone_in_talk_outlined),
+                            label: '고객센터',
                           ),
                           // BottomNavigationBarItem(
                           //   icon: Icon(Icons.person_outline_rounded),
