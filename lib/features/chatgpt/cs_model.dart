@@ -95,7 +95,13 @@ class ChatCompletionModel {
     );
   }
 
-  String toJson() => json.encode(toMap());
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['model'] = model;
+    data['messages'] = messages.map((e) => e.toJson()).toList();
+    data['stream'] = stream;
+    return data;
+  }
 
   factory ChatCompletionModel.fromJson(String source) =>
       ChatCompletionModel.fromMap(json.decode(source) as Map<String, dynamic>);
