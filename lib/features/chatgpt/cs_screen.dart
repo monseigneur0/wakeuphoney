@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:wakeuphoney/features/chatgpt/cs_model.dart';
 import 'package:http/http.dart' as http;
@@ -18,6 +19,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
     with TickerProviderStateMixin {
   final TextEditingController _messageTextController = TextEditingController();
   final ScrollController _messageListController = ScrollController();
+  Logger logger = Logger();
 
   final List<ChatGPTMessageModel> _historyList = List.empty(growable: true);
   String apiKey = "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";
@@ -72,9 +74,12 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
           "Content-Type": "application/json",
         },
         body: jsonEncode(openAiModel.toJson()));
+
     print(resp.body);
+    logger.d(resp.body);
     if (resp.statusCode == 200) {
       final jsonData = jsonDecode(utf8.decode(resp.bodyBytes)) as Map;
+      logger.d(jsonData);
       String role = jsonData["choices"][0]["text"] as String;
     }
   }

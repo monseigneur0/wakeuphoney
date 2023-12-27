@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class ChatGPTMessageModel {
-  String role;
-  String content;
+  late String role;
+  late String content;
   ChatGPTMessageModel({
     required this.role,
     required this.content,
@@ -34,10 +34,20 @@ class ChatGPTMessageModel {
     );
   }
 
-  String toJson() => json.encode(toMap());
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['role'] = role;
+    data['content'] = content;
+    return data;
+  }
 
-  factory ChatGPTMessageModel.fromJson(String source) =>
-      ChatGPTMessageModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  // factory ChatGPTMessageModel.fromJson(String source) =>
+  //     ChatGPTMessageModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  ChatGPTMessageModel.fromJson(Map<String, dynamic> json) {
+    role = json['role'];
+    content = json['content'];
+  }
 
   @override
   String toString() => 'ChatGPTMessageModel(role: $role, content: $content)';
@@ -54,9 +64,9 @@ class ChatGPTMessageModel {
 }
 
 class ChatCompletionModel {
-  String model;
-  List<ChatGPTMessageModel> messages;
-  bool stream;
+  late String model;
+  late List<ChatGPTMessageModel> messages;
+  late bool stream;
   ChatCompletionModel({
     required this.model,
     required this.messages,
@@ -103,9 +113,13 @@ class ChatCompletionModel {
     return data;
   }
 
-  factory ChatCompletionModel.fromJson(String source) =>
-      ChatCompletionModel.fromMap(json.decode(source) as Map<String, dynamic>);
-
+  ChatCompletionModel.fromJson(Map<String, dynamic> json) {
+    model = json['model'];
+    messages = List.from(json['messages'])
+        .map((e) => ChatGPTMessageModel.fromJson(e))
+        .toList();
+    stream = json['stream'];
+  }
   @override
   String toString() =>
       'ChatCompletionModel(model: $model, messages: $messages, stream: $stream)';
