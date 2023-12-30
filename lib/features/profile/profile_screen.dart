@@ -235,6 +235,7 @@ class ProfileImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final logger = Logger();
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -277,7 +278,7 @@ class ProfileImage extends StatelessWidget {
               ),
             ),
             error: (error, stackTrace) {
-              // logger.d("error$error ");
+              logger.e("error$error ");
               return const Image(
                 image: AssetImage('assets/human.jpg'),
                 height: 30,

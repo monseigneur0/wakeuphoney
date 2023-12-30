@@ -73,6 +73,7 @@ class AuthRepository {
         creationTime: DateTime.now(),
         lastSignInTime: DateTime.now(),
         isLoggedIn: true,
+        chatGPTMessageCount: 0,
       );
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("uid", userCredential.user!.uid);
@@ -131,6 +132,7 @@ class AuthRepository {
           creationTime: DateTime.now(),
           lastSignInTime: DateTime.now(),
           isLoggedIn: true,
+          chatGPTMessageCount: 0,
         );
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("uid", userCredential.user!.uid);

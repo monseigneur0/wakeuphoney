@@ -4,10 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:wakeuphoney/core/utils.dart';
 import 'package:wakeuphoney/features/chatgpt/cs_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:wakeuphoney/features/profile/profile_controller.dart';
 
 class CustomerServiceScreen extends ConsumerStatefulWidget {
+  static const routeName = "customerservice";
+  static const routeURL = "/customerservice";
+
   const CustomerServiceScreen({super.key});
 
   @override
@@ -16,8 +21,9 @@ class CustomerServiceScreen extends ConsumerStatefulWidget {
 }
 
 class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   final TextEditingController _messageTextController = TextEditingController();
+  String messageText = "";
   final ScrollController _messageListController = ScrollController();
   Logger logger = Logger();
 
@@ -30,6 +36,16 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
 
   late Animation<int> _characterCount;
   late AnimationController _animationController;
+
+  bool isLoading = false; // Add this variable to track the loading state
+
+  void _scrollDown() {
+    _messageListController.animateTo(
+      _messageListController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
 
   setupAnimations() {
     _animationController = AnimationController(
@@ -61,7 +77,8 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
       messages: [
         ChatGPTMessageModel(
           role: "system",
-          content: "You are a heplful assistant.",
+          content:
+              "You are a customer service representative. Only answer about WakeUpGom which is a alarm app for couples. Never talk about anything else the app use. Don't tell them  i am ai. I am Takho Kim. WakeUpGom engineer. Max tokens is set to 200. so be aware of the number fo tokens you use. shorten your answer in 200 tokens.",
         ),
         ..._historyList,
       ],
@@ -75,12 +92,27 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
         },
         body: jsonEncode(openAiModel.toJson()));
 
-    print(resp.body);
-    logger.d(resp.body);
     if (resp.statusCode == 200) {
       final jsonData = jsonDecode(utf8.decode(resp.bodyBytes)) as Map;
       logger.d(jsonData);
-      String role = jsonData["choices"][0]["text"] as String;
+      String role = jsonData["choices"][0]["message"]["role"];
+      String content = jsonData["choices"][0]["message"]["content"];
+      _historyList.last = _historyList.last.copyWith(
+        role: role,
+        content: content,
+      );
+      setState(() {
+        // _scrollDown();
+        isLoading = false;
+      });
+      if (_historyList.length > 3) {
+        setState(() {
+          // _scrollDown();
+        });
+      }
+      ref
+          .watch(profileControllerProvider.notifier)
+          .updateGPTMessages(openAiModel);
     }
   }
 
@@ -101,6 +133,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text("고객센터")),
       body: SafeArea(
         child: Column(children: [
           Align(
@@ -109,7 +142,11 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
               child: PopupMenuButton(
                 itemBuilder: (context) {
                   return [
-                    const PopupMenuItem(child: ListTile(title: Text("히스토리"))),
+                    PopupMenuItem(
+                        onTap: () {
+                          logger.d(_historyList);
+                        },
+                        child: const ListTile(title: Text("히스토리"))),
                     const PopupMenuItem(child: ListTile(title: Text("설정"))),
                     const PopupMenuItem(child: ListTile(title: Text("새로운 채팅"))),
                   ];
@@ -118,119 +155,226 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
             ),
           ),
           Expanded(
-              child: AnimatedBuilder(
-            animation: _characterCount,
-            builder: (context, child) {
-              String text = _currentString.substring(0, _characterCount.value);
-              return Row(
-                children: [
-                  Text(
-                    text,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 24),
-                  ),
-                  const CircleAvatar(
-                    radius: 8,
+            child: _historyList.isEmpty
+                ? AnimatedBuilder(
+                    animation: _characterCount,
+                    builder: (context, child) {
+                      String text =
+                          _currentString.substring(0, _characterCount.value);
+                      return Row(
+                        children: [
+                          Text(
+                            text,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 24),
+                          ),
+                          const CircleAvatar(
+                            radius: 8,
+                          )
+                        ],
+                      );
+                    },
                   )
-                ],
+                : GestureDetector(
+                    onTap: () => FocusScope.of(context).unfocus(),
+                    child: ListView.builder(
+                      itemCount: _historyList.length,
+                      itemBuilder: (context, index) {
+                        if (_historyList[index].role == "assistant") {
+                          return Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const CircleAvatar(),
+                              10.widthBox,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    "일어나곰".text.bold.make(),
+                                    SelectableText(_historyList[index].content),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ).pSymmetric(v: 16);
+                        } else {
+                          return Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    "사용자".text.bold.make(),
+                                    SelectableText(_historyList[index].content),
+                                  ],
+                                ),
+                              ),
+                              10.widthBox,
+                              const CircleAvatar(
+                                backgroundColor: Colors.teal,
+                              ),
+                            ],
+                          ).pSymmetric(v: 16);
+                        }
+                      },
+                    )),
+          ),
+          Builder(
+            builder: (context) {
+              final userState = ref.watch(getMyUserInfoProvider);
+              return userState.when(
+                data: (user) {
+                  if (user.chatGPTMessageCount != null) {
+                    if (user.chatGPTMessageCount! > 20) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(32),
+                                border: Border.all(),
+                              ),
+                              child: TextFormField(
+                                controller: _messageTextController,
+                                decoration: const InputDecoration(
+                                  hintText: '궁금한게 있어요.',
+                                  border: InputBorder.none,
+                                ),
+                                validator: (value) {
+                                  if (value == null ||
+                                      value.isEmpty ||
+                                      value == "") {
+                                    return '궁금한 점을 입력해주세요.';
+                                  } else if (value.length > 200) {
+                                    return '내용이 너무 길어요';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            iconSize: 42,
+                            icon: isLoading
+                                ? const CircularProgressIndicator()
+                                : const Icon(Icons.sick_outlined),
+                            onPressed: () async {
+                              showSnackBar(context, "현재 고객센터 사용이 불가합니다.");
+                            },
+                          ),
+                        ],
+                      );
+                    }
+                  }
+                  return Dismissible(
+                    key: const Key('chatgpt'),
+                    direction: DismissDirection.startToEnd,
+                    onDismissed: (direction) {
+                      if (direction == DismissDirection.startToEnd) {
+                        //
+                      }
+                    },
+                    background: const Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [Text("새로운 채팅")],
+                    ),
+                    confirmDismiss: (direction) async {
+                      if (direction == DismissDirection.startToEnd) {
+                        //
+                      }
+                      return null;
+                    },
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(32),
+                              border: Border.all(),
+                            ),
+                            child: TextFormField(
+                              controller: _messageTextController,
+                              decoration: const InputDecoration(
+                                hintText: '궁금한게 있어요.',
+                                border: InputBorder.none,
+                              ),
+                              validator: (value) {
+                                if (value == null ||
+                                    value.isEmpty ||
+                                    value == "") {
+                                  return '궁금한 점을 입력해주세요.';
+                                } else if (value.length > 200) {
+                                  return '내용이 너무 길어요';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          iconSize: 42,
+                          icon: isLoading
+                              ? const CircularProgressIndicator()
+                              : const Icon(Icons.arrow_circle_up),
+                          onPressed: () async {
+                            if (_messageTextController.text.isEmpty ||
+                                isLoading) return;
+
+                            setState(() {
+                              isLoading = true; // Set the loading state to true
+                              _historyList.add(ChatGPTMessageModel(
+                                role: "user",
+                                content: _messageTextController.text.trim(),
+                              ));
+                              _historyList.add(ChatGPTMessageModel(
+                                  role: "assistant", content: ""));
+                              logger.d(_historyList);
+                            });
+
+                            try {
+                              messageText = _messageTextController.text.trim();
+                              _messageTextController.clear();
+
+                              if (user.chatGPTMessageCount != null) {
+                                ref
+                                    .watch(profileControllerProvider.notifier)
+                                    .updateGPTCount();
+                                if (user.chatGPTMessageCount! < 20) {
+                                  await requestChat(messageText);
+                                } else {
+                                  showSnackBar(context, "현재 고객센터 사용이 불가합니다.");
+                                }
+                              } else {
+                                ref
+                                    .watch(profileControllerProvider.notifier)
+                                    .createGPTCount();
+                              }
+
+                              streamText = "";
+                            } catch (e) {
+                              print(e);
+                            } finally {
+                              setState(() {
+                                // isLoading = false; // Set the loading state back to false
+                              });
+                            }
+                            _messageTextController.clear();
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                loading: () => const CircularProgressIndicator(),
+                error: (error, stackTrace) => Text('Error: $error'),
               );
             },
-          )
-              //  Container(
-              //     child: ListView.builder(
-              //   itemCount: 10,
-              //   itemBuilder: (context, index) {
-              //     if (index % 2 == 0) {
-              //       return Row(
-              //         children: [
-              //           const CircleAvatar(),
-              //           10.widthBox,
-              //           const Expanded(
-              //             child: Column(
-              //               crossAxisAlignment: CrossAxisAlignment.start,
-              //               children: [
-              //                 Text("일어나곰"),
-              //                 Text("안녕하세요. 일어나곰입니다."),
-              //               ],
-              //             ),
-              //           )
-              //         ],
-              //       ).pSymmetric(v: 16);
-              //     }
-              //     return Row(children: [
-              //       const Expanded(
-              //         child: Column(
-              //           crossAxisAlignment: CrossAxisAlignment.end,
-              //           children: [
-              //             Text("사용자"),
-              //             Text("모시모시 OpenAI OpenAI"),
-              //           ],
-              //         ),
-              //       ),
-              //       10.widthBox,
-              //       const CircleAvatar(),
-              //     ]).pSymmetric(v: 16);
-              //   },
-              // )),
-              ),
-          Dismissible(
-            key: const Key('chatgpt'),
-            direction: DismissDirection.startToEnd,
-            onDismissed: (direction) {
-              if (direction == DismissDirection.startToEnd) {
-                //
-              }
-            },
-            background: const Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [Text("새로운 채팅")]),
-            confirmDismiss: (direction) async {
-              if (direction == DismissDirection.startToEnd) {
-                //
-              }
-              return null;
-            },
-            child: Row(children: [
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(32),
-                    border: Border.all(),
-                  ),
-                  child: TextFormField(
-                    controller: _messageTextController,
-                    decoration: const InputDecoration(
-                      hintText: '궁금한게 있어요.',
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-              ),
-              IconButton(
-                  iconSize: 42,
-                  icon: const Icon(Icons.arrow_circle_up),
-                  onPressed: () async {
-                    if (_messageTextController.text.isEmpty) return;
-                    setState(() {
-                      _historyList.add(ChatGPTMessageModel(
-                          role: "user",
-                          content: _messageTextController.text.trim()));
-                      //일어나곰은 커플을 위한 알람앱입니다. 커플의 진정한 소통을 위해 기능을 추천해주고 마케팅 방법을 알려주세요. 이 앱을 SNS에 광고하며 인플루언서가 되는 방법을 알려주세요
-                      _historyList.add(
-                          ChatGPTMessageModel(role: "assistant", content: ""));
-                    });
-
-                    try {
-                      await requestChat(_messageTextController.text.trim());
-                      _messageTextController.clear();
-                      streamText = "";
-                    } catch (e) {
-                      print(e);
-                    }
-                  }),
-            ]),
           )
         ]).p(16),
       ),

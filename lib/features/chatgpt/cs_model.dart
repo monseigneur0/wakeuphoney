@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 
 class ChatGPTMessageModel {
@@ -66,7 +64,9 @@ class ChatGPTMessageModel {
 class ChatCompletionModel {
   late String model;
   late List<ChatGPTMessageModel> messages;
+  final int maxTokens = 250;
   late bool stream;
+
   ChatCompletionModel({
     required this.model,
     required this.messages,
@@ -89,6 +89,7 @@ class ChatCompletionModel {
     return <String, dynamic>{
       'model': model,
       'messages': messages.map((x) => x.toMap()).toList(),
+      'max_tokes': maxTokens,
       'stream': stream,
     };
   }
@@ -109,6 +110,7 @@ class ChatCompletionModel {
     final data = <String, dynamic>{};
     data['model'] = model;
     data['messages'] = messages.map((e) => e.toJson()).toList();
+    data['max_tokens'] = maxTokens;
     data['stream'] = stream;
     return data;
   }

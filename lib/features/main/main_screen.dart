@@ -52,7 +52,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Widget build(BuildContext context) {
     final analytics = ref.watch(analyticsProvider);
     final hasCoupleId = ref.watch(getUserProfileStreamProvider);
-
+    hasCoupleId.whenData((value) {
+      if (value.chatGPTMessageCount == null) {
+        ref.read(profileControllerProvider.notifier).createGPTCount();
+      }
+    });
     // return hasCoupleId.when(
     // data: (data) => data.couple != ""
 

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/features/auth/user_model.dart';
+import 'package:wakeuphoney/features/chatgpt/cs_model.dart';
 import 'package:wakeuphoney/features/profile/profile_repo.dart';
 
 import '../../core/providers/firebase_providers.dart';
@@ -32,12 +33,6 @@ final coupleIdProvider = StateProvider((ref) {
 
 final coupleIdStateProvider = StateProvider<String>((ref) {
   String gogogo = ref.watch(profileControllerProvider.notifier).getCoupleUid();
-  return gogogo;
-});
-
-final coupleIdFutureProvider = FutureProvider((ref) {
-  var gogogo =
-      ref.watch(profileControllerProvider.notifier).getCoupleUiFuture();
   return gogogo;
 });
 
@@ -93,14 +88,6 @@ class ProfileController extends StateNotifier<bool> {
     return ghghgh;
   }
 
-  getCoupleUiFuture() {
-    User? auser = _ref.watch(authProvider).currentUser;
-    String uid;
-    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
-    var ghghgh = _profileRepo.getCoupleUidFuture(uid);
-    return ghghgh;
-  }
-
   getCoupleUidWow() {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
@@ -142,5 +129,26 @@ class ProfileController extends StateNotifier<bool> {
         ? coupleUid = coupleUidValue.couple
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
     await _profileRepo.updateProfileImage(uid, coupleUid, url);
+  }
+
+  updateGPTCount() {
+    User? user = _ref.watch(authProvider).currentUser;
+    String uid;
+    user != null ? uid = user.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    _profileRepo.updateGPTCount(uid);
+  }
+
+  createGPTCount() {
+    User? user = _ref.watch(authProvider).currentUser;
+    String uid;
+    user != null ? uid = user.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    _profileRepo.createGPTCount(uid);
+  }
+
+  updateGPTMessages(ChatCompletionModel chatCompletionModel) {
+    User? user = _ref.watch(authProvider).currentUser;
+    String uid;
+    user != null ? uid = user.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    _profileRepo.updateGPTMessages(uid, chatCompletionModel);
   }
 }

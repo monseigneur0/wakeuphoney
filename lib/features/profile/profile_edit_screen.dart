@@ -8,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wakeuphoney/core/utils.dart';
+import 'package:wakeuphoney/features/chatgpt/cs_screen.dart';
 import 'package:wakeuphoney/features/image/image_screen.dart';
 
 import '../../core/common/loader.dart';
@@ -174,27 +175,27 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   const SizedBox(
                     height: 5,
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.white,
-                    child: const Row(
-                      children: [
-                        SizedBox(
-                          width: 20,
-                          height: 40,
-                        ),
-                        Text("위치", style: TextStyle(fontSize: 18)),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                    child: Text(
-                      "입력하신 위치는 날씨 정보 제공을 위해 사용됩니다.",
-                      style: TextStyle(color: Colors.grey[700]),
-                    ),
-                  ),
+                  // Container(
+                  //   width: MediaQuery.of(context).size.width,
+                  //   color: Colors.white,
+                  //   child: const Row(
+                  //     children: [
+                  //       SizedBox(
+                  //         width: 20,
+                  //         height: 40,
+                  //       ),
+                  //       Text("위치", style: TextStyle(fontSize: 18)),
+                  //     ],
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding:
+                  //       const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                  //   child: Text(
+                  //     "입력하신 위치는 날씨 정보 제공을 위해 사용됩니다.",
+                  //     style: TextStyle(color: Colors.grey[700]),
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 40,
                   ),
@@ -264,6 +265,26 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   ),
                   const SizedBox(
                     height: 40,
+                  ),
+                  GestureDetector(
+                    onTap: () =>
+                        context.pushNamed(CustomerServiceScreen.routeName),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.white,
+                      child: const Row(
+                        children: [
+                          SizedBox(
+                            width: 20,
+                            height: 40,
+                          ),
+                          Text("고객센터", style: TextStyle(fontSize: 18)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
                   ),
                   GestureDetector(
                     onTap: () => launchUrlString("https://sweetgom.com/5"),

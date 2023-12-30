@@ -11,6 +11,7 @@ import 'package:wakeuphoney/features/profile/profile_edit_screen.dart';
 import 'features/alarm/alarm_ring_screen.dart';
 import 'features/auth/auth_repository.dart';
 import 'features/auth/login_email_screen.dart';
+import 'features/chatgpt/cs_screen.dart';
 import 'features/dailymessages/daily_create_screen.dart';
 import 'features/dailymessages/daily_letter_screen.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
@@ -184,6 +185,11 @@ final routerProvider = Provider((ref) {
         name: ProfileEditScreen.routeName,
         path: ProfileEditScreen.routeURL,
         builder: (context, state) => const ProfileEditScreen(),
+      ),
+      GoRoute(
+        name: CustomerServiceScreen.routeName,
+        path: CustomerServiceScreen.routeURL,
+        builder: (context, state) => const CustomerServiceScreen(),
       ),
       GoRoute(
         name: ImageScreen.routeName,

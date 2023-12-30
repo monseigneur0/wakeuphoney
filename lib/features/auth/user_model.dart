@@ -17,6 +17,8 @@ class UserModel {
   final DateTime creationTime;
   final DateTime lastSignInTime;
   final bool isLoggedIn;
+
+  final int? chatGPTMessageCount;
   UserModel({
     required this.displayName,
     required this.email,
@@ -29,6 +31,7 @@ class UserModel {
     required this.creationTime,
     required this.lastSignInTime,
     required this.isLoggedIn,
+    this.chatGPTMessageCount,
   });
 
   UserModel copyWith({
@@ -73,6 +76,7 @@ class UserModel {
       'creationTime': creationTime,
       'lastSignInTime': lastSignInTime,
       'isLoggedIn': isLoggedIn,
+      'chatGPTMessageCount': chatGPTMessageCount,
     };
   }
 
@@ -93,6 +97,7 @@ class UserModel {
       creationTime: (map['creationTime']).toDate(),
       lastSignInTime: (map['lastSignInTime']).toDate(),
       isLoggedIn: map['isLoggedIn'] as bool,
+      chatGPTMessageCount: map['chatGPTMessageCount'] as int,
     );
   }
 
