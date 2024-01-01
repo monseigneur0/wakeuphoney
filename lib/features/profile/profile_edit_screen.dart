@@ -184,18 +184,28 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   const SizedBox(
                     height: 5,
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.white,
-                    child: Row(
-                      children: [
-                        const SizedBox(
-                          width: 20,
-                          height: 40,
-                        ),
-                        Text(user.displayName,
-                            style: const TextStyle(fontSize: 18)),
-                      ],
+                  GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return const Text("wo");
+                        },
+                      );
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.white,
+                      child: Row(
+                        children: [
+                          const SizedBox(
+                            width: 20,
+                            height: 40,
+                          ),
+                          Text(user.displayName,
+                              style: const TextStyle(fontSize: 18)),
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(

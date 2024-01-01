@@ -53,24 +53,40 @@ class MatchController extends StateNotifier<bool> {
     return currentCode;
   }
 
-  Stream<MatchModel> checkMatchProcess(int honeyCode) {
-    logger.d("checkMatchProcess");
-    Stream<MatchModel> matched = _matchRepository.checkMatchProcess(honeyCode);
-    matched.asyncMap(
-        (event) => _ref.watch(coupleIdProvider.notifier).state = event.uid);
-    return matched;
+  Stream<MatchModel> checkMatchProcess(int honeyCode) async* {
+    try {
+      logger.d("checkMatchProcess");
+      Stream<MatchModel> matched =
+          _matchRepository.checkMatchProcess(honeyCode);
+      matched.asyncMap(
+          (event) => _ref.watch(coupleIdProvider.notifier).state = event.uid);
+      logger.d("matched.toString()${matched.toString()}");
+      final coupleIdMatchModel = await matched.first;
+      logger.d("coupleIdMatchModel : $coupleIdMatchModel");
+      yield coupleIdMatchModel;
+    } catch (e) {
+      logger.d("checkMatchProcess error : $e");
+    }
   }
 
   void matchCoupleIdProcessDone(String coupleId) async {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    logger.d("await _matchRepository.deleteMatches(uid);");
     await _matchRepository.deleteMatches(uid);
+    logger.d("await _matchRepository.deleteMatches(uid); @@@@@@@@");
     if (uid == coupleId) {
       print("wtf");
       return null;
     }
-    final couple = _matchRepository.getUser(coupleId);
+    logger.d("coupleID : $coupleId");
+    var couple = await _matchRepository.getUser(coupleId);
+    logger.d("couple@@@@@@@@@ : $couple");
+    if (couple == null) {
+      logger.d("couple is null");
+      return null;
+    }
     // await _matchRepository.matchCoupleIdProcessDone(
     //     uid,
     //     _ref.watch(getMatchedCoupleIdProvider(honeycode)).toString(),
@@ -78,13 +94,20 @@ class MatchController extends StateNotifier<bool> {
     // String coupleId = _ref.watch(coupleIdProvider.notifier).toString();
     // String coupleId = _ref.watch(checkMatchProcessProvider(honeycode)).whenData((value) => value.uid);
 
-    couple.then((value) async =>
-        await _matchRepository.matchCoupleIdProcessDone(
-            uid,
-            auser!.displayName ?? "",
-            auser.photoURL ?? "",
-            coupleId,
-            value!.coupleDisplayName ?? "",
-            value.couplePhotoURL ?? ""));
+    await _matchRepository.getUser(coupleId).then((value) async {
+      if (value == null) {
+        logger.d("_matchRepository.getUser(coupleId). value is null");
+        return null;
+      }
+      logger.d("couple : $value");
+      logger.d("couple : ${value.uid}");
+      await _matchRepository.matchCoupleIdProcessDone(
+          uid,
+          auser!.displayName ?? "",
+          auser.photoURL ?? "",
+          coupleId,
+          value.displayName,
+          value.photoURL);
+    });
   }
 }

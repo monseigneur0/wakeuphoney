@@ -78,6 +78,12 @@ class AuthRepository {
         birthDate: DateTime.now(),
         location: const GeoPoint(0, 0),
         wakeUpTime: DateTime.now(),
+        coupleDisplayName: "",
+        couplePhotoURL: "",
+        coupleGender: "",
+        coupleBirthDate: DateTime.now(),
+        coupleLocation: const GeoPoint(0, 0),
+        coupleWakeUpTime: DateTime.now(),
       );
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("uid", userCredential.user!.uid);
@@ -141,6 +147,12 @@ class AuthRepository {
           birthDate: DateTime.now(),
           location: const GeoPoint(0, 0),
           wakeUpTime: DateTime.now(),
+          coupleDisplayName: "",
+          couplePhotoURL: "",
+          coupleGender: "",
+          coupleBirthDate: DateTime.now(),
+          coupleLocation: const GeoPoint(0, 0),
+          coupleWakeUpTime: DateTime.now(),
         );
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("uid", userCredential.user!.uid);
@@ -181,6 +193,8 @@ class AuthRepository {
     await _firebaseAuth.signOut();
     await _googleSignIn.signOut();
     isLoggedIn;
+    await _firestore.terminate();
+    await _firestore.clearPersistence();
   }
 
   void deleteUser() {

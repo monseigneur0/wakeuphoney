@@ -212,7 +212,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
               alignment: Alignment.bottomCenter,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height > 800 ? 150 : 100,
+                height: MediaQuery.of(context).size.height > 800 ? 100 : 80,
                 child: AdWidget(ad: _bannerAd!),
               ),
             ),
@@ -292,9 +292,11 @@ class ProfileImage extends StatelessWidget {
         ),
         userCoupleProfileStream.when(
           data: (data) => Text(
-            data.displayName,
+            data.displayName.length < 8
+                ? data.displayName
+                : "${data.displayName.substring(0, 8)}..",
             style: const TextStyle(
-              fontSize: 30,
+              fontSize: 24,
               color: Colors.black,
             ),
           ),

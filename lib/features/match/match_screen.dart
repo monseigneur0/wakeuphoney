@@ -278,7 +278,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                                             .watch(
                                                 matchConrollerProvider.notifier)
                                             .matchCoupleIdProcessDone(data.uid);
-                                        logger.d(data.uid);
+                                        logger.d("data.uid${data.uid}");
                                         // PEaTihL8yRdGEknlFfQ9F7XdoUt2 apple
                                         _honeyCodeController.clear();
                                         showSnackBar(context, "inviteed");

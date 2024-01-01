@@ -24,24 +24,45 @@ class MatchRepository {
   var logger = Logger();
 
   Future matchStartProcess(String uid, int vertifyNumber) async {
-    await _matches.add({
-      "uid": uid,
-      "vertifynumber": vertifyNumber,
-      "time": DateTime.now(),
-    });
+    //삭제
+    await _matches
+        .where("uid", isEqualTo: uid)
+        .get()
+        .then((value) => value.docs.forEach((element) {
+              _matches.doc(element.id).delete();
+              logger.d(element.id);
+            }))
+        .then((value) => _matches.add({
+              "uid": uid,
+              "vertifynumber": vertifyNumber,
+              "time": DateTime.now(),
+            }));
+    // await _matches.add({
+    //   "uid": uid,
+    //   "vertifynumber": vertifyNumber,
+    //   "time": DateTime.now(),
+    // });
   }
 
   Future<UserModel?> getUser(String uid) async {
+    UserModel? wow;
     try {
       await _users.doc(uid).get().then((event) {
         if (event.exists) {
-          return UserModel.fromMap(event.data() as Map<String, dynamic>);
+          logger.d("getUser: @@@@@ ${event.id}");
+          logger.d("getUser: @@@@@!!!!!!!!!!!!!!!!! $event");
+          wow = UserModel.fromMap(event.data() as Map<String, dynamic>);
+          logger.d("getUser: @@@@@ $wow");
+          logger.d("getUser: @@@@@ ${wow!.uid}");
+          return wow;
         }
       });
     } catch (e) {
       logger.d(e.toString());
     }
-    return null;
+    logger.d("Future<UserModel?> getUser 이건 아니겠지~~~~$wow");
+    ///// wht whwy=wwaefawefawefoawef
+    return wow;
   }
 
   Stream<MatchModel> checkMatchProcess(int honeyCode) {
@@ -89,6 +110,7 @@ class MatchRepository {
     String couplePhotoURL,
   ) async {
     //나한테 상대 아이디 등록
+    logger.d("start matchCoupleIdProcessDone");
     await _users.doc(uid).update({
       "couples": [
         ...{coupleId},
@@ -107,6 +129,7 @@ class MatchRepository {
       "coupleDisplayName": name,
       "couplePhotoURL": photoURL,
     });
+    logger.d("matchCoupleIdProcessDone");
 
     //삭제
     await _matches

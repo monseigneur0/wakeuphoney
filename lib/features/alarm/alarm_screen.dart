@@ -125,14 +125,14 @@ class AlarmHomeState extends State<AlarmHome> {
               color: AppColors.myPink,
             ),
           ),
-          IconButton(
-            onPressed: () => context.pushNamed(AlarmNewScreen.routeName),
-            icon: const ImageIcon(
-              AssetImage('assets/alarm-clock.png'),
-              size: 29,
-              color: AppColors.myPink,
-            ),
-          )
+          // IconButton(
+          //   onPressed: () => context.pushNamed(AlarmNewScreen.routeName),
+          //   icon: const ImageIcon(
+          //     AssetImage('assets/alarm-clock.png'),
+          //     size: 29,
+          //     color: AppColors.myPink,
+          //   ),
+          // )
         ],
       ),
       body: Column(
@@ -178,30 +178,30 @@ class AlarmHomeState extends State<AlarmHome> {
               alignment: Alignment.bottomCenter,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height > 800 ? 150 : 100,
+                height: MediaQuery.of(context).size.height > 800 ? 100 : 80,
                 child: AdWidget(ad: _bannerAd!),
               ),
             ),
         ],
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 100, right: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            ExampleAlarmHomeShortcutButton(refreshAlarms: loadAlarms),
-            // FloatingActionButton(
-            //   onPressed: () => navigateToAlarmScreen(null),
-            //   backgroundColor: AppColors.myPink,
-            //   child: const ImageIcon(
-            //     AssetImage('assets/alarm-clock.png'),
-            //     size: 29,
-            //   ),
-            // ),
-          ],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: Padding(
+      //   padding: const EdgeInsets.only(bottom: 100, right: 10),
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.end,
+      //     children: [
+      //       ExampleAlarmHomeShortcutButton(refreshAlarms: loadAlarms),
+      //       // FloatingActionButton(
+      //       //   onPressed: () => navigateToAlarmScreen(null),
+      //       //   backgroundColor: AppColors.myPink,
+      //       //   child: const ImageIcon(
+      //       //     AssetImage('assets/alarm-clock.png'),
+      //       //     size: 29,
+      //       //   ),
+      //       // ),
+      //     ],
+      //   ),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

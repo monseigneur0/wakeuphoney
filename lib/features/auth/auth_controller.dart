@@ -101,5 +101,11 @@ class AuthController extends AsyncNotifier<void> {
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     _authRepository.brokeup(uid);
+    final coupleUidValue = ref.watch(getUserDataProvider(uid)).value;
+    String coupleUid;
+    coupleUidValue != null
+        ? coupleUid = coupleUidValue.couple!
+        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+    _authRepository.brokeup(coupleUid);
   }
 }

@@ -51,6 +51,14 @@ class _LetterFeed4ScreenState extends ConsumerState<LetterFeed4Screen> {
       body: userInfo.when(data: (user) {
         return lettersList.when(
             data: (letters) {
+              if (letters.isEmpty) {
+                return const Center(
+                  child: Text(
+                    "편지가 없어요",
+                    style: TextStyle(fontSize: 30),
+                  ),
+                );
+              }
               return ListView.builder(
                 itemCount: letters.length,
                 controller: _scrollController,
