@@ -123,7 +123,7 @@ class _LetterScreenState extends ConsumerState<LetterScreen> {
       ),
       body: userInfo.when(
         data: (user) {
-          return user.couples.isEmpty
+          return user.couple!.isEmpty
               ? const Center(
                   child: Text(
                     "프로필 페이지에서 상대를 초대해주세요.",

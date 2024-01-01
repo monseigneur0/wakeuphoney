@@ -9,6 +9,8 @@ import 'package:wakeuphoney/features/chatgpt/cs_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 
+import '../../core/providers/firebase_providers.dart';
+
 class CustomerServiceScreen extends ConsumerStatefulWidget {
   static const routeName = "customerservice";
   static const routeURL = "/customerservice";
@@ -357,6 +359,11 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
                               }
 
                               streamText = "";
+                              final analytics = ref.watch(analyticsProvider);
+                              analytics
+                                  .logEvent(name: "use chatgpt", parameters: {
+                                "message": messageText,
+                              });
                             } catch (e) {
                               print(e);
                             } finally {

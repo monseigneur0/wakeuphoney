@@ -33,6 +33,21 @@ class DailyRepository {
             .first);
   }
 
+  Stream<DailyMessageModel> getDailyMessageCondition(
+      String uid, DateTime date) {
+    return _usersCollection
+        .doc(uid)
+        .collection("letters")
+        .where("letterTime",
+            isEqualTo: DateTime(date.year, date.month, date.day, 9, 0, 0, 0))
+        .limit(1)
+        .snapshots()
+        .map((event) => event.docs
+            .map((e) => DailyMessageModel.fromMap(e.data()))
+            .toList()
+            .first);
+  }
+
   FutureVoid createDailyMessage(
       DailyMessageModel dailyMessageModel, String uid) async {
     try {

@@ -65,7 +65,7 @@ class _CoupleLetterScreenState extends ConsumerState<CoupleLetterScreen> {
     final coupleUidValue = ref.watch(getUserDataProvider(uid)).value;
     String coupleUid;
     coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple
+        ? coupleUid = coupleUidValue.couple!
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);

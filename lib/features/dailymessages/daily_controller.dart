@@ -23,6 +23,10 @@ final getDailyCoupleMessageProvider = StreamProvider.family((ref, String date) {
   final dailyController = ref.watch(dailyControllerProvider.notifier);
   return dailyController.getDailyCoupleMessage(date);
 });
+final getDailyCoupleMessageConditionProvider = StreamProvider((ref) {
+  final dailyController = ref.watch(dailyControllerProvider.notifier);
+  return dailyController.getDailyCoupleMessageCondition();
+});
 
 final getDailyMessageListProvider = StreamProvider((ref) {
   final dailyController = ref.watch(dailyControllerProvider.notifier);
@@ -67,10 +71,18 @@ class DailyController extends StateNotifier<bool> {
     final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
     String coupleUid;
     coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple
+        ? coupleUid = coupleUidValue.couple!
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
     return _dailyRepository.getDailyMessage(uid, date, "messages");
+  }
+
+  Stream<DailyMessageModel> getDailyCoupleMessageCondition() {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+
+    return _dailyRepository.getDailyMessageCondition(uid, DateTime.now());
   }
 
   //23.11.30
@@ -106,7 +118,7 @@ class DailyController extends StateNotifier<bool> {
     final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
     String coupleUid = "";
     coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple
+        ? coupleUid = coupleUidValue.couple!
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
     //그냥 uid 에서 커플꺼로 바꿈
     return _dailyRepository.getDailyMessageHistoryList(coupleUid);
@@ -154,7 +166,7 @@ class DailyController extends StateNotifier<bool> {
     final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
     String coupleUid;
     coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple
+        ? coupleUid = coupleUidValue.couple!
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
     DailyMessageModel messagehere = DailyMessageModel(
@@ -205,7 +217,7 @@ class DailyController extends StateNotifier<bool> {
     final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
     String coupleUid;
     coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple
+        ? coupleUid = coupleUidValue.couple!
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
     DailyMessageModel messagehere = DailyMessageModel(

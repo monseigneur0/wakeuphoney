@@ -26,9 +26,11 @@ class _AlarmNewScreen extends ConsumerState<AlarmNewScreen> {
   @override
   Widget build(BuildContext context) {
     final dateList100 = ref.watch(dateStateProvider);
+    final hasCoupleId = ref.watch(getUserProfileStreamProvider);
     final getCoupleMessage =
         ref.watch(getDailyCoupleMessageProvider(dateList100[0]));
-    final hasCoupleId = ref.watch(getUserProfileStreamProvider);
+    final getCoupleMessageCondition =
+        ref.watch(getDailyCoupleMessageConditionProvider);
 
     return Scaffold(
       body: SafeArea(

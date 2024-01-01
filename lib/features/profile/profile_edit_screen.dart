@@ -1,12 +1,16 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:velocity_x/velocity_x.dart';
 import 'package:wakeuphoney/core/utils.dart';
 import 'package:wakeuphoney/features/chatgpt/cs_screen.dart';
 import 'package:wakeuphoney/features/image/image_screen.dart';
@@ -42,6 +46,60 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
         profileImageFile = File(profileImagePicked.path);
       });
     }
+  }
+
+  late TimeOfDay selectedTime;
+  late Time _time;
+
+  void onTimeChanged(Time newTime) {
+    setState(() {
+      _time = newTime;
+    });
+  }
+
+  Future<void> pickTime() async {
+    _time = Time(hour: 5, minute: 0);
+    final res = await Navigator.of(context).push(showPicker(
+      showSecondSelector: false,
+      context: context,
+      value: _time,
+      onChange: onTimeChanged,
+      minuteInterval: TimePickerInterval.ONE,
+      iosStylePicker: true,
+      minHour: 0,
+      maxHour: 23,
+      is24HrFormat: true,
+      width: 360,
+      // dialogInsetPadding:
+      //     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 24.0),
+      hourLabel: ':',
+      minuteLabel: ' ',
+      // Optional onChange to receive value as DateTime
+      onChangeDateTime: (DateTime dateTime) {
+        // logger.d(dateTime);
+        logger.d("[debug datetime]:  $dateTime");
+      },
+    ));
+    logger.d(_time);
+    ref
+        .watch(profileControllerProvider.notifier)
+        .updateWakeUpTime(DateTime(2021, 1, 1, _time.hour, _time.minute));
+
+    //     showTimePicker(
+    //   initialTime: selectedTime,
+    //   context: context,
+    // );
+    if (res != null) {
+      setState(() {
+        selectedTime = _time.toTimeOfDay();
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    selectedTime = TimeOfDay.now();
   }
 
   @override
@@ -143,33 +201,104 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   const SizedBox(
                     height: 40,
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.white,
-                    child: const Row(
-                      children: [
-                        SizedBox(
-                          width: 20,
-                          height: 40,
-                        ),
-                        Text("생일", style: TextStyle(fontSize: 18)),
-                      ],
+                  GestureDetector(
+                    onTap: () {
+                      showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime.now(),
+                      ).then((value) {
+                        if (value != null) {
+                          ref
+                              .read(profileControllerProvider.notifier)
+                              .updateBirthday(value);
+                        }
+                      });
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.white,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("생일", style: TextStyle(fontSize: 18)),
+                          Text(
+                              DateFormat("yyyy년 MM월 dd일")
+                                  .format(user.birthDate),
+                              style: TextStyle(
+                                  fontSize: 18, color: Colors.grey[600])),
+                        ],
+                      ).pSymmetric(v: 8, h: 20),
                     ),
                   ),
                   const SizedBox(
                     height: 5,
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.white,
-                    child: const Row(
-                      children: [
-                        SizedBox(
-                          width: 20,
-                          height: 40,
-                        ),
-                        Text("성별", style: TextStyle(fontSize: 18)),
-                      ],
+                  GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                          backgroundColor: Colors.white,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Column(
+                              children: [
+                                20.heightBox,
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    ref
+                                        .read(
+                                            profileControllerProvider.notifier)
+                                        .updateGender(1);
+                                  },
+                                  child: Container(
+                                          color: Colors.white,
+                                          height: 60,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          child: const Center(
+                                              child: Text("남자",
+                                                  style:
+                                                      TextStyle(fontSize: 24))))
+                                      .pSymmetric(v: 10),
+                                ),
+                                10.heightBox,
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    ref
+                                        .read(
+                                            profileControllerProvider.notifier)
+                                        .updateGender(2);
+                                  },
+                                  child: Container(
+                                          color: Colors.white,
+                                          height: 60,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          child: const Center(
+                                                  child: Text("여자",
+                                                      style: TextStyle(
+                                                          fontSize: 24)))
+                                              .p(5))
+                                      .pSymmetric(v: 10),
+                                ),
+                              ],
+                            );
+                          });
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.white,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("성별", style: TextStyle(fontSize: 18)),
+                          Text(user.gender == "male" ? "남자" : "여자",
+                              style: const TextStyle(fontSize: 18)),
+                        ],
+                      ).pSymmetric(v: 8, h: 20),
                     ),
                   ),
                   const SizedBox(
@@ -263,6 +392,31 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                       ],
                     ),
                   ),
+                  10.heightBox,
+                  GestureDetector(
+                    onTap: () {
+                      pickTime();
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.white,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("편지 확인 가능 시간",
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                              )),
+                          Text(
+                              DateFormat("오전 hh시 mm분 이후")
+                                  .format(user.coupleWakeUpTime!),
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                              )),
+                        ],
+                      ).pSymmetric(v: 8, h: 20),
+                    ),
+                  ),
                   const SizedBox(
                     height: 40,
                   ),
@@ -324,7 +478,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text("1.0.17", style: TextStyle(fontSize: 18)),
+                            Text("1.0.19", style: TextStyle(fontSize: 18)),
                             SizedBox(width: 20, height: 40),
                           ],
                         ),

@@ -1,6 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class UserModel {
@@ -9,29 +9,47 @@ class UserModel {
   final String photoURL;
   final String uid;
 
-  final String couple;
-  final List couples;
+  final String gender;
+  final DateTime birthDate;
+  final GeoPoint location;
+  final DateTime wakeUpTime;
+
+  final String? couple;
+  final List? couples;
   final String? coupleDisplayName;
   final String? couplePhotoURL;
+
+  final String? coupleGender;
+  final DateTime? coupleBirthDate;
+  final GeoPoint? coupleLocation;
+  final DateTime? coupleWakeUpTime;
 
   final DateTime creationTime;
   final DateTime lastSignInTime;
   final bool isLoggedIn;
 
-  final int? chatGPTMessageCount;
+  final int chatGPTMessageCount;
   UserModel({
     required this.displayName,
     required this.email,
     required this.photoURL,
     required this.uid,
-    required this.couple,
-    required this.couples,
+    this.couple,
+    this.couples,
     this.coupleDisplayName,
     this.couplePhotoURL,
     required this.creationTime,
     required this.lastSignInTime,
     required this.isLoggedIn,
-    this.chatGPTMessageCount,
+    required this.chatGPTMessageCount,
+    required this.gender,
+    required this.birthDate,
+    required this.location,
+    required this.wakeUpTime,
+    this.coupleGender,
+    this.coupleBirthDate,
+    this.coupleLocation,
+    this.coupleWakeUpTime,
   });
 
   UserModel copyWith({
@@ -46,6 +64,15 @@ class UserModel {
     DateTime? creationTime,
     DateTime? lastSignInTime,
     bool? isLoggedIn,
+    int? chatGPTMessageCount,
+    String? gender,
+    DateTime? birthDate,
+    GeoPoint? location,
+    DateTime? wakeUpTime,
+    String? coupleGender,
+    DateTime? coupleBirthDate,
+    GeoPoint? coupleLocation,
+    DateTime? coupleWakeUpTime,
   }) {
     return UserModel(
       displayName: displayName ?? this.displayName,
@@ -59,6 +86,15 @@ class UserModel {
       creationTime: creationTime ?? this.creationTime,
       lastSignInTime: lastSignInTime ?? this.lastSignInTime,
       isLoggedIn: isLoggedIn ?? this.isLoggedIn,
+      chatGPTMessageCount: chatGPTMessageCount ?? this.chatGPTMessageCount,
+      gender: gender ?? this.gender,
+      birthDate: birthDate ?? this.birthDate,
+      location: location ?? this.location,
+      wakeUpTime: wakeUpTime ?? this.wakeUpTime,
+      coupleGender: coupleGender ?? this.coupleGender,
+      coupleBirthDate: coupleBirthDate ?? this.coupleBirthDate,
+      coupleLocation: coupleLocation ?? this.coupleLocation,
+      coupleWakeUpTime: coupleWakeUpTime ?? this.coupleWakeUpTime,
     );
   }
 
@@ -77,6 +113,14 @@ class UserModel {
       'lastSignInTime': lastSignInTime,
       'isLoggedIn': isLoggedIn,
       'chatGPTMessageCount': chatGPTMessageCount,
+      'gender': gender,
+      'birthDate': birthDate,
+      'location': location,
+      'wakeUpTime': wakeUpTime,
+      'coupleGender': coupleGender,
+      'coupleBirthDate': coupleBirthDate,
+      'coupleLocation': coupleLocation,
+      'coupleWakeUpTime': coupleWakeUpTime,
     };
   }
 
@@ -88,16 +132,20 @@ class UserModel {
       uid: map['uid'] as String,
       couple: map['couple'] as String,
       couples: List.from((map['couples'] as List)),
-      coupleDisplayName: map['coupleDisplayName'] != null
-          ? map['coupleDisplayName'] as String
-          : null,
-      couplePhotoURL: map['couplePhotoURL'] != null
-          ? map['couplePhotoURL'] as String
-          : null,
+      coupleDisplayName: map['coupleDisplayName'] as String,
+      couplePhotoURL: map['couplePhotoURL'] as String,
       creationTime: (map['creationTime']).toDate(),
       lastSignInTime: (map['lastSignInTime']).toDate(),
       isLoggedIn: map['isLoggedIn'] as bool,
       chatGPTMessageCount: map['chatGPTMessageCount'] as int,
+      gender: map['gender'] as String,
+      birthDate: map['birthDate'].toDate(),
+      location: map['location'] as GeoPoint,
+      wakeUpTime: map['wakeUpTime'].toDate(),
+      coupleGender: map['coupleGender'] as String,
+      coupleBirthDate: map['coupleBirthDate'].toDate(),
+      coupleLocation: map['coupleLocation'] as GeoPoint,
+      coupleWakeUpTime: map['coupleWakeUpTime'].toDate(),
     );
   }
 
@@ -105,11 +153,6 @@ class UserModel {
 
   factory UserModel.fromJson(String source) =>
       UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() {
-    return 'UserModel(displayName: $displayName, email: $email, photoURL: $photoURL, uid: $uid, couple: $couple, couples: $couples, coupleDisplayName: $coupleDisplayName, couplePhotoURL: $couplePhotoURL, creationTime: $creationTime, lastSignInTime: $lastSignInTime, isLoggedIn: $isLoggedIn)';
-  }
 
   @override
   bool operator ==(covariant UserModel other) {

@@ -34,7 +34,7 @@ class LetterController extends StateNotifier<bool> {
     final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
     String coupleUid;
     coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple
+        ? coupleUid = coupleUidValue.couple!
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
     LetterModel letterModel = LetterModel(
@@ -74,7 +74,7 @@ class LetterController extends StateNotifier<bool> {
     final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
     String coupleUid;
     coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple
+        ? coupleUid = coupleUidValue.couple!
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
     _letterRepository.letterEditMessage(uid, letterId, message);
@@ -89,7 +89,7 @@ class LetterController extends StateNotifier<bool> {
     final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
     String coupleUid;
     coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple
+        ? coupleUid = coupleUidValue.couple!
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
     _letterRepository.letterDelete(uid, letterId);

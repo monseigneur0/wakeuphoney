@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
+import 'package:wakeuphoney/features/profile/profile_controller.dart';
 
 import 'core/providers/providers.dart';
 import 'features/dailymessages/daily_letter_screen.dart';
@@ -79,6 +80,17 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                     backgroundColor: MaterialStatePropertyAll(Colors.blue)),
                 onPressed: () => context.pushNamed(MatchScreen.routeName),
                 child: const Text('MatchScreen'),
+              ),
+              ElevatedButton(
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.red)),
+                onPressed: () {
+                  ref.watch(profileControllerProvider.notifier).updateAllUser();
+                },
+                child: const Text(
+                  'UpdateAllUser',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
               ElevatedButton(
                 style: const ButtonStyle(

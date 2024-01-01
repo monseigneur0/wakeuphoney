@@ -73,7 +73,7 @@ class ProfileController extends StateNotifier<bool> {
     final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
     String coupleUid;
     coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple
+        ? coupleUid = coupleUidValue.couple!
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
     return _profileRepo.getUserProfileStream(coupleUid);
@@ -126,7 +126,7 @@ class ProfileController extends StateNotifier<bool> {
     final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
     String coupleUid;
     coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple
+        ? coupleUid = coupleUidValue.couple!
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
     await _profileRepo.updateProfileImage(uid, coupleUid, url);
   }
@@ -150,5 +150,34 @@ class ProfileController extends StateNotifier<bool> {
     String uid;
     user != null ? uid = user.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     _profileRepo.updateGPTMessages(uid, chatCompletionModel);
+  }
+
+  updateAllUser() {
+    _profileRepo.updateAllUser();
+  }
+
+  updateGender(int gender) {
+    User? user = _ref.watch(authProvider).currentUser;
+    String uid;
+    user != null ? uid = user.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    if (gender == 1) {
+      _profileRepo.updateGender(uid, "male");
+    } else {
+      _profileRepo.updateGender(uid, "female");
+    }
+  }
+
+  updateBirthday(DateTime birthday) {
+    User? user = _ref.watch(authProvider).currentUser;
+    String uid;
+    user != null ? uid = user.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    _profileRepo.updateBirthday(uid, birthday);
+  }
+
+  updateWakeUpTime(DateTime wakeUpTime) {
+    User? user = _ref.watch(authProvider).currentUser;
+    String uid;
+    user != null ? uid = user.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    _profileRepo.updateWakeUpTime(uid, wakeUpTime);
   }
 }

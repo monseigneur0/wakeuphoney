@@ -75,4 +75,35 @@ class ProfileRepo {
         .collection("chatGPTMessages")
         .add(chatCompletionModel.toMap());
   }
+
+  updateAllUser() {
+    _users.get().then((value) {
+      for (var docSnapshot in value.docs) {
+        _users.doc(docSnapshot.id).update({
+          // "chatGPTMessageCount": 0,
+          // "gender": "male",
+          // "birthDate": DateTime.now(),
+          // "location": const GeoPoint(37.4734153, 126.8301878),
+          // "wakeUpTime": DateTime.now(),
+          // "coupleGender": "male",
+          // "coupleBirthDate": DateTime.now(),
+          // "coupleLocation": const GeoPoint(37.4734153, 126.8301878),
+          // "coupleWakeUpTime": DateTime.now(),
+          "coupleWakeUpTime": DateTime(2020, 01, 01, 05, 00, 00),
+        });
+      }
+    });
+  }
+
+  updateGender(String uid, String gender) {
+    _users.doc(uid).update({"gender": gender});
+  }
+
+  updateBirthday(String uid, DateTime birthday) {
+    _users.doc(uid).update({"birthDate": birthday});
+  }
+
+  updateWakeUpTime(String uid, DateTime wakeUpTime) {
+    _users.doc(uid).update({"coupleWakeUpTime": wakeUpTime});
+  }
 }

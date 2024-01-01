@@ -74,6 +74,10 @@ class AuthRepository {
         lastSignInTime: DateTime.now(),
         isLoggedIn: true,
         chatGPTMessageCount: 0,
+        gender: "male",
+        birthDate: DateTime.now(),
+        location: const GeoPoint(0, 0),
+        wakeUpTime: DateTime.now(),
       );
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("uid", userCredential.user!.uid);
@@ -133,6 +137,10 @@ class AuthRepository {
           lastSignInTime: DateTime.now(),
           isLoggedIn: true,
           chatGPTMessageCount: 0,
+          gender: "male",
+          birthDate: DateTime.now(),
+          location: const GeoPoint(0, 0),
+          wakeUpTime: DateTime.now(),
         );
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("uid", userCredential.user!.uid);

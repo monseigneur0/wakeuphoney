@@ -109,7 +109,7 @@ class _DailyLetterScreenState extends ConsumerState<DailyLetterScreen> {
       ),
       backgroundColor: AppColors.myBackgroundPink,
       body: user.when(
-        data: (data) => data.couples.isEmpty
+        data: (data) => data.couples!.isEmpty
             ? const Center(
                 child: Text(
                   "프로필 페이지에서 상대를 초대해주세요.",
