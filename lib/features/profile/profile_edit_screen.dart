@@ -4,13 +4,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/core/utils.dart';
 import 'package:wakeuphoney/features/chatgpt/cs_screen.dart';
 import 'package:wakeuphoney/features/image/image_screen.dart';
@@ -35,9 +35,10 @@ class ProfileEditScreen extends ConsumerStatefulWidget {
 
 class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   Logger logger = Logger();
+  final _formKey = GlobalKey<FormState>();
+  final _textEditingController = TextEditingController();
 
   String imageUrl = "";
-  bool isLoading = false;
   File? profileImageFile;
   void selectProfileImage() async {
     final profileImagePicked = await selectGalleryImage();
@@ -84,6 +85,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
     ref
         .watch(profileControllerProvider.notifier)
         .updateWakeUpTime(DateTime(2021, 1, 1, _time.hour, _time.minute));
+    ref
+        .watch(analyticsProvider)
+        .logSelectContent(contentType: "time", itemId: "editwakeuptime");
 
     //     showTimePicker(
     //   initialTime: selectedTime,
@@ -105,6 +109,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   @override
   Widget build(BuildContext context) {
     final userProfile = ref.watch(getMyUserInfoProvider);
+    final analytics = ref.watch(analyticsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -123,6 +128,8 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   GestureDetector(
                     onTap: () {
                       context.pushNamed(ImageScreen.routeName);
+                      analytics.logSelectContent(
+                          contentType: 'image', itemId: 'profileimage');
                     },
                     child: Center(
                       child: Column(
@@ -186,10 +193,74 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
+                      _textEditingController.text = user.displayName;
                       showModalBottomSheet(
                         context: context,
+                        isScrollControlled: true,
                         builder: (context) {
-                          return const Text("wo");
+                          return Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Form(
+                                  key: _formKey,
+                                  child: TextFormField(
+                                    controller: _textEditingController,
+                                    autofocus: true,
+                                    textInputAction: TextInputAction.done,
+                                    onEditingComplete: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        ref
+                                            .read(profileControllerProvider
+                                                .notifier)
+                                            .updateDisplayName(
+                                                _textEditingController.text);
+
+                                        Navigator.pop(context);
+                                        _textEditingController.clear();
+                                        analytics.logSelectContent(
+                                            contentType: 'name',
+                                            itemId: 'editname');
+                                      }
+                                    },
+                                    decoration: const InputDecoration(
+                                      hintText: "변경할 이름을 적어주세요",
+                                    ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return '이름을 입력해주세요';
+                                      }
+                                      return null;
+                                    },
+                                  ).pOnly(
+                                      top: 10,
+                                      right: 10,
+                                      left: 10,
+                                      bottom: context.mq.viewInsets.bottom),
+                                ),
+                              ),
+                              IconButton(
+                                iconSize: 42,
+                                color: Colors.black,
+                                icon: const Icon(
+                                  Icons.arrow_circle_up,
+                                  color: Colors.black,
+                                ),
+                                onPressed: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    ref
+                                        .read(
+                                            profileControllerProvider.notifier)
+                                        .updateDisplayName(
+                                            _textEditingController.text);
+
+                                    Navigator.pop(context);
+                                    _textEditingController.clear();
+                                  }
+                                },
+                              ),
+                            ],
+                          );
                         },
                       );
                     },
@@ -223,6 +294,8 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                           ref
                               .read(profileControllerProvider.notifier)
                               .updateBirthday(value);
+                          analytics.logSelectContent(
+                              contentType: 'birthday', itemId: 'editbirthday');
                         }
                       });
                     },
@@ -261,6 +334,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                         .read(
                                             profileControllerProvider.notifier)
                                         .updateGender(1);
+                                    analytics.logSelectContent(
+                                        contentType: "gender",
+                                        itemId: "editgender");
                                   },
                                   child: Container(
                                           color: Colors.white,
@@ -431,8 +507,11 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     height: 40,
                   ),
                   GestureDetector(
-                    onTap: () =>
-                        context.pushNamed(CustomerServiceScreen.routeName),
+                    onTap: () {
+                      context.pushNamed(CustomerServiceScreen.routeName);
+                      analytics.logSelectContent(
+                          contentType: "go", itemId: "chatgptcs");
+                    },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       color: Colors.white,
@@ -451,7 +530,11 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     height: 5,
                   ),
                   GestureDetector(
-                    onTap: () => launchUrlString("https://sweetgom.com/5"),
+                    onTap: () {
+                      launchUrlString("https://sweetgom.com/5");
+                      analytics.logSelectContent(
+                          contentType: "go", itemId: "appinfoonline");
+                    },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       color: Colors.white,
@@ -499,7 +582,11 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     height: 5,
                   ),
                   GestureDetector(
-                    onTap: () => launchUrlString('https://sweetgom.com/4'),
+                    onTap: () {
+                      launchUrlString('https://sweetgom.com/4');
+                      analytics.logSelectContent(
+                          contentType: "go", itemId: "appinfopolicy");
+                    },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       color: Colors.white,
@@ -609,6 +696,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                       ref
                                           .watch(authRepositoryProvider)
                                           .logout();
+                                      analytics.logSelectContent(
+                                          contentType: "logout",
+                                          itemId: "logout");
                                     },
                                     isDestructiveAction: true,
                                     child:
@@ -643,6 +733,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                             .watch(authRepositoryProvider)
                                             .logout();
                                         Navigator.of(context).pop();
+                                        analytics.logSelectContent(
+                                            contentType: "logout",
+                                            itemId: "logout");
                                       },
                                       icon: const Icon(
                                         Icons.done,
@@ -694,6 +787,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                           .watch(
                                               authControllerProvider.notifier)
                                           .brokeup();
+                                      analytics.logSelectContent(
+                                          contentType: "breakup",
+                                          itemId: "breakup");
                                     },
                                     isDestructiveAction: true,
                                     child:
@@ -728,6 +824,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                                 authControllerProvider.notifier)
                                             .brokeup();
                                         Navigator.of(context).pop();
+                                        analytics.logSelectContent(
+                                            contentType: "breakup",
+                                            itemId: "breakup");
                                       },
                                       icon: const Icon(
                                         Icons.done,
@@ -780,6 +879,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                       ref
                                           .watch(authRepositoryProvider)
                                           .deleteUser();
+                                      analytics.logSelectContent(
+                                          contentType: "delete",
+                                          itemId: "delete");
                                     },
                                     isDestructiveAction: true,
                                     child:
@@ -814,6 +916,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                             .watch(authRepositoryProvider)
                                             .deleteUser();
                                         Navigator.of(context).pop();
+                                        analytics.logSelectContent(
+                                            contentType: "delete",
+                                            itemId: "delete");
                                       },
                                       icon: const Icon(
                                         Icons.done,

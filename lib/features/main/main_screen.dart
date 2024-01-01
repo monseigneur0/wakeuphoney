@@ -1,6 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/common/loader.dart';
@@ -35,7 +36,7 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  int _selectedIndex = 3;
+  int _selectedIndex = 0;
 
   Logger logger = Logger();
 
@@ -47,6 +48,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         'firebase_screen_class': index,
       },
     );
+    ref.watch(analyticsProvider).setCurrentScreen(
+          screenName: index.toString(),
+          screenClassOverride: index.toString(),
+        );
     HapticFeedback.lightImpact();
     setState(() {
       _selectedIndex = index;
@@ -57,9 +62,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Widget build(BuildContext context) {
     final analytics = ref.watch(analyticsProvider);
     final hasCoupleId = ref.watch(getUserProfileStreamProvider);
-    hasCoupleId.whenData((value) {
-      // ref.watch(profileControllerProvider.notifier).updateAllUser();
-    });
+    // hasCoupleId.whenData((value) {
+    //   ref.watch(profileControllerProvider.notifier).updateAllUser();
+    // });
+    // logger.d("update complete");
 
     // return hasCoupleId.when(
     // data: (data) => data.couple != ""
@@ -161,10 +167,18 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                     ),
                   );
           },
-          error: (error, _) {
+          error: (error, StackTrace) {
             logger.e(error);
-            return const Scaffold(
-                body: Center(child: Text('An error occurred')));
+            logger.e(StackTrace);
+
+            return Scaffold(
+                body: GestureDetector(
+                    onTap: () {
+                      ref
+                          .watch(authControllerProvider.notifier)
+                          .logout(context);
+                    },
+                    child: const Center(child: Text('An error occurred'))));
           },
           loading: () =>
               const Scaffold(body: Center(child: CircularProgressIndicator())),

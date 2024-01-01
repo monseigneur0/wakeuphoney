@@ -132,7 +132,7 @@ class AuthRepository {
 
       if (userCredential.additionalUserInfo!.isNewUser) {
         userModel = UserModel(
-          displayName: appleCredential.givenName ?? "Please restart app",
+          displayName: appleCredential.givenName ?? "닉네임",
           email: userCredential.user!.email ?? "noemail@hello.com",
           photoURL: userCredential.user!.photoURL ??
               "https://firebasestorage.googleapis.com/v0/b/wakeuphoneys2.appspot.com/o/images%2Fgoogleprofileimg.png?alt=media&token=76e62fad-11c3-4c66-ba8a-2400efbedb5a",

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/failure.dart';
 
 import '../../core/constants/firebase_constants.dart';
@@ -19,6 +20,7 @@ class DailyRepository {
   CollectionReference get _usersCollection =>
       _firestore.collection(FirebaseConstants.usersCollection);
 
+  Logger logger = Logger();
   Stream<DailyMessageModel> getDailyMessage(
       String uid, String date, String coupleUid) {
     return _usersCollection
@@ -167,5 +169,45 @@ class DailyRepository {
         .doc(coupleUid)
         .collection("messages")
         .add(messagehere.toMap());
+  }
+
+  updateResponseMessage(DailyMessageModel messagehere, String imageUrl,
+      String uid, String coupleUid) async {
+    try {
+      await _usersCollection
+          .doc(uid)
+          .collection(FirebaseConstants.lettersCollection)
+          .where("letterTime",
+              isEqualTo: DateTime(DateTime.now().year, DateTime.now().month,
+                  DateTime.now().day, 9, 0, 0, 0))
+          .get()
+          .then((value) => _usersCollection
+                  .doc(uid)
+                  .collection(FirebaseConstants.lettersCollection)
+                  .doc(value.docs.first.id)
+                  .update({
+                "answer": messagehere.message,
+                "answerPhoto": imageUrl,
+                "answerTime": DateTime.now()
+              }));
+      await _usersCollection
+          .doc(coupleUid)
+          .collection(FirebaseConstants.lettersCollection)
+          .where("letterTime",
+              isEqualTo: DateTime(DateTime.now().year, DateTime.now().month,
+                  DateTime.now().day, 9, 0, 0, 0))
+          .get()
+          .then((value) => _usersCollection
+                  .doc(coupleUid)
+                  .collection(FirebaseConstants.lettersCollection)
+                  .doc(value.docs.first.id)
+                  .update({
+                "answer": messagehere.message,
+                "answerPhoto": imageUrl,
+                "answerTime": DateTime.now()
+              }));
+    } catch (e) {
+      logger.e(e);
+    }
   }
 }

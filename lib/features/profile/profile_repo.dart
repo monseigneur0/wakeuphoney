@@ -89,7 +89,9 @@ class ProfileRepo {
           // "coupleBirthDate": DateTime.now(),
           // "coupleLocation": const GeoPoint(37.4734153, 126.8301878),
           // "coupleWakeUpTime": DateTime.now(),
-          "coupleWakeUpTime": DateTime(2020, 01, 01, 05, 00, 00),
+          // "coupleWakeUpTime": DateTime(2020, 01, 01, 05, 00, 00),
+          "coupleDisplayName": "n",
+          "couplePhotoURL": "n",
         });
       }
     });
@@ -105,5 +107,13 @@ class ProfileRepo {
 
   updateWakeUpTime(String uid, DateTime wakeUpTime) {
     _users.doc(uid).update({"coupleWakeUpTime": wakeUpTime});
+  }
+
+  updateDisplayName(String uid, String displayName) {
+    _users.doc(uid).update({"displayName": displayName});
+  }
+
+  updateCoupleDisplayName(String coupleUid, String displayName) {
+    _users.doc(coupleUid).update({"coupleDisplayName": displayName});
   }
 }

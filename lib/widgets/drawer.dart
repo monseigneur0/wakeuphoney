@@ -56,18 +56,18 @@ class ProfileDrawer extends StatelessWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          Text(
-            userprofile.when(
-              data: (data) => data.uid,
-              error: (error, stackTrace) {
-                logger.d("error$error  data.displayName drawer");
-                return "Try again";
-              },
-              loading: () => "Loading",
-            ),
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
+          // Text(
+          //   userprofile.when(
+          //     data: (data) => data.uid,
+          //     error: (error, stackTrace) {
+          //       logger.d("error$error  data.displayName drawer");
+          //       return "Try again";
+          //     },
+          //     loading: () => "Loading",
+          //   ),
+          //   textAlign: TextAlign.center,
+          //   style: const TextStyle(fontWeight: FontWeight.bold),
+          // ),
           const SizedBox(
             height: 30,
           ),

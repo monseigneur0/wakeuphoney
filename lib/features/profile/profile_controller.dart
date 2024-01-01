@@ -180,4 +180,17 @@ class ProfileController extends StateNotifier<bool> {
     user != null ? uid = user.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     _profileRepo.updateWakeUpTime(uid, wakeUpTime);
   }
+
+  updateDisplayName(String displayName) {
+    User? user = _ref.watch(authProvider).currentUser;
+    String uid;
+    user != null ? uid = user.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    _profileRepo.updateDisplayName(uid, displayName);
+    final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
+    String coupleUid;
+    coupleUidValue != null
+        ? coupleUid = coupleUidValue.couple!
+        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+    _profileRepo.updateCoupleDisplayName(coupleUid, displayName);
+  }
 }

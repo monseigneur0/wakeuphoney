@@ -78,7 +78,7 @@ class _LetterFeed4ScreenState extends ConsumerState<LetterFeed4Screen> {
                                   .text
                                   .size(20)
                                   .make()
-                                  .pSymmetric(h: 10),
+                                  .pSymmetric(h: 14),
                               Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
