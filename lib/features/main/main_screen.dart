@@ -81,7 +81,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         loading: (() => const Loader()),
       ),
       // const ProfileCoupleScreen(),
-      const CustomerServiceScreen(),
+      // const CustomerServiceScreen(),
     ];
     return isLoggedInStream.when(
       data: (user) {
@@ -135,10 +135,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                             icon: Icon(Icons.person_outline_rounded),
                             label: '프로필',
                           ),
-                          BottomNavigationBarItem(
-                            icon: Icon(Icons.phone_in_talk_outlined),
-                            label: '고객센터',
-                          ),
+                          // BottomNavigationBarItem(
+                          //   icon: Icon(Icons.phone_in_talk_outlined),
+                          //   label: '고객센터',
+                          // ),
                           // BottomNavigationBarItem(
                           //   icon: Icon(Icons.person_outline_rounded),
                           //   label: 'N Profile',
