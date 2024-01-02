@@ -102,17 +102,21 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
                                 Reference refDirImage = refRoot.child('images');
                                 Reference refImageToUpload =
                                     refDirImage.child(uniqueImageName);
-                                try {
-                                  //Store the file
-                                  await refImageToUpload
-                                      .putFile(File(letterImageFile!.path));
-                                  imageUrl =
-                                      await refImageToUpload.getDownloadURL();
-                                } catch (e) {
-                                  setState(() {
-                                    isLoading = false;
+                                if (letterImageFile != null) {
+                                  try {
+                                    await refImageToUpload
+                                        .putFile(File(letterImageFile!.path));
+                                    imageUrl =
+                                        await refImageToUpload.getDownloadURL();
+                                  } catch (e) {
+                                    logger.e(
+                                        "Error uploading image or no image file selected");
                                     logger.e(e.toString());
-                                  });
+
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                  }
                                 }
                                 //메세지 작성 위치 조심
                                 // ref

@@ -12,6 +12,7 @@ import '../dailymessages/daily_controller.dart';
 import '../dailymessages/response_screen.dart';
 import '../profile/profile_controller.dart';
 
+//샘플 페이지 디자인용
 class AlarmNewScreen extends ConsumerStatefulWidget {
   static String routeName = "alarmnewring";
   static String routeURL = "/alarmnewring";

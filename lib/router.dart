@@ -12,8 +12,6 @@ import 'features/alarm/alarm_ring_screen.dart';
 import 'features/auth/auth_repository.dart';
 import 'features/auth/login_email_screen.dart';
 import 'features/chatgpt/cs_screen.dart';
-import 'features/dailymessages/daily_create_screen.dart';
-import 'features/dailymessages/daily_letter_screen.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/dailymessages/letter_date_screen.dart';
 import 'features/dailymessages/letter_day_pick_screen.dart';
@@ -87,19 +85,9 @@ final routerProvider = Provider((ref) {
         builder: (context, state) => const ResponseScreen(),
       ),
       GoRoute(
-        name: DailyLetterScreen.routeName,
-        path: DailyLetterScreen.routeURL,
-        builder: (context, state) => const DailyLetterScreen(),
-      ),
-      GoRoute(
         name: HistoryMessageScreen.routeName,
         path: HistoryMessageScreen.routeURL,
         builder: (context, state) => const HistoryMessageScreen(),
-      ),
-      GoRoute(
-        name: DailyLetterCreateScreen.routeName,
-        path: DailyLetterCreateScreen.routeURL,
-        builder: (context, state) => const DailyLetterCreateScreen(),
       ),
       GoRoute(
         name: CoupleLetterScreen.routeName,

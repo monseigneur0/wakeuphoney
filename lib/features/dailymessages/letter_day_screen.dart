@@ -8,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:velocity_x/velocity_x.dart';
 import 'package:wakeuphoney/core/utils.dart';
 
 import '../../core/common/loader.dart';
@@ -146,7 +147,7 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          '편지를 보낼 날짜를 고르세요',
+          '어떤 날에 편지를 쓸까요?',
         ),
       ),
       body: Column(
@@ -189,6 +190,7 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
               loading: () => const Loader(),
             ),
           ),
+          "날짜를 누르면 편지를 쓸 수 있어요".text.make().centered(),
           // const SizedBox(height: 8.0),
           // Expanded(
           //   child: ValueListenableBuilder<List<Event>>(
