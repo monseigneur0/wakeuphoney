@@ -16,10 +16,10 @@ import 'package:wakeuphoney/practice_home_screen.dart';
 import '../../core/constants/design_constants.dart';
 import '../alarm/alarm_screen.dart';
 import '../auth/auth_controller.dart';
-import '../dailymessages/letter_screen.dart';
 import '../letter/letter_feed2_screen.dart';
 import '../letter/letter_feed3_screen.dart';
 import '../letter/letter_feed4_screen.dart';
+import '../letter/letter_feed5_scree.dart';
 import '../letter/letter_feed_screen.dart';
 import '../match/match_screen.dart';
 import '../profile/auth_screen.dart';
@@ -36,7 +36,7 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
   Logger logger = Logger();
 
@@ -79,6 +79,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       // const LetterFeed3Screen(),
       // const PracticeHome(),
       const LetterFeed4Screen(),
+      const LetterFeed5Screen(),
       const LetterDayScreen(),
       //왜 이중으로?
       hasCoupleId.when(
@@ -136,6 +137,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           BottomNavigationBarItem(
                             icon: Icon(Icons.feed_outlined),
                             label: '피드',
+                          ),
+                          BottomNavigationBarItem(
+                            icon: Icon(Icons.feed_outlined),
+                            label: '피드5',
                           ),
                           BottomNavigationBarItem(
                             backgroundColor: AppColors.myPink,

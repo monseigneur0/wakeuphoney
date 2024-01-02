@@ -10,7 +10,7 @@ import 'package:wakeuphoney/core/utils.dart';
 import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
 import 'daily_controller.dart';
-import 'letter_create_screen.dart';
+import '../letter/letter_create_screen.dart';
 import 'letter_date_screen.dart';
 import 'letter_day_screen.dart';
 

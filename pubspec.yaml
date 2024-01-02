@@ -64,6 +64,7 @@ dependencies:
   dio: ^5.4.0
   fpdart: ^1.1.0
   logger: ^2.0.2+1
+  uuid: ^4.3.1
 
   google_fonts: ^6.1.0
   

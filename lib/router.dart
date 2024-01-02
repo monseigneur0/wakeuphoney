@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/features/alarm/alarm_new_ring_screen.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
-import 'package:wakeuphoney/features/dailymessages/letter_screen.dart';
 import 'package:wakeuphoney/features/image/image_screen.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_edit_screen.dart';
@@ -16,7 +15,7 @@ import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/dailymessages/letter_date_screen.dart';
 import 'features/dailymessages/letter_day_pick_screen.dart';
 import 'features/dailymessages/history_screen.dart';
-import 'features/dailymessages/letter_create_screen.dart';
+import 'features/letter/letter_create_screen.dart';
 import 'features/dailymessages/letter_day_screen.dart';
 import 'features/image/image_full_screen.dart';
 import 'features/letter/letter_calendar_screen.dart';
@@ -133,11 +132,6 @@ final routerProvider = Provider((ref) {
         name: EmailLoginScreen.routeName,
         path: EmailLoginScreen.routeURL,
         builder: (context, state) => const EmailLoginScreen(),
-      ),
-      GoRoute(
-        name: LetterScreen.routeName,
-        path: LetterScreen.routeURL,
-        builder: (context, state) => const LetterScreen(),
       ),
       GoRoute(
         name: LetterCreateScreen.routeName,

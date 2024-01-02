@@ -15,7 +15,7 @@ import '../../core/common/loader.dart';
 import '../../core/providers/providers.dart';
 import '../letter/letter_controller.dart';
 import 'daily_controller.dart';
-import 'letter_create_screen.dart';
+import '../letter/letter_create_screen.dart';
 
 class Event {
   final String title;

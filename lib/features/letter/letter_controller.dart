@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../core/providers/firebase_providers.dart';
 import '../../core/providers/providers.dart';
@@ -15,6 +17,9 @@ final letterControllerProvider =
 
 final getLettersListProvider = StreamProvider(
     (ref) => ref.watch(letterControllerProvider.notifier).getLettersList());
+
+final getLettersFeedListProvider = FutureProvider(
+    (ref) => ref.watch(letterControllerProvider.notifier).getLettersFeedList());
 
 class LetterController extends StateNotifier<bool> {
   final LetterRepository _letterRepository;
@@ -37,8 +42,10 @@ class LetterController extends StateNotifier<bool> {
         ? coupleUid = coupleUidValue.couple!
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
+    String uuid = const Uuid().v4();
+
     LetterModel letterModel = LetterModel(
-      letterId: "",
+      letterId: uuid,
       dateTimeNow: DateTime.now(),
       sender: uid,
       letterTime: _ref.watch(selectedDateTime),
@@ -62,8 +69,22 @@ class LetterController extends StateNotifier<bool> {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    final letterList = _letterRepository.getLettersList(uid);
+    //오늘 날짜 이전으로 받는사람이 나인것만, 보낸사람이 나인건 모두 보여주기.
+    //날짜순 정렬하기
+    Logger().d(letterList);
+    return letterList;
+  }
 
-    return _letterRepository.getLettersList(uid);
+  Future<List<LetterModel>> getLettersFeedList() {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    final letterList = _letterRepository.getLettersFeedList(uid);
+    //오늘 날짜 이전으로 받는사람이 나인것만, 보낸사람이 나인건 모두 보여주기.
+    //날짜순 정렬하기
+
+    return letterList;
   }
 
   letterEdit(String message, String letterId) {

@@ -6,7 +6,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
-import 'package:wakeuphoney/features/dailymessages/daily_controller.dart';
 import 'package:wakeuphoney/features/letter/letter_controller.dart';
 
 import '../../core/common/loader.dart';

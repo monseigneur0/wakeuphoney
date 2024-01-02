@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:uuid/uuid.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/letter/letter_model.dart';
 
@@ -24,12 +25,8 @@ class LetterRepository {
       _usersCollection
           .doc(uid)
           .collection(FirebaseConstants.lettersCollection)
-          .add(letterModel.toMap())
-          .then((value) => _usersCollection
-              .doc(uid)
-              .collection(FirebaseConstants.lettersCollection)
-              .doc(value.id)
-              .update({"letterId": value.id}));
+          .doc(letterModel.letterId)
+          .set(letterModel.toMap());
     } catch (e) {
       logger.e(e.toString());
     }
@@ -69,6 +66,23 @@ class LetterRepository {
     } catch (e) {
       logger.e(e.toString());
       return Stream.error(e);
+    }
+  }
+
+  Future<List<LetterModel>> getLettersFeedList(String uid) {
+    try {
+      return _usersCollection
+          .doc(uid)
+          .collection(FirebaseConstants.lettersCollection)
+          .get()
+          .then(
+            (event) =>
+                event.docs.map((e) => LetterModel.fromMap(e.data())).toList()
+                  ..sort((a, b) => b.letterTime.compareTo(a.letterTime)),
+          );
+    } catch (e) {
+      logger.e(e.toString());
+      return Future.error(e);
     }
   }
 
