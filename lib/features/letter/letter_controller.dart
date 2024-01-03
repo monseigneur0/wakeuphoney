@@ -17,6 +17,8 @@ final letterControllerProvider =
 
 final getLettersListProvider = StreamProvider(
     (ref) => ref.watch(letterControllerProvider.notifier).getLettersList());
+final getLetters2ListProvider = StreamProvider(
+    (ref) => ref.watch(letterControllerProvider.notifier).getLetters2List());
 
 final getLettersFeedListProvider = FutureProvider(
     (ref) => ref.watch(letterControllerProvider.notifier).getLettersFeedList());
@@ -76,13 +78,22 @@ class LetterController extends StateNotifier<bool> {
     return letterList;
   }
 
+  Stream<List<LetterModel>> getLetters2List() {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    final letterList = _letterRepository.getLetters2List(uid);
+    //오늘 날짜 이전으로 받는사람이 나인것만, 보낸사람이 나인건 모두 보여주기.
+    //날짜순 정렬하기
+    Logger().d(letterList);
+    return letterList;
+  }
+
   Future<List<LetterModel>> getLettersFeedList() {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     final letterList = _letterRepository.getLettersFeedList(uid);
-    //오늘 날짜 이전으로 받는사람이 나인것만, 보낸사람이 나인건 모두 보여주기.
-    //날짜순 정렬하기
 
     return letterList;
   }

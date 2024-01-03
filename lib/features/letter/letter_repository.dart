@@ -69,6 +69,31 @@ class LetterRepository {
     }
   }
 
+  Stream<List<LetterModel>> getLetters2List(String uid) {
+    //오늘 날짜 이전으로 받는사람이 나인것만, 보낸사람이 나인건 모두 보여주기.
+    //오늘 이후 받는 사람이 나인것 빼고 모두 보여주기
+    //sender uid or (reciver == uid and letterTime < now)
+    //날짜순 정렬하기
+
+    try {
+      return _usersCollection
+          .doc(uid)
+          .collection(FirebaseConstants.lettersCollection)
+          .where(Filter.or(Filter("sender", isEqualTo: uid),
+              (Filter("letterTime", isLessThan: Timestamp.now()))))
+          .snapshots()
+          .map(
+            (letterSnapShot) => letterSnapShot.docs
+                .map((e) => LetterModel.fromMap(e.data()))
+                .toList()
+              ..sort((a, b) => b.letterTime.compareTo(a.letterTime)),
+          );
+    } catch (e) {
+      logger.e(e.toString());
+      return Stream.error(e);
+    }
+  }
+
   Future<List<LetterModel>> getLettersFeedList(String uid) {
     try {
       return _usersCollection

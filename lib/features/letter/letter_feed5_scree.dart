@@ -31,7 +31,7 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
   Widget build(BuildContext context) {
     final userInfo = ref.watch(getMyUserInfoProvider);
 
-    var lettersList = ref.watch(getLettersFeedListProvider);
+    var lettersList = ref.watch(getLetters2ListProvider);
 
     return Scaffold(
       backgroundColor: Vx.gray100,
@@ -98,12 +98,21 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                              child: CachedNetworkImage(
-                                                  width: 45,
-                                                  imageUrl: user.photoURL)),
+                                          user.uid == letters[index].sender
+                                              ? ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  child: CachedNetworkImage(
+                                                      width: 45,
+                                                      imageUrl: user.photoURL))
+                                              : ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  child: CachedNetworkImage(
+                                                      width: 45,
+                                                      imageUrl:
+                                                          user.couplePhotoURL ??
+                                                              user.photoURL)),
                                           10.widthBox,
                                           Column(
                                             crossAxisAlignment:
@@ -119,10 +128,19 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    user.displayName.text
-                                                        .size(16)
-                                                        .bold
-                                                        .make(),
+                                                    user.uid ==
+                                                            letters[index]
+                                                                .sender
+                                                        ? user.displayName.text
+                                                            .size(16)
+                                                            .bold
+                                                            .make()
+                                                        : user
+                                                            .coupleDisplayName!
+                                                            .text
+                                                            .size(16)
+                                                            .bold
+                                                            .make(),
                                                     PopupMenuButton(
                                                       itemBuilder: (context) {
                                                         if (letters[index]
