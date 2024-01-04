@@ -34,7 +34,7 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 0;
 
   Logger logger = Logger();
 

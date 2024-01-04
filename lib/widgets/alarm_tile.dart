@@ -24,9 +24,15 @@ class AlarmTile extends StatelessWidget {
         background: Container(
           alignment: Alignment.centerRight,
           // color: Colors.red,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
               color: Colors.red,
-              borderRadius: BorderRadius.all(Radius.circular(10))),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    blurRadius: 20,
+                    offset: const Offset(8, 8))
+              ]),
           padding: const EdgeInsets.only(right: 30),
           child: const Icon(
             Icons.delete_forever,
@@ -36,12 +42,21 @@ class AlarmTile extends StatelessWidget {
         ),
         onDismissed: (_) => onDismissed?.call(),
         child: RawMaterialButton(
-          fillColor: AppColors.myAppBarBackgroundPink,
+          // fillColor: AppColors.myAppBarBackgroundPink,
           onPressed: onPressed,
           child: Container(
             height: 80,
             padding: const EdgeInsets.only(top: 15, bottom: 15, left: 20),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: AppColors.myAppBarBackgroundPink,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      blurRadius: 20,
+                      offset: const Offset(8, 8))
+                ]),
+            // decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
             child: Row(
               children: [
                 Text(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../core/common/loader.dart';
@@ -61,286 +62,295 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
                     ),
                   );
                 }
-                return ListView.builder(
-                  itemCount: letters.length,
-                  controller: _scrollController,
-                  key: const PageStorageKey("page"),
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        10.heightBox,
-                        Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                DateFormat("MM월 dd일 ")
-                                    .format(letters[index].letterTime)
-                                    .toString()
-                                    .text
-                                    .size(20)
-                                    .make()
-                                    .pSymmetric(h: 14),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color:
-                                                Colors.black.withOpacity(0.3),
-                                            blurRadius: 20,
-                                            offset: const Offset(8, 8))
-                                      ]),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          user.uid == letters[index].sender
-                                              ? ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(30),
-                                                  child: CachedNetworkImage(
-                                                      width: 45,
-                                                      imageUrl: user.photoURL))
-                                              : ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(30),
-                                                  child: CachedNetworkImage(
-                                                      width: 45,
-                                                      imageUrl:
-                                                          user.couplePhotoURL ??
-                                                              user.photoURL)),
-                                          10.widthBox,
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width -
-                                                    120,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    user.uid ==
-                                                            letters[index]
-                                                                .sender
-                                                        ? user.displayName.text
-                                                            .size(16)
-                                                            .bold
-                                                            .make()
-                                                        : user
-                                                            .coupleDisplayName!
-                                                            .text
-                                                            .size(16)
-                                                            .bold
-                                                            .make(),
-                                                    PopupMenuButton(
-                                                      itemBuilder: (context) {
-                                                        if (letters[index]
-                                                            .letterTime
-                                                            .isBefore(DateTime
-                                                                .now())) {
+                return Skeletonizer(
+                  enabled: letters.isEmpty,
+                  child: ListView.builder(
+                    itemCount: letters.length,
+                    controller: _scrollController,
+                    key: const PageStorageKey("page"),
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          10.heightBox,
+                          Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  DateFormat("MM월 dd일 ")
+                                      .format(letters[index].letterTime)
+                                      .toString()
+                                      .text
+                                      .size(20)
+                                      .make()
+                                      .pSymmetric(h: 14),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color:
+                                                  Colors.black.withOpacity(0.3),
+                                              blurRadius: 20,
+                                              offset: const Offset(8, 8))
+                                        ]),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            user.uid == letters[index].sender
+                                                ? ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30),
+                                                    child: CachedNetworkImage(
+                                                        width: 45,
+                                                        imageUrl:
+                                                            user.photoURL))
+                                                : ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30),
+                                                    child: CachedNetworkImage(
+                                                        width: 45,
+                                                        imageUrl:
+                                                            user.couplePhotoURL ??
+                                                                user.photoURL)),
+                                            10.widthBox,
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width -
+                                                      120,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      user.uid ==
+                                                              letters[index]
+                                                                  .sender
+                                                          ? user
+                                                              .displayName.text
+                                                              .size(16)
+                                                              .bold
+                                                              .make()
+                                                          : user
+                                                              .coupleDisplayName!
+                                                              .text
+                                                              .size(16)
+                                                              .bold
+                                                              .make(),
+                                                      PopupMenuButton(
+                                                        itemBuilder: (context) {
+                                                          if (letters[index]
+                                                              .letterTime
+                                                              .isBefore(DateTime
+                                                                  .now())) {
+                                                            return [
+                                                              PopupMenuItem(
+                                                                onTap: () {
+                                                                  showSnackBar(
+                                                                      context,
+                                                                      "과거는 지울 수 없어요.");
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                        "삭제"),
+                                                              ),
+                                                            ];
+                                                          }
                                                           return [
                                                             PopupMenuItem(
                                                               onTap: () {
+                                                                _letterEditController
+                                                                        .text =
+                                                                    letters[index]
+                                                                        .letter;
+                                                                _updateLetter(
+                                                                    letters[index]
+                                                                        .letterId);
+                                                              },
+                                                              child: const Text(
+                                                                  "수정"),
+                                                            ),
+                                                            PopupMenuItem(
+                                                              onTap: () {
+                                                                ref
+                                                                    .watch(letterControllerProvider
+                                                                        .notifier)
+                                                                    .letterDelete(
+                                                                        letters[index]
+                                                                            .letterId);
                                                                 showSnackBar(
                                                                     context,
-                                                                    "과거는 지울 수 없어요.");
+                                                                    "삭제되었습니다.");
                                                               },
                                                               child: const Text(
                                                                   "삭제"),
                                                             ),
                                                           ];
-                                                        }
-                                                        return [
-                                                          PopupMenuItem(
-                                                            onTap: () {
-                                                              _letterEditController
-                                                                      .text =
-                                                                  letters[index]
-                                                                      .letter;
-                                                              _updateLetter(
-                                                                  letters[index]
-                                                                      .letterId);
-                                                            },
-                                                            child: const Text(
-                                                                "수정"),
-                                                          ),
-                                                          PopupMenuItem(
-                                                            onTap: () {
-                                                              ref
-                                                                  .watch(letterControllerProvider
-                                                                      .notifier)
-                                                                  .letterDelete(
-                                                                      letters[index]
-                                                                          .letterId);
-                                                              showSnackBar(
-                                                                  context,
-                                                                  "삭제되었습니다.");
-                                                            },
-                                                            child: const Text(
-                                                                "삭제"),
-                                                          ),
-                                                        ];
-                                                      },
-                                                    ).box.height(32).make(),
-                                                  ],
+                                                        },
+                                                      ).box.height(32).make(),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width -
+                                                      140,
+                                                  child: SelectableText(
+                                                      scrollPhysics:
+                                                          const NeverScrollableScrollPhysics(),
+                                                      letters[index].letter),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                        letters[index].letterPhoto.isEmpty
+                                            ? Container()
+                                            : Container(
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width -
-                                                    140,
-                                                child: SelectableText(
-                                                    scrollPhysics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    letters[index].letter),
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                      letters[index].letterPhoto.isEmpty
-                                          ? Container()
-                                          : Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width -
-                                                  70,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                                color: Colors.grey,
-                                              ),
-                                              clipBehavior: Clip.hardEdge,
-                                              child: CachedNetworkImage(
-                                                imageUrl: letters[index]
-                                                    .letterPhoto
-                                                    .toString(),
-                                                placeholder: (context, url) =>
-                                                    Container(
-                                                  height: 70,
+                                                    70,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  color: Colors.grey,
                                                 ),
-                                                fit: BoxFit.cover,
+                                                clipBehavior: Clip.hardEdge,
+                                                child: CachedNetworkImage(
+                                                  imageUrl: letters[index]
+                                                      .letterPhoto
+                                                      .toString(),
+                                                  placeholder: (context, url) =>
+                                                      Container(
+                                                    height: 70,
+                                                  ),
+                                                  fit: BoxFit.cover,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width -
+                                                      90,
+                                                  errorWidget: (context, url,
+                                                          error) =>
+                                                      const Icon(Icons.error),
+                                                ),
+                                              ),
+                                        letters[index].answer.isEmpty
+                                            ? Container()
+                                            : Container(
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width -
                                                     90,
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        const Icon(Icons.error),
-                                              ),
-                                            ),
-                                      letters[index].answer.isEmpty
-                                          ? Container()
-                                          : Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width -
-                                                  90,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                                color: Colors.grey.shade200,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.grey
-                                                        .withOpacity(0.5),
-                                                    spreadRadius: 1,
-                                                    blurRadius: 1,
-                                                    offset: const Offset(0,
-                                                        1), // changes position of shadow
-                                                  ),
-                                                ],
-                                              ),
-                                              clipBehavior: Clip.hardEdge,
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      ClipRRect(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  color: Colors.grey.shade200,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.grey
+                                                          .withOpacity(0.5),
+                                                      spreadRadius: 1,
+                                                      blurRadius: 1,
+                                                      offset: const Offset(0,
+                                                          1), // changes position of shadow
+                                                    ),
+                                                  ],
+                                                ),
+                                                clipBehavior: Clip.hardEdge,
+                                                child: Column(
+                                                  children: [
+                                                    Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(25),
+                                                          child: CachedNetworkImage(
+                                                              width: 40,
+                                                              imageUrl: user
+                                                                  .couplePhotoURL
+                                                                  .toString()),
+                                                        ),
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            user.coupleDisplayName!
+                                                                .text
+                                                                .size(16)
+                                                                .bold
+                                                                .make(),
+                                                            letters[index]
+                                                                .answer
+                                                                .text
+                                                                .make()
+                                                                .box
+                                                                .width(MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width -
+                                                                    190)
+                                                                .make(),
+                                                          ],
+                                                        ).pSymmetric(h: 10),
+                                                      ],
+                                                    ),
+                                                    5.heightBox,
+                                                    Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width -
+                                                              90,
+                                                      clipBehavior:
+                                                          Clip.hardEdge,
+                                                      decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius
-                                                                .circular(25),
-                                                        child: CachedNetworkImage(
-                                                            width: 40,
-                                                            imageUrl: user
-                                                                .couplePhotoURL
-                                                                .toString()),
+                                                                .circular(30),
                                                       ),
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          user.coupleDisplayName!
-                                                              .text
-                                                              .size(16)
-                                                              .bold
-                                                              .make(),
-                                                          letters[index]
-                                                              .answer
-                                                              .text
-                                                              .make()
-                                                              .box
-                                                              .width(MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width -
-                                                                  190)
-                                                              .make(),
-                                                        ],
-                                                      ).pSymmetric(h: 10),
-                                                    ],
-                                                  ),
-                                                  5.heightBox,
-                                                  Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width -
-                                                            90,
-                                                    clipBehavior: Clip.hardEdge,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30),
+                                                      child: letters[index]
+                                                              .answerPhoto
+                                                              .isEmpty
+                                                          ? Container()
+                                                          : CachedNetworkImage(
+                                                              fit: BoxFit.fill,
+                                                              imageUrl: letters[
+                                                                      index]
+                                                                  .answerPhoto
+                                                                  .toString()),
                                                     ),
-                                                    child: letters[index]
-                                                            .answerPhoto
-                                                            .isEmpty
-                                                        ? Container()
-                                                        : CachedNetworkImage(
-                                                            fit: BoxFit.fill,
-                                                            imageUrl: letters[
-                                                                    index]
-                                                                .answerPhoto
-                                                                .toString()),
-                                                  ),
-                                                ],
-                                              ).p(15),
-                                            ).pSymmetric(v: 20),
-                                    ],
-                                  ).p(10),
-                                ).pOnly(left: 10),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ).p(10);
-                  },
+                                                  ],
+                                                ).p(15),
+                                              ).pSymmetric(v: 20),
+                                      ],
+                                    ).p(10),
+                                  ).pOnly(left: 10),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ).p(10);
+                    },
+                  ),
                 );
               },
               loading: () => const Loader(),
