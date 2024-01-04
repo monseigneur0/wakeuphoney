@@ -7,7 +7,6 @@ import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'core/providers/providers.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/dailymessages/letter_date_screen.dart';
-import 'features/dailymessages/letter_day_pick_screen.dart';
 import 'features/dailymessages/response_screen.dart';
 import 'features/match/match3_screen.dart';
 import 'features/match/match4_screen.dart';
@@ -168,14 +167,6 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                 style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.green)),
                 child: const Text('LetterDateScreen'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  context.pushNamed(LetterDayPickScreen.routeName);
-                },
-                style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.blue)),
-                child: const Text('LetterDayPickScreen'),
               ),
               const Text('numberProvider'),
               Text(number.toString()),

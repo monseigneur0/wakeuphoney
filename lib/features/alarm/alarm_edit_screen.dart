@@ -5,6 +5,7 @@ import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/date_symbols.dart';
 import 'package:logger/logger.dart';
+import 'package:velocity_x/velocity_x.dart';
 import 'package:wakeuphoney/core/constants/design_constants.dart';
 import 'package:wakeuphoney/features/alarm/alarm_day_settings.dart';
 import 'package:weekday_selector/weekday_selector.dart';
@@ -208,37 +209,58 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
     final locale = Localizations.localeOf(context);
     final DateSymbols dateSymbols = dateTimeSymbolMap()['$locale'];
     final textDirection = getTextDirection(locale);
-    print(DateTime.monday);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextButton(
-                onPressed: () => Navigator.pop(context, false),
-                child: Text(
-                  AppLocalizations.of(context)!.cancel,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(color: AppColors.myPink),
-                ),
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 20,
+                          offset: const Offset(8, 8))
+                    ]),
+                child: TextButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: Text(
+                    AppLocalizations.of(context)!.cancel,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge!
+                        .copyWith(color: AppColors.myPink),
+                  ),
+                ).pSymmetric(h: 10, v: 5),
               ),
-              TextButton(
-                onPressed: saveAlarm,
-                child: loading
-                    ? const CircularProgressIndicator()
-                    : Text(
-                        AppLocalizations.of(context)!.save,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(color: AppColors.myPink),
-                      ),
-              ),
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 20,
+                          offset: const Offset(8, 8))
+                    ]),
+                child: TextButton(
+                  onPressed: saveAlarm,
+                  child: loading
+                      ? const CircularProgressIndicator()
+                      : Text(
+                          AppLocalizations.of(context)!.save,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(color: AppColors.myPink),
+                        ),
+                ).pSymmetric(h: 10, v: 5),
+              )
             ],
           ),
           Text(
@@ -278,91 +300,135 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
           //   weekdays: dateSymbols.STANDALONEWEEKDAYS,
           //   textDirection: textDirection,
           // ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                AppLocalizations.of(context)!.loopalarmaudio,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              Switch(
-                value: loopAudio,
-                onChanged: (value) => setState(() => loopAudio = value),
-              ),
-            ],
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      blurRadius: 20,
+                      offset: const Offset(8, 8))
+                ]),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.loopalarmaudio,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                Switch(
+                  value: loopAudio,
+                  onChanged: (value) => setState(() => loopAudio = value),
+                ),
+              ],
+            ).pSymmetric(h: 20, v: 10),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                AppLocalizations.of(context)!.vibrate,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              Switch(
-                value: vibrate,
-                onChanged: (value) => setState(() => vibrate = value),
-              ),
-            ],
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      blurRadius: 20,
+                      offset: const Offset(8, 8))
+                ]),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.vibrate,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                Switch(
+                  value: vibrate,
+                  onChanged: (value) => setState(() => vibrate = value),
+                ),
+              ],
+            ).pSymmetric(h: 20, v: 10),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'System volume max',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              Switch(
-                value: volumeMax,
-                onChanged: (value) => setState(() => volumeMax = value),
-              ),
-            ],
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      blurRadius: 20,
+                      offset: const Offset(8, 8))
+                ]),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '소리 최대로',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                Switch(
+                  value: volumeMax,
+                  onChanged: (value) => setState(() => volumeMax = value),
+                ),
+              ],
+            ).pSymmetric(h: 20, v: 10),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                AppLocalizations.of(context)!.sound,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              DropdownButton(
-                value: assetAudio,
-                items: const [
-                  DropdownMenuItem<String>(
-                    value: 'assets/marimba.mp3',
-                    child: Text('Marimba'),
-                  ),
-                  DropdownMenuItem<String>(
-                    value: 'assets/nature.mp3',
-                    child: Text('Nature'),
-                  ),
-                  DropdownMenuItem<String>(
-                    value: 'assets/childhood.mp3',
-                    child: Text('Childhood'),
-                  ),
-                  DropdownMenuItem<String>(
-                    value: 'assets/happylife.mp3',
-                    child: Text('Happy Life'),
-                  ),
-                  DropdownMenuItem<String>(
-                    value: 'assets/mozart.mp3',
-                    child: Text('Mozart'),
-                  ),
-                  DropdownMenuItem<String>(
-                    value: 'assets/nokia.mp3',
-                    child: Text('Nokia'),
-                  ),
-                  DropdownMenuItem<String>(
-                    value: 'assets/one_piece.mp3',
-                    child: Text('One Piece'),
-                  ),
-                  DropdownMenuItem<String>(
-                    value: 'assets/star_wars.mp3',
-                    child: Text('Star Wars'),
-                  ),
-                ],
-                onChanged: (value) => setState(() => assetAudio = value!),
-              ),
-            ],
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      blurRadius: 20,
+                      offset: const Offset(8, 8))
+                ]),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.sound,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                DropdownButton(
+                  value: assetAudio,
+                  items: const [
+                    DropdownMenuItem<String>(
+                      value: 'assets/marimba.mp3',
+                      child: Text('Marimba'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'assets/nature.mp3',
+                      child: Text('Nature'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'assets/childhood.mp3',
+                      child: Text('Childhood'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'assets/happylife.mp3',
+                      child: Text('Happy Life'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'assets/mozart.mp3',
+                      child: Text('Mozart'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'assets/nokia.mp3',
+                      child: Text('Nokia'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'assets/one_piece.mp3',
+                      child: Text('One Piece'),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'assets/star_wars.mp3',
+                      child: Text('Star Wars'),
+                    ),
+                  ],
+                  onChanged: (value) => setState(() => assetAudio = value!),
+                ),
+              ],
+            ).pSymmetric(h: 20, v: 10),
           ),
           if (!creating)
             TextButton(

@@ -13,7 +13,7 @@ final dailyControllerProvider =
           dailyRepository: ref.watch(dailyRepositoryProvider),
           ref: ref,
         ));
-
+//안씀
 final getLettersList0Provider = StreamProvider(
     (ref) => ref.watch(dailyControllerProvider.notifier).getLettersList());
 final getAnswersListProvider = StreamProvider(

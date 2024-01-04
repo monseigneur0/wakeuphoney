@@ -1,14 +1,13 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/common/loader.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
 import 'package:wakeuphoney/features/chatgpt/cs_screen.dart';
-import 'package:wakeuphoney/features/dailymessages/letter_day_screen.dart';
+import 'package:wakeuphoney/features/letter/letter_day_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_couple_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_screen.dart';
 import 'package:wakeuphoney/practice_home_screen.dart';
@@ -16,11 +15,10 @@ import 'package:wakeuphoney/practice_home_screen.dart';
 import '../../core/constants/design_constants.dart';
 import '../alarm/alarm_screen.dart';
 import '../auth/auth_controller.dart';
+import '../dailymessages/letter_date_screen.dart';
+import '../dailymessages/pages/table_basic_screen.dart';
 import '../letter/letter_feed2_screen.dart';
-import '../letter/letter_feed3_screen.dart';
-import '../letter/letter_feed4_screen.dart';
 import '../letter/letter_feed5_scree.dart';
-import '../letter/letter_feed_screen.dart';
 import '../match/match_screen.dart';
 import '../profile/auth_screen.dart';
 import '../profile/profile_controller.dart';
@@ -73,12 +71,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final isLoggedInStream = ref.watch(loginCheckProvider);
     List<Widget> widgetOptions = <Widget>[
       const AlarmHome(),
-      // const DailyLetterScreen(),
       // const HistoryMessageScreen(),
-      // const LetterScreen(),
-      // const LetterFeed3Screen(),
+      // const LetterFeed2Screen(),
       // const PracticeHome(),
-      const LetterFeed4Screen(),
+      // const LetterDateScreen(),
       const LetterFeed5Screen(),
       const LetterDayScreen(),
       //왜 이중으로?
@@ -126,25 +122,17 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           //   icon: Icon(Icons.favorite_border_outlined),
                           //   label: 'Letters',
                           // ),
-                          // BottomNavigationBarItem(
-                          //   icon: Icon(Icons.local_post_office_outlined),
-                          //   label: '편지',
-                          // ),
-                          // BottomNavigationBarItem(
-                          //   icon: Icon(Icons.feed_outlined),
-                          //   label: 'Feed',
-                          // ),
                           BottomNavigationBarItem(
-                            icon: Icon(Icons.feed_outlined),
+                            icon: Icon(Icons.home_outlined),
                             label: '피드',
                           ),
-                          BottomNavigationBarItem(
-                            icon: Icon(Icons.feed_outlined),
-                            label: '피드5',
-                          ),
+                          // BottomNavigationBarItem(
+                          //   icon: Icon(Icons.feed_outlined),
+                          //   label: '피드5',
+                          // ),
                           BottomNavigationBarItem(
                             backgroundColor: AppColors.myPink,
-                            icon: Icon(Icons.add_comment_outlined),
+                            icon: Icon(Icons.local_post_office_outlined),
                             label: '편지쓰기',
                           ),
                           BottomNavigationBarItem(

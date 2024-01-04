@@ -13,10 +13,10 @@ import 'package:wakeuphoney/core/utils.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/providers/providers.dart';
-import '../letter/letter_controller.dart';
-import 'daily_controller.dart';
-import '../letter/letter_create_screen.dart';
+import 'letter_controller.dart';
+import 'letter_create_screen.dart';
 
+//사용중인 페이지
 class Event {
   final String title;
 
@@ -141,8 +141,7 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final lettersList0 = ref.watch(getLettersList0Provider);
-    final lettersList = ref.watch(getLettersListProvider);
+    final lettersList = ref.watch(getLetters2ListProvider);
 
     return Scaffold(
       appBar: AppBar(

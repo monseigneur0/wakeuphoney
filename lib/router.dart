@@ -13,13 +13,11 @@ import 'features/auth/login_email_screen.dart';
 import 'features/chatgpt/cs_screen.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/dailymessages/letter_date_screen.dart';
-import 'features/dailymessages/letter_day_pick_screen.dart';
 import 'features/dailymessages/history_screen.dart';
 import 'features/letter/letter_create_screen.dart';
-import 'features/dailymessages/letter_day_screen.dart';
+import 'features/letter/letter_day_screen.dart';
 import 'features/image/image_full_screen.dart';
 import 'features/letter/letter_calendar_screen.dart';
-import 'features/letter/letter_feed3_screen.dart';
 import 'features/match/match3_screen.dart';
 import 'features/match/match4_screen.dart';
 import 'features/match/match_up.dart';
@@ -139,11 +137,6 @@ final routerProvider = Provider((ref) {
         builder: (context, state) => const LetterCreateScreen(),
       ),
       GoRoute(
-        name: LetterDayPickScreen.routeName,
-        path: LetterDayPickScreen.routeURL,
-        builder: (context, state) => const LetterDayPickScreen(),
-      ),
-      GoRoute(
         name: LetterDateScreen.routeName,
         path: LetterDateScreen.routeURL,
         builder: (context, state) => const LetterDateScreen(),
@@ -152,11 +145,6 @@ final routerProvider = Provider((ref) {
         name: LetterDayScreen.routeName,
         path: LetterDayScreen.routeURL,
         builder: (context, state) => const LetterDayScreen(),
-      ),
-      GoRoute(
-        name: LetterFeed3Screen.routeName,
-        path: LetterFeed3Screen.routeURL,
-        builder: (context, state) => const LetterFeed3Screen(),
       ),
       GoRoute(
         name: LetterCalendarScreen.routeName,
