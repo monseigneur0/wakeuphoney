@@ -10,6 +10,7 @@ import '../../core/constants/design_constants.dart';
 import '../../core/providers/providers.dart';
 import '../dailymessages/daily_controller.dart';
 import '../dailymessages/response_screen.dart';
+import '../letter/letter_controller.dart';
 import '../profile/profile_controller.dart';
 
 //샘플 페이지 디자인용
@@ -30,6 +31,8 @@ class _AlarmNewScreen extends ConsumerState<AlarmNewScreen> {
     final hasCoupleId = ref.watch(getUserProfileStreamProvider);
     final getCoupleMessage =
         ref.watch(getDailyCoupleMessageProvider(dateList100[0]));
+    final getALetter = ref.watch(getALetterProvider);
+
     final getCoupleMessageCondition =
         ref.watch(getDailyCoupleMessageConditionProvider);
 
@@ -44,8 +47,73 @@ class _AlarmNewScreen extends ConsumerState<AlarmNewScreen> {
                   DateFormat("yyyy년 MM월 dd일 ").format(DateTime.now()),
                   style: const TextStyle(fontSize: 40),
                 ),
-                getCoupleMessage.when(
-                  data: (message) {
+                // getCoupleMessage.when(
+                //   data: (message) {
+                //     return Padding(
+                //       padding: const EdgeInsets.all(10.0),
+                //       child: Column(
+                //         children: [
+                //           Container(
+                //             width: MediaQuery.of(context).size.width,
+                //             clipBehavior: Clip.hardEdge,
+                //             decoration: BoxDecoration(
+                //                 borderRadius: BorderRadius.circular(20)),
+                //             child: message.photo.isNotEmpty
+                //                 ? CachedNetworkImage(
+                //                     imageUrl: message.photo,
+                //                     placeholder: (context, url) => Container(
+                //                       height: 70,
+                //                     ),
+                //                     errorWidget: (context, url, error) =>
+                //                         const Icon(Icons.error),
+                //                   )
+                //                 : Container(),
+                //           ),
+                //           const SizedBox(
+                //             height: 20,
+                //           ),
+                //           Container(
+                //             decoration: BoxDecoration(
+                //                 color: Colors.grey[200],
+                //                 borderRadius: BorderRadius.circular(20)),
+                //             child: Padding(
+                //               padding: const EdgeInsets.all(15),
+                //               child: Column(
+                //                 children: [
+                //                   Text(
+                //                     message.message,
+                //                     style: const TextStyle(fontSize: 25),
+                //                   ),
+                //                 ],
+                //               ),
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     );
+                //   },
+                //   error: (error, stackTrace) {
+                //     // logger.d("error");
+
+                //     return const Column(
+                //       children: [
+                //         SizedBox(
+                //           height: 50,
+                //         ),
+                //         Text(
+                //           "받은 편지가 없어요...",
+                //           style: TextStyle(fontSize: 30),
+                //         ),
+                //         SizedBox(
+                //           height: 50,
+                //         ),
+                //       ],
+                //     );
+                //   },
+                //   loading: () => const Loader(),
+                // ),
+                getALetter.when(
+                  data: (letter) {
                     return Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Column(
@@ -55,9 +123,9 @@ class _AlarmNewScreen extends ConsumerState<AlarmNewScreen> {
                             clipBehavior: Clip.hardEdge,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20)),
-                            child: message.photo.isNotEmpty
+                            child: letter.letterPhoto.isNotEmpty
                                 ? CachedNetworkImage(
-                                    imageUrl: message.photo,
+                                    imageUrl: letter.letterPhoto,
                                     placeholder: (context, url) => Container(
                                       height: 70,
                                     ),
@@ -78,7 +146,7 @@ class _AlarmNewScreen extends ConsumerState<AlarmNewScreen> {
                               child: Column(
                                 children: [
                                   Text(
-                                    message.message,
+                                    letter.letter,
                                     style: const TextStyle(fontSize: 25),
                                   ),
                                 ],

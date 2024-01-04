@@ -11,6 +11,7 @@ import '../../core/constants/design_constants.dart';
 import '../../core/providers/providers.dart';
 import '../dailymessages/daily_controller.dart';
 import '../dailymessages/response_screen.dart';
+import '../letter/letter_controller.dart';
 import '../profile/profile_controller.dart';
 
 class AlarmRingScreen extends ConsumerWidget {
@@ -26,9 +27,8 @@ class AlarmRingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Logger logger = Logger();
-    final dateList100 = ref.watch(dateStateProvider);
-    final getCoupleMessage =
-        ref.watch(getDailyCoupleMessageProvider(dateList100[0]));
+
+    final getALetter = ref.watch(getALetterProvider);
     final hasCoupleId = ref.watch(getUserProfileStreamProvider);
 
     return Scaffold(
@@ -46,17 +46,20 @@ class AlarmRingScreen extends ConsumerWidget {
                 //   dateList100.first,
                 //   style: const TextStyle(fontSize: 10),
                 // ),
-                getCoupleMessage.when(
-                  data: (message) {
+                getALetter.when(
+                  data: (letter) {
                     return Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Column(
                         children: [
-                          SizedBox(
+                          Container(
                             width: MediaQuery.of(context).size.width,
-                            child: message.photo.isNotEmpty
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20)),
+                            child: letter.letterPhoto.isNotEmpty
                                 ? CachedNetworkImage(
-                                    imageUrl: message.photo,
+                                    imageUrl: letter.letterPhoto,
                                     placeholder: (context, url) => Container(
                                       height: 70,
                                     ),
@@ -77,7 +80,7 @@ class AlarmRingScreen extends ConsumerWidget {
                               child: Column(
                                 children: [
                                   Text(
-                                    message.message,
+                                    letter.letter,
                                     style: const TextStyle(fontSize: 25),
                                   ),
                                 ],
@@ -89,7 +92,7 @@ class AlarmRingScreen extends ConsumerWidget {
                     );
                   },
                   error: (error, stackTrace) {
-                    logger.d("error");
+                    // logger.d("error");
 
                     return const Column(
                       children: [

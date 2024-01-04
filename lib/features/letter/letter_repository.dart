@@ -80,6 +80,51 @@ class LetterRepository {
     }
   }
 
+  Future<LetterModel> getALetter(String uid) async {
+    final datetime = DateTime.now();
+    try {
+      final letter = await _usersCollection
+          .doc(uid)
+          .collection(FirebaseConstants.lettersCollection)
+          .where("reciver", isEqualTo: uid)
+          .where("letterTime",
+              isLessThan: Timestamp(
+                  DateTime(datetime.year, datetime.month, datetime.day, 10, 0,
+                              0)
+                          .millisecondsSinceEpoch ~/
+                      1000,
+                  0))
+          .orderBy("letterTime", descending: true)
+          .get();
+      // if (datetime.isAfter(
+      //     DateTime(datetime.year, datetime.month, datetime.day, 5, 0, 0))) {
+      return LetterModel.fromMap(letter.docs.first.data());
+      // } else {
+      //   return LetterModel.fromMap(letter.docs.elementAt(1).data());
+      // }
+      //새벽 6시면 10시 이전 즉 9시 편지를 찾아서 보여준다
+      //없으면 이전날꺼 그대로 보여준다. 사람 이름으로 찾아야겠는데
+      //새벽 4시면 10시 이전 즉 9시 편지를 찾아서 지만 이전껄 보여주는데 오늘 날짜게 없으면 전전날이네
+    } catch (e) {
+      logger.e(e.toString());
+      return LetterModel(
+          letterId: "PyY5skHRgPJP0CMgI2Qp",
+          sender: "PyY5skHRgPJP0CMgI2Qp",
+          dateTimeNow: DateTime.now(),
+          letterTime: DateTime.now(),
+          letter: "PyY5skHRgPJP0CMgI2Qp",
+          letterPhoto: "PyY5skHRgPJP0CMgI2Qp",
+          letterAudio: "PyY5skHRgPJP0CMgI2Qp",
+          letterVideo: "PyY5skHRgPJP0CMgI2Qp",
+          reciver: "PyY5skHRgPJP0CMgI2Qp",
+          answer: "PyY5skHRgPJP0CMgI2Qp",
+          answerTime: DateTime.now(),
+          answerPhoto: "PyY5skHRgPJP0CMgI2Qp",
+          answerAudio: "PyY5skHRgPJP0CMgI2Qp",
+          answerVideo: "PyY5skHRgPJP0CMgI2Qp");
+    }
+  }
+
   letterEditMessage(String uid, String letterId, String message) {
     try {
       _usersCollection
@@ -99,6 +144,23 @@ class LetterRepository {
           .collection(FirebaseConstants.lettersCollection)
           .doc(letterId)
           .delete();
+    } catch (e) {
+      logger.e(e.toString());
+    }
+  }
+
+  createResponseLetter(
+      String uid, String letterUid, String message, String imageUrl) {
+    try {
+      _usersCollection
+          .doc(uid)
+          .collection(FirebaseConstants.lettersCollection)
+          .doc(letterUid)
+          .update({
+        "answer": message,
+        "answerTime": Timestamp.now(),
+        "answerPhoto": imageUrl
+      });
     } catch (e) {
       logger.e(e.toString());
     }

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -13,6 +14,7 @@ import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
 import '../../core/providers/providers.dart';
 import '../../core/utils.dart';
+import '../letter/letter_controller.dart';
 import 'daily_controller.dart';
 
 class ResponseScreen extends ConsumerStatefulWidget {
@@ -49,7 +51,8 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dateList100 = ref.watch(dateStateProvider);
+    final getALetter = ref.watch(getALetterProvider);
+
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
     var logger = Logger();
 
@@ -73,43 +76,71 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                 //   height: 1,
                 //   decoration: BoxDecoration(color: Colors.grey[700]),
                 // ),
-                ref.watch(getDailyCoupleMessageProvider(dateList100[0])).when(
-                      data: (message) {
-                        return Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(
-                                height: 10,
-                                // decoration: BoxDecoration(color: Colors.grey[700]),
-                              ),
-                              Text(
-                                message.message,
-                                style: const TextStyle(
-                                    fontSize: 30, color: Colors.black),
-                              ),
-                            ],
+                getALetter.when(
+                  data: (letter) {
+                    return Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20)),
+                            child: letter.letterPhoto.isNotEmpty
+                                ? CachedNetworkImage(
+                                    imageUrl: letter.letterPhoto,
+                                    placeholder: (context, url) => Container(
+                                      height: 70,
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  )
+                                : Container(),
                           ),
-                        );
-                      },
-                      error: (error, stackTrace) {
-                        logger.d("error");
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    letter.letter,
+                                    style: const TextStyle(fontSize: 25),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  error: (error, stackTrace) {
+                    // logger.d("error");
 
-                        return const Column(
-                          children: [
-                            SizedBox(
-                              height: 50,
-                            ),
-                            Text("no letter..."),
-                            SizedBox(
-                              height: 50,
-                            ),
-                          ],
-                        );
-                      },
-                      loading: () => const Loader(),
-                    ),
+                    return const Column(
+                      children: [
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Text(
+                          "받은 편지가 없어요...",
+                          style: TextStyle(fontSize: 30),
+                        ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                      ],
+                    );
+                  },
+                  loading: () => const Loader(),
+                ),
                 Form(
                   key: _formKey,
                   child: TextFormField(
@@ -170,8 +201,8 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                       style: const ButtonStyle(
                           backgroundColor:
                               MaterialStatePropertyAll(AppColors.myPink)),
-                      child: const Text('Send',
-                          style: TextStyle(color: Colors.black)),
+                      child: const Text('보내기',
+                          style: TextStyle(color: Colors.white)),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           showSnackBar(context, "messgae is saved");
@@ -202,9 +233,14 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                             //Some error occurred
                           }
                           //메세지 작성
-                          ref
-                              .watch(dailyControllerProvider.notifier)
-                              .createResponseMessage(message, imageUrl);
+                          // ref
+                          //     .watch(dailyControllerProvider.notifier)
+                          //     .createResponseMessage(message, imageUrl);
+                          ref.watch(getALetterProvider).whenData((value) => ref
+                              .watch(letterControllerProvider.notifier)
+                              .createResponseLetter(
+                                  value.letterId, message, imageUrl));
+
                           // ref.watch();
                         }
                         _messgaeController.clear();

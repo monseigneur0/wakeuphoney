@@ -18,6 +18,9 @@ final letterControllerProvider =
 final getLetters2ListProvider = StreamProvider(
     (ref) => ref.watch(letterControllerProvider.notifier).getLetters2List());
 
+final getALetterProvider = FutureProvider.autoDispose<LetterModel>(
+    (ref) => ref.watch(letterControllerProvider.notifier).getALetter());
+
 class LetterController extends StateNotifier<bool> {
   final LetterRepository _letterRepository;
   final Ref _ref;
@@ -73,6 +76,13 @@ class LetterController extends StateNotifier<bool> {
     return letterList;
   }
 
+  Future<LetterModel> getALetter() async {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    return await _letterRepository.getALetter(uid);
+  }
+
   letterEdit(String message, String letterId) {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
@@ -101,5 +111,21 @@ class LetterController extends StateNotifier<bool> {
 
     _letterRepository.letterDelete(uid, letterId);
     _letterRepository.letterDelete(coupleUid, letterId);
+  }
+
+  createResponseLetter(String letterUid, String message, String imageUrl) {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+
+    final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
+    String coupleUid;
+    coupleUidValue != null
+        ? coupleUid = coupleUidValue.couple!
+        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+
+    _letterRepository.createResponseLetter(uid, letterUid, message, imageUrl);
+    _letterRepository.createResponseLetter(
+        coupleUid, letterUid, message, imageUrl);
   }
 }

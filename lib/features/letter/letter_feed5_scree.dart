@@ -54,6 +54,7 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
         child: userInfo.when(data: (user) {
           return lettersList.when(
               data: (letters) {
+                logger.d(letters);
                 if (letters.isEmpty) {
                   return const Center(
                     child: Text(
@@ -277,26 +278,48 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(25),
-                                                          child: CachedNetworkImage(
-                                                              width: 40,
-                                                              imageUrl: user
-                                                                  .couplePhotoURL
-                                                                  .toString()),
-                                                        ),
+                                                        user.uid ==
+                                                                letters[index]
+                                                                    .reciver
+                                                            ? ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            25),
+                                                                child: CachedNetworkImage(
+                                                                    width: 40,
+                                                                    imageUrl: user
+                                                                        .photoURL))
+                                                            : ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            25),
+                                                                child: CachedNetworkImage(
+                                                                    width: 40,
+                                                                    imageUrl: user
+                                                                            .couplePhotoURL ??
+                                                                        user.photoURL)),
                                                         Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            user.coupleDisplayName!
-                                                                .text
-                                                                .size(16)
-                                                                .bold
-                                                                .make(),
+                                                            user.uid ==
+                                                                    letters[index]
+                                                                        .reciver
+                                                                ? user
+                                                                    .displayName
+                                                                    .text
+                                                                    .size(16)
+                                                                    .bold
+                                                                    .make()
+                                                                : user
+                                                                    .coupleDisplayName!
+                                                                    .text
+                                                                    .size(16)
+                                                                    .bold
+                                                                    .make(),
                                                             letters[index]
                                                                 .answer
                                                                 .text
