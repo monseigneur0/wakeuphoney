@@ -54,7 +54,7 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
         child: userInfo.when(data: (user) {
           return lettersList.when(
               data: (letters) {
-                logger.d(letters);
+                // logger.d(letters);
                 if (letters.isEmpty) {
                   return const Center(
                     child: Text(

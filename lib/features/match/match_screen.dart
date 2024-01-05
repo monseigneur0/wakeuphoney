@@ -47,7 +47,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
           style: const TextStyle(color: Colors.black),
         ),
       ),
-      backgroundColor: AppColors.myBackgroundPink,
+      // backgroundColor: AppColors.myBackgroundPink,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -61,27 +61,26 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Column(
                       children: [
-                        const Text(
+                        Text(
                           "SNS 로그인",
                           style: TextStyle(fontSize: 15),
                         ),
-                        const Icon(
+                        Icon(
                           Icons.looks_one_outlined,
                           size: 40,
                         ),
                         Text(
                           "SNS 로그인",
-                          style:
-                              TextStyle(fontSize: 10, color: Colors.grey[300]),
+                          style: TextStyle(fontSize: 10, color: Colors.white),
                         ),
                       ],
                     ),
-                    const Icon(
+                    Icon(
                       Icons.more_horiz,
                       size: 40,
                     ),
@@ -89,37 +88,35 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                       children: [
                         Text(
                           "상대 연결",
-                          style:
-                              TextStyle(fontSize: 10, color: Colors.grey[300]),
+                          style: TextStyle(fontSize: 10, color: Colors.white),
                         ),
-                        const Icon(
+                        Icon(
                           Icons.looks_two,
                           size: 40,
                         ),
-                        const Text(
+                        Text(
                           "상대 연결",
                           style: TextStyle(fontSize: 15),
                         ),
                       ],
                     ),
-                    const Icon(
+                    Icon(
                       Icons.more_horiz,
                       size: 40,
                     ),
                     Column(
                       children: [
-                        const Text(
-                          "일어나곰",
+                        Text(
+                          "상대 깨우기",
                           style: TextStyle(fontSize: 15),
                         ),
-                        const Icon(
+                        Icon(
                           Icons.looks_3_outlined,
                           size: 40,
                         ),
                         Text(
-                          "일어나곰",
-                          style:
-                              TextStyle(fontSize: 10, color: Colors.grey[300]),
+                          "상대 깨우기",
+                          style: TextStyle(fontSize: 10, color: Colors.white),
                         ),
                       ],
                     ),

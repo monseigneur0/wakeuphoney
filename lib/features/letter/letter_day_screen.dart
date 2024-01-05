@@ -10,6 +10,7 @@ import 'package:logger/logger.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:wakeuphoney/core/utils.dart';
+import 'package:wakeuphoney/features/main/main_screen.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/providers/providers.dart';
@@ -148,6 +149,14 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
         title: const Text(
           '어떤 날에 편지를 쓸까요?',
         ),
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       context.push("${MainScreen.routeURL}/0");
+        //     },
+        //     icon: const Icon(Icons.add),
+        //   ),
+        // ],
       ),
       body: Column(
         children: [

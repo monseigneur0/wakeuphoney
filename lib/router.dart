@@ -124,7 +124,7 @@ final routerProvider = Provider((ref) {
       GoRoute(
         name: MainScreen.routeName,
         path: MainScreen.routeURL,
-        builder: (context, state) => const MainScreen(),
+        builder: (context, state) => MainScreen(),
       ),
       GoRoute(
         name: EmailLoginScreen.routeName,
@@ -209,7 +209,7 @@ final logOutRouterProvider = Provider((ref) {
       GoRoute(
         name: MainScreen.routeName,
         path: MainScreen.routeURL,
-        builder: (context, state) => const MainScreen(),
+        builder: (context, state) => MainScreen(),
       ),
       GoRoute(
         name: EmailLoginScreen.routeName,
