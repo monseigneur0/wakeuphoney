@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/letter/letter_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
@@ -50,7 +51,7 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
     return Scaffold(
       appBar: AppBar(
           title: Text(
-              '${DateFormat("yyyy년 MM월 dd일 ").format(ref.watch(selectedDateTime))} 편지')),
+              "${DateFormat("MM/ dd").format(ref.watch(selectedDateTime))} ${AppLocalizations.of(context)!.letter}")),
       body: isLoading
           ? const Loader()
           : GestureDetector(
@@ -70,12 +71,13 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
                           controller: _letterController,
                           validator: (value) {
                             if (value == null || value.isEmpty || value == "") {
-                              return '편지를 써 줘요';
+                              return AppLocalizations.of(context)!.putsometext;
                             }
                             return null;
                           },
-                          decoration: const InputDecoration(
-                              labelText: "어떤 하루를 보냈으면 좋겠어요?"),
+                          decoration: InputDecoration(
+                              labelText:
+                                  AppLocalizations.of(context)!.wakeupletter),
                         ),
                       ),
                     ),
@@ -84,16 +86,14 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
                           horizontal: 60, vertical: 20),
                       child: Column(
                         children: [
-                          ElevatedButton(
-                            style: const ButtonStyle(
-                                backgroundColor:
-                                    MaterialStatePropertyAll(AppColors.myPink)),
-                            onPressed: () async {
+                          GestureDetector(
+                            onTap: () async {
                               if (_formKey.currentState!.validate()) {
                                 setState(() {
                                   isLoading = true;
                                 });
-                                showSnackBar(context, "저장 중입니다.");
+                                showSnackBar(context,
+                                    AppLocalizations.of(context)!.saving);
                                 String uniqueImageName =
                                     DateTime.now().toString();
                                 Reference refRoot =
@@ -128,19 +128,27 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
                                         _letterController.text, imageUrl);
                                 if (mounted) {
                                   Navigator.of(context).pop();
-                                  showSnackBar(context, "Saved");
+                                  showSnackBar(context,
+                                      AppLocalizations.of(context)!.saved);
                                 }
                               }
                               _letterController.clear();
                             },
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 80, vertical: 13),
-                              child: Text(
-                                '보내기',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
+                                color: AppColors.myPink,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 80, vertical: 13),
+                                child: Text(
+                                  AppLocalizations.of(context)!.lettersave,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
@@ -164,20 +172,21 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
                                             Radius.circular(30)),
                                         color: Colors.grey[300],
                                       ),
-                                      child: const Padding(
-                                        padding: EdgeInsets.all(10.0),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Icon(
+                                            const Icon(
                                               Icons.photo_album_outlined,
                                               size: 40,
                                               color: Colors.black,
                                             ),
                                             Text(
-                                              "사진 첨부하기",
-                                              style: TextStyle(
+                                              AppLocalizations.of(context)!
+                                                  .selectimage,
+                                              style: const TextStyle(
                                                 fontSize: 20,
                                                 color: Colors.black,
                                               ),

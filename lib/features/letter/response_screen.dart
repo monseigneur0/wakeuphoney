@@ -9,13 +9,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
 import '../../core/providers/providers.dart';
 import '../../core/utils.dart';
-import '../letter/letter_controller.dart';
-import 'daily_controller.dart';
+import 'letter_controller.dart';
+import '../dailymessages/daily_controller.dart';
 
 class ResponseScreen extends ConsumerStatefulWidget {
   static String routeName = "response";
@@ -54,7 +55,6 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
     final getALetter = ref.watch(getALetterProvider);
 
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
-    var logger = Logger();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -124,16 +124,16 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                   error: (error, stackTrace) {
                     // logger.d("error");
 
-                    return const Column(
+                    return Column(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
                         Text(
-                          "받은 편지가 없어요...",
-                          style: TextStyle(fontSize: 30),
+                          AppLocalizations.of(context)!.noletter,
+                          style: const TextStyle(fontSize: 30),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
                       ],

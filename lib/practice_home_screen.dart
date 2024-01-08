@@ -7,7 +7,7 @@ import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'core/providers/providers.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/dailymessages/letter_date_screen.dart';
-import 'features/dailymessages/response_screen.dart';
+import 'features/letter/response_screen.dart';
 import 'features/profile/profile_screen.dart';
 import 'features/match/match_screen.dart';
 import 'features/auth/auth_repository.dart';

@@ -30,6 +30,7 @@ class LetterController extends StateNotifier<bool> {
       : _letterRepository = letterRepository,
         _ref = ref,
         super(false);
+  Logger logger = Logger();
 
   createLetter(String message, String photoUrl) {
     User? auser = _ref.watch(authProvider).currentUser;
@@ -83,7 +84,7 @@ class LetterController extends StateNotifier<bool> {
     return await _letterRepository.getALetter(uid);
   }
 
-  letterEdit(String message, String letterId) {
+  letterEdit(String letterId, String message) {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";

@@ -8,6 +8,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/utils.dart';
@@ -81,9 +82,9 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                   onPressed: () {
                     context.pop();
                   },
-                  child: const Text(
-                    "취소",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  child: Text(
+                    AppLocalizations.of(context)!.cancel,
+                    style: const TextStyle(color: Colors.white, fontSize: 20),
                   )),
               isLoading
                   ? const Loader()
@@ -94,7 +95,8 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                             setState(() {
                               isLoading = true;
                             });
-                            showSnackBar(context, "저장 중입니다.");
+                            showSnackBar(
+                                context, AppLocalizations.of(context)!.saving);
                             String uniqueImageName = DateTime.now().toString();
                             Reference refRoot =
                                 ref.watch(storageProvider).ref();
@@ -117,12 +119,14 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                                 .updateProfileImage(imageUrl);
                             if (mounted) {
                               Navigator.of(context).pop();
-                              showSnackBar(context, "사진을 저장했어요");
+                              showSnackBar(
+                                  context, AppLocalizations.of(context)!.saved);
                             }
                           },
-                          child: const Text(
-                            "저장",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          child: Text(
+                            AppLocalizations.of(context)!.save,
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 20),
                           ),
                         ),
               if (_croppedFile == null)
@@ -133,7 +137,7 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                       fnCropImage();
                     },
                     backgroundColor: Colors.white,
-                    tooltip: 'Crop',
+                    tooltip: AppLocalizations.of(context)!.crop,
                     child: const Icon(Icons.crop),
                   ),
                 )
@@ -155,14 +159,14 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
         ],
         uiSettings: [
           AndroidUiSettings(
-            toolbarTitle: 'Cropper',
+            toolbarTitle: AppLocalizations.of(context)!.crop,
             toolbarColor: Colors.deepOrange,
             toolbarWidgetColor: Colors.white,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false,
           ),
           IOSUiSettings(
-            title: 'Cropper',
+            title: AppLocalizations.of(context)!.crop,
             // minimumAspectRatio: 1,
             rotateButtonsHidden: false,
             rotateClockwiseButtonHidden: false,

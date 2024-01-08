@@ -11,6 +11,7 @@ import 'package:wakeuphoney/features/letter/letter_day_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_couple_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_screen.dart';
 import 'package:wakeuphoney/practice_home_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/constants/design_constants.dart';
 import '../alarm/alarm_screen.dart';
@@ -106,12 +107,12 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                     bottomNavigationBar: SizedBox(
                       height: 85,
                       child: BottomNavigationBar(
-                        items: const <BottomNavigationBarItem>[
+                        items: <BottomNavigationBarItem>[
                           BottomNavigationBarItem(
-                            icon: ImageIcon(
+                            icon: const ImageIcon(
                               AssetImage('assets/alarm-clock.png'),
                             ),
-                            label: '알람',
+                            label: AppLocalizations.of(context)!.alarm,
                           ),
                           // BottomNavigationBarItem(
                           //   icon: Icon(Icons.alarm),
@@ -122,8 +123,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           //   label: 'Letters',
                           // ),
                           BottomNavigationBarItem(
-                            icon: Icon(Icons.home_outlined),
-                            label: '피드',
+                            icon: const Icon(Icons.home_outlined),
+                            label: AppLocalizations.of(context)!.feed,
                           ),
                           // BottomNavigationBarItem(
                           //   icon: Icon(Icons.feed_outlined),
@@ -131,12 +132,12 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           // ),
                           BottomNavigationBarItem(
                             backgroundColor: AppColors.myPink,
-                            icon: Icon(Icons.local_post_office_outlined),
-                            label: '편지쓰기',
+                            icon: const Icon(Icons.local_post_office_outlined),
+                            label: AppLocalizations.of(context)!.write,
                           ),
                           BottomNavigationBarItem(
-                            icon: Icon(Icons.person_outline_rounded),
-                            label: '프로필',
+                            icon: const Icon(Icons.person_outline_rounded),
+                            label: AppLocalizations.of(context)!.profile,
                           ),
                           // BottomNavigationBarItem(
                           //   icon: Icon(Icons.person_outline_rounded),

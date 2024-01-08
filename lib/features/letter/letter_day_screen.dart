@@ -11,13 +11,13 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:wakeuphoney/core/utils.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/providers/providers.dart';
 import 'letter_controller.dart';
 import 'letter_create_screen.dart';
 
-//사용중인 페이지
 class Event {
   final String title;
 
@@ -89,23 +89,20 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
       _focusedDay = focusedDay;
       // Update values in a Set
       if (selectedDay.isBefore(DateTime.now())) {
-        showSnackBar(context, "편지는 내일부터 쓸 수 있어요");
+        showSnackBar(context, AppLocalizations.of(context)!.writetomorrow);
         return;
       }
       if (_writeDays.contains(selectedDay)) {
-        showSnackBar(context, "이미 편지를 썼어요");
+        showSnackBar(context, AppLocalizations.of(context)!.alreadywrite);
       } else {
         ref.watch(selectedDate.notifier).state =
             DateFormat.yMMMd().format(selectedDay);
         ref.watch(selectedDateTime.notifier).state = selectedDay;
         context.pushNamed(LetterCreateScreen.routeName);
       }
-      print(_selectedDays);
     });
 
     _selectedEvents.value = _getEventsForDays(_selectedDays);
-
-    print("_onDaySelected");
   }
 
   final String iOSId4 = 'ca-app-pub-5897230132206634/2698132449';
@@ -146,8 +143,8 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          '어떤 날에 편지를 쓸까요?',
+        title: Text(
+          AppLocalizations.of(context)!.whenwrite,
         ),
         // actions: [
         //   IconButton(
@@ -188,17 +185,17 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
               },
               error: (error, stackTrace) {
                 logger.d("error$error ");
-                return const Center(
+                return Center(
                   child: Text(
-                    "주고 받은 편지가 없어요",
-                    style: TextStyle(color: Colors.white, fontSize: 40),
+                    AppLocalizations.of(context)!.noletter,
+                    style: const TextStyle(color: Colors.white, fontSize: 40),
                   ),
                 );
               },
               loading: () => const Loader(),
             ),
           ),
-          "날짜를 누르면 편지를 쓸 수 있어요".text.make().centered(),
+          AppLocalizations.of(context)!.datetowrite.text.make().centered(),
           // const SizedBox(height: 8.0),
           // Expanded(
           //   child: ValueListenableBuilder<List<Event>>(

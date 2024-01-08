@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/utils.dart';
@@ -56,10 +57,10 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
               data: (letters) {
                 // logger.d(letters);
                 if (letters.isEmpty) {
-                  return const Center(
+                  return Center(
                     child: Text(
-                      "편지가 없어요",
-                      style: TextStyle(fontSize: 30),
+                      AppLocalizations.of(context)!.noletter,
+                      style: const TextStyle(fontSize: 30),
                     ),
                   );
                 }
@@ -78,7 +79,7 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  DateFormat("MM월 dd일 ")
+                                  DateFormat("MM/dd")
                                       .format(letters[index].letterTime)
                                       .toString()
                                       .text
@@ -92,7 +93,7 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
                                         boxShadow: [
                                           BoxShadow(
                                               color:
-                                                  Colors.black.withOpacity(0.2),
+                                                  Colors.black.withOpacity(0.1),
                                               blurRadius: 20,
                                               offset: const Offset(8, 8))
                                         ]),
@@ -160,11 +161,14 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
                                                                 onTap: () {
                                                                   showSnackBar(
                                                                       context,
-                                                                      "과거는 지울 수 없어요.");
+                                                                      AppLocalizations.of(
+                                                                              context)!
+                                                                          .nodeletepast);
                                                                 },
-                                                                child:
-                                                                    const Text(
-                                                                        "삭제"),
+                                                                child: Text(
+                                                                    AppLocalizations.of(
+                                                                            context)!
+                                                                        .delete),
                                                               ),
                                                             ];
                                                           }
@@ -179,8 +183,10 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
                                                                     letters[index]
                                                                         .letterId);
                                                               },
-                                                              child: const Text(
-                                                                  "수정"),
+                                                              child: Text(
+                                                                  AppLocalizations.of(
+                                                                          context)!
+                                                                      .edit),
                                                             ),
                                                             PopupMenuItem(
                                                               onTap: () {
@@ -192,10 +198,14 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
                                                                             .letterId);
                                                                 showSnackBar(
                                                                     context,
-                                                                    "삭제되었습니다.");
+                                                                    AppLocalizations.of(
+                                                                            context)!
+                                                                        .deleted);
                                                               },
-                                                              child: const Text(
-                                                                  "삭제"),
+                                                              child: Text(
+                                                                  AppLocalizations.of(
+                                                                          context)!
+                                                                      .delete),
                                                             ),
                                                           ];
                                                         },
@@ -379,16 +389,16 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
               loading: () => const Loader(),
               error: (error, stack) {
                 logger.e(error.toString());
-                return const Center(
-                  child: Text("사용자를 찾을 수 없어요 \n 다시 접속해주세요."),
+                return Center(
+                  child: Text(AppLocalizations.of(context)!.erroruser),
                 );
               });
         }, loading: () {
           return const Loader();
         }, error: (error, stack) {
           logger.e(error.toString());
-          return const Center(
-            child: Text("사용자를 찾을 수 없어요 \n 다시 접속해주세요."),
+          return Center(
+            child: Text(AppLocalizations.of(context)!.erroruser),
           );
         }),
       ),
@@ -410,7 +420,7 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
                   keyboardType: TextInputType.multiline,
                   validator: (value) {
                     if (value == null || value.isEmpty || value == '') {
-                      return '내용을 적어주세요';
+                      return AppLocalizations.of(context)!.putsometext;
                     }
                     return null;
                   },
@@ -426,7 +436,8 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
                   ElevatedButton(
                     onPressed: () {
                       if (_formkey.currentState!.validate()) {
-                        showSnackBar(context, "메세지가 수정되었습니다.");
+                        showSnackBar(context,
+                            AppLocalizations.of(context)!.letteredited);
                         ref
                             .watch(letterControllerProvider.notifier)
                             .letterEdit(letterId, _letterEditController.text);
@@ -434,7 +445,7 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
                         Navigator.of(context).pop();
                       }
                     },
-                    child: const Text('수정'),
+                    child: Text(AppLocalizations.of(context)!.edit),
                   ),
                 ],
               ),

@@ -59,6 +59,13 @@ class WakeUpHoney extends ConsumerWidget {
       supportedLocales: const [
         Locale('en'),
         Locale('ko'),
+        Locale('cn'),
+        Locale('fr'),
+        Locale('id'),
+        Locale('jp'),
+        Locale('ml'),
+        Locale('pg'),
+        Locale('sp'),
       ],
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(

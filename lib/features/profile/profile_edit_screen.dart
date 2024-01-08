@@ -113,7 +113,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('프로필 편집'),
+        title: Text(AppLocalizations.of(context)!.editprofile),
       ),
       backgroundColor: Colors.grey[200],
       body: userProfile.when(
@@ -183,7 +183,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                         width: 20,
                       ),
                       Text(
-                        "이름",
+                        AppLocalizations.of(context)!.name,
                         style: TextStyle(color: Colors.grey[700]),
                       ),
                     ],
@@ -305,10 +305,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("생일", style: TextStyle(fontSize: 18)),
-                          Text(
-                              DateFormat("yyyy년 MM월 dd일")
-                                  .format(user.birthDate),
+                          Text(AppLocalizations.of(context)!.birthday,
+                              style: const TextStyle(fontSize: 18)),
+                          Text(DateFormat("yyyy/MM/dd").format(user.birthDate),
                               style: TextStyle(
                                   fontSize: 18, color: Colors.grey[600])),
                         ],
@@ -359,10 +358,12 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                                     blurRadius: 10,
                                                     offset: const Offset(8, 8))
                                               ]),
-                                          child: const Center(
-                                              child: Text("남자",
-                                                  style:
-                                                      TextStyle(fontSize: 24))))
+                                          child: Center(
+                                              child: Text(
+                                                  AppLocalizations.of(context)!
+                                                      .male,
+                                                  style: const TextStyle(
+                                                      fontSize: 24))))
                                       .pSymmetric(v: 10),
                                 ),
                                 10.heightBox,
@@ -391,9 +392,12 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                                     blurRadius: 10,
                                                     offset: const Offset(8, 8))
                                               ]),
-                                          child: const Center(
-                                                  child: Text("여자",
-                                                      style: TextStyle(
+                                          child: Center(
+                                                  child: Text(
+                                                      AppLocalizations.of(
+                                                              context)!
+                                                          .female,
+                                                      style: const TextStyle(
                                                           fontSize: 24)))
                                               .p(5))
                                       .pSymmetric(v: 10),
@@ -408,8 +412,12 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("성별", style: TextStyle(fontSize: 18)),
-                          Text(user.gender == "male" ? "남자" : "여자",
+                          Text(AppLocalizations.of(context)!.gender,
+                              style: const TextStyle(fontSize: 18)),
+                          Text(
+                              user.gender == "male"
+                                  ? AppLocalizations.of(context)!.male
+                                  : AppLocalizations.of(context)!.female,
                               style: const TextStyle(fontSize: 18)),
                         ],
                       ).pSymmetric(v: 8, h: 20),
@@ -448,7 +456,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                         width: 20,
                       ),
                       Text(
-                        "내 계정 정보",
+                        AppLocalizations.of(context)!.myaccount,
                         style: TextStyle(color: Colors.grey[700]),
                       ),
                     ],
@@ -482,7 +490,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                         width: 20,
                       ),
                       Text(
-                        "상대 계정 정보",
+                        AppLocalizations.of(context)!.coupleaccount,
                         style: TextStyle(color: Colors.grey[700]),
                       ),
                     ],
@@ -499,7 +507,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                           width: 20,
                           height: 40,
                         ),
-                        Text(user.coupleDisplayName ?? "없어요",
+                        Text(
+                            user.coupleDisplayName ??
+                                AppLocalizations.of(context)!.no,
                             style: TextStyle(
                               color: Colors.grey[700],
                             )),
@@ -517,12 +527,13 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("편지 확인 가능 시간",
+                          Text(AppLocalizations.of(context)!.wakeuptime,
                               style: TextStyle(
                                 color: Colors.grey[700],
                               )),
                           Text(
-                              DateFormat("오전 hh시 mm분 이후")
+                              DateFormat(
+                                      AppLocalizations.of(context)!.afterwakeup)
                                   .format(user.coupleWakeUpTime!),
                               style: TextStyle(
                                 color: Colors.grey[700],
@@ -543,13 +554,14 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       color: Colors.white,
-                      child: const Row(
+                      child: Row(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                             height: 40,
                           ),
-                          Text("고객센터", style: TextStyle(fontSize: 18)),
+                          Text(AppLocalizations.of(context)!.cscenter,
+                              style: const TextStyle(fontSize: 18)),
                         ],
                       ),
                     ),
@@ -566,13 +578,14 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       color: Colors.white,
-                      child: const Row(
+                      child: Row(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                             height: 40,
                           ),
-                          Text("앱 소개", style: TextStyle(fontSize: 18)),
+                          Text(AppLocalizations.of(context)!.appintro,
+                              style: const TextStyle(fontSize: 18)),
                         ],
                       ),
                     ),
@@ -583,20 +596,21 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width,
                     color: Colors.white,
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 20,
                               height: 40,
                             ),
-                            Text("앱 버전 정보", style: TextStyle(fontSize: 18)),
+                            Text(AppLocalizations.of(context)!.appversion,
+                                style: const TextStyle(fontSize: 18)),
                           ],
                         ),
-                        Row(
+                        const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text("1.0.19", style: TextStyle(fontSize: 18)),
@@ -618,13 +632,14 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       color: Colors.white,
-                      child: const Row(
+                      child: Row(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                             height: 40,
                           ),
-                          Text("개인정보처리방침", style: TextStyle(fontSize: 18)),
+                          Text(AppLocalizations.of(context)!.inforule,
+                              style: const TextStyle(fontSize: 18)),
                         ],
                       ),
                     ),
@@ -777,13 +792,14 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       color: Colors.white,
-                      child: const Row(
+                      child: Row(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                             height: 40,
                           ),
-                          Text("로그아웃", style: TextStyle(fontSize: 20)),
+                          Text(AppLocalizations.of(context)!.logout,
+                              style: const TextStyle(fontSize: 20)),
                         ],
                       ),
                     ),
@@ -868,13 +884,14 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       color: Colors.white,
-                      child: const Row(
+                      child: Row(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                             height: 40,
                           ),
-                          Text("상대와 연결 끊기", style: TextStyle(fontSize: 20)),
+                          Text(AppLocalizations.of(context)!.breakup,
+                              style: const TextStyle(fontSize: 20)),
                         ],
                       ),
                     ),
@@ -960,13 +977,14 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       color: Colors.white,
-                      child: const Row(
+                      child: Row(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                             height: 40,
                           ),
-                          Text("회원 탈퇴", style: TextStyle(fontSize: 20)),
+                          Text(AppLocalizations.of(context)!.deleteaccount,
+                              style: const TextStyle(fontSize: 20)),
                         ],
                       ),
                     ),
@@ -980,8 +998,8 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
           },
           error: (error, stackTrace) {
             logger.e(error);
-            return const Center(
-              child: Text("다시 접속해주세요"),
+            return Center(
+              child: Text(AppLocalizations.of(context)!.erroruser),
             );
           },
           loading: () => const Loader()),

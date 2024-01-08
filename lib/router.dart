@@ -13,7 +13,6 @@ import 'features/auth/login_email_screen.dart';
 import 'features/chatgpt/cs_screen.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/dailymessages/letter_date_screen.dart';
-import 'features/dailymessages/history_screen.dart';
 import 'features/letter/letter_create_screen.dart';
 import 'features/letter/letter_day_screen.dart';
 import 'features/image/image_full_screen.dart';
@@ -22,7 +21,7 @@ import 'features/profile/profile_screen.dart';
 import 'features/profile/feedback_screen.dart';
 import 'features/match/match_screen.dart';
 import 'features/auth/login_screen.dart';
-import 'features/dailymessages/response_screen.dart';
+import 'features/letter/response_screen.dart';
 import 'practice_home_screen.dart';
 
 final routerProvider = Provider((ref) {
@@ -77,11 +76,6 @@ final routerProvider = Provider((ref) {
         name: ResponseScreen.routeName,
         path: ResponseScreen.routeURL,
         builder: (context, state) => const ResponseScreen(),
-      ),
-      GoRoute(
-        name: HistoryMessageScreen.routeName,
-        path: HistoryMessageScreen.routeURL,
-        builder: (context, state) => const HistoryMessageScreen(),
       ),
       GoRoute(
         name: CoupleLetterScreen.routeName,

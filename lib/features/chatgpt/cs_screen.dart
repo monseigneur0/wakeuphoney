@@ -227,50 +227,47 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
               final userState = ref.watch(getMyUserInfoProvider);
               return userState.when(
                 data: (user) {
-                  if (user.chatGPTMessageCount != null) {
-                    if (user.chatGPTMessageCount! > 20) {
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(32),
-                                border: Border.all(),
+                  if (user.chatGPTMessageCount > 20) {
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(32),
+                              border: Border.all(),
+                            ),
+                            child: TextFormField(
+                              controller: _messageTextController,
+                              decoration: const InputDecoration(
+                                hintText: '궁금한게 있어요.',
+                                border: InputBorder.none,
                               ),
-                              child: TextFormField(
-                                controller: _messageTextController,
-                                decoration: const InputDecoration(
-                                  hintText: '궁금한게 있어요.',
-                                  border: InputBorder.none,
-                                ),
-                                validator: (value) {
-                                  if (value == null ||
-                                      value.isEmpty ||
-                                      value == "") {
-                                    return '궁금한 점을 입력해주세요.';
-                                  } else if (value.length > 200) {
-                                    return '내용이 너무 길어요';
-                                  }
-                                  return null;
-                                },
-                              ),
+                              validator: (value) {
+                                if (value == null ||
+                                    value.isEmpty ||
+                                    value == "") {
+                                  return '궁금한 점을 입력해주세요.';
+                                } else if (value.length > 200) {
+                                  return '내용이 너무 길어요';
+                                }
+                                return null;
+                              },
                             ),
                           ),
-                          IconButton(
-                            iconSize: 42,
-                            icon: isLoading
-                                ? const CircularProgressIndicator()
-                                : const Icon(Icons.sick_outlined),
-                            onPressed: () async {
-                              showSnackBar(context, "현재 고객센터 사용이 불가합니다.");
-                            },
-                          ),
-                        ],
-                      );
-                    }
+                        ),
+                        IconButton(
+                          iconSize: 42,
+                          icon: isLoading
+                              ? const CircularProgressIndicator()
+                              : const Icon(Icons.sick_outlined),
+                          onPressed: () async {
+                            showSnackBar(context, "현재 고객센터 사용이 불가합니다.");
+                          },
+                        ),
+                      ],
+                    );
                   }
                   return Dismissible(
                     key: const Key('chatgpt'),
@@ -343,19 +340,13 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
                               messageText = _messageTextController.text.trim();
                               _messageTextController.clear();
 
-                              if (user.chatGPTMessageCount != null) {
-                                ref
-                                    .watch(profileControllerProvider.notifier)
-                                    .updateGPTCount();
-                                if (user.chatGPTMessageCount! < 20) {
-                                  await requestChat(messageText);
-                                } else {
-                                  showSnackBar(context, "현재 고객센터 사용이 불가합니다.");
-                                }
+                              ref
+                                  .watch(profileControllerProvider.notifier)
+                                  .updateGPTCount();
+                              if (user.chatGPTMessageCount != 0) {
+                                await requestChat(messageText);
                               } else {
-                                ref
-                                    .watch(profileControllerProvider.notifier)
-                                    .createGPTCount();
+                                showSnackBar(context, "현재 고객센터 사용이 불가합니다.");
                               }
 
                               streamText = "";

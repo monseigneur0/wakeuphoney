@@ -62,7 +62,7 @@ class ProfileRepo {
   }
 
   updateGPTCount(String uid) {
-    _users.doc(uid).update({"chatGPTMessageCount": FieldValue.increment(1)});
+    _users.doc(uid).update({"chatGPTMessageCount": FieldValue.increment(-1)});
   }
 
   createGPTCount(String uid) {
@@ -80,7 +80,7 @@ class ProfileRepo {
     _users.get().then((value) {
       for (var docSnapshot in value.docs) {
         _users.doc(docSnapshot.id).update({
-          // "chatGPTMessageCount": 0,
+          "chatGPTMessageCount": 5,
           // "gender": "male",
           // "birthDate": DateTime.now(),
           // "location": const GeoPoint(37.4734153, 126.8301878),
@@ -90,8 +90,8 @@ class ProfileRepo {
           // "coupleLocation": const GeoPoint(37.4734153, 126.8301878),
           // "coupleWakeUpTime": DateTime.now(),
           // "coupleWakeUpTime": DateTime(2020, 01, 01, 05, 00, 00),
-          "coupleDisplayName": "n",
-          "couplePhotoURL": "n",
+          // "coupleDisplayName": "n",
+          // "couplePhotoURL": "n",
         });
       }
     });
