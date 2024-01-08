@@ -116,4 +116,30 @@ class ProfileRepo {
   updateCoupleDisplayName(String coupleUid, String displayName) {
     _users.doc(coupleUid).update({"coupleDisplayName": displayName});
   }
+
+  createTestUser(String uid) {
+    _users.doc("zahUhXaKRCfOw5ARN3yTScCteFh2").set(UserModel(
+          displayName: "testid",
+          email: "takho@wakeup.com",
+          photoURL:
+              "https://firebasestorage.googleapis.com/v0/b/wakeuphoneys2.appspot.com/o/images%2Fgoogleprofileimg.png?alt=media&token=76e62fad-11c3-4c66-ba8a-2400efbedb5a",
+          uid: "zahUhXaKRCfOw5ARN3yTScCteFh2",
+          couple: "",
+          couples: [],
+          creationTime: DateTime.now(),
+          lastSignInTime: DateTime.now(),
+          isLoggedIn: true,
+          chatGPTMessageCount: 0,
+          gender: "male",
+          birthDate: DateTime.now(),
+          location: const GeoPoint(0, 0),
+          wakeUpTime: DateTime.now(),
+          coupleDisplayName: "",
+          couplePhotoURL: "",
+          coupleGender: "",
+          coupleBirthDate: DateTime.now(),
+          coupleLocation: const GeoPoint(0, 0),
+          coupleWakeUpTime: DateTime.now(),
+        ).toMap());
+  }
 }

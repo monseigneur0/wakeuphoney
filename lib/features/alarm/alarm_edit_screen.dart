@@ -26,7 +26,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
   late DateTime selectedDateTime;
   late bool loopAudio;
   late bool vibrate;
-  late bool volumeMax;
+  late double? volume;
   late bool showNotification;
   late String assetAudio;
 
@@ -51,7 +51,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
           hour: selectedDateTime.hour, minute: selectedDateTime.minute);
       loopAudio = true;
       vibrate = true;
-      volumeMax = true;
+      volume = null;
       showNotification = true;
       assetAudio = 'assets/marimba.mp3';
       days = <bool>[
@@ -71,11 +71,9 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
       selectedDateTime = widget.alarmSettings!.dateTime;
       loopAudio = widget.alarmSettings!.loopAudio;
       vibrate = widget.alarmSettings!.vibrate;
-      volumeMax = widget.alarmSettings!.volumeMax;
-      showNotification = widget.alarmSettings!.notificationTitle != null &&
-          widget.alarmSettings!.notificationTitle!.isNotEmpty &&
-          widget.alarmSettings!.notificationBody != null &&
-          widget.alarmSettings!.notificationBody!.isNotEmpty;
+      volume = widget.alarmSettings!.volume;
+      showNotification = widget.alarmSettings!.notificationTitle.isNotEmpty &&
+          widget.alarmSettings!.notificationBody.isNotEmpty;
       assetAudio = widget.alarmSettings!.assetAudioPath;
       // days = widget.alarmSettings!.days;
     }
@@ -163,9 +161,9 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
       dateTime: dateTime,
       loopAudio: loopAudio,
       vibrate: vibrate,
-      volumeMax: volumeMax,
-      notificationTitle: showNotification ? 'Alarm ' : null,
-      notificationBody: showNotification ? '알람이 울리고 있어요! 편지를 확인해보세요!' : null,
+      volume: volume,
+      notificationTitle: AppLocalizations.of(context)!.wakeupgomalarm,
+      notificationBody: AppLocalizations.of(context)!.alarmringletter,
       assetAudioPath: assetAudio,
       // days: days,
     );
@@ -306,7 +304,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
+                      color: Colors.black.withOpacity(0.1),
                       blurRadius: 20,
                       offset: const Offset(8, 8))
                 ]),
@@ -330,7 +328,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
+                      color: Colors.black.withOpacity(0.1),
                       blurRadius: 20,
                       offset: const Offset(8, 8))
                 ]),
@@ -354,7 +352,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
+                      color: Colors.black.withOpacity(0.1),
                       blurRadius: 20,
                       offset: const Offset(8, 8))
                 ]),
@@ -362,15 +360,41 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '소리 최대로',
+                  AppLocalizations.of(context)!.customvolume,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Switch(
-                  value: volumeMax,
-                  onChanged: (value) => setState(() => volumeMax = value),
+                  value: volume != null,
+                  onChanged: (value) =>
+                      setState(() => volume = value ? 0.8 : null),
                 ),
               ],
             ).pSymmetric(h: 20, v: 10),
+          ),
+          SizedBox(
+            height: 30,
+            child: volume != null
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(
+                        volume! > 0.7
+                            ? Icons.volume_up_rounded
+                            : volume! > 0.1
+                                ? Icons.volume_down_rounded
+                                : Icons.volume_mute_rounded,
+                      ),
+                      Expanded(
+                        child: Slider(
+                          value: volume!,
+                          onChanged: (value) {
+                            setState(() => volume = value);
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                : const SizedBox(),
           ),
           Container(
             decoration: BoxDecoration(
@@ -378,7 +402,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
+                      color: Colors.black.withOpacity(0.1),
                       blurRadius: 20,
                       offset: const Offset(8, 8))
                 ]),
@@ -434,7 +458,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
             TextButton(
               onPressed: deleteAlarm,
               child: Text(
-                'Delete Alarm',
+                AppLocalizations.of(context)!.deletealarm,
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!

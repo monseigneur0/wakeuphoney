@@ -92,7 +92,7 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
                                         boxShadow: [
                                           BoxShadow(
                                               color:
-                                                  Colors.black.withOpacity(0.3),
+                                                  Colors.black.withOpacity(0.2),
                                               blurRadius: 20,
                                               offset: const Offset(8, 8))
                                         ]),

@@ -61,62 +61,65 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Column(
                       children: [
                         Text(
-                          "SNS 로그인",
-                          style: TextStyle(fontSize: 15),
+                          AppLocalizations.of(context)!.snslogin,
+                          style: const TextStyle(fontSize: 15),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.looks_one_outlined,
                           size: 40,
                         ),
                         Text(
-                          "SNS 로그인",
-                          style: TextStyle(fontSize: 10, color: Colors.white),
+                          AppLocalizations.of(context)!.snslogin,
+                          style: const TextStyle(
+                              fontSize: 10, color: Colors.white),
                         ),
                       ],
                     ),
-                    Icon(
+                    const Icon(
                       Icons.more_horiz,
                       size: 40,
                     ),
                     Column(
                       children: [
                         Text(
-                          "상대 연결",
-                          style: TextStyle(fontSize: 10, color: Colors.white),
+                          AppLocalizations.of(context)!.matchprocess,
+                          style: const TextStyle(
+                              fontSize: 10, color: Colors.white),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.looks_two,
                           size: 40,
                         ),
                         Text(
-                          "상대 연결",
-                          style: TextStyle(fontSize: 15),
+                          AppLocalizations.of(context)!.matchprocess,
+                          style: const TextStyle(fontSize: 15),
                         ),
                       ],
                     ),
-                    Icon(
+                    const Icon(
                       Icons.more_horiz,
                       size: 40,
                     ),
                     Column(
                       children: [
                         Text(
-                          "상대 깨우기",
-                          style: TextStyle(fontSize: 15),
+                          AppLocalizations.of(context)!.wakeupgom,
+                          style: const TextStyle(fontSize: 15),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.looks_3_outlined,
                           size: 40,
                         ),
                         Text(
-                          "상대 깨우기",
-                          style: TextStyle(fontSize: 10, color: Colors.white),
+                          AppLocalizations.of(context)!.wakeupgom,
+                          style: const TextStyle(
+                              fontSize: 10, color: Colors.white),
                         ),
                       ],
                     ),
@@ -125,16 +128,16 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Text(
-                  "서로의 초대코드를 입력하면 연결돼요.",
-                  style: TextStyle(color: Colors.black),
+                Text(
+                  AppLocalizations.of(context)!.codewritematch,
+                  style: const TextStyle(color: Colors.black),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                const Text(
-                  "편지를 쓰고, 알람을 설정하고, \n아침에 편지를 확인해보세요.",
-                  style: TextStyle(color: Colors.black),
+                Text(
+                  AppLocalizations.of(context)!.writealarmcheck,
+                  style: const TextStyle(color: Colors.black),
                 ),
                 const SizedBox(
                   height: 10,
@@ -144,9 +147,9 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              "내 초대코드 (1시간 유효) ",
-                              style: TextStyle(color: Colors.black),
+                            Text(
+                              AppLocalizations.of(context)!.mycode1hour,
+                              style: const TextStyle(color: Colors.black),
                             ),
                             const SizedBox(
                               height: 5,
@@ -185,9 +188,9 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Text(
-                  "상대의 초대코드를 전달받았나요?",
-                  style: TextStyle(color: Colors.black),
+                Text(
+                  AppLocalizations.of(context)!.writeothercode,
+                  style: const TextStyle(color: Colors.black),
                 ),
                 const SizedBox(
                   height: 10,

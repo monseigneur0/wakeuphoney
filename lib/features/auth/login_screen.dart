@@ -58,7 +58,9 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
           //       ))
           // ],
           backgroundColor: AppColors.myAppBarBackgroundPink,
-          title: const Text('일어나곰'),
+          title: Text(
+            AppLocalizations.of(context)!.wakeupgom,
+          ),
         ),
         body: Center(
           child: Column(
@@ -124,16 +126,16 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                 children: [
                   Column(
                     children: [
-                      const Text(
-                        "SNS 로그인",
-                        style: TextStyle(fontSize: 15),
+                      Text(
+                        AppLocalizations.of(context)!.snslogin,
+                        style: const TextStyle(fontSize: 15),
                       ),
                       const Icon(
                         Icons.looks_one,
                         size: 40,
                       ),
                       Text(
-                        "SNS 로그인",
+                        AppLocalizations.of(context)!.snslogin,
                         style: TextStyle(fontSize: 10, color: Colors.grey[200]),
                       ),
                     ],
@@ -145,16 +147,16 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                   Column(
                     children: [
                       Text(
-                        "상대 연결",
+                        AppLocalizations.of(context)!.matchprocess,
                         style: TextStyle(fontSize: 10, color: Colors.grey[200]),
                       ),
                       const Icon(
                         Icons.looks_two_outlined,
                         size: 40,
                       ),
-                      const Text(
-                        "상대 연결",
-                        style: TextStyle(fontSize: 15),
+                      Text(
+                        AppLocalizations.of(context)!.matchprocess,
+                        style: const TextStyle(fontSize: 15),
                       ),
                     ],
                   ),
@@ -164,16 +166,16 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                   ),
                   Column(
                     children: [
-                      const Text(
-                        "일어나곰",
-                        style: TextStyle(fontSize: 15),
+                      Text(
+                        AppLocalizations.of(context)!.wakeupgom,
+                        style: const TextStyle(fontSize: 15),
                       ),
                       const Icon(
                         Icons.looks_3_outlined,
                         size: 40,
                       ),
                       Text(
-                        "일어나곰",
+                        AppLocalizations.of(context)!.wakeupgom,
                         style: TextStyle(fontSize: 10, color: Colors.grey[200]),
                       ),
                     ],
@@ -199,9 +201,10 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                           'assets/apple.png',
                           width: 35,
                         ),
-                        label: const Text(
-                          'Apple로 로그인',
-                          style: TextStyle(fontSize: 18, color: Colors.black),
+                        label: Text(
+                          AppLocalizations.of(context)!.applelogin,
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
@@ -228,9 +231,9 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                     'assets/google.png',
                     width: 35,
                   ),
-                  label: const Text(
-                    'Google로 로그인',
-                    style: TextStyle(fontSize: 18, color: Colors.black),
+                  label: Text(
+                    AppLocalizations.of(context)!.googlelogin,
+                    style: const TextStyle(fontSize: 18, color: Colors.black),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
@@ -250,8 +253,8 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                   // });
                   context.push(EmailLoginScreen.routeURL);
                 },
-                child: const Text(
-                  '이메일로 로그인하기',
+                child: Text(
+                  AppLocalizations.of(context)!.emaillogin,
                 ),
               ),
             ],

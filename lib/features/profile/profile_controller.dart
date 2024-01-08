@@ -193,4 +193,11 @@ class ProfileController extends StateNotifier<bool> {
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
     _profileRepo.updateCoupleDisplayName(coupleUid, displayName);
   }
+
+  createTestUser() {
+    User? user = _ref.watch(authProvider).currentUser;
+    String uid;
+    user != null ? uid = user.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    _profileRepo.createTestUser(uid);
+  }
 }

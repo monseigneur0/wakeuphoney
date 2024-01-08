@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../core/constants/design_constants.dart';
 import '../../widgets/alarm_tile.dart';
@@ -16,11 +17,15 @@ import 'alarm_edit_screen.dart';
 import 'alarm_new_ring_screen.dart';
 import 'alarm_ring_screen.dart';
 
-final alarmSettingsProvider = StateProvider<AlarmSettings>((ref) =>
-    AlarmSettings(
-        id: 112,
-        dateTime: DateTime.now(),
-        assetAudioPath: 'assets/mozart.mp3'));
+final alarmSettingsProvider =
+    StateProvider<AlarmSettings>((ref) => AlarmSettings(
+          id: 112,
+          dateTime: DateTime.now(),
+          assetAudioPath: 'assets/mozart.mp3',
+          volume: 0.5,
+          notificationTitle: 'Alarm example',
+          notificationBody: 'Shortcut button alarm with delay of n hours',
+        ));
 
 class AlarmHome extends StatefulWidget {
   static String routeName = "alarm";
@@ -43,6 +48,10 @@ class AlarmHomeState extends State<AlarmHome> {
   @override
   void initState() {
     super.initState();
+    if (Alarm.android) {
+      checkAndroidNotificationPermission();
+      checkAndroidExternalStoragePermission();
+    }
     loadAlarms();
     subscription ??= Alarm.ringStream.stream.listen(
       (alarmSettings) => navigateToRingScreen(alarmSettings),
@@ -91,15 +100,37 @@ class AlarmHomeState extends State<AlarmHome> {
     final res = await showModalBottomSheet<bool?>(
       context: context,
       isScrollControlled: true,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       builder: (context) {
         return FractionallySizedBox(
           heightFactor: 0.7,
           child: AlarmEditScreen(alarmSettings: settings),
         );
       },
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
     );
     if (res != null && res == true) loadAlarms();
+  }
+
+  Future<void> checkAndroidNotificationPermission() async {
+    final status = await Permission.notification.status;
+    if (status.isDenied) {
+      alarmPrint('Requesting notification permission...');
+      final res = await Permission.notification.request();
+      alarmPrint(
+        'Notification permission ${res.isGranted ? '' : 'not'} granted.',
+      );
+    }
+  }
+
+  Future<void> checkAndroidExternalStoragePermission() async {
+    final status = await Permission.storage.status;
+    if (status.isDenied) {
+      alarmPrint('Requesting external storage permission...');
+      final res = await Permission.storage.request();
+      alarmPrint(
+        'External storage permission ${res.isGranted ? '' : 'not'} granted.',
+      );
+    }
   }
 
   @override
@@ -125,14 +156,14 @@ class AlarmHomeState extends State<AlarmHome> {
               color: AppColors.myPink,
             ),
           ),
-          // IconButton(
-          //   onPressed: () => context.pushNamed(AlarmNewScreen.routeName),
-          //   icon: const ImageIcon(
-          //     AssetImage('assets/alarm-clock.png'),
-          //     size: 29,
-          //     color: AppColors.myPink,
-          //   ),
-          // )
+          IconButton(
+            onPressed: () => context.pushNamed(AlarmNewScreen.routeName),
+            icon: const ImageIcon(
+              AssetImage('assets/alarm-clock.png'),
+              size: 29,
+              color: AppColors.myPink,
+            ),
+          ),
         ],
       ),
       body: Column(
@@ -184,24 +215,24 @@ class AlarmHomeState extends State<AlarmHome> {
             ),
         ],
       ),
-      // floatingActionButton: Padding(
-      //   padding: const EdgeInsets.only(bottom: 100, right: 10),
-      //   child: Row(
-      //     mainAxisAlignment: MainAxisAlignment.end,
-      //     children: [
-      //       ExampleAlarmHomeShortcutButton(refreshAlarms: loadAlarms),
-      //       // FloatingActionButton(
-      //       //   onPressed: () => navigateToAlarmScreen(null),
-      //       //   backgroundColor: AppColors.myPink,
-      //       //   child: const ImageIcon(
-      //       //     AssetImage('assets/alarm-clock.png'),
-      //       //     size: 29,
-      //       //   ),
-      //       // ),
-      //     ],
-      //   ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 100, right: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ExampleAlarmHomeShortcutButton(refreshAlarms: loadAlarms),
+            // FloatingActionButton(
+            //   onPressed: () => navigateToAlarmScreen(null),
+            //   backgroundColor: AppColors.myPink,
+            //   child: const ImageIcon(
+            //     AssetImage('assets/alarm-clock.png'),
+            //     size: 29,
+            //   ),
+            // ),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
@@ -211,6 +242,9 @@ void ringnow() {
     id: 42,
     dateTime: DateTime.now(),
     assetAudioPath: 'assets/mozart.mp3',
+    volume: 0.5,
+    notificationTitle: 'Alarm example',
+    notificationBody: 'Shortcut button alarm with delay of n hours',
   );
   Alarm.set(
     alarmSettings: alarmSettingNow,

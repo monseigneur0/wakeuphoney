@@ -9,6 +9,8 @@ import '../../core/utils.dart';
 
 //  test123@wakeupgom.com
 //  tezPib-5qovxu-bydruk
+// takho@wakeup.com
+// !
 class EmailLoginScreen extends StatefulWidget {
   static String routeName = "emaillogin";
   static String routeURL = "/emaillogin";

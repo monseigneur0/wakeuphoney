@@ -8,9 +8,6 @@ import 'core/providers/providers.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/dailymessages/letter_date_screen.dart';
 import 'features/dailymessages/response_screen.dart';
-import 'features/match/match3_screen.dart';
-import 'features/match/match4_screen.dart';
-import 'features/match/match_up.dart';
 import 'features/profile/profile_screen.dart';
 import 'features/match/match_screen.dart';
 import 'features/auth/auth_repository.dart';
@@ -92,18 +89,6 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
               ),
               ElevatedButton(
                 style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.blue)),
-                onPressed: () => context.pushNamed(Match3Screen.routeName),
-                child: const Text('Match3Screen'),
-              ),
-              ElevatedButton(
-                style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.pink)),
-                onPressed: () => context.pushNamed(Match4Screen.routeName),
-                child: const Text('PomodoroScreen'),
-              ),
-              ElevatedButton(
-                style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.black)),
                 onPressed: () => context.pushNamed(MainScreen.routeName),
                 child: const Text('MainScreen'),
@@ -134,15 +119,6 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                     backgroundColor:
                         MaterialStatePropertyAll(Colors.blue[600])),
                 child: const Text('CoupleHistoryScreen'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  context.pushNamed(Home.routeName);
-                },
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStatePropertyAll(Colors.green[600])),
-                child: const Text('Home date picker'),
               ),
               ElevatedButton(
                 onPressed: () {

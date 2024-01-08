@@ -18,9 +18,6 @@ import 'features/letter/letter_create_screen.dart';
 import 'features/letter/letter_day_screen.dart';
 import 'features/image/image_full_screen.dart';
 import 'features/letter/letter_calendar_screen.dart';
-import 'features/match/match3_screen.dart';
-import 'features/match/match4_screen.dart';
-import 'features/match/match_up.dart';
 import 'features/profile/profile_screen.dart';
 import 'features/profile/feedback_screen.dart';
 import 'features/match/match_screen.dart';
@@ -107,24 +104,9 @@ final routerProvider = Provider((ref) {
         builder: (context, state) => const MatchScreen(),
       ),
       GoRoute(
-        name: Match3Screen.routeName,
-        path: Match3Screen.routeURL,
-        builder: (context, state) => const Match3Screen(),
-      ),
-      GoRoute(
-        name: Match4Screen.routeName,
-        path: Match4Screen.routeURL,
-        builder: (context, state) => const Match4Screen(),
-      ),
-      GoRoute(
-        name: Home.routeName,
-        path: Home.routeURL,
-        builder: (context, state) => const Home(),
-      ),
-      GoRoute(
         name: MainScreen.routeName,
         path: MainScreen.routeURL,
-        builder: (context, state) => MainScreen(),
+        builder: (context, state) => const MainScreen(),
       ),
       GoRoute(
         name: EmailLoginScreen.routeName,
@@ -209,7 +191,7 @@ final logOutRouterProvider = Provider((ref) {
       GoRoute(
         name: MainScreen.routeName,
         path: MainScreen.routeURL,
-        builder: (context, state) => MainScreen(),
+        builder: (context, state) => const MainScreen(),
       ),
       GoRoute(
         name: EmailLoginScreen.routeName,

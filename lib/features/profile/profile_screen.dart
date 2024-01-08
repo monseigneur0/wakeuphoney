@@ -204,6 +204,26 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                     ],
                   ),
                 ),
+                // userProfileStream.when(
+                //   data: (user) {
+                //     if (user.uid == "WvELgU4cO6gOeyzfu92j3k9vuBH2") {
+                //       return ElevatedButton(
+                //         onPressed: () {
+                //           ref
+                //               .watch(profileControllerProvider.notifier)
+                //               .createTestUser();
+                //         },
+                //         style: const ButtonStyle(
+                //             backgroundColor:
+                //                 MaterialStatePropertyAll(Colors.black)),
+                //         child: const Text('ProfileScreen'),
+                //       );
+                //     }
+                //     return Container();
+                //   },
+                //   error: (error, stackTrace) => Container(),
+                //   loading: () => const Loader(),
+                // ),
               ],
             ),
           ),

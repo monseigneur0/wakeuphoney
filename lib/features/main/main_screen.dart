@@ -26,15 +26,15 @@ import '../profile/profile_controller.dart';
 class MainScreen extends ConsumerStatefulWidget {
   static String routeName = "mainscreen";
   static String routeURL = "/main";
-  int? selectedIndex;
 
-  MainScreen({super.key, this.selectedIndex});
+  const MainScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
+  int selectedIndex = 0;
   Logger logger = Logger();
 
   void _onItemTapped(int index) {
@@ -51,7 +51,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         );
     HapticFeedback.lightImpact();
     setState(() {
-      widget.selectedIndex = index;
+      selectedIndex = index;
     });
   }
 
@@ -101,7 +101,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 ? const MatchScreen()
                 : Scaffold(
                     body: Center(
-                      child: widgetOptions.elementAt(widget.selectedIndex ?? 0),
+                      child: widgetOptions.elementAt(selectedIndex ?? 0),
                     ),
                     bottomNavigationBar: SizedBox(
                       height: 85,
@@ -147,7 +147,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           //   label: 'N Profile',
                           // ),
                         ],
-                        currentIndex: widget.selectedIndex ?? 0,
+                        currentIndex: selectedIndex ?? 0,
                         selectedItemColor: AppColors.myPink,
                         onTap: _onItemTapped,
                         iconSize: 20,

@@ -321,12 +321,16 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   GestureDetector(
                     onTap: () {
                       showModalBottomSheet(
+                          constraints: const BoxConstraints(maxHeight: 300),
                           backgroundColor: Colors.white,
                           context: context,
                           builder: (BuildContext context) {
                             return Column(
                               children: [
-                                20.heightBox,
+                                SizedBox(
+                                  height: 20,
+                                  width: MediaQuery.of(context).size.width,
+                                ),
                                 GestureDetector(
                                   onTap: () {
                                     Navigator.pop(context);
@@ -339,10 +343,22 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                         itemId: "editgender");
                                   },
                                   child: Container(
-                                          color: Colors.white,
                                           height: 60,
-                                          width:
-                                              MediaQuery.of(context).size.width,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              100,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.black
+                                                        .withOpacity(0.1),
+                                                    blurRadius: 10,
+                                                    offset: const Offset(8, 8))
+                                              ]),
                                           child: const Center(
                                               child: Text("남자",
                                                   style:
@@ -359,10 +375,22 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                         .updateGender(2);
                                   },
                                   child: Container(
-                                          color: Colors.white,
                                           height: 60,
-                                          width:
-                                              MediaQuery.of(context).size.width,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              100,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.black
+                                                        .withOpacity(0.1),
+                                                    blurRadius: 10,
+                                                    offset: const Offset(8, 8))
+                                              ]),
                                           child: const Center(
                                                   child: Text("여자",
                                                       style: TextStyle(
