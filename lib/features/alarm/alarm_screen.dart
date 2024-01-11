@@ -148,12 +148,16 @@ class AlarmHomeState extends State<AlarmHome> {
           style: const TextStyle(color: Colors.black),
         ),
         actions: [
-          IconButton(
-            onPressed: () => navigateToAlarmScreen(null),
-            icon: const ImageIcon(
-              AssetImage('assets/alarm-clock.png'),
-              size: 29,
-              color: AppColors.myPink,
+          GestureDetector(
+            onTap: () => navigateToAlarmScreen(null),
+            onLongPress: () => ringnow(),
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: ImageIcon(
+                AssetImage('assets/alarm-clock.png'),
+                size: 29,
+                color: AppColors.myPink,
+              ),
             ),
           ),
           // IconButton(

@@ -10,6 +10,8 @@ import 'package:wakeuphoney/features/chatgpt/cs_screen.dart';
 import 'package:wakeuphoney/features/letter/letter_day_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_couple_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_screen.dart';
+import 'package:wakeuphoney/features/wake/wake_approve_screen.dart';
+import 'package:wakeuphoney/features/wake/wake_screen.dart';
 import 'package:wakeuphoney/practice_home_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -31,11 +33,11 @@ class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _MainScreenState();
+  ConsumerState<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  int selectedIndex = 0;
+  int selectedIndex = 1;
   Logger logger = Logger();
 
   void _onItemTapped(int index) {
@@ -71,6 +73,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final isLoggedInStream = ref.watch(loginCheckProvider);
     List<Widget> widgetOptions = <Widget>[
       const AlarmHome(),
+      const WakeScreen(),
+      const WakeApproveScreen(),
       // const HistoryMessageScreen(),
       // const LetterFeed2Screen(),
       // const PracticeHome(),
@@ -113,6 +117,18 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                               AssetImage('assets/alarm-clock.png'),
                             ),
                             label: AppLocalizations.of(context)!.alarm,
+                          ),
+                          const BottomNavigationBarItem(
+                            icon: ImageIcon(
+                              AssetImage('assets/alarm-clock.png'),
+                            ),
+                            label: "wake",
+                          ),
+                          const BottomNavigationBarItem(
+                            icon: ImageIcon(
+                              AssetImage('assets/alarm-clock.png'),
+                            ),
+                            label: "approve",
                           ),
                           // BottomNavigationBarItem(
                           //   icon: Icon(Icons.alarm),
