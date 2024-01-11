@@ -213,6 +213,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
@@ -221,7 +222,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Colors.black.withOpacity(0.1),
                           blurRadius: 20,
                           offset: const Offset(8, 8))
                     ]),
@@ -236,13 +237,20 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                   ),
                 ).pSymmetric(h: 10, v: 5),
               ),
+              Text(
+                getDay(),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: Colors.black.withOpacity(0.8)),
+              ),
               Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Colors.black.withOpacity(0.1),
                           blurRadius: 20,
                           offset: const Offset(8, 8))
                     ]),
@@ -261,18 +269,20 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
               )
             ],
           ),
-          Text(
-            getDay(),
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium!
-                .copyWith(color: Colors.black.withOpacity(0.8)),
-          ),
-          RawMaterialButton(
-            onPressed: pickTime,
-            fillColor: Colors.grey[200],
+
+          GestureDetector(
+            onTap: pickTime,
             child: Container(
-              margin: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 20,
+                        offset: const Offset(8, 8))
+                  ]),
               child: Text(
                 selectedTime.format(context),
                 style: Theme.of(context)

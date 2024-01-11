@@ -156,14 +156,14 @@ class AlarmHomeState extends State<AlarmHome> {
               color: AppColors.myPink,
             ),
           ),
-          IconButton(
-            onPressed: () => context.pushNamed(AlarmNewScreen.routeName),
-            icon: const ImageIcon(
-              AssetImage('assets/alarm-clock.png'),
-              size: 29,
-              color: AppColors.myPink,
-            ),
-          ),
+          // IconButton(
+          //   onPressed: () => context.pushNamed(AlarmNewScreen.routeName),
+          //   icon: const ImageIcon(
+          //     AssetImage('assets/alarm-clock.png'),
+          //     size: 29,
+          //     color: AppColors.myPink,
+          //   ),
+          // ),
         ],
       ),
       body: Column(

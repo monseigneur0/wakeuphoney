@@ -1,5 +1,10 @@
 {
-    "helloworld": "헬로 월드",
+    "@@locale": "ko",
+    "languageCode":"ko",
+    "helloworld": "こんにちは世界！",
+    "@helloworld": {
+        "description": "プログラミング初心者からの伝統的な挨拶"
+    },
     "wakeupgom": "일어나곰",
     "snslogin": "SNS 로그인",
     "matchprocess": "상대 연결",

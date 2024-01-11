@@ -1,4 +1,6 @@
 {
+  "@@locale": "my",
+  "languageCode":"my",
   "helloworld": "Hai Dunia!",
   "@helloworld": {
     "description": "Ucapan salam yang lazim dari para pemula dalam pemrograman"

@@ -1,4 +1,6 @@
 {
+  "@@locale": "ja",
+  "languageCode":"ja",
   "helloworld": "こんにちは世界！",
   "@helloworld": {
     "description": "プログラミング初心者からの伝統的な挨拶"

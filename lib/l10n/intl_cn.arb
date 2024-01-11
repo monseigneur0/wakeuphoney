@@ -1,4 +1,6 @@
 {
+  "@@locale": "zh",
+  "languageCode":"zh",
   "helloworld": "你好世界！",
   "@helloworld": {
     "description": "传统的新手程序员问候语"

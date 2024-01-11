@@ -96,9 +96,29 @@ class LetterRepository {
                   0))
           .orderBy("letterTime", descending: true)
           .get();
+      logger.d(letter.docs);
       // if (datetime.isAfter(
       //     DateTime(datetime.year, datetime.month, datetime.day, 5, 0, 0))) {
-      return LetterModel.fromMap(letter.docs.first.data());
+      if (letter.docs.first.data().isNotEmpty) {
+        return LetterModel.fromMap(letter.docs.first.data());
+      } else {
+        return LetterModel(
+            letterId: "PyY5skHRgPJP0CMgI2Qp",
+            sender: "PyY5skHRgPJP0CMgI2Qp",
+            dateTimeNow: DateTime.now(),
+            letterTime: DateTime.now(),
+            letter: "PyY5skHRgPJP0CMgI2Qp",
+            letterPhoto: "PyY5skHRgPJP0CMgI2Qp",
+            letterAudio: "PyY5skHRgPJP0CMgI2Qp",
+            letterVideo: "PyY5skHRgPJP0CMgI2Qp",
+            reciver: "PyY5skHRgPJP0CMgI2Qp",
+            answer: "PyY5skHRgPJP0CMgI2Qp",
+            answerTime: DateTime.now(),
+            answerPhoto: "PyY5skHRgPJP0CMgI2Qp",
+            answerAudio: "PyY5skHRgPJP0CMgI2Qp",
+            answerVideo: "PyY5skHRgPJP0CMgI2Qp");
+      }
+
       // } else {
       //   return LetterModel.fromMap(letter.docs.elementAt(1).data());
       // }

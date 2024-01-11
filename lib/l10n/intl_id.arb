@@ -1,4 +1,6 @@
 {
+  "@@locale": "id",
+  "languageCode":"id",
   "helloworld": "Halo Dunia!",
   "@helloworld": {
     "description": "Salam konvensional dari para pemula dalam pemrograman"

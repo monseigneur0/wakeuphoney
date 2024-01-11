@@ -1,4 +1,6 @@
 {
+  "@@locale": "fr",
+  "languageCode":"fr",
   "helloworld": "Bonjour le monde !",
   "@helloworld": {
     "description": "Salutation traditionnelle des développeurs débutants"
