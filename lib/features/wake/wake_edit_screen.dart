@@ -3,12 +3,16 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:uuid/uuid.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:wakeuphoney/core/constants/design_constants.dart';
+import 'package:wakeuphoney/features/wake/wake_controller.dart';
+import 'package:wakeuphoney/features/wake/wake_model.dart';
 
 //이 페이지의 목적 alarm 을 상대에게 저장하기 위함. 울리거나 할 필요 전혀 없음 나중에 두 페이지를 합하거나 안돼있으면 빈공간으로 남겨서 어서 깨우고 싶게 만들어야함
 class WakeEditScreen extends ConsumerStatefulWidget {
-  const WakeEditScreen({super.key});
+  final WakeModel? alarmSettings;
+  const WakeEditScreen({super.key, this.alarmSettings});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _WakeEditScreenState();
@@ -18,7 +22,7 @@ class _WakeEditScreenState extends ConsumerState<WakeEditScreen> {
   bool loading = false;
 
   late bool creating;
-  late DateTime selectedDateTime = DateTime.now();
+  late DateTime selectedDateTime;
   late bool loopAudio;
   late bool vibrate;
   late double? volume;
@@ -27,7 +31,7 @@ class _WakeEditScreenState extends ConsumerState<WakeEditScreen> {
 
   late List<bool> days;
 
-  late TimeOfDay selectedTime = TimeOfDay.now();
+  late TimeOfDay selectedTime;
   late Time _time;
   var logger = Logger();
 
@@ -37,11 +41,11 @@ class _WakeEditScreenState extends ConsumerState<WakeEditScreen> {
     final difference = selectedDateTime.difference(today).inDays;
 
     if (difference == 0) {
-      return 'Only Today';
+      return 'Today';
     } else if (difference == 1) {
-      return 'Only Tomorrow';
+      return 'Tomorrow';
     } else if (difference == 2) {
-      return 'Only After tomorrow';
+      return 'After tomorrow';
     } else {
       return 'In $difference days';
     }
@@ -87,6 +91,79 @@ class _WakeEditScreenState extends ConsumerState<WakeEditScreen> {
     setState(() {
       _time = newTime;
     });
+  }
+
+  void saveWake() async {
+    setState(() {
+      loading = true;
+    });
+    final alarmSettings = WakeModel(
+      uid: const Uuid().v4(),
+      alarmId: DateTime.now().millisecondsSinceEpoch % 100000,
+      dateTime: DateTime.now(),
+      assetAudioPath: assetAudio,
+      loopAudio: loopAudio,
+      vibrate: vibrate,
+      volume: volume ?? 0.5,
+      fadeDuration: 5,
+      notificationTitle: AppLocalizations.of(context)!.wakeupgomalarm,
+      notificationBody: AppLocalizations.of(context)!.alarmringletter,
+      enableNotificationOnKill: true,
+      androidFullScreenIntent: true,
+      isApproved: false,
+      requestTime: DateTime.now(),
+      approveTime: null,
+      isDeleted: false,
+      sender: '',
+      reciver: '',
+      days: days,
+    );
+    ref.watch(wakeControllerProvider.notifier).createWake(alarmSettings);
+
+    setState(() {
+      loading = false;
+    });
+    Navigator.pop(context, true);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    creating = widget.alarmSettings == null;
+
+    if (creating) {
+      selectedDateTime = DateTime.now().add(const Duration(minutes: 1));
+      selectedDateTime = selectedDateTime.copyWith(second: 0, millisecond: 0);
+      selectedTime = TimeOfDay(
+          hour: selectedDateTime.hour, minute: selectedDateTime.minute);
+      loopAudio = true;
+      vibrate = true;
+      volume = null;
+      showNotification = true;
+      assetAudio = 'assets/marimba.mp3';
+      days = <bool>[
+        true,
+        false,
+        true,
+        false,
+        true,
+        false,
+        true,
+      ];
+    } else {
+      selectedTime = TimeOfDay(
+        hour: widget.alarmSettings!.dateTime.hour,
+        minute: widget.alarmSettings!.dateTime.minute,
+      );
+      selectedDateTime = widget.alarmSettings!.dateTime;
+      loopAudio = widget.alarmSettings!.loopAudio;
+      vibrate = widget.alarmSettings!.vibrate;
+      volume = widget.alarmSettings!.volume;
+      showNotification = widget.alarmSettings!.notificationTitle.isNotEmpty &&
+          widget.alarmSettings!.notificationBody.isNotEmpty;
+      assetAudio = widget.alarmSettings!.assetAudioPath;
+      // days = widget.alarmSettings!.days;
+    }
   }
 
   @override
@@ -139,7 +216,9 @@ class _WakeEditScreenState extends ConsumerState<WakeEditScreen> {
                           offset: const Offset(8, 8))
                     ]),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    saveWake();
+                  },
                   child: loading
                       ? const CircularProgressIndicator()
                       : Text(

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class WakeModel {
   final String uid;
-  final String alarmId;
+  final int alarmId;
   final DateTime dateTime;
   final String assetAudioPath;
   final bool loopAudio;
@@ -19,6 +19,7 @@ class WakeModel {
   final bool isDeleted;
   final String sender;
   final String reciver;
+  final List<bool> days;
   WakeModel({
     required this.uid,
     required this.alarmId,
@@ -38,11 +39,12 @@ class WakeModel {
     required this.isDeleted,
     required this.sender,
     required this.reciver,
+    required this.days,
   });
 
   WakeModel copyWith({
     String? uid,
-    String? alarmId,
+    int? alarmId,
     DateTime? dateTime,
     String? assetAudioPath,
     bool? loopAudio,
@@ -59,6 +61,7 @@ class WakeModel {
     bool? isDeleted,
     String? sender,
     String? reciver,
+    List<bool>? days,
   }) {
     return WakeModel(
       uid: uid ?? this.uid,
@@ -81,6 +84,7 @@ class WakeModel {
       isDeleted: isDeleted ?? this.isDeleted,
       sender: sender ?? this.sender,
       reciver: reciver ?? this.reciver,
+      days: days ?? this.days,
     );
   }
 
@@ -88,7 +92,7 @@ class WakeModel {
     return <String, dynamic>{
       'uid': uid,
       'alarmId': alarmId,
-      'dateTime': dateTime.millisecondsSinceEpoch,
+      'dateTime': dateTime,
       'assetAudioPath': assetAudioPath,
       'loopAudio': loopAudio,
       'vibrate': vibrate,
@@ -99,18 +103,19 @@ class WakeModel {
       'enableNotificationOnKill': enableNotificationOnKill,
       'androidFullScreenIntent': androidFullScreenIntent,
       'isApproved': isApproved,
-      'requestTime': requestTime.millisecondsSinceEpoch,
-      'approveTime': approveTime?.millisecondsSinceEpoch,
+      'requestTime': requestTime,
+      'approveTime': approveTime,
       'isDeleted': isDeleted,
       'sender': sender,
       'reciver': reciver,
+      'days': days,
     };
   }
 
   factory WakeModel.fromMap(Map<String, dynamic> map) {
     return WakeModel(
       uid: map['uid'] as String,
-      alarmId: map['alarmId'] as String,
+      alarmId: map['alarmId'] as int,
       dateTime: map['dateTime'].toDate(),
       assetAudioPath: map['assetAudioPath'] as String,
       loopAudio: map['loopAudio'] as bool,
@@ -123,11 +128,11 @@ class WakeModel {
       androidFullScreenIntent: map['androidFullScreenIntent'] as bool,
       isApproved: map['isApproved'] as bool,
       requestTime: map['requestTime'].toDate(),
-      approveTime:
-          map['approveTime'] != null ? map['approveTime'].toDate() : null,
+      approveTime: map['approveTime']?.toDate(),
       isDeleted: map['isDeleted'] as bool,
       sender: map['sender'] as String,
       reciver: map['reciver'] as String,
+      days: List<bool>.from(map['days'] as List<dynamic>),
     );
   }
 
@@ -162,7 +167,8 @@ class WakeModel {
         other.approveTime == approveTime &&
         other.isDeleted == isDeleted &&
         other.sender == sender &&
-        other.reciver == reciver;
+        other.reciver == reciver &&
+        other.days == days;
   }
 
   @override
@@ -184,6 +190,7 @@ class WakeModel {
         approveTime.hashCode ^
         isDeleted.hashCode ^
         sender.hashCode ^
-        reciver.hashCode;
+        reciver.hashCode ^
+        days.hashCode;
   }
 }

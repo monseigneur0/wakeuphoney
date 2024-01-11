@@ -8,4 +8,5 @@ class FirebaseConstants {
   static const postsCollection = 'posts';
   static const commentsCollection = 'comments';
   static const lettersCollection = 'letters';
+  static const wakeCollection = 'wakes';
 }

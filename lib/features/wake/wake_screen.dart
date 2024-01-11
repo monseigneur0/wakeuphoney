@@ -1,7 +1,9 @@
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:velocity_x/velocity_x.dart';
 
+import 'wake_controller.dart';
 import 'wake_edit_screen.dart';
 
 class WakeScreen extends ConsumerStatefulWidget {
@@ -13,13 +15,6 @@ class WakeScreen extends ConsumerStatefulWidget {
 
 class _WakeScreenState extends ConsumerState<WakeScreen> {
   late List<AlarmSettings> alarms;
-
-  void loadAlarms() {
-    setState(() {
-      alarms = Alarm.getAlarms();
-      alarms.sort((a, b) => a.dateTime.isBefore(b.dateTime) ? 0 : 1);
-    });
-  }
 
   Future<void> navigateToAlarmScreen(AlarmSettings? settings) async {
     final res = await showModalBottomSheet<bool?>(
@@ -33,20 +28,52 @@ class _WakeScreenState extends ConsumerState<WakeScreen> {
         );
       },
     );
-    if (res != null && res == true) loadAlarms();
   }
 
   @override
   Widget build(BuildContext context) {
+    final list = ref.watch(getWakesListProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('깨워볼까요?'),
       ),
-      body: Container(
-        child: Center(
-            child: GestureDetector(
-          onTap: () => navigateToAlarmScreen(null),
-        )),
+      body: Column(
+        children: [
+          Expanded(
+            child: list.when(
+              data: (alarms) {
+                print(alarms.length);
+                return ListView.builder(
+                  itemCount: alarms.length,
+                  itemBuilder: (context, index) {
+                    final alarm = alarms[index];
+                    return ListTile(
+                      title: Text(alarm.notificationTitle),
+                      subtitle: Text(alarm.notificationBody),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {},
+                      ),
+                    );
+                  },
+                );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (err, stack) => Center(
+                child: Text(
+                  err.toString(),
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ),
+            ),
+          ),
+          Center(
+              child: GestureDetector(
+            onTap: () => navigateToAlarmScreen(null),
+            child: const Text('알람 추가',
+                style: TextStyle(fontSize: 30, color: Colors.black)),
+          )),
+        ],
       ),
     );
   }
