@@ -62,6 +62,7 @@ class LetterRepository {
     //날짜순 정렬하기
 
     try {
+      logger.d("run Stream<List<LetterModel>> getLetters2List");
       return _usersCollection
           .doc(uid)
           .collection(FirebaseConstants.lettersCollection)

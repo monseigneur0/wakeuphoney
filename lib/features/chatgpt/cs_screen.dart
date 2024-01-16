@@ -227,7 +227,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
               final userState = ref.watch(getMyUserInfoProvider);
               return userState.when(
                 data: (user) {
-                  if (user.chatGPTMessageCount > 20) {
+                  if (user.chatGPTMessageCount == 0) {
                     return Row(
                       children: [
                         Expanded(

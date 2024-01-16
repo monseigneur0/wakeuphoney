@@ -6,6 +6,7 @@ import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/wake/wake_model.dart';
 
 import '../auth/auth_controller.dart';
+import '../profile/profile_controller.dart';
 import 'wake_repository.dart';
 
 final wakeControllerProvider =
@@ -26,7 +27,8 @@ class WakeController extends StateNotifier<bool> {
         _ref = ref,
         super(false);
   Logger logger = Logger();
-  createWake(WakeModel wakeModel) {
+
+  createWake(WakeModel wakeModel) async {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
@@ -36,10 +38,12 @@ class WakeController extends StateNotifier<bool> {
     coupleUidValue != null
         ? coupleUid = coupleUidValue.couple!
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+    final nowCoupleUid = _ref.watch(getCoupleUidProvider);
+
     WakeModel newWakeModel = WakeModel(
       uid: wakeModel.uid,
       alarmId: wakeModel.alarmId,
-      dateTime: wakeModel.dateTime,
+      wakeTime: wakeModel.wakeTime,
       assetAudioPath: wakeModel.assetAudioPath,
       loopAudio: wakeModel.loopAudio,
       vibrate: wakeModel.vibrate,
@@ -58,14 +62,40 @@ class WakeController extends StateNotifier<bool> {
       days: wakeModel.days,
     );
 
-    _wakeRepository.createWake(uid, coupleUid, newWakeModel);
+    _wakeRepository.createWake(uid, newWakeModel);
+    _wakeRepository.createWake(coupleUid, newWakeModel);
+  }
+
+  approveWake(String alarmUid) {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
+    String coupleUid;
+    coupleUidValue != null
+        ? coupleUid = coupleUidValue.couple!
+        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+    _wakeRepository.approveWake(uid, alarmUid);
+    _wakeRepository.approveWake(coupleUid, alarmUid);
+  }
+
+  deleteWake(String alarmUid) {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
+    String coupleUid;
+    coupleUidValue != null
+        ? coupleUid = coupleUidValue.couple!
+        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+    _wakeRepository.deleteWake(uid, alarmUid);
+    _wakeRepository.deleteWake(coupleUid, alarmUid);
   }
 
   Stream<List<WakeModel>> getWakes() {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
-    print(uid);
     return _wakeRepository.getWakes(uid);
   }
 }

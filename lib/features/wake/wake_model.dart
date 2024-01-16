@@ -3,7 +3,7 @@ import 'dart:convert';
 class WakeModel {
   final String uid;
   final int alarmId;
-  final DateTime dateTime;
+  final DateTime wakeTime;
   final String assetAudioPath;
   final bool loopAudio;
   final bool vibrate;
@@ -23,7 +23,7 @@ class WakeModel {
   WakeModel({
     required this.uid,
     required this.alarmId,
-    required this.dateTime,
+    required this.wakeTime,
     required this.assetAudioPath,
     required this.loopAudio,
     required this.vibrate,
@@ -45,7 +45,7 @@ class WakeModel {
   WakeModel copyWith({
     String? uid,
     int? alarmId,
-    DateTime? dateTime,
+    DateTime? wakeTime,
     String? assetAudioPath,
     bool? loopAudio,
     bool? vibrate,
@@ -66,7 +66,7 @@ class WakeModel {
     return WakeModel(
       uid: uid ?? this.uid,
       alarmId: alarmId ?? this.alarmId,
-      dateTime: dateTime ?? this.dateTime,
+      wakeTime: wakeTime ?? this.wakeTime,
       assetAudioPath: assetAudioPath ?? this.assetAudioPath,
       loopAudio: loopAudio ?? this.loopAudio,
       vibrate: vibrate ?? this.vibrate,
@@ -92,7 +92,7 @@ class WakeModel {
     return <String, dynamic>{
       'uid': uid,
       'alarmId': alarmId,
-      'dateTime': dateTime,
+      'wakeTime': wakeTime,
       'assetAudioPath': assetAudioPath,
       'loopAudio': loopAudio,
       'vibrate': vibrate,
@@ -116,7 +116,7 @@ class WakeModel {
     return WakeModel(
       uid: map['uid'] as String,
       alarmId: map['alarmId'] as int,
-      dateTime: map['dateTime'].toDate(),
+      wakeTime: map['wakeTime'].toDate(),
       assetAudioPath: map['assetAudioPath'] as String,
       loopAudio: map['loopAudio'] as bool,
       vibrate: map['vibrate'] as bool,
@@ -143,7 +143,7 @@ class WakeModel {
 
   @override
   String toString() {
-    return 'WakeModel(uid: $uid, alarmId: $alarmId, dateTime: $dateTime, assetAudioPath: $assetAudioPath, loopAudio: $loopAudio, vibrate: $vibrate, volume: $volume, fadeDuration: $fadeDuration, notificationTitle: $notificationTitle, notificationBody: $notificationBody, enableNotificationOnKill: $enableNotificationOnKill, androidFullScreenIntent: $androidFullScreenIntent, isApproved: $isApproved, requestTime: $requestTime, approveTime: $approveTime, isDeleted: $isDeleted)';
+    return 'WakeModel(uid: $uid, alarmId: $alarmId, wakeTime: $wakeTime, assetAudioPath: $assetAudioPath, loopAudio: $loopAudio, vibrate: $vibrate, volume: $volume, fadeDuration: $fadeDuration, notificationTitle: $notificationTitle, notificationBody: $notificationBody, enableNotificationOnKill: $enableNotificationOnKill, androidFullScreenIntent: $androidFullScreenIntent, isApproved: $isApproved, requestTime: $requestTime, approveTime: $approveTime, isDeleted: $isDeleted)';
   }
 
   @override
@@ -152,7 +152,7 @@ class WakeModel {
 
     return other.uid == uid &&
         other.alarmId == alarmId &&
-        other.dateTime == dateTime &&
+        other.wakeTime == wakeTime &&
         other.assetAudioPath == assetAudioPath &&
         other.loopAudio == loopAudio &&
         other.vibrate == vibrate &&
@@ -175,7 +175,7 @@ class WakeModel {
   int get hashCode {
     return uid.hashCode ^
         alarmId.hashCode ^
-        dateTime.hashCode ^
+        wakeTime.hashCode ^
         assetAudioPath.hashCode ^
         loopAudio.hashCode ^
         vibrate.hashCode ^

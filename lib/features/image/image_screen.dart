@@ -100,7 +100,8 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                             String uniqueImageName = DateTime.now().toString();
                             Reference refRoot =
                                 ref.watch(storageProvider).ref();
-                            Reference refDirImage = refRoot.child('images');
+                            Reference refDirImage =
+                                refRoot.child('profileimages');
                             Reference refImageToUpload =
                                 refDirImage.child(uniqueImageName);
                             try {

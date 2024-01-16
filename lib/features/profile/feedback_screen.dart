@@ -141,7 +141,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                           Reference referenceRoot =
                               FirebaseStorage.instance.ref();
                           Reference referenceDirImages =
-                              referenceRoot.child('images');
+                              referenceRoot.child('feedbackimages');
 
                           //Create a reference for the image to be stored
                           Reference referenceImageToUpload =

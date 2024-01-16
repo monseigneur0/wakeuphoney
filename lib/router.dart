@@ -7,6 +7,7 @@ import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 import 'package:wakeuphoney/features/image/image_screen.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_edit_screen.dart';
+import 'package:wakeuphoney/features/wakeup/wakeup_edit_screen.dart';
 import 'features/alarm/alarm_ring_screen.dart';
 import 'features/auth/auth_repository.dart';
 import 'features/auth/login_email_screen.dart';
@@ -136,6 +137,11 @@ final routerProvider = Provider((ref) {
         name: CustomerServiceScreen.routeName,
         path: CustomerServiceScreen.routeURL,
         builder: (context, state) => const CustomerServiceScreen(),
+      ),
+      GoRoute(
+        name: WakeUpEditScreen.routeName,
+        path: WakeUpEditScreen.routeURL,
+        builder: (context, state) => const WakeUpEditScreen(),
       ),
       GoRoute(
         name: ImageScreen.routeName,

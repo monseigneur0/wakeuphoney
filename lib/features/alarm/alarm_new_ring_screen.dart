@@ -12,6 +12,7 @@ import '../dailymessages/daily_controller.dart';
 import '../letter/response_screen.dart';
 import '../letter/letter_controller.dart';
 import '../profile/profile_controller.dart';
+import '../wakeup/wakeup_controller.dart';
 
 //샘플 페이지 디자인용
 class AlarmNewScreen extends ConsumerStatefulWidget {
@@ -27,14 +28,8 @@ class AlarmNewScreen extends ConsumerStatefulWidget {
 class _AlarmNewScreen extends ConsumerState<AlarmNewScreen> {
   @override
   Widget build(BuildContext context) {
-    final dateList100 = ref.watch(dateStateProvider);
     final hasCoupleId = ref.watch(getUserProfileStreamProvider);
-    final getCoupleMessage =
-        ref.watch(getDailyCoupleMessageProvider(dateList100[0]));
-    final getALetter = ref.watch(getALetterProvider);
-
-    final getCoupleMessageCondition =
-        ref.watch(getDailyCoupleMessageConditionProvider);
+    final getALetter = ref.watch(getALetterforResponseProvider);
 
     return Scaffold(
       body: SafeArea(

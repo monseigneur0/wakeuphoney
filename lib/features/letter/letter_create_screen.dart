@@ -98,7 +98,8 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
                                     DateTime.now().toString();
                                 Reference refRoot =
                                     ref.watch(storageProvider).ref();
-                                Reference refDirImage = refRoot.child('images');
+                                Reference refDirImage =
+                                    refRoot.child('letterimages');
                                 Reference refImageToUpload =
                                     refDirImage.child(uniqueImageName);
                                 if (letterImageFile != null) {

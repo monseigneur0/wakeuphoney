@@ -77,22 +77,17 @@ class ProfileRepo {
   }
 
   updateAllUser() {
-    _users.get().then((value) {
+    _users
+        .doc("FbCti72DeGQqa0Tyd6oQvyWaQsm2")
+        .collection(FirebaseConstants.wakeUpCollection)
+        .get()
+        .then((value) {
       for (var docSnapshot in value.docs) {
-        _users.doc(docSnapshot.id).update({
-          "chatGPTMessageCount": 5,
-          // "gender": "male",
-          // "birthDate": DateTime.now(),
-          // "location": const GeoPoint(37.4734153, 126.8301878),
-          // "wakeUpTime": DateTime.now(),
-          // "coupleGender": "male",
-          // "coupleBirthDate": DateTime.now(),
-          // "coupleLocation": const GeoPoint(37.4734153, 126.8301878),
-          // "coupleWakeUpTime": DateTime.now(),
-          // "coupleWakeUpTime": DateTime(2020, 01, 01, 05, 00, 00),
-          // "coupleDisplayName": "n",
-          // "couplePhotoURL": "n",
-        });
+        _users
+            .doc("FbCti72DeGQqa0Tyd6oQvyWaQsm2")
+            .collection(FirebaseConstants.wakeUpCollection)
+            .doc(docSnapshot.id)
+            .delete();
       }
     });
   }

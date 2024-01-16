@@ -31,6 +31,10 @@ Future<XFile?> selectGalleryImage() async {
   return res;
 }
 
+String createUniqueImageName() {
+  return DateTime.now().toString();
+}
+
 Future<FilePickerResult?> takePhoto() async {
   final image = await FilePicker.platform.pickFiles(type: FileType.image);
 

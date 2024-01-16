@@ -21,14 +21,41 @@ class WakeRepository {
 
   Logger logger = Logger();
 
-  createWake(String uid, String coupleUid, WakeModel wakeModel) {
+  createWake(String uid, WakeModel wakeModel) {
     try {
       _usersCollection
           .doc(uid)
           .collection(FirebaseConstants.wakeCollection)
-          .doc(const Uuid().v4())
-          .set(wakeModel.toMap());
-    } catch (e) {}
+          .doc(wakeModel.uid)
+          .set(wakeModel.toMap())
+          .then((value) => logger.i("wake created $uid"));
+    } catch (e) {
+      logger.e(e.toString());
+    }
+  }
+
+  approveWake(String uid, String alarmUid) {
+    try {
+      _usersCollection
+          .doc(uid)
+          .collection(FirebaseConstants.wakeCollection)
+          .doc(alarmUid)
+          .update({"approveTime": DateTime.now(), "isApproved": true});
+    } catch (e) {
+      logger.e(e.toString());
+    }
+  }
+
+  deleteWake(String uid, String alarmUid) {
+    try {
+      _usersCollection
+          .doc(uid)
+          .collection(FirebaseConstants.wakeCollection)
+          .doc(alarmUid)
+          .delete();
+    } catch (e) {
+      logger.e(e.toString());
+    }
   }
 
   Stream<List<WakeModel>> getWakes(uid) {
@@ -41,6 +68,7 @@ class WakeRepository {
               .map((doc) => WakeModel.fromMap(doc.data()))
               .toList());
     } catch (e) {
+      logger.e(e.toString());
       rethrow;
     }
   }

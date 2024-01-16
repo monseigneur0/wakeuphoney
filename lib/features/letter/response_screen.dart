@@ -15,6 +15,7 @@ import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
 import '../../core/providers/providers.dart';
 import '../../core/utils.dart';
+import '../wakeup/wakeup_controller.dart';
 import 'letter_controller.dart';
 import '../dailymessages/daily_controller.dart';
 
@@ -215,7 +216,7 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                           Reference referenceRoot =
                               FirebaseStorage.instance.ref();
                           Reference referenceDirImages =
-                              referenceRoot.child('images');
+                              referenceRoot.child('responseimages');
 
                           //Create a reference for the image to be stored
                           Reference referenceImageToUpload =
@@ -240,6 +241,11 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                               .watch(letterControllerProvider.notifier)
                               .createResponseLetter(
                                   value.letterId, message, imageUrl));
+                          ref.watch(getALetterforResponseProvider).whenData(
+                              (value) => ref
+                                  .watch(wakeUpControllerProvider.notifier)
+                                  .createResponseLetter(
+                                      value.wakeUpUid, message, imageUrl));
 
                           // ref.watch();
                         }

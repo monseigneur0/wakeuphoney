@@ -36,6 +36,9 @@ final coupleIdStateProvider = StateProvider<String>((ref) {
   return gogogo;
 });
 
+final getCoupleUidProvider = FutureProvider(
+    (ref) => ref.watch(profileControllerProvider.notifier).getNowCoupleUid);
+
 final StateNotifierProvider<ProfileController, bool> profileControllerProvider =
     StateNotifierProvider<ProfileController, bool>((ref) {
   final profileRepo = ref.watch(profileRepositoryProvider);
@@ -64,6 +67,8 @@ class ProfileController extends StateNotifier<bool> {
   Stream<UserModel> getUserProfileStreamById(String uid) {
     return _profileRepo.getUserProfileStream(uid);
   }
+
+  Future<String> getNowCoupleUid(String uid) => _profileRepo.getCoupleUid(uid);
 
   Stream<UserModel> getCoupleProfileStream() {
     User? auser = _ref.watch(authProvider).currentUser;

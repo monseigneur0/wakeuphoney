@@ -150,7 +150,7 @@ class AlarmHomeState extends State<AlarmHome> {
         actions: [
           GestureDetector(
             onTap: () => navigateToAlarmScreen(null),
-            onLongPress: () => ringnow(),
+            onLongPress: () => context.pushNamed(AlarmNewScreen.routeName),
             child: const Padding(
               padding: EdgeInsets.all(8.0),
               child: ImageIcon(

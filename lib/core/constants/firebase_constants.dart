@@ -9,4 +9,5 @@ class FirebaseConstants {
   static const commentsCollection = 'comments';
   static const lettersCollection = 'letters';
   static const wakeCollection = 'wakes';
+  static const wakeUpCollection = 'wakeups';
 }
