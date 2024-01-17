@@ -22,6 +22,9 @@ final getMyUserDataProvider = StreamProvider(
 final loginCheckProvider = StreamProvider(
     (ref) => ref.watch(authControllerProvider.notifier).authStateChange);
 
+final getFutureMyUserDataProvider = FutureProvider.autoDispose<UserModel?>(
+    (ref) => ref.watch(authControllerProvider.notifier).getFutureMyUserData());
+
 class AuthController extends AsyncNotifier<void> {
   late final AuthRepository _authRepository;
   @override

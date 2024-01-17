@@ -8,8 +8,6 @@ import 'package:logger/logger.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
-import '../../core/providers/providers.dart';
-import '../dailymessages/daily_controller.dart';
 import '../letter/response_screen.dart';
 import '../letter/letter_controller.dart';
 import '../profile/profile_controller.dart';

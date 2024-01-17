@@ -96,7 +96,7 @@ class WakeUpRepository {
     final datetime = DateTime.now();
 
     try {
-      final letter = await _usersCollection
+      return await _usersCollection
           .doc(uid)
           .collection(FirebaseConstants.wakeUpCollection)
           .where("reciverUid", isEqualTo: uid)
@@ -108,8 +108,15 @@ class WakeUpRepository {
                       1000,
                   0))
           .orderBy("wakeTime", descending: true)
-          .get();
-      return WakeUpModel.fromMap(letter.docs.first.data());
+          .get()
+          .then(
+        (value) {
+          {
+            if (value.docs.isEmpty) return WakeUpModel.emptyFuture();
+            return WakeUpModel.fromMap(value.docs.first.data());
+          }
+        },
+      );
     } catch (e) {
       logger.e(e.toString());
       return Future.error(e);
@@ -127,14 +134,14 @@ class WakeUpRepository {
         "answer": message,
         "answerPhoto": imageUrl,
         "answerTime": DateTime.now(),
-        "modifiedTimes": [DateTime.now()]
+        "modifiedTimes": DateTime.now()
       });
     } catch (e) {
       logger.e(e.toString());
     }
   }
 
-  Future<WakeUpModel> getTomorrowWakeYouUp(String uid) async {
+  Future<WakeUpModel> getTomorrowWakeUpYou(String uid) async {
     try {
       return _usersCollection
           .doc(uid)
@@ -142,14 +149,19 @@ class WakeUpRepository {
           .where("senderUid", isEqualTo: uid)
           .where("wakeTime", isGreaterThan: Timestamp.now())
           .get()
-          .then((value) => WakeUpModel.fromMap(value.docs.first.data()));
+          .then((value) {
+        {
+          if (value.docs.isEmpty) return WakeUpModel.emptyFuture();
+          return WakeUpModel.fromMap(value.docs.first.data());
+        }
+      });
     } catch (e) {
       logger.e(e.toString());
       return Future.error(e);
     }
   }
 
-  Future<WakeUpModel> getTomorrowWakeMeUp(String uid) async {
+  Future<WakeUpModel> getTomorrowWakeUpMe(String uid) async {
     try {
       return _usersCollection
           .doc(uid)
@@ -157,7 +169,13 @@ class WakeUpRepository {
           .where("reciverUid", isEqualTo: uid)
           .where("wakeTime", isGreaterThan: Timestamp.now())
           .get()
-          .then((value) => WakeUpModel.fromMap(value.docs.first.data()));
+          .then((value) {
+        {
+          logger.d(value.docs);
+          if (value.docs.isEmpty) return WakeUpModel.emptyFuture();
+          return WakeUpModel.fromMap(value.docs.first.data());
+        }
+      });
     } catch (e) {
       logger.e(e.toString());
       return Future.error(e);

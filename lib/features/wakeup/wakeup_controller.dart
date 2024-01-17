@@ -21,14 +21,14 @@ final getALetterforResponseProvider = FutureProvider.autoDispose<WakeUpModel>(
         .watch(wakeUpControllerProvider.notifier)
         .getALetterforResponse(ref.watch(authProvider).currentUser!.uid));
 
-final getTomorrowWakeMeUpProvider = FutureProvider.autoDispose<WakeUpModel>(
+final getTomorrowWakeUpMeProvider = FutureProvider.autoDispose<WakeUpModel>(
     (ref) => ref
         .watch(wakeUpControllerProvider.notifier)
-        .getTomorrowWakeMeUpProvider());
-final getTomorrowWakeYouUpProvider = FutureProvider.autoDispose<WakeUpModel>(
+        .getTomorrowWakeUpMeProvider());
+final getTomorrowWakeUpYouProvider = FutureProvider.autoDispose<WakeUpModel>(
     (ref) => ref
         .watch(wakeUpControllerProvider.notifier)
-        .getTomorrowWakeYouUpProvider());
+        .getTomorrowWakeUpYouProvider());
 
 class WakeUpController extends StateNotifier<bool> {
   final WakeUpRepository _wakeUpRepository;
@@ -47,7 +47,7 @@ class WakeUpController extends StateNotifier<bool> {
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
 
-    final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
+    final coupleUidValue = _ref.watch(getMyUserDataProvider).value;
     String coupleUid;
     coupleUidValue != null
         ? coupleUid = coupleUidValue.couple!
@@ -149,18 +149,18 @@ class WakeUpController extends StateNotifier<bool> {
         coupleUid, wakeUpUid, responseLetter, imageUrl);
   }
 
-  Future<WakeUpModel> getTomorrowWakeYouUpProvider() {
+  Future<WakeUpModel> getTomorrowWakeUpYouProvider() {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
-    return _wakeUpRepository.getTomorrowWakeYouUp(uid);
+    return _wakeUpRepository.getTomorrowWakeUpYou(uid);
   }
 
-  Future<WakeUpModel> getTomorrowWakeMeUpProvider() {
+  Future<WakeUpModel> getTomorrowWakeUpMeProvider() {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
-    return _wakeUpRepository.getTomorrowWakeMeUp(uid);
+    return _wakeUpRepository.getTomorrowWakeUpMe(uid);
   }
 
   wakeUpAprove(String wakeUpUid) {

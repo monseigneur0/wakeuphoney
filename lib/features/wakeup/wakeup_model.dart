@@ -269,4 +269,35 @@ class WakeUpModel {
         answerAudio.hashCode ^
         answerVideo.hashCode;
   }
+
+  static Future<WakeUpModel> emptyFuture() async {
+    return WakeUpModel(
+      wakeUpUid: "",
+      createdTime: DateTime.now(),
+      modifiedTimes: DateTime.now(),
+      alarmId: 10,
+      wakeTime: DateTime.now(),
+      assetAudioPath: "assetAudioPath",
+      loopAudio: false,
+      vibrate: false,
+      volume: 0.8,
+      fadeDuration: 0.1,
+      notificationTitle: "Alarm",
+      notificationBody: "Alarm rings",
+      enableNotificationOnKill: true,
+      androidFullScreenIntent: true,
+      isDeleted: false,
+      isApproved: false,
+      senderUid: "",
+      letter: "",
+      letterPhoto: "",
+      letterAudio: "",
+      letterVideo: "",
+      reciverUid: "",
+      answer: "",
+      answerPhoto: "",
+      answerAudio: "",
+      answerVideo: "",
+    );
+  }
 }

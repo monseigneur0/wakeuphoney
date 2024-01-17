@@ -104,11 +104,6 @@ final routerProvider = Provider((ref) {
         builder: (context, state) => const MainScreen(),
       ),
       GoRoute(
-        name: EmailLoginScreen.routeName,
-        path: EmailLoginScreen.routeURL,
-        builder: (context, state) => const EmailLoginScreen(),
-      ),
-      GoRoute(
         name: LetterCreateScreen.routeName,
         path: LetterCreateScreen.routeURL,
         builder: (context, state) => const LetterCreateScreen(),
