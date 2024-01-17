@@ -1,4 +1,3 @@
-import 'package:alarm/alarm.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -7,10 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
-import '../../core/providers/providers.dart';
-import '../dailymessages/daily_controller.dart';
 import '../letter/response_screen.dart';
-import '../letter/letter_controller.dart';
 import '../profile/profile_controller.dart';
 import '../wakeup/wakeup_controller.dart';
 
@@ -42,71 +38,6 @@ class _AlarmNewScreen extends ConsumerState<AlarmNewScreen> {
                   DateFormat("yyyy년 MM월 dd일 ").format(DateTime.now()),
                   style: const TextStyle(fontSize: 40),
                 ),
-                // getCoupleMessage.when(
-                //   data: (message) {
-                //     return Padding(
-                //       padding: const EdgeInsets.all(10.0),
-                //       child: Column(
-                //         children: [
-                //           Container(
-                //             width: MediaQuery.of(context).size.width,
-                //             clipBehavior: Clip.hardEdge,
-                //             decoration: BoxDecoration(
-                //                 borderRadius: BorderRadius.circular(20)),
-                //             child: message.photo.isNotEmpty
-                //                 ? CachedNetworkImage(
-                //                     imageUrl: message.photo,
-                //                     placeholder: (context, url) => Container(
-                //                       height: 70,
-                //                     ),
-                //                     errorWidget: (context, url, error) =>
-                //                         const Icon(Icons.error),
-                //                   )
-                //                 : Container(),
-                //           ),
-                //           const SizedBox(
-                //             height: 20,
-                //           ),
-                //           Container(
-                //             decoration: BoxDecoration(
-                //                 color: Colors.grey[200],
-                //                 borderRadius: BorderRadius.circular(20)),
-                //             child: Padding(
-                //               padding: const EdgeInsets.all(15),
-                //               child: Column(
-                //                 children: [
-                //                   Text(
-                //                     message.message,
-                //                     style: const TextStyle(fontSize: 25),
-                //                   ),
-                //                 ],
-                //               ),
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //     );
-                //   },
-                //   error: (error, stackTrace) {
-                //     // logger.d("error");
-
-                //     return const Column(
-                //       children: [
-                //         SizedBox(
-                //           height: 50,
-                //         ),
-                //         Text(
-                //           "받은 편지가 없어요...",
-                //           style: TextStyle(fontSize: 30),
-                //         ),
-                //         SizedBox(
-                //           height: 50,
-                //         ),
-                //       ],
-                //     );
-                //   },
-                //   loading: () => const Loader(),
-                // ),
                 getALetter.when(
                   data: (letter) {
                     return Padding(
@@ -199,7 +130,9 @@ class _AlarmNewScreen extends ConsumerState<AlarmNewScreen> {
                                 backgroundColor:
                                     MaterialStatePropertyAll(Colors.grey),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                context.pop();
+                              },
                               child: Padding(
                                 padding: EdgeInsets.all(
                                     MediaQuery.of(context).size.width / 15),

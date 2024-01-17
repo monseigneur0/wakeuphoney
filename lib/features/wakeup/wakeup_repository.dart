@@ -39,27 +39,26 @@ class WakeUpRepository {
 
     try {
       logger.d("run Stream<List<WakeUpModel>> getLettersList");
-      // return _usersCollection
-      //     .doc(uid)
-      //     .collection(FirebaseConstants.wakeUpCollection)
-      //     .where(Filter.or(Filter("sender", isEqualTo: uid),
-      //         (Filter("wakeTime", isLessThan: Timestamp.now()))))
-      //     .snapshots()
-      //     .map(
-      //       (wakeUpSnapShot) => wakeUpSnapShot.docs
-      //           .map((e) => WakeUpModel.fromMap(e.data()))
-      //           .toList()
-      //         ..sort((a, b) => b.wakeTime.compareTo(a.wakeTime)),
-
-      // );
       return _usersCollection
           .doc(uid)
           .collection(FirebaseConstants.wakeUpCollection)
+          .where(Filter.or(Filter("senderUid", isEqualTo: uid),
+              (Filter("wakeTime", isLessThan: Timestamp.now()))))
           .snapshots()
-          .map((wakeUpSnapShot) => wakeUpSnapShot.docs
-              .map((e) => WakeUpModel.fromMap(e.data()))
-              .toList()
-            ..sort((a, b) => b.wakeTime.compareTo(a.wakeTime)));
+          .map(
+            (wakeUpSnapShot) => wakeUpSnapShot.docs
+                .map((e) => WakeUpModel.fromMap(e.data()))
+                .toList()
+              ..sort((a, b) => b.wakeTime.compareTo(a.wakeTime)),
+          );
+      // return _usersCollection
+      //     .doc(uid)
+      //     .collection(FirebaseConstants.wakeUpCollection)
+      //     .snapshots()
+      //     .map((wakeUpSnapShot) => wakeUpSnapShot.docs
+      //         .map((e) => WakeUpModel.fromMap(e.data()))
+      //         .toList()
+      //       ..sort((a, b) => b.wakeTime.compareTo(a.wakeTime)));
     } catch (e) {
       logger.e(e.toString());
       return Stream.error(e);
@@ -74,7 +73,7 @@ class WakeUpRepository {
           .doc(letterId)
           .update({
         "letter": message,
-        "modifiedTimes": [DateTime.now()]
+        "modifiedTimes": DateTime.now(),
       });
     } catch (e) {
       logger.e(e.toString());
@@ -100,7 +99,7 @@ class WakeUpRepository {
       final letter = await _usersCollection
           .doc(uid)
           .collection(FirebaseConstants.wakeUpCollection)
-          .where("reciver", isEqualTo: uid)
+          .where("reciverUid", isEqualTo: uid)
           .where("wakeTime",
               isLessThan: Timestamp(
                   DateTime(datetime.year, datetime.month, datetime.day, 10, 0,
@@ -129,6 +128,51 @@ class WakeUpRepository {
         "answerPhoto": imageUrl,
         "answerTime": DateTime.now(),
         "modifiedTimes": [DateTime.now()]
+      });
+    } catch (e) {
+      logger.e(e.toString());
+    }
+  }
+
+  Future<WakeUpModel> getTomorrowWakeYouUp(String uid) async {
+    try {
+      return _usersCollection
+          .doc(uid)
+          .collection(FirebaseConstants.wakeUpCollection)
+          .where("senderUid", isEqualTo: uid)
+          .where("wakeTime", isGreaterThan: Timestamp.now())
+          .get()
+          .then((value) => WakeUpModel.fromMap(value.docs.first.data()));
+    } catch (e) {
+      logger.e(e.toString());
+      return Future.error(e);
+    }
+  }
+
+  Future<WakeUpModel> getTomorrowWakeMeUp(String uid) async {
+    try {
+      return _usersCollection
+          .doc(uid)
+          .collection(FirebaseConstants.wakeUpCollection)
+          .where("reciverUid", isEqualTo: uid)
+          .where("wakeTime", isGreaterThan: Timestamp.now())
+          .get()
+          .then((value) => WakeUpModel.fromMap(value.docs.first.data()));
+    } catch (e) {
+      logger.e(e.toString());
+      return Future.error(e);
+    }
+  }
+
+  wakeUpAprove(String uid, String wakeUpUid) {
+    try {
+      _usersCollection
+          .doc(uid)
+          .collection(FirebaseConstants.wakeUpCollection)
+          .doc(wakeUpUid)
+          .update({
+        "isApproved": true,
+        "modifiedTimes": DateTime.now(),
       });
     } catch (e) {
       logger.e(e.toString());

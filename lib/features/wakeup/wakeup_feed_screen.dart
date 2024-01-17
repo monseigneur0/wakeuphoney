@@ -31,13 +31,12 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
   @override
   Widget build(BuildContext context) {
     final userInfo = ref.watch(getMyUserInfoProvider);
-    var lettersList = ref.watch(getWakeUpLettersListProvider);
+    final lettersList = ref.watch(getWakeUpLettersListProvider);
 
     return Scaffold(
       body: userInfo.when(data: (user) {
         return lettersList.when(
             data: (letters) {
-              logger.d(letters);
               if (letters.isEmpty) {
                 return Center(
                   child: Text(

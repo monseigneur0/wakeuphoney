@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakeuphoney/features/match/match_repo.dart';
 
 import '../../core/providers/firebase_providers.dart';
@@ -87,6 +88,9 @@ class MatchController extends StateNotifier<bool> {
       logger.d("couple is null");
       return null;
     }
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('sharedCoupleUid', coupleId);
+
     // await _matchRepository.matchCoupleIdProcessDone(
     //     uid,
     //     _ref.watch(getMatchedCoupleIdProvider(honeycode)).toString(),

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../core/providers/firebase_providers.dart';
@@ -19,6 +20,15 @@ final getALetterforResponseProvider = FutureProvider.autoDispose<WakeUpModel>(
     (ref) => ref
         .watch(wakeUpControllerProvider.notifier)
         .getALetterforResponse(ref.watch(authProvider).currentUser!.uid));
+
+final getTomorrowWakeMeUpProvider = FutureProvider.autoDispose<WakeUpModel>(
+    (ref) => ref
+        .watch(wakeUpControllerProvider.notifier)
+        .getTomorrowWakeMeUpProvider());
+final getTomorrowWakeYouUpProvider = FutureProvider.autoDispose<WakeUpModel>(
+    (ref) => ref
+        .watch(wakeUpControllerProvider.notifier)
+        .getTomorrowWakeYouUpProvider());
 
 class WakeUpController extends StateNotifier<bool> {
   final WakeUpRepository _wakeUpRepository;
@@ -42,6 +52,7 @@ class WakeUpController extends StateNotifier<bool> {
     coupleUidValue != null
         ? coupleUid = coupleUidValue.couple!
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+    if (coupleUid == "PyY5skHRgPJP0CMgI2Qp") logger.d("noooooooo $coupleUid");
 
     WakeUpModel wakeUpModel = WakeUpModel(
         wakeUpUid: const Uuid().v4(),
@@ -93,6 +104,7 @@ class WakeUpController extends StateNotifier<bool> {
     coupleUidValue != null
         ? coupleUid = coupleUidValue.couple!
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+    if (coupleUid == "PyY5skHRgPJP0CMgI2Qp") logger.d("noooooooo $coupleUid");
 
     _wakeUpRepository.letterEditMessage(uid, letterId, message);
     _wakeUpRepository.letterEditMessage(coupleUid, letterId, message);
@@ -108,6 +120,7 @@ class WakeUpController extends StateNotifier<bool> {
     coupleUidValue != null
         ? coupleUid = coupleUidValue.couple!
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+    if (coupleUid == "PyY5skHRgPJP0CMgI2Qp") logger.d("noooooooo $coupleUid");
 
     _wakeUpRepository.letterDeleteMessage(uid, letterId);
     _wakeUpRepository.letterDeleteMessage(coupleUid, letterId);
@@ -128,10 +141,32 @@ class WakeUpController extends StateNotifier<bool> {
     coupleUidValue != null
         ? coupleUid = coupleUidValue.couple!
         : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+    if (coupleUid == "PyY5skHRgPJP0CMgI2Qp") logger.d("noooooooo $coupleUid");
 
     _wakeUpRepository.createResponseLetter(
         uid, wakeUpUid, responseLetter, imageUrl);
     _wakeUpRepository.createResponseLetter(
         coupleUid, wakeUpUid, responseLetter, imageUrl);
+  }
+
+  Future<WakeUpModel> getTomorrowWakeYouUpProvider() {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    return _wakeUpRepository.getTomorrowWakeYouUp(uid);
+  }
+
+  Future<WakeUpModel> getTomorrowWakeMeUpProvider() {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    return _wakeUpRepository.getTomorrowWakeMeUp(uid);
+  }
+
+  wakeUpAprove(String wakeUpUid) {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    return _wakeUpRepository.wakeUpAprove(uid, wakeUpUid);
   }
 }

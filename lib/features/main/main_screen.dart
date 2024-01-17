@@ -6,12 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/common/loader.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
-import 'package:wakeuphoney/features/chatgpt/cs_screen.dart';
-import 'package:wakeuphoney/features/letter/letter_day_screen.dart';
-import 'package:wakeuphoney/features/profile/profile_couple_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_screen.dart';
-import 'package:wakeuphoney/features/wake/wake_approve_screen.dart';
-import 'package:wakeuphoney/features/wake/wake_screen.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_feed_screen.dart';
 import 'package:wakeuphoney/practice_home_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -19,12 +14,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../core/constants/design_constants.dart';
 import '../alarm/alarm_screen.dart';
 import '../auth/auth_controller.dart';
-import '../dailymessages/letter_date_screen.dart';
-import '../dailymessages/pages/table_basic_screen.dart';
-import '../letter/letter_feed2_screen.dart';
-import '../letter/letter_feed5_scree.dart';
 import '../match/match_screen.dart';
-import '../profile/auth_screen.dart';
 import '../profile/profile_controller.dart';
 import '../wakeup/wakeup_screen.dart';
 
@@ -79,7 +69,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       const WakeUpScreen(),
       const WakeUpFeedScreen(),
       // const LetterFeed5Screen(),
-      const LetterDayScreen(),
+      // const LetterDayScreen(),
       //왜 이중으로?
       hasCoupleId.when(
         data: ((data) {
@@ -143,14 +133,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                             label: AppLocalizations.of(context)!.feed,
                           ),
                           // BottomNavigationBarItem(
-                          //   icon: Icon(Icons.feed_outlined),
-                          //   label: '피드5',
+                          //   backgroundColor: AppColors.myPink,
+                          //   icon: const Icon(Icons.local_post_office_outlined),
+                          //   label: AppLocalizations.of(context)!.write,
                           // ),
-                          BottomNavigationBarItem(
-                            backgroundColor: AppColors.myPink,
-                            icon: const Icon(Icons.local_post_office_outlined),
-                            label: AppLocalizations.of(context)!.write,
-                          ),
                           BottomNavigationBarItem(
                             icon: const Icon(Icons.person_outline_rounded),
                             label: AppLocalizations.of(context)!.profile,

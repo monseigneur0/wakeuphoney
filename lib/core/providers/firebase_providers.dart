@@ -11,4 +11,6 @@ final authProvider = Provider((ref) => FirebaseAuth.instance);
 final storageProvider = Provider((ref) => FirebaseStorage.instance);
 final analyticsProvider = Provider((ref) => FirebaseAnalytics.instance);
 final googleSignInProvider = Provider((ref) => GoogleSignIn());
-final shardPrefProvider = Provider((ref) => SharedPreferences.getInstance());
+final sharedPreferencesProvider = StateProvider((ref) async {
+  return await SharedPreferences.getInstance();
+});

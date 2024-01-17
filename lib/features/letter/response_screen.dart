@@ -16,8 +16,6 @@ import '../../core/constants/design_constants.dart';
 import '../../core/providers/providers.dart';
 import '../../core/utils.dart';
 import '../wakeup/wakeup_controller.dart';
-import 'letter_controller.dart';
-import '../dailymessages/daily_controller.dart';
 
 class ResponseScreen extends ConsumerStatefulWidget {
   static String routeName = "response";
@@ -30,6 +28,7 @@ class ResponseScreen extends ConsumerStatefulWidget {
 
 class _ResponseScreenState extends ConsumerState<ResponseScreen> {
   final TextEditingController _messgaeController = TextEditingController();
+  Logger logger = Logger();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -53,7 +52,7 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final getALetter = ref.watch(getALetterProvider);
+    final getALetter = ref.watch(getALetterforResponseProvider);
 
     final List<DateTime> listDateTime = ref.watch(dateTimeStateProvider);
 
@@ -223,31 +222,25 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                               referenceDirImages.child(uniqueFileName);
 
                           //Handle errors/success
-                          try {
-                            //Store the file
-                            await referenceImageToUpload
-                                .putFile(File(bannerFile!.path));
-                            //Success: get the download URL
-                            imageUrl =
-                                await referenceImageToUpload.getDownloadURL();
-                          } catch (error) {
-                            //Some error occurred
+                          if (bannerFile != null) {
+                            try {
+                              //Store the file
+                              await referenceImageToUpload
+                                  .putFile(File(bannerFile!.path));
+                              //Success: get the download URL
+                              imageUrl =
+                                  await referenceImageToUpload.getDownloadURL();
+                            } catch (error) {
+                              //Some error occurred
+                              logger.e(error.toString());
+                            }
                           }
                           //메세지 작성
-                          // ref
-                          //     .watch(dailyControllerProvider.notifier)
-                          //     .createResponseMessage(message, imageUrl);
-                          ref.watch(getALetterProvider).whenData((value) => ref
-                              .watch(letterControllerProvider.notifier)
-                              .createResponseLetter(
-                                  value.letterId, message, imageUrl));
                           ref.watch(getALetterforResponseProvider).whenData(
                               (value) => ref
                                   .watch(wakeUpControllerProvider.notifier)
                                   .createResponseLetter(
                                       value.wakeUpUid, message, imageUrl));
-
-                          // ref.watch();
                         }
                         _messgaeController.clear();
                         if (context.mounted) {
