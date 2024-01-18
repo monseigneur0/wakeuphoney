@@ -43,12 +43,16 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                       .wakeUpAprove(data.wakeUpUid);
                 },
                 child: Container(
-                    color: AppColors.myPink,
-                    child: Column(children: [
+                  color: AppColors.myPink,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
                       Text(data.wakeUpUid),
                       Text(data.wakeTime.toString()),
                       const Text("승낙하시면 알람이 울립니다."),
-                    ])),
+                    ],
+                  ),
+                ),
               );
             },
             loading: () => const Center(child: CircularProgressIndicator()),

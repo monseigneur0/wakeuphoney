@@ -46,14 +46,10 @@ class WakeUpController extends StateNotifier<bool> {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
-
-    final coupleUidValue = _ref.watch(getMyUserDataProvider).value;
-    String coupleUid;
-    coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple!
-        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
-    if (coupleUid == "PyY5skHRgPJP0CMgI2Qp") logger.d("noooooooo $coupleUid");
-
+    logger.d(uid);
+    final coupleUidFuture = _ref.watch(getFutureMyUserDataProvider).value;
+    String? coupleUid = coupleUidFuture!.couple;
+    logger.d(coupleUid);
     WakeUpModel wakeUpModel = WakeUpModel(
         wakeUpUid: const Uuid().v4(),
         createdTime: DateTime.now(),
@@ -76,7 +72,7 @@ class WakeUpController extends StateNotifier<bool> {
         letterPhoto: photoUrl,
         letterAudio: "",
         letterVideo: "",
-        reciverUid: coupleUid,
+        reciverUid: coupleUid!,
         answer: "",
         answerPhoto: "",
         answerAudio: "",
@@ -115,15 +111,14 @@ class WakeUpController extends StateNotifier<bool> {
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
 
-    final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
-    String coupleUid;
-    coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple!
-        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
-    if (coupleUid == "PyY5skHRgPJP0CMgI2Qp") logger.d("noooooooo $coupleUid");
+    final coupleUidFuture = _ref.watch(getFutureMyUserDataProvider);
 
-    _wakeUpRepository.letterDeleteMessage(uid, letterId);
-    _wakeUpRepository.letterDeleteMessage(coupleUid, letterId);
+    coupleUidFuture.whenData((value) {
+      String coupleUid = value!.couple!;
+
+      _wakeUpRepository.letterDeleteMessage(uid, letterId);
+      _wakeUpRepository.letterDeleteMessage(coupleUid, letterId);
+    });
   }
 
   Future<WakeUpModel> getALetterforResponse(String uid) {

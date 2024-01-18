@@ -75,13 +75,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       const WakeUpFeedScreen(),
       // const LetterFeed5Screen(),
       // const LetterDayScreen(),
-      //왜 이중으로?
       hasCoupleId.when(
         data: ((data) {
           if (data.couple != "") {
+            logger.d(" hasCoupleId.when(CoupleProfileScreen");
             return const CoupleProfileScreen();
-          } else if (data.uid == "WvELgU4cO6gOeyzfu92j3k9vuBH2") {
-            return const PracticeHome();
           }
           return const MatchScreen();
         }),

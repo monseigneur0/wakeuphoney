@@ -22,7 +22,7 @@ final getMyUserDataProvider = StreamProvider(
 final loginCheckProvider = StreamProvider(
     (ref) => ref.watch(authControllerProvider.notifier).authStateChange);
 
-final getFutureMyUserDataProvider = FutureProvider.autoDispose<UserModel?>(
+final getFutureMyUserDataProvider = FutureProvider<UserModel?>(
     (ref) => ref.watch(authControllerProvider.notifier).getFutureMyUserData());
 
 class AuthController extends AsyncNotifier<void> {
@@ -87,11 +87,11 @@ class AuthController extends AsyncNotifier<void> {
     return _authRepository.getUserData(uid);
   }
 
-  Future<UserModel?> getFutureMyUserData() {
+  Future<UserModel?> getFutureMyUserData() async {
     User? auser = ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
-    return _authRepository.getFutureUserData(uid);
+    return await _authRepository.getFutureUserData(uid);
   }
 
   void logout(BuildContext context) async {

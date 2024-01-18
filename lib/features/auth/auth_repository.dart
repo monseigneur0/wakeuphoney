@@ -178,14 +178,16 @@ class AuthRepository {
 
   Future<UserModel?> getFutureUserData(String uid) async {
     try {
-      await _users.doc(uid).get().then((event) {
-        if (event.exists) {
-          return UserModel.fromMap(event.data() as Map<String, dynamic>);
-        }
+      return await _users.doc(uid).get().then((event) {
+        logger.d("Future<UserModel?> getFutureUserData(String uid) async");
+        return UserModel.fromMap(event.data() as Map<String, dynamic>);
       });
     } catch (e) {
       logger.d(e.toString());
     }
+    logger.d(
+        "return null;Future<UserModel?> getFutureUserData(String uid) async");
+
     return null;
   }
 

@@ -5,6 +5,7 @@ import 'package:wakeuphoney/features/main/main_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 
 import 'core/providers/providers.dart';
+import 'features/auth/auth_controller.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/dailymessages/letter_date_screen.dart';
 import 'features/letter/response_screen.dart';
@@ -29,7 +30,6 @@ class PracticeHome extends ConsumerStatefulWidget {
 class _PracticeHomeState extends ConsumerState<PracticeHome> {
   @override
   Widget build(BuildContext context) {
-    DateTime dateTime = DateTime.now();
     final number = ref.watch(numberProvider);
     final numberState = ref.watch(numberStateProvider);
     final currentUserModel = ref.watch(authRepositoryProvider);
@@ -53,13 +53,14 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                 height: 50,
               ),
               Text(currentUserModel.currentUser?.email ?? "email"),
-              Text("${DateFormat('E', 'ko_KR').format(dateTime)}요일임당"),
+              Text("${DateFormat('E', 'ko_KR').format(DateTime.now())}요일임당"),
               ElevatedButton(
                 style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.amber)),
                 onPressed: () => context.pushNamed(AlarmHome.routeName),
                 child: const Text('AlarmHome'),
               ),
+
               IconButton(
                 onPressed: () {
                   ref.watch(authRepositoryProvider).logout();
