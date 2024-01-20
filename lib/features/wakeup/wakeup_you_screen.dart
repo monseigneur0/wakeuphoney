@@ -61,8 +61,12 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                       color: AppColors.myPink,
                       child: Column(children: [
                         Text(data.wakeUpUid),
+                        Text(data.createdTime.toString()),
+                        Text(data.letter),
+                        Text(data.senderUid),
+                        Text(data.reciverUid),
                         Text(data.wakeTime.toString()),
-                        const Text("이때 깨울거야 각오해"),
+                        const Text("이때 깨울거야 각오해 상대에게 알람을 전송했어요"),
                       ]));
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),

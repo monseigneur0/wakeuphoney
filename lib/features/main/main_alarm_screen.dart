@@ -131,46 +131,6 @@ class MainAlarmHomeState extends State<MainAlarmHome> {
           // ),
         ],
       ),
-      // body: Column(
-      //   children: [
-      //     Expanded(
-      //       flex: 1,
-      //       child: alarms.isNotEmpty
-      //           ? ListView.builder(
-      //               itemCount: alarms.length,
-      //               // separatorBuilder: (context, index) => const Divider(),
-      //               itemBuilder: (context, index) {
-      //                 return AlarmTile(
-      //                   key: Key(alarms[index].id.toString()),
-      //                   title: TimeOfDay(
-      //                     hour: alarms[index].dateTime.hour,
-      //                     minute: alarms[index].dateTime.minute,
-      //                   ).format(context),
-      //                   onPressed: () => navigateToAlarmScreen(alarms[index]),
-      //                   onDismissed: () {
-      //                     Alarm.stop(alarms[index].id)
-      //                         .then((_) => loadAlarms());
-      //                   },
-      //                 );
-      //               },
-      //             )
-      //           : Column(
-      //               children: [
-      //                 SizedBox(height: MediaQuery.of(context).size.height / 5),
-      //                 Center(
-      //                   child: Text(
-      //                     AppLocalizations.of(context)!.noalarmset,
-      //                     style: const TextStyle(
-      //                       fontSize: 30,
-      //                       color: Colors.black,
-      //                     ),
-      //                   ),
-      //                 ),
-      //               ],
-      //             ),
-      //     ),
-      //   ],
-      // ),
       body: Column(children: [
         const Flexible(
           flex: 3,
@@ -180,6 +140,40 @@ class MainAlarmHomeState extends State<MainAlarmHome> {
         //   flex: 3,
         //   child: WakeUpYouScreen(),
         // ),
+        Flexible(
+          flex: 1,
+          child: alarms.isNotEmpty
+              ? ListView.builder(
+                  itemCount: alarms.length,
+                  // separatorBuilder: (context, index) => const Divider(),
+                  itemBuilder: (context, index) {
+                    return AlarmTile(
+                      key: Key(alarms[index].id.toString()),
+                      title: TimeOfDay(
+                        hour: alarms[index].dateTime.hour,
+                        minute: alarms[index].dateTime.minute,
+                      ).format(context),
+                      onPressed: () => navigateToAlarmScreen(alarms[index]),
+                      onDismissed: () {
+                        Alarm.stop(alarms[index].id).then((_) => loadAlarms());
+                      },
+                    );
+                  },
+                )
+              : Column(
+                  children: [
+                    Center(
+                      child: Text(
+                        AppLocalizations.of(context)!.noalarmset,
+                        style: const TextStyle(
+                          fontSize: 30,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+        ),
         Flexible(
           flex: 1,
           child: Container(

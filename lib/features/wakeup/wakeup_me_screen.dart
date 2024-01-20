@@ -32,6 +32,10 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                     color: AppColors.myPink,
                     child: Column(children: [
                       Text(data.wakeUpUid),
+                      Text(data.createdTime.toString()),
+                      Text(data.letter),
+                      Text(data.senderUid),
+                      Text(data.reciverUid),
                       Text(data.wakeTime.toString()),
                       const Text("승낙하셨습니다."),
                     ]));

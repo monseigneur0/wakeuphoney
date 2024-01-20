@@ -18,7 +18,10 @@ import '../alarm/alarm_screen.dart';
 import '../auth/auth_controller.dart';
 import '../match/match_screen.dart';
 import '../profile/profile_controller.dart';
+import '../wakeup/voice_test_screen.dart';
+import '../wakeup/voice_text_screen.dart';
 import '../wakeup/wakeup_screen.dart';
+import '../wakeup/wakeup_voice_screen.dart';
 import '../wakeup/wakeup_you_screen.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
@@ -69,9 +72,14 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     List<Widget> widgetOptions = <Widget>[
       // const AlarmHome(),
       const MainAlarmHome(),
+      const MyApp(),
+      const MyApptest(),
+
+      const WakeUpVoiceScreen(),
+
       // const WakeUpScreen(),
       const WakeUpYouScreen(),
-      const WakeUpMeScreen(),
+      // const WakeUpMeScreen(),
       const WakeUpFeedScreen(),
       // const LetterFeed5Screen(),
       // const LetterDayScreen(),
@@ -121,14 +129,20 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                             icon: ImageIcon(
                               AssetImage('assets/alarm-clock.png'),
                             ),
-                            label: "wakeupyou",
+                            label: "voice",
                           ),
                           const BottomNavigationBarItem(
                             icon: ImageIcon(
                               AssetImage('assets/alarm-clock.png'),
                             ),
-                            label: "wakeme",
+                            label: "wakeupyou",
                           ),
+                          // const BottomNavigationBarItem(
+                          //   icon: ImageIcon(
+                          //     AssetImage('assets/alarm-clock.png'),
+                          //   ),
+                          //   label: "wakeme",
+                          // ),
                           BottomNavigationBarItem(
                             icon: const Icon(Icons.home_outlined),
                             label: AppLocalizations.of(context)!.feed,
