@@ -8,6 +8,7 @@ import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
 import 'package:wakeuphoney/features/main/main_alarm_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_screen.dart';
+import 'package:wakeuphoney/features/wakeup/player_screen.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_feed_screen.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_me_screen.dart';
 import 'package:wakeuphoney/practice_home_screen.dart';
@@ -18,6 +19,8 @@ import '../alarm/alarm_screen.dart';
 import '../auth/auth_controller.dart';
 import '../match/match_screen.dart';
 import '../profile/profile_controller.dart';
+import '../wakeup/just_audio_examle.dart';
+import '../wakeup/list_audio_screen.dart';
 import '../wakeup/voice_test_screen.dart';
 import '../wakeup/voice_text_screen.dart';
 import '../wakeup/wakeup_screen.dart';
@@ -35,7 +38,7 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  int selectedIndex = 1;
+  int selectedIndex = 0;
   Logger logger = Logger();
 
   void _onItemTapped(int index) {
@@ -72,10 +75,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     List<Widget> widgetOptions = <Widget>[
       // const AlarmHome(),
       const MainAlarmHome(),
-      const MyApp(),
-      const MyApptest(),
 
-      const WakeUpVoiceScreen(),
+      // const WakeUpVoiceScreen(),
+      // const ListAudio(),
+      // const PlayerScreen(),
 
       // const WakeUpScreen(),
       const WakeUpYouScreen(),
@@ -125,12 +128,12 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                             ),
                             label: "main${AppLocalizations.of(context)!.alarm}",
                           ),
-                          const BottomNavigationBarItem(
-                            icon: ImageIcon(
-                              AssetImage('assets/alarm-clock.png'),
-                            ),
-                            label: "voice",
-                          ),
+                          // const BottomNavigationBarItem(
+                          //   icon: ImageIcon(
+                          //     AssetImage('assets/alarm-clock.png'),
+                          //   ),
+                          //   label: "voice",
+                          // ),
                           const BottomNavigationBarItem(
                             icon: ImageIcon(
                               AssetImage('assets/alarm-clock.png'),

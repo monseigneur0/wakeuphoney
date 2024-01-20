@@ -7,6 +7,8 @@ import 'package:uuid/uuid.dart';
 import 'package:path_provider/path_provider.dart';
 
 class MyApp extends StatefulWidget {
+  static const routeName = 'voice_text_screen';
+  static const routeURL = '/voice_text_screen';
   const MyApp({super.key});
 
   @override

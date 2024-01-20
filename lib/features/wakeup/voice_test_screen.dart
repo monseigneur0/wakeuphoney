@@ -7,6 +7,8 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
 class MyApptest extends StatefulWidget {
+  static const routeName = 'voice_test_screen';
+  static const routeURL = '/voice_test_screen';
   const MyApptest({super.key});
 
   @override
@@ -16,7 +18,7 @@ class MyApptest extends StatefulWidget {
 class _MyAppState extends State<MyApptest> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   final AudioRecorder _recorder = AudioRecorder();
-  double _volume = 1.0; // 기본 볼륨 값
+  final double _volume = 1.0; // 기본 볼륨 값
 
   bool _isRecording = false;
   List<String> _recordings = []; // 녹음된 파일의 리스트
@@ -35,7 +37,7 @@ class _MyAppState extends State<MyApptest> {
     final recordings = directory
         .listSync()
         .map((item) => item.path)
-        .where((item) => item.endsWith('.m4a'))
+        .where((item) => item.endsWith('m4a'))
         .toList();
     setState(() {
       _recordings = recordings;
@@ -142,7 +144,7 @@ class _MyAppState extends State<MyApptest> {
                         title: Text('Recording ${index + 1}'),
                         subtitle: Text(
                           recording,
-                          style: const TextStyle(fontSize: 5),
+                          style: const TextStyle(fontSize: 10),
                         ),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -156,18 +158,18 @@ class _MyAppState extends State<MyApptest> {
                               onPressed: () =>
                                   _deleteRecording(recording, index),
                             ),
-                            Slider(
-                              value: _volume,
-                              min: 0.0,
-                              max: 1.0,
-                              divisions: 10,
-                              onChanged: (newVolume) {
-                                setState(() {
-                                  _volume = newVolume;
-                                });
-                                _audioPlayer.setVolume(_volume);
-                              },
-                            ),
+                            // Slider(
+                            //   value: _volume,
+                            //   min: 0.0,
+                            //   max: 1.0,
+                            //   divisions: 10,
+                            //   onChanged: (newVolume) {
+                            //     setState(() {
+                            //       _volume = newVolume;
+                            //     });
+                            //     _audioPlayer.setVolume(_volume);
+                            //   },
+                            // ),
                           ],
                         ),
                       );

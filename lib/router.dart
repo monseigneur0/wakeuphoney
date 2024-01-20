@@ -23,6 +23,8 @@ import 'features/profile/feedback_screen.dart';
 import 'features/match/match_screen.dart';
 import 'features/auth/login_screen.dart';
 import 'features/letter/response_screen.dart';
+import 'features/wakeup/voice_test_screen.dart';
+import 'features/wakeup/voice_text_screen.dart';
 import 'practice_home_screen.dart';
 
 final routerProvider = Provider((ref) {
@@ -132,6 +134,16 @@ final routerProvider = Provider((ref) {
         name: CustomerServiceScreen.routeName,
         path: CustomerServiceScreen.routeURL,
         builder: (context, state) => const CustomerServiceScreen(),
+      ),
+      GoRoute(
+        name: MyApp.routeName,
+        path: MyApp.routeURL,
+        builder: (context, state) => const MyApp(),
+      ),
+      GoRoute(
+        name: MyApptest.routeName,
+        path: MyApptest.routeURL,
+        builder: (context, state) => const MyApptest(),
       ),
       GoRoute(
         name: WakeUpEditScreen.routeName,
