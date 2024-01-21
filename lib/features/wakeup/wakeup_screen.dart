@@ -15,7 +15,7 @@ class WakeUpScreen extends StatelessWidget {
       ),
       body: Column(children: [
         const Flexible(
-          flex: 3,
+          flex: 4,
           child: WakeUpMeScreen(),
         ),
         const Flexible(

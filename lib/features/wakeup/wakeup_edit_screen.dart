@@ -9,6 +9,7 @@ import 'package:logger/logger.dart';
 import 'package:uuid/uuid.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wakeuphoney/features/main/main_screen.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
@@ -189,7 +190,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
         backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_rounded),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.goNamed(MainScreen.routeName),
         ),
         actions: [
           IconButton(
@@ -639,11 +640,12 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                                         volume ?? 0.8,
                                         vibrate);
                                 if (mounted) {
-                                  Navigator.of(context).pop();
+                                  context.goNamed(MainScreen.routeName);
                                   showSnackBar(context,
                                       AppLocalizations.of(context)!.saved);
                                 }
                                 _letterController.clear();
+                                ref.watch(getTomorrowWakeUpYouProvider);
                               }
                             },
                             child: Container(

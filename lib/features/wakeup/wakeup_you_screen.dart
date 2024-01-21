@@ -49,24 +49,64 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                   if (data.letter.isEmpty || data.letter == "") {
                     return GestureDetector(
                         onTap: () {
-                          context.pushNamed(WakeUpEditScreen.routeName);
+                          context.goNamed(WakeUpEditScreen.routeName);
                         },
                         child: Container(
                           height: MediaQuery.of(context).size.height - 300,
-                          color: Colors.green,
-                          child: const Center(child: Text("깨워볼까요?!")),
+                          color: AppColors.sleepingbear,
+                          child: const Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Text("상대를 깨워 볼까요?"),
+                                  Image(
+                                    image: AssetImage(
+                                        'assets/images/sleepingbear.jpeg'),
+                                    height: 250,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ));
+                  } else if (data.isApproved == true) {
+                    return Container(
+                        color: AppColors.awakebear,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height - 250,
+                        child: Column(children: [
+                          Text(data.wakeUpUid),
+                          Text(data.createdTime.toString()),
+                          Text(data.letter),
+                          Text(data.senderUid),
+                          Text(data.reciverUid),
+                          Text(data.wakeTime.toString()),
+                          const Text("승낙하셨습니다."),
+                          const Image(
+                            image: AssetImage('assets/images/rabbitspeak.jpeg'),
+                            height: 250,
+                          )
+                        ]));
                   }
                   return Container(
-                      color: AppColors.myPink,
+                      color: AppColors.awakebear,
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height - 250,
                       child: Column(children: [
+                        const Text("이 때 깨울거에요!!ㅎㅎ 아직 승낙 안했어요"),
                         Text(data.wakeUpUid),
                         Text(data.createdTime.toString()),
                         Text(data.letter),
                         Text(data.senderUid),
                         Text(data.reciverUid),
                         Text(data.wakeTime.toString()),
-                        const Text("이때 깨울거야 각오해 상대에게 알람을 전송했어요"),
+                        Text(data.isApproved.toString()),
+                        const Image(
+                          image: AssetImage('assets/images/awakebear.jpeg'),
+                          height: 250,
+                        ),
+                        const Text("이 때 깨울거에요!!ㅎㅎ 아직 승낙 안했어요"),
                       ]));
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),

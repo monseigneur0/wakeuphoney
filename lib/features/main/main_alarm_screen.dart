@@ -133,7 +133,7 @@ class MainAlarmHomeState extends State<MainAlarmHome> {
       ),
       body: Column(children: [
         const Flexible(
-          flex: 3,
+          flex: 5,
           child: WakeUpMeScreen(),
         ),
         // const Flexible(

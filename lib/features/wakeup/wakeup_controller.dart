@@ -158,10 +158,8 @@ class WakeUpController extends StateNotifier<bool> {
     return _wakeUpRepository.getTomorrowWakeUpMe(uid);
   }
 
-  wakeUpAprove(String wakeUpUid) {
-    User? auser = _ref.watch(authProvider).currentUser;
-    String uid;
-    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
-    return _wakeUpRepository.wakeUpAprove(uid, wakeUpUid);
+  wakeUpAprove(String reciverUid, String senderUid, String wakeUpUid) {
+    _wakeUpRepository.wakeUpAprove(reciverUid, wakeUpUid);
+    _wakeUpRepository.wakeUpAprove(senderUid, wakeUpUid);
   }
 }

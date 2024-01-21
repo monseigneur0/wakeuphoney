@@ -20,4 +20,6 @@ class AppColors {
   static const Color myPink = Color(0xFFD72499);
   static const Color myBackgroundPink = Color.fromARGB(221, 255, 250, 250);
   static const Color myAppBarBackgroundPink = Color(0xDDFDE7F6);
+  static const Color sleepingbear = Color(0xFFFEBE5D);
+  static const Color awakebear = Color(0xFFFEE7CD);
 }
