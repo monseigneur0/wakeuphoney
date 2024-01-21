@@ -22,4 +22,7 @@ class AppColors {
   static const Color myAppBarBackgroundPink = Color(0xDDFDE7F6);
   static const Color sleepingbear = Color(0xFFFEBE5D);
   static const Color awakebear = Color(0xFFFEE7CD);
+  static const Color rabbitspeak = Color(0xFFFDE8CB);
+  static const Color rabbitwake = Color(0xFFFCFAF9);
+  static const Color rabbitalarm = Color(0xFFFFCFA1);
 }

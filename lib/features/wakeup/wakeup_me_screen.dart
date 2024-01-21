@@ -4,6 +4,7 @@ import 'package:day_night_time_picker/lib/daynight_timepicker.dart';
 import 'package:day_night_time_picker/lib/state/time.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -180,7 +181,8 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
             data: (data) {
               if (data.letter.isEmpty || data.letter == "") {
                 return Container(
-                  color: Colors.blue,
+                  width: MediaQuery.of(context).size.width,
+                  color: AppColors.rabbitwake,
                   child: const Center(
                       child: Column(
                     children: [
@@ -197,15 +199,12 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                 return GestureDetector(
                   onTap: () {},
                   child: Container(
-                      color: AppColors.green,
+                      width: MediaQuery.of(context).size.width,
+                      color: AppColors.rabbitspeak,
                       child: Column(children: [
-                        Text(data.wakeUpUid),
-                        Text(data.createdTime.toString()),
-                        Text(data.letter),
-                        Text(data.senderUid),
-                        Text(data.reciverUid),
-                        Text(data.wakeTime.toString()),
                         const Text("승낙하셨습니다."),
+                        Text(
+                            "${DateFormat('hh:mm').format(data.wakeTime)}에 깨워드릴게요!"),
                         const Image(
                           image: AssetImage('assets/images/rabbitspeak.jpeg'),
                           height: 250,
@@ -227,18 +226,16 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                   setState(() => loading = false);
                 },
                 child: Container(
-                  color: AppColors.myPink,
-                  child: Column(
+                  width: MediaQuery.of(context).size.width,
+                  color: AppColors.rabbitalarm,
+                  child: const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(data.wakeUpUid),
-                      Text(data.wakeTime.toString()),
-                      const Text("승낙하시면 알람이 울립니다."),
-                      const Text("승낙하시면 알람이 등록됩니다."),
-                      const Image(
+                      Text("승낙하시면 알람이 울립니다."),
+                      Image(
                         image: AssetImage('assets/images/rabbitalarm.jpeg'),
                         height: 250,
-                      )
+                      ),
                     ],
                   ),
                 ),

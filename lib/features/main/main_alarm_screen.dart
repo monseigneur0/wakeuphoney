@@ -108,19 +108,19 @@ class MainAlarmHomeState extends State<MainAlarmHome> {
           AppLocalizations.of(context)!.alarms,
           style: const TextStyle(color: Colors.black),
         ),
-        actions: [
-          GestureDetector(
-            onTap: () => navigateToAlarmScreen(null),
-            onLongPress: () => context.pushNamed(AlarmNewScreen.routeName),
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: ImageIcon(
-                AssetImage('assets/alarm-clock.png'),
-                size: 29,
-                color: AppColors.myPink,
-              ),
-            ),
-          ),
+        actions: const [
+          // GestureDetector(
+          //   onTap: () => navigateToAlarmScreen(null),
+          //   onLongPress: () => context.pushNamed(AlarmNewScreen.routeName),
+          //   child: const Padding(
+          //     padding: EdgeInsets.all(8.0),
+          //     child: ImageIcon(
+          //       AssetImage('assets/alarm-clock.png'),
+          //       size: 29,
+          //       color: AppColors.myPink,
+          //     ),
+          //   ),
+          // ),
           // IconButton(
           //   onPressed: () => context.pushNamed(AlarmNewScreen.routeName),
           //   icon: const ImageIcon(
@@ -140,46 +140,43 @@ class MainAlarmHomeState extends State<MainAlarmHome> {
         //   flex: 3,
         //   child: WakeUpYouScreen(),
         // ),
+        // Flexible(
+        //   flex: 1,
+        //   child: alarms.isNotEmpty
+        //       ? ListView.builder(
+        //           itemCount: alarms.length,
+        //           // separatorBuilder: (context, index) => const Divider(),
+        //           itemBuilder: (context, index) {
+        //             return AlarmTile(
+        //               key: Key(alarms[index].id.toString()),
+        //               title: TimeOfDay(
+        //                 hour: alarms[index].dateTime.hour,
+        //                 minute: alarms[index].dateTime.minute,
+        //               ).format(context),
+        //               onPressed: () => navigateToAlarmScreen(alarms[index]),
+        //               onDismissed: () {
+        //                 Alarm.stop(alarms[index].id).then((_) => loadAlarms());
+        //               },
+        //             );
+        //           },
+        //         )
+        //       : Column(
+        //           children: [
+        //             Center(
+        //               child: Text(
+        //                 AppLocalizations.of(context)!.noalarmset,
+        //                 style: const TextStyle(
+        //                   fontSize: 30,
+        //                   color: Colors.black,
+        //                 ),
+        //               ),
+        //             ),
+        //           ],
+        //         ),
+        // ),
         Flexible(
           flex: 1,
-          child: alarms.isNotEmpty
-              ? ListView.builder(
-                  itemCount: alarms.length,
-                  // separatorBuilder: (context, index) => const Divider(),
-                  itemBuilder: (context, index) {
-                    return AlarmTile(
-                      key: Key(alarms[index].id.toString()),
-                      title: TimeOfDay(
-                        hour: alarms[index].dateTime.hour,
-                        minute: alarms[index].dateTime.minute,
-                      ).format(context),
-                      onPressed: () => navigateToAlarmScreen(alarms[index]),
-                      onDismissed: () {
-                        Alarm.stop(alarms[index].id).then((_) => loadAlarms());
-                      },
-                    );
-                  },
-                )
-              : Column(
-                  children: [
-                    Center(
-                      child: Text(
-                        AppLocalizations.of(context)!.noalarmset,
-                        style: const TextStyle(
-                          fontSize: 30,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-        ),
-        Flexible(
-          flex: 1,
-          child: Container(
-            color: Colors.yellow,
-            child: Center(child: "여긴 광고에요".text.make()),
-          ),
+          child: Container(),
         ),
       ]),
       // floatingActionButton: Padding(

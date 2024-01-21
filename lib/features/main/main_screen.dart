@@ -89,7 +89,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       hasCoupleId.when(
         data: ((data) {
           if (data.couple != "") {
-            logger.d(" hasCoupleId.when(CoupleProfileScreen");
             return const CoupleProfileScreen();
           }
           return const MatchScreen();
@@ -126,7 +125,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                             icon: const ImageIcon(
                               AssetImage('assets/alarm-clock.png'),
                             ),
-                            label: "main${AppLocalizations.of(context)!.alarm}",
+                            label: AppLocalizations.of(context)!.alarm,
                           ),
                           // const BottomNavigationBarItem(
                           //   icon: ImageIcon(
@@ -138,7 +137,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                             icon: ImageIcon(
                               AssetImage('assets/alarm-clock.png'),
                             ),
-                            label: "wakeupyou",
+                            label: "꺠우기",
                           ),
                           // const BottomNavigationBarItem(
                           //   icon: ImageIcon(

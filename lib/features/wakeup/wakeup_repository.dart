@@ -171,7 +171,6 @@ class WakeUpRepository {
           .get()
           .then((value) {
         {
-          logger.d(value.docs);
           if (value.docs.isEmpty) return WakeUpModel.emptyFuture();
           return WakeUpModel.fromMap(value.docs.first.data());
         }
