@@ -182,6 +182,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
               if (data.letter.isEmpty || data.letter == "") {
                 return Container(
                   width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.width - 50,
                   color: AppColors.rabbitwake,
                   child: const Center(
                       child: Column(
@@ -200,6 +201,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                   onTap: () {},
                   child: Container(
                       width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.width - 50,
                       color: AppColors.rabbitspeak,
                       child: Column(children: [
                         const Text("승낙하셨습니다."),
@@ -227,6 +229,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.width - 50,
                   color: AppColors.rabbitalarm,
                   child: const Column(
                     mainAxisAlignment: MainAxisAlignment.center,

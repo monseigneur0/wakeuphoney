@@ -22,96 +22,89 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
     final wakeUpYou = ref.watch(getTomorrowWakeUpYouProvider);
     Logger logger = Logger();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("깨우기"),
-      ),
-      body: Column(
-        children: [
-          // Container(
-          //     child: coupleUid.when(
-          //         data: (data) {
-          //           return Text(data!.couple!);
-          //         },
-          //         loading: () => const Center(child: CircularProgressIndicator()),
-          //         error: (err, stack) {
-          //           logger.e(err);
+    return Column(
+      children: [
+        // Container(
+        //     child: coupleUid.when(
+        //         data: (data) {
+        //           return Text(data!.couple!);
+        //         },
+        //         loading: () => const Center(child: CircularProgressIndicator()),
+        //         error: (err, stack) {
+        //           logger.e(err);
 
-          //           return const Center(
-          //             child: Text(
-          //               "Error\n please restart your app",
-          //               style: TextStyle(color: Colors.red),
-          //             ),
-          //           );
-          //         })),
-          Container(
-              child: wakeUpYou.when(
-                  data: (data) {
-                    if (data.letter.isEmpty || data.letter == "") {
-                      return GestureDetector(
-                          onTap: () {
-                            context.goNamed(WakeUpEditScreen.routeName);
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height - 300,
-                            color: AppColors.sleepingbear,
-                            child: const Center(
-                              child: Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Text("상대를 깨워 볼까요?"),
-                                    Image(
-                                      image: AssetImage(
-                                          'assets/images/sleepingbear.jpeg'),
-                                      height: 250,
-                                    ),
-                                  ],
-                                ),
+        //           return const Center(
+        //             child: Text(
+        //               "Error\n please restart your app",
+        //               style: TextStyle(color: Colors.red),
+        //             ),
+        //           );
+        //         })),
+        Container(
+            child: wakeUpYou.when(
+                data: (data) {
+                  if (data.letter.isEmpty || data.letter == "") {
+                    return GestureDetector(
+                        onTap: () {
+                          context.goNamed(WakeUpEditScreen.routeName);
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.width - 50,
+                          color: AppColors.sleepingbear,
+                          child: const Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Text("상대를 깨워 볼까요?"),
+                                  Image(
+                                    image: AssetImage(
+                                        'assets/images/sleepingbear.jpeg'),
+                                    height: 250,
+                                  ),
+                                ],
                               ),
                             ),
-                          ));
-                    } else if (data.isApproved == true) {
-                      return Container(
-                          color: AppColors.rabbitspeak,
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height - 250,
-                          child: const Column(children: [
-                            Text("승낙하셨습니다."),
-                            Image(
-                              image:
-                                  AssetImage('assets/images/rabbitspeak.jpeg'),
-                              height: 250,
-                            )
-                          ]));
-                    }
-                    return Container(
-                        color: AppColors.awakebear,
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height - 250,
-                        child: const Column(children: [
-                          Text("이 때 깨울거에요!!ㅎㅎ 아직 승낙 안했어요"),
-                          Image(
-                            image: AssetImage('assets/images/awakebear.jpeg'),
-                            height: 250,
                           ),
+                        ));
+                  } else if (data.isApproved == true) {
+                    return Container(
+                        color: AppColors.rabbitspeak,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.width - 50,
+                        child: const Column(children: [
+                          Text("승낙하셨습니다."),
+                          Image(
+                            image: AssetImage('assets/images/rabbitspeak.jpeg'),
+                            height: 250,
+                          )
                         ]));
-                  },
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
-                  error: (err, stack) {
-                    logger.e(err);
+                  }
+                  return Container(
+                      color: AppColors.awakebear,
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.width,
+                      child: const Column(children: [
+                        Text("이 때 깨울거에요!!ㅎㅎ 아직 승낙 안했어요"),
+                        Image(
+                          image: AssetImage('assets/images/awakebear.jpeg'),
+                          height: 250,
+                        ),
+                      ]));
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (err, stack) {
+                  logger.e(err);
 
-                    return const Center(
-                      child: Text(
-                        "Error\n please restart your app",
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    );
-                  })),
-        ],
-      ),
+                  return const Center(
+                    child: Text(
+                      "Error\n please restart your app",
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  );
+                })),
+      ],
     );
   }
 }

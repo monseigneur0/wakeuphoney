@@ -6,7 +6,6 @@ import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/common/loader.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
-import 'package:wakeuphoney/features/main/main_alarm_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_screen.dart';
 import 'package:wakeuphoney/features/wakeup/player_screen.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_feed_screen.dart';
@@ -23,6 +22,7 @@ import '../wakeup/just_audio_examle.dart';
 import '../wakeup/list_audio_screen.dart';
 import '../wakeup/voice_test_screen.dart';
 import '../wakeup/voice_text_screen.dart';
+import '../wakeup/wakeup_main_screen.dart';
 import '../wakeup/wakeup_screen.dart';
 import '../wakeup/wakeup_voice_screen.dart';
 import '../wakeup/wakeup_you_screen.dart';
@@ -74,15 +74,13 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final isLoggedInStream = ref.watch(loginCheckProvider);
     List<Widget> widgetOptions = <Widget>[
       // const AlarmHome(),
-      const MainAlarmHome(),
+      const WakeUpMainScreen(),
 
       // const WakeUpVoiceScreen(),
       // const ListAudio(),
       // const PlayerScreen(),
 
       // const WakeUpScreen(),
-      const WakeUpYouScreen(),
-      // const WakeUpMeScreen(),
       const WakeUpFeedScreen(),
       // const LetterFeed5Screen(),
       // const LetterDayScreen(),
@@ -133,12 +131,12 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           //   ),
                           //   label: "voice",
                           // ),
-                          const BottomNavigationBarItem(
-                            icon: ImageIcon(
-                              AssetImage('assets/alarm-clock.png'),
-                            ),
-                            label: "꺠우기",
-                          ),
+                          // const BottomNavigationBarItem(
+                          //   icon: ImageIcon(
+                          //     AssetImage('assets/alarm-clock.png'),
+                          //   ),
+                          //   label: "꺠우기",
+                          // ),
                           // const BottomNavigationBarItem(
                           //   icon: ImageIcon(
                           //     AssetImage('assets/alarm-clock.png'),

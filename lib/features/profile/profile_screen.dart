@@ -176,10 +176,10 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                         herotag: 'myhero',
                       ),
 
-                      const Icon(
-                        Icons.favorite,
-                        color: AppColors.myPink,
-                      ),
+                      // const Icon(
+                      //   Icons.favorite,
+                      //   color: AppColors.myPink,
+                      // ),
                       ProfileImage(
                         userCoupleProfileStream: userCoupleProfileStream,
                         herotag: 'couplehero',
@@ -256,83 +256,97 @@ class ProfileImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logger = Logger();
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SizedBox(
-          height: 120,
-          child: userCoupleProfileStream.when(
-            data: (data) => GestureDetector(
-              onTap: () => context.push(Uri(
-                  path: ImageFullScreen.routeURL,
-                  queryParameters: {
-                    'filter': data.photoURL,
-                    'herotag': herotag
-                  }).toString()),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(60),
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 20,
-                        offset: const Offset(8, 8),
-                        color: Colors.black.withOpacity(0.3))
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(60.0),
-                  child: Hero(
-                    tag: herotag,
-                    child: CachedNetworkImage(
-                      width: 120,
-                      imageUrl: data.photoURL,
-                      fit: BoxFit.fill,
-                      placeholder: (context, url) => Container(
-                        height: 40,
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 20,
+                offset: const Offset(8, 8))
+          ]),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              height: 120,
+              child: userCoupleProfileStream.when(
+                data: (data) => GestureDetector(
+                  onTap: () => context.push(Uri(
+                      path: ImageFullScreen.routeURL,
+                      queryParameters: {
+                        'filter': data.photoURL,
+                        'herotag': herotag
+                      }).toString()),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(60),
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 20,
+                            offset: const Offset(8, 8),
+                            color: Colors.black.withOpacity(0.3))
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(60.0),
+                      child: Hero(
+                        tag: herotag,
+                        child: CachedNetworkImage(
+                          width: 120,
+                          imageUrl: data.photoURL,
+                          fit: BoxFit.fill,
+                          placeholder: (context, url) => Container(
+                            height: 40,
+                          ),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        ),
                       ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
                     ),
                   ),
                 ),
+                error: (error, stackTrace) {
+                  logger.e("error$error ");
+                  return const Image(
+                    image: AssetImage('assets/human.jpg'),
+                    height: 30,
+                  );
+                },
+                loading: () => const Loader(),
               ),
             ),
-            error: (error, stackTrace) {
-              logger.e("error$error ");
-              return const Image(
-                image: AssetImage('assets/human.jpg'),
-                height: 30,
-              );
-            },
-            loading: () => const Loader(),
-          ),
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        userCoupleProfileStream.when(
-          data: (data) => Text(
-            data.displayName.length < 8
-                ? data.displayName
-                : "${data.displayName.substring(0, 8)}..",
-            style: const TextStyle(
-              fontSize: 24,
-              color: Colors.black,
+            const SizedBox(
+              height: 5,
             ),
-          ),
-          error: (error, stackTrace) {
-            // logger.d("error$error ");
-            return const Text(
-              "no couple",
-              style: TextStyle(
-                fontSize: 30,
-                color: Colors.white,
+            userCoupleProfileStream.when(
+              data: (data) => Text(
+                data.displayName.length < 8
+                    ? data.displayName
+                    : "${data.displayName.substring(0, 8)}..",
+                style: const TextStyle(
+                  fontSize: 24,
+                  color: Colors.black,
+                ),
               ),
-            );
-          },
-          loading: () => const Loader(),
+              error: (error, stackTrace) {
+                // logger.d("error$error ");
+                return const Text(
+                  "no couple",
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.white,
+                  ),
+                );
+              },
+              loading: () => const Loader(),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
