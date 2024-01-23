@@ -93,5 +93,14 @@
   "feedback": "Hantar maklum balas",
   "deleteaccount": "Padam akaun",
   "breakup": "Putus dengan pasangan",
-  "deletesure": "Semua data akaun akan dipadam. Tidak dapat dipulihkan. Adakah anda pasti ingin memadamkannya?"
+  "deletesure": "Semua maklumat akaun anda akan dipadam. Adakah anda pasti untuk memadam secara kekal?",
+  "writechangename": "Tulis nama yang ingin diubah",
+  "writename": "Tulis nama anda",
+  "wakeupyou": "Haruskah kita cuba membangunkan orang lain?",
+  "wakeupapproved": "Orang lain telah bersetuju. Sedia untuk membangunkan!",
+  "wakeupnotapproved": "Kita boleh membangunkan apabila orang lain bersetuju!",
+  "wakeupmenotyet": "Orang lain belum membangunkan saya",
+  "wakeupmenotapproved": "Dia akan membangunkan saya! Sila terima penggera!",
+  "wakeupmeapproved": "Anda telah bersetuju. Orang lain akan membangunkan anda!",
+  "wakeupmeat": "Saya akan membangunkan anda pada"
 }

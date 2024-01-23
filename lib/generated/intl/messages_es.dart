@@ -66,7 +66,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deletealarm": MessageLookupByLibrary.simpleMessage("Eliminar alarma"),
         "deleted": MessageLookupByLibrary.simpleMessage("Eliminado"),
         "deletesure": MessageLookupByLibrary.simpleMessage(
-            "Todos los datos de la cuenta se eliminarán. No se puede restaurar. ¿Estás seguro de que quieres eliminarlo?"),
+            "Se eliminarán todos los datos de su cuenta. ¿Está seguro de que desea eliminar de forma permanente?"),
         "edit": MessageLookupByLibrary.simpleMessage("Editar"),
         "editprofile": MessageLookupByLibrary.simpleMessage("Editar perfil"),
         "emaillogin": MessageLookupByLibrary.simpleMessage(
@@ -131,11 +131,25 @@ class MessageLookup extends MessageLookupByLibrary {
         "vibrate": MessageLookupByLibrary.simpleMessage("Vibrar"),
         "viewcode":
             MessageLookupByLibrary.simpleMessage("Ver código de invitación"),
+        "wakeupapproved": MessageLookupByLibrary.simpleMessage(
+            "La otra persona ha aceptado. ¡Listo para despertar!"),
         "wakeupgom": MessageLookupByLibrary.simpleMessage("WakeupGom"),
         "wakeupgomalarm":
             MessageLookupByLibrary.simpleMessage("Alarma de WakeupGom"),
         "wakeupletter": MessageLookupByLibrary.simpleMessage("¡Despierta!"),
+        "wakeupmeapproved": MessageLookupByLibrary.simpleMessage(
+            "Has aceptado. ¡La otra persona te despertará!"),
+        "wakeupmeat":
+            MessageLookupByLibrary.simpleMessage("Te despertaré a las"),
+        "wakeupmenotapproved": MessageLookupByLibrary.simpleMessage(
+            "¡Ella me despertará! ¡Por favor, acepte la alarma!"),
+        "wakeupmenotyet": MessageLookupByLibrary.simpleMessage(
+            "La otra persona aún no me ha despertado"),
+        "wakeupnotapproved": MessageLookupByLibrary.simpleMessage(
+            "¡Podemos despertar cuando la otra persona acepte!"),
         "wakeuptime": MessageLookupByLibrary.simpleMessage("Hora de despertar"),
+        "wakeupyou": MessageLookupByLibrary.simpleMessage(
+            "¿Deberíamos intentar despertar a la otra persona?"),
         "watchthephoto":
             MessageLookupByLibrary.simpleMessage("Ver la foto en la cama"),
         "whenwrite": MessageLookupByLibrary.simpleMessage(
@@ -145,8 +159,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "Escribe una carta para despertar con"),
         "writealetter":
             MessageLookupByLibrary.simpleMessage("Escribir una carta"),
+        "writechangename": MessageLookupByLibrary.simpleMessage(
+            "Escriba el nombre que desea cambiar"),
         "writemorning": MessageLookupByLibrary.simpleMessage(
             "Escribir una carta para la alarma de la mañana"),
+        "writename": MessageLookupByLibrary.simpleMessage(
+            "Por favor, escriba su nombre"),
         "writeothercode":
             MessageLookupByLibrary.simpleMessage("¿Recibiste el código?"),
         "writetomorrow": MessageLookupByLibrary.simpleMessage(

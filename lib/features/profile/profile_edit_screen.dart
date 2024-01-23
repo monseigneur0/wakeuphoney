@@ -14,14 +14,13 @@ import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/core/utils.dart';
 import 'package:wakeuphoney/features/chatgpt/cs_screen.dart';
 import 'package:wakeuphoney/features/image/image_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';
 import '../auth/auth_controller.dart';
 import '../auth/auth_repository.dart';
 import '../auth/login_screen.dart';
 import 'profile_controller.dart';
-
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileEditScreen extends ConsumerStatefulWidget {
   static String routeName = 'profileedit';
@@ -224,11 +223,12 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                       }
                                     },
                                     decoration: const InputDecoration(
-                                      hintText: "변경할 이름을 적어주세요",
+                                      hintText:
+                                          "AppLocalizations.of(context)!.writechangename",
                                     ),
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return '이름을 입력해주세요';
+                                        return "AppLocalizations.of(context)!.writename";
                                       }
                                       return null;
                                     },

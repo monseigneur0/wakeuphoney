@@ -63,7 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deletealarm": MessageLookupByLibrary.simpleMessage("Padamkan alarm"),
         "deleted": MessageLookupByLibrary.simpleMessage("Dipadamkan"),
         "deletesure": MessageLookupByLibrary.simpleMessage(
-            "Semua data akaun akan dipadam. Tidak dapat dipulihkan. Adakah anda pasti ingin memadamkannya?"),
+            "Semua maklumat akaun anda akan dipadam. Adakah anda pasti untuk memadam secara kekal?"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "editprofile": MessageLookupByLibrary.simpleMessage("Edit profil"),
         "emaillogin":
@@ -124,11 +124,25 @@ class MessageLookup extends MessageLookupByLibrary {
         "sure": MessageLookupByLibrary.simpleMessage("Adakah anda pasti?"),
         "vibrate": MessageLookupByLibrary.simpleMessage("Getar"),
         "viewcode": MessageLookupByLibrary.simpleMessage("Lihat kod jemputan"),
+        "wakeupapproved": MessageLookupByLibrary.simpleMessage(
+            "Orang lain telah bersetuju. Sedia untuk membangunkan!"),
         "wakeupgom": MessageLookupByLibrary.simpleMessage("WakeupGom"),
         "wakeupgomalarm":
             MessageLookupByLibrary.simpleMessage("Alarm WakeupGom"),
         "wakeupletter": MessageLookupByLibrary.simpleMessage("Mari bangun!"),
+        "wakeupmeapproved": MessageLookupByLibrary.simpleMessage(
+            "Anda telah bersetuju. Orang lain akan membangunkan anda!"),
+        "wakeupmeat": MessageLookupByLibrary.simpleMessage(
+            "Saya akan membangunkan anda pada"),
+        "wakeupmenotapproved": MessageLookupByLibrary.simpleMessage(
+            "Dia akan membangunkan saya! Sila terima penggera!"),
+        "wakeupmenotyet": MessageLookupByLibrary.simpleMessage(
+            "Orang lain belum membangunkan saya"),
+        "wakeupnotapproved": MessageLookupByLibrary.simpleMessage(
+            "Kita boleh membangunkan apabila orang lain bersetuju!"),
         "wakeuptime": MessageLookupByLibrary.simpleMessage("Masa Bangun"),
+        "wakeupyou": MessageLookupByLibrary.simpleMessage(
+            "Haruskah kita cuba membangunkan orang lain?"),
         "watchthephoto":
             MessageLookupByLibrary.simpleMessage("Lihat gambar di atas katil"),
         "whenwrite":
@@ -137,8 +151,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "writealarmcheck": MessageLookupByLibrary.simpleMessage(
             "Tulis surat untuk bangun dengan"),
         "writealetter": MessageLookupByLibrary.simpleMessage("Tulis surat"),
+        "writechangename": MessageLookupByLibrary.simpleMessage(
+            "Tulis nama yang ingin diubah"),
         "writemorning": MessageLookupByLibrary.simpleMessage(
             "Tulis surat untuk alarm pagi"),
+        "writename": MessageLookupByLibrary.simpleMessage("Tulis nama anda"),
         "writeothercode": MessageLookupByLibrary.simpleMessage(
             "Adakah anda menerima kod tersebut?"),
         "writetomorrow": MessageLookupByLibrary.simpleMessage(

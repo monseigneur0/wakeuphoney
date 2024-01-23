@@ -16,8 +16,8 @@ import 'package:go_router/go_router.dart';
 
 import 'features/alarm/alarm_screen.dart';
 import 'features/auth/login_screen.dart';
-import 'features/wakeup/voice_test_screen.dart';
-import 'features/wakeup/voice_text_screen.dart';
+import 'features/voice/voice_test_screen.dart';
+import 'features/voice/voice_text_screen.dart';
 
 class PracticeHome extends ConsumerStatefulWidget {
   static String routeName = "practice";

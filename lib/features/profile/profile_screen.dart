@@ -232,7 +232,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
               alignment: Alignment.bottomCenter,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height > 800 ? 100 : 80,
+                height: MediaQuery.of(context).size.height > 800 ? 250 : 150,
                 child: AdWidget(ad: _bannerAd!),
               ),
             ),

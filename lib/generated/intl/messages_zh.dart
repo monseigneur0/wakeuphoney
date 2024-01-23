@@ -51,7 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deletealarm": MessageLookupByLibrary.simpleMessage("删除闹钟"),
         "deleted": MessageLookupByLibrary.simpleMessage("已删除"),
         "deletesure":
-            MessageLookupByLibrary.simpleMessage("所有账户数据将被删除。无法恢复。确定要删除吗？"),
+            MessageLookupByLibrary.simpleMessage("您的账户所有信息将被删除。您确定要永久删除吗？"),
         "edit": MessageLookupByLibrary.simpleMessage("编辑"),
         "editprofile": MessageLookupByLibrary.simpleMessage("编辑个人资料"),
         "emaillogin": MessageLookupByLibrary.simpleMessage("邮箱登录"),
@@ -100,16 +100,28 @@ class MessageLookup extends MessageLookupByLibrary {
         "sure": MessageLookupByLibrary.simpleMessage("确定吗？"),
         "vibrate": MessageLookupByLibrary.simpleMessage("震动"),
         "viewcode": MessageLookupByLibrary.simpleMessage("查看邀请码"),
+        "wakeupapproved": MessageLookupByLibrary.simpleMessage("对方已经同意。准备唤醒！"),
         "wakeupgom": MessageLookupByLibrary.simpleMessage("WakeupGom"),
         "wakeupgomalarm": MessageLookupByLibrary.simpleMessage("WakeupGom闹钟"),
         "wakeupletter": MessageLookupByLibrary.simpleMessage("让我们一起醒来！"),
+        "wakeupmeapproved":
+            MessageLookupByLibrary.simpleMessage("您已经同意。对方会唤醒您！"),
+        "wakeupmeat": MessageLookupByLibrary.simpleMessage("我会在点唤醒您！"),
+        "wakeupmenotapproved":
+            MessageLookupByLibrary.simpleMessage("她会唤醒我！请同意闹钟！"),
+        "wakeupmenotyet": MessageLookupByLibrary.simpleMessage("对方还没有唤醒我"),
+        "wakeupnotapproved":
+            MessageLookupByLibrary.simpleMessage("对方同意后我们可以唤醒！"),
         "wakeuptime": MessageLookupByLibrary.simpleMessage("起床时间"),
+        "wakeupyou": MessageLookupByLibrary.simpleMessage("我们应该尝试唤醒对方吗？"),
         "watchthephoto": MessageLookupByLibrary.simpleMessage("在床上看照片"),
         "whenwrite": MessageLookupByLibrary.simpleMessage("你想写信的日期是什么？"),
         "write": MessageLookupByLibrary.simpleMessage("写信"),
         "writealarmcheck": MessageLookupByLibrary.simpleMessage("写一封早晨的信"),
         "writealetter": MessageLookupByLibrary.simpleMessage("写一封信"),
+        "writechangename": MessageLookupByLibrary.simpleMessage("请写下您想要更改的名字"),
         "writemorning": MessageLookupByLibrary.simpleMessage("写一封早晨闹钟的信"),
+        "writename": MessageLookupByLibrary.simpleMessage("请写下您的名字"),
         "writeothercode": MessageLookupByLibrary.simpleMessage("你收到代码了吗？"),
         "writetomorrow": MessageLookupByLibrary.simpleMessage("明天可以写信"),
         "yes": MessageLookupByLibrary.simpleMessage("是")

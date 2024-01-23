@@ -93,5 +93,14 @@
   "feedback": "Envoyer des commentaires",
   "deleteaccount": "Supprimer le compte",
   "breakup": "Rompre avec votre partenaire",
-  "deletesure": "Toutes les données de votre compte seront supprimées. Cette action est irréversible. Êtes-vous sûr(e) de vouloir supprimer votre compte ?"
+  "deletesure": "Toutes les informations de votre compte seront supprimées. Êtes-vous sûr de vouloir supprimer de manière irréversible ?",
+  "writechangename": "Veuillez écrire le nom que vous souhaitez changer",
+  "writename": "Veuillez écrire votre nom",
+  "wakeupyou": "Devrions-nous essayer de réveiller la personne ?",
+  "wakeupapproved": "La personne a accepté. Prêt à réveiller !",
+  "wakeupnotapproved": "Nous pouvons réveiller la personne une fois qu'elle a accepté !",
+  "wakeupmenotyet": "La personne ne m'a pas encore réveillé",
+  "wakeupmenotapproved": "Elle va me réveiller ! Veuillez accepter l'alarme !",
+  "wakeupmeapproved": "Vous avez accepté. La personne va vous réveiller !",
+  "wakeupmeat": "Je vais vous réveiller à "
 }

@@ -93,5 +93,14 @@
   "feedback": "Send us feedback",
   "deleteaccount": "Account Deletion",
   "breakup": "break up with partner",
-  "deletesure": "All data in account will be deleted. Impossible to restore. Are you sure to delete?"
+  "deletesure": "All information from your account will be deleted. Are you sure you want to delete permanently?",
+  "writechangename": "Please write the name you wish to change",
+  "writename": "Please write your name",
+  "wakeupyou": "Should we try to wake up the other person?",
+  "wakeupapproved": "The other person has agreed. Ready to wake up!",
+  "wakeupnotapproved": "We can wake up once the other person agrees!",
+  "wakeupmenotyet": "The other person hasn't woken me up yet",
+  "wakeupmenotapproved": "They will wake me up! Please approve the alarm!",
+  "wakeupmeapproved": "You have agreed. The other person will wake you up!",
+  "wakeupmeat": "I will wake you up at"
 }

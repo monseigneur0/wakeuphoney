@@ -940,11 +940,101 @@ class AppLocalizations {
     );
   }
 
-  /// `계정의 모든 정보가 삭제됩니다. 복구 불가능하게 삭제하실건가요?`
+  /// `계정의 모든 정보가 삭제됩니다. 영구적으로 삭제하시겠습니까?`
   String get deletesure {
     return Intl.message(
-      '계정의 모든 정보가 삭제됩니다. 복구 불가능하게 삭제하실건가요?',
+      '계정의 모든 정보가 삭제됩니다. 영구적으로 삭제하시겠습니까?',
       name: 'deletesure',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `변경할 이름을 적어주세요`
+  String get writechangename {
+    return Intl.message(
+      '변경할 이름을 적어주세요',
+      name: 'writechangename',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `이름을 적어주세요`
+  String get writename {
+    return Intl.message(
+      '이름을 적어주세요',
+      name: 'writename',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `상대를 깨워 볼까요?`
+  String get wakeupyou {
+    return Intl.message(
+      '상대를 깨워 볼까요?',
+      name: 'wakeupyou',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `상대가 승낙했어요. 깨울 준비 완료!`
+  String get wakeupapproved {
+    return Intl.message(
+      '상대가 승낙했어요. 깨울 준비 완료!',
+      name: 'wakeupapproved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `상대가 승낙하면 깨울 수 있어요!`
+  String get wakeupnotapproved {
+    return Intl.message(
+      '상대가 승낙하면 깨울 수 있어요!',
+      name: 'wakeupnotapproved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `상대가 아직 깨워주지 않았어요`
+  String get wakeupmenotyet {
+    return Intl.message(
+      '상대가 아직 깨워주지 않았어요',
+      name: 'wakeupmenotyet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `깨워준대요! 알람을 승낙해주세요!`
+  String get wakeupmenotapproved {
+    return Intl.message(
+      '깨워준대요! 알람을 승낙해주세요!',
+      name: 'wakeupmenotapproved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `승낙하셨습니다. 상대가 깨워줄거에요!`
+  String get wakeupmeapproved {
+    return Intl.message(
+      '승낙하셨습니다. 상대가 깨워줄거에요!',
+      name: 'wakeupmeapproved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `에 깨워드릴게요!`
+  String get wakeupmeat {
+    return Intl.message(
+      '에 깨워드릴게요!',
+      name: 'wakeupmeat',
       desc: '',
       args: [],
     );

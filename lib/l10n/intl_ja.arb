@@ -93,5 +93,14 @@
   "feedback": "フィードバックを送信する",
   "deleteaccount": "アカウントを削除する",
   "breakup": "パートナーと別れる",
-  "deletesure": "すべてのアカウントデータが削除されます。この操作は元に戻せません。本当にアカウントを削除しますか？"
+  "deletesure": "すべてのアカウントデータが削除されます。この操作は元に戻せません。本当にアカウントを削除しますか？",
+  "writechangename": "変更したい名前を入力してください",
+  "writename": "名前を入力してください",
+  "wakeupyou": "相手を起こしてみましょうか？",
+  "wakeupapproved": "相手が承認しました。起こす準備ができました！",
+  "wakeupnotapproved": "相手が承認したら起こせます！",
+  "wakeupmenotyet": "相手はまだ起こしてくれていません",
+  "wakeupmenotapproved": "起こしてくれます！アラームを承認してください！",
+  "wakeupmeapproved": "承認されました。相手が起こしてくれます！",
+  "wakeupmeat": "の時に起こします！"
 }

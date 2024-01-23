@@ -93,5 +93,15 @@
   "feedback": "Kirim umpan balik",
   "deleteaccount": "Hapus akun",
   "breakup": "Putus dengan pasangan",
-  "deletesure": "Semua data akun akan dihapus. Tidak dapat dikembalikan. Apakah Anda yakin ingin menghapusnya?"
+  "deletesure": "Semua informasi akun Anda akan dihapus. Apakah Anda yakin ingin menghapus secara permanen?",
+  "writechangename": "Tulis nama yang ingin diubah",
+  "writename": "Tulis nama Anda",
+  "wakeupyou": "Haruskah kita mencoba membangunkan orang lain?",
+  "wakeupapproved": "Orang lain telah menyetujui. Siap untuk membangunkan!",
+  "wakeupnotapproved": "Kita bisa membangunkan ketika orang lain menyetujui!",
+  "wakeupmenotyet": "Orang lain belum membangunkan saya",
+  "wakeupmenotapproved": "Dia akan membangunkan saya! Silakan setujui alarm!",
+  "wakeupmeapproved": "Anda telah menyetujui. Orang lain akan membangunkan Anda!",
+  "wakeupmeat": "Saya akan membangunkan Anda pada"
+
 }

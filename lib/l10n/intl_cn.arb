@@ -93,5 +93,14 @@
   "feedback": "发送反馈",
   "deleteaccount": "删除账户",
   "breakup": "与伴侣分手",
-  "deletesure": "所有账户数据将被删除。无法恢复。确定要删除吗？"
+  "deletesure": "您的账户所有信息将被删除。您确定要永久删除吗？",
+  "writechangename": "请写下您想要更改的名字",
+  "writename": "请写下您的名字",
+  "wakeupyou": "我们应该尝试唤醒对方吗？",
+  "wakeupapproved": "对方已经同意。准备唤醒！",
+  "wakeupnotapproved": "对方同意后我们可以唤醒！",
+  "wakeupmenotyet": "对方还没有唤醒我",
+  "wakeupmenotapproved": "她会唤醒我！请同意闹钟！",
+  "wakeupmeapproved": "您已经同意。对方会唤醒您！",
+  "wakeupmeat": "我会在点唤醒您！"
 }

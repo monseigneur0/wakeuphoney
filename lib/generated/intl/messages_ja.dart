@@ -103,17 +103,32 @@ class MessageLookup extends MessageLookupByLibrary {
         "sure": MessageLookupByLibrary.simpleMessage("本当によろしいですか？"),
         "vibrate": MessageLookupByLibrary.simpleMessage("バイブレーション"),
         "viewcode": MessageLookupByLibrary.simpleMessage("招待コードを表示する"),
+        "wakeupapproved":
+            MessageLookupByLibrary.simpleMessage("相手が承認しました。起こす準備ができました！"),
         "wakeupgom": MessageLookupByLibrary.simpleMessage("ウェイクアップゴム"),
         "wakeupgomalarm": MessageLookupByLibrary.simpleMessage("ウェイクアップゴムアラーム"),
         "wakeupletter": MessageLookupByLibrary.simpleMessage("起きてください！"),
+        "wakeupmeapproved":
+            MessageLookupByLibrary.simpleMessage("承認されました。相手が起こしてくれます！"),
+        "wakeupmeat": MessageLookupByLibrary.simpleMessage("の時に起こします！"),
+        "wakeupmenotapproved":
+            MessageLookupByLibrary.simpleMessage("起こしてくれます！アラームを承認してください！"),
+        "wakeupmenotyet":
+            MessageLookupByLibrary.simpleMessage("相手はまだ起こしてくれていません"),
+        "wakeupnotapproved":
+            MessageLookupByLibrary.simpleMessage("相手が承認したら起こせます！"),
         "wakeuptime": MessageLookupByLibrary.simpleMessage("起床時間"),
+        "wakeupyou": MessageLookupByLibrary.simpleMessage("相手を起こしてみましょうか？"),
         "watchthephoto": MessageLookupByLibrary.simpleMessage("ベッドで写真を見る"),
         "whenwrite": MessageLookupByLibrary.simpleMessage("いつ書きたいですか？"),
         "write": MessageLookupByLibrary.simpleMessage("書く"),
         "writealarmcheck":
             MessageLookupByLibrary.simpleMessage("目覚ましのために手紙を書く"),
         "writealetter": MessageLookupByLibrary.simpleMessage("手紙を書く"),
+        "writechangename":
+            MessageLookupByLibrary.simpleMessage("変更したい名前を入力してください"),
         "writemorning": MessageLookupByLibrary.simpleMessage("朝のアラームのための手紙を書く"),
+        "writename": MessageLookupByLibrary.simpleMessage("名前を入力してください"),
         "writeothercode":
             MessageLookupByLibrary.simpleMessage("そのコードを受け取りましたか？"),
         "writetomorrow": MessageLookupByLibrary.simpleMessage("明日手紙を書くことができます"),

@@ -54,7 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deletealarm": MessageLookupByLibrary.simpleMessage("알람 삭제"),
         "deleted": MessageLookupByLibrary.simpleMessage("삭제했습니다."),
         "deletesure": MessageLookupByLibrary.simpleMessage(
-            "계정의 모든 정보가 삭제됩니다. 복구 불가능하게 삭제하실건가요?"),
+            "계정의 모든 정보가 삭제됩니다. 영구적으로 삭제하시겠습니까?"),
         "edit": MessageLookupByLibrary.simpleMessage("수정"),
         "editprofile": MessageLookupByLibrary.simpleMessage("프로필 편집"),
         "emaillogin": MessageLookupByLibrary.simpleMessage("Email로 로그인"),
@@ -104,17 +104,32 @@ class MessageLookup extends MessageLookupByLibrary {
         "sure": MessageLookupByLibrary.simpleMessage("정말 로그아웃할거에요?"),
         "vibrate": MessageLookupByLibrary.simpleMessage("진동"),
         "viewcode": MessageLookupByLibrary.simpleMessage("초대 코드 보기"),
+        "wakeupapproved":
+            MessageLookupByLibrary.simpleMessage("상대가 승낙했어요. 깨울 준비 완료!"),
         "wakeupgom": MessageLookupByLibrary.simpleMessage("일어나곰"),
         "wakeupgomalarm": MessageLookupByLibrary.simpleMessage("일어나곰 알람"),
         "wakeupletter": MessageLookupByLibrary.simpleMessage("깨워 볼까요?"),
+        "wakeupmeapproved":
+            MessageLookupByLibrary.simpleMessage("승낙하셨습니다. 상대가 깨워줄거에요!"),
+        "wakeupmeat": MessageLookupByLibrary.simpleMessage("에 깨워드릴게요!"),
+        "wakeupmenotapproved":
+            MessageLookupByLibrary.simpleMessage("깨워준대요! 알람을 승낙해주세요!"),
+        "wakeupmenotyet":
+            MessageLookupByLibrary.simpleMessage("상대가 아직 깨워주지 않았어요"),
+        "wakeupnotapproved":
+            MessageLookupByLibrary.simpleMessage("상대가 승낙하면 깨울 수 있어요!"),
         "wakeuptime": MessageLookupByLibrary.simpleMessage("편지 확인 가능 시간"),
+        "wakeupyou": MessageLookupByLibrary.simpleMessage("상대를 깨워 볼까요?"),
         "watchthephoto": MessageLookupByLibrary.simpleMessage("사진 확인해봐"),
         "whenwrite": MessageLookupByLibrary.simpleMessage("어떤 날에 편지를 쓸까요?"),
         "write": MessageLookupByLibrary.simpleMessage("편지쓰기"),
         "writealarmcheck": MessageLookupByLibrary.simpleMessage(
             "편지를 쓰고, 알람을 설정하고, \n아침에 편지를 확인해보세요."),
         "writealetter": MessageLookupByLibrary.simpleMessage("편지 쓸래?"),
+        "writechangename":
+            MessageLookupByLibrary.simpleMessage("변경할 이름을 적어주세요"),
         "writemorning": MessageLookupByLibrary.simpleMessage("아침 편지 써줄래?"),
+        "writename": MessageLookupByLibrary.simpleMessage("이름을 적어주세요"),
         "writeothercode":
             MessageLookupByLibrary.simpleMessage("상대의 초대코드를 전달받았나요?"),
         "writetomorrow":

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/constants/design_constants.dart';
 import 'wakeup_controller.dart';
@@ -53,11 +54,12 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.width - 50,
                           color: AppColors.sleepingbear,
-                          child: const Center(
+                          child: Center(
                             child: Column(
                               children: [
-                                WakeUpStatus("상대를 깨워 볼까요?"),
-                                Image(
+                                WakeUpStatus(
+                                    AppLocalizations.of(context)!.wakeupyou),
+                                const Image(
                                   image: AssetImage(
                                       'assets/images/sleepingbear.jpeg'),
                                   height: 250,
@@ -71,9 +73,10 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                         color: AppColors.rabbitspeak,
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.width - 50,
-                        child: const Column(children: [
-                          WakeUpStatus("승낙하셨습니다."),
-                          Image(
+                        child: Column(children: [
+                          WakeUpStatus(
+                              AppLocalizations.of(context)!.wakeupapproved),
+                          const Image(
                             image: AssetImage('assets/images/rabbitspeak.jpeg'),
                             height: 250,
                           )
@@ -83,9 +86,10 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                       color: AppColors.awakebear,
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.width,
-                      child: const Column(children: [
-                        WakeUpStatus("이 때 깨울거에요!!ㅎㅎ 아직 승낙 안했어요"),
-                        Image(
+                      child: Column(children: [
+                        WakeUpStatus(
+                            AppLocalizations.of(context)!.wakeupnotapproved),
+                        const Image(
                           image: AssetImage('assets/images/awakebear.jpeg'),
                           height: 250,
                         ),
@@ -95,10 +99,10 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                 error: (err, stack) {
                   logger.e(err);
 
-                  return const Center(
+                  return Center(
                     child: Text(
-                      "Error\n please restart your app",
-                      style: TextStyle(color: Colors.red),
+                      AppLocalizations.of(context)!.erroruser,
+                      style: const TextStyle(color: Colors.red),
                     ),
                   );
                 })),

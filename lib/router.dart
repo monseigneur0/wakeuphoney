@@ -23,8 +23,8 @@ import 'features/profile/feedback_screen.dart';
 import 'features/match/match_screen.dart';
 import 'features/auth/login_screen.dart';
 import 'features/letter/response_screen.dart';
-import 'features/wakeup/voice_test_screen.dart';
-import 'features/wakeup/voice_text_screen.dart';
+import 'features/voice/voice_test_screen.dart';
+import 'features/voice/voice_text_screen.dart';
 import 'practice_home_screen.dart';
 
 final routerProvider = Provider((ref) {

@@ -93,5 +93,14 @@
   "feedback": "Enviar comentarios",
   "deleteaccount": "Eliminar cuenta",
   "breakup": "Romper con la pareja",
-  "deletesure": "Todos los datos de la cuenta se eliminarán. No se puede restaurar. ¿Estás seguro de que quieres eliminarlo?"
+  "deletesure": "Se eliminarán todos los datos de su cuenta. ¿Está seguro de que desea eliminar de forma permanente?",
+  "writechangename": "Escriba el nombre que desea cambiar",
+  "writename": "Por favor, escriba su nombre",
+  "wakeupyou": "¿Deberíamos intentar despertar a la otra persona?",
+  "wakeupapproved": "La otra persona ha aceptado. ¡Listo para despertar!",
+  "wakeupnotapproved": "¡Podemos despertar cuando la otra persona acepte!",
+  "wakeupmenotyet": "La otra persona aún no me ha despertado",
+  "wakeupmenotapproved": "¡Ella me despertará! ¡Por favor, acepte la alarma!",
+  "wakeupmeapproved": "Has aceptado. ¡La otra persona te despertará!",
+  "wakeupmeat": "Te despertaré a las"
 }
