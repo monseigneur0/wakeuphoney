@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 import '../../core/constants/design_constants.dart';
 import '../alarm/alarm_day_settings.dart';
@@ -187,7 +188,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                   child: const Center(
                       child: Column(
                     children: [
-                      Text("상대가 아직 깨워주지 않았어요"),
+                      WakeUpStatus("상대가 아직 깨워주지 않았어요"),
                       Image(
                         image: AssetImage('assets/images/rabbitwake.jpeg'),
                         height: 250,
@@ -204,7 +205,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                       height: MediaQuery.of(context).size.width - 50,
                       color: AppColors.rabbitspeak,
                       child: Column(children: [
-                        const Text("승낙하셨습니다."),
+                        const WakeUpStatus("승낙하셨습니다."),
                         Text(
                             "${DateFormat('hh:mm').format(data.wakeTime)}에 깨워드릴게요!"),
                         const Image(
@@ -234,7 +235,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                   child: const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("승낙하시면 알람이 울립니다."),
+                      WakeUpStatus("이때 깨워준대요! 알람을 승낙해주세요!"),
                       Image(
                         image: AssetImage('assets/images/rabbitalarm.jpeg'),
                         height: 250,
@@ -255,5 +256,26 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                 ),
               );
             }));
+  }
+}
+
+class WakeUpStatus extends StatelessWidget {
+  final String wakeUpStatusMessage;
+  const WakeUpStatus(this.wakeUpStatusMessage, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.02),
+                blurRadius: 5,
+                offset: const Offset(4, 4))
+          ]),
+      child: Text(wakeUpStatusMessage).p(10),
+    ).pSymmetric(h: 10, v: 10);
   }
 }

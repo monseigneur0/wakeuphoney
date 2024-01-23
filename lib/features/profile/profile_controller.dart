@@ -45,6 +45,10 @@ final StateNotifierProvider<ProfileController, bool> profileControllerProvider =
   return ProfileController(profileRepo: profileRepo, ref: ref);
 });
 
+///////
+final getFeedbackProvider = FutureProvider(
+    (ref) => ref.watch(profileControllerProvider.notifier).getFeedbacks());
+
 class ProfileController extends StateNotifier<bool> {
   final ProfileRepo _profileRepo;
   final Ref _ref;
@@ -114,6 +118,10 @@ class ProfileController extends StateNotifier<bool> {
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     await _profileRepo.createFeedback(uid, contents, imageUrl);
+  }
+
+  Future<List<Object?>> getFeedbacks() {
+    return _profileRepo.getFeedbacks();
   }
 
   Future<UserModel> getMyUserInfo() {

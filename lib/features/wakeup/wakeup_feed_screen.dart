@@ -64,7 +64,6 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                     .format(letters[index].wakeTime)
                                     .toString()
                                     .text
-                                    .size(20)
                                     .make()
                                     .pSymmetric(h: 14),
                                 Container(
@@ -118,15 +117,26 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                                             letters[index]
                                                                 .senderUid
                                                         ? user.displayName.text
-                                                            .size(16)
+                                                            .size(14)
                                                             .bold
                                                             .make()
                                                         : user
                                                             .coupleDisplayName!
                                                             .text
-                                                            .size(16)
+                                                            .size(14)
                                                             .bold
                                                             .make(),
+                                                    Expanded(
+                                                      child: Container(),
+                                                    ),
+                                                    DateFormat("hh:mm")
+                                                        .format(letters[index]
+                                                            .wakeTime)
+                                                        .toString()
+                                                        .text
+                                                        .size(10)
+                                                        .make()
+                                                        .pSymmetric(h: 14),
                                                     PopupMenuButton(
                                                       itemBuilder: (context) {
                                                         if (letters[index]
@@ -297,13 +307,13 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                                                       .reciverUid
                                                               ? user.displayName
                                                                   .text
-                                                                  .size(16)
+                                                                  .size(14)
                                                                   .bold
                                                                   .make()
                                                               : user
                                                                   .coupleDisplayName!
                                                                   .text
-                                                                  .size(16)
+                                                                  .size(14)
                                                                   .bold
                                                                   .make(),
                                                           letters[index]

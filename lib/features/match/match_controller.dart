@@ -88,6 +88,11 @@ class MatchController extends StateNotifier<bool> {
       logger.d("couple is null");
       return null;
     }
+    final analytics = _ref.watch(analyticsProvider);
+    analytics.logEvent(name: 'match_success', parameters: {
+      'uid': uid,
+      'coupleId': coupleId,
+    });
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('sharedCoupleUid', coupleId);
 

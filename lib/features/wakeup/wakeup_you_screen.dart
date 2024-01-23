@@ -7,6 +7,7 @@ import 'package:velocity_x/velocity_x.dart';
 import '../../core/constants/design_constants.dart';
 import 'wakeup_controller.dart';
 import 'wakeup_edit_screen.dart';
+import 'wakeup_me_screen.dart';
 
 class WakeUpYouScreen extends ConsumerStatefulWidget {
   const WakeUpYouScreen({super.key});
@@ -53,18 +54,15 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                           height: MediaQuery.of(context).size.width - 50,
                           color: AppColors.sleepingbear,
                           child: const Center(
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Text("상대를 깨워 볼까요?"),
-                                  Image(
-                                    image: AssetImage(
-                                        'assets/images/sleepingbear.jpeg'),
-                                    height: 250,
-                                  ),
-                                ],
-                              ),
+                            child: Column(
+                              children: [
+                                WakeUpStatus("상대를 깨워 볼까요?"),
+                                Image(
+                                  image: AssetImage(
+                                      'assets/images/sleepingbear.jpeg'),
+                                  height: 250,
+                                ),
+                              ],
                             ),
                           ),
                         ));
@@ -74,7 +72,7 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.width - 50,
                         child: const Column(children: [
-                          Text("승낙하셨습니다."),
+                          WakeUpStatus("승낙하셨습니다."),
                           Image(
                             image: AssetImage('assets/images/rabbitspeak.jpeg'),
                             height: 250,
@@ -86,7 +84,7 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.width,
                       child: const Column(children: [
-                        Text("이 때 깨울거에요!!ㅎㅎ 아직 승낙 안했어요"),
+                        WakeUpStatus("이 때 깨울거에요!!ㅎㅎ 아직 승낙 안했어요"),
                         Image(
                           image: AssetImage('assets/images/awakebear.jpeg'),
                           height: 250,
