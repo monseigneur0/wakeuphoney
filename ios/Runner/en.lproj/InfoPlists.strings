@@ -1,0 +1,11 @@
+/* 
+  InfoPlists.strings
+  Runner
+
+  Created by 김탁호 on 2024/01/25.
+  
+*/
+"CFBundleDisplayName" = "WakeupBear";
+"NSCameraUsageDescription" = "Access to the camera is required to upload images to the letter.";
+"NSMicrophoneUsageDescription" = "Access to the microphone is required to record voice for the letter.";
+"NSPhotoLibraryUsageDescription" = "Access to the photo album is required to upload images to the letter.";

@@ -1,0 +1,11 @@
+/* 
+  InfoPlists.strings
+  Runner
+
+  Created by 김탁호 on 2024/01/25.
+  
+*/
+"CFBundleDisplayName" = "AcordaUrso";
+"NSCameraUsageDescription" = "O acesso à câmera é necessário para carregar imagens para a carta.";
+"NSMicrophoneUsageDescription" = "O acesso ao microfone é necessário para gravar voz para a carta.";
+"NSPhotoLibraryUsageDescription" = "O acesso ao álbum de fotos é necessário para carregar imagens para a carta.";

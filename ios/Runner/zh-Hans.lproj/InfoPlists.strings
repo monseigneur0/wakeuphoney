@@ -1,0 +1,11 @@
+/* 
+  InfoPlists.strings
+  Runner
+
+  Created by 김탁호 on 2024/01/25.
+  
+*/
+"CFBundleDisplayName" = "起床熊";
+"NSCameraUsageDescription" = "需要访问相机才能将图片上传到信件。";
+"NSMicrophoneUsageDescription" = "需要访问麦克风才能为信件录制语音。";
+"NSPhotoLibraryUsageDescription" = "需要访问相册才能将图片上传到信件。";

@@ -1,0 +1,11 @@
+/* 
+  InfoPlists.strings
+  Runner
+
+  Created by 김탁호 on 2024/01/25.
+  
+*/
+"CFBundleDisplayName" = "RéveillezlOurs";
+"NSCameraUsageDescription" = "L'accès à la caméra est nécessaire pour télécharger des images dans la lettre.";
+"NSMicrophoneUsageDescription" = "L'accès au microphone est nécessaire pour enregistrer la voix pour la lettre.";
+"NSPhotoLibraryUsageDescription" = "L'accès à l'album photo est nécessaire pour télécharger des images dans la lettre.";
