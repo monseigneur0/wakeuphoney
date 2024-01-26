@@ -52,7 +52,7 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.width - 50,
+                          height: MediaQuery.of(context).size.width - 70,
                           color: AppColors.sleepingbear,
                           child: Center(
                             child: Column(
@@ -62,7 +62,7 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                                 const Image(
                                   image: AssetImage(
                                       'assets/images/sleepingbear.jpeg'),
-                                  height: 250,
+                                  height: 220,
                                 ),
                               ],
                             ),
@@ -72,13 +72,13 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                     return Container(
                         color: AppColors.rabbitspeak,
                         width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.width - 50,
+                        height: MediaQuery.of(context).size.width - 70,
                         child: Column(children: [
                           WakeUpStatus(
                               AppLocalizations.of(context)!.wakeupapproved),
                           const Image(
                             image: AssetImage('assets/images/rabbitspeak.jpeg'),
-                            height: 250,
+                            height: 220,
                           )
                         ]));
                   }
@@ -91,7 +91,7 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                             AppLocalizations.of(context)!.wakeupnotapproved),
                         const Image(
                           image: AssetImage('assets/images/awakebear.jpeg'),
-                          height: 250,
+                          height: 220,
                         ),
                       ]));
                 },

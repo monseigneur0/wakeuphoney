@@ -18,6 +18,7 @@
 		5865F2052A2EF830005587BB /* one_piece.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5865F2002A2EF830005587BB /* one_piece.mp3 */; };
 		5878CBCA2A7500CB00D38A71 /* childhood.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5878CBC72A7500CB00D38A71 /* childhood.mp3 */; };
 		5878CBCB2A7500CB00D38A71 /* happylife.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5878CBC82A7500CB00D38A71 /* happylife.mp3 */; };
+		58E99E662B6217DE0005FF36 /* InfoPlists.strings in Resources */ = {isa = PBXBuildFile; fileRef = 58E99E652B6217DE0005FF36 /* InfoPlists.strings */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
@@ -52,6 +53,7 @@
 		5878CBC72A7500CB00D38A71 /* childhood.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = childhood.mp3; path = ../../assets/childhood.mp3; sourceTree = "<group>"; };
 		5878CBC82A7500CB00D38A71 /* happylife.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = happylife.mp3; path = ../../assets/happylife.mp3; sourceTree = "<group>"; };
 		58B751F32ABB752500D5D244 /* RunnerProfile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RunnerProfile.entitlements; sourceTree = "<group>"; };
+		58E99E652B6217DE0005FF36 /* InfoPlists.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = InfoPlists.strings; sourceTree = "<group>"; };
 		58EEB9942A819F8100D25D31 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		69DEE32223E7935AC7988514 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		6C3B99E74B4B3435DC15DFFF /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
+				58E99E652B6217DE0005FF36 /* InfoPlists.strings */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -220,6 +223,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5878CBCA2A7500CB00D38A71 /* childhood.mp3 in Resources */,
+				58E99E662B6217DE0005FF36 /* InfoPlists.strings in Resources */,
 				5865F2052A2EF830005587BB /* one_piece.mp3 in Resources */,
 				5865F2042A2EF830005587BB /* nokia.mp3 in Resources */,
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,

@@ -188,7 +188,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
               if (data.letter.isEmpty || data.letter == "") {
                 return Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.width - 50,
+                  height: MediaQuery.of(context).size.width - 70,
                   color: AppColors.rabbitwake,
                   child: Center(
                       child: Column(
@@ -197,7 +197,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                           AppLocalizations.of(context)!.wakeupmenotyet),
                       const Image(
                         image: AssetImage('assets/images/rabbitwake.jpeg'),
-                        height: 250,
+                        height: 220,
                       )
                     ],
                   )),
@@ -208,7 +208,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                   onTap: () {},
                   child: Container(
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.width - 50,
+                      height: MediaQuery.of(context).size.width - 70,
                       color: AppColors.rabbitspeak,
                       child: Column(children: [
                         WakeUpStatus(
@@ -217,7 +217,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                             "${DateFormat('hh:mm').format(data.wakeTime)}${AppLocalizations.of(context)!.wakeupmeat}"),
                         const Image(
                           image: AssetImage('assets/images/rabbitspeak.jpeg'),
-                          height: 250,
+                          height: 220,
                         )
                       ])),
                 );
@@ -309,7 +309,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.width - 50,
+                  height: MediaQuery.of(context).size.width - 70,
                   color: AppColors.rabbitalarm,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -318,7 +318,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                           AppLocalizations.of(context)!.wakeupmenotapproved),
                       const Image(
                         image: AssetImage('assets/images/rabbitalarm.jpeg'),
-                        height: 250,
+                        height: 220,
                       ),
                     ],
                   ),
