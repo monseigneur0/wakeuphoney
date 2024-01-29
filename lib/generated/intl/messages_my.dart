@@ -126,6 +126,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "viewcode": MessageLookupByLibrary.simpleMessage("Lihat kod jemputan"),
         "wakeupapproved": MessageLookupByLibrary.simpleMessage(
             "Orang lain telah bersetuju. Sedia untuk membangunkan!"),
+        "wakeupbear": MessageLookupByLibrary.simpleMessage("BangunBeruang"),
         "wakeupgom": MessageLookupByLibrary.simpleMessage("WakeupGom"),
         "wakeupgomalarm":
             MessageLookupByLibrary.simpleMessage("Alarm WakeupGom"),

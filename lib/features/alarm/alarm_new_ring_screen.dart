@@ -30,9 +30,9 @@ class _AlarmNewScreen extends ConsumerState<AlarmNewScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: Center(
+        child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const Text("이렇게 보일 거에요"),
               Text(

@@ -1039,6 +1039,16 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `일어나곰`
+  String get wakeupbear {
+    return Intl.message(
+      '일어나곰',
+      name: 'wakeupbear',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

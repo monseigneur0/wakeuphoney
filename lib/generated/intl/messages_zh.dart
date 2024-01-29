@@ -101,6 +101,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "vibrate": MessageLookupByLibrary.simpleMessage("震动"),
         "viewcode": MessageLookupByLibrary.simpleMessage("查看邀请码"),
         "wakeupapproved": MessageLookupByLibrary.simpleMessage("对方已经同意。准备唤醒！"),
+        "wakeupbear": MessageLookupByLibrary.simpleMessage("起床熊"),
         "wakeupgom": MessageLookupByLibrary.simpleMessage("WakeupGom"),
         "wakeupgomalarm": MessageLookupByLibrary.simpleMessage("WakeupGom闹钟"),
         "wakeupletter": MessageLookupByLibrary.simpleMessage("让我们一起醒来！"),

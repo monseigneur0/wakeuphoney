@@ -133,6 +133,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Ver código de invitación"),
         "wakeupapproved": MessageLookupByLibrary.simpleMessage(
             "La otra persona ha aceptado. ¡Listo para despertar!"),
+        "wakeupbear": MessageLookupByLibrary.simpleMessage("DespiertaOso"),
         "wakeupgom": MessageLookupByLibrary.simpleMessage("WakeupGom"),
         "wakeupgomalarm":
             MessageLookupByLibrary.simpleMessage("Alarma de WakeupGom"),

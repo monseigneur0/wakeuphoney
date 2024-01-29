@@ -105,6 +105,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "viewcode": MessageLookupByLibrary.simpleMessage("招待コードを表示する"),
         "wakeupapproved":
             MessageLookupByLibrary.simpleMessage("相手が承認しました。起こす準備ができました！"),
+        "wakeupbear": MessageLookupByLibrary.simpleMessage("起きて熊"),
         "wakeupgom": MessageLookupByLibrary.simpleMessage("ウェイクアップゴム"),
         "wakeupgomalarm": MessageLookupByLibrary.simpleMessage("ウェイクアップゴムアラーム"),
         "wakeupletter": MessageLookupByLibrary.simpleMessage("起きてください！"),

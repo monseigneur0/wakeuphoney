@@ -102,5 +102,6 @@
   "wakeupmenotyet": "The other person hasn't woken me up yet",
   "wakeupmenotapproved": "They will wake me up! Please approve the alarm!",
   "wakeupmeapproved": "You have agreed. The other person will wake you up!",
-  "wakeupmeat": "I will wake you up at"
+  "wakeupmeat": "I will wake you up at",
+  "wakeupbear": "WakeupBear"
 }

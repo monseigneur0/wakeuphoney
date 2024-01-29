@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../alarm/alarm_edit_screen.dart';
 import '../alarm/alarm_ring_screen.dart';
 import 'wakeup_me_screen.dart';
 import 'wakeup_you_screen.dart';
@@ -50,21 +49,6 @@ class _WakeUpMainScreenState extends State<WakeUpMainScreen> {
             builder: (context) =>
                 AlarmRingScreen(alarmSettings: alarmSettings)));
     loadAlarms();
-  }
-
-  Future<void> navigateToAlarmScreen(AlarmSettings? settings) async {
-    final res = await showModalBottomSheet<bool?>(
-        context: context,
-        isScrollControlled: true,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        builder: ((context) {
-          return FractionallySizedBox(
-            heightFactor: 0.7,
-            child: AlarmEditScreen(alarmSettings: settings),
-          );
-        }));
-    if (res != null && res == true) loadAlarms();
   }
 
   Future<void> checkAndroidNotificationPermission() async {

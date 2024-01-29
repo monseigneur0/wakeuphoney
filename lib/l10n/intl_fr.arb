@@ -102,5 +102,6 @@
   "wakeupmenotyet": "La personne ne m'a pas encore réveillé",
   "wakeupmenotapproved": "Elle va me réveiller ! Veuillez accepter l'alarme !",
   "wakeupmeapproved": "Vous avez accepté. La personne va vous réveiller !",
-  "wakeupmeat": "Je vais vous réveiller à "
+  "wakeupmeat": "Je vais vous réveiller à ",
+  "wakeupbear": "RéveillezlOurs"
 }

@@ -120,6 +120,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "viewcode": MessageLookupByLibrary.simpleMessage("View invite code"),
         "wakeupapproved": MessageLookupByLibrary.simpleMessage(
             "The other person has agreed. Ready to wake up!"),
+        "wakeupbear": MessageLookupByLibrary.simpleMessage("WakeupBear"),
         "wakeupgom": MessageLookupByLibrary.simpleMessage("WakeupGom"),
         "wakeupgomalarm":
             MessageLookupByLibrary.simpleMessage("WakeupGom Alarm"),

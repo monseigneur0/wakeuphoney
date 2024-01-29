@@ -106,6 +106,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "viewcode": MessageLookupByLibrary.simpleMessage("초대 코드 보기"),
         "wakeupapproved":
             MessageLookupByLibrary.simpleMessage("상대가 승낙했어요. 깨울 준비 완료!"),
+        "wakeupbear": MessageLookupByLibrary.simpleMessage("일어나곰"),
         "wakeupgom": MessageLookupByLibrary.simpleMessage("일어나곰"),
         "wakeupgomalarm": MessageLookupByLibrary.simpleMessage("일어나곰 알람"),
         "wakeupletter": MessageLookupByLibrary.simpleMessage("깨워 볼까요?"),

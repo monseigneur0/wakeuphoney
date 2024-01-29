@@ -73,17 +73,16 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
     final isLoggedInStream = ref.watch(loginCheckProvider);
     List<Widget> widgetOptions = <Widget>[
-      // const AlarmHome(),
-      const WakeUpMainScreen(),
+      // const WakeUpMainScreen(),
 
       // const WakeUpVoiceScreen(),
+      const WakeUpMeScreen(),
+      const WakeUpYouScreen(),
+
       // const ListAudio(),
       // const PlayerScreen(),
 
-      // const WakeUpScreen(),
       const WakeUpFeedScreen(),
-      // const LetterFeed5Screen(),
-      // const LetterDayScreen(),
       hasCoupleId.when(
         data: ((data) {
           if (data.couple != "") {
@@ -144,14 +143,14 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           //   label: "wakeme",
                           // ),
                           BottomNavigationBarItem(
+                            backgroundColor: AppColors.myPink,
+                            icon: const Icon(Icons.local_post_office_outlined),
+                            label: AppLocalizations.of(context)!.write,
+                          ),
+                          BottomNavigationBarItem(
                             icon: const Icon(Icons.home_outlined),
                             label: AppLocalizations.of(context)!.feed,
                           ),
-                          // BottomNavigationBarItem(
-                          //   backgroundColor: AppColors.myPink,
-                          //   icon: const Icon(Icons.local_post_office_outlined),
-                          //   label: AppLocalizations.of(context)!.write,
-                          // ),
                           BottomNavigationBarItem(
                             icon: const Icon(Icons.person_outline_rounded),
                             label: AppLocalizations.of(context)!.profile,

@@ -102,5 +102,6 @@
   "wakeupmenotyet": "Orang lain belum membangunkan saya",
   "wakeupmenotapproved": "Dia akan membangunkan saya! Sila terima penggera!",
   "wakeupmeapproved": "Anda telah bersetuju. Orang lain akan membangunkan anda!",
-  "wakeupmeat": "Saya akan membangunkan anda pada"
+  "wakeupmeat": "Saya akan membangunkan anda pada",
+  "wakeupbear": "BangunBeruang"
 }

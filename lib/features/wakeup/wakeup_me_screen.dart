@@ -182,105 +182,71 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
     Logger logger = Logger();
     final wakeMeUp = ref.watch(getTomorrowWakeUpMeProvider);
 
-    return Container(
-        child: wakeMeUp.when(
-            data: (data) {
-              if (data.letter.isEmpty || data.letter == "") {
-                return Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.width - 70,
-                  color: AppColors.rabbitwake,
-                  child: Center(
-                      child: Column(
-                    children: [
-                      WakeUpStatus(
-                          AppLocalizations.of(context)!.wakeupmenotyet),
-                      const Image(
-                        image: AssetImage('assets/images/rabbitwake.jpeg'),
-                        height: 220,
-                      )
-                    ],
-                  )),
-                );
-              }
-              if (data.isApproved == true) {
-                return GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.width - 70,
-                      color: AppColors.rabbitspeak,
-                      child: Column(children: [
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.wakeupgom),
+      ),
+      body: Center(
+          child: wakeMeUp.when(
+              data: (data) {
+                if (data.letter.isEmpty || data.letter == "") {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    color: AppColors.rabbitwake,
+                    child: Center(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
                         WakeUpStatus(
-                            AppLocalizations.of(context)!.wakeupmeapproved),
-                        Text(
-                            "${DateFormat('hh:mm').format(data.wakeTime)}${AppLocalizations.of(context)!.wakeupmeat}"),
+                            AppLocalizations.of(context)!.wakeupmenotyet),
                         const Image(
-                          image: AssetImage('assets/images/rabbitspeak.jpeg'),
+                          image: AssetImage('assets/images/rabbitwake.jpeg'),
                           height: 220,
                         )
-                      ])),
-                );
-              }
-              return GestureDetector(
-                onTap: () {
-                  Platform.isIOS
-                      ? showCupertinoDialog(
-                          context: context,
-                          builder: (context) => CupertinoAlertDialog(
-                            title: Text(AppLocalizations.of(context)!.alarm),
-                            content: Text(AppLocalizations.of(context)!
-                                .wakeupmenotapproved),
-                            actions: [
-                              CupertinoDialogAction(
-                                onPressed: () => Navigator.of(context).pop(),
-                                child: Text(AppLocalizations.of(context)!.no),
-                              ),
-                              CupertinoDialogAction(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  ref
-                                      .watch(wakeUpControllerProvider.notifier)
-                                      .wakeUpAprove(data.reciverUid,
-                                          data.senderUid, data.wakeUpUid);
-                                  selectedDateTime = data.wakeTime;
-                                  selectedTime = TimeOfDay(
-                                      hour: data.wakeTime.hour,
-                                      minute: data.wakeTime.minute);
-                                  setState(() => loading = true);
-                                  Alarm.set(
-                                          alarmSettings:
-                                              buildAlarmSettings(selectedTime))
-                                      .then((res) {});
-                                  setState(() => loading = false);
-                                  context.goNamed(MainScreen.routeName);
-                                },
-                                isDestructiveAction: true,
-                                child: Text(AppLocalizations.of(context)!.yes),
-                              ),
-                            ],
-                          ),
-                        )
-                      : showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
+                      ],
+                    )),
+                  );
+                }
+                if (data.isApproved == true) {
+                  return GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        color: AppColors.rabbitspeak,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              WakeUpStatus(AppLocalizations.of(context)!
+                                  .wakeupmeapproved),
+                              Text(
+                                  "${DateFormat('hh:mm').format(data.wakeTime)}${AppLocalizations.of(context)!.wakeupmeat}"),
+                              const Image(
+                                image: AssetImage(
+                                    'assets/images/rabbitspeak.jpeg'),
+                                height: 220,
+                              )
+                            ])),
+                  );
+                }
+                return GestureDetector(
+                  onTap: () {
+                    Platform.isIOS
+                        ? showCupertinoDialog(
+                            context: context,
+                            builder: (context) => CupertinoAlertDialog(
                               title: Text(AppLocalizations.of(context)!.alarm),
                               content: Text(AppLocalizations.of(context)!
                                   .wakeupmenotapproved),
                               actions: [
-                                IconButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  icon: const Icon(
-                                    Icons.cancel,
-                                    color: Colors.red,
-                                  ),
+                                CupertinoDialogAction(
+                                  onPressed: () => Navigator.of(context).pop(),
+                                  child: Text(AppLocalizations.of(context)!.no),
                                 ),
-                                IconButton(
+                                CupertinoDialogAction(
                                   onPressed: () {
+                                    Navigator.of(context).pop();
                                     ref
                                         .watch(
                                             wakeUpControllerProvider.notifier)
@@ -298,44 +264,90 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                                     setState(() => loading = false);
                                     context.goNamed(MainScreen.routeName);
                                   },
-                                  icon: const Icon(
-                                    Icons.done,
-                                    color: Colors.green,
-                                  ),
+                                  isDestructiveAction: true,
+                                  child:
+                                      Text(AppLocalizations.of(context)!.yes),
                                 ),
                               ],
-                            );
-                          });
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.width - 70,
-                  color: AppColors.rabbitalarm,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      WakeUpStatus(
-                          AppLocalizations.of(context)!.wakeupmenotapproved),
-                      const Image(
-                        image: AssetImage('assets/images/rabbitalarm.jpeg'),
-                        height: 220,
-                      ),
-                    ],
+                            ),
+                          )
+                        : showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title:
+                                    Text(AppLocalizations.of(context)!.alarm),
+                                content: Text(AppLocalizations.of(context)!
+                                    .wakeupmenotapproved),
+                                actions: [
+                                  IconButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    icon: const Icon(
+                                      Icons.cancel,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      ref
+                                          .watch(
+                                              wakeUpControllerProvider.notifier)
+                                          .wakeUpAprove(data.reciverUid,
+                                              data.senderUid, data.wakeUpUid);
+                                      selectedDateTime = data.wakeTime;
+                                      selectedTime = TimeOfDay(
+                                          hour: data.wakeTime.hour,
+                                          minute: data.wakeTime.minute);
+                                      setState(() => loading = true);
+                                      Alarm.set(
+                                              alarmSettings: buildAlarmSettings(
+                                                  selectedTime))
+                                          .then((res) {});
+                                      setState(() => loading = false);
+                                      context.goNamed(MainScreen.routeName);
+                                    },
+                                    icon: const Icon(
+                                      Icons.done,
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            });
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    color: AppColors.rabbitalarm,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        WakeUpStatus(
+                            AppLocalizations.of(context)!.wakeupmenotapproved),
+                        const Image(
+                          image: AssetImage('assets/images/rabbitalarm.jpeg'),
+                          height: 220,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (err, stack) {
-              logger.e(err);
+                );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (err, stack) {
+                logger.e(err);
 
-              return Center(
-                child: Text(
-                  AppLocalizations.of(context)!.erroruser,
-                  style: const TextStyle(color: Colors.red),
-                ),
-              );
-            }));
+                return Center(
+                  child: Text(
+                    AppLocalizations.of(context)!.erroruser,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                );
+              })),
+    );
   }
 }
 
