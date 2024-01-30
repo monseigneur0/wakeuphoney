@@ -3,7 +3,8 @@
   Runner
 
   Created by 김탁호 on 2024/01/25.
-  
+ <key>CFBundleDisplayName</key>
+ <string>일어나곰</string>
 */
 "CFBundleDisplayName" = "WakeupBear";
 "NSCameraUsageDescription" = "Access to the camera is required to upload images to the letter.";

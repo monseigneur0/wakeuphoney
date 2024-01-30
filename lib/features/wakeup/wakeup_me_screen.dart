@@ -184,7 +184,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.wakeupgom),
+        title: Text(AppLocalizations.of(context)!.wakeupbear),
       ),
       body: Center(
           child: wakeMeUp.when(

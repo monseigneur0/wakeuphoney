@@ -1,0 +1,11 @@
+/* 
+  InfoPlists.strings
+  Runner
+
+  Created by 김탁호 on 2024/01/25.
+  
+*/
+"CFBundleDisplayName" = "일어나곰";
+"NSCameraUsageDescription" = "편지에 넣을 이미지 업로드를 위해 카메라에 접근합니다.";
+"NSMicrophoneUsageDescription" = "편지에 넣을 음성 녹음을 위해 마이크에 접근합니다.";
+"NSPhotoLibraryUsageDescription" = "편지에 넣을 이미지 업로드를 위해 사진 앨범에 접근합니다.";
