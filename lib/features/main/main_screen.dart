@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/common/loader.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
+import 'package:wakeuphoney/features/auth/login_image_screen.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
 import 'package:wakeuphoney/features/profile/feedback_list_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_screen.dart';
@@ -83,6 +84,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       // const PlayerScreen(),
 
       const WakeUpFeedScreen(),
+      const LoginImageScreen(),
       hasCoupleId.when(
         data: ((data) {
           if (data.couple != "") {

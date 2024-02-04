@@ -62,203 +62,200 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
             AppLocalizations.of(context)!.wakeupgom,
           ),
         ),
-        body: Center(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              AnimatedOpacity(
-                opacity: _visible ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 250,
-                      height: 85,
-                      padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[400],
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(19),
-                          topRight: Radius.circular(19),
-                          bottomLeft: Radius.circular(19),
-                          bottomRight: Radius.circular(19),
-                        ),
+        body: Column(
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            AnimatedOpacity(
+              opacity: _visible ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 250,
+                    height: 85,
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[400],
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(19),
+                        topRight: Radius.circular(19),
+                        bottomLeft: Radius.circular(19),
+                        bottomRight: Radius.circular(19),
                       ),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            messageList[randomNum],
-                            style: const TextStyle(
-                                color: Colors.black, fontSize: 15),
-                          ),
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          messageList[randomNum],
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 15),
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              AnimatedOpacity(
-                opacity: _visible ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 0),
-                child: CustomPaint(painter: Triangle(Colors.grey.shade400)),
-              ),
-              const SizedBox(height: 30),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    _visible = !_visible;
-                    randomNum = Random().nextInt(10);
-                  });
-                },
-                icon: Image.asset(
-                  'assets/alarmbearno.png',
-                  width: MediaQuery.of(context).size.height / 10,
-                ),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height / 40),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.snslogin,
-                        style: const TextStyle(fontSize: 15),
-                      ),
-                      const Icon(
-                        Icons.looks_one,
-                        size: 40,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!.snslogin,
-                        style: TextStyle(fontSize: 10, color: Colors.grey[200]),
-                      ),
-                    ],
-                  ),
-                  const Icon(
-                    Icons.more_horiz,
-                    size: 40,
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.matchprocess,
-                        style: TextStyle(fontSize: 10, color: Colors.grey[200]),
-                      ),
-                      const Icon(
-                        Icons.looks_two_outlined,
-                        size: 40,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!.matchprocess,
-                        style: const TextStyle(fontSize: 15),
-                      ),
-                    ],
-                  ),
-                  const Icon(
-                    Icons.more_horiz,
-                    size: 40,
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.wakeupgom,
-                        style: const TextStyle(fontSize: 15),
-                      ),
-                      const Icon(
-                        Icons.looks_3_outlined,
-                        size: 40,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!.wakeupgom,
-                        style: TextStyle(fontSize: 10, color: Colors.grey[200]),
-                      ),
-                    ],
                   ),
                 ],
               ),
-              SizedBox(height: MediaQuery.of(context).size.height / 40),
-              // const Text(
-              //   "SNS 로그인",
-              //   style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
-              // ),
-              Platform.isIOS
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 18, vertical: 9),
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          ref
-                              .watch(authControllerProvider.notifier)
-                              .signInWithApple(context);
-                        },
-                        icon: Image.asset(
-                          'assets/apple.png',
-                          width: 35,
-                        ),
-                        label: Text(
-                          AppLocalizations.of(context)!.applelogin,
-                          style: const TextStyle(
-                              fontSize: 18, color: Colors.black),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          minimumSize: const Size(double.infinity, 50),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
+            ),
+            AnimatedOpacity(
+              opacity: _visible ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 0),
+              child: CustomPaint(painter: Triangle(Colors.grey.shade400)),
+            ),
+            const SizedBox(height: 30),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  _visible = !_visible;
+                  randomNum = Random().nextInt(10);
+                });
+              },
+              icon: Image.asset(
+                'assets/alarmbearno.png',
+                width: MediaQuery.of(context).size.height / 10,
+              ),
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height / 40),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.snslogin,
+                      style: const TextStyle(fontSize: 15),
+                    ),
+                    const Icon(
+                      Icons.looks_one,
+                      size: 40,
+                    ),
+                    Text(
+                      AppLocalizations.of(context)!.snslogin,
+                      style: TextStyle(fontSize: 10, color: Colors.grey[200]),
+                    ),
+                  ],
+                ),
+                const Icon(
+                  Icons.more_horiz,
+                  size: 40,
+                ),
+                Column(
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.matchprocess,
+                      style: TextStyle(fontSize: 10, color: Colors.grey[200]),
+                    ),
+                    const Icon(
+                      Icons.looks_two_outlined,
+                      size: 40,
+                    ),
+                    Text(
+                      AppLocalizations.of(context)!.matchprocess,
+                      style: const TextStyle(fontSize: 15),
+                    ),
+                  ],
+                ),
+                const Icon(
+                  Icons.more_horiz,
+                  size: 40,
+                ),
+                Column(
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.wakeupgom,
+                      style: const TextStyle(fontSize: 15),
+                    ),
+                    const Icon(
+                      Icons.looks_3_outlined,
+                      size: 40,
+                    ),
+                    Text(
+                      AppLocalizations.of(context)!.wakeupgom,
+                      style: TextStyle(fontSize: 10, color: Colors.grey[200]),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height / 40),
+            // const Text(
+            //   "SNS 로그인",
+            //   style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
+            // ),
+            Platform.isIOS
+                ? Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        ref
+                            .watch(authControllerProvider.notifier)
+                            .signInWithApple(context);
+                      },
+                      icon: Image.asset(
+                        'assets/apple.png',
+                        width: 35,
+                      ),
+                      label: Text(
+                        AppLocalizations.of(context)!.applelogin,
+                        style:
+                            const TextStyle(fontSize: 18, color: Colors.black),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        minimumSize: const Size(double.infinity, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                    )
-                  : Container(),
-              SizedBox(height: MediaQuery.of(context).size.height / 80),
-
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    ref
-                        .watch(authControllerProvider.notifier)
-                        .signInWithGoogle(context);
-                  },
-                  icon: Image.asset(
-                    'assets/google.png',
-                    width: 35,
-                  ),
-                  label: Text(
-                    AppLocalizations.of(context)!.googlelogin,
-                    style: const TextStyle(fontSize: 18, color: Colors.black),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
                     ),
+                  )
+                : Container(),
+            SizedBox(height: MediaQuery.of(context).size.height / 80),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  ref
+                      .watch(authControllerProvider.notifier)
+                      .signInWithGoogle(context);
+                },
+                icon: Image.asset(
+                  'assets/google.png',
+                  width: 35,
+                ),
+                label: Text(
+                  AppLocalizations.of(context)!.googlelogin,
+                  style: const TextStyle(fontSize: 18, color: Colors.black),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height / 80),
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height / 80),
 
-              TextButton(
-                onPressed: () {
-                  // setState(() {
-                  //   emailLogin = true;
-                  // });
-                  context.push(EmailLoginScreen.routeURL);
-                },
-                child: Text(
-                  AppLocalizations.of(context)!.emaillogin,
-                ),
+            TextButton(
+              onPressed: () {
+                // setState(() {
+                //   emailLogin = true;
+                // });
+                context.push(EmailLoginScreen.routeURL);
+              },
+              child: Text(
+                AppLocalizations.of(context)!.emaillogin,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
