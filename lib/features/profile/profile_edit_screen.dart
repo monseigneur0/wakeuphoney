@@ -613,7 +613,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text("1.0.19", style: TextStyle(fontSize: 18)),
+                            Text("1.0.30", style: TextStyle(fontSize: 18)),
                             SizedBox(width: 20, height: 40),
                           ],
                         ),

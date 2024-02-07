@@ -5,6 +5,8 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
 
 class LoginImageScreen extends StatefulWidget {
+  static const routeName = "loginimagescreen";
+  static const routeURL = "/loginimagescreen";
   const LoginImageScreen({super.key});
 
   @override
@@ -22,7 +24,7 @@ class _LoginImageScreenState extends State<LoginImageScreen> {
     Image.asset('assets/images/rabbitspeak.jpeg'),
     Image.asset('assets/images/rabbitwake.jpeg'),
     Image.asset('assets/images/sleepingbear.jpeg'),
-    // const LoginHome(),
+    const LoginHome(),
   ];
 
   List textList = [
@@ -31,7 +33,7 @@ class _LoginImageScreenState extends State<LoginImageScreen> {
     "Wake up with a smile3",
     "Wake up with a smile4",
     "Wake up with a smile5",
-    // "Wake up with a smile5",
+    "Wake up with a smile5",
   ];
 
   Widget sliderWidget() {
@@ -41,29 +43,33 @@ class _LoginImageScreenState extends State<LoginImageScreen> {
             .map(
               (imageWidget) => Builder(
                 builder: (BuildContext context) {
-                  return Column(
-                    children: [
-                      100.heightBox,
-                      Text(textList[widgetList.indexOf(imageWidget)]),
-                      Center(
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: imageWidget,
+                  return SafeArea(
+                    child: Column(
+                      children: [
+                        Text(textList[widgetList.indexOf(imageWidget)]),
+                        Center(
+                          child: Container(
+                            color: Colors.black,
+                            height: MediaQuery.of(context).size.height * 0.74,
+                            width: MediaQuery.of(context).size.width,
+                            child: imageWidget,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   );
                 },
               ),
             )
             .toList(),
         options: CarouselOptions(
-          height: 600,
+          height: MediaQuery.of(context).size.height,
           viewportFraction: 1.0,
-          autoPlay: true,
+          // autoPlay: true,
           autoPlayInterval: const Duration(seconds: 3),
+          autoPlayAnimationDuration: const Duration(milliseconds: 500),
           enlargeCenterPage: true,
-          aspectRatio: 2.0,
+          // aspectRatio: 10.0,
           onPageChanged: (index, reason) {
             setState(() {
               _current = index;
@@ -81,13 +87,17 @@ class _LoginImageScreenState extends State<LoginImageScreen> {
           int index = widgetList.indexOf(url);
           return GestureDetector(
             onTap: () => _controller.animateToPage(index),
-            child: Container(
-              width: 8.0,
-              height: 8.0,
-              margin: const EdgeInsets.symmetric(horizontal: 10.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: _current == index ? Colors.blue : Colors.grey,
+            child: Transform.translate(
+              offset: const Offset(0, -110),
+              child: Container(
+                width: 8.0,
+                height: 8.0,
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _current == index ? Colors.blue : Colors.grey,
+                ),
               ),
             ),
           );
@@ -100,7 +110,7 @@ class _LoginImageScreenState extends State<LoginImageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SizedBox(
-        height: 600,
+        height: MediaQuery.of(context).size.height,
         child: Stack(
           children: [
             sliderWidget(),

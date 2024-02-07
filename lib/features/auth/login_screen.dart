@@ -39,29 +39,31 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
       AppLocalizations.of(context)!.howareyou,
       AppLocalizations.of(context)!.imissyou,
     ];
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.grey[200],
-        appBar: AppBar(
-          // actions: [
-          //   IconButton(
-          //       onPressed: () {
-          //         ref.watch(authRepositoryProvider).isLoggedIn
-          //             ? context.pushNamed(PracticeHome.routeName)
-          //             : context.pushNamed(LoginHome.routeName);
-          //       },
-          //       icon: const Icon(
-          //         Icons.connecting_airports_outlined,
-          //         color: AppColors.myPink,
-          //       ))
-          // ],
-          backgroundColor: AppColors.myAppBarBackgroundPink,
-          title: Text(
-            AppLocalizations.of(context)!.wakeupgom,
-          ),
-        ),
+        // appBar: AppBar(
+        //   // actions: [
+        //   //   IconButton(
+        //   //       onPressed: () {
+        //   //         ref.watch(authRepositoryProvider).isLoggedIn
+        //   //             ? context.pushNamed(PracticeHome.routeName)
+        //   //             : context.pushNamed(LoginHome.routeName);
+        //   //       },
+        //   //       icon: const Icon(
+        //   //         Icons.connecting_airports_outlined,
+        //   //         color: AppColors.myPink,
+        //   //       ))
+        //   // ],
+        //   backgroundColor: AppColors.myAppBarBackgroundPink,
+        //   title: Text(
+        //     AppLocalizations.of(context)!.wakeupgom,
+        //   ),
+        // ),
         body: Column(
           children: [
             const SizedBox(
@@ -106,7 +108,9 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
               duration: const Duration(milliseconds: 0),
               child: CustomPaint(painter: Triangle(Colors.grey.shade400)),
             ),
-            const SizedBox(height: 30),
+            SizedBox(
+              height: height / 30,
+            ),
             IconButton(
               onPressed: () {
                 setState(() {
@@ -116,10 +120,10 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
               },
               icon: Image.asset(
                 'assets/alarmbearno.png',
-                width: MediaQuery.of(context).size.height / 10,
+                width: height / 10,
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height / 40),
+            SizedBox(height: height / 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -181,7 +185,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                 ),
               ],
             ),
-            SizedBox(height: MediaQuery.of(context).size.height / 40),
+            SizedBox(height: height / 40),
             // const Text(
             //   "SNS 로그인",
             //   style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
@@ -215,7 +219,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                     ),
                   )
                 : Container(),
-            SizedBox(height: MediaQuery.of(context).size.height / 80),
+            SizedBox(height: height / 80),
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
@@ -242,7 +246,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                 ),
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height / 80),
+            SizedBox(height: height / 80),
 
             TextButton(
               onPressed: () {

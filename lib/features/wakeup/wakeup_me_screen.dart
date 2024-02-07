@@ -183,9 +183,9 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
     final wakeMeUp = ref.watch(getTomorrowWakeUpMeProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.wakeupbear),
-      ),
+      // appBar: AppBar(
+      //   title: Text(AppLocalizations.of(context)!.wakeupbear),
+      // ),
       body: Center(
           child: wakeMeUp.when(
               data: (data) {

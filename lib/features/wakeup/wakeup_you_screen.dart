@@ -25,9 +25,9 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
     Logger logger = Logger();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.wakeupbear),
-      ),
+      // appBar: AppBar(
+      //   title: Text(AppLocalizations.of(context)!.wakeupbear),
+      // ),
       body: Center(
           child: wakeUpYou.when(
               data: (data) {
