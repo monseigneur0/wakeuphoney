@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:wakeuphoney/features/auth/user_model.dart';
 
 final numberProvider = Provider<int>((ref) {
   return 1;
@@ -48,3 +49,5 @@ final selectedDate = StateProvider(
 final selectedDateTime = StateProvider<DateTime>(
   (ref) => DateTime.now(),
 );
+
+final userModelofMeStateProvider = StateProvider<UserModel?>((ref) => null);

@@ -5,28 +5,21 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/common/loader.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
-import 'package:wakeuphoney/features/auth/login_image_screen.dart';
+import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
 import 'package:wakeuphoney/features/profile/feedback_list_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_screen.dart';
-import 'package:wakeuphoney/features/voice/player_screen.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_feed_screen.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_me_screen.dart';
 import 'package:wakeuphoney/practice_home_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/constants/design_constants.dart';
-import '../alarm/alarm_screen.dart';
 import '../auth/auth_controller.dart';
 import '../match/match_screen.dart';
 import '../profile/profile_controller.dart';
-import '../voice/just_audio_examle.dart';
-import '../voice/list_audio_screen.dart';
-import '../voice/voice_test_screen.dart';
-import '../voice/voice_text_screen.dart';
-import '../wakeup/wakeup_main_screen.dart';
-import '../voice/wakeup_voice_screen.dart';
 import '../wakeup/wakeup_you_screen.dart';
+import 'main_controller.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   static String routeName = "mainscreen";
@@ -64,25 +57,21 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Widget build(BuildContext context) {
     final analytics = ref.watch(analyticsProvider);
     final hasCoupleId = ref.watch(getUserProfileStreamProvider);
+    final getUserModelMe = ref.watch(getMeUserModelProvider);
     // hasCoupleId.whenData((value) {
     //   ref.watch(profileControllerProvider.notifier).updateAllUser();
     // });
     // logger.d("update complete");
 
-    // return hasCoupleId.when(
-    // data: (data) => data.couple != ""
-
     final isLoggedInStream = ref.watch(loginCheckProvider);
     List<Widget> widgetOptions = <Widget>[
-      // const WakeUpMainScreen(),
-
       // const WakeUpVoiceScreen(),
       const WakeUpMeScreen(),
       const WakeUpYouScreen(),
 
       // const ListAudio(),
       // const PlayerScreen(),
-
+      // const FeedbackListScreen(),
       const WakeUpFeedScreen(),
       hasCoupleId.when(
         data: ((data) {
@@ -103,6 +92,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         }
         return hasCoupleId.when(
           data: (data) {
+            if (data.couple == "" || data.couple == null) {
+              ref.read(userModelofMeStateProvider.notifier).state = data;
+              logger.d(ref.watch(userModelofMeStateProvider));
+            }
+            print("data.couple : ${data.couple}");
             return data.couple == "" || data.couple == null
                 ? const MatchScreen()
                 : Scaffold(
@@ -130,18 +124,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           //     AssetImage('assets/alarm-clock.png'),
                           //   ),
                           //   label: "voice",
-                          // ),
-                          // const BottomNavigationBarItem(
-                          //   icon: ImageIcon(
-                          //     AssetImage('assets/alarm-clock.png'),
-                          //   ),
-                          //   label: "꺠우기",
-                          // ),
-                          // const BottomNavigationBarItem(
-                          //   icon: ImageIcon(
-                          //     AssetImage('assets/alarm-clock.png'),
-                          //   ),
-                          //   label: "wakeme",
                           // ),
                           BottomNavigationBarItem(
                             backgroundColor: AppColors.myPink,

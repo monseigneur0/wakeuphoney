@@ -176,19 +176,19 @@ class AuthRepository {
         (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
   }
 
-  Future<UserModel?> getFutureUserData(String uid) async {
+  Future<UserModel> getFutureUserData(String uid) async {
     try {
-      return await _users.doc(uid).get().then((event) {
+      final wow = await _users.doc(uid).get().then((event) {
         logger.d("Future<UserModel?> getFutureUserData(String uid) async");
         return UserModel.fromMap(event.data() as Map<String, dynamic>);
       });
+      return wow;
     } catch (e) {
       logger.d(e.toString());
     }
     logger.d(
         "return null;Future<UserModel?> getFutureUserData(String uid) async");
-
-    return null;
+    throw Exception("Failed to get user data.");
   }
 
   void logout() async {

@@ -9,10 +9,6 @@ import '../auth/auth_controller.dart';
 import 'wakeup_model.dart';
 import 'wakeup_repository.dart';
 
-final wakeUpControllerProvider = StateNotifierProvider<WakeUpController, bool>(
-    (ref) => WakeUpController(
-        wakeUpRepository: ref.watch(wakeUpRepositoryProvider), ref: ref));
-
 final getWakeUpLettersListProvider = StreamProvider(
     (ref) => ref.watch(wakeUpControllerProvider.notifier).getLettersList());
 
@@ -30,6 +26,10 @@ final getTomorrowWakeUpYouProvider = FutureProvider.autoDispose<WakeUpModel>(
         .watch(wakeUpControllerProvider.notifier)
         .getTomorrowWakeUpYouProvider());
 
+final wakeUpControllerProvider = StateNotifierProvider<WakeUpController, bool>(
+    (ref) => WakeUpController(
+        wakeUpRepository: ref.watch(wakeUpRepositoryProvider), ref: ref));
+
 class WakeUpController extends StateNotifier<bool> {
   final WakeUpRepository _wakeUpRepository;
   final Ref _ref;
@@ -42,14 +42,15 @@ class WakeUpController extends StateNotifier<bool> {
   Logger logger = Logger();
 
   createWakeUp(DateTime wakeUpTime, String letter, String photoUrl,
-      double volumn, bool vibrate) {
+      double volumn, bool vibrate) async {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     logger.d(uid);
     final coupleUidFuture = _ref.watch(getFutureMyUserDataProvider).value;
+    print(coupleUidFuture);
     String? coupleUid = coupleUidFuture!.couple;
-    logger.d(coupleUid);
+
     WakeUpModel wakeUpModel = WakeUpModel(
         wakeUpUid: const Uuid().v4(),
         createdTime: DateTime.now(),
@@ -114,7 +115,7 @@ class WakeUpController extends StateNotifier<bool> {
     final coupleUidFuture = _ref.watch(getFutureMyUserDataProvider);
 
     coupleUidFuture.whenData((value) {
-      String coupleUid = value!.couple!;
+      String coupleUid = value.couple!;
 
       _wakeUpRepository.letterDeleteMessage(uid, letterId);
       _wakeUpRepository.letterDeleteMessage(coupleUid, letterId);

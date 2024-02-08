@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/auth/auth_repository.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
@@ -22,7 +23,7 @@ final getMyUserDataProvider = StreamProvider(
 final loginCheckProvider = StreamProvider(
     (ref) => ref.watch(authControllerProvider.notifier).authStateChange);
 
-final getFutureMyUserDataProvider = FutureProvider<UserModel?>(
+final getFutureMyUserDataProvider = FutureProvider<UserModel>(
     (ref) => ref.watch(authControllerProvider.notifier).getFutureMyUserData());
 
 class AuthController extends AsyncNotifier<void> {
@@ -31,6 +32,8 @@ class AuthController extends AsyncNotifier<void> {
   FutureOr<void> build() {
     _authRepository = ref.read(authRepositoryProvider);
   }
+
+  Logger logger = Logger();
 
   Stream<User?> get authStateChange => _authRepository.authStateChange;
 
@@ -87,11 +90,12 @@ class AuthController extends AsyncNotifier<void> {
     return _authRepository.getUserData(uid);
   }
 
-  Future<UserModel?> getFutureMyUserData() async {
+  Future<UserModel> getFutureMyUserData() {
     User? auser = ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
-    return await _authRepository.getFutureUserData(uid);
+    logger.d(uid);
+    return _authRepository.getFutureUserData(uid);
   }
 
   void logout(BuildContext context) async {
