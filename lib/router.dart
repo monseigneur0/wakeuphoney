@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/features/alarm/alarm_new_ring_screen.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
+import 'package:wakeuphoney/features/auth/login_onboard_screen.dart';
 import 'package:wakeuphoney/features/image/image_screen.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_edit_screen.dart';
@@ -48,6 +49,11 @@ final routerProvider = Provider((ref) {
         name: LoginHome.routeName,
         path: LoginHome.routeURL,
         builder: (context, state) => const LoginHome(),
+      ),
+      GoRoute(
+        name: LoginOnboardScreen.routeName,
+        path: LoginOnboardScreen.routeURL,
+        builder: (context, state) => const LoginOnboardScreen(),
       ),
       GoRoute(
         name: LoginImageScreen.routeName,
@@ -189,12 +195,17 @@ final routerProvider = Provider((ref) {
 });
 final logOutRouterProvider = Provider((ref) {
   return GoRouter(
-    initialLocation: "/loginimagescreen",
+    initialLocation: "/loginonboardscreen",
     routes: [
       GoRoute(
         name: LoginHome.routeName,
         path: LoginHome.routeURL,
         builder: (context, state) => const LoginHome(),
+      ),
+      GoRoute(
+        name: LoginOnboardScreen.routeName,
+        path: LoginOnboardScreen.routeURL,
+        builder: (context, state) => const LoginOnboardScreen(),
       ),
       GoRoute(
         name: LoginImageScreen.routeName,

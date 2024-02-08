@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginImageScreen extends StatefulWidget {
   static const routeName = "loginimagescreen";
@@ -19,22 +20,15 @@ class _LoginImageScreenState extends State<LoginImageScreen> {
   final CarouselController _controller = CarouselController();
 
   List widgetList = [
+    Image.asset('assets/images/sleepingbear.jpeg'),
     Image.asset('assets/images/awakebear.jpeg'),
+    Image.asset('assets/images/rabbitwake.jpeg'),
     Image.asset('assets/images/rabbitalarm.jpeg'),
     Image.asset('assets/images/rabbitspeak.jpeg'),
-    Image.asset('assets/images/rabbitwake.jpeg'),
-    Image.asset('assets/images/sleepingbear.jpeg'),
     const LoginHome(),
   ];
 
-  List textList = [
-    "Wake up with a smile1",
-    "Wake up with a smile2",
-    "Wake up with a smile3",
-    "Wake up with a smile4",
-    "Wake up with a smile5",
-    "Wake up with a smile5",
-  ];
+  late List textList;
 
   Widget sliderWidget() {
     return CarouselSlider(
@@ -108,9 +102,16 @@ class _LoginImageScreenState extends State<LoginImageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    textList = [
+      AppLocalizations.of(context)!.wakeupyou,
+      AppLocalizations.of(context)!.wakeupnotapproved,
+      AppLocalizations.of(context)!.wakeupmenotyet,
+      AppLocalizations.of(context)!.wakeupmenotapproved,
+      AppLocalizations.of(context)!.wakeupapproved,
+      AppLocalizations.of(context)!.login,
+    ];
     return Scaffold(
       body: SizedBox(
-        height: MediaQuery.of(context).size.height,
         child: Stack(
           children: [
             sliderWidget(),

@@ -84,7 +84,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       // const PlayerScreen(),
 
       const WakeUpFeedScreen(),
-      const LoginImageScreen(),
       hasCoupleId.when(
         data: ((data) {
           if (data.couple != "") {
