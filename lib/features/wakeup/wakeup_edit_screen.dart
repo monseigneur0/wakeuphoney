@@ -13,6 +13,7 @@ import 'package:wakeuphoney/features/main/main_screen.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
+import '../../core/constants/firebase_constants.dart';
 import '../../core/providers/firebase_providers.dart';
 import '../../core/utils.dart';
 import '../alarm/alarm_new_ring_screen.dart';
@@ -604,8 +605,8 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                                     DateTime.now().toString();
                                 Reference refRoot =
                                     ref.watch(storageProvider).ref();
-                                Reference refDirImage =
-                                    refRoot.child('wakeupimages');
+                                Reference refDirImage = refRoot
+                                    .child(FirebaseConstants.wakeUpImage);
                                 Reference refImageToUpload =
                                     refDirImage.child(uniqueImageName);
                                 if (letterImageFile != null) {

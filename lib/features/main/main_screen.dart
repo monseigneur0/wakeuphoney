@@ -58,6 +58,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final analytics = ref.watch(analyticsProvider);
     final hasCoupleId = ref.watch(getUserProfileStreamProvider);
     final getUserModelMe = ref.watch(getMeUserModelProvider);
+    final coupleUidFuture = ref.watch(getFutureMyUserDataProvider).value;
+
     // hasCoupleId.whenData((value) {
     //   ref.watch(profileControllerProvider.notifier).updateAllUser();
     // });
