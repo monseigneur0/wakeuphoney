@@ -1,4 +1,5 @@
 import 'package:alarm/alarm.dart';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -27,6 +28,8 @@ void main() async {
   analytics.logAppOpen();
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
+  final status = await AppTrackingTransparency.requestTrackingAuthorization();
 
   MobileAds.instance.initialize();
 

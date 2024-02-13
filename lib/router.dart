@@ -12,7 +12,6 @@ import 'package:wakeuphoney/features/wakeup/wakeup_edit_screen.dart';
 import 'features/alarm/alarm_ring_screen.dart';
 import 'features/auth/auth_repository.dart';
 import 'features/auth/login_email_screen.dart';
-import 'features/auth/login_image_screen.dart';
 import 'features/chatgpt/cs_screen.dart';
 import 'features/dailymessages/couple_letter_screen.dart';
 import 'features/dailymessages/letter_date_screen.dart';
@@ -38,8 +37,8 @@ final routerProvider = Provider((ref) {
       var logger = Logger();
       // logger.d("isLoggedIn $isLoggedIn");
       if (!isLoggedIn) {
-        if (state.matchedLocation != LoginImageScreen.routeURL) {
-          return LoginImageScreen.routeURL;
+        if (state.matchedLocation != LoginHome.routeURL) {
+          return LoginHome.routeURL;
         }
       }
       return null;
@@ -54,11 +53,6 @@ final routerProvider = Provider((ref) {
         name: LoginOnboardScreen.routeName,
         path: LoginOnboardScreen.routeURL,
         builder: (context, state) => const LoginOnboardScreen(),
-      ),
-      GoRoute(
-        name: LoginImageScreen.routeName,
-        path: LoginImageScreen.routeURL,
-        builder: (context, state) => const LoginImageScreen(),
       ),
       GoRoute(
         name: AlarmRingScreen.routeName,
@@ -206,11 +200,6 @@ final logOutRouterProvider = Provider((ref) {
         name: LoginOnboardScreen.routeName,
         path: LoginOnboardScreen.routeURL,
         builder: (context, state) => const LoginOnboardScreen(),
-      ),
-      GoRoute(
-        name: LoginImageScreen.routeName,
-        path: LoginImageScreen.routeURL,
-        builder: (context, state) => const LoginImageScreen(),
       ),
       GoRoute(
         name: PracticeHome.routeName,
