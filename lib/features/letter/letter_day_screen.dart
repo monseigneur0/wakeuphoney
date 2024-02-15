@@ -89,11 +89,11 @@ class _LetterDayScreenState extends ConsumerState<LetterDayScreen> {
       _focusedDay = focusedDay;
       // Update values in a Set
       if (selectedDay.isBefore(DateTime.now())) {
-        showSnackBar(context, AppLocalizations.of(context)!.writetomorrow);
+        showToast(AppLocalizations.of(context)!.writetomorrow);
         return;
       }
       if (_writeDays.contains(selectedDay)) {
-        showSnackBar(context, AppLocalizations.of(context)!.alreadywrite);
+        showToast(AppLocalizations.of(context)!.alreadywrite);
       } else {
         ref.watch(selectedDate.notifier).state =
             DateFormat.yMMMd().format(selectedDay);

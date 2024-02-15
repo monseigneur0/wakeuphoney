@@ -1,16 +1,17 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 
-void showSnackBar(BuildContext context, String text) {
-  ScaffoldMessenger.of(context)
-    ..hideCurrentSnackBar()
-    ..showSnackBar(
-      SnackBar(
-        content: Text(text),
-        duration: const Duration(seconds: 1),
-      ),
-    );
+void showToast(String text) {
+  Fluttertoast.showToast(
+      msg: text,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.grey[800],
+      textColor: Colors.white,
+      fontSize: 16.0);
 }
 
 Future<FilePickerResult?> pickImage() async {
@@ -23,6 +24,18 @@ Future<XFile?> selectGalleryImage() async {
   ImagePicker imagePicker = ImagePicker();
   final res = await imagePicker.pickImage(
     source: ImageSource.gallery,
+    maxHeight: 1080,
+    maxWidth: 1080,
+    imageQuality: 15,
+  );
+
+  return res;
+}
+
+Future<XFile?> takeCameraImage() async {
+  ImagePicker imagePicker = ImagePicker();
+  final res = await imagePicker.pickImage(
+    source: ImageSource.camera,
     maxHeight: 1080,
     maxWidth: 1080,
     imageQuality: 15,

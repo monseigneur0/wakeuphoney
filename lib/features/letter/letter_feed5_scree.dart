@@ -160,11 +160,9 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
                                                             return [
                                                               PopupMenuItem(
                                                                 onTap: () {
-                                                                  showSnackBar(
-                                                                      context,
-                                                                      AppLocalizations.of(
-                                                                              context)!
-                                                                          .nodeletepast);
+                                                                  showToast(AppLocalizations.of(
+                                                                          context)!
+                                                                      .nodeletepast);
                                                                 },
                                                                 child: Text(
                                                                     AppLocalizations.of(
@@ -197,11 +195,9 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
                                                                     .letterDelete(
                                                                         letters[index]
                                                                             .letterId);
-                                                                showSnackBar(
-                                                                    context,
-                                                                    AppLocalizations.of(
-                                                                            context)!
-                                                                        .deleted);
+                                                                showToast(AppLocalizations.of(
+                                                                        context)!
+                                                                    .deleted);
                                                               },
                                                               child: Text(
                                                                   AppLocalizations.of(
@@ -437,8 +433,7 @@ class _LetterFeed5ScreenState extends ConsumerState<LetterFeed5Screen> {
                   ElevatedButton(
                     onPressed: () {
                       if (_formkey.currentState!.validate()) {
-                        showSnackBar(context,
-                            AppLocalizations.of(context)!.letteredited);
+                        showToast(AppLocalizations.of(context)!.letteredited);
                         ref
                             .watch(letterControllerProvider.notifier)
                             .letterEdit(letterId, _letterEditController.text);

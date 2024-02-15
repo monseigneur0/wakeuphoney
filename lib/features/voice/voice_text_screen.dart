@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
+
 import 'package:record/record.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:uuid/uuid.dart';
-import 'package:path_provider/path_provider.dart';
 
 class MyApp extends StatefulWidget {
   static const routeName = 'voice_text_screen';

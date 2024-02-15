@@ -118,7 +118,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                                 if (e.code == 'user-not-found') {
                                   print("등록되지 않은 이메일입니다.");
                                   if (context.mounted) {
-                                    showSnackBar(context, "등록되지 않은 이메일입니다.");
+                                    showToast("등록되지 않은 이메일입니다.");
                                   }
                                   setState(() {
                                     _isLoading = false;
@@ -127,7 +127,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                                   print("비밀번호가 틀ㅣ니다.");
 
                                   if (context.mounted) {
-                                    showSnackBar(context, "비밀번호가 틀립니다.");
+                                    showToast("비밀번호가 틀립니다.");
                                   }
                                   setState(() {
                                     _isLoading = false;

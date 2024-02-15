@@ -16,8 +16,10 @@ import 'package:go_router/go_router.dart';
 
 import 'features/alarm/alarm_screen.dart';
 import 'features/auth/login_screen.dart';
+import 'features/voice/just_audio_examle.dart';
 import 'features/voice/voice_test_screen.dart';
 import 'features/voice/voice_text_screen.dart';
+import 'features/voice/wakeup_voice_screen.dart';
 
 class PracticeHome extends ConsumerStatefulWidget {
   static String routeName = "practice";
@@ -82,14 +84,36 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
               ElevatedButton(
                 style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.blue)),
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const WakeUpVoiceScreen(),
+                    )),
+                child: const Text('WakeUpVoiceScreen'),
+              ),
+              ElevatedButton(
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.blue)),
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const JustAudioExample(),
+                    )),
+                child: const Text('JustAudioExample1'),
+              ),
+
+              ElevatedButton(
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.green)),
                 onPressed: () => context.pushNamed(MyApptest.routeName),
                 child: const Text('MyApptest'),
               ),
               ElevatedButton(
                 style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.blue)),
+                    backgroundColor: MaterialStatePropertyAll(Colors.purple)),
                 onPressed: () => context.pushNamed(MyApp.routeName),
-                child: const Text('MyApptext'),
+                child:
+                    const Text('MyApp', style: TextStyle(color: Colors.white)),
               ),
               ElevatedButton(
                 style: const ButtonStyle(
@@ -97,10 +121,8 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                 onPressed: () {
                   ref.watch(profileControllerProvider.notifier).updateAllUser();
                 },
-                child: const Text(
-                  'UpdateAllUser',
-                  style: TextStyle(color: Colors.white),
-                ),
+                child: const Text('UpdateAllUser',
+                    style: TextStyle(color: Colors.white)),
               ),
               ElevatedButton(
                 style: const ButtonStyle(

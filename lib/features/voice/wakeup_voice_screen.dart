@@ -4,6 +4,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
+import 'package:wakeuphoney/core/utils.dart';
 
 class WakeUpVoiceScreen extends ConsumerStatefulWidget {
   const WakeUpVoiceScreen({super.key});
@@ -64,9 +65,7 @@ class _WakeUpVoiceScreenState extends ConsumerState<WakeUpVoiceScreen> {
       });
     } else {
       // 권한이 없다면 사용자에게 요청합니다.
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('녹음을 위해 권한이 필요합니다.')),
-      );
+      showToast("녹음을 위해 권한이 필요합니다.");
     }
   }
 

@@ -95,8 +95,7 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                             setState(() {
                               isLoading = true;
                             });
-                            showSnackBar(
-                                context, AppLocalizations.of(context)!.saving);
+                            showToast(AppLocalizations.of(context)!.saving);
                             String uniqueImageName = DateTime.now().toString();
                             Reference refRoot =
                                 ref.watch(storageProvider).ref();
@@ -120,8 +119,7 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                                 .updateProfileImage(imageUrl);
                             if (mounted) {
                               Navigator.of(context).pop();
-                              showSnackBar(
-                                  context, AppLocalizations.of(context)!.saved);
+                              showToast(AppLocalizations.of(context)!.saved);
                             }
                           },
                           child: Text(

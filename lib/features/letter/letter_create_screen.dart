@@ -92,8 +92,7 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
                                 setState(() {
                                   isLoading = true;
                                 });
-                                showSnackBar(context,
-                                    AppLocalizations.of(context)!.saving);
+                                showToast(AppLocalizations.of(context)!.saving);
                                 String uniqueImageName =
                                     DateTime.now().toString();
                                 Reference refRoot =
@@ -129,7 +128,7 @@ class _LetterCreateScreenState extends ConsumerState<LetterCreateScreen> {
                                         _letterController.text, imageUrl);
                                 if (mounted) {
                                   Navigator.of(context).pop();
-                                  showSnackBar(context,
+                                  showToast(
                                       AppLocalizations.of(context)!.saved);
                                 }
                               }

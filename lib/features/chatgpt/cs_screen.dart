@@ -263,7 +263,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
                               ? const CircularProgressIndicator()
                               : const Icon(Icons.sick_outlined),
                           onPressed: () async {
-                            showSnackBar(context, "현재 고객센터 사용이 불가합니다.");
+                            showToast("현재 고객센터 사용이 불가합니다.");
                           },
                         ),
                       ],
@@ -346,7 +346,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
                               if (user.chatGPTMessageCount != 0) {
                                 await requestChat(messageText);
                               } else {
-                                showSnackBar(context, "현재 고객센터 사용이 불가합니다.");
+                                showToast("현재 고객센터 사용이 불가합니다.");
                               }
 
                               streamText = "";

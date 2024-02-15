@@ -281,11 +281,11 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                                         logger.d("data.uid${data.uid}");
                                         // PEaTihL8yRdGEknlFfQ9F7XdoUt2 apple
                                         _honeyCodeController.clear();
-                                        showSnackBar(context, "inviteed");
+                                        showToast("inviteed");
                                       }
                                     },
-                                    error: (error, stacktrace) => showSnackBar(
-                                        context, "no invited honey"),
+                                    error: (error, stacktrace) =>
+                                        showToast("no invited honey"),
                                     loading: () => const Loader());
                           }
                         }

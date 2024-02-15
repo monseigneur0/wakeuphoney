@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
@@ -88,12 +89,21 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
   }
 
   File? letterImageFile;
+
   void selectLetterImage() async {
     final letterImagePicked = await selectGalleryImage();
-
     if (letterImagePicked != null) {
       setState(() {
         letterImageFile = File(letterImagePicked.path);
+      });
+    }
+  }
+
+  void takeletterCameraImage() async {
+    final letterCameraPicked = await takeCameraImage();
+    if (letterCameraPicked != null) {
+      setState(() {
+        letterImageFile = File(letterCameraPicked.path);
       });
     }
   }
@@ -462,8 +472,10 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                                 }
                                 return null;
                               },
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 border: InputBorder.none,
+                                hintText:
+                                    AppLocalizations.of(context)!.wakeupyou,
                               ),
                             ),
                           ),
@@ -485,73 +497,78 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                           width: 250,
                           child: Image.file(letterImageFile!),
                         )
-                      : GestureDetector(
-                          onTap: () {
-                            showSnackBar(context, "사진 첨부.");
-                            selectLetterImage();
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
-                                      blurRadius: 20,
-                                      offset: const Offset(8, 8))
-                                ]),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "앨범",
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
-                                ),
-                                Expanded(
-                                  child: Container(),
-                                ),
-                                const Icon(Icons.image_outlined)
-                              ],
-                            ).pSymmetric(h: 20, v: 10),
-                          ),
-                        ),
-                  10.heightBox,
-                  letterImageFile != null
-                      ? Container()
-                      : GestureDetector(
-                          onTap: () {
-                            showSnackBar(context, "사진 찍기.");
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
-                                      blurRadius: 20,
-                                      offset: const Offset(8, 8))
-                                ]),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "카메라",
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
-                                ),
-                                Expanded(
-                                  child: Container(),
-                                ),
-                                const Icon(Icons.camera_alt_outlined)
-                              ],
-                            ).pSymmetric(h: 20, v: 10),
-                          ),
-                        ),
+                      : Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                showToast("사진 가져오기");
 
+                                selectLetterImage();
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 20,
+                                          offset: const Offset(8, 8))
+                                    ]),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "앨범",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                    ),
+                                    Expanded(
+                                      child: Container(),
+                                    ),
+                                    const Icon(Icons.image_outlined)
+                                  ],
+                                ).pSymmetric(h: 20, v: 10),
+                              ),
+                            ),
+                            10.heightBox,
+                            GestureDetector(
+                              onTap: () {
+                                showToast("사진 찍기");
+                                takeletterCameraImage();
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 20,
+                                          offset: const Offset(8, 8))
+                                    ]),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "카메라",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                    ),
+                                    Expanded(
+                                      child: Container(),
+                                    ),
+                                    const Icon(Icons.camera_alt_outlined)
+                                  ],
+                                ).pSymmetric(h: 20, v: 10),
+                              ),
+                            ),
+                          ],
+                        ),
                   10.heightBox,
                   GestureDetector(
                     onTap: () {
-                      showSnackBar(context, "음성 녹음 준비 중이에요");
+                      showToast("음성 녹음 준비 중이에요");
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -597,7 +614,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                           child: GestureDetector(
                             onTap: () async {
                               if (_formKey.currentState!.validate()) {
-                                showSnackBar(context, "저장 중이에요");
+                                showToast("저장 중이에요");
                                 setState(() {
                                   isLoading = true;
                                 });
@@ -642,7 +659,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                                         vibrate);
                                 if (mounted) {
                                   context.goNamed(MainScreen.routeName);
-                                  showSnackBar(context,
+                                  showToast(
                                       AppLocalizations.of(context)!.saved);
                                 }
                                 _letterController.clear();
@@ -653,11 +670,11 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16),
                               decoration: BoxDecoration(
-                                color: Colors.grey[100],
+                                color: AppColors.myPink,
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(),
                               ),
-                              child: Center(child: "깨우기".text.make())
+                              child: Center(child: "깨우기".text.white.make())
                                   .pSymmetric(v: 10),
                             ),
                           ),

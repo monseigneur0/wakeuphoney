@@ -131,7 +131,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                       child: const Text('Send'),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          showSnackBar(context, "messgae is saved");
+                          showToast("messgae is saved");
                           final String message = _messgaeController.text;
 
                           String uniqueFileName =
