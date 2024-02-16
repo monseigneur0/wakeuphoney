@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+// import 'package:just_audio/just_audio.dart';
 import 'package:logger/logger.dart';
 import 'package:uuid/uuid.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -18,6 +20,8 @@ import '../../core/constants/firebase_constants.dart';
 import '../../core/providers/firebase_providers.dart';
 import '../../core/utils.dart';
 import '../alarm/alarm_new_ring_screen.dart';
+import '../voice/audio_recoder_example.dart';
+import '../voice/audio_player_example.dart';
 import 'wakeup_controller.dart';
 import 'wakeup_model.dart';
 
@@ -37,6 +41,10 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
   bool loading = false;
   bool creating = true;
   bool isLoading = false;
+
+  bool showAudio = false;
+  bool showPlayer = false;
+  String? audioPath;
 
   late WakeUpModel _wakeUp;
 
@@ -569,6 +577,9 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                   GestureDetector(
                     onTap: () {
                       showToast("음성 녹음 준비 중이에요");
+                      setState(() {
+                        showAudio = true;
+                      });
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -580,18 +591,68 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                                 blurRadius: 20,
                                 offset: const Offset(8, 8))
                           ]),
-                      child: Row(
-                        children: [
-                          Text(
-                            "음성 녹음",
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          Expanded(
-                            child: Container(),
-                          ),
-                          const Icon(Icons.mic_none)
-                        ],
-                      ).pSymmetric(h: 20, v: 10),
+                      child:
+                          // showAudio
+                          //     ? Row(
+                          //         children: [
+                          //           Text(
+                          //             "음성 녹음",
+                          //             style:
+                          //                 Theme.of(context).textTheme.titleMedium,
+                          //           ),
+                          //           Expanded(
+                          //             child: Container(),
+                          //           ),
+                          //           const Icon(Icons.mic_none)
+                          //         ],
+                          //       ).pSymmetric(h: 20, v: 10)
+                          //     :
+                          showPlayer
+                              ? Row(
+                                  children: [
+                                    Text(
+                                      "음성 녹음",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                    ),
+                                    Expanded(
+                                      child: Container(),
+                                    ),
+                                    Center(
+                                      child: AudioPlayer(
+                                        source: audioPath!,
+                                        onDelete: () {
+                                          setState(() => showPlayer = false);
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                ).pSymmetric(h: 20, v: 10)
+                              : Row(
+                                  children: [
+                                    Text(
+                                      "음성 녹음",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                    ),
+                                    Expanded(
+                                      child: Container(),
+                                    ),
+                                    Recorder(
+                                      onStop: (path) {
+                                        if (kDebugMode) {
+                                          print('Recorded file path: $path');
+                                        }
+                                        setState(() {
+                                          audioPath = path;
+                                          showPlayer = true;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ).pSymmetric(h: 20, v: 10),
                     ),
                   ),
                   10.heightBox,
