@@ -67,6 +67,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
   final FocusNode _letterFocusNode = FocusNode();
 
   String imageUrl = "";
+  String audioUrl = "";
 
   @override
   void initState() {
@@ -611,7 +612,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                               ? Row(
                                   children: [
                                     Text(
-                                      "음성 녹음",
+                                      "음성 재생",
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleMedium,
@@ -647,6 +648,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                                         }
                                         setState(() {
                                           audioPath = path;
+                                          logger.d(audioPath);
                                           showPlayer = true;
                                         });
                                       },
@@ -698,6 +700,25 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                                         "Error uploading image or no image file selected");
                                     logger.e(e.toString());
 
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                  }
+                                }
+                                Reference refDirVoice = refRoot
+                                    .child(FirebaseConstants.wakeUpVoice);
+                                Reference refVoiceToUpload =
+                                    refDirVoice.child("$uniqueImageName.m4a");
+                                if (audioPath != null) {
+                                  try {
+                                    await refVoiceToUpload
+                                        .putFile(File(audioPath!));
+                                    audioUrl =
+                                        await refVoiceToUpload.getDownloadURL();
+                                  } catch (e) {
+                                    logger.e(
+                                        "Error uploading voice or no voice file selected");
+                                    logger.e(e.toString());
                                     setState(() {
                                       isLoading = false;
                                     });

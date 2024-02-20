@@ -14,24 +14,24 @@ class LoginOnboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return IntroductionScreen(
       pages: [
+        // PageViewModel(
+        //   title: AppLocalizations.of(context)!.wakeupyou,
+        //   body: 'This is first page'
+        //       'We are making on-boarding screens.'
+        //       'It is very interesting!',
+        //   image: Image.asset('assets/images/sleepingbear.jpeg'),
+        //   decoration: getPageDecoration(AppColors.sleepingbear),
+        // ),
+        // PageViewModel(
+        //   title: AppLocalizations.of(context)!.wakeupnotapproved,
+        //   body: 'This is second page'
+        //       'We are making on-boarding screens.'
+        //       'It is very interesting!',
+        //   image: Image.asset('assets/images/awakebear.jpeg'),
+        //   decoration: getPageDecoration(AppColors.awakebear),
+        // ),
         PageViewModel(
           title: AppLocalizations.of(context)!.wakeupyou,
-          body: 'This is first page'
-              'We are making on-boarding screens.'
-              'It is very interesting!',
-          image: Image.asset('assets/images/sleepingbear.jpeg'),
-          decoration: getPageDecoration(AppColors.sleepingbear),
-        ),
-        PageViewModel(
-          title: AppLocalizations.of(context)!.wakeupnotapproved,
-          body: 'This is second page'
-              'We are making on-boarding screens.'
-              'It is very interesting!',
-          image: Image.asset('assets/images/awakebear.jpeg'),
-          decoration: getPageDecoration(AppColors.awakebear),
-        ),
-        PageViewModel(
-          title: AppLocalizations.of(context)!.wakeupmenotyet,
           body: 'This is third page'
               'We are making on-boarding screens.'
               'It is very interesting!',
@@ -46,14 +46,18 @@ class LoginOnboardScreen extends StatelessWidget {
           image: Image.asset('assets/images/rabbitalarm.jpeg'),
           decoration: getPageDecoration(AppColors.rabbitalarm),
         ),
-        PageViewModel(
-          title: AppLocalizations.of(context)!.wakeupapproved,
-          body: 'This is third page'
-              'We are making on-boarding screens.'
-              'It is very interesting!',
-          image: Image.asset('assets/images/rabbitspeak.jpeg'),
-          decoration: getPageDecoration(AppColors.rabbitspeak),
-        ),
+        // PageViewModel(
+        //   title: AppLocalizations.of(context)!.wakeupapproved,
+        //   body: 'This is third page'
+        //       'We are making on-boarding screens.'
+        //       'It is very interesting!',
+        //   image: Image.asset('assets/images/rabbitspeak.jpeg'),
+        //   decoration: getPageDecoration(AppColors.rabbitspeak),
+        // ),
+        // PageViewModel(
+        //   title: AppLocalizations.of(context)!.wakeupapproved,
+        //   bodyWidget: const LoginHome(),
+        // )
       ],
       done: const Text('Done'),
       onDone: () {
@@ -66,8 +70,11 @@ class LoginOnboardScreen extends StatelessWidget {
       next: const Icon(Icons.arrow_forward_ios), // 아이콘도 지정되면 바뀌지 않으므로 const 처리
       nextStyle: const ButtonStyle(),
 
+      showSkipButton: true,
+      skip: const Text('skip'),
+
       // showBackButton = 뒤로가기 버튼 활성화 여부, 첫번째 페이지가 아닐 때 활성화
-      showBackButton: true,
+      showBackButton: false,
       back: const Icon(Icons.arrow_back_ios), // 아이콘도 지정되면 바뀌지 않으므로 const 처리,
       backStyle: const ButtonStyle(),
       // // showSkipButton = 스킵 버튼 활성화 여부

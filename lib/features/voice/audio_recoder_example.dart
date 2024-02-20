@@ -183,10 +183,11 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
             height: MediaQuery.sizeOf(context).width * 0.2,
             child: WaveBlob(
               amplitude: -(_amplitude?.current ?? 0.0) * 10,
+              circleColors: const [AppColors.salmon],
               child: const Icon(
-                Icons.mic,
+                Icons.stop,
                 color: Colors.white,
-                size: 30.0,
+                size: 40.0,
               ),
             ),
           ),

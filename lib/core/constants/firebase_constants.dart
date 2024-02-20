@@ -12,4 +12,5 @@ class FirebaseConstants {
   static const wakeUpCollection = 'wakeups';
 
   static const wakeUpImage = 'wakeupimages';
+  static const wakeUpVoice = 'wakeupvoices';
 }
