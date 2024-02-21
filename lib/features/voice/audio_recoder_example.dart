@@ -165,12 +165,11 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
     late Color color;
 
     if (_recordState != RecordState.stop) {
-      icon = const Icon(Icons.stop, color: Colors.red, size: 30);
+      icon = const Icon(Icons.stop, color: Colors.white, size: 40);
       color = Colors.red.withOpacity(0.1);
     } else {
       final theme = Theme.of(context);
-      icon = const Icon(Icons.mic,
-          color: AppColors.myAppBarBackgroundPink, size: 30);
+      icon = const Icon(Icons.mic, color: Colors.white, size: 30);
       color = theme.primaryColor.withOpacity(0.1);
     }
 
@@ -182,14 +181,9 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
             width: MediaQuery.sizeOf(context).width * 0.2,
             height: MediaQuery.sizeOf(context).width * 0.2,
             child: WaveBlob(
-              amplitude: -(_amplitude?.current ?? 0.0) * 10,
-              circleColors: const [AppColors.salmon],
-              child: const Icon(
-                Icons.stop,
-                color: Colors.white,
-                size: 40.0,
-              ),
-            ),
+                amplitude: -(_amplitude?.current ?? 0.0) * 10,
+                circleColors: const [AppColors.myPink],
+                child: icon),
           ),
           onTap: () {
             (_recordState != RecordState.stop) ? _stop() : _start();

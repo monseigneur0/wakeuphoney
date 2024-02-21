@@ -32,7 +32,7 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  int selectedIndex = 0;
+  int selectedIndex = 3;
   Logger logger = Logger();
 
   void _onItemTapped(int index) {

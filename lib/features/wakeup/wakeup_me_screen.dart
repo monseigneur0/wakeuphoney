@@ -19,6 +19,8 @@ import '../../core/constants/design_constants.dart';
 import '../alarm/alarm_day_settings.dart';
 import 'wakeup_controller.dart';
 
+import 'package:http/http.dart' as http;
+
 class WakeUpMeScreen extends ConsumerStatefulWidget {
   final AlarmSettings? alarmSettings;
 
@@ -37,6 +39,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
   late double? volume;
   late bool showNotification;
   late String assetAudio;
+  late String audioAssetPath = 'assets/marimba.mp3';
 
   late List<bool> days;
 
@@ -130,7 +133,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
     });
   }
 
-  AlarmSettings buildAlarmSettings(TimeOfDay selectedTime1) {
+  AlarmSettings buildAlarmSettings(TimeOfDay selectedTime1, String audioPath) {
     final now = DateTime.now();
     final id = DateTime.now().millisecondsSinceEpoch % 100000;
 
@@ -155,7 +158,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
       volume: volume,
       notificationTitle: AppLocalizations.of(context)!.wakeupgomalarm,
       notificationBody: AppLocalizations.of(context)!.alarmringletter,
-      assetAudioPath: assetAudio,
+      assetAudioPath: audioAssetPath,
       // days: days,
     );
     logger.d(alarmSettings);
@@ -187,11 +190,20 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
   }
 
   // 파일을 저장하는 함수
-  Future<void> saveToFile(String fileName, String content) async {
+  Future<void> saveToFile(String audioUrl) async {
     // 파일 경로를 생성함
-    final file = await _getFile(fileName);
+    final directory = await getApplicationDocumentsDirectory();
+
+    final fileName = audioUrl.split('-').last;
+
+    audioAssetPath = '${directory.path}/$fileName';
+
+    final file = File(audioAssetPath);
     // 파일에 내용을 저장함
-    await file.writeAsString(content);
+
+    var response = await http.get(Uri.parse(audioUrl));
+
+    await file.writeAsBytes(response.bodyBytes);
   }
 
   //파일을 불러오는 함수
@@ -234,6 +246,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                         const Image(
                           image: AssetImage('assets/images/rabbitwake.jpeg'),
                           height: 220,
+                          opacity: AlwaysStoppedAnimation<double>(0.3),
                         )
                       ],
                     )),
@@ -290,7 +303,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                                     setState(() => loading = true);
                                     Alarm.set(
                                             alarmSettings: buildAlarmSettings(
-                                                selectedTime))
+                                                selectedTime, data.letterAudio))
                                         .then((res) {});
                                     setState(() => loading = false);
                                     context.goNamed(MainScreen.routeName);
@@ -335,7 +348,8 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                                       setState(() => loading = true);
                                       Alarm.set(
                                               alarmSettings: buildAlarmSettings(
-                                                  selectedTime))
+                                                  selectedTime,
+                                                  data.letterAudio))
                                           .then((res) {});
                                       setState(() => loading = false);
                                       context.goNamed(MainScreen.routeName);

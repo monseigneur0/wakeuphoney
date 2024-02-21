@@ -42,7 +42,7 @@ class WakeUpController extends StateNotifier<bool> {
   Logger logger = Logger();
 
   createWakeUp(DateTime wakeUpTime, String letter, String photoUrl,
-      double volumn, bool vibrate) async {
+      String voiceUrl, double volumn, bool vibrate) async {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
@@ -71,7 +71,7 @@ class WakeUpController extends StateNotifier<bool> {
         senderUid: uid,
         letter: letter,
         letterPhoto: photoUrl,
-        letterAudio: "",
+        letterAudio: voiceUrl,
         letterVideo: "",
         reciverUid: coupleUid!,
         answer: "",

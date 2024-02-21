@@ -737,6 +737,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                                             selectedTime.minute),
                                         _letterController.text,
                                         imageUrl,
+                                        audioUrl,
                                         volume ?? 0.8,
                                         vibrate);
                                 if (mounted) {
