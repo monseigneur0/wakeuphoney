@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
 import 'package:alarm/alarm.dart';
 import 'package:day_night_time_picker/lib/constants.dart';
@@ -20,18 +21,17 @@ import '../../core/constants/design_constants.dart';
 import '../alarm/alarm_day_settings.dart';
 import 'wakeup_controller.dart';
 
-import 'package:http/http.dart' as http;
-
-class WakeUpMeScreen extends ConsumerStatefulWidget {
+class WakeUpMeDevScreen extends ConsumerStatefulWidget {
   final AlarmSettings? alarmSettings;
 
-  const WakeUpMeScreen({super.key, this.alarmSettings});
+  const WakeUpMeDevScreen({super.key, this.alarmSettings});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _WakeUpMeScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _WakeUpMeDevScreenState();
 }
 
-class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
+class _WakeUpMeDevScreenState extends ConsumerState<WakeUpMeDevScreen> {
   bool loading = false;
 
   late DateTime selectedDateTime;
@@ -195,7 +195,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
   }
 
   // 파일을 저장하는 함수
-  Future<void> saveToFile(String audioUrl) async {
+  Future<String> saveToFile(String audioUrl) async {
     // 파일 경로를 생성함
     final directory = await getApplicationDocumentsDirectory();
 
@@ -205,10 +205,11 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
 
     final file = File(audioAssetPath);
     // 파일에 내용을 저장함
-
+    logger.d(audioAssetPath);
     var response = await http.get(Uri.parse(audioUrl));
 
     await file.writeAsBytes(response.bodyBytes);
+    return audioAssetPath;
   }
 
   //파일을 불러오는 함수
@@ -236,6 +237,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
       body: Center(
           child: wakeMeUp.when(
               data: (data) {
+                logger.d(data);
                 if (data.letter.isEmpty || data.letter == "") {
                   return Container(
                     width: MediaQuery.of(context).size.width,

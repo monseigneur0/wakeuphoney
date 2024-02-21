@@ -644,11 +644,10 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                                     Recorder(
                                       onStop: (path) {
                                         if (kDebugMode) {
-                                          print('Recorded file path: $path');
+                                          logger.d('Recorded file path: $path');
                                         }
                                         setState(() {
                                           audioPath = path;
-                                          logger.d(audioPath);
                                           showPlayer = true;
                                         });
                                       },
@@ -715,6 +714,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                                         .putFile(File(audioPath!));
                                     audioUrl =
                                         await refVoiceToUpload.getDownloadURL();
+                                    logger.d(audioUrl);
                                   } catch (e) {
                                     logger.e(
                                         "Error uploading voice or no voice file selected");

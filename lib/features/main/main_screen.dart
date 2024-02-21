@@ -1,4 +1,5 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -18,6 +19,7 @@ import '../../core/constants/design_constants.dart';
 import '../auth/auth_controller.dart';
 import '../match/match_screen.dart';
 import '../profile/profile_controller.dart';
+import '../wakeup/wakeup_me_devscreen.dart';
 import '../wakeup/wakeup_you_screen.dart';
 import 'main_controller.dart';
 
@@ -70,11 +72,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       // const WakeUpVoiceScreen(),
       const WakeUpMeScreen(),
       const WakeUpYouScreen(),
-
+      if (kDebugMode) const WakeUpMeDevScreen(),
+      const WakeUpFeedScreen(),
       // const ListAudio(),
       // const PlayerScreen(),
       // const FeedbackListScreen(),
-      const WakeUpFeedScreen(),
       hasCoupleId.when(
         data: ((data) {
           if (data.couple != "") {
@@ -132,6 +134,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                             icon: const Icon(Icons.local_post_office_outlined),
                             label: AppLocalizations.of(context)!.write,
                           ),
+                          if (kDebugMode)
+                            const BottomNavigationBarItem(
+                              icon: Icon(Icons.home_outlined),
+                              label: "dev",
+                            ),
                           BottomNavigationBarItem(
                             icon: const Icon(Icons.home_outlined),
                             label: AppLocalizations.of(context)!.feed,
@@ -140,7 +147,14 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                             icon: const Icon(Icons.person_outline_rounded),
                             label: AppLocalizations.of(context)!.profile,
                           ),
-                          if (user.uid == "WvELgU4cO6gOeyzfu92j3k9vuBH2")
+                          if (kDebugMode)
+                            const BottomNavigationBarItem(
+                              icon: Icon(Icons.not_interested),
+                              label: "Manager",
+                            ),
+
+                          if (user.uid == "WvELgU4cO6gOeyzfu92j3k9vuBH2" &&
+                              !kDebugMode)
                             const BottomNavigationBarItem(
                               icon: Icon(Icons.not_interested),
                               label: "Manager",

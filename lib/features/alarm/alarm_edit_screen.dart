@@ -1,4 +1,5 @@
 import 'package:alarm/alarm.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
@@ -423,6 +424,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                   AppLocalizations.of(context)!.sound,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
+                if (kDebugMode) Text('wow${assetAudio.split('/').last}'),
                 DropdownButton(
                   value: assetAudio,
                   items: const [
