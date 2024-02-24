@@ -26,6 +26,9 @@ final getTomorrowWakeUpYouProvider = FutureProvider.autoDispose<WakeUpModel>(
         .watch(wakeUpControllerProvider.notifier)
         .getTomorrowWakeUpYouProvider());
 
+final getAWakeUpProvider = FutureProvider.autoDispose<WakeUpModel>(
+    (ref) => ref.watch(wakeUpControllerProvider.notifier).getAWakeUpLetter());
+
 final wakeUpControllerProvider = StateNotifierProvider<WakeUpController, bool>(
     (ref) => WakeUpController(
         wakeUpRepository: ref.watch(wakeUpRepositoryProvider), ref: ref));
@@ -162,5 +165,13 @@ class WakeUpController extends StateNotifier<bool> {
   wakeUpAprove(String reciverUid, String senderUid, String wakeUpUid) {
     _wakeUpRepository.wakeUpAprove(reciverUid, wakeUpUid);
     _wakeUpRepository.wakeUpAprove(senderUid, wakeUpUid);
+  }
+
+//뭔놈이 뭔놈인지 모르겠다 하..
+  Future<WakeUpModel> getAWakeUpLetter() async {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    return await _wakeUpRepository.getAWakeUpLetter(uid);
   }
 }

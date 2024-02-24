@@ -1,37 +1,33 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:alarm/alarm.dart';
 import 'package:day_night_time_picker/lib/constants.dart';
 import 'package:day_night_time_picker/lib/daynight_timepicker.dart';
 import 'package:day_night_time_picker/lib/state/time.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:velocity_x/velocity_x.dart';
-import 'package:wakeuphoney/features/main/main_screen.dart';
+import 'package:wakeuphoney/features/wakeup/wakeup_me_image_screen.dart';
 
-import '../../core/constants/design_constants.dart';
 import '../alarm/alarm_day_settings.dart';
-import 'wakeup_controller.dart';
 
 import 'package:http/http.dart' as http;
 
-class WakeUpMeScreen extends ConsumerStatefulWidget {
+import '../alarm/alarm_ring_screen.dart';
+
+class WakeUpMeScreen extends StatefulWidget {
   final AlarmSettings? alarmSettings;
 
   const WakeUpMeScreen({super.key, this.alarmSettings});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _WakeUpMeScreenState();
+  WakeUpMeScreenState createState() => WakeUpMeScreenState();
 }
 
-class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
+class WakeUpMeScreenState extends State<WakeUpMeScreen> {
   bool loading = false;
 
   late DateTime selectedDateTime;
@@ -50,6 +46,9 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
   late TimeOfDay selectedTime;
   late Time _time;
   var logger = Logger();
+
+  late List<AlarmSettings> alarms;
+  static StreamSubscription? subscription;
 
   @override
   void initState() {
@@ -74,6 +73,33 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
       false,
       true,
     ];
+
+    loadAlarms();
+    subscription ??= Alarm.ringStream.stream.listen(
+      (alarmSettings) => navigateToRingScreen(alarmSettings),
+    );
+  }
+
+  void loadAlarms() {
+    setState(() {
+      alarms = Alarm.getAlarms();
+      alarms.sort((a, b) => a.dateTime.isBefore(b.dateTime) ? 0 : 1);
+    });
+  }
+
+  Future<void> navigateToRingScreen(AlarmSettings alarmSettings) async {
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
+        ));
+    loadAlarms();
+    // await Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
+    //   ),
+    // );
+    // loadAlarms();
   }
 
   String getDay() {
@@ -225,203 +251,18 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    Logger logger = Logger();
-    final wakeMeUp = ref.watch(getTomorrowWakeUpMeProvider);
-
-    return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(AppLocalizations.of(context)!.wakeupbear),
-      // ),
-      body: Center(
-          child: wakeMeUp.when(
-              data: (data) {
-                if (data.letter.isEmpty || data.letter == "") {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    color: AppColors.rabbitwake,
-                    child: Center(
-                        child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        //상대가 아직 깨워주지 않았어요
-                        WakeUpStatus(
-                            AppLocalizations.of(context)!.wakeupmenotyet),
-                        const Image(
-                          image: AssetImage('assets/images/rabbitwake.jpeg'),
-                          height: 220,
-                          opacity: AlwaysStoppedAnimation<double>(0.3),
-                        )
-                      ],
-                    )),
-                  );
-                }
-                if (data.isApproved == true) {
-                  return GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height,
-                        color: AppColors.rabbitspeak,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              WakeUpStatus(AppLocalizations.of(context)!
-                                  .wakeupmeapproved),
-                              Text(
-                                  "${DateFormat('hh:mm').format(data.wakeTime)}${AppLocalizations.of(context)!.wakeupmeat}"),
-                              const Image(
-                                image: AssetImage(
-                                    'assets/images/rabbitspeak.jpeg'),
-                                height: 220,
-                              ),
-                            ])),
-                  );
-                }
-                return GestureDetector(
-                  onTap: () {
-                    saveToFile(data.letterAudio);
-
-                    Platform.isIOS
-                        ? showCupertinoDialog(
-                            context: context,
-                            builder: (context) => CupertinoAlertDialog(
-                              title: Text(AppLocalizations.of(context)!.alarm),
-                              content: Text(AppLocalizations.of(context)!
-                                  .wakeupmenotapproved),
-                              actions: [
-                                CupertinoDialogAction(
-                                  onPressed: () => Navigator.of(context).pop(),
-                                  child: Text(AppLocalizations.of(context)!.no),
-                                ),
-                                CupertinoDialogAction(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    ref
-                                        .watch(
-                                            wakeUpControllerProvider.notifier)
-                                        .wakeUpAprove(data.reciverUid,
-                                            data.senderUid, data.wakeUpUid);
-                                    selectedDateTime = data.wakeTime;
-                                    selectedTime = TimeOfDay(
-                                        hour: data.wakeTime.hour,
-                                        minute: data.wakeTime.minute);
-                                    setState(() => loading = true);
-                                    Alarm.set(
-                                            alarmSettings: buildAlarmSettings(
-                                                selectedTime, data.letterAudio))
-                                        .then((res) {});
-                                    setState(() => loading = false);
-                                    context.goNamed(MainScreen.routeName);
-                                  },
-                                  isDestructiveAction: true,
-                                  child:
-                                      Text(AppLocalizations.of(context)!.yes),
-                                ),
-                              ],
-                            ),
-                          )
-                        : showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title:
-                                    Text(AppLocalizations.of(context)!.alarm),
-                                content: Text(AppLocalizations.of(context)!
-                                    .wakeupmenotapproved),
-                                actions: [
-                                  IconButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    icon: const Icon(
-                                      Icons.cancel,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      ref
-                                          .watch(
-                                              wakeUpControllerProvider.notifier)
-                                          .wakeUpAprove(data.reciverUid,
-                                              data.senderUid, data.wakeUpUid);
-                                      selectedDateTime = data.wakeTime;
-                                      selectedTime = TimeOfDay(
-                                          hour: data.wakeTime.hour,
-                                          minute: data.wakeTime.minute);
-                                      setState(() => loading = true);
-                                      Alarm.set(
-                                              alarmSettings: buildAlarmSettings(
-                                                  selectedTime,
-                                                  data.letterAudio))
-                                          .then((res) {});
-                                      setState(() => loading = false);
-                                      context.goNamed(MainScreen.routeName);
-                                    },
-                                    icon: const Icon(
-                                      Icons.done,
-                                      color: Colors.green,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            });
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    color: AppColors.rabbitalarm,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        WakeUpStatus(
-                            AppLocalizations.of(context)!.wakeupmenotapproved),
-                        const Image(
-                          image: AssetImage('assets/images/rabbitalarm.jpeg'),
-                          height: 220,
-                        ),
-                        if (kDebugMode)
-                          Text("wow this is kDebugMode2 ${data.toString()}"),
-                      ],
-                    ),
-                  ),
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, stack) {
-                logger.e(err);
-
-                return Center(
-                  child: Text(
-                    AppLocalizations.of(context)!.erroruser,
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                );
-              })),
-    );
+  void dispose() {
+    subscription?.cancel();
+    super.dispose();
   }
-}
-
-class WakeUpStatus extends StatelessWidget {
-  final String wakeUpStatusMessage;
-  const WakeUpStatus(this.wakeUpStatusMessage, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black.withOpacity(0.02),
-                blurRadius: 5,
-                offset: const Offset(4, 4))
-          ]),
-      child: Text(wakeUpStatusMessage).p(10),
-    ).pSymmetric(h: 10, v: 10);
+    return const Scaffold(
+      // appBar: AppBar(
+      //   title: Text(AppLocalizations.of(context)!.wakeupbear),
+      // ),
+      body: WakeUpMeImageScreen(),
+    );
   }
 }

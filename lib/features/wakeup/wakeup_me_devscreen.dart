@@ -20,6 +20,7 @@ import 'package:wakeuphoney/features/main/main_screen.dart';
 import '../../core/constants/design_constants.dart';
 import '../alarm/alarm_day_settings.dart';
 import 'wakeup_controller.dart';
+import 'wakeup_status.dart';
 
 class WakeUpMeDevScreen extends ConsumerStatefulWidget {
   final AlarmSettings? alarmSettings;
@@ -404,26 +405,5 @@ class _WakeUpMeDevScreenState extends ConsumerState<WakeUpMeDevScreen> {
                 );
               })),
     );
-  }
-}
-
-class WakeUpStatus extends StatelessWidget {
-  final String wakeUpStatusMessage;
-  const WakeUpStatus(this.wakeUpStatusMessage, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black.withOpacity(0.02),
-                blurRadius: 5,
-                offset: const Offset(4, 4))
-          ]),
-      child: Text(wakeUpStatusMessage).p(10),
-    ).pSymmetric(h: 10, v: 10);
   }
 }

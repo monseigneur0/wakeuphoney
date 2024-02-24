@@ -195,4 +195,32 @@ class WakeUpRepository {
       logger.e(e.toString());
     }
   }
+
+  Future<WakeUpModel> getAWakeUpLetter(String uid) async {
+    final datetime = DateTime.now();
+    try {
+      return _usersCollection
+          .doc(uid)
+          .collection(FirebaseConstants.wakeUpCollection)
+          .where("reciverUid", isEqualTo: uid)
+          .where("wakeTime",
+              isLessThan: Timestamp(
+                  DateTime(datetime.year, datetime.month, datetime.day, 10, 0,
+                              0)
+                          .millisecondsSinceEpoch ~/
+                      1000,
+                  0))
+          .orderBy("wakeTime", descending: true)
+          .get()
+          .then((value) {
+        {
+          if (value.docs.isEmpty) return WakeUpModel.emptyFuture();
+          return WakeUpModel.fromMap(value.docs.first.data());
+        }
+      });
+    } catch (e) {
+      logger.e(e.toString());
+      return Future.error(e);
+    }
+  }
 }

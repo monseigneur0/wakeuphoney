@@ -11,6 +11,7 @@ import '../../core/constants/design_constants.dart';
 import '../letter/response_screen.dart';
 import '../letter/letter_controller.dart';
 import '../profile/profile_controller.dart';
+import '../wakeup/wakeup_controller.dart';
 
 class AlarmRingScreen extends ConsumerWidget {
   static String routeName = "alarmring";
@@ -26,7 +27,8 @@ class AlarmRingScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     Logger logger = Logger();
 
-    final getALetter = ref.watch(getALetterProvider);
+    // final getALetter = ref.watch(getALetterProvider);
+    final getAWakeUp = ref.watch(getAWakeUpProvider);
     final hasCoupleId = ref.watch(getUserProfileStreamProvider);
 
     return Scaffold(
@@ -44,7 +46,7 @@ class AlarmRingScreen extends ConsumerWidget {
                 //   dateList100.first,
                 //   style: const TextStyle(fontSize: 10),
                 // ),
-                getALetter.when(
+                getAWakeUp.when(
                   data: (letter) {
                     return Padding(
                       padding: const EdgeInsets.all(10.0),

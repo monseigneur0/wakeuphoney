@@ -8,7 +8,6 @@ import 'package:wakeuphoney/core/common/loader.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
-import 'package:wakeuphoney/features/profile/feedback_list_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_screen.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_feed_screen.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_me_screen.dart';

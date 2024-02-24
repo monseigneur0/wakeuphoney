@@ -12,7 +12,6 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../core/constants/design_constants.dart';
 import '../../widgets/alarm_tile.dart';
 
-import 'alarm2_shortcut.dart';
 import 'alarm_edit_screen.dart';
 import 'alarm_new_ring_screen.dart';
 import 'alarm_ring_screen.dart';

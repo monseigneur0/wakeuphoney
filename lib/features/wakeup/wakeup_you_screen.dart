@@ -9,6 +9,7 @@ import '../../core/constants/design_constants.dart';
 import 'wakeup_controller.dart';
 import 'wakeup_edit_screen.dart';
 import 'wakeup_me_screen.dart';
+import 'wakeup_status.dart';
 
 class WakeUpYouScreen extends ConsumerStatefulWidget {
   const WakeUpYouScreen({super.key});
