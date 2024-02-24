@@ -201,7 +201,7 @@ class _WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
 
     final fileName = audioUrl.split('-').last;
 
-    audioAssetPath = '${directory.path}/$fileName';
+    audioAssetPath = '${directory.path}/$fileName.m4a';
 
     final file = File(audioAssetPath);
     // 파일에 내용을 저장함
