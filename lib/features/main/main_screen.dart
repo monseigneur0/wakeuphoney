@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:alarm/alarm.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +18,7 @@ import 'package:wakeuphoney/practice_home_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/constants/design_constants.dart';
+import '../alarm/alarm_ring_screen.dart';
 import '../auth/auth_controller.dart';
 import '../match/match_screen.dart';
 import '../profile/profile_controller.dart';
@@ -36,6 +40,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   int selectedIndex = 3;
   Logger logger = Logger();
 
+  late List<AlarmSettings> alarms;
+  static StreamSubscription? subscription;
+
   void _onItemTapped(int index) {
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
@@ -52,6 +59,38 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     setState(() {
       selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadAlarms();
+    subscription ??= Alarm.ringStream.stream.listen(
+      (alarmSettings) => navigateToRingScreen(alarmSettings),
+    );
+  }
+
+  void loadAlarms() {
+    setState(() {
+      alarms = Alarm.getAlarms();
+      alarms.sort((a, b) => a.dateTime.isBefore(b.dateTime) ? 0 : 1);
+    });
+  }
+
+  Future<void> navigateToRingScreen(AlarmSettings alarmSettings) async {
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
+        ));
+    loadAlarms();
+    // await Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
+    //   ),
+    // );
+    // loadAlarms();
   }
 
   @override
@@ -99,7 +138,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               ref.read(userModelofMeStateProvider.notifier).state = data;
               logger.d(ref.watch(userModelofMeStateProvider));
             }
-            print("data.couple : ${data.couple}");
+            // print(data.couple : ${data.couple}");
             return data.couple == "" || data.couple == null
                 ? const MatchScreen()
                 : Scaffold(

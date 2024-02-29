@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:velocity_x/velocity_x.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_model.dart';
 
 import '../../core/constants/firebase_constants.dart';
@@ -94,6 +95,7 @@ class WakeUpRepository {
 
   Future<WakeUpModel> getALetterforResponse(String uid) async {
     final datetime = DateTime.now();
+    final datetime10 = DateTime.now().add(10.minutes);
 
     try {
       return await _usersCollection
@@ -102,8 +104,8 @@ class WakeUpRepository {
           .where("reciverUid", isEqualTo: uid)
           .where("wakeTime",
               isLessThan: Timestamp(
-                  DateTime(datetime.year, datetime.month, datetime.day, 10, 0,
-                              0)
+                  DateTime(datetime.year, datetime.month, datetime.day,
+                              datetime10.hour, datetime10.minute, 0)
                           .millisecondsSinceEpoch ~/
                       1000,
                   0))

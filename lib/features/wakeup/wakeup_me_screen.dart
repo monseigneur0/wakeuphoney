@@ -74,10 +74,10 @@ class WakeUpMeScreenState extends State<WakeUpMeScreen> {
       true,
     ];
 
-    loadAlarms();
-    subscription ??= Alarm.ringStream.stream.listen(
-      (alarmSettings) => navigateToRingScreen(alarmSettings),
-    );
+    // loadAlarms();
+    // subscription ??= Alarm.ringStream.stream.listen(
+    //   (alarmSettings) => navigateToRingScreen(alarmSettings),
+    // );
   }
 
   void loadAlarms() {

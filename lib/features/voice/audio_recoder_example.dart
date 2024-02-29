@@ -4,10 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:record/record.dart';
-import 'package:velocity_x/velocity_x.dart';
-import 'package:wave_blob/wave_blob.dart';
-
-import '../../core/constants/design_constants.dart';
 import 'platform/audio_recorder_platform.dart';
 
 class Recorder extends StatefulWidget {
@@ -143,9 +139,9 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
           ],
         ),
         if (_amplitude != null) ...[
-          const SizedBox(height: 40),
+          const SizedBox(height: 10),
           Text('Current: ${_amplitude?.current ?? 0.0}'),
-          Text('Max: ${_amplitude?.max ?? 0.0}'),
+          // Text('Max: ${_amplitude?.max ?? 0.0}'),
         ],
       ],
     );
@@ -165,11 +161,11 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
     late Color color;
 
     if (_recordState != RecordState.stop) {
-      icon = const Icon(Icons.stop, color: Colors.white, size: 40);
+      icon = const Icon(Icons.stop, color: Colors.red, size: 30);
       color = Colors.red.withOpacity(0.1);
     } else {
       final theme = Theme.of(context);
-      icon = const Icon(Icons.mic, color: Colors.white, size: 30);
+      icon = Icon(Icons.mic, color: theme.primaryColor, size: 30);
       color = theme.primaryColor.withOpacity(0.1);
     }
 
@@ -180,10 +176,7 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
           child: SizedBox(
             width: MediaQuery.sizeOf(context).width * 0.2,
             height: MediaQuery.sizeOf(context).width * 0.2,
-            child: WaveBlob(
-                amplitude: -(_amplitude?.current ?? 0.0) * 10,
-                circleColors: const [AppColors.myPink],
-                child: icon),
+            child: SizedBox(width: 56, height: 56, child: icon),
           ),
           onTap: () {
             (_recordState != RecordState.stop) ? _stop() : _start();

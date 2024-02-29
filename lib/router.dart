@@ -5,6 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:wakeuphoney/features/alarm/alarm_new_ring_screen.dart';
 import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
 import 'package:wakeuphoney/features/auth/login_onboard_screen.dart';
+import 'package:wakeuphoney/features/bitcoin/bitcoin_screen.dart';
 import 'package:wakeuphoney/features/image/image_screen.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_edit_screen.dart';
@@ -155,6 +156,11 @@ final routerProvider = Provider((ref) {
         name: WakeUpEditScreen.routeName,
         path: WakeUpEditScreen.routeURL,
         builder: (context, state) => const WakeUpEditScreen(),
+      ),
+      GoRoute(
+        name: BitcoinScreen.routeName,
+        path: BitcoinScreen.routeURL,
+        builder: (context, state) => const BitcoinScreen(),
       ),
       GoRoute(
         name: ImageScreen.routeName,

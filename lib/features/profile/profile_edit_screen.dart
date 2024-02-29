@@ -12,6 +12,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/core/utils.dart';
+import 'package:wakeuphoney/features/bitcoin/bitcoin_screen.dart';
 import 'package:wakeuphoney/features/chatgpt/cs_screen.dart';
 import 'package:wakeuphoney/features/image/image_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -36,6 +37,10 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   Logger logger = Logger();
   final _formKey = GlobalKey<FormState>();
   final _textEditingController = TextEditingController();
+
+  static const double smallGap = 10;
+  static const double midGap = 20;
+  static const double largeGap = 40;
 
   String imageUrl = "";
   File? profileImageFile;
@@ -188,7 +193,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     ],
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: smallGap,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -280,7 +285,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 40,
+                    height: largeGap,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -315,7 +320,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: smallGap,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -327,7 +332,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                             return Column(
                               children: [
                                 SizedBox(
-                                  height: 20,
+                                  height: midGap,
                                   width: MediaQuery.of(context).size.width,
                                 ),
                                 GestureDetector(
@@ -366,7 +371,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                                       fontSize: 24))))
                                       .pSymmetric(v: 10),
                                 ),
-                                10.heightBox,
+                                const SizedBox(
+                                  height: smallGap,
+                                ),
                                 GestureDetector(
                                   onTap: () {
                                     Navigator.pop(context);
@@ -424,7 +431,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: smallGap,
                   ),
                   // Container(
                   //   width: MediaQuery.of(context).size.width,
@@ -448,7 +455,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   //   ),
                   // ),
                   const SizedBox(
-                    height: 40,
+                    height: largeGap,
                   ),
                   Row(
                     children: [
@@ -462,7 +469,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     ],
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: smallGap,
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
@@ -481,7 +488,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: midGap,
                   ),
 
                   Row(
@@ -496,7 +503,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     ],
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: smallGap,
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
@@ -543,7 +550,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 40,
+                    height: largeGap,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -567,7 +574,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: smallGap,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -591,7 +598,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: smallGap,
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
@@ -613,7 +620,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text("1.0.30", style: TextStyle(fontSize: 18)),
+                            Text("1.0.36", style: TextStyle(fontSize: 18)),
                             SizedBox(width: 20, height: 40),
                           ],
                         ),
@@ -621,7 +628,30 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: smallGap,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      context.pushNamed(BitcoinScreen.routeName);
+                      analytics.logSelectContent(
+                          contentType: "go", itemId: "bitcoin");
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.white,
+                      child: const Row(
+                        children: [
+                          SizedBox(
+                            width: 20,
+                            height: 40,
+                          ),
+                          Text("Bitcoin price", style: TextStyle(fontSize: 18)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: smallGap,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -645,7 +675,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 40,
+                    height: largeGap,
                   ),
                   // Row(
                   //   children: [
@@ -659,7 +689,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   //   ],
                   // ),
                   // const SizedBox(
-                  //   height: 5,
+                  //   height: smallGap,
                   // ),
                   // Container(
                   //   width: MediaQuery.of(context).size.width,
@@ -678,7 +708,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   //   ),
                   // ),
                   // const SizedBox(
-                  //   height: 20,
+                  //   height: midGap,
                   // ),
                   // Row(
                   //   children: [
@@ -692,7 +722,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   //   ],
                   // ),
                   // const SizedBox(
-                  //   height: 5,
+                  //   height: smallGap,
                   // ),
                   // Container(
                   //   width: MediaQuery.of(context).size.width,
@@ -714,7 +744,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   //   height: 40,
                   // ),
                   const SizedBox(
-                    height: 40,
+                    height: largeGap,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -805,7 +835,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: midGap,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -897,7 +927,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: midGap,
                   ),
                   GestureDetector(
                     onTap: () {
