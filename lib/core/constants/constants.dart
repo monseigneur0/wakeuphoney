@@ -35,4 +35,6 @@ class Constants {
 
   static const adbannerline = 256;
   static const bottomNavBarLine = 206;
+  static const bottomNavBarHeight = 60;
+  static const pngSize = 100.0;
 }

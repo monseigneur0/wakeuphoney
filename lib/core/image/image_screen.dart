@@ -10,8 +10,8 @@ import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../core/common/loader.dart';
-import '../../core/utils.dart';
+import '../common/loader.dart';
+import '../utils.dart';
 
 class ImageScreen extends ConsumerStatefulWidget {
   static String routeName = 'imagescreen';

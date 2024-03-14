@@ -14,7 +14,7 @@ import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/core/utils.dart';
 import 'package:wakeuphoney/features/bitcoin/bitcoin_screen.dart';
 import 'package:wakeuphoney/features/chatgpt/cs_screen.dart';
-import 'package:wakeuphoney/features/image/image_screen.dart';
+import 'package:wakeuphoney/core/image/image_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/common/loader.dart';

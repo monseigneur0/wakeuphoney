@@ -224,7 +224,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                     boxShadow: [
                       BoxShadow(
                           color: Colors.black.withOpacity(0.1),
-                          blurRadius: 20,
+                          blurRadius: 10,
                           offset: const Offset(8, 8))
                     ]),
                 child: TextButton(
@@ -252,7 +252,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                     boxShadow: [
                       BoxShadow(
                           color: Colors.black.withOpacity(0.1),
-                          blurRadius: 20,
+                          blurRadius: 10,
                           offset: const Offset(8, 8))
                     ]),
                 child: TextButton(
@@ -281,7 +281,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                   boxShadow: [
                     BoxShadow(
                         color: Colors.black.withOpacity(0.1),
-                        blurRadius: 20,
+                        blurRadius: 10,
                         offset: const Offset(8, 8))
                   ]),
               child: Text(
@@ -316,7 +316,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                 boxShadow: [
                   BoxShadow(
                       color: Colors.black.withOpacity(0.1),
-                      blurRadius: 20,
+                      blurRadius: 10,
                       offset: const Offset(8, 8))
                 ]),
             child: Row(
@@ -340,7 +340,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                 boxShadow: [
                   BoxShadow(
                       color: Colors.black.withOpacity(0.1),
-                      blurRadius: 20,
+                      blurRadius: 10,
                       offset: const Offset(8, 8))
                 ]),
             child: Row(
@@ -364,7 +364,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                 boxShadow: [
                   BoxShadow(
                       color: Colors.black.withOpacity(0.1),
-                      blurRadius: 20,
+                      blurRadius: 10,
                       offset: const Offset(8, 8))
                 ]),
             child: Row(
@@ -414,7 +414,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                 boxShadow: [
                   BoxShadow(
                       color: Colors.black.withOpacity(0.1),
-                      blurRadius: 20,
+                      blurRadius: 10,
                       offset: const Offset(8, 8))
                 ]),
             child: Row(

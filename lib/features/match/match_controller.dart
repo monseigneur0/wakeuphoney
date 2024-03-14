@@ -117,6 +117,9 @@ class MatchController extends StateNotifier<bool> {
           coupleId,
           value.displayName,
           value.photoURL);
+
+      await _matchRepository.addFriend(uid, auser.displayName ?? "",
+          auser.photoURL ?? "", coupleId, value.displayName, value.photoURL);
     });
   }
 }

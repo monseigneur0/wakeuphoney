@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class WakeUpStatus extends StatelessWidget {
@@ -17,7 +18,63 @@ class WakeUpStatus extends StatelessWidget {
                 blurRadius: 5,
                 offset: const Offset(4, 4))
           ]),
-      child: Text(wakeUpStatusMessage).p(10),
+      child: Column(
+        children: [
+          Text(
+            wakeUpStatusMessage,
+            style: const TextStyle(
+              fontSize: 16,
+              // fontFamily: GoogleFonts.anticSlab().fontFamily,
+            ),
+          ).p(10),
+          // Row(
+          //   children: [
+          //     Text(
+          //       "와우",
+          //       style: TextStyle(
+          //         fontSize: 40,
+          //         fontFamily: GoogleFonts.nanumBrushScript().fontFamily,
+          //       ),
+          //     ).p(10),
+          //     Text(
+          //       "와우",
+          //       style: TextStyle(
+          //         fontSize: 40,
+          //         fontFamily: GoogleFonts.nanumGothic().fontFamily,
+          //       ),
+          //     ).p(10),
+          //     Text(
+          //       "와우",
+          //       style: TextStyle(
+          //         fontSize: 40,
+          //         fontFamily: GoogleFonts.gothicA1().fontFamily,
+          //       ),
+          //     ).p(10),
+          //     const Text(
+          //       "와우",
+          //       style: TextStyle(
+          //         fontSize: 40,
+          //         // fontFamily: GoogleFonts.nanumGothic().fontFamily,
+          //       ),
+          //     ).p(10),
+          //   ],
+          // ),
+          // Text(
+          //   "Wake !@#와우Español你好 \nよく眠れた？",
+          //   style: TextStyle(
+          //     fontSize: 40,
+          //     fontFamily: GoogleFonts.gothicA1().fontFamily,
+          //   ),
+          // ).p(10),
+          // const Text(
+          //   "Wake !@#와우Español你好 \nよく眠れた？",
+          //   style: TextStyle(
+          //     fontSize: 40,
+          //     // fontFamily: GoogleFonts.notoMusic().fontFamily,
+          //   ),
+          // ).p(10),
+        ],
+      ),
     ).pSymmetric(h: 10, v: 10);
   }
 }

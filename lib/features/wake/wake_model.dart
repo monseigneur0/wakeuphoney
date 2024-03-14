@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-class WakeUpModel {
-  final String wakeUpUid;
+class WakeModel {
+  final String wakeUid;
   final DateTime createdTime;
   final DateTime modifiedTimes;
 
   //alarm
   final int alarmId;
-  final DateTime wakeTime;
+  final DateTime alarmTime;
   final String assetAudioPath;
   final bool loopAudio;
   final bool vibrate;
@@ -23,25 +23,26 @@ class WakeUpModel {
 
   //letter send
   final String senderUid;
-  final String letter;
-  final String letterPhoto;
-  final String letterAudio;
-  final String letterVideo;
+  final String wakeMessage;
+  final String wakePhoto;
+  final String wakeAudio;
+  final String wakeVideo;
 
   //letter answer
+  final bool isAnswered;
   final String reciverUid;
   final DateTime? answerTime;
-  final String answer;
+  final String answerMessage;
   final String answerPhoto;
   final String answerAudio;
   final String answerVideo;
 
-  WakeUpModel({
-    required this.wakeUpUid,
+  WakeModel({
+    required this.wakeUid,
     required this.createdTime,
     required this.modifiedTimes,
     required this.alarmId,
-    required this.wakeTime,
+    required this.alarmTime,
     required this.assetAudioPath,
     required this.loopAudio,
     required this.vibrate,
@@ -55,24 +56,25 @@ class WakeUpModel {
     required this.isApproved,
     this.approveTime,
     required this.senderUid,
-    required this.letter,
-    required this.letterPhoto,
-    required this.letterAudio,
-    required this.letterVideo,
+    required this.wakeMessage,
+    required this.wakePhoto,
+    required this.wakeAudio,
+    required this.wakeVideo,
     required this.reciverUid,
     this.answerTime,
-    required this.answer,
+    required this.answerMessage,
     required this.answerPhoto,
     required this.answerAudio,
     required this.answerVideo,
+    required this.isAnswered,
   });
 
-  WakeUpModel copyWith({
-    String? wakeUpUid,
+  WakeModel copyWith({
+    String? wakeUid,
     DateTime? createdTime,
     DateTime? modifiedTimes,
     int? alarmId,
-    DateTime? wakeTime,
+    DateTime? alarmTime,
     String? assetAudioPath,
     bool? loopAudio,
     bool? vibrate,
@@ -86,23 +88,24 @@ class WakeUpModel {
     bool? isApproved,
     DateTime? approveTime,
     String? senderUid,
-    String? letter,
-    String? letterPhoto,
-    String? letterAudio,
-    String? letterVideo,
+    String? wakeMessage,
+    String? wakePhoto,
+    String? wakeAudio,
+    String? wakeVideo,
     String? reciverUid,
     DateTime? answerTime,
-    String? answer,
+    String? answerMessage,
     String? answerPhoto,
     String? answerAudio,
     String? answerVideo,
+    bool? isAnswered,
   }) {
-    return WakeUpModel(
-      wakeUpUid: wakeUpUid ?? this.wakeUpUid,
+    return WakeModel(
+      wakeUid: wakeUid ?? this.wakeUid,
       createdTime: createdTime ?? this.createdTime,
       modifiedTimes: modifiedTimes ?? this.modifiedTimes,
       alarmId: alarmId ?? this.alarmId,
-      wakeTime: wakeTime ?? this.wakeTime,
+      alarmTime: alarmTime ?? this.alarmTime,
       assetAudioPath: assetAudioPath ?? this.assetAudioPath,
       loopAudio: loopAudio ?? this.loopAudio,
       vibrate: vibrate ?? this.vibrate,
@@ -118,26 +121,27 @@ class WakeUpModel {
       isApproved: isApproved ?? this.isApproved,
       approveTime: approveTime ?? this.approveTime,
       senderUid: senderUid ?? this.senderUid,
-      letter: letter ?? this.letter,
-      letterPhoto: letterPhoto ?? this.letterPhoto,
-      letterAudio: letterAudio ?? this.letterAudio,
-      letterVideo: letterVideo ?? this.letterVideo,
+      wakeMessage: wakeMessage ?? this.wakeMessage,
+      wakePhoto: wakePhoto ?? this.wakePhoto,
+      wakeAudio: wakeAudio ?? this.wakeAudio,
+      wakeVideo: wakeVideo ?? this.wakeVideo,
       reciverUid: reciverUid ?? this.reciverUid,
       answerTime: answerTime ?? this.answerTime,
-      answer: answer ?? this.answer,
+      answerMessage: answerMessage ?? this.answerMessage,
       answerPhoto: answerPhoto ?? this.answerPhoto,
       answerAudio: answerAudio ?? this.answerAudio,
       answerVideo: answerVideo ?? this.answerVideo,
+      isAnswered: isAnswered ?? this.isAnswered,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'wakeUpUid': wakeUpUid,
+      'wakeUid': wakeUid,
       'createdTime': createdTime,
       'modifiedTimes': modifiedTimes,
       'alarmId': alarmId,
-      'wakeTime': wakeTime,
+      'alarmTime': alarmTime,
       'assetAudioPath': assetAudioPath,
       'loopAudio': loopAudio,
       'vibrate': vibrate,
@@ -151,26 +155,27 @@ class WakeUpModel {
       'isApproved': isApproved,
       'approveTime': approveTime,
       'senderUid': senderUid,
-      'letter': letter,
-      'letterPhoto': letterPhoto,
-      'letterAudio': letterAudio,
-      'letterVideo': letterVideo,
+      'wakeMessage': wakeMessage,
+      'wakePhoto': wakePhoto,
+      'wakeAudio': wakeAudio,
+      'wakeVideo': wakeVideo,
       'reciverUid': reciverUid,
       'answerTime': answerTime,
-      'answer': answer,
+      'answerMessage': answerMessage,
       'answerPhoto': answerPhoto,
       'answerAudio': answerAudio,
       'answerVideo': answerVideo,
+      'isAnswered': isAnswered,
     };
   }
 
-  factory WakeUpModel.fromMap(Map<String, dynamic> map) {
-    return WakeUpModel(
-      wakeUpUid: map['wakeUpUid'] as String,
-      createdTime: map['createdTime'].toDate(),
-      modifiedTimes: map['modifiedTimes'].toDate(),
+  factory WakeModel.fromMap(Map<String, dynamic> map) {
+    return WakeModel(
+      wakeUid: map['wakeUid'] as String,
+      createdTime: (map['createdTime'].toDate()),
+      modifiedTimes: (map['modifiedTimes'].toDate()),
       alarmId: map['alarmId'] as int,
-      wakeTime: map['wakeTime'].toDate(),
+      alarmTime: (map['alarmTime'].toDate()),
       assetAudioPath: map['assetAudioPath'] as String,
       loopAudio: map['loopAudio'] as bool,
       vibrate: map['vibrate'] as bool,
@@ -182,40 +187,43 @@ class WakeUpModel {
       androidFullScreenIntent: map['androidFullScreenIntent'] as bool,
       isDeleted: map['isDeleted'] as bool,
       isApproved: map['isApproved'] as bool,
-      approveTime: map['approveTime']?.toDate(),
+      approveTime:
+          map['approveTime'] != null ? (map['approveTime'].toDate()) : null,
       senderUid: map['senderUid'] as String,
-      letter: map['letter'] as String,
-      letterPhoto: map['letterPhoto'] as String,
-      letterAudio: map['letterAudio'] as String,
-      letterVideo: map['letterVideo'] as String,
+      wakeMessage: map['wakeMessage'] as String,
+      wakePhoto: map['wakePhoto'] as String,
+      wakeAudio: map['wakeAudio'] as String,
+      wakeVideo: map['wakeVideo'] as String,
       reciverUid: map['reciverUid'] as String,
-      answerTime: map['answerTime']?.toDate(),
-      answer: map['answer'] as String,
+      answerTime:
+          map['answerTime'] != null ? (map['answerTime'].toDate()) : null,
+      answerMessage: map['answerMessage'] as String,
       answerPhoto: map['answerPhoto'] as String,
       answerAudio: map['answerAudio'] as String,
       answerVideo: map['answerVideo'] as String,
+      isAnswered: map['isAnswered'] as bool,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory WakeUpModel.fromJson(String source) =>
-      WakeUpModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory WakeModel.fromJson(String source) =>
+      WakeModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'WakeUpModel(wakeUpUid: $wakeUpUid, createdTime: $createdTime, modifiedTimes: $modifiedTimes, alarmId: $alarmId, wakeTime: $wakeTime, assetAudioPath: $assetAudioPath, loopAudio: $loopAudio, vibrate: $vibrate, volume: $volume, fadeDuration: $fadeDuration, notificationTitle: $notificationTitle, notificationBody: $notificationBody, enableNotificationOnKill: $enableNotificationOnKill, androidFullScreenIntent: $androidFullScreenIntent, isDeleted: $isDeleted, isApproved: $isApproved, approveTime: $approveTime, senderUid: $senderUid, letter: $letter, letterPhoto: $letterPhoto, letterAudio: $letterAudio, letterVideo: $letterVideo, reciverUid: $reciverUid, answerTime: $answerTime, answer: $answer, answerPhoto: $answerPhoto, answerAudio: $answerAudio, answerVideo: $answerVideo)';
+    return 'WakeModel(wakeUid: $wakeUid, createdTime: $createdTime, modifiedTimes: $modifiedTimes, alarmId: $alarmId, alarmTime: $alarmTime, assetAudioPath: $assetAudioPath, loopAudio: $loopAudio, vibrate: $vibrate, volume: $volume, fadeDuration: $fadeDuration, notificationTitle: $notificationTitle, notificationBody: $notificationBody, enableNotificationOnKill: $enableNotificationOnKill, androidFullScreenIntent: $androidFullScreenIntent, isDeleted: $isDeleted, isApproved: $isApproved, approveTime: $approveTime, senderUid: $senderUid, wakeMessage: $wakeMessage, wakePhoto: $wakePhoto, wakeAudio: $wakeAudio, wakeVideo: $wakeVideo, reciverUid: $reciverUid, answerTime: $answerTime, answerMessage: $answerMessage, answerPhoto: $answerPhoto, answerAudio: $answerAudio, answerVideo: $answerVideo, isAnswered: $isAnswered)';
   }
 
   @override
-  bool operator ==(covariant WakeUpModel other) {
+  bool operator ==(covariant WakeModel other) {
     if (identical(this, other)) return true;
 
-    return other.wakeUpUid == wakeUpUid &&
+    return other.wakeUid == wakeUid &&
         other.createdTime == createdTime &&
         other.modifiedTimes == modifiedTimes &&
         other.alarmId == alarmId &&
-        other.wakeTime == wakeTime &&
+        other.alarmTime == alarmTime &&
         other.assetAudioPath == assetAudioPath &&
         other.loopAudio == loopAudio &&
         other.vibrate == vibrate &&
@@ -229,25 +237,26 @@ class WakeUpModel {
         other.isApproved == isApproved &&
         other.approveTime == approveTime &&
         other.senderUid == senderUid &&
-        other.letter == letter &&
-        other.letterPhoto == letterPhoto &&
-        other.letterAudio == letterAudio &&
-        other.letterVideo == letterVideo &&
+        other.wakeMessage == wakeMessage &&
+        other.wakePhoto == wakePhoto &&
+        other.wakeAudio == wakeAudio &&
+        other.wakeVideo == wakeVideo &&
         other.reciverUid == reciverUid &&
         other.answerTime == answerTime &&
-        other.answer == answer &&
+        other.answerMessage == answerMessage &&
         other.answerPhoto == answerPhoto &&
         other.answerAudio == answerAudio &&
-        other.answerVideo == answerVideo;
+        other.answerVideo == answerVideo &&
+        other.isAnswered == isAnswered;
   }
 
   @override
   int get hashCode {
-    return wakeUpUid.hashCode ^
+    return wakeUid.hashCode ^
         createdTime.hashCode ^
         modifiedTimes.hashCode ^
         alarmId.hashCode ^
-        wakeTime.hashCode ^
+        alarmTime.hashCode ^
         assetAudioPath.hashCode ^
         loopAudio.hashCode ^
         vibrate.hashCode ^
@@ -261,25 +270,26 @@ class WakeUpModel {
         isApproved.hashCode ^
         approveTime.hashCode ^
         senderUid.hashCode ^
-        letter.hashCode ^
-        letterPhoto.hashCode ^
-        letterAudio.hashCode ^
-        letterVideo.hashCode ^
+        wakeMessage.hashCode ^
+        wakePhoto.hashCode ^
+        wakeAudio.hashCode ^
+        wakeVideo.hashCode ^
         reciverUid.hashCode ^
         answerTime.hashCode ^
-        answer.hashCode ^
+        answerMessage.hashCode ^
         answerPhoto.hashCode ^
         answerAudio.hashCode ^
-        answerVideo.hashCode;
+        answerVideo.hashCode ^
+        isAnswered.hashCode;
   }
 
-  static Future<WakeUpModel> emptyFuture() async {
-    return WakeUpModel(
-      wakeUpUid: "",
+  static Future<WakeModel> emptyFuture() async {
+    return WakeModel(
+      wakeUid: "",
       createdTime: DateTime.now(),
       modifiedTimes: DateTime.now(),
       alarmId: 10,
-      wakeTime: DateTime.now(),
+      alarmTime: DateTime.now(),
       assetAudioPath: "assets/marimba.mp3",
       loopAudio: false,
       vibrate: false,
@@ -291,13 +301,16 @@ class WakeUpModel {
       androidFullScreenIntent: true,
       isDeleted: false,
       isApproved: false,
+      approveTime: null,
       senderUid: "",
-      letter: "",
-      letterPhoto: "",
-      letterAudio: "",
-      letterVideo: "",
+      wakeMessage: "",
+      wakePhoto: "",
+      wakeAudio: "",
+      wakeVideo: "",
+      isAnswered: false,
       reciverUid: "",
-      answer: "",
+      answerTime: null,
+      answerMessage: "",
       answerPhoto: "",
       answerAudio: "",
       answerVideo: "",

@@ -7,7 +7,7 @@ import 'package:velocity_x/velocity_x.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
-import '../letter/response_screen.dart';
+import '../wake/response_screen.dart';
 import '../profile/profile_controller.dart';
 import '../wakeup/wakeup_controller.dart';
 

@@ -30,7 +30,7 @@ class AlarmTile extends StatelessWidget {
               boxShadow: [
                 BoxShadow(
                     color: Colors.black.withOpacity(0.3),
-                    blurRadius: 20,
+                    blurRadius: 10,
                     offset: const Offset(8, 8))
               ]),
           padding: const EdgeInsets.only(right: 30),
@@ -53,7 +53,7 @@ class AlarmTile extends StatelessWidget {
                 boxShadow: [
                   BoxShadow(
                       color: Colors.black.withOpacity(0.3),
-                      blurRadius: 20,
+                      blurRadius: 10,
                       offset: const Offset(8, 8))
                 ]),
             // decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),

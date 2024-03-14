@@ -6,21 +6,21 @@ import 'package:logger/logger.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:wakeuphoney/core/utils.dart';
 
 import '../../core/common/loader.dart';
-import '../../core/utils.dart';
 import '../profile/profile_controller.dart';
-import 'wakeup_controller.dart';
+import 'wake_controller.dart';
 
-class WakeUpFeedScreen extends ConsumerStatefulWidget {
-  const WakeUpFeedScreen({super.key});
+class WakeYouFeedScreen extends ConsumerStatefulWidget {
+  const WakeYouFeedScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _WakeUpFeedScreenState();
+      _WakeYouFeedScreenState();
 }
 
-class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
+class _WakeYouFeedScreenState extends ConsumerState<WakeYouFeedScreen> {
   Logger logger = Logger();
 
   final _scrollController = ScrollController();
@@ -31,24 +31,26 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
   @override
   Widget build(BuildContext context) {
     final userInfo = ref.watch(getMyUserInfoProvider);
-    final lettersList = ref.watch(getWakeUpLettersListProvider);
+    // final wakesList = ref.watch(getWakeUpwakesListProvider);
+    final wakesList = ref.watch(getWakesListProvider);
 
     return Scaffold(
       body: userInfo.when(data: (user) {
-        return lettersList.when(
-            data: (letters) {
-              if (letters.isEmpty) {
+        return wakesList.when(
+            data: (wakes) {
+              if (wakes.isEmpty) {
                 return Center(
                   child: Text(
                     AppLocalizations.of(context)!.noletter,
-                    style: const TextStyle(fontSize: 30),
+                    // "아직 서로 깨워주지 않으셨네요.",
+                    style: const TextStyle(fontSize: 20),
                   ),
                 );
               }
               return Skeletonizer(
-                enabled: letters.isEmpty,
+                enabled: wakes.isEmpty,
                 child: ListView.builder(
-                  itemCount: letters.length,
+                  itemCount: wakes.length,
                   controller: _scrollController,
                   key: const PageStorageKey("page"),
                   itemBuilder: (context, index) {
@@ -61,7 +63,7 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 DateFormat("MM/dd")
-                                    .format(letters[index].wakeTime)
+                                    .format(wakes[index].alarmTime)
                                     .toString()
                                     .text
                                     .make()
@@ -83,7 +85,7 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          user.uid == letters[index].senderUid
+                                          user.uid == wakes[index].senderUid
                                               ? ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(30),
@@ -114,7 +116,7 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                                           .spaceBetween,
                                                   children: [
                                                     user.uid ==
-                                                            letters[index]
+                                                            wakes[index]
                                                                 .senderUid
                                                         ? user.displayName.text
                                                             .size(14)
@@ -130,8 +132,8 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                                       child: Container(),
                                                     ),
                                                     DateFormat("hh:mm")
-                                                        .format(letters[index]
-                                                            .wakeTime)
+                                                        .format(wakes[index]
+                                                            .alarmTime)
                                                         .toString()
                                                         .text
                                                         .size(10)
@@ -139,8 +141,8 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                                         .pSymmetric(h: 14),
                                                     PopupMenuButton(
                                                       itemBuilder: (context) {
-                                                        if (letters[index]
-                                                            .wakeTime
+                                                        if (wakes[index]
+                                                            .alarmTime
                                                             .isBefore(DateTime
                                                                 .now())) {
                                                           return [
@@ -161,12 +163,12 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                                           PopupMenuItem(
                                                             onTap: () {
                                                               _letterEditController
-                                                                      .text =
-                                                                  letters[index]
-                                                                      .letter;
-                                                              _updateLetter(
-                                                                  letters[index]
-                                                                      .wakeUpUid);
+                                                                  .text = wakes[
+                                                                      index]
+                                                                  .wakeMessage;
+                                                              // _updateLetter(
+                                                              //     wakes[index]
+                                                              //         .wakeUpUid);
                                                             },
                                                             child: Text(
                                                                 AppLocalizations.of(
@@ -176,11 +178,11 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                                           PopupMenuItem(
                                                             onTap: () {
                                                               ref
-                                                                  .watch(wakeUpControllerProvider
+                                                                  .watch(wakeControllerProvider
                                                                       .notifier)
-                                                                  .letterDelete(
-                                                                      letters[index]
-                                                                          .wakeUpUid);
+                                                                  .wakeDelete(wakes[
+                                                                          index]
+                                                                      .wakeUid);
                                                               showToast(
                                                                   AppLocalizations.of(
                                                                           context)!
@@ -205,13 +207,13 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                                 child: SelectableText(
                                                     scrollPhysics:
                                                         const NeverScrollableScrollPhysics(),
-                                                    letters[index].letter),
+                                                    wakes[index].wakeMessage),
                                               )
                                             ],
                                           )
                                         ],
                                       ),
-                                      letters[index].letterPhoto.isEmpty
+                                      wakes[index].wakePhoto.isEmpty
                                           ? Container()
                                           : Container(
                                               width: MediaQuery.of(context)
@@ -225,8 +227,8 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                               ),
                                               clipBehavior: Clip.hardEdge,
                                               child: CachedNetworkImage(
-                                                imageUrl: letters[index]
-                                                    .letterPhoto
+                                                imageUrl: wakes[index]
+                                                    .wakePhoto
                                                     .toString(),
                                                 placeholder: (context, url) =>
                                                     Container(
@@ -242,7 +244,7 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                                         const Icon(Icons.error),
                                               ),
                                             ),
-                                      letters[index].answer.isEmpty
+                                      wakes[index].answerMessage.isEmpty
                                           ? Container()
                                           : Container(
                                               width: MediaQuery.of(context)
@@ -273,7 +275,7 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                                             .start,
                                                     children: [
                                                       user.uid ==
-                                                              letters[index]
+                                                              wakes[index]
                                                                   .reciverUid
                                                           ? ClipRRect(
                                                               borderRadius:
@@ -300,7 +302,7 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                                                 .start,
                                                         children: [
                                                           user.uid ==
-                                                                  letters[index]
+                                                                  wakes[index]
                                                                       .reciverUid
                                                               ? user.displayName
                                                                   .text
@@ -313,8 +315,8 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                                                   .size(14)
                                                                   .bold
                                                                   .make(),
-                                                          letters[index]
-                                                              .answer
+                                                          wakes[index]
+                                                              .answerMessage
                                                               .text
                                                               .make()
                                                               .box
@@ -341,13 +343,13 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                                           BorderRadius.circular(
                                                               30),
                                                     ),
-                                                    child: letters[index]
+                                                    child: wakes[index]
                                                             .answerPhoto
                                                             .isEmpty
                                                         ? Container()
                                                         : CachedNetworkImage(
                                                             fit: BoxFit.fill,
-                                                            imageUrl: letters[
+                                                            imageUrl: wakes[
                                                                     index]
                                                                 .answerPhoto
                                                                 .toString()),
@@ -384,53 +386,5 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
         );
       }),
     );
-  }
-
-  Future<void> _updateLetter(String letterId) async {
-    await showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Form(
-                key: _formkey,
-                child: TextFormField(
-                  minLines: 3,
-                  maxLines: 10,
-                  keyboardType: TextInputType.multiline,
-                  validator: (value) {
-                    if (value == null || value.isEmpty || value == '') {
-                      return AppLocalizations.of(context)!.putsometext;
-                    }
-                    return null;
-                  },
-                  controller: _letterEditController,
-                  autofocus: true,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formkey.currentState!.validate()) {
-                        showToast(AppLocalizations.of(context)!.letteredited);
-                        ref
-                            .watch(wakeUpControllerProvider.notifier)
-                            .letterEdit(letterId, _letterEditController.text);
-                        _letterEditController.clear();
-                        Navigator.of(context).pop();
-                      }
-                    },
-                    child: Text(AppLocalizations.of(context)!.edit),
-                  ),
-                ],
-              ),
-            ],
-          ).p(20);
-        });
   }
 }

@@ -7,8 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/auth/user_model.dart';
-import 'package:wakeuphoney/features/image/image_full_screen.dart';
-import 'package:wakeuphoney/features/image/image_screen.dart';
+import 'package:wakeuphoney/core/image/image_full_screen.dart';
+import 'package:wakeuphoney/core/image/image_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wakeuphoney/features/profile/profile_edit_screen.dart';
@@ -263,7 +263,7 @@ class ProfileImage extends StatelessWidget {
           boxShadow: [
             BoxShadow(
                 color: Colors.black.withOpacity(0.1),
-                blurRadius: 20,
+                blurRadius: 10,
                 offset: const Offset(8, 8))
           ]),
       child: Padding(
@@ -286,7 +286,7 @@ class ProfileImage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(60),
                       boxShadow: [
                         BoxShadow(
-                            blurRadius: 20,
+                            blurRadius: 10,
                             offset: const Offset(8, 8),
                             color: Colors.black.withOpacity(0.3))
                       ],

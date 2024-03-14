@@ -6,9 +6,7 @@ import 'package:wakeuphoney/features/profile/profile_controller.dart';
 
 import 'core/providers/providers.dart';
 import 'features/auth/auth_controller.dart';
-import 'features/dailymessages/couple_letter_screen.dart';
-import 'features/dailymessages/letter_date_screen.dart';
-import 'features/letter/response_screen.dart';
+import 'features/wake/response_screen.dart';
 import 'features/profile/profile_screen.dart';
 import 'features/match/match_screen.dart';
 import 'features/auth/auth_repository.dart';
@@ -150,15 +148,6 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  context.pushNamed(CoupleLetterScreen.routeName);
-                },
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStatePropertyAll(Colors.blue[600])),
-                child: const Text('CoupleHistoryScreen'),
-              ),
-              ElevatedButton(
-                onPressed: () {
                   context.pushNamed(MatchScreen.routeName);
                 },
                 style: const ButtonStyle(
@@ -172,14 +161,6 @@ class _PracticeHomeState extends ConsumerState<PracticeHome> {
                 style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Colors.purple)),
                 child: const Text('CoupleProfileScreen'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  context.pushNamed(LetterDateScreen.routeName);
-                },
-                style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.green)),
-                child: const Text('LetterDateScreen'),
               ),
               const Text('numberProvider'),
               Text(number.toString()),

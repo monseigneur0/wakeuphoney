@@ -4,15 +4,12 @@ import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-// import 'package:just_audio/just_audio.dart';
 import 'package:logger/logger.dart';
 import 'package:uuid/uuid.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wakeuphoney/features/main/main_screen.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
@@ -20,22 +17,23 @@ import '../../core/constants/firebase_constants.dart';
 import '../../core/providers/firebase_providers.dart';
 import '../../core/utils.dart';
 import '../alarm/alarm_new_ring_screen.dart';
+import '../main/main_screen.dart';
 import '../voice/audio_recoder_example.dart';
 import '../voice/audio_player_example.dart';
-import 'wakeup_controller.dart';
-import 'wakeup_model.dart';
+import 'wake_controller.dart';
+import 'wake_model.dart';
 
-class WakeUpEditScreen extends ConsumerStatefulWidget {
-  static String routeName = "wakeupedit";
-  static String routeURL = "/wakeupedit";
-  const WakeUpEditScreen({super.key});
+class WakeWriteScreen extends ConsumerStatefulWidget {
+  static String routeName = "wakewrite";
+  static String routeURL = "/wakewrite";
+  const WakeWriteScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _WakeUpEditScreenState();
+      _WakeWriteScreenState();
 }
 
-class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
+class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
   Logger logger = Logger();
 
   bool loading = false;
@@ -46,7 +44,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
   bool showPlayer = false;
   String? audioPath;
 
-  late WakeUpModel _wakeUp;
+  late WakeModel _wakeUp;
 
   late DateTime selectedWakeUpTime;
   late bool loopAudio;
@@ -162,12 +160,13 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
       loading = true;
     });
     await Future.delayed(const Duration(seconds: 2));
-    _wakeUp = WakeUpModel(
-      wakeUpUid: const Uuid().v4(),
+    _wakeUp = WakeModel(
+      wakeUid: const Uuid().v4(),
       createdTime: DateTime.now(),
       modifiedTimes: DateTime.now(),
+
       alarmId: DateTime.now().millisecondsSinceEpoch % 100000,
-      wakeTime: selectedWakeUpTime,
+      alarmTime: selectedWakeUpTime,
       assetAudioPath: "",
       loopAudio: loopAudio,
       vibrate: vibrate,
@@ -180,14 +179,17 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
       isDeleted: false,
       isApproved: false,
       approveTime: null,
+
       senderUid: "",
-      letter: "",
-      letterPhoto: "",
-      letterAudio: "",
-      letterVideo: "",
+      wakeMessage: "",
+      wakePhoto: "",
+      wakeAudio: "",
+      wakeVideo: "",
+
+      isAnswered: false,
       reciverUid: "",
       answerTime: null,
-      answer: "",
+      answerMessage: "",
       answerPhoto: "",
       answerAudio: "",
       answerVideo: "",
@@ -196,7 +198,9 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
       loading = false;
     });
     if (context.mounted) {
-      Navigator.pop(context, true);
+      if (mounted) {
+        Navigator.pop(context, true);
+      }
     }
   }
 
@@ -729,8 +733,8 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                                   }
                                 }
                                 ref
-                                    .watch(wakeUpControllerProvider.notifier)
-                                    .createWakeUp(
+                                    .watch(wakeControllerProvider.notifier)
+                                    .createWake(
                                         DateTime(
                                             DateTime.now().year,
                                             DateTime.now().month,
@@ -744,13 +748,14 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                                         audioUrl,
                                         volume ?? 0.8,
                                         vibrate);
-                                if (mounted) {
-                                  context.goNamed(MainScreen.routeName);
-                                  showToast(
-                                      AppLocalizations.of(context)!.saved);
+                                if (context.mounted) {
+                                  if (mounted) {
+                                    context.goNamed(MainScreen.routeName);
+                                    showToast(
+                                        AppLocalizations.of(context)!.saved);
+                                  }
                                 }
                                 _letterController.clear();
-                                ref.watch(getTomorrowWakeUpYouProvider);
                               }
                             },
                             child: Container(

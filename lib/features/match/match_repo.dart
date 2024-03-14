@@ -141,6 +141,43 @@ class MatchRepository {
             }));
   }
 
+  Future addFriend(
+    String uid,
+    String name,
+    String photoURL,
+    String coupleId,
+    String coupleName,
+    String couplePhotoURL,
+  ) async {
+    //나한테 상대 아이디 등록
+    logger.d("start matchCoupleIdProcessDone");
+
+    await _users.doc(uid).collection("friends").doc(coupleId).set({
+      "uid": coupleId,
+      "displayName": coupleName,
+      "photoURL": couplePhotoURL,
+    });
+
+    //상대에 내 아이디 등록
+
+    await _users.doc(coupleId).collection("friends").doc(uid).set({
+      "uid": uid,
+      "displayName": name,
+      "photoURL": photoURL,
+    });
+
+    logger.d("matchCoupleIdProcessDone");
+
+    //삭제
+    await _matches
+        .where("uid", isEqualTo: uid)
+        .get()
+        .then((value) => value.docs.forEach((element) {
+              _matches.doc(element.id).delete();
+              logger.d(element.id);
+            }));
+  }
+
   Future deleteMatches(String uid) async {
     _matches
         .where("time",

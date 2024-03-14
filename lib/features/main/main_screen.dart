@@ -22,6 +22,8 @@ import '../alarm/alarm_ring_screen.dart';
 import '../auth/auth_controller.dart';
 import '../match/match_screen.dart';
 import '../profile/profile_controller.dart';
+import '../wake/wake_me_screen.dart';
+import '../wake/wake_you_screen.dart';
 import '../wakeup/wakeup_me_devscreen.dart';
 import '../wakeup/wakeup_you_screen.dart';
 import 'main_controller.dart';
@@ -65,10 +67,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    loadAlarms();
-    subscription ??= Alarm.ringStream.stream.listen(
-      (alarmSettings) => navigateToRingScreen(alarmSettings),
-    );
+    // loadAlarms();
+    // subscription ??= Alarm.ringStream.stream.listen(
+    //   (alarmSettings) => navigateToRingScreen(alarmSettings),
+    // );
   }
 
   void loadAlarms() {
@@ -110,7 +112,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       // const WakeUpVoiceScreen(),
       const WakeUpMeScreen(),
       const WakeUpYouScreen(),
-      if (kDebugMode) const WakeUpMeDevScreen(),
+      if (kDebugMode) const WakeMeScreen(),
+      if (kDebugMode) const WakeYouScreen(),
       const WakeUpFeedScreen(),
       // const ListAudio(),
       // const PlayerScreen(),
@@ -175,7 +178,12 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           if (kDebugMode)
                             const BottomNavigationBarItem(
                               icon: Icon(Icons.home_outlined),
-                              label: "dev",
+                              label: "me",
+                            ),
+                          if (kDebugMode)
+                            const BottomNavigationBarItem(
+                              icon: Icon(Icons.home_outlined),
+                              label: "you",
                             ),
                           BottomNavigationBarItem(
                             icon: const Icon(Icons.home_outlined),

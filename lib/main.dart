@@ -3,9 +3,11 @@ import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -27,7 +29,9 @@ void main() async {
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   analytics.logAppOpen();
 
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  if (!kDebugMode) {
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  }
 
   final status = await AppTrackingTransparency.requestTrackingAuthorization();
 
@@ -48,6 +52,21 @@ class WakeUpHoney extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     FlutterNativeSplash.remove();
     final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
+
+    final currentLocale = WidgetsBinding.instance.window.locale;
+
+    String? determineFont(Locale locale) {
+      switch (locale.languageCode) {
+        case 'ko':
+          return GoogleFonts.nanumGothic().fontFamily;
+        case 'en':
+          return GoogleFonts.notoSans().fontFamily;
+        // Add cases for other languages as needed
+        default:
+          return GoogleFonts.raleway()
+              .fontFamily; // Use a default for unsupported languages
+      }
+    }
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
@@ -72,6 +91,8 @@ class WakeUpHoney extends ConsumerWidget {
         Locale('pt'),
       ],
       theme: ThemeData(
+        useMaterial3: true,
+        fontFamily: determineFont(currentLocale),
         colorScheme: ColorScheme.fromSeed(
           seedColor: AppColors.myPink,
         ),
@@ -82,7 +103,6 @@ class WakeUpHoney extends ConsumerWidget {
             fontSize: 18,
           ),
         ),
-        useMaterial3: true,
       ),
     );
   }
