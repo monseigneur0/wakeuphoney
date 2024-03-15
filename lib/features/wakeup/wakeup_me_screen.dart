@@ -2,32 +2,42 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:alarm/alarm.dart';
-import 'package:day_night_time_picker/lib/constants.dart';
-import 'package:day_night_time_picker/lib/daynight_timepicker.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:day_night_time_picker/lib/state/time.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:wakeuphoney/features/wakeup/wakeup_me_image_screen.dart';
+import 'package:velocity_x/velocity_x.dart';
 
+import '../../core/constants/constants.dart';
+import '../../core/constants/design_constants.dart';
+import '../../core/utils.dart';
 import '../alarm/alarm_day_settings.dart';
 
 import 'package:http/http.dart' as http;
 
-import '../alarm/alarm_ring_screen.dart';
+import '../main/main_screen.dart';
+import '../profile/profile_controller.dart';
+import 'wakeup_controller.dart';
+import 'wakeup_status.dart';
 
-class WakeUpMeScreen extends StatefulWidget {
+class WakeUpMeScreen extends ConsumerStatefulWidget {
   final AlarmSettings? alarmSettings;
 
   const WakeUpMeScreen({super.key, this.alarmSettings});
 
   @override
-  WakeUpMeScreenState createState() => WakeUpMeScreenState();
+  ConsumerState createState() => WakeUpMeScreenState();
 }
 
-class WakeUpMeScreenState extends State<WakeUpMeScreen> {
+class WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
   bool loading = false;
 
   late DateTime selectedDateTime;
@@ -40,8 +50,7 @@ class WakeUpMeScreenState extends State<WakeUpMeScreen> {
 
   late List<bool> days;
 
-  late AlarmDaySettings alarmDaySettings =
-      AlarmDaySettings(alarmSettings: widget.alarmSettings);
+  late AlarmDaySettings alarmDaySettings = AlarmDaySettings(alarmSettings: widget.alarmSettings);
 
   late TimeOfDay selectedTime;
   late Time _time;
@@ -54,11 +63,8 @@ class WakeUpMeScreenState extends State<WakeUpMeScreen> {
   void initState() {
     super.initState();
 
-    selectedDateTime = DateTime.now()
-        .add(const Duration(minutes: 10))
-        .copyWith(second: 0, millisecond: 0);
-    selectedTime =
-        TimeOfDay(hour: selectedDateTime.hour, minute: selectedDateTime.minute);
+    selectedDateTime = DateTime.now().add(const Duration(minutes: 10)).copyWith(second: 0, millisecond: 0);
+    selectedTime = TimeOfDay(hour: selectedDateTime.hour, minute: selectedDateTime.minute);
     loopAudio = true;
     vibrate = true;
     volume = null;
@@ -80,93 +86,31 @@ class WakeUpMeScreenState extends State<WakeUpMeScreen> {
     // );
   }
 
-  void loadAlarms() {
-    setState(() {
-      alarms = Alarm.getAlarms();
-      alarms.sort((a, b) => a.dateTime.isBefore(b.dateTime) ? 0 : 1);
-    });
-  }
+  // 파일을 저장하는 함수
+  Future<void> saveToFile(String audioUrl) async {
+    // 파일 경로를 생성함
+    final directory = await getApplicationDocumentsDirectory();
 
-  Future<void> navigateToRingScreen(AlarmSettings alarmSettings) async {
-    await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
-        ));
-    loadAlarms();
-    // await Navigator.of(context).push(
-    //   MaterialPageRoute(
-    //     builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
-    //   ),
-    // );
-    // loadAlarms();
-  }
+    final fileName = audioUrl.split('-').last;
 
-  String getDay() {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final difference = selectedDateTime.difference(today).inDays;
+    audioAssetPath = '${directory.path}/$fileName.m4a';
 
-    if (difference == 0) {
-      return 'Today';
-    } else if (difference == 1) {
-      return 'Tomorrow';
-    } else if (difference == 2) {
-      return 'After tomorrow';
-    } else {
-      return 'In $difference days';
-    }
-  }
+    final file = File(audioAssetPath);
+    // 파일에 내용을 저장함
 
-  Future<void> pickTime() async {
-    _time = Time(hour: selectedTime.hour, minute: selectedTime.minute);
-    final res = await Navigator.of(context).push(showPicker(
-      showSecondSelector: false,
-      context: context,
-      value: _time,
-      onChange: onTimeChanged,
-      minuteInterval: TimePickerInterval.ONE,
-      iosStylePicker: true,
-      minHour: 0,
-      maxHour: 23,
-      is24HrFormat: true,
-      width: 360,
-      // dialogInsetPadding:
-      //     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 24.0),
-      hourLabel: ':',
-      minuteLabel: ' ',
-      // Optional onChange to receive value as DateTime
-      onChangeDateTime: (DateTime dateTime) {
-        // logger.d(dateTime);
-        logger.d("[debug datetime]:  $dateTime");
-      },
-    ));
-    logger.d(_time);
+    var response = await http.get(Uri.parse(audioUrl));
 
-    //     showTimePicker(
-    //   initialTime: selectedTime,
-    //   context: context,
-    // );
-    if (res != null) {
-      setState(() {
-        selectedTime = _time.toTimeOfDay();
-      });
-    }
-  }
-
-  void onTimeChanged(Time newTime) {
-    setState(() {
-      _time = newTime;
-    });
+    await file.writeAsBytes(response.bodyBytes);
   }
 
   AlarmSettings buildAlarmSettings(TimeOfDay selectedTime1, String audioPath) {
     final now = DateTime.now();
     final id = DateTime.now().millisecondsSinceEpoch % 100000;
+    var logger = Logger();
 
-    saveToFile(audioPath);
-    logger.d(audioPath);
-    logger.d(audioAssetPath);
+    if (audioPath.isNotEmpty || audioPath != "") {
+      saveToFile(audioPath);
+    }
 
     DateTime dateTimewake = DateTime(
       now.year,
@@ -196,73 +140,381 @@ class WakeUpMeScreenState extends State<WakeUpMeScreen> {
     return alarmSettings;
   }
 
-  String intDayToEnglish(int day) {
-    if (day % 7 == DateTime.monday % 7) return 'Monday';
-    if (day % 7 == DateTime.tuesday % 7) return 'Tueday';
-    if (day % 7 == DateTime.wednesday % 7) return 'Wednesday';
-    if (day % 7 == DateTime.thursday % 7) return 'Thursday';
-    if (day % 7 == DateTime.friday % 7) return 'Friday';
-    if (day % 7 == DateTime.saturday % 7) return 'Saturday';
-    if (day % 7 == DateTime.sunday % 7) return 'Sunday';
-    throw '🐞 This should never have happened: $day';
-  }
-
-  printIntAsDay(int day) {
-    logger.d(
-        'Received integer: $day. Corresponds to day: ${intDayToEnglish(day)}');
-  }
-
-  // 파일 경로를 생성하는 함수
-  Future<File> _getFile(String fileName) async {
-    // 앱의 디렉토리 경로를 가져옴
-    final directory = await getApplicationDocumentsDirectory();
-    // 파일 경로와 파일 이름을 합쳐서 전체 파일 경로를 만듬
-    return File('${directory.path}/$fileName');
-  }
-
-  // 파일을 저장하는 함수
-  Future<void> saveToFile(String audioUrl) async {
-    // 파일 경로를 생성함
-    final directory = await getApplicationDocumentsDirectory();
-
-    final fileName = audioUrl.split('-').last;
-
-    audioAssetPath = '${directory.path}/$fileName.m4a';
-
-    final file = File(audioAssetPath);
-    // 파일에 내용을 저장함
-
-    var response = await http.get(Uri.parse(audioUrl));
-
-    await file.writeAsBytes(response.bodyBytes);
-  }
-
-  //파일을 불러오는 함수
-  Future<String> _loadFile(String fileName) async {
-    try {
-      //파일을 불러옴
-      final file = await _getFile(fileName);
-      //불러온 파일의 데이터를 읽어옴
-      String fileContents = await file.readAsString();
-      return fileContents;
-    } catch (e) {
-      return '';
-    }
-  }
-
   @override
-  void dispose() {
-    subscription?.cancel();
-    super.dispose();
+  Widget build(BuildContext context) {
+    Logger logger = Logger();
+    final wakeUpMe = ref.watch(getTomorrowWakeUpMeProvider);
+    final userInfo = ref.watch(getUserProfileStreamProvider);
+    bool isApproved = false;
+    return RefreshIndicator(
+        onRefresh: () async {
+          ref.watch(getTomorrowWakeUpMeProvider);
+        },
+        child: userInfo.when(
+            data: (user) {
+              return wakeUpMe.when(
+                data: (letters) {
+                  if (letters.letter.isEmpty || letters.letter == "") {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      color: AppColors.rabbitwake,
+                      child: Center(
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          //상대가 아직 깨워주지 않았어요
+                          100.heightBox,
+                          WakeUpStatus(AppLocalizations.of(context)!.wakeupmenotyet),
+                          const Image(
+                            image: AssetImage('assets/images/rabbitwake.png'),
+                            height: Constants.pngSize,
+                            opacity: AlwaysStoppedAnimation<double>(0.3),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                                ]),
+                            child: Column(
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    user.uid == letters.senderUid
+                                        ? ClipRRect(
+                                            borderRadius: BorderRadius.circular(30),
+                                            child: CachedNetworkImage(width: 45, imageUrl: user.photoURL))
+                                        : ClipRRect(
+                                            borderRadius: BorderRadius.circular(30),
+                                            child: CachedNetworkImage(
+                                                width: 45, imageUrl: user.couplePhotoURL ?? user.photoURL)),
+                                    10.widthBox,
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: MediaQuery.of(context).size.width - 120,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              user.uid == letters.senderUid
+                                                  ? user.displayName.text.size(14).bold.make()
+                                                  : user.coupleDisplayName!.text.size(14).bold.make(),
+                                              Expanded(
+                                                child: Container(),
+                                              ),
+                                              DateFormat("hh:mm")
+                                                  .format(letters.wakeTime)
+                                                  .toString()
+                                                  .text
+                                                  .size(10)
+                                                  .make()
+                                                  .pSymmetric(h: 14),
+                                              PopupMenuButton(
+                                                itemBuilder: (context) {
+                                                  if (letters.wakeTime.isBefore(DateTime.now())) {
+                                                    return [
+                                                      PopupMenuItem(
+                                                        onTap: () {
+                                                          showToast(AppLocalizations.of(context)!.nodeletepast);
+                                                        },
+                                                        child: Text(AppLocalizations.of(context)!.delete),
+                                                      ),
+                                                    ];
+                                                  }
+                                                  return [
+                                                    PopupMenuItem(
+                                                      onTap: () {},
+                                                      child: Text(AppLocalizations.of(context)!.edit),
+                                                    ),
+                                                    PopupMenuItem(
+                                                      onTap: () {
+                                                        ref
+                                                            .watch(wakeUpControllerProvider.notifier)
+                                                            .letterDelete(letters.wakeUpUid);
+                                                        showToast(AppLocalizations.of(context)!.deleted);
+                                                      },
+                                                      child: Text(AppLocalizations.of(context)!.delete),
+                                                    ),
+                                                  ];
+                                                },
+                                              ).box.height(32).make(),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: MediaQuery.of(context).size.width - 140,
+                                          child: SelectableText(
+                                              scrollPhysics: const NeverScrollableScrollPhysics(), letters.letter),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                letters.letterPhoto.isEmpty
+                                    ? Container()
+                                    : Container(
+                                        width: MediaQuery.of(context).size.width - 70,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(30),
+                                          color: Colors.grey,
+                                        ),
+                                        clipBehavior: Clip.hardEdge,
+                                        child: CachedNetworkImage(
+                                          imageUrl: letters.letterPhoto.toString(),
+                                          placeholder: (context, url) => Container(
+                                            height: 70,
+                                          ),
+                                          fit: BoxFit.cover,
+                                          width: MediaQuery.of(context).size.width - 90,
+                                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                                        ),
+                                      ),
+                                letters.answer.isEmpty
+                                    ? Container()
+                                    : Container(
+                                        width: MediaQuery.of(context).size.width - 90,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(30),
+                                          color: Colors.grey.shade200,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 1,
+                                              blurRadius: 1,
+                                              offset: const Offset(0, 1), // changes position of shadow
+                                            ),
+                                          ],
+                                        ),
+                                        clipBehavior: Clip.hardEdge,
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                user.uid == letters.reciverUid
+                                                    ? ClipRRect(
+                                                        borderRadius: BorderRadius.circular(25),
+                                                        child: CachedNetworkImage(width: 40, imageUrl: user.photoURL))
+                                                    : ClipRRect(
+                                                        borderRadius: BorderRadius.circular(25),
+                                                        child: CachedNetworkImage(
+                                                            width: 40, imageUrl: user.couplePhotoURL ?? user.photoURL)),
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    user.uid == letters.reciverUid
+                                                        ? user.displayName.text.size(14).bold.make()
+                                                        : user.coupleDisplayName!.text.size(14).bold.make(),
+                                                    letters.answer.text
+                                                        .make()
+                                                        .box
+                                                        .width(MediaQuery.of(context).size.width - 190)
+                                                        .make(),
+                                                  ],
+                                                ).pSymmetric(h: 10),
+                                              ],
+                                            ),
+                                            5.heightBox,
+                                            Container(
+                                              width: MediaQuery.of(context).size.width - 90,
+                                              clipBehavior: Clip.hardEdge,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(30),
+                                              ),
+                                              child: letters.answerPhoto.isEmpty
+                                                  ? Container()
+                                                  : CachedNetworkImage(
+                                                      fit: BoxFit.fill, imageUrl: letters.answerPhoto.toString()),
+                                            ),
+                                          ],
+                                        ).p(15),
+                                      ).pSymmetric(v: 20),
+                              ],
+                            ).p(10),
+                          ).pSymmetric(h: 20, v: 10),
+                        ],
+                      )),
+                    );
+                  }
+                  if (letters.isApproved == true || isApproved == true) {
+                    return GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          color: AppColors.rabbitspeak,
+                          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                            100.heightBox,
+                            WakeUpStatus(AppLocalizations.of(context)!.wakeupmeapproved),
+                            Text(
+                                "${DateFormat('hh:mm').format(letters.wakeTime)}${AppLocalizations.of(context)!.wakeupmeat}"),
+                            const Image(
+                              image: AssetImage('assets/images/rabbitspeak.png'),
+                              height: 220,
+                            ),
+                          ])),
+                    );
+                  }
+                  return GestureDetector(
+                    onTap: () {
+                      if (letters.letterAudio.isNotEmpty || letters.letterAudio != "") {
+                        saveToFile(letters.letterAudio);
+                      }
+
+                      Platform.isIOS
+                          ? showCupertinoDialog(
+                              context: context,
+                              builder: (context) => CupertinoAlertDialog(
+                                title: Text(AppLocalizations.of(context)!.alarm),
+                                content: Text(AppLocalizations.of(context)!.wakeupmenotapproved),
+                                actions: [
+                                  CupertinoDialogAction(
+                                    onPressed: () => Navigator.of(context).pop(),
+                                    child: Text(AppLocalizations.of(context)!.no),
+                                  ),
+                                  CupertinoDialogAction(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      ref
+                                          .watch(wakeUpControllerProvider.notifier)
+                                          .wakeUpAprove(letters.reciverUid, letters.senderUid, letters.wakeUpUid);
+                                      selectedDateTime = letters.wakeTime;
+                                      selectedTime =
+                                          TimeOfDay(hour: letters.wakeTime.hour, minute: letters.wakeTime.minute);
+                                      setState(() {
+                                        loading = true;
+                                        isApproved = true;
+                                      });
+                                      Alarm.set(alarmSettings: buildAlarmSettings(selectedTime, letters.letterAudio))
+                                          .then((res) {});
+                                      setState(() => loading = false);
+                                      context.goNamed(MainScreen.routeName);
+                                    },
+                                    isDestructiveAction: true,
+                                    child: Text(AppLocalizations.of(context)!.yes),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(AppLocalizations.of(context)!.alarm),
+                                  content: Text(AppLocalizations.of(context)!.wakeupmenotapproved),
+                                  actions: [
+                                    IconButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: const Icon(
+                                        Icons.cancel,
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        ref
+                                            .watch(wakeUpControllerProvider.notifier)
+                                            .wakeUpAprove(letters.reciverUid, letters.senderUid, letters.wakeUpUid);
+                                        selectedDateTime = letters.wakeTime;
+                                        selectedTime =
+                                            TimeOfDay(hour: letters.wakeTime.hour, minute: letters.wakeTime.minute);
+                                        setState(() {
+                                          loading = true;
+                                          isApproved = true;
+                                        });
+                                        Alarm.set(alarmSettings: buildAlarmSettings(selectedTime, letters.letterAudio))
+                                            .then((res) {});
+                                        setState(() => loading = false);
+                                        context.goNamed(MainScreen.routeName);
+                                      },
+                                      icon: const Icon(
+                                        Icons.done,
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              });
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: AppColors.rabbitalarm,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          100.heightBox,
+                          WakeUpStatus(AppLocalizations.of(context)!.wakeupmenotapproved),
+                          const Image(
+                            image: AssetImage('assets/images/rabbitalarm.png'),
+                            height: 220,
+                          ),
+                          if (kDebugMode)
+                            Text(
+                              "w1ow this is kDebugMode2 ${letters.toString()}",
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (err, stack) {
+                  logger.e(err);
+
+                  return Center(
+                    child: Text(
+                      AppLocalizations.of(context)!.erroruser,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  );
+                },
+              );
+            },
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (err, stack) {
+              logger.e(err);
+
+              return Center(
+                child: Text(
+                  AppLocalizations.of(context)!.erroruser,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              );
+            }));
   }
+}
+
+class Wowjustimage extends StatelessWidget {
+  const Wowjustimage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      // appBar: AppBar(
-      //   title: Text(AppLocalizations.of(context)!.wakeupbear),
-      // ),
-      body: WakeUpMeImageScreen(),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height - 110,
+      color: AppColors.sleepingbear,
+      child: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          //상대가 아직 깨워주지 않았어요
+          100.heightBox,
+          WakeUpStatus(AppLocalizations.of(context)!.wakeupmenotyet),
+          const Image(
+            image: AssetImage('assets/images/rabbitwake.png'),
+            height: 220,
+            opacity: AlwaysStoppedAnimation<double>(0.3),
+          )
+        ],
+      )),
     );
   }
 }

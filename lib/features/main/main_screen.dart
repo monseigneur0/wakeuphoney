@@ -39,7 +39,7 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  int selectedIndex = 3;
+  int selectedIndex = 0;
   Logger logger = Logger();
 
   late List<AlarmSettings> alarms;
@@ -112,7 +112,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       // const WakeUpVoiceScreen(),
       const WakeUpMeScreen(),
       const WakeUpYouScreen(),
-      if (kDebugMode) const WakeMeScreen(),
+      // if (kDebugMode) const WakeMeScreen(),
       if (kDebugMode) const WakeYouScreen(),
       const WakeUpFeedScreen(),
       // const ListAudio(),
@@ -175,11 +175,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                             icon: const Icon(Icons.local_post_office_outlined),
                             label: AppLocalizations.of(context)!.write,
                           ),
-                          if (kDebugMode)
-                            const BottomNavigationBarItem(
-                              icon: Icon(Icons.home_outlined),
-                              label: "me",
-                            ),
+                          // if (kDebugMode)
+                          //   const BottomNavigationBarItem(
+                          //     icon: Icon(Icons.home_outlined),
+                          //     label: "me",
+                          //   ),
                           if (kDebugMode)
                             const BottomNavigationBarItem(
                               icon: Icon(Icons.home_outlined),
@@ -199,8 +199,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                               label: "Manager",
                             ),
 
-                          if (user.uid == "WvELgU4cO6gOeyzfu92j3k9vuBH2" &&
-                              !kDebugMode)
+                          if (user.uid == "WvELgU4cO6gOeyzfu92j3k9vuBH2" && !kDebugMode)
                             const BottomNavigationBarItem(
                               icon: Icon(Icons.not_interested),
                               label: "Manager",
@@ -225,14 +224,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             return Scaffold(
                 body: GestureDetector(
                     onTap: () {
-                      ref
-                          .watch(authControllerProvider.notifier)
-                          .logout(context);
+                      ref.watch(authControllerProvider.notifier).logout(context);
                     },
                     child: const Center(child: Text('An error occurred'))));
           },
-          loading: () =>
-              const Scaffold(body: Center(child: CircularProgressIndicator())),
+          loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
         );
       },
       error: (error, stackTrace) => const MatchScreen(),
