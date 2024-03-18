@@ -1,27 +1,18 @@
 import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakeuphoney/features/auth/user_model.dart';
-import 'package:wakeuphoney/core/image/image_full_screen.dart';
-import 'package:wakeuphoney/core/image/image_screen.dart';
-import 'package:wakeuphoney/features/profile/profile_controller.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wakeuphoney/features/profile/profile_edit_screen.dart';
-
-import '../../core/common/loader.dart';
-import '../../core/providers/providers.dart';
-import '../../widgets/drawer.dart';
 import 'dart:math';
 
-import 'package:logger/logger.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../core/constants/design_constants.dart';
+import 'package:wakeuphoney/core/common/common.dart';
+
+import '../../core/image/image_full_screen.dart';
 import '../auth/login_screen.dart';
+import '../auth/user_model.dart';
+import 'profile_controller.dart';
+import 'profile_edit_screen.dart';
 
 class CoupleProfileScreen extends ConsumerStatefulWidget {
   static String routeName = "coupleprofilescreen";
@@ -29,8 +20,7 @@ class CoupleProfileScreen extends ConsumerStatefulWidget {
   const CoupleProfileScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _CoupleProfileScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CoupleProfileScreenState();
 }
 
 class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
@@ -137,8 +127,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                             padding: const EdgeInsets.all(5.0),
                             child: Text(
                               messageList[randomNum],
-                              style: const TextStyle(
-                                  color: Colors.black, fontSize: 15),
+                              style: const TextStyle(color: Colors.black, fontSize: 15),
                             ),
                           ),
                         ),
@@ -147,8 +136,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                     AnimatedOpacity(
                       opacity: _visiblebear ? 1.0 : 0.0,
                       duration: const Duration(milliseconds: 0),
-                      child:
-                          CustomPaint(painter: Triangle(Colors.grey.shade400)),
+                      child: CustomPaint(painter: Triangle(Colors.grey.shade400)),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height / 40),
                     IconButton(
@@ -260,12 +248,7 @@ class ProfileImage extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 10,
-                offset: const Offset(8, 8))
-          ]),
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -277,18 +260,12 @@ class ProfileImage extends StatelessWidget {
                 data: (data) => GestureDetector(
                   onTap: () => context.push(Uri(
                       path: ImageFullScreen.routeURL,
-                      queryParameters: {
-                        'filter': data.photoURL,
-                        'herotag': herotag
-                      }).toString()),
+                      queryParameters: {'filter': data.photoURL, 'herotag': herotag}).toString()),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(60),
                       boxShadow: [
-                        BoxShadow(
-                            blurRadius: 10,
-                            offset: const Offset(8, 8),
-                            color: Colors.black.withOpacity(0.3))
+                        BoxShadow(blurRadius: 10, offset: const Offset(8, 8), color: Colors.black.withOpacity(0.3))
                       ],
                     ),
                     child: ClipRRect(
@@ -302,8 +279,7 @@ class ProfileImage extends StatelessWidget {
                           placeholder: (context, url) => Container(
                             height: 40,
                           ),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
                         ),
                       ),
                     ),
@@ -324,9 +300,7 @@ class ProfileImage extends StatelessWidget {
             ),
             userCoupleProfileStream.when(
               data: (data) => Text(
-                data.displayName.length < 8
-                    ? data.displayName
-                    : "${data.displayName.substring(0, 8)}..",
+                data.displayName.length < 8 ? data.displayName : "${data.displayName.substring(0, 8)}..",
                 style: const TextStyle(
                   fontSize: 24,
                   color: Colors.black,

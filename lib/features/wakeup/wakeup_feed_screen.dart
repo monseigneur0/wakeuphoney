@@ -1,14 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wakeuphoney/core/common/common.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:velocity_x/velocity_x.dart';
 
-import '../../core/common/loader.dart';
-import '../../core/utils.dart';
 import '../profile/profile_controller.dart';
 import 'wakeup_controller.dart';
 
@@ -104,7 +100,7 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                                     Expanded(
                                                       child: Container(),
                                                     ),
-                                                    DateFormat("hh:mm")
+                                                    DateFormat("HH:mm")
                                                         .format(letters[index].wakeTime)
                                                         .toString()
                                                         .text

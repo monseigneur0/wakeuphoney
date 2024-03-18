@@ -2,18 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:logger/logger.dart';
-import 'package:wakeuphoney/practice_home_screen.dart';
+import 'package:wakeuphoney/core/common/common.dart';
 
-import '../features/alarm/alarm_screen.dart';
-import '../features/auth/auth_controller.dart';
-import '../features/auth/auth_repository.dart';
-import '../features/auth/login_screen.dart';
-import '../features/profile/feedback_screen.dart';
-
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../features/alarm/alarm_screen.dart';
+import '../../features/auth/auth_controller.dart';
+import '../../features/auth/auth_repository.dart';
+import '../../features/auth/login_screen.dart';
+import '../../features/profile/feedback_screen.dart';
 
 class ProfileDrawer extends StatelessWidget {
   const ProfileDrawer({
@@ -78,8 +74,7 @@ class ProfileDrawer extends StatelessWidget {
             onTap: () {
               context.pushNamed(AlarmHome.routeName);
             },
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             leading: const Icon(
               Icons.alarm,
               color: Colors.white,
@@ -93,8 +88,7 @@ class ProfileDrawer extends StatelessWidget {
             onTap: () {
               context.pushNamed(FeedbackScreen.routeName);
             },
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             leading: const Icon(
               Icons.feedback_outlined,
               color: Colors.white,
@@ -130,8 +124,7 @@ class ProfileDrawer extends StatelessWidget {
                       ),
                     );
                   },
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   leading: const Icon(Icons.exit_to_app),
                   title: Text(
                     AppLocalizations.of(context)!.logout,
@@ -172,8 +165,7 @@ class ProfileDrawer extends StatelessWidget {
                           );
                         });
                   },
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   leading: const Icon(Icons.exit_to_app),
                   title: Text(
                     AppLocalizations.of(context)!.logout,
@@ -225,8 +217,7 @@ class ProfileDrawer extends StatelessWidget {
                       ),
                     );
                   },
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   leading: const Icon(Icons.exit_to_app),
                   title: Text(
                     AppLocalizations.of(context)!.delete,
@@ -241,8 +232,7 @@ class ProfileDrawer extends StatelessWidget {
                         builder: (context) {
                           return AlertDialog(
                             title: Text(AppLocalizations.of(context)!.delete),
-                            content:
-                                Text(AppLocalizations.of(context)!.deletesure),
+                            content: Text(AppLocalizations.of(context)!.deletesure),
                             actions: [
                               IconButton(
                                 onPressed: () {
@@ -256,9 +246,7 @@ class ProfileDrawer extends StatelessWidget {
                               IconButton(
                                 onPressed: () {
                                   context.goNamed(LoginHome.routeName);
-                                  ref
-                                      .watch(authRepositoryProvider)
-                                      .deleteUser();
+                                  ref.watch(authRepositoryProvider).deleteUser();
                                   Navigator.of(context).pop();
                                 },
                                 icon: const Icon(
@@ -270,8 +258,7 @@ class ProfileDrawer extends StatelessWidget {
                           );
                         });
                   },
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   leading: const Icon(Icons.exit_to_app),
                   title: Text(
                     AppLocalizations.of(context)!.delete,

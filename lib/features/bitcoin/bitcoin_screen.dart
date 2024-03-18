@@ -40,7 +40,7 @@ class _BitcoinScreenState extends State<BitcoinScreen> {
 
       if (DateTime.now().difference(lastUpdatedTime) > intervalDuration) {
         lastUpdatedTime = DateTime.now();
-        if (mounted) {
+        if (context.mounted) {
           setState(() {
             maxPrice = max(maxPrice, price);
             priceList.add(price);

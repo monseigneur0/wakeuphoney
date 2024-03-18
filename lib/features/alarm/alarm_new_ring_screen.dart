@@ -7,7 +7,7 @@ import 'package:velocity_x/velocity_x.dart';
 
 import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
-import '../wake/response_screen.dart';
+
 import '../profile/profile_controller.dart';
 import '../wakeup/wakeup_controller.dart';
 
@@ -48,16 +48,14 @@ class _AlarmNewScreen extends ConsumerState<AlarmNewScreen> {
                         Container(
                           width: MediaQuery.of(context).size.width,
                           clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20)),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
                           child: letter.letterPhoto.isNotEmpty
                               ? CachedNetworkImage(
                                   imageUrl: letter.letterPhoto,
                                   placeholder: (context, url) => Container(
                                     height: 70,
                                   ),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
+                                  errorWidget: (context, url, error) => const Icon(Icons.error),
                                 )
                               : Container(),
                         ),
@@ -65,9 +63,7 @@ class _AlarmNewScreen extends ConsumerState<AlarmNewScreen> {
                           height: 20,
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(20)),
+                          decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(20)),
                           child: Padding(
                             padding: const EdgeInsets.all(15),
                             child: Column(
@@ -128,19 +124,16 @@ class _AlarmNewScreen extends ConsumerState<AlarmNewScreen> {
                           ElevatedButton(
                             style: const ButtonStyle(
                               iconSize: MaterialStatePropertyAll(30),
-                              backgroundColor:
-                                  MaterialStatePropertyAll(Colors.grey),
+                              backgroundColor: MaterialStatePropertyAll(Colors.grey),
                             ),
                             onPressed: () {
                               context.pop();
                             },
                             child: Padding(
-                              padding: EdgeInsets.all(
-                                  MediaQuery.of(context).size.width / 15),
+                              padding: EdgeInsets.all(MediaQuery.of(context).size.width / 15),
                               child: const Text(
                                 "종료하기",
-                                style: TextStyle(
-                                    fontSize: 25, color: Colors.white),
+                                style: TextStyle(fontSize: 25, color: Colors.white),
                               ),
                             ),
                           ),
@@ -150,20 +143,16 @@ class _AlarmNewScreen extends ConsumerState<AlarmNewScreen> {
                           data.couple == ""
                               ? Container()
                               : ElevatedButton(
-                                  style: const ButtonStyle(
-                                      backgroundColor: MaterialStatePropertyAll(
-                                          AppColors.myPink)),
+                                  style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppColors.myPink)),
                                   onPressed: () {
                                     // context.goNamed(ResponseScreen.routeName);
                                     context.pop();
                                   },
                                   child: Padding(
-                                    padding: EdgeInsets.all(
-                                        MediaQuery.of(context).size.width / 15),
+                                    padding: EdgeInsets.all(MediaQuery.of(context).size.width / 15),
                                     child: const Text(
                                       "답장하기",
-                                      style: TextStyle(
-                                          fontSize: 25, color: Colors.white),
+                                      style: TextStyle(fontSize: 25, color: Colors.white),
                                     ),
                                   ),
                                 ),

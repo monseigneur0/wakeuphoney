@@ -10,10 +10,8 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wakeuphoney/core/common/common.dart';
 
-import 'core/constants/design_constants.dart';
-import 'core/providers/firebase_providers.dart';
 import 'features/auth/auth_repository.dart';
 import 'firebase_options.dart';
 import 'router.dart';
@@ -47,6 +45,7 @@ void main() async {
 class WakeUpHoney extends ConsumerWidget {
   const WakeUpHoney({super.key});
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -63,16 +62,13 @@ class WakeUpHoney extends ConsumerWidget {
           return GoogleFonts.notoSans().fontFamily;
         // Add cases for other languages as needed
         default:
-          return GoogleFonts.raleway()
-              .fontFamily; // Use a default for unsupported languages
+          return GoogleFonts.raleway().fontFamily; // Use a default for unsupported languages
       }
     }
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      routerConfig: isLoggedIn
-          ? ref.watch(routerProvider)
-          : ref.watch(logOutRouterProvider),
+      routerConfig: isLoggedIn ? ref.watch(routerProvider) : ref.watch(logOutRouterProvider),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

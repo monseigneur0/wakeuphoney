@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:logger/logger.dart';
-import 'package:velocity_x/velocity_x.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wakeuphoney/core/common/common.dart';
 
-import '../../core/constants/constants.dart';
-import '../../core/constants/design_constants.dart';
 import 'wakeup_controller.dart';
-import 'wakeup_edit_screen.dart';
+import 'wakeup_write_screen.dart';
 import 'wakeup_status.dart';
 
 class WakeUpYouScreen extends ConsumerStatefulWidget {
   const WakeUpYouScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _WakeUpYouScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _WakeUpYouScreenState();
 }
 
 class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
@@ -37,7 +31,7 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                   80.heightBox,
                   GestureDetector(
                       onTap: () {
-                        context.pushNamed(WakeUpEditScreen.routeName);
+                        context.pushNamed(WakeUpWriteScreen.routeName);
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.6,
@@ -47,9 +41,7 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                             color: AppColors.rabbitspeak,
                             boxShadow: [
                               BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 10,
-                                  offset: const Offset(8, 8))
+                                  color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
                             ]),
                         // color: AppColors.rabbitspeak,
                         child: Column(
@@ -79,8 +71,7 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                               ),
                             ).pSymmetric(h: 10, v: 10),
                             const Image(
-                              image:
-                                  AssetImage('assets/images/sleepingbear.png'),
+                              image: AssetImage('assets/images/sleepingbear.png'),
                               height: Constants.pngSize,
                             ),
                           ],
@@ -93,31 +84,25 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                   color: AppColors.rabbitspeak,
                   width: MediaQuery.of(context).size.width,
                   // height: MediaQuery.of(context).size.height,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        WakeUpStatus(
-                            AppLocalizations.of(context)!.wakeupapproved),
-                        const Image(
-                          image: AssetImage('assets/images/rabbitspeak.jpeg'),
-                          height: 220,
-                        )
-                      ]));
+                  child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    WakeUpStatus(AppLocalizations.of(context)!.wakeupapproved),
+                    const Image(
+                      image: AssetImage('assets/images/rabbitspeak.jpeg'),
+                      height: 220,
+                    )
+                  ]));
             }
             return Container(
                 color: AppColors.awakebear,
                 width: MediaQuery.of(context).size.width,
                 // height: MediaQuery.of(context).size.height,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      WakeUpStatus(
-                          AppLocalizations.of(context)!.wakeupnotapproved),
-                      const Image(
-                        image: AssetImage('assets/images/awakebear.jpeg'),
-                        height: 220,
-                      ),
-                    ]));
+                child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  WakeUpStatus(AppLocalizations.of(context)!.wakeupnotapproved),
+                  const Image(
+                    image: AssetImage('assets/images/awakebear.jpeg'),
+                    height: 220,
+                  ),
+                ]));
           },
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (err, stack) {

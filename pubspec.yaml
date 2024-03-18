@@ -51,7 +51,9 @@ dependencies:
   google_sign_in: ^6.2.0
   sign_in_with_apple: ^5.0.0
   google_mobile_ads: ^4.0.0
-  firebase_storage: ^11.5.5
+  firebase_storage: ^11.6.10
+  firebase_messaging: ^14.7.20
+
 
   shared_preferences: ^2.2.2
   cached_network_image: ^3.3.0

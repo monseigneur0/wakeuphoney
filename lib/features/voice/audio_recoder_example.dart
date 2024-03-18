@@ -33,9 +33,7 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
       _updateRecordState(recordState);
     });
 
-    _amplitudeSub = _audioRecorder
-        .onAmplitudeChanged(const Duration(milliseconds: 300))
-        .listen((amp) {
+    _amplitudeSub = _audioRecorder.onAmplitudeChanged(const Duration(milliseconds: 300)).listen((amp) {
       setState(() => _amplitude = amp);
     });
 
@@ -134,8 +132,8 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
             _buildRecordStopControl(),
             const SizedBox(width: 20),
             _buildPauseResumeControl(),
-            const SizedBox(width: 20),
-            _buildText(),
+            // const SizedBox(width: 20),
+            // _buildText(),
           ],
         ),
         if (_amplitude != null) ...[
@@ -221,7 +219,7 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
       return _buildTimer();
     }
 
-    return const Text("Waiting to record");
+    return const Text("record");
   }
 
   Widget _buildTimer() {

@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/core/constants/design_constants.dart';
 import 'package:wakeuphoney/features/auth/auth_controller.dart';
 
+import 'package:wakeuphoney/core/common/common.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wakeuphoney/features/auth/login_email_screen.dart';
 
@@ -95,8 +96,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             messageList[randomNum],
-                            style: const TextStyle(
-                                color: Colors.black, fontSize: 15),
+                            style: const TextStyle(color: Colors.black, fontSize: 15),
                           ),
                         ),
                       ),
@@ -193,13 +193,10 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
               // ),
               Platform.isIOS
                   ? Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 18, vertical: 9),
+                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          ref
-                              .watch(authControllerProvider.notifier)
-                              .signInWithApple(context);
+                          ref.watch(authControllerProvider.notifier).signInWithApple(context);
                         },
                         icon: Image.asset(
                           'assets/apple.png',
@@ -207,8 +204,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                         ),
                         label: Text(
                           AppLocalizations.of(context)!.applelogin,
-                          style: const TextStyle(
-                              fontSize: 18, color: Colors.black),
+                          style: const TextStyle(fontSize: 18, color: Colors.black),
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
@@ -223,13 +219,10 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
               SizedBox(height: height / 80),
 
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    ref
-                        .watch(authControllerProvider.notifier)
-                        .signInWithGoogle(context);
+                    ref.watch(authControllerProvider.notifier).signInWithGoogle(context);
                   },
                   icon: Image.asset(
                     'assets/google.png',

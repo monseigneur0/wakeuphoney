@@ -1,30 +1,26 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:wakeuphoney/core/common/common.dart';
 
-import '../../core/constants/design_constants.dart';
-import '../../widgets/alarm_tile.dart';
+import '../../core/widgets/alarm_tile.dart';
 
 import 'alarm_edit_screen.dart';
 import 'alarm_new_ring_screen.dart';
 import 'alarm_ring_screen.dart';
 
-final alarmSettingsProvider =
-    StateProvider<AlarmSettings>((ref) => AlarmSettings(
-          id: 112,
-          dateTime: DateTime.now(),
-          assetAudioPath: 'assets/mozart.mp3',
-          volume: 0.5,
-          notificationTitle: 'Alarm example',
-          notificationBody: 'Shortcut button alarm with delay of n hours',
-        ));
+final alarmSettingsProvider = StateProvider<AlarmSettings>((ref) => AlarmSettings(
+      id: 112,
+      dateTime: DateTime.now(),
+      assetAudioPath: 'assets/mozart.mp3',
+      volume: 0.5,
+      notificationTitle: 'Alarm example',
+      notificationBody: 'Shortcut button alarm with delay of n hours',
+    ));
 
 class AlarmHome extends StatefulWidget {
   static String routeName = "alarm";
@@ -51,6 +47,11 @@ class AlarmHomeState extends State<AlarmHome> {
       checkAndroidNotificationPermission();
       checkAndroidExternalStoragePermission();
     }
+
+    if (subscription != null) {
+      subscription?.cancel();
+    }
+
     loadAlarms();
     subscription ??= Alarm.ringStream.stream.listen(
       (alarmSettings) => navigateToRingScreen(alarmSettings),
@@ -186,8 +187,7 @@ class AlarmHomeState extends State<AlarmHome> {
                         ).format(context),
                         onPressed: () => navigateToAlarmScreen(alarms[index]),
                         onDismissed: () {
-                          Alarm.stop(alarms[index].id)
-                              .then((_) => loadAlarms());
+                          Alarm.stop(alarms[index].id).then((_) => loadAlarms());
                         },
                       );
                     },

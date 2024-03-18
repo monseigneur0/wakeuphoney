@@ -1,6 +1,7 @@
 import 'package:alarm/alarm.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:wakeuphoney/core/common/common.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -33,8 +34,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
 
   late List<bool> days;
 
-  late AlarmDaySettings alarmDaySettings =
-      AlarmDaySettings(alarmSettings: widget.alarmSettings);
+  late AlarmDaySettings alarmDaySettings = AlarmDaySettings(alarmSettings: widget.alarmSettings);
 
   late TimeOfDay selectedTime;
   late Time _time;
@@ -48,8 +48,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
     if (creating) {
       selectedDateTime = DateTime.now().add(const Duration(minutes: 1));
       selectedDateTime = selectedDateTime.copyWith(second: 0, millisecond: 0);
-      selectedTime = TimeOfDay(
-          hour: selectedDateTime.hour, minute: selectedDateTime.minute);
+      selectedTime = TimeOfDay(hour: selectedDateTime.hour, minute: selectedDateTime.minute);
       loopAudio = true;
       vibrate = true;
       volume = null;
@@ -73,8 +72,8 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
       loopAudio = widget.alarmSettings!.loopAudio;
       vibrate = widget.alarmSettings!.vibrate;
       volume = widget.alarmSettings!.volume;
-      showNotification = widget.alarmSettings!.notificationTitle.isNotEmpty &&
-          widget.alarmSettings!.notificationBody.isNotEmpty;
+      showNotification =
+          widget.alarmSettings!.notificationTitle.isNotEmpty && widget.alarmSettings!.notificationBody.isNotEmpty;
       assetAudio = widget.alarmSettings!.assetAudioPath;
       // days = widget.alarmSettings!.days;
     }
@@ -140,9 +139,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
 
   AlarmSettings buildAlarmSettings() {
     final now = DateTime.now();
-    final id = creating
-        ? DateTime.now().millisecondsSinceEpoch % 100000
-        : widget.alarmSettings!.id;
+    final id = creating ? DateTime.now().millisecondsSinceEpoch % 100000 : widget.alarmSettings!.id;
 
     DateTime dateTime = DateTime(
       now.year,
@@ -198,8 +195,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
   }
 
   printIntAsDay(int day) {
-    logger.d(
-        'Received integer: $day. Corresponds to day: ${intDayToEnglish(day)}');
+    logger.d('Received integer: $day. Corresponds to day: ${intDayToEnglish(day)}');
   }
 
   @override
@@ -218,53 +214,32 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 10,
-                          offset: const Offset(8, 8))
-                    ]),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+                  BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                ]),
                 child: TextButton(
                   onPressed: () => Navigator.pop(context, false),
                   child: Text(
                     AppLocalizations.of(context)!.cancel,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge!
-                        .copyWith(color: AppColors.myPink),
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: AppColors.myPink),
                   ),
                 ).pSymmetric(h: 10, v: 5),
               ),
               Text(
                 getDay(),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(color: Colors.black.withOpacity(0.8)),
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.black.withOpacity(0.8)),
               ),
               Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 10,
-                          offset: const Offset(8, 8))
-                    ]),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+                  BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                ]),
                 child: TextButton(
                   onPressed: saveAlarm,
                   child: loading
                       ? const CircularProgressIndicator()
                       : Text(
                           AppLocalizations.of(context)!.save,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(color: AppColors.myPink),
+                          style: Theme.of(context).textTheme.titleLarge!.copyWith(color: AppColors.myPink),
                         ),
                 ).pSymmetric(h: 10, v: 5),
               )
@@ -275,21 +250,12 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
             onTap: pickTime,
             child: Container(
               padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 10,
-                        offset: const Offset(8, 8))
-                  ]),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+                BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+              ]),
               child: Text(
                 selectedTime.format(context),
-                style: Theme.of(context)
-                    .textTheme
-                    .displayMedium!
-                    .copyWith(color: Colors.black, fontSize: 30),
+                style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.black, fontSize: 30),
               ),
             ),
           ),
@@ -310,15 +276,9 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
           //   textDirection: textDirection,
           // ),
           Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10,
-                      offset: const Offset(8, 8))
-                ]),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+              BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+            ]),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -334,15 +294,9 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
             ).pSymmetric(h: 20, v: 10),
           ),
           Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10,
-                      offset: const Offset(8, 8))
-                ]),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+              BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+            ]),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -358,15 +312,9 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
             ).pSymmetric(h: 20, v: 10),
           ),
           Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10,
-                      offset: const Offset(8, 8))
-                ]),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+              BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+            ]),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -376,8 +324,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                 ),
                 Switch(
                   value: volume != null,
-                  onChanged: (value) =>
-                      setState(() => volume = value ? 0.8 : null),
+                  onChanged: (value) => setState(() => volume = value ? 0.8 : null),
                 ),
               ],
             ).pSymmetric(h: 20, v: 10),
@@ -408,15 +355,9 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                 : const SizedBox(),
           ),
           Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10,
-                      offset: const Offset(8, 8))
-                ]),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+              BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+            ]),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -471,10 +412,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
               onPressed: deleteAlarm,
               child: Text(
                 AppLocalizations.of(context)!.deletealarm,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(color: Colors.red),
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.red),
               ),
             ),
           const SizedBox(),
@@ -488,7 +426,5 @@ TextDirection getTextDirection(Locale locale) {
   // See GlobalWidgetsLocalizations
   // TODO: there must be a better way to figure out whether a locale is RTL or LTR
   const rtlLanguages = ['ar', 'fa', 'he', 'ps', 'sd', 'ur'];
-  return rtlLanguages.contains(locale.languageCode)
-      ? TextDirection.rtl
-      : TextDirection.ltr;
+  return rtlLanguages.contains(locale.languageCode) ? TextDirection.rtl : TextDirection.ltr;
 }

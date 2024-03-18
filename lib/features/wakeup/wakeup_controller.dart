@@ -9,43 +9,35 @@ import '../auth/auth_controller.dart';
 import 'wakeup_model.dart';
 import 'wakeup_repository.dart';
 
-final getWakeUpLettersListProvider = StreamProvider(
-    (ref) => ref.watch(wakeUpControllerProvider.notifier).getLettersList());
+final getWakeUpLettersListProvider =
+    StreamProvider((ref) => ref.watch(wakeUpControllerProvider.notifier).getLettersList());
 
-final getALetterforResponseProvider = FutureProvider.autoDispose<WakeUpModel>(
-    (ref) => ref
-        .watch(wakeUpControllerProvider.notifier)
-        .getALetterforResponse(ref.watch(authProvider).currentUser!.uid));
+final getALetterforResponseProvider = FutureProvider.autoDispose<WakeUpModel>((ref) =>
+    ref.watch(wakeUpControllerProvider.notifier).getALetterforResponse(ref.watch(authProvider).currentUser!.uid));
 
 final getTomorrowWakeUpMeProvider = FutureProvider.autoDispose<WakeUpModel>(
-    (ref) => ref
-        .watch(wakeUpControllerProvider.notifier)
-        .getTomorrowWakeUpMeProvider());
+    (ref) => ref.watch(wakeUpControllerProvider.notifier).getTomorrowWakeUpMeProvider());
 final getTomorrowWakeUpYouProvider = FutureProvider.autoDispose<WakeUpModel>(
-    (ref) => ref
-        .watch(wakeUpControllerProvider.notifier)
-        .getTomorrowWakeUpYouProvider());
+    (ref) => ref.watch(wakeUpControllerProvider.notifier).getTomorrowWakeUpYouProvider());
 
-final getAWakeUpProvider = FutureProvider.autoDispose<WakeUpModel>(
-    (ref) => ref.watch(wakeUpControllerProvider.notifier).getAWakeUpLetter());
+final getAWakeUpProvider =
+    FutureProvider.autoDispose<WakeUpModel>((ref) => ref.watch(wakeUpControllerProvider.notifier).getAWakeUpLetter());
 
 final wakeUpControllerProvider = StateNotifierProvider<WakeUpController, bool>(
-    (ref) => WakeUpController(
-        wakeUpRepository: ref.watch(wakeUpRepositoryProvider), ref: ref));
+    (ref) => WakeUpController(wakeUpRepository: ref.watch(wakeUpRepositoryProvider), ref: ref));
 
 class WakeUpController extends StateNotifier<bool> {
   final WakeUpRepository _wakeUpRepository;
   final Ref _ref;
 
-  WakeUpController(
-      {required WakeUpRepository wakeUpRepository, required Ref ref})
+  WakeUpController({required WakeUpRepository wakeUpRepository, required Ref ref})
       : _wakeUpRepository = wakeUpRepository,
         _ref = ref,
         super(false);
   Logger logger = Logger();
 
-  createWakeUp(DateTime wakeUpTime, String letter, String photoUrl,
-      String voiceUrl, double volumn, bool vibrate) async {
+  createWakeUp(
+      DateTime wakeUpTime, String letter, String photoUrl, String voiceUrl, double volumn, bool vibrate) async {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
@@ -83,6 +75,9 @@ class WakeUpController extends StateNotifier<bool> {
         answerVideo: "");
     _wakeUpRepository.createWakeUp(uid, wakeUpModel);
     _wakeUpRepository.createWakeUp(coupleUid, wakeUpModel);
+
+    _wakeUpRepository.createWakeUpAlarm(uid, wakeUpModel);
+    _wakeUpRepository.createWakeUpAlarm(coupleUid, wakeUpModel);
   }
 
   Stream<List<WakeUpModel>> getLettersList() {
@@ -101,9 +96,7 @@ class WakeUpController extends StateNotifier<bool> {
 
     final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
     String coupleUid;
-    coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple!
-        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+    coupleUidValue != null ? coupleUid = coupleUidValue.couple! : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
     if (coupleUid == "PyY5skHRgPJP0CMgI2Qp") logger.d("noooooooo $coupleUid");
 
     _wakeUpRepository.letterEditMessage(uid, letterId, message);
@@ -129,23 +122,18 @@ class WakeUpController extends StateNotifier<bool> {
     return _wakeUpRepository.getALetterforResponse(uid);
   }
 
-  createResponseLetter(
-      String wakeUpUid, String responseLetter, String imageUrl) {
+  createResponseLetter(String wakeUpUid, String responseLetter, String imageUrl) {
     User? auser = _ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
 
     final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
     String coupleUid;
-    coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple!
-        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+    coupleUidValue != null ? coupleUid = coupleUidValue.couple! : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
     if (coupleUid == "PyY5skHRgPJP0CMgI2Qp") logger.d("noooooooo $coupleUid");
 
-    _wakeUpRepository.createResponseLetter(
-        uid, wakeUpUid, responseLetter, imageUrl);
-    _wakeUpRepository.createResponseLetter(
-        coupleUid, wakeUpUid, responseLetter, imageUrl);
+    _wakeUpRepository.createResponseLetter(uid, wakeUpUid, responseLetter, imageUrl);
+    _wakeUpRepository.createResponseLetter(coupleUid, wakeUpUid, responseLetter, imageUrl);
   }
 
   Future<WakeUpModel> getTomorrowWakeUpYouProvider() {

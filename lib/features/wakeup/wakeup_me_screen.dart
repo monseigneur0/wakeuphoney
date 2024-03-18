@@ -1,5 +1,5 @@
-import 'dart:async';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
 import 'package:alarm/alarm.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -8,20 +8,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wakeuphoney/core/common/common.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:velocity_x/velocity_x.dart';
 
-import '../../core/constants/constants.dart';
-import '../../core/constants/design_constants.dart';
-import '../../core/utils.dart';
 import '../alarm/alarm_day_settings.dart';
-
-import 'package:http/http.dart' as http;
 
 import '../main/main_screen.dart';
 import '../profile/profile_controller.dart';
@@ -146,279 +138,248 @@ class WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
     final wakeUpMe = ref.watch(getTomorrowWakeUpMeProvider);
     final userInfo = ref.watch(getUserProfileStreamProvider);
     bool isApproved = false;
-    return RefreshIndicator(
-        onRefresh: () async {
-          ref.watch(getTomorrowWakeUpMeProvider);
-        },
-        child: userInfo.when(
-            data: (user) {
-              return wakeUpMe.when(
-                data: (letters) {
-                  if (letters.letter.isEmpty || letters.letter == "") {
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      color: AppColors.rabbitwake,
-                      child: Center(
-                          child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          //상대가 아직 깨워주지 않았어요
-                          100.heightBox,
-                          WakeUpStatus(AppLocalizations.of(context)!.wakeupmenotyet),
-                          const Image(
-                            image: AssetImage('assets/images/rabbitwake.png'),
-                            height: Constants.pngSize,
-                            opacity: AlwaysStoppedAnimation<double>(0.3),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-                                ]),
-                            child: Column(
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    user.uid == letters.senderUid
-                                        ? ClipRRect(
-                                            borderRadius: BorderRadius.circular(30),
-                                            child: CachedNetworkImage(width: 45, imageUrl: user.photoURL))
-                                        : ClipRRect(
-                                            borderRadius: BorderRadius.circular(30),
-                                            child: CachedNetworkImage(
-                                                width: 45, imageUrl: user.couplePhotoURL ?? user.photoURL)),
-                                    10.widthBox,
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context).size.width - 120,
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              user.uid == letters.senderUid
-                                                  ? user.displayName.text.size(14).bold.make()
-                                                  : user.coupleDisplayName!.text.size(14).bold.make(),
-                                              Expanded(
-                                                child: Container(),
-                                              ),
-                                              DateFormat("hh:mm")
-                                                  .format(letters.wakeTime)
-                                                  .toString()
-                                                  .text
-                                                  .size(10)
-                                                  .make()
-                                                  .pSymmetric(h: 14),
-                                              PopupMenuButton(
-                                                itemBuilder: (context) {
-                                                  if (letters.wakeTime.isBefore(DateTime.now())) {
-                                                    return [
-                                                      PopupMenuItem(
-                                                        onTap: () {
-                                                          showToast(AppLocalizations.of(context)!.nodeletepast);
-                                                        },
-                                                        child: Text(AppLocalizations.of(context)!.delete),
-                                                      ),
-                                                    ];
-                                                  }
-                                                  return [
-                                                    PopupMenuItem(
-                                                      onTap: () {},
-                                                      child: Text(AppLocalizations.of(context)!.edit),
-                                                    ),
-                                                    PopupMenuItem(
-                                                      onTap: () {
-                                                        ref
-                                                            .watch(wakeUpControllerProvider.notifier)
-                                                            .letterDelete(letters.wakeUpUid);
-                                                        showToast(AppLocalizations.of(context)!.deleted);
-                                                      },
-                                                      child: Text(AppLocalizations.of(context)!.delete),
-                                                    ),
-                                                  ];
-                                                },
-                                              ).box.height(32).make(),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: MediaQuery.of(context).size.width - 140,
-                                          child: SelectableText(
-                                              scrollPhysics: const NeverScrollableScrollPhysics(), letters.letter),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                letters.letterPhoto.isEmpty
-                                    ? Container()
-                                    : Container(
-                                        width: MediaQuery.of(context).size.width - 70,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(30),
-                                          color: Colors.grey,
-                                        ),
-                                        clipBehavior: Clip.hardEdge,
-                                        child: CachedNetworkImage(
-                                          imageUrl: letters.letterPhoto.toString(),
-                                          placeholder: (context, url) => Container(
-                                            height: 70,
-                                          ),
-                                          fit: BoxFit.cover,
-                                          width: MediaQuery.of(context).size.width - 90,
-                                          errorWidget: (context, url, error) => const Icon(Icons.error),
-                                        ),
-                                      ),
-                                letters.answer.isEmpty
-                                    ? Container()
-                                    : Container(
-                                        width: MediaQuery.of(context).size.width - 90,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(30),
-                                          color: Colors.grey.shade200,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.grey.withOpacity(0.5),
-                                              spreadRadius: 1,
-                                              blurRadius: 1,
-                                              offset: const Offset(0, 1), // changes position of shadow
-                                            ),
-                                          ],
-                                        ),
-                                        clipBehavior: Clip.hardEdge,
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                user.uid == letters.reciverUid
-                                                    ? ClipRRect(
-                                                        borderRadius: BorderRadius.circular(25),
-                                                        child: CachedNetworkImage(width: 40, imageUrl: user.photoURL))
-                                                    : ClipRRect(
-                                                        borderRadius: BorderRadius.circular(25),
-                                                        child: CachedNetworkImage(
-                                                            width: 40, imageUrl: user.couplePhotoURL ?? user.photoURL)),
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    user.uid == letters.reciverUid
-                                                        ? user.displayName.text.size(14).bold.make()
-                                                        : user.coupleDisplayName!.text.size(14).bold.make(),
-                                                    letters.answer.text
-                                                        .make()
-                                                        .box
-                                                        .width(MediaQuery.of(context).size.width - 190)
-                                                        .make(),
-                                                  ],
-                                                ).pSymmetric(h: 10),
-                                              ],
-                                            ),
-                                            5.heightBox,
-                                            Container(
-                                              width: MediaQuery.of(context).size.width - 90,
-                                              clipBehavior: Clip.hardEdge,
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(30),
-                                              ),
-                                              child: letters.answerPhoto.isEmpty
-                                                  ? Container()
-                                                  : CachedNetworkImage(
-                                                      fit: BoxFit.fill, imageUrl: letters.answerPhoto.toString()),
-                                            ),
-                                          ],
-                                        ).p(15),
-                                      ).pSymmetric(v: 20),
-                              ],
-                            ).p(10),
-                          ).pSymmetric(h: 20, v: 10),
-                        ],
-                      )),
-                    );
-                  }
-                  if (letters.isApproved == true || isApproved == true) {
-                    return GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          color: AppColors.rabbitspeak,
-                          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+    DateTime now = DateTime.now();
+    return Scaffold(
+      body: RefreshIndicator(
+          onRefresh: () async {
+            ref.watch(getTomorrowWakeUpMeProvider);
+          },
+          child: userInfo.when(
+              data: (user) {
+                return wakeUpMe.when(
+                  data: (letters) {
+                    if (letters.letter.isEmpty || letters.letter == "") {
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        color: AppColors.rabbitwake,
+                        child: Column(
+                          children: [
                             100.heightBox,
-                            WakeUpStatus(AppLocalizations.of(context)!.wakeupmeapproved),
-                            Text(
-                                "${DateFormat('hh:mm').format(letters.wakeTime)}${AppLocalizations.of(context)!.wakeupmeat}"),
-                            const Image(
-                              image: AssetImage('assets/images/rabbitspeak.png'),
-                              height: 220,
-                            ),
-                          ])),
-                    );
-                  }
-                  return GestureDetector(
-                    onTap: () {
-                      if (letters.letterAudio.isNotEmpty || letters.letterAudio != "") {
-                        saveToFile(letters.letterAudio);
-                      }
-
-                      Platform.isIOS
-                          ? showCupertinoDialog(
-                              context: context,
-                              builder: (context) => CupertinoAlertDialog(
-                                title: Text(AppLocalizations.of(context)!.alarm),
-                                content: Text(AppLocalizations.of(context)!.wakeupmenotapproved),
-                                actions: [
-                                  CupertinoDialogAction(
-                                    onPressed: () => Navigator.of(context).pop(),
-                                    child: Text(AppLocalizations.of(context)!.no),
-                                  ),
-                                  CupertinoDialogAction(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                      ref
-                                          .watch(wakeUpControllerProvider.notifier)
-                                          .wakeUpAprove(letters.reciverUid, letters.senderUid, letters.wakeUpUid);
-                                      selectedDateTime = letters.wakeTime;
-                                      selectedTime =
-                                          TimeOfDay(hour: letters.wakeTime.hour, minute: letters.wakeTime.minute);
-                                      setState(() {
-                                        loading = true;
-                                        isApproved = true;
-                                      });
-                                      Alarm.set(alarmSettings: buildAlarmSettings(selectedTime, letters.letterAudio))
-                                          .then((res) {});
-                                      setState(() => loading = false);
-                                      context.goNamed(MainScreen.routeName);
-                                    },
-                                    isDestructiveAction: true,
-                                    child: Text(AppLocalizations.of(context)!.yes),
-                                  ),
+                            Material(
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.black.withOpacity(0.1),
+                                              blurRadius: 10,
+                                              offset: const Offset(8, 8))
+                                        ]),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            user.uid == letters.senderUid
+                                                ? ClipRRect(
+                                                    borderRadius: BorderRadius.circular(20),
+                                                    child: CachedNetworkImage(width: 45, imageUrl: user.photoURL))
+                                                : ClipRRect(
+                                                    borderRadius: BorderRadius.circular(20),
+                                                    child: CachedNetworkImage(
+                                                        width: 45, imageUrl: user.couplePhotoURL ?? user.photoURL)),
+                                            10.widthBox,
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context).size.width - 120,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      user.uid == letters.senderUid
+                                                          ? user.displayName.text.size(14).bold.make()
+                                                          : user.coupleDisplayName!.text.size(14).bold.make(),
+                                                      Expanded(
+                                                        child: Container(),
+                                                      ),
+                                                      DateFormat("HH:mm")
+                                                          .format(DateTime(now.year, now.month, now.day))
+                                                          .toString()
+                                                          .text
+                                                          .size(20)
+                                                          .make()
+                                                          .pSymmetric(h: 14),
+                                                      PopupMenuButton(
+                                                        itemBuilder: (context) {
+                                                          if (letters.wakeTime.isBefore(DateTime.now())) {
+                                                            return [
+                                                              PopupMenuItem(
+                                                                onTap: () {
+                                                                  showToast(AppLocalizations.of(context)!.nodeletepast);
+                                                                },
+                                                                child: Text(AppLocalizations.of(context)!.delete),
+                                                              ),
+                                                            ];
+                                                          }
+                                                          return [
+                                                            PopupMenuItem(
+                                                              onTap: () {},
+                                                              child: Text(AppLocalizations.of(context)!.edit),
+                                                            ),
+                                                            PopupMenuItem(
+                                                              onTap: () {
+                                                                ref
+                                                                    .watch(wakeUpControllerProvider.notifier)
+                                                                    .letterDelete(letters.wakeUpUid);
+                                                                showToast(AppLocalizations.of(context)!.deleted);
+                                                              },
+                                                              child: Text(AppLocalizations.of(context)!.delete),
+                                                            ),
+                                                          ];
+                                                        },
+                                                      ).box.height(32).make(),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context).size.width - 140,
+                                                  child: SelectableText(
+                                                      scrollPhysics: const NeverScrollableScrollPhysics(),
+                                                      letters.letter),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                        const Image(
+                                          image: AssetImage('assets/images/rabbitwake.png'),
+                                          height: Constants.pngSize,
+                                          opacity: AlwaysStoppedAnimation<double>(0.3),
+                                        ),
+                                        WakeUpStatus(AppLocalizations.of(context)!.wakeupmenotyet),
+                                        20.heightBox,
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            letters.letterPhoto.isEmpty
+                                                ? Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(20),
+                                                      color: Colors.grey,
+                                                    ),
+                                                    child: const Text("사진").p(10),
+                                                  )
+                                                : Container(
+                                                    width: MediaQuery.of(context).size.width - 70,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(20),
+                                                      color: Colors.grey,
+                                                    ),
+                                                    clipBehavior: Clip.hardEdge,
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: letters.letterPhoto.toString(),
+                                                      placeholder: (context, url) => Container(
+                                                        height: 70,
+                                                      ),
+                                                      fit: BoxFit.cover,
+                                                      width: MediaQuery.of(context).size.width - 90,
+                                                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                    ),
+                                                  ),
+                                            letters.letterPhoto.isEmpty
+                                                ? Container(
+                                                    child: const Text("글"),
+                                                  )
+                                                : Container(
+                                                    width: MediaQuery.of(context).size.width - 70,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(20),
+                                                      color: Colors.grey,
+                                                    ),
+                                                    clipBehavior: Clip.hardEdge,
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: letters.letterPhoto.toString(),
+                                                      placeholder: (context, url) => Container(
+                                                        height: 70,
+                                                      ),
+                                                      fit: BoxFit.cover,
+                                                      width: MediaQuery.of(context).size.width - 90,
+                                                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                    ),
+                                                  ),
+                                            letters.letterAudio.isEmpty
+                                                ? Container(
+                                                    child: const Text("음성"),
+                                                  )
+                                                : Container(
+                                                    width: MediaQuery.of(context).size.width - 70,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(20),
+                                                      color: Colors.grey,
+                                                    ),
+                                                    clipBehavior: Clip.hardEdge,
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: letters.letterPhoto.toString(),
+                                                      placeholder: (context, url) => Container(
+                                                        height: 70,
+                                                      ),
+                                                      fit: BoxFit.cover,
+                                                      width: MediaQuery.of(context).size.width - 90,
+                                                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                    ),
+                                                  ),
+                                          ],
+                                        ),
+                                      ],
+                                    ).p(10),
+                                  ).pSymmetric(h: 20, v: 10),
+                                  // Container(
+                                  //   height: 295,
+                                  //   decoration: BoxDecoration(
+                                  //     borderRadius: BorderRadius.circular(20),
+                                  //     color: Colors.black.withOpacity(0.2),
+                                  //   ),
+                                  // ).pSymmetric(h: 20, v: 10),
                                 ],
                               ),
-                            )
-                          : showDialog(
-                              barrierDismissible: false,
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    if (letters.isApproved == true || isApproved == true) {
+                      return GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            color: AppColors.rabbitspeak,
+                            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                              100.heightBox,
+                              WakeUpStatus(AppLocalizations.of(context)!.wakeupmeapproved),
+                              Text(
+                                  "${DateFormat('HH:mm').format(letters.wakeTime)}${AppLocalizations.of(context)!.wakeupmeat}"),
+                              const Image(
+                                image: AssetImage('assets/images/rabbitspeak.png'),
+                                height: 220,
+                              ),
+                            ])),
+                      );
+                    }
+                    return GestureDetector(
+                      onTap: () {
+                        if (letters.letterAudio.isNotEmpty || letters.letterAudio != "") {
+                          saveToFile(letters.letterAudio);
+                        }
+
+                        Platform.isIOS
+                            ? showCupertinoDialog(
+                                context: context,
+                                builder: (context) => CupertinoAlertDialog(
                                   title: Text(AppLocalizations.of(context)!.alarm),
                                   content: Text(AppLocalizations.of(context)!.wakeupmenotapproved),
                                   actions: [
-                                    IconButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      icon: const Icon(
-                                        Icons.cancel,
-                                        color: Colors.red,
-                                      ),
+                                    CupertinoDialogAction(
+                                      onPressed: () => Navigator.of(context).pop(),
+                                      child: Text(AppLocalizations.of(context)!.no),
                                     ),
-                                    IconButton(
+                                    CupertinoDialogAction(
                                       onPressed: () {
+                                        Navigator.of(context).pop();
                                         ref
                                             .watch(wakeUpControllerProvider.notifier)
                                             .wakeUpAprove(letters.reciverUid, letters.senderUid, letters.wakeUpUid);
@@ -434,61 +395,103 @@ class WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                                         setState(() => loading = false);
                                         context.goNamed(MainScreen.routeName);
                                       },
-                                      icon: const Icon(
-                                        Icons.done,
-                                        color: Colors.green,
-                                      ),
+                                      isDestructiveAction: true,
+                                      child: Text(AppLocalizations.of(context)!.yes),
                                     ),
                                   ],
-                                );
-                              });
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: AppColors.rabbitalarm,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          100.heightBox,
-                          WakeUpStatus(AppLocalizations.of(context)!.wakeupmenotapproved),
-                          const Image(
-                            image: AssetImage('assets/images/rabbitalarm.png'),
-                            height: 220,
-                          ),
-                          if (kDebugMode)
-                            Text(
-                              "w1ow this is kDebugMode2 ${letters.toString()}",
-                              style: const TextStyle(fontSize: 20),
+                                ),
+                              )
+                            : showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text(AppLocalizations.of(context)!.alarm),
+                                    content: Text(AppLocalizations.of(context)!.wakeupmenotapproved),
+                                    actions: [
+                                      IconButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        icon: const Icon(
+                                          Icons.cancel,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          ref
+                                              .watch(wakeUpControllerProvider.notifier)
+                                              .wakeUpAprove(letters.reciverUid, letters.senderUid, letters.wakeUpUid);
+                                          selectedDateTime = letters.wakeTime;
+                                          selectedTime =
+                                              TimeOfDay(hour: letters.wakeTime.hour, minute: letters.wakeTime.minute);
+                                          setState(() {
+                                            loading = true;
+                                            isApproved = true;
+                                          });
+                                          Alarm.set(
+                                                  alarmSettings: buildAlarmSettings(selectedTime, letters.letterAudio))
+                                              .then((res) {});
+                                          setState(() => loading = false);
+                                          context.goNamed(MainScreen.routeName);
+                                        },
+                                        icon: const Icon(
+                                          Icons.done,
+                                          color: Colors.green,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                });
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        color: AppColors.rabbitalarm,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            100.heightBox,
+                            WakeUpStatus(AppLocalizations.of(context)!.wakeupmenotapproved),
+                            const Image(
+                              image: AssetImage('assets/images/rabbitalarm.png'),
+                              height: 220,
                             ),
-                        ],
+                            if (kDebugMode)
+                              Text(
+                                "w1ow this is kDebugMode2 ${letters.toString()}",
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (err, stack) {
-                  logger.e(err);
+                    );
+                  },
+                  loading: () => const Center(child: CircularProgressIndicator()),
+                  error: (err, stack) {
+                    logger.e(err);
 
-                  return Center(
-                    child: Text(
-                      AppLocalizations.of(context)!.erroruser,
-                      style: const TextStyle(color: Colors.red),
-                    ),
-                  );
-                },
-              );
-            },
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (err, stack) {
-              logger.e(err);
+                    return Center(
+                      child: Text(
+                        AppLocalizations.of(context)!.erroruser,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    );
+                  },
+                );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (err, stack) {
+                logger.e(err);
 
-              return Center(
-                child: Text(
-                  AppLocalizations.of(context)!.erroruser,
-                  style: const TextStyle(color: Colors.red),
-                ),
-              );
-            }));
+                return Center(
+                  child: Text(
+                    AppLocalizations.of(context)!.erroruser,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                );
+              })),
+    );
   }
 }
 

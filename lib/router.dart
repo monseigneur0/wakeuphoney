@@ -10,7 +10,8 @@ import 'package:wakeuphoney/features/bitcoin/bitcoin_screen.dart';
 import 'package:wakeuphoney/core/image/image_screen.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_edit_screen.dart';
-import 'package:wakeuphoney/features/wakeup/wakeup_edit_screen.dart';
+import 'package:wakeuphoney/features/wakeup/wakeup_write_screen.dart';
+import 'package:wakeuphoney/main.dart';
 
 import 'features/alarm/alarm_ring_screen.dart';
 import 'features/auth/auth_repository.dart';
@@ -31,6 +32,7 @@ final routerProvider = Provider((ref) {
   final alarmSettings = ref.watch(alarmSettingsProvider);
   return GoRouter(
     initialLocation: "/main",
+    navigatorKey: WakeUpHoney.navigatorKey,
     redirect: (context, state) {
       final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
       var logger = Logger();
@@ -56,8 +58,7 @@ final routerProvider = Provider((ref) {
       GoRoute(
         name: AlarmRingScreen.routeName,
         path: AlarmRingScreen.routeURL,
-        builder: (context, state) =>
-            AlarmRingScreen(alarmSettings: alarmSettings),
+        builder: (context, state) => AlarmRingScreen(alarmSettings: alarmSettings),
       ),
       GoRoute(
         name: PracticeHome.routeName,
@@ -126,9 +127,9 @@ final routerProvider = Provider((ref) {
         builder: (context, state) => const MyApptest(),
       ),
       GoRoute(
-        name: WakeUpEditScreen.routeName,
-        path: WakeUpEditScreen.routeURL,
-        builder: (context, state) => const WakeUpEditScreen(),
+        name: WakeUpWriteScreen.routeName,
+        path: WakeUpWriteScreen.routeURL,
+        builder: (context, state) => const WakeUpWriteScreen(),
       ),
       GoRoute(
         name: WakeWriteScreen.routeName,

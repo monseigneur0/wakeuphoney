@@ -9,8 +9,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:uuid/uuid.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:wakeuphoney/core/common/common.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
 import '../../core/constants/firebase_constants.dart';
@@ -29,8 +29,7 @@ class WakeWriteScreen extends ConsumerStatefulWidget {
   const WakeWriteScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _WakeWriteScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _WakeWriteScreenState();
 }
 
 class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
@@ -58,8 +57,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
   late Time _time;
 
   final TextEditingController _letterController = TextEditingController();
-  final ExpansionTileController _expansionTileController =
-      ExpansionTileController();
+  final ExpansionTileController _expansionTileController = ExpansionTileController();
 
   final _formKey = GlobalKey<FormState>();
   final FocusNode _letterFocusNode = FocusNode();
@@ -80,8 +78,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
     // selectedWakeUpTime = DateTime.now()
     //     .add(const Duration(minutes: 1))
     //     .copyWith(second: 0, millisecond: 0);
-    selectedTime = TimeOfDay(
-        hour: selectedWakeUpTime.hour, minute: selectedWakeUpTime.minute);
+    selectedTime = TimeOfDay(hour: selectedWakeUpTime.hour, minute: selectedWakeUpTime.minute);
     loopAudio = false;
     vibrate = false;
     volume = null;
@@ -147,12 +144,8 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
         selectedTime = _time.toTimeOfDay();
       });
     }
-    logger.d(DateTime(
-        DateTime.now().year,
-        DateTime.now().month,
-        DateTime.now().add(const Duration(days: 1)).day,
-        selectedTime.hour,
-        selectedTime.minute));
+    logger.d(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().add(const Duration(days: 1)).day,
+        selectedTime.hour, selectedTime.minute));
   }
 
   void saveWakeUp() async {
@@ -198,9 +191,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
       loading = false;
     });
     if (context.mounted) {
-      if (mounted) {
-        Navigator.pop(context, true);
-      }
+      Navigator.pop(context, true);
     }
   }
 
@@ -246,34 +237,21 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.white,
                           boxShadow: [
-                            BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 10,
-                                offset: const Offset(8, 8))
+                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
                           ]),
                       child: Text(
                         selectedTime.format(context),
-                        style: Theme.of(context)
-                            .textTheme
-                            .displayMedium!
-                            .copyWith(color: Colors.black, fontSize: 30),
+                        style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.black, fontSize: 30),
                       ),
                     ),
                   ),
                   10.heightBox,
                   Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 10,
-                              offset: const Offset(8, 8))
-                        ]),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+                      BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                    ]),
                     child: ExpansionTile(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                       title: "알람 상세 설정".text.make(),
                       backgroundColor: AppColors.myAppBarBackgroundPink,
                       controller: _expansionTileController,
@@ -284,15 +262,10 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                       },
                       children: [
                         Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 10,
-                                    offset: const Offset(8, 8))
-                              ]),
+                          decoration:
+                              BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                          ]),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -302,8 +275,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                               ),
                               Switch(
                                 value: volume != null,
-                                onChanged: (value) =>
-                                    setState(() => volume = value ? 0.8 : null),
+                                onChanged: (value) => setState(() => volume = value ? 0.8 : null),
                               ),
                             ],
                           ).pSymmetric(h: 20),
@@ -312,8 +284,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                           height: 30,
                           child: volume != null
                               ? Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Icon(
                                       volume! > 0.7
@@ -335,15 +306,10 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                               : const SizedBox(),
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 10,
-                                    offset: const Offset(8, 8))
-                              ]),
+                          decoration:
+                              BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                          ]),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -353,22 +319,16 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                               ),
                               Switch(
                                 value: loopAudio,
-                                onChanged: (value) =>
-                                    setState(() => loopAudio = value),
+                                onChanged: (value) => setState(() => loopAudio = value),
                               ),
                             ],
                           ).pSymmetric(h: 20),
                         ).pSymmetric(h: 10, v: 5),
                         Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 10,
-                                    offset: const Offset(8, 8))
-                              ]),
+                          decoration:
+                              BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                          ]),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -378,23 +338,17 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                               ),
                               Switch(
                                 value: vibrate,
-                                onChanged: (value) =>
-                                    setState(() => vibrate = value),
+                                onChanged: (value) => setState(() => vibrate = value),
                               ),
                             ],
                           ).pSymmetric(h: 20),
                         ).pSymmetric(h: 10, v: 5),
                         10.heightBox,
                         Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 10,
-                                    offset: const Offset(8, 8))
-                              ]),
+                          decoration:
+                              BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                          ]),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -438,8 +392,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                                     child: Text('Star Wars'),
                                   ),
                                 ],
-                                onChanged: (value) =>
-                                    setState(() => assetAudio = value!),
+                                onChanged: (value) => setState(() => assetAudio = value!),
                               ),
                             ],
                           ).pSymmetric(h: 20),
@@ -454,10 +407,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                       onPressed: () {},
                       child: Text(
                         AppLocalizations.of(context)!.deletealarm,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(color: Colors.red),
+                        style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.red),
                       ),
                     ),
                   20.heightBox,
@@ -481,18 +431,14 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                               focusNode: _letterFocusNode,
                               onTap: () => _expansionTileController.collapse(),
                               validator: (value) {
-                                if (value == null ||
-                                    value.isEmpty ||
-                                    value == "") {
-                                  return AppLocalizations.of(context)!
-                                      .putsometext;
+                                if (value == null || value.isEmpty || value == "") {
+                                  return AppLocalizations.of(context)!.putsometext;
                                 }
                                 return null;
                               },
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText:
-                                    AppLocalizations.of(context)!.wakeupyou,
+                                hintText: AppLocalizations.of(context)!.wakeupyou,
                               ),
                             ),
                           ),
@@ -536,9 +482,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                                   children: [
                                     Text(
                                       "앨범",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
+                                      style: Theme.of(context).textTheme.titleMedium,
                                     ),
                                     Expanded(
                                       child: Container(),
@@ -568,9 +512,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                                   children: [
                                     Text(
                                       "카메라",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
+                                      style: Theme.of(context).textTheme.titleMedium,
                                     ),
                                     Expanded(
                                       child: Container(),
@@ -595,10 +537,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.white,
                           boxShadow: [
-                            BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 10,
-                                offset: const Offset(8, 8))
+                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
                           ]),
                       child:
                           // showAudio
@@ -621,9 +560,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                                   children: [
                                     Text(
                                       "음성 재생",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
+                                      style: Theme.of(context).textTheme.titleMedium,
                                     ),
                                     Expanded(
                                       child: Container(),
@@ -642,9 +579,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                                   children: [
                                     Text(
                                       "음성 녹음",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
+                                      style: Theme.of(context).textTheme.titleMedium,
                                     ),
                                     Expanded(
                                       child: Container(),
@@ -688,23 +623,16 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                                 setState(() {
                                   isLoading = true;
                                 });
-                                String uniqueImageName =
-                                    DateTime.now().toString();
-                                Reference refRoot =
-                                    ref.watch(storageProvider).ref();
-                                Reference refDirImage = refRoot
-                                    .child(FirebaseConstants.wakeUpImage);
-                                Reference refImageToUpload =
-                                    refDirImage.child(uniqueImageName);
+                                String uniqueImageName = DateTime.now().toString();
+                                Reference refRoot = ref.watch(storageProvider).ref();
+                                Reference refDirImage = refRoot.child(FirebaseConstants.wakeUpImage);
+                                Reference refImageToUpload = refDirImage.child(uniqueImageName);
                                 if (letterImageFile != null) {
                                   try {
-                                    await refImageToUpload
-                                        .putFile(File(letterImageFile!.path));
-                                    imageUrl =
-                                        await refImageToUpload.getDownloadURL();
+                                    await refImageToUpload.putFile(File(letterImageFile!.path));
+                                    imageUrl = await refImageToUpload.getDownloadURL();
                                   } catch (e) {
-                                    logger.e(
-                                        "Error uploading image or no image file selected");
+                                    logger.e("Error uploading image or no image file selected");
                                     logger.e(e.toString());
 
                                     setState(() {
@@ -712,62 +640,48 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                                     });
                                   }
                                 }
-                                Reference refDirVoice = refRoot
-                                    .child(FirebaseConstants.wakeUpVoice);
-                                Reference refVoiceToUpload =
-                                    refDirVoice.child("$uniqueImageName.m4a");
+                                Reference refDirVoice = refRoot.child(FirebaseConstants.wakeUpVoice);
+                                Reference refVoiceToUpload = refDirVoice.child("$uniqueImageName.m4a");
                                 if (audioPath != null) {
                                   try {
-                                    await refVoiceToUpload
-                                        .putFile(File(audioPath!));
-                                    audioUrl =
-                                        await refVoiceToUpload.getDownloadURL();
+                                    await refVoiceToUpload.putFile(File(audioPath!));
+                                    audioUrl = await refVoiceToUpload.getDownloadURL();
                                     logger.d(audioUrl);
                                   } catch (e) {
-                                    logger.e(
-                                        "Error uploading voice or no voice file selected");
+                                    logger.e("Error uploading voice or no voice file selected");
                                     logger.e(e.toString());
                                     setState(() {
                                       isLoading = false;
                                     });
                                   }
                                 }
-                                ref
-                                    .watch(wakeControllerProvider.notifier)
-                                    .createWake(
-                                        DateTime(
-                                            DateTime.now().year,
-                                            DateTime.now().month,
-                                            DateTime.now()
-                                                .add(const Duration(days: 1))
-                                                .day,
-                                            selectedTime.hour,
-                                            selectedTime.minute),
-                                        _letterController.text,
-                                        imageUrl,
-                                        audioUrl,
-                                        volume ?? 0.8,
-                                        vibrate);
+                                ref.watch(wakeControllerProvider.notifier).createWake(
+                                    DateTime(
+                                        DateTime.now().year,
+                                        DateTime.now().month,
+                                        DateTime.now().add(const Duration(days: 1)).day,
+                                        selectedTime.hour,
+                                        selectedTime.minute),
+                                    _letterController.text,
+                                    imageUrl,
+                                    audioUrl,
+                                    volume ?? 0.8,
+                                    vibrate);
                                 if (context.mounted) {
-                                  if (mounted) {
-                                    context.goNamed(MainScreen.routeName);
-                                    showToast(
-                                        AppLocalizations.of(context)!.saved);
-                                  }
+                                  context.goNamed(MainScreen.routeName);
+                                  showToast(AppLocalizations.of(context)!.saved);
                                 }
                                 _letterController.clear();
                               }
                             },
                             child: Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
                               decoration: BoxDecoration(
                                 color: AppColors.myPink,
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(),
                               ),
-                              child: Center(child: "깨우기".text.white.make())
-                                  .pSymmetric(v: 10),
+                              child: Center(child: "깨우기".text.white.make()).pSymmetric(v: 10),
                             ),
                           ),
                         ),

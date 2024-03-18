@@ -12,6 +12,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:wakeuphoney/core/common/common.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -28,8 +29,7 @@ class WakeUpMeDevScreen extends ConsumerStatefulWidget {
   const WakeUpMeDevScreen({super.key, this.alarmSettings});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _WakeUpMeDevScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _WakeUpMeDevScreenState();
 }
 
 class _WakeUpMeDevScreenState extends ConsumerState<WakeUpMeDevScreen> {
@@ -45,8 +45,7 @@ class _WakeUpMeDevScreenState extends ConsumerState<WakeUpMeDevScreen> {
 
   late List<bool> days;
 
-  late AlarmDaySettings alarmDaySettings =
-      AlarmDaySettings(alarmSettings: widget.alarmSettings);
+  late AlarmDaySettings alarmDaySettings = AlarmDaySettings(alarmSettings: widget.alarmSettings);
 
   late TimeOfDay selectedTime;
   late Time _time;
@@ -56,11 +55,8 @@ class _WakeUpMeDevScreenState extends ConsumerState<WakeUpMeDevScreen> {
   void initState() {
     super.initState();
 
-    selectedDateTime = DateTime.now()
-        .add(const Duration(minutes: 10))
-        .copyWith(second: 0, millisecond: 0);
-    selectedTime =
-        TimeOfDay(hour: selectedDateTime.hour, minute: selectedDateTime.minute);
+    selectedDateTime = DateTime.now().add(const Duration(minutes: 10)).copyWith(second: 0, millisecond: 0);
+    selectedTime = TimeOfDay(hour: selectedDateTime.hour, minute: selectedDateTime.minute);
     loopAudio = true;
     vibrate = true;
     volume = null;
@@ -183,8 +179,7 @@ class _WakeUpMeDevScreenState extends ConsumerState<WakeUpMeDevScreen> {
   }
 
   printIntAsDay(int day) {
-    logger.d(
-        'Received integer: $day. Corresponds to day: ${intDayToEnglish(day)}');
+    logger.d('Received integer: $day. Corresponds to day: ${intDayToEnglish(day)}');
   }
 
   // 파일 경로를 생성하는 함수
@@ -249,8 +244,7 @@ class _WakeUpMeDevScreenState extends ConsumerState<WakeUpMeDevScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         //상대가 아직 깨워주지 않았어요
-                        WakeUpStatus(
-                            AppLocalizations.of(context)!.wakeupmenotyet),
+                        WakeUpStatus(AppLocalizations.of(context)!.wakeupmenotyet),
                         const Image(
                           image: AssetImage('assets/images/rabbitwake.jpeg'),
                           height: 220,
@@ -267,19 +261,15 @@ class _WakeUpMeDevScreenState extends ConsumerState<WakeUpMeDevScreen> {
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height,
                         color: AppColors.rabbitspeak,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              WakeUpStatus(AppLocalizations.of(context)!
-                                  .wakeupmeapproved),
-                              Text(
-                                  "${DateFormat('hh:mm').format(data.wakeTime)}${AppLocalizations.of(context)!.wakeupmeat}"),
-                              const Image(
-                                image: AssetImage(
-                                    'assets/images/rabbitspeak.jpeg'),
-                                height: 220,
-                              ),
-                            ])),
+                        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                          WakeUpStatus(AppLocalizations.of(context)!.wakeupmeapproved),
+                          Text(
+                              "${DateFormat('HH:mm').format(data.wakeTime)}${AppLocalizations.of(context)!.wakeupmeat}"),
+                          const Image(
+                            image: AssetImage('assets/images/rabbitspeak.jpeg'),
+                            height: 220,
+                          ),
+                        ])),
                   );
                 }
                 return GestureDetector(
@@ -291,8 +281,7 @@ class _WakeUpMeDevScreenState extends ConsumerState<WakeUpMeDevScreen> {
                             context: context,
                             builder: (context) => CupertinoAlertDialog(
                               title: Text(AppLocalizations.of(context)!.alarm),
-                              content: Text(AppLocalizations.of(context)!
-                                  .wakeupmenotapproved),
+                              content: Text(AppLocalizations.of(context)!.wakeupmenotapproved),
                               actions: [
                                 CupertinoDialogAction(
                                   onPressed: () => Navigator.of(context).pop(),
@@ -302,25 +291,18 @@ class _WakeUpMeDevScreenState extends ConsumerState<WakeUpMeDevScreen> {
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                     ref
-                                        .watch(
-                                            wakeUpControllerProvider.notifier)
-                                        .wakeUpAprove(data.reciverUid,
-                                            data.senderUid, data.wakeUpUid);
+                                        .watch(wakeUpControllerProvider.notifier)
+                                        .wakeUpAprove(data.reciverUid, data.senderUid, data.wakeUpUid);
                                     selectedDateTime = data.wakeTime;
-                                    selectedTime = TimeOfDay(
-                                        hour: data.wakeTime.hour,
-                                        minute: data.wakeTime.minute);
+                                    selectedTime = TimeOfDay(hour: data.wakeTime.hour, minute: data.wakeTime.minute);
                                     setState(() => loading = true);
-                                    Alarm.set(
-                                            alarmSettings: buildAlarmSettings(
-                                                selectedTime, data.letterAudio))
+                                    Alarm.set(alarmSettings: buildAlarmSettings(selectedTime, data.letterAudio))
                                         .then((res) {});
                                     setState(() => loading = false);
                                     context.goNamed(MainScreen.routeName);
                                   },
                                   isDestructiveAction: true,
-                                  child:
-                                      Text(AppLocalizations.of(context)!.yes),
+                                  child: Text(AppLocalizations.of(context)!.yes),
                                 ),
                               ],
                             ),
@@ -330,10 +312,8 @@ class _WakeUpMeDevScreenState extends ConsumerState<WakeUpMeDevScreen> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title:
-                                    Text(AppLocalizations.of(context)!.alarm),
-                                content: Text(AppLocalizations.of(context)!
-                                    .wakeupmenotapproved),
+                                title: Text(AppLocalizations.of(context)!.alarm),
+                                content: Text(AppLocalizations.of(context)!.wakeupmenotapproved),
                                 actions: [
                                   IconButton(
                                     onPressed: () {
@@ -347,19 +327,12 @@ class _WakeUpMeDevScreenState extends ConsumerState<WakeUpMeDevScreen> {
                                   IconButton(
                                     onPressed: () {
                                       ref
-                                          .watch(
-                                              wakeUpControllerProvider.notifier)
-                                          .wakeUpAprove(data.reciverUid,
-                                              data.senderUid, data.wakeUpUid);
+                                          .watch(wakeUpControllerProvider.notifier)
+                                          .wakeUpAprove(data.reciverUid, data.senderUid, data.wakeUpUid);
                                       selectedDateTime = data.wakeTime;
-                                      selectedTime = TimeOfDay(
-                                          hour: data.wakeTime.hour,
-                                          minute: data.wakeTime.minute);
+                                      selectedTime = TimeOfDay(hour: data.wakeTime.hour, minute: data.wakeTime.minute);
                                       setState(() => loading = true);
-                                      Alarm.set(
-                                              alarmSettings: buildAlarmSettings(
-                                                  selectedTime,
-                                                  data.letterAudio))
+                                      Alarm.set(alarmSettings: buildAlarmSettings(selectedTime, data.letterAudio))
                                           .then((res) {});
                                       setState(() => loading = false);
                                       context.goNamed(MainScreen.routeName);
@@ -380,14 +353,12 @@ class _WakeUpMeDevScreenState extends ConsumerState<WakeUpMeDevScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        WakeUpStatus(
-                            AppLocalizations.of(context)!.wakeupmenotapproved),
+                        WakeUpStatus(AppLocalizations.of(context)!.wakeupmenotapproved),
                         const Image(
                           image: AssetImage('assets/images/rabbitalarm.jpeg'),
                           height: 220,
                         ),
-                        if (kDebugMode)
-                          Text("wow this is kDebugMode2 ${data.toString()}"),
+                        if (kDebugMode) Text("wow this is kDebugMode2 ${data.toString()}"),
                       ],
                     ),
                   ),

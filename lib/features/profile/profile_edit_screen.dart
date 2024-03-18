@@ -15,8 +15,8 @@ import 'package:wakeuphoney/core/utils.dart';
 import 'package:wakeuphoney/features/bitcoin/bitcoin_screen.dart';
 import 'package:wakeuphoney/features/chatgpt/cs_screen.dart';
 import 'package:wakeuphoney/core/image/image_screen.dart';
+import 'package:wakeuphoney/core/common/common.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import '../../core/common/loader.dart';
 import '../auth/auth_controller.dart';
 import '../auth/auth_repository.dart';
@@ -29,8 +29,7 @@ class ProfileEditScreen extends ConsumerStatefulWidget {
   const ProfileEditScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _ProfileEditScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ProfileEditScreenState();
 }
 
 class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
@@ -86,12 +85,8 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
       },
     ));
     logger.d(_time);
-    ref
-        .watch(profileControllerProvider.notifier)
-        .updateWakeUpTime(DateTime(2021, 1, 1, _time.hour, _time.minute));
-    ref
-        .watch(analyticsProvider)
-        .logSelectContent(contentType: "time", itemId: "editwakeuptime");
+    ref.watch(profileControllerProvider.notifier).updateWakeUpTime(DateTime(2021, 1, 1, _time.hour, _time.minute));
+    ref.watch(analyticsProvider).logSelectContent(contentType: "time", itemId: "editwakeuptime");
 
     //     showTimePicker(
     //   initialTime: selectedTime,
@@ -132,8 +127,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   GestureDetector(
                     onTap: () {
                       context.pushNamed(ImageScreen.routeName);
-                      analytics.logSelectContent(
-                          contentType: 'image', itemId: 'profileimage');
+                      analytics.logSelectContent(contentType: 'image', itemId: 'profileimage');
                     },
                     child: Center(
                       child: Column(
@@ -215,21 +209,16 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                     onEditingComplete: () {
                                       if (_formKey.currentState!.validate()) {
                                         ref
-                                            .read(profileControllerProvider
-                                                .notifier)
-                                            .updateDisplayName(
-                                                _textEditingController.text);
+                                            .read(profileControllerProvider.notifier)
+                                            .updateDisplayName(_textEditingController.text);
 
                                         Navigator.pop(context);
                                         _textEditingController.clear();
-                                        analytics.logSelectContent(
-                                            contentType: 'name',
-                                            itemId: 'editname');
+                                        analytics.logSelectContent(contentType: 'name', itemId: 'editname');
                                       }
                                     },
                                     decoration: const InputDecoration(
-                                      hintText:
-                                          "AppLocalizations.of(context)!.writechangename",
+                                      hintText: "AppLocalizations.of(context)!.writechangename",
                                     ),
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
@@ -237,11 +226,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                       }
                                       return null;
                                     },
-                                  ).pOnly(
-                                      top: 10,
-                                      right: 10,
-                                      left: 10,
-                                      bottom: context.mq.viewInsets.bottom),
+                                  ).pOnly(top: 10, right: 10, left: 10, bottom: context.mq.viewInsets.bottom),
                                 ),
                               ),
                               IconButton(
@@ -254,10 +239,8 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                 onPressed: () async {
                                   if (_formKey.currentState!.validate()) {
                                     ref
-                                        .read(
-                                            profileControllerProvider.notifier)
-                                        .updateDisplayName(
-                                            _textEditingController.text);
+                                        .read(profileControllerProvider.notifier)
+                                        .updateDisplayName(_textEditingController.text);
 
                                     Navigator.pop(context);
                                     _textEditingController.clear();
@@ -278,8 +261,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                             width: 20,
                             height: 40,
                           ),
-                          Text(user.displayName,
-                              style: const TextStyle(fontSize: 18)),
+                          Text(user.displayName, style: const TextStyle(fontSize: 18)),
                         ],
                       ),
                     ),
@@ -296,11 +278,8 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                         lastDate: DateTime.now(),
                       ).then((value) {
                         if (value != null) {
-                          ref
-                              .read(profileControllerProvider.notifier)
-                              .updateBirthday(value);
-                          analytics.logSelectContent(
-                              contentType: 'birthday', itemId: 'editbirthday');
+                          ref.read(profileControllerProvider.notifier).updateBirthday(value);
+                          analytics.logSelectContent(contentType: 'birthday', itemId: 'editbirthday');
                         }
                       });
                     },
@@ -310,11 +289,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(AppLocalizations.of(context)!.birthday,
-                              style: const TextStyle(fontSize: 18)),
+                          Text(AppLocalizations.of(context)!.birthday, style: const TextStyle(fontSize: 18)),
                           Text(DateFormat("yyyy/MM/dd").format(user.birthDate),
-                              style: TextStyle(
-                                  fontSize: 18, color: Colors.grey[600])),
+                              style: TextStyle(fontSize: 18, color: Colors.grey[600])),
                         ],
                       ).pSymmetric(v: 8, h: 20),
                     ),
@@ -338,37 +315,24 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                 GestureDetector(
                                   onTap: () {
                                     Navigator.pop(context);
-                                    ref
-                                        .read(
-                                            profileControllerProvider.notifier)
-                                        .updateGender(1);
-                                    analytics.logSelectContent(
-                                        contentType: "gender",
-                                        itemId: "editgender");
+                                    ref.read(profileControllerProvider.notifier).updateGender(1);
+                                    analytics.logSelectContent(contentType: "gender", itemId: "editgender");
                                   },
                                   child: Container(
                                           height: 60,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
-                                              100,
+                                          width: MediaQuery.of(context).size.width - 100,
                                           decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
+                                              borderRadius: BorderRadius.circular(20),
                                               color: Colors.white,
                                               boxShadow: [
                                                 BoxShadow(
-                                                    color: Colors.black
-                                                        .withOpacity(0.1),
+                                                    color: Colors.black.withOpacity(0.1),
                                                     blurRadius: 10,
                                                     offset: const Offset(8, 8))
                                               ]),
                                           child: Center(
-                                              child: Text(
-                                                  AppLocalizations.of(context)!
-                                                      .male,
-                                                  style: const TextStyle(
-                                                      fontSize: 24))))
+                                              child: Text(AppLocalizations.of(context)!.male,
+                                                  style: const TextStyle(fontSize: 24))))
                                       .pSymmetric(v: 10),
                                 ),
                                 const SizedBox(
@@ -377,35 +341,23 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                 GestureDetector(
                                   onTap: () {
                                     Navigator.pop(context);
-                                    ref
-                                        .read(
-                                            profileControllerProvider.notifier)
-                                        .updateGender(2);
+                                    ref.read(profileControllerProvider.notifier).updateGender(2);
                                   },
                                   child: Container(
                                           height: 60,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
-                                              100,
+                                          width: MediaQuery.of(context).size.width - 100,
                                           decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
+                                              borderRadius: BorderRadius.circular(20),
                                               color: Colors.white,
                                               boxShadow: [
                                                 BoxShadow(
-                                                    color: Colors.black
-                                                        .withOpacity(0.1),
+                                                    color: Colors.black.withOpacity(0.1),
                                                     blurRadius: 10,
                                                     offset: const Offset(8, 8))
                                               ]),
                                           child: Center(
-                                                  child: Text(
-                                                      AppLocalizations.of(
-                                                              context)!
-                                                          .female,
-                                                      style: const TextStyle(
-                                                          fontSize: 24)))
+                                                  child: Text(AppLocalizations.of(context)!.female,
+                                                      style: const TextStyle(fontSize: 24)))
                                               .p(5))
                                       .pSymmetric(v: 10),
                                 ),
@@ -419,8 +371,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(AppLocalizations.of(context)!.gender,
-                              style: const TextStyle(fontSize: 18)),
+                          Text(AppLocalizations.of(context)!.gender, style: const TextStyle(fontSize: 18)),
                           Text(
                               user.gender == "male"
                                   ? AppLocalizations.of(context)!.male
@@ -514,9 +465,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                           width: 20,
                           height: 40,
                         ),
-                        Text(
-                            user.coupleDisplayName ??
-                                AppLocalizations.of(context)!.no,
+                        Text(user.coupleDisplayName ?? AppLocalizations.of(context)!.no,
                             style: TextStyle(
                               color: Colors.grey[700],
                             )),
@@ -538,10 +487,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                               style: TextStyle(
                                 color: Colors.grey[700],
                               )),
-                          Text(
-                              DateFormat(
-                                      AppLocalizations.of(context)!.afterwakeup)
-                                  .format(user.coupleWakeUpTime!),
+                          Text(DateFormat(AppLocalizations.of(context)!.afterwakeup).format(user.coupleWakeUpTime!),
                               style: TextStyle(
                                 color: Colors.grey[700],
                               )),
@@ -555,8 +501,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   GestureDetector(
                     onTap: () {
                       context.pushNamed(CustomerServiceScreen.routeName);
-                      analytics.logSelectContent(
-                          contentType: "go", itemId: "chatgptcs");
+                      analytics.logSelectContent(contentType: "go", itemId: "chatgptcs");
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
@@ -567,8 +512,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                             width: 20,
                             height: 40,
                           ),
-                          Text(AppLocalizations.of(context)!.cscenter,
-                              style: const TextStyle(fontSize: 18)),
+                          Text(AppLocalizations.of(context)!.cscenter, style: const TextStyle(fontSize: 18)),
                         ],
                       ),
                     ),
@@ -579,8 +523,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   GestureDetector(
                     onTap: () {
                       launchUrlString("https://sweetgom.com/5");
-                      analytics.logSelectContent(
-                          contentType: "go", itemId: "appinfoonline");
+                      analytics.logSelectContent(contentType: "go", itemId: "appinfoonline");
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
@@ -591,8 +534,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                             width: 20,
                             height: 40,
                           ),
-                          Text(AppLocalizations.of(context)!.appintro,
-                              style: const TextStyle(fontSize: 18)),
+                          Text(AppLocalizations.of(context)!.appintro, style: const TextStyle(fontSize: 18)),
                         ],
                       ),
                     ),
@@ -613,8 +555,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                               width: 20,
                               height: 40,
                             ),
-                            Text(AppLocalizations.of(context)!.appversion,
-                                style: const TextStyle(fontSize: 18)),
+                            Text(AppLocalizations.of(context)!.appversion, style: const TextStyle(fontSize: 18)),
                           ],
                         ),
                         const Row(
@@ -633,8 +574,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   GestureDetector(
                     onTap: () {
                       context.pushNamed(BitcoinScreen.routeName);
-                      analytics.logSelectContent(
-                          contentType: "go", itemId: "bitcoin");
+                      analytics.logSelectContent(contentType: "go", itemId: "bitcoin");
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
@@ -656,8 +596,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                   GestureDetector(
                     onTap: () {
                       launchUrlString('https://sweetgom.com/4');
-                      analytics.logSelectContent(
-                          contentType: "go", itemId: "appinfopolicy");
+                      analytics.logSelectContent(contentType: "go", itemId: "appinfopolicy");
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
@@ -668,8 +607,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                             width: 20,
                             height: 40,
                           ),
-                          Text(AppLocalizations.of(context)!.inforule,
-                              style: const TextStyle(fontSize: 18)),
+                          Text(AppLocalizations.of(context)!.inforule, style: const TextStyle(fontSize: 18)),
                         ],
                       ),
                     ),
@@ -753,29 +691,21 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                               context: context,
                               builder: (context) => CupertinoAlertDialog(
                                 title: Text(AppLocalizations.of(context)!.sure),
-                                content:
-                                    Text(AppLocalizations.of(context)!.logout),
+                                content: Text(AppLocalizations.of(context)!.logout),
                                 actions: [
                                   CupertinoDialogAction(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(),
-                                    child:
-                                        Text(AppLocalizations.of(context)!.no),
+                                    onPressed: () => Navigator.of(context).pop(),
+                                    child: Text(AppLocalizations.of(context)!.no),
                                   ),
                                   CupertinoDialogAction(
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                       context.goNamed(LoginHome.routeName);
-                                      ref
-                                          .watch(authRepositoryProvider)
-                                          .logout();
-                                      analytics.logSelectContent(
-                                          contentType: "logout",
-                                          itemId: "logout");
+                                      ref.watch(authRepositoryProvider).logout();
+                                      analytics.logSelectContent(contentType: "logout", itemId: "logout");
                                     },
                                     isDestructiveAction: true,
-                                    child:
-                                        Text(AppLocalizations.of(context)!.yes),
+                                    child: Text(AppLocalizations.of(context)!.yes),
                                   ),
                                 ],
                               ),
@@ -785,10 +715,8 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
-                                  title: Text(
-                                      AppLocalizations.of(context)!.logout),
-                                  content:
-                                      Text(AppLocalizations.of(context)!.sure),
+                                  title: Text(AppLocalizations.of(context)!.logout),
+                                  content: Text(AppLocalizations.of(context)!.sure),
                                   actions: [
                                     IconButton(
                                       onPressed: () {
@@ -802,13 +730,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                     IconButton(
                                       onPressed: () {
                                         context.goNamed(LoginHome.routeName);
-                                        ref
-                                            .watch(authRepositoryProvider)
-                                            .logout();
+                                        ref.watch(authRepositoryProvider).logout();
                                         Navigator.of(context).pop();
-                                        analytics.logSelectContent(
-                                            contentType: "logout",
-                                            itemId: "logout");
+                                        analytics.logSelectContent(contentType: "logout", itemId: "logout");
                                       },
                                       icon: const Icon(
                                         Icons.done,
@@ -828,8 +752,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                             width: 20,
                             height: 40,
                           ),
-                          Text(AppLocalizations.of(context)!.logout,
-                              style: const TextStyle(fontSize: 20)),
+                          Text(AppLocalizations.of(context)!.logout, style: const TextStyle(fontSize: 20)),
                         ],
                       ),
                     ),
@@ -843,31 +766,21 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                           ? showCupertinoDialog(
                               context: context,
                               builder: (context) => CupertinoAlertDialog(
-                                title:
-                                    Text(AppLocalizations.of(context)!.breakup),
-                                content: Text(
-                                    AppLocalizations.of(context)!.deletesure),
+                                title: Text(AppLocalizations.of(context)!.breakup),
+                                content: Text(AppLocalizations.of(context)!.deletesure),
                                 actions: [
                                   CupertinoDialogAction(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(),
-                                    child:
-                                        Text(AppLocalizations.of(context)!.no),
+                                    onPressed: () => Navigator.of(context).pop(),
+                                    child: Text(AppLocalizations.of(context)!.no),
                                   ),
                                   CupertinoDialogAction(
                                     onPressed: () {
                                       Navigator.of(context).pop();
-                                      ref
-                                          .watch(
-                                              authControllerProvider.notifier)
-                                          .brokeup();
-                                      analytics.logSelectContent(
-                                          contentType: "breakup",
-                                          itemId: "breakup");
+                                      ref.watch(authControllerProvider.notifier).brokeup();
+                                      analytics.logSelectContent(contentType: "breakup", itemId: "breakup");
                                     },
                                     isDestructiveAction: true,
-                                    child:
-                                        Text(AppLocalizations.of(context)!.yes),
+                                    child: Text(AppLocalizations.of(context)!.yes),
                                   ),
                                 ],
                               ),
@@ -877,10 +790,8 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
-                                  title: Text(
-                                      AppLocalizations.of(context)!.breakup),
-                                  content: Text(
-                                      AppLocalizations.of(context)!.deletesure),
+                                  title: Text(AppLocalizations.of(context)!.breakup),
+                                  content: Text(AppLocalizations.of(context)!.deletesure),
                                   actions: [
                                     IconButton(
                                       onPressed: () {
@@ -893,14 +804,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                     ),
                                     IconButton(
                                       onPressed: () {
-                                        ref
-                                            .watch(
-                                                authControllerProvider.notifier)
-                                            .brokeup();
+                                        ref.watch(authControllerProvider.notifier).brokeup();
                                         Navigator.of(context).pop();
-                                        analytics.logSelectContent(
-                                            contentType: "breakup",
-                                            itemId: "breakup");
+                                        analytics.logSelectContent(contentType: "breakup", itemId: "breakup");
                                       },
                                       icon: const Icon(
                                         Icons.done,
@@ -920,8 +826,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                             width: 20,
                             height: 40,
                           ),
-                          Text(AppLocalizations.of(context)!.breakup,
-                              style: const TextStyle(fontSize: 20)),
+                          Text(AppLocalizations.of(context)!.breakup, style: const TextStyle(fontSize: 20)),
                         ],
                       ),
                     ),
@@ -935,32 +840,23 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                           ? showCupertinoDialog(
                               context: context,
                               builder: (context) => CupertinoAlertDialog(
-                                title:
-                                    Text(AppLocalizations.of(context)!.delete),
-                                content: Text(
-                                    AppLocalizations.of(context)!.deletesure),
+                                title: Text(AppLocalizations.of(context)!.delete),
+                                content: Text(AppLocalizations.of(context)!.deletesure),
                                 actions: [
                                   CupertinoDialogAction(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(),
-                                    child:
-                                        Text(AppLocalizations.of(context)!.no),
+                                    onPressed: () => Navigator.of(context).pop(),
+                                    child: Text(AppLocalizations.of(context)!.no),
                                   ),
                                   CupertinoDialogAction(
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                       context.goNamed(LoginHome.routeName);
 
-                                      ref
-                                          .watch(authRepositoryProvider)
-                                          .deleteUser();
-                                      analytics.logSelectContent(
-                                          contentType: "delete",
-                                          itemId: "delete");
+                                      ref.watch(authRepositoryProvider).deleteUser();
+                                      analytics.logSelectContent(contentType: "delete", itemId: "delete");
                                     },
                                     isDestructiveAction: true,
-                                    child:
-                                        Text(AppLocalizations.of(context)!.yes),
+                                    child: Text(AppLocalizations.of(context)!.yes),
                                   ),
                                 ],
                               ),
@@ -970,10 +866,8 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
-                                  title: Text(
-                                      AppLocalizations.of(context)!.delete),
-                                  content: Text(
-                                      AppLocalizations.of(context)!.deletesure),
+                                  title: Text(AppLocalizations.of(context)!.delete),
+                                  content: Text(AppLocalizations.of(context)!.deletesure),
                                   actions: [
                                     IconButton(
                                       onPressed: () {
@@ -987,13 +881,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                                     IconButton(
                                       onPressed: () {
                                         context.goNamed(LoginHome.routeName);
-                                        ref
-                                            .watch(authRepositoryProvider)
-                                            .deleteUser();
+                                        ref.watch(authRepositoryProvider).deleteUser();
                                         Navigator.of(context).pop();
-                                        analytics.logSelectContent(
-                                            contentType: "delete",
-                                            itemId: "delete");
+                                        analytics.logSelectContent(contentType: "delete", itemId: "delete");
                                       },
                                       icon: const Icon(
                                         Icons.done,
@@ -1013,8 +903,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
                             width: 20,
                             height: 40,
                           ),
-                          Text(AppLocalizations.of(context)!.deleteaccount,
-                              style: const TextStyle(fontSize: 20)),
+                          Text(AppLocalizations.of(context)!.deleteaccount, style: const TextStyle(fontSize: 20)),
                         ],
                       ),
                     ),

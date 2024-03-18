@@ -7,16 +7,13 @@ import 'package:wakeuphoney/features/wakeup/wakeup_model.dart';
 import '../../core/constants/firebase_constants.dart';
 import '../../core/providers/firebase_providers.dart';
 
-final wakeUpRepositoryProvider = Provider(
-    (ref) => WakeUpRepository(firestore: ref.watch(firestoreProvider)));
+final wakeUpRepositoryProvider = Provider((ref) => WakeUpRepository(firestore: ref.watch(firestoreProvider)));
 
 class WakeUpRepository {
   final FirebaseFirestore _firestore;
-  WakeUpRepository({required FirebaseFirestore firestore})
-      : _firestore = firestore;
+  WakeUpRepository({required FirebaseFirestore firestore}) : _firestore = firestore;
 
-  CollectionReference get _usersCollection =>
-      _firestore.collection(FirebaseConstants.usersCollection);
+  CollectionReference get _usersCollection => _firestore.collection(FirebaseConstants.usersCollection);
 
   Logger logger = Logger();
 
@@ -25,6 +22,18 @@ class WakeUpRepository {
       _usersCollection
           .doc(uid)
           .collection(FirebaseConstants.wakeUpCollection)
+          .doc(wakeUp.wakeUpUid)
+          .set(wakeUp.toMap());
+    } catch (e) {
+      logger.e(e.toString());
+    }
+  }
+
+  createWakeUpAlarm(String uid, WakeUpModel wakeUp) {
+    try {
+      _usersCollection
+          .doc(uid)
+          .collection(FirebaseConstants.wakeUpAlarmCollection)
           .doc(wakeUp.wakeUpUid)
           .set(wakeUp.toMap());
     } catch (e) {
@@ -43,13 +52,10 @@ class WakeUpRepository {
       return _usersCollection
           .doc(uid)
           .collection(FirebaseConstants.wakeUpCollection)
-          .where(Filter.or(Filter("senderUid", isEqualTo: uid),
-              (Filter("wakeTime", isLessThan: Timestamp.now()))))
+          .where(Filter.or(Filter("senderUid", isEqualTo: uid), (Filter("wakeTime", isLessThan: Timestamp.now()))))
           .snapshots()
           .map(
-            (wakeUpSnapShot) => wakeUpSnapShot.docs
-                .map((e) => WakeUpModel.fromMap(e.data()))
-                .toList()
+            (wakeUpSnapShot) => wakeUpSnapShot.docs.map((e) => WakeUpModel.fromMap(e.data())).toList()
               ..sort((a, b) => b.wakeTime.compareTo(a.wakeTime)),
           );
       // return _usersCollection
@@ -68,11 +74,7 @@ class WakeUpRepository {
 
   letterEditMessage(String uid, String letterId, String message) {
     try {
-      _usersCollection
-          .doc(uid)
-          .collection(FirebaseConstants.wakeUpCollection)
-          .doc(letterId)
-          .update({
+      _usersCollection.doc(uid).collection(FirebaseConstants.wakeUpCollection).doc(letterId).update({
         "letter": message,
         "modifiedTimes": DateTime.now(),
       });
@@ -83,11 +85,7 @@ class WakeUpRepository {
 
   letterDeleteMessage(String uid, String letterId) {
     try {
-      _usersCollection
-          .doc(uid)
-          .collection(FirebaseConstants.wakeUpCollection)
-          .doc(letterId)
-          .delete();
+      _usersCollection.doc(uid).collection(FirebaseConstants.wakeUpCollection).doc(letterId).delete();
     } catch (e) {
       logger.e(e.toString());
     }
@@ -104,8 +102,7 @@ class WakeUpRepository {
           .where("reciverUid", isEqualTo: uid)
           .where("wakeTime",
               isLessThan: Timestamp(
-                  DateTime(datetime.year, datetime.month, datetime.day,
-                              datetime10.hour, datetime10.minute, 0)
+                  DateTime(datetime.year, datetime.month, datetime.day, datetime10.hour, datetime10.minute, 0)
                           .millisecondsSinceEpoch ~/
                       1000,
                   0))
@@ -125,19 +122,10 @@ class WakeUpRepository {
     }
   }
 
-  createResponseLetter(
-      String uid, String wakeUpUid, String message, String imageUrl) {
+  createResponseLetter(String uid, String wakeUpUid, String message, String imageUrl) {
     try {
-      _usersCollection
-          .doc(uid)
-          .collection(FirebaseConstants.wakeUpCollection)
-          .doc(wakeUpUid)
-          .update({
-        "answer": message,
-        "answerPhoto": imageUrl,
-        "answerTime": DateTime.now(),
-        "modifiedTimes": DateTime.now()
-      });
+      _usersCollection.doc(uid).collection(FirebaseConstants.wakeUpCollection).doc(wakeUpUid).update(
+          {"answer": message, "answerPhoto": imageUrl, "answerTime": DateTime.now(), "modifiedTimes": DateTime.now()});
     } catch (e) {
       logger.e(e.toString());
     }
@@ -185,11 +173,7 @@ class WakeUpRepository {
 
   wakeUpAprove(String uid, String wakeUpUid) {
     try {
-      _usersCollection
-          .doc(uid)
-          .collection(FirebaseConstants.wakeUpCollection)
-          .doc(wakeUpUid)
-          .update({
+      _usersCollection.doc(uid).collection(FirebaseConstants.wakeUpCollection).doc(wakeUpUid).update({
         "isApproved": true,
         "modifiedTimes": DateTime.now(),
       });
@@ -207,11 +191,7 @@ class WakeUpRepository {
           .where("reciverUid", isEqualTo: uid)
           .where("wakeTime",
               isLessThan: Timestamp(
-                  DateTime(datetime.year, datetime.month, datetime.day, 10, 0,
-                              0)
-                          .millisecondsSinceEpoch ~/
-                      1000,
-                  0))
+                  DateTime(datetime.year, datetime.month, datetime.day, 10, 0, 0).millisecondsSinceEpoch ~/ 1000, 0))
           .orderBy("wakeTime", descending: true)
           .get()
           .then((value) {

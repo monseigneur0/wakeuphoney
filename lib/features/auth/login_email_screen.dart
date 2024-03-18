@@ -98,13 +98,12 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                                 setState(() {
                                   _isLoading = true;
                                 });
-                                UserCredential userCredential =
-                                    await FirebaseAuth.instance
-                                        .signInWithEmailAndPassword(
+                                UserCredential userCredential = await FirebaseAuth.instance
+                                    .signInWithEmailAndPassword(
                                   email: emailController.text,
                                   password: pwdController.text,
                                 )
-                                        .then((value) {
+                                    .then((value) {
                                   print(value);
                                   value.user!.email == emailController.text
                                       ? context.go(MainScreen.routeURL)
@@ -140,9 +139,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                                 }
                               }
                             },
-                            style: const ButtonStyle(
-                                backgroundColor:
-                                    MaterialStatePropertyAll(AppColors.myPink)),
+                            style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppColors.myPink)),
                             child: const Text(
                               '로그인',
                               style: TextStyle(color: Colors.black),

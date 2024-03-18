@@ -7,10 +7,7 @@ class AnimatedNumberText extends StatefulWidget {
   final bool animateSameValue;
 
   const AnimatedNumberText(this.value,
-      {super.key,
-      this.textStyle,
-      this.duration = const Duration(milliseconds: 400),
-      this.animateSameValue = true});
+      {super.key, this.textStyle, this.duration = const Duration(milliseconds: 400), this.animateSameValue = true});
 
   @override
   AnimatedNumberTextState createState() => AnimatedNumberTextState();
@@ -30,9 +27,7 @@ class AnimatedNumberTextState extends State<AnimatedNumberText> {
       items = [];
       for (int i = 0; i < value.runes.length; ++i) {
         String char = String.fromCharCode(value.runes.elementAt(i));
-        items.add(_DigitWidget(char,
-            delayTime: widget.duration.inMilliseconds * i,
-            textStyle: widget.textStyle));
+        items.add(_DigitWidget(char, delayTime: widget.duration.inMilliseconds * i, textStyle: widget.textStyle));
       }
     }
 
@@ -64,8 +59,7 @@ class _DigitWidget extends StatefulWidget {
   _DigitWidgetState createState() => _DigitWidgetState();
 }
 
-class _DigitWidgetState extends State<_DigitWidget>
-    with TickerProviderStateMixin {
+class _DigitWidgetState extends State<_DigitWidget> with TickerProviderStateMixin {
   String oldValue = ' ';
   TextStyle? textStyle;
   Size digitSize = const Size(0, 0);
@@ -93,15 +87,12 @@ class _DigitWidgetState extends State<_DigitWidget>
   }
 
   initAnimation() {
-    controller = AnimationController(
-        duration: const Duration(milliseconds: 300), vsync: this);
-    final Animation<double> curve =
-        CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
-    animation =
-        Tween(begin: 0.0, end: digitSize.height.toDouble()).animate(curve)
-          ..addListener(() {
-            setState(() {});
-          });
+    controller = AnimationController(duration: const Duration(milliseconds: 300), vsync: this);
+    final Animation<double> curve = CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
+    animation = Tween(begin: 0.0, end: digitSize.height.toDouble()).animate(curve)
+      ..addListener(() {
+        setState(() {});
+      });
 
     animation.addStatusListener((status) {
       if (controller.status == AnimationStatus.completed) {
@@ -117,7 +108,7 @@ class _DigitWidgetState extends State<_DigitWidget>
 
   animate() async {
     Future.delayed(Duration(milliseconds: widget.delayTime), () {
-      if (mounted) {
+      if (context.mounted) {
         controller.forward();
       }
     });
@@ -173,8 +164,7 @@ class DigitClipper extends CustomClipper<Rect> {
   DigitClipper(this.digitSize);
 
   @override
-  Rect getClip(Size size) =>
-      Rect.fromPoints(Offset.zero, Offset(digitSize.width, digitSize.height));
+  Rect getClip(Size size) => Rect.fromPoints(Offset.zero, Offset(digitSize.width, digitSize.height));
 
   @override
   bool shouldReclip(covariant CustomClipper<Rect> oldClipper) => false;

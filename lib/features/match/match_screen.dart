@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:logger/logger.dart';
-import 'package:wakeuphoney/core/utils.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wakeuphoney/core/common/common.dart';
 
-import '../../core/common/loader.dart';
-import '../../core/constants/design_constants.dart';
-import '../../widgets/drawer.dart';
+import '../../core/widgets/drawer.dart';
 import 'match_controller.dart';
 
 class MatchScreen extends ConsumerStatefulWidget {
@@ -76,8 +72,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                         ),
                         Text(
                           AppLocalizations.of(context)!.snslogin,
-                          style: const TextStyle(
-                              fontSize: 10, color: Colors.white),
+                          style: const TextStyle(fontSize: 10, color: Colors.white),
                         ),
                       ],
                     ),
@@ -89,8 +84,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                       children: [
                         Text(
                           AppLocalizations.of(context)!.matchprocess,
-                          style: const TextStyle(
-                              fontSize: 10, color: Colors.white),
+                          style: const TextStyle(fontSize: 10, color: Colors.white),
                         ),
                         const Icon(
                           Icons.looks_two,
@@ -118,8 +112,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                         ),
                         Text(
                           AppLocalizations.of(context)!.wakeupgom,
-                          style: const TextStyle(
-                              fontSize: 10, color: Colors.white),
+                          style: const TextStyle(fontSize: 10, color: Colors.white),
                         ),
                       ],
                     ),
@@ -159,8 +152,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
 
                               initialValue: data.vertifynumber.toString(),
 
-                              style: const TextStyle(
-                                  fontSize: 20, color: Colors.white),
+                              style: const TextStyle(fontSize: 20, color: Colors.white),
                               maxLength: 6,
                               // textInputAction: wow,반드시 설ㅓ할 것 enter누르면 편하니
                               inputFormatters: <TextInputFormatter>[
@@ -170,8 +162,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.grey[900],
-                                labelStyle:
-                                    const TextStyle(color: Colors.black),
+                                labelStyle: const TextStyle(color: Colors.black),
                                 focusColor: Colors.red,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -229,8 +220,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                         labelStyle: const TextStyle(color: Colors.grey),
 
                         hintText: '000000',
-                        hintStyle:
-                            const TextStyle(fontSize: 20, color: Colors.grey),
+                        hintStyle: const TextStyle(fontSize: 20, color: Colors.grey),
                         focusColor: Colors.red,
                         // focusedBorder: OutlineInputBorder(
                         //   borderSide: BorderSide(color: Colors.black, width: 2.0),
@@ -251,10 +241,8 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                   children: [
                     ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor:
-                            const MaterialStatePropertyAll(AppColors.myPink),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                        backgroundColor: const MaterialStatePropertyAll(AppColors.myPink),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                               side: const BorderSide(color: AppColors.myPink)),
@@ -266,27 +254,20 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                         //     .watch(matchConrollerProvider.notifier)
                         //     .matchProcess();
                         if (_honeyCodeController.text.isNotEmpty) {
-                          final int honeyCode =
-                              int.parse(_honeyCodeController.text);
+                          final int honeyCode = int.parse(_honeyCodeController.text);
                           if (_formKey.currentState!.validate()) {
-                            ref
-                                .watch(checkMatchProcessProvider(honeyCode))
-                                .when(
-                                    data: (data) {
-                                      if (data.uid.isNotEmpty) {
-                                        ref
-                                            .watch(
-                                                matchConrollerProvider.notifier)
-                                            .matchCoupleIdProcessDone(data.uid);
-                                        logger.d("data.uid${data.uid}");
-                                        // PEaTihL8yRdGEknlFfQ9F7XdoUt2 apple
-                                        _honeyCodeController.clear();
-                                        showToast("inviteed");
-                                      }
-                                    },
-                                    error: (error, stacktrace) =>
-                                        showToast("no invited honey"),
-                                    loading: () => const Loader());
+                            ref.watch(checkMatchProcessProvider(honeyCode)).when(
+                                data: (data) {
+                                  if (data.uid.isNotEmpty) {
+                                    ref.watch(matchConrollerProvider.notifier).matchCoupleIdProcessDone(data.uid);
+                                    logger.d("data.uid${data.uid}");
+                                    // PEaTihL8yRdGEknlFfQ9F7XdoUt2 apple
+                                    _honeyCodeController.clear();
+                                    showToast("inviteed");
+                                  }
+                                },
+                                error: (error, stacktrace) => showToast("no invited honey"),
+                                loading: () => const Loader());
                           }
                         }
                       },

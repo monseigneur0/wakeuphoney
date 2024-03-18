@@ -4,38 +4,30 @@ import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 // import 'package:just_audio/just_audio.dart';
-import 'package:logger/logger.dart';
-import 'package:uuid/uuid.dart';
-import 'package:velocity_x/velocity_x.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:wakeuphoney/features/main/main_screen.dart';
 
-import '../../core/common/loader.dart';
-import '../../core/constants/design_constants.dart';
-import '../../core/constants/firebase_constants.dart';
+import 'package:wakeuphoney/features/main/main_screen.dart';
+import 'package:wakeuphoney/core/common/common.dart';
+
 import '../../core/providers/firebase_providers.dart';
-import '../../core/utils.dart';
+
 import '../alarm/alarm_new_ring_screen.dart';
 import '../voice/audio_recoder_example.dart';
 import '../voice/audio_player_example.dart';
 import 'wakeup_controller.dart';
 import 'wakeup_model.dart';
 
-class WakeUpEditScreen extends ConsumerStatefulWidget {
+class WakeUpWriteScreen extends ConsumerStatefulWidget {
   static String routeName = "wakeupedit";
   static String routeURL = "/wakeupedit";
-  const WakeUpEditScreen({super.key});
+  const WakeUpWriteScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _WakeUpEditScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _WakeUpWriteScreenState();
 }
 
-class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
+class _WakeUpWriteScreenState extends ConsumerState<WakeUpWriteScreen> {
   Logger logger = Logger();
 
   bool loading = false;
@@ -60,8 +52,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
   late Time _time;
 
   final TextEditingController _letterController = TextEditingController();
-  final ExpansionTileController _expansionTileController =
-      ExpansionTileController();
+  final ExpansionTileController _expansionTileController = ExpansionTileController();
 
   final _formKey = GlobalKey<FormState>();
   final FocusNode _letterFocusNode = FocusNode();
@@ -72,6 +63,9 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
   @override
   void initState() {
     super.initState();
+    _letterController.addListener(() {
+      setState(() {});
+    });
     selectedWakeUpTime = DateTime(
       DateTime.now().year,
       DateTime.now().month,
@@ -82,8 +76,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
     // selectedWakeUpTime = DateTime.now()
     //     .add(const Duration(minutes: 1))
     //     .copyWith(second: 0, millisecond: 0);
-    selectedTime = TimeOfDay(
-        hour: selectedWakeUpTime.hour, minute: selectedWakeUpTime.minute);
+    selectedTime = TimeOfDay(hour: selectedWakeUpTime.hour, minute: selectedWakeUpTime.minute);
     loopAudio = false;
     vibrate = false;
     volume = null;
@@ -149,12 +142,8 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
         selectedTime = _time.toTimeOfDay();
       });
     }
-    logger.d(DateTime(
-        DateTime.now().year,
-        DateTime.now().month,
-        DateTime.now().add(const Duration(days: 1)).day,
-        selectedTime.hour,
-        selectedTime.minute));
+    logger.d(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().add(const Duration(days: 1)).day,
+        selectedTime.hour, selectedTime.minute));
   }
 
   void saveWakeUp() async {
@@ -195,7 +184,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
     setState(() {
       loading = false;
     });
-    if (context.mounted) {
+    if (mounted) {
       Navigator.pop(context, true);
     }
   }
@@ -242,34 +231,21 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.white,
                           boxShadow: [
-                            BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 10,
-                                offset: const Offset(8, 8))
+                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
                           ]),
                       child: Text(
                         selectedTime.format(context),
-                        style: Theme.of(context)
-                            .textTheme
-                            .displayMedium!
-                            .copyWith(color: Colors.black, fontSize: 30),
+                        style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.black, fontSize: 30),
                       ),
                     ),
                   ),
                   10.heightBox,
                   Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 10,
-                              offset: const Offset(8, 8))
-                        ]),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+                      BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                    ]),
                     child: ExpansionTile(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                       title: "알람 상세 설정".text.make(),
                       backgroundColor: AppColors.myAppBarBackgroundPink,
                       controller: _expansionTileController,
@@ -280,15 +256,10 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                       },
                       children: [
                         Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 10,
-                                    offset: const Offset(8, 8))
-                              ]),
+                          decoration:
+                              BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                          ]),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -298,8 +269,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                               ),
                               Switch(
                                 value: volume != null,
-                                onChanged: (value) =>
-                                    setState(() => volume = value ? 0.8 : null),
+                                onChanged: (value) => setState(() => volume = value ? 0.8 : null),
                               ),
                             ],
                           ).pSymmetric(h: 20),
@@ -308,8 +278,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                           height: 30,
                           child: volume != null
                               ? Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Icon(
                                       volume! > 0.7
@@ -331,15 +300,10 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                               : const SizedBox(),
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 10,
-                                    offset: const Offset(8, 8))
-                              ]),
+                          decoration:
+                              BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                          ]),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -349,22 +313,16 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                               ),
                               Switch(
                                 value: loopAudio,
-                                onChanged: (value) =>
-                                    setState(() => loopAudio = value),
+                                onChanged: (value) => setState(() => loopAudio = value),
                               ),
                             ],
                           ).pSymmetric(h: 20),
                         ).pSymmetric(h: 10, v: 5),
                         Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 10,
-                                    offset: const Offset(8, 8))
-                              ]),
+                          decoration:
+                              BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                          ]),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -374,23 +332,17 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                               ),
                               Switch(
                                 value: vibrate,
-                                onChanged: (value) =>
-                                    setState(() => vibrate = value),
+                                onChanged: (value) => setState(() => vibrate = value),
                               ),
                             ],
                           ).pSymmetric(h: 20),
                         ).pSymmetric(h: 10, v: 5),
                         10.heightBox,
                         Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 10,
-                                    offset: const Offset(8, 8))
-                              ]),
+                          decoration:
+                              BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                          ]),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -434,8 +386,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                                     child: Text('Star Wars'),
                                   ),
                                 ],
-                                onChanged: (value) =>
-                                    setState(() => assetAudio = value!),
+                                onChanged: (value) => setState(() => assetAudio = value!),
                               ),
                             ],
                           ).pSymmetric(h: 20),
@@ -450,10 +401,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                       onPressed: () {},
                       child: Text(
                         AppLocalizations.of(context)!.deletealarm,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(color: Colors.red),
+                        style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.red),
                       ),
                     ),
                   20.heightBox,
@@ -477,18 +425,14 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                               focusNode: _letterFocusNode,
                               onTap: () => _expansionTileController.collapse(),
                               validator: (value) {
-                                if (value == null ||
-                                    value.isEmpty ||
-                                    value == "") {
-                                  return AppLocalizations.of(context)!
-                                      .putsometext;
+                                if (value == null || value.isEmpty || value == "") {
+                                  return AppLocalizations.of(context)!.putsometext;
                                 }
                                 return null;
                               },
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText:
-                                    AppLocalizations.of(context)!.wakeupyou,
+                                hintText: AppLocalizations.of(context)!.wakeupyou,
                               ),
                             ),
                           ),
@@ -532,9 +476,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                                   children: [
                                     Text(
                                       "앨범",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
+                                      style: Theme.of(context).textTheme.titleMedium,
                                     ),
                                     Expanded(
                                       child: Container(),
@@ -547,7 +489,6 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                             10.heightBox,
                             GestureDetector(
                               onTap: () {
-                                showToast("사진 찍기");
                                 takeletterCameraImage();
                               },
                               child: Container(
@@ -564,9 +505,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                                   children: [
                                     Text(
                                       "카메라",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
+                                      style: Theme.of(context).textTheme.titleMedium,
                                     ),
                                     Expanded(
                                       child: Container(),
@@ -581,7 +520,6 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                   10.heightBox,
                   GestureDetector(
                     onTap: () {
-                      showToast("음성 녹음 준비 중이에요");
                       setState(() {
                         showAudio = true;
                       });
@@ -591,10 +529,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.white,
                           boxShadow: [
-                            BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 10,
-                                offset: const Offset(8, 8))
+                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
                           ]),
                       child:
                           // showAudio
@@ -617,9 +552,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                                   children: [
                                     Text(
                                       "음성 재생",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
+                                      style: Theme.of(context).textTheme.titleMedium,
                                     ),
                                     Expanded(
                                       child: Container(),
@@ -638,9 +571,7 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                                   children: [
                                     Text(
                                       "음성 녹음",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
+                                      style: Theme.of(context).textTheme.titleMedium,
                                     ),
                                     Expanded(
                                       child: Container(),
@@ -664,115 +595,88 @@ class _WakeUpEditScreenState extends ConsumerState<WakeUpEditScreen> {
                 ],
               ),
               10.heightBox,
-              Row(
-                children: [
-                  isLoading
-                      ? Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(),
-                          ),
-                          child: const Center(child: Loader()),
-                        )
-                      : Expanded(
-                          child: GestureDetector(
-                            onTap: () async {
-                              if (_formKey.currentState!.validate()) {
-                                showToast("저장 중이에요");
-                                setState(() {
-                                  isLoading = true;
-                                });
-                                String uniqueImageName =
-                                    DateTime.now().toString();
-                                Reference refRoot =
-                                    ref.watch(storageProvider).ref();
-                                Reference refDirImage = refRoot
-                                    .child(FirebaseConstants.wakeUpImage);
-                                Reference refImageToUpload =
-                                    refDirImage.child(uniqueImageName);
-                                if (letterImageFile != null) {
-                                  try {
-                                    await refImageToUpload
-                                        .putFile(File(letterImageFile!.path));
-                                    imageUrl =
-                                        await refImageToUpload.getDownloadURL();
-                                  } catch (e) {
-                                    logger.e(
-                                        "Error uploading image or no image file selected");
-                                    logger.e(e.toString());
-
-                                    setState(() {
-                                      isLoading = false;
-                                    });
-                                  }
-                                }
-                                Reference refDirVoice = refRoot
-                                    .child(FirebaseConstants.wakeUpVoice);
-                                Reference refVoiceToUpload =
-                                    refDirVoice.child("$uniqueImageName.m4a");
-                                if (audioPath != null) {
-                                  try {
-                                    await refVoiceToUpload
-                                        .putFile(File(audioPath!));
-                                    audioUrl =
-                                        await refVoiceToUpload.getDownloadURL();
-                                    logger.d(audioUrl);
-                                  } catch (e) {
-                                    logger.e(
-                                        "Error uploading voice or no voice file selected");
-                                    logger.e(e.toString());
-                                    setState(() {
-                                      isLoading = false;
-                                    });
-                                  }
-                                }
-                                ref
-                                    .watch(wakeUpControllerProvider.notifier)
-                                    .createWakeUp(
-                                        DateTime(
-                                            DateTime.now().year,
-                                            DateTime.now().month,
-                                            DateTime.now()
-                                                .add(const Duration(days: 1))
-                                                .day,
-                                            selectedTime.hour,
-                                            selectedTime.minute),
-                                        _letterController.text,
-                                        imageUrl,
-                                        audioUrl,
-                                        volume ?? 0.8,
-                                        vibrate);
-                                if (mounted) {
-                                  context.goNamed(MainScreen.routeName);
-                                  showToast(
-                                      AppLocalizations.of(context)!.saved);
-                                }
-                                _letterController.clear();
-                                ref.watch(getTomorrowWakeUpYouProvider);
-                              }
-                            },
-                            child: Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              decoration: BoxDecoration(
-                                color: AppColors.myPink,
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(),
-                              ),
-                              child: Center(child: "깨우기".text.white.make())
-                                  .pSymmetric(v: 10),
-                            ),
-                          ),
-                        ),
-                ],
-              ),
               10.heightBox,
             ],
           ).pSymmetric(h: 15),
         ),
       )),
+      bottomSheet: isLoading
+          ? Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(),
+              ),
+              child: const Center(child: Loader()),
+            )
+          : GestureDetector(
+              onTap: () async {
+                if (_formKey.currentState!.validate()) {
+                  showToast("저장 중이에요");
+                  setState(() {
+                    isLoading = true;
+                  });
+                  String uniqueImageName = DateTime.now().toString();
+                  Reference refRoot = ref.watch(storageProvider).ref();
+                  Reference refDirImage = refRoot.child(FirebaseConstants.wakeUpImage);
+                  Reference refImageToUpload = refDirImage.child(uniqueImageName);
+                  if (letterImageFile != null) {
+                    try {
+                      await refImageToUpload.putFile(File(letterImageFile!.path));
+                      imageUrl = await refImageToUpload.getDownloadURL();
+                    } catch (e) {
+                      logger.e("Error uploading image or no image file selected");
+                      logger.e(e.toString());
+
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
+                  }
+                  Reference refDirVoice = refRoot.child(FirebaseConstants.wakeUpVoice);
+                  Reference refVoiceToUpload = refDirVoice.child("$uniqueImageName.m4a");
+                  if (audioPath != null) {
+                    try {
+                      await refVoiceToUpload.putFile(File(audioPath!));
+                      audioUrl = await refVoiceToUpload.getDownloadURL();
+                      logger.d(audioUrl);
+                    } catch (e) {
+                      logger.e("Error uploading voice or no voice file selected");
+                      logger.e(e.toString());
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
+                  }
+                  ref.watch(wakeUpControllerProvider.notifier).createWakeUp(
+                      DateTime(DateTime.now().year, DateTime.now().month,
+                          DateTime.now().add(const Duration(days: 1)).day, selectedTime.hour, selectedTime.minute),
+                      _letterController.text,
+                      imageUrl,
+                      audioUrl,
+                      volume ?? 0.8,
+                      vibrate);
+
+                  if (context.mounted) {
+                    context.goNamed(MainScreen.routeName);
+                    showToast(AppLocalizations.of(context)!.saved);
+                  }
+                  _letterController.clear();
+                  ref.watch(getTomorrowWakeUpYouProvider);
+                }
+              },
+              child: Container(
+                height: 35,
+                decoration: BoxDecoration(
+                  color: isValid ? AppColors.myPink : Colors.grey.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Center(child: "깨우기".text.white.make()),
+              ),
+            ).pOnly(bottom: 15, left: 5, right: 5),
     );
   }
+
+  bool get isValid => isNotBlank(_letterController.text);
 }

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:wakeuphoney/core/common/fcm_manager.dart';
 import 'package:wakeuphoney/core/common/loader.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/core/providers/providers.dart';
@@ -71,6 +72,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     // subscription ??= Alarm.ringStream.stream.listen(
     //   (alarmSettings) => navigateToRingScreen(alarmSettings),
     // );
+    FcmManager.requestPermission();
+    FcmManager.initialize();
   }
 
   void loadAlarms() {
