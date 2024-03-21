@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
+import 'package:wakeuphoney/features/wakeup/wakeup_alarm_model.dart';
 
 import '../../core/providers/firebase_providers.dart';
 import '../auth/auth_controller.dart';
@@ -19,6 +20,9 @@ final getTomorrowWakeUpMeProvider = FutureProvider.autoDispose<WakeUpModel>(
     (ref) => ref.watch(wakeUpControllerProvider.notifier).getTomorrowWakeUpMeProvider());
 final getTomorrowWakeUpYouProvider = FutureProvider.autoDispose<WakeUpModel>(
     (ref) => ref.watch(wakeUpControllerProvider.notifier).getTomorrowWakeUpYouProvider());
+
+final wakeUpMeAlarmProvider =
+    StreamProvider<List<WakeUpModel>>((ref) => ref.watch(wakeUpControllerProvider.notifier).getWakeUpMeAlarm());
 
 final getAWakeUpProvider =
     FutureProvider.autoDispose<WakeUpModel>((ref) => ref.watch(wakeUpControllerProvider.notifier).getAWakeUpLetter());
@@ -148,6 +152,13 @@ class WakeUpController extends StateNotifier<bool> {
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     return _wakeUpRepository.getTomorrowWakeUpMe(uid);
+  }
+
+  Stream<List<WakeUpModel>> getWakeUpMeAlarm() {
+    User? auser = _ref.watch(authProvider).currentUser;
+    String uid;
+    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+    return _wakeUpRepository.getWakeUpMeAlarm(uid);
   }
 
   wakeUpAprove(String reciverUid, String senderUid, String wakeUpUid) {

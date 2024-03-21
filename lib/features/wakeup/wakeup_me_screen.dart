@@ -140,6 +140,10 @@ class WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
     bool isApproved = false;
     DateTime now = DateTime.now();
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        title: const Text("WakeUpMeScreen"),
+      ),
       body: RefreshIndicator(
           onRefresh: () async {
             ref.watch(getTomorrowWakeUpMeProvider);

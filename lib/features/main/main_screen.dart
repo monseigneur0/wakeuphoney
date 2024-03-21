@@ -25,6 +25,7 @@ import '../match/match_screen.dart';
 import '../profile/profile_controller.dart';
 import '../wake/wake_me_screen.dart';
 import '../wake/wake_you_screen.dart';
+import '../wakeup/wakeup_me_alarm.dart';
 import '../wakeup/wakeup_me_devscreen.dart';
 import '../wakeup/wakeup_you_screen.dart';
 import 'main_controller.dart';
@@ -112,11 +113,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
     final isLoggedInStream = ref.watch(loginCheckProvider);
     List<Widget> widgetOptions = <Widget>[
+      if (kDebugMode) const WakeUpMeAlarmScreen(),
       // const WakeUpVoiceScreen(),
       const WakeUpMeScreen(),
       const WakeUpYouScreen(),
       // if (kDebugMode) const WakeMeScreen(),
-      if (kDebugMode) const WakeYouScreen(),
       const WakeUpFeedScreen(),
       // const ListAudio(),
       // const PlayerScreen(),

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:wakeuphoney/features/wakeup/wakeup_alarm_model.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_model.dart';
 
 import '../../core/constants/firebase_constants.dart';
@@ -203,6 +204,19 @@ class WakeUpRepository {
     } catch (e) {
       logger.e(e.toString());
       return Future.error(e);
+    }
+  }
+
+  Stream<List<WakeUpModel>> getWakeUpMeAlarm(String uid) {
+    try {
+      return _usersCollection
+          .doc(uid)
+          .collection(FirebaseConstants.wakeUpAlarmCollection)
+          .snapshots()
+          .map((wakeUpSnapShot) => wakeUpSnapShot.docs.map((e) => WakeUpModel.fromMap(e.data())).toList());
+    } catch (e) {
+      logger.e(e.toString());
+      return Stream.error(e);
     }
   }
 }
