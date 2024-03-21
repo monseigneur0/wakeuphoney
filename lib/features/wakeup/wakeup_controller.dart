@@ -162,13 +162,19 @@ class WakeUpController extends StateNotifier<bool> {
     return _wakeUpRepository.getWakeUpMeAlarm(uid);
   }
 
-  deletePastAlarm() {
-    User? auser = _ref.watch(authProvider).currentUser;
-    String uid;
-    auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
-    logger.d("deletePastAlarm");
-    _wakeUpRepository.deletePastAlarm(uid);
-  }
+  // deletePastAlarm() {
+  //   User? auser = _ref.watch(authProvider).currentUser;
+  //   String uid;
+  //   auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
+  //   logger.d("deletePastAlarm");
+
+  //   final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
+  //   String coupleUid;
+  //   coupleUidValue != null ? coupleUid = coupleUidValue.couple! : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+
+  //   _wakeUpRepository.deletePastAlarm(uid);
+  //   _wakeUpRepository.deletePastAlarm(coupleUid);
+  // }
 
   wakeUpAprove(String reciverUid, String senderUid, String wakeUpUid) {
     _wakeUpRepository.wakeUpAprove(reciverUid, wakeUpUid);

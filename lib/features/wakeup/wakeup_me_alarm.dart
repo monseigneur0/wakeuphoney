@@ -93,7 +93,6 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
   Widget build(BuildContext context) {
     final userInfo = ref.watch(getUserProfileStreamProvider);
     final wakeUpMeAlarm = ref.watch(wakeUpMeAlarmProvider);
-    ref.watch(wakeUpControllerProvider.notifier).deletePastAlarm;
 
     return Scaffold(
       appBar: AppBar(
@@ -104,8 +103,6 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
           data: (user) {
             return wakeUpMeAlarm.when(
                 data: (alarm) {
-                  logger.d(ref.watch(userModelofMeStateProvider));
-
                   if (user.couple == null || user.couple!.isEmpty || user.couple! == "") {
                     return Container(
                       child: const Center(
