@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:velocity_x/velocity_x.dart';
-import 'package:wakeuphoney/features/wakeup/wakeup_alarm_model.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_model.dart';
 
 import '../../core/constants/firebase_constants.dart';
@@ -49,7 +48,6 @@ class WakeUpRepository {
     //날짜순 정렬하기
 
     try {
-      logger.d("run Stream<List<WakeUpModel>> getLettersList");
       return _usersCollection
           .doc(uid)
           .collection(FirebaseConstants.wakeUpCollection)
@@ -70,6 +68,24 @@ class WakeUpRepository {
     } catch (e) {
       logger.e(e.toString());
       return Stream.error(e);
+    }
+  }
+
+  deletePastAlarm(String uid) {
+    logger.d("deletePastAlarm");
+    try {
+      _usersCollection
+          .doc(uid)
+          .collection(FirebaseConstants.wakeUpAlarmCollection)
+          .where('wakeTime', isLessThan: Timestamp.now())
+          .get()
+          .then((snapshot) {
+        for (DocumentSnapshot doc in snapshot.docs) {
+          doc.reference.delete();
+        }
+      });
+    } catch (e) {
+      logger.e(e.toString());
     }
   }
 

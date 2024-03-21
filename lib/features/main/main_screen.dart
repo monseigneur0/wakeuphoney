@@ -11,6 +11,7 @@ import 'package:wakeuphoney/core/common/fcm_manager.dart';
 import 'package:wakeuphoney/core/common/loader.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/core/providers/providers.dart';
+import 'package:wakeuphoney/features/auth/auth_repository.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_screen.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_feed_screen.dart';
@@ -123,8 +124,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       // const PlayerScreen(),
       // const FeedbackListScreen(),
       hasCoupleId.when(
-        data: ((data) {
-          if (data.couple != "") {
+        data: ((userModel) {
+          ref.watch(authControllerProvider.notifier).saveUserData(userModel);
+
+          if (userModel.couple != "" || userModel.couple == null) {
             return const CoupleProfileScreen();
           }
           return const MatchScreen();
@@ -145,6 +148,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               ref.read(userModelofMeStateProvider.notifier).state = data;
               logger.d(ref.watch(userModelofMeStateProvider));
             }
+
             // print(data.couple : ${data.couple}");
             return data.couple == "" || data.couple == null
                 ? const MatchScreen()

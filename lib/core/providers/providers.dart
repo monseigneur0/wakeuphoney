@@ -23,22 +23,17 @@ final dateStateProvider = StateProvider<List<String>>(
   ),
 );
 
-final dateTimeStateProvider =
-    StateProvider<List<DateTime>>((ref) => List<DateTime>.generate(
-          100,
-          (index) => DateTime.now().add(Duration(days: index)),
-        ));
-final dateTimeNotTodayStateProvider =
-    StateProvider<List<DateTime>>((ref) => List<DateTime>.generate(
-          100,
-          (index) => DateTime.now()
-              .add(Duration(
-                  seconds: 24 * 60 * 60 -
-                      DateTime.now().hour * 3600 -
-                      DateTime.now().minute * 60 -
-                      DateTime.now().second))
-              .add(Duration(days: index)),
-        ));
+final dateTimeStateProvider = StateProvider<List<DateTime>>((ref) => List<DateTime>.generate(
+      100,
+      (index) => DateTime.now().add(Duration(days: index)),
+    ));
+final dateTimeNotTodayStateProvider = StateProvider<List<DateTime>>((ref) => List<DateTime>.generate(
+      100,
+      (index) => DateTime.now()
+          .add(Duration(
+              seconds: 24 * 60 * 60 - DateTime.now().hour * 3600 - DateTime.now().minute * 60 - DateTime.now().second))
+          .add(Duration(days: index)),
+    ));
 
 final selectedDate = StateProvider(
   (ref) => DateFormat.yMMMd().format(
@@ -51,3 +46,5 @@ final selectedDateTime = StateProvider<DateTime>(
 );
 
 final userModelofMeStateProvider = StateProvider<UserModel?>((ref) => null);
+
+final userModelProvider = StateProvider<UserModel?>((ref) => null);

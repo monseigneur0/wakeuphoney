@@ -10,21 +10,20 @@ import 'package:wakeuphoney/features/auth/auth_repository.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
 import 'package:wakeuphoney/features/auth/user_model.dart';
 
-final authControllerProvider =
-    AsyncNotifierProvider<AuthController, void>(() => AuthController());
+import '../../core/providers/providers.dart';
+
+final authControllerProvider = AsyncNotifierProvider<AuthController, void>(() => AuthController());
 
 final getUserDataProvider = StreamProvider.family((ref, String uid) {
   final authController = ref.watch(authControllerProvider.notifier);
   return authController.getUserData(uid);
 });
-final getMyUserDataProvider = StreamProvider(
-    (ref) => ref.watch(authControllerProvider.notifier).getMyUserData());
+final getMyUserDataProvider = StreamProvider((ref) => ref.watch(authControllerProvider.notifier).getMyUserData());
 
-final loginCheckProvider = StreamProvider(
-    (ref) => ref.watch(authControllerProvider.notifier).authStateChange);
+final loginCheckProvider = StreamProvider((ref) => ref.watch(authControllerProvider.notifier).authStateChange);
 
-final getFutureMyUserDataProvider = FutureProvider<UserModel>(
-    (ref) => ref.watch(authControllerProvider.notifier).getFutureMyUserData());
+final getFutureMyUserDataProvider =
+    FutureProvider<UserModel>((ref) => ref.watch(authControllerProvider.notifier).getFutureMyUserData());
 
 class AuthController extends AsyncNotifier<void> {
   late final AuthRepository _authRepository;
@@ -94,8 +93,13 @@ class AuthController extends AsyncNotifier<void> {
     User? auser = ref.watch(authProvider).currentUser;
     String uid;
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
-    logger.d(uid);
     return _authRepository.getFutureUserData(uid);
+  }
+
+  //shared preference 에 user data 저장.
+  void saveUserData(UserModel userModel) {
+    _authRepository.saveUserData(userModel);
+    // ref.read(userModelProvider.notifier).state = userModel;
   }
 
   void logout(BuildContext context) async {
@@ -110,9 +114,7 @@ class AuthController extends AsyncNotifier<void> {
     _authRepository.brokeup(uid);
     final coupleUidValue = ref.watch(getUserDataProvider(uid)).value;
     String coupleUid;
-    coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple!
-        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+    coupleUidValue != null ? coupleUid = coupleUidValue.couple! : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
     _authRepository.brokeup(coupleUid);
   }
 }

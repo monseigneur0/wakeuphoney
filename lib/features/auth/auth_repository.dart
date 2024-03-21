@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,8 +32,7 @@ class AuthRepository {
         _googleSignIn = googleSignIn,
         _firestore = firestore;
 
-  CollectionReference get _users =>
-      _firestore.collection(FirebaseConstants.usersCollection);
+  CollectionReference get _users => _firestore.collection(FirebaseConstants.usersCollection);
 
   User? get currentUser => _firebaseAuth.currentUser;
   bool get isLoggedIn => currentUser != null;
@@ -44,8 +44,7 @@ class AuthRepository {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
     if (googleAuth == null) {
       return null;
     }
@@ -56,8 +55,7 @@ class AuthRepository {
     );
 
     // Once signed in, return the UserCredential
-    final userCredential =
-        await FirebaseAuth.instance.signInWithCredential(credential);
+    final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
 
     UserModel userModel;
 
@@ -66,7 +64,7 @@ class AuthRepository {
         displayName: userCredential.user!.displayName ?? "이름을 입력해주세요.",
         email: userCredential.user!.email ?? "noemail@hello.com",
         photoURL: userCredential.user!.photoURL ??
-            "https://firebasestorage.googleapis.com/v0/b/wakeuphoneys2.appspot.com/o/images%2Fgoogleprofileimg.png?alt=media&token=76e62fad-11c3-4c66-ba8a-2400efbedb5a",
+            "https://firebasestorage.googleapis.com/v0/b/wakeuphoneys2.appspot.com/o/images%2F2024-01-08%2019:23:12.693630?alt=media&token=643f9416-0203-4e75-869a-ea0240e14ca4",
         uid: userCredential.user!.uid,
         couple: "",
         couples: [],
@@ -90,9 +88,7 @@ class AuthRepository {
       await _users.doc(userCredential.user!.uid).set(userModel.toMap());
       return userCredential;
     } else if (userCredential.user!.uid.isNotEmpty) {
-      await _users
-          .doc(userCredential.user!.uid)
-          .update({"lastSignInTime": DateTime.now()});
+      await _users.doc(userCredential.user!.uid).update({"lastSignInTime": DateTime.now()});
     }
     return userCredential;
   }
@@ -110,8 +106,7 @@ class AuthRepository {
       appleCredential.identityToken;
       logger.d("appleCredential $appleCredential");
       logger.d("appleCredential.givenName: ${appleCredential.givenName}");
-      logger
-          .d("appleCredential.identityToken: ${appleCredential.identityToken}");
+      logger.d("appleCredential.identityToken: ${appleCredential.identityToken}");
       final oAuthCredential = OAuthProvider("apple.com").credential(
         idToken: appleCredential.identityToken,
         accessToken: appleCredential.authorizationCode,
@@ -119,23 +114,19 @@ class AuthRepository {
       logger.d("oAuthCredential: $oAuthCredential");
       logger.d("oAuthCredential.rawNonce: ${oAuthCredential.rawNonce}");
 
-      final userCredential =
-          await FirebaseAuth.instance.signInWithCredential(oAuthCredential);
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(oAuthCredential);
       logger.d("userCredential: $userCredential");
-      logger.d(
-          "userCredential.user!.displayName: ${userCredential.user!.displayName}");
+      logger.d("userCredential.user!.displayName: ${userCredential.user!.displayName}");
       UserModel userModel;
-      logger.d(
-          "userCredential.additionalUserInfo!.profile: ${userCredential.additionalUserInfo!.profile}");
-      logger.d(
-          "userCredential.additionalUserInfo!.username: ${userCredential.additionalUserInfo!.username}");
+      logger.d("userCredential.additionalUserInfo!.profile: ${userCredential.additionalUserInfo!.profile}");
+      logger.d("userCredential.additionalUserInfo!.username: ${userCredential.additionalUserInfo!.username}");
 
       if (userCredential.additionalUserInfo!.isNewUser) {
         userModel = UserModel(
           displayName: appleCredential.givenName ?? "닉네임",
           email: userCredential.user!.email ?? "noemail@hello.com",
           photoURL: userCredential.user!.photoURL ??
-              "https://firebasestorage.googleapis.com/v0/b/wakeuphoneys2.appspot.com/o/images%2Fgoogleprofileimg.png?alt=media&token=76e62fad-11c3-4c66-ba8a-2400efbedb5a",
+              "https://firebasestorage.googleapis.com/v0/b/wakeuphoneys2.appspot.com/o/images%2F2024-01-08%2019:23:12.693630?alt=media&token=643f9416-0203-4e75-869a-ea0240e14ca4",
           uid: userCredential.user!.uid,
           couple: "",
           couples: [],
@@ -159,9 +150,7 @@ class AuthRepository {
         await _users.doc(userCredential.user!.uid).set(userModel.toMap());
         return userCredential;
       } else if (userCredential.user!.uid.isNotEmpty) {
-        await _users
-            .doc(userCredential.user!.uid)
-            .update({"lastSignInTime": DateTime.now()});
+        await _users.doc(userCredential.user!.uid).update({"lastSignInTime": DateTime.now()});
       }
       return userCredential;
     } on FirebaseException catch (e) {
@@ -172,23 +161,27 @@ class AuthRepository {
   }
 
   Stream<UserModel> getUserData(String uid) {
-    return _users.doc(uid).snapshots().map(
-        (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
+    return _users.doc(uid).snapshots().map((event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
   }
 
   Future<UserModel> getFutureUserData(String uid) async {
     try {
-      final wow = await _users.doc(uid).get().then((event) {
-        logger.d("Future<UserModel?> getFutureUserData(String uid) async");
+      final me = await _users.doc(uid).get().then((event) {
         return UserModel.fromMap(event.data() as Map<String, dynamic>);
       });
-      return wow;
+      return me;
     } catch (e) {
-      logger.d(e.toString());
+      logger.e(e.toString());
     }
-    logger.d(
-        "return null;Future<UserModel?> getFutureUserData(String uid) async");
-    throw Exception("Failed to get user data.");
+    throw Exception("Failed to get user data."); //이거 왜 함? 이미 try catch
+  }
+
+  //shared preference 에 user data 저장.
+  saveUserData(UserModel user) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userString = user.toString();
+
+    prefs.setString("uid", userString);
   }
 
   void logout() async {

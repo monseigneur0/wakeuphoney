@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../core/common/common.dart';
+import '../../core/providers/providers.dart';
 import '../main/main_screen.dart';
 import '../profile/profile_controller.dart';
 import 'wakeup_controller.dart';
@@ -92,6 +93,7 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
   Widget build(BuildContext context) {
     final userInfo = ref.watch(getUserProfileStreamProvider);
     final wakeUpMeAlarm = ref.watch(wakeUpMeAlarmProvider);
+    ref.watch(wakeUpControllerProvider.notifier).deletePastAlarm;
 
     return Scaffold(
       appBar: AppBar(
@@ -102,6 +104,8 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
           data: (user) {
             return wakeUpMeAlarm.when(
                 data: (alarm) {
+                  logger.d(ref.watch(userModelofMeStateProvider));
+
                   if (user.couple == null || user.couple!.isEmpty || user.couple! == "") {
                     return Container(
                       child: const Center(
@@ -124,10 +128,11 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                   borderRadius: BorderRadius.circular(20),
                                   child: CachedNetworkImage(
                                     width: 45,
-                                    imageUrl: user.photoURL,
+                                    imageUrl: user.couplePhotoURL ??
+                                        "https://firebasestorage.googleapis.com/v0/b/wakeuphoneys2.appspot.com/o/images%2F2024-01-08%2019:23:12.693630?alt=media&token=643f9416-0203-4e75-869a-ea0240e14ca4",
                                   ),
                                 ).p(10),
-                                user.displayName.text.make(),
+                                user.coupleDisplayName!.text.make(),
                                 Expanded(
                                   child: Container(),
                                 ),
@@ -279,10 +284,11 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                         borderRadius: BorderRadius.circular(20),
                                         child: CachedNetworkImage(
                                           width: 45,
-                                          imageUrl: user.photoURL,
+                                          imageUrl: user.couplePhotoURL ??
+                                              "https://firebasestorage.googleapis.com/v0/b/wakeuphoneys2.appspot.com/o/images%2F2024-01-08%2019:23:12.693630?alt=media&token=643f9416-0203-4e75-869a-ea0240e14ca4",
                                         ),
                                       ).p(10),
-                                      user.displayName.text.make(),
+                                      user.coupleDisplayName!.text.make(),
                                       Expanded(
                                         child: Container(),
                                       ),
