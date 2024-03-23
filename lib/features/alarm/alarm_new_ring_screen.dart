@@ -128,6 +128,7 @@ class _AlarmNewScreen extends ConsumerState<AlarmNewScreen> {
                             ),
                             onPressed: () {
                               context.pop();
+                              ref.watch(wakeUpControllerProvider.notifier).deletePastAlarm();
                             },
                             child: Padding(
                               padding: EdgeInsets.all(MediaQuery.of(context).size.width / 15),

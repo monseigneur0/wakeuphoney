@@ -449,24 +449,26 @@ class WakeUpMeScreenState extends ConsumerState<WakeUpMeScreen> {
                                   );
                                 });
                       },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        color: AppColors.rabbitalarm,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            100.heightBox,
-                            WakeUpStatus(AppLocalizations.of(context)!.wakeupmenotapproved),
-                            const Image(
-                              image: AssetImage('assets/images/rabbitalarm.png'),
-                              height: 220,
-                            ),
-                            if (kDebugMode)
-                              Text(
-                                "w1ow this is kDebugMode2 ${letters.toString()}",
-                                style: const TextStyle(fontSize: 20),
+                      child: SingleChildScrollView(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          color: AppColors.rabbitalarm,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              100.heightBox,
+                              WakeUpStatus(AppLocalizations.of(context)!.wakeupmenotapproved),
+                              const Image(
+                                image: AssetImage('assets/images/rabbitalarm.png'),
+                                height: 220,
                               ),
-                          ],
+                              if (kDebugMode)
+                                Text(
+                                  "w1ow this is kDebugMode2 ${letters.toString()}",
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                            ],
+                          ),
                         ),
                       ),
                     );
