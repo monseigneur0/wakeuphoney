@@ -106,7 +106,7 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                   if (user.couple == null || user.couple!.isEmpty || user.couple! == "") {
                     return Container(
                       child: const Center(
-                        child: Text("You don't have a couple yet."),
+                        child: Text("You don't have a friend yet."),
                       ),
                     );
                   }
@@ -170,7 +170,7 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                     child: ListView.builder(
                       itemCount: alarm.length,
                       itemBuilder: (context, index) {
-                        if (alarm[index].senderUid == user.uid) {
+                        if (alarm[index].senderUid == user.uid || alarm[index].wakeTime.isBefore(DateTime.now())) {
                           return Container(
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
@@ -216,13 +216,13 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Container(
-                                        child: const Text("사진").p(10),
+                                        child: const NoAlarmelblock("사진"),
                                       ),
                                       Container(
-                                        child: const Text("글"),
+                                        child: const NoAlarmelblock("글"),
                                       ),
                                       Container(
-                                        child: const Text("음성"),
+                                        child: const NoAlarmelblock("음성"),
                                       ),
                                     ],
                                   ),
