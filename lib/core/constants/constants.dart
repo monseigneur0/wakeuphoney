@@ -9,16 +9,16 @@ class Constants {
       'https://thumbs.dreamstime.com/b/abstract-stained-pattern-rectangle-background-blue-sky-over-fiery-red-orange-color-modern-painting-art-watercolor-effe-texture-123047399.jpg';
   static const avatarDefault =
       'https://external-preview.redd.it/5kh5OreeLd85QsqYO1Xz_4XSLYwZntfjqou-8fyBFoE.png?auto=webp&s=dbdabd04c399ce9c761ff899f5d38656d1de87c2';
+  static const userDefault =
+      "https://firebasestorage.googleapis.com/v0/b/wakeuphoneys2.appspot.com/o/images%2F2024-01-08%2019:23:12.693630?alt=media&token=643f9416-0203-4e75-869a-ea0240e14ca4";
 
   static const tabWidgets = [
     // FeedScreen(),
     // AddPostScreen(),
   ];
 
-  static const IconData up =
-      IconData(0xe800, fontFamily: 'MyFlutterApp', fontPackage: null);
-  static const IconData down =
-      IconData(0xe801, fontFamily: 'MyFlutterApp', fontPackage: null);
+  static const IconData up = IconData(0xe800, fontFamily: 'MyFlutterApp', fontPackage: null);
+  static const IconData down = IconData(0xe801, fontFamily: 'MyFlutterApp', fontPackage: null);
 
   static const awardsPath = 'assets/images/awards';
 
