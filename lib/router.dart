@@ -24,8 +24,7 @@ import 'features/profile/feedback_screen.dart';
 import 'features/profile/profile_screen.dart';
 import 'features/voice/voice_test_screen.dart';
 import 'features/voice/voice_text_screen.dart';
-import 'features/wake/response_screen.dart';
-import 'features/wake/wake_write_screen.dart';
+import 'features/wakeup/response_screen.dart';
 import 'practice_home_screen.dart';
 
 final routerProvider = Provider((ref) {
@@ -130,11 +129,6 @@ final routerProvider = Provider((ref) {
         name: WakeUpWriteScreen.routeName,
         path: WakeUpWriteScreen.routeURL,
         builder: (context, state) => const WakeUpWriteScreen(),
-      ),
-      GoRoute(
-        name: WakeWriteScreen.routeName,
-        path: WakeWriteScreen.routeURL,
-        builder: (context, state) => const WakeWriteScreen(),
       ),
       GoRoute(
         name: BitcoinScreen.routeName,

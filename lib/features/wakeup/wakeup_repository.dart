@@ -29,17 +29,17 @@ class WakeUpRepository {
     }
   }
 
-  createWakeUpAlarm(String uid, WakeUpModel wakeUp) {
-    try {
-      _usersCollection
-          .doc(uid)
-          .collection(FirebaseConstants.wakeUpAlarmCollection)
-          .doc(wakeUp.wakeUpUid)
-          .set(wakeUp.toMap());
-    } catch (e) {
-      logger.e(e.toString());
-    }
-  }
+  // createWakeUpAlarm(String uid, WakeUpModel wakeUp) {
+  //   try {
+  //     _usersCollection
+  //         .doc(uid)
+  //         .collection(FirebaseConstants.wakeUpAlarmCollection)
+  //         .doc(wakeUp.wakeUpUid)
+  //         .set(wakeUp.toMap());
+  //   } catch (e) {
+  //     logger.e(e.toString());
+  //   }
+  // }
 
   Stream<List<WakeUpModel>> getLettersList(String uid) {
     //오늘 날짜 이전으로 받는사람이 나인것만, 보낸사람이 나인건 모두 보여주기.
@@ -71,23 +71,23 @@ class WakeUpRepository {
     }
   }
 
-  deletePastAlarm(String uid) {
-    logger.d("deletePastAlarm");
-    try {
-      _usersCollection
-          .doc(uid)
-          .collection(FirebaseConstants.wakeUpAlarmCollection)
-          .where('wakeTime', isLessThan: Timestamp.now())
-          .get()
-          .then((snapshot) {
-        for (DocumentSnapshot doc in snapshot.docs) {
-          doc.reference.delete();
-        }
-      });
-    } catch (e) {
-      logger.e(e.toString());
-    }
-  }
+  // deletePastAlarm(String uid) {
+  //   logger.d("deletePastAlarm");
+  //   try {
+  //     _usersCollection
+  //         .doc(uid)
+  //         .collection(FirebaseConstants.wakeUpAlarmCollection)
+  //         .where('wakeTime', isLessThan: Timestamp.now())
+  //         .get()
+  //         .then((snapshot) {
+  //       for (DocumentSnapshot doc in snapshot.docs) {
+  //         doc.reference.delete();
+  //       }
+  //     });
+  //   } catch (e) {
+  //     logger.e(e.toString());
+  //   }
+  // }
 
   letterEditMessage(String uid, String letterId, String message) {
     try {
@@ -103,6 +103,7 @@ class WakeUpRepository {
   letterDeleteMessage(String uid, String letterId) {
     try {
       _usersCollection.doc(uid).collection(FirebaseConstants.wakeUpCollection).doc(letterId).delete();
+      // _usersCollection.doc(uid).collection(FirebaseConstants.wakeUpAlarmCollection).doc(letterId).delete();
     } catch (e) {
       logger.e(e.toString());
     }
@@ -227,7 +228,7 @@ class WakeUpRepository {
     try {
       return _usersCollection
           .doc(uid)
-          .collection(FirebaseConstants.wakeUpAlarmCollection)
+          .collection(FirebaseConstants.wakeUpCollection)
           .snapshots()
           .map((wakeUpSnapShot) => wakeUpSnapShot.docs.map((e) => WakeUpModel.fromMap(e.data())).toList());
     } catch (e) {

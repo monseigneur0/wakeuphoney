@@ -7,11 +7,12 @@ class FirebaseConstants {
   static const communitiesCollection = 'communities';
   static const postsCollection = 'posts';
   static const commentsCollection = 'comments';
-  static const lettersCollection = 'letters';
   static const wakeUpCollection = 'wakeups';
-  static const wakeUpAlarmCollection = 'wakeupalarms';
-  static const wakeCollection = 'wakes';
+  // static const lettersCollection = 'letters';
+  // static const wakeUpAlarmCollection = 'wakeupalarms';
+  // static const wakeCollection = 'wakes';
 
+  // firebase storage
   static const wakeUpImage = 'wakeupimages';
   static const wakeUpVoice = 'wakeupvoices';
 }

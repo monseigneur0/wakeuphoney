@@ -7,7 +7,7 @@ import 'package:wakeuphoney/features/wakeup/wakeup_write_screen.dart';
 
 import 'core/providers/providers.dart';
 import 'features/auth/auth_controller.dart';
-import 'features/wake/response_screen.dart';
+import 'features/wakeup/response_screen.dart';
 import 'features/profile/profile_screen.dart';
 import 'features/match/match_screen.dart';
 import 'features/auth/auth_repository.dart';

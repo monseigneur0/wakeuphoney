@@ -15,7 +15,7 @@ import '../../core/common/loader.dart';
 import '../../core/constants/design_constants.dart';
 import '../../core/providers/providers.dart';
 import '../../core/utils.dart';
-import '../wakeup/wakeup_controller.dart';
+import 'wakeup_controller.dart';
 
 class ResponseScreen extends ConsumerStatefulWidget {
   static String routeName = "response";

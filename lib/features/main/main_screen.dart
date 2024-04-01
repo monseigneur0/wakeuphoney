@@ -24,8 +24,6 @@ import '../alarm/alarm_ring_screen.dart';
 import '../auth/auth_controller.dart';
 import '../match/match_screen.dart';
 import '../profile/profile_controller.dart';
-import '../wake/wake_me_screen.dart';
-import '../wake/wake_you_screen.dart';
 import '../wakeup/wakeup_me_alarm.dart';
 import '../wakeup/wakeup_me_devscreen.dart';
 import '../wakeup/wakeup_you_alarm.dart';

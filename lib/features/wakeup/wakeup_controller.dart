@@ -80,8 +80,8 @@ class WakeUpController extends StateNotifier<bool> {
     _wakeUpRepository.createWakeUp(uid, wakeUpModel);
     _wakeUpRepository.createWakeUp(coupleUid, wakeUpModel);
 
-    _wakeUpRepository.createWakeUpAlarm(uid, wakeUpModel);
-    _wakeUpRepository.createWakeUpAlarm(coupleUid, wakeUpModel);
+    // _wakeUpRepository.createWakeUpAlarm(uid, wakeUpModel);
+    // _wakeUpRepository.createWakeUpAlarm(coupleUid, wakeUpModel);
   }
 
   Stream<List<WakeUpModel>> getLettersList() {
@@ -172,8 +172,8 @@ class WakeUpController extends StateNotifier<bool> {
     String coupleUid;
     coupleUidValue != null ? coupleUid = coupleUidValue.couple! : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
-    _wakeUpRepository.deletePastAlarm(uid);
-    _wakeUpRepository.deletePastAlarm(coupleUid);
+    // _wakeUpRepository.deletePastAlarm(uid);
+    // _wakeUpRepository.deletePastAlarm(coupleUid);
   }
 
   wakeUpAprove(String reciverUid, String senderUid, String wakeUpUid) {

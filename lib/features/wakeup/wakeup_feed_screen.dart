@@ -30,6 +30,9 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
     final lettersList = ref.watch(getWakeUpLettersListProvider);
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("wakeupfeedscreen"),
+      ),
       body: userInfo.when(data: (user) {
         return lettersList.when(
             data: (letters) {
