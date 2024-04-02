@@ -12,14 +12,10 @@ final getUserProfileStreamProvider = StreamProvider<UserModel>((ref) {
   return ref.watch(profileControllerProvider.notifier).getUserProfileStream();
 });
 
-final getMyUserInfoProvider = FutureProvider(
-    (ref) => ref.watch(profileControllerProvider.notifier).getMyUserInfo());
+final getMyUserInfoProvider = FutureProvider((ref) => ref.watch(profileControllerProvider.notifier).getMyUserInfo());
 
-final getUserProfileStreamByIdProvider =
-    StreamProvider.family((ref, String uid) {
-  return ref
-      .watch(profileControllerProvider.notifier)
-      .getUserProfileStreamById(uid);
+final getUserProfileStreamByIdProvider = StreamProvider.family((ref, String uid) {
+  return ref.watch(profileControllerProvider.notifier).getUserProfileStreamById(uid);
 });
 
 final getCoupleProfileStreamProvider = StreamProvider((ref) {
@@ -36,8 +32,7 @@ final coupleIdStateProvider = StateProvider<String>((ref) {
   return gogogo;
 });
 
-final getCoupleUidProvider = FutureProvider(
-    (ref) => ref.watch(profileControllerProvider.notifier).getNowCoupleUid);
+final getCoupleUidProvider = FutureProvider((ref) => ref.watch(profileControllerProvider.notifier).getNowCoupleUid);
 
 final StateNotifierProvider<ProfileController, bool> profileControllerProvider =
     StateNotifierProvider<ProfileController, bool>((ref) {
@@ -46,8 +41,7 @@ final StateNotifierProvider<ProfileController, bool> profileControllerProvider =
 });
 
 ///////
-final getFeedbackProvider = FutureProvider(
-    (ref) => ref.watch(profileControllerProvider.notifier).getFeedbacks());
+final getFeedbackProvider = FutureProvider((ref) => ref.watch(profileControllerProvider.notifier).getFeedbacks());
 
 class ProfileController extends StateNotifier<bool> {
   final ProfileRepo _profileRepo;
@@ -81,9 +75,7 @@ class ProfileController extends StateNotifier<bool> {
 
     final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
     String coupleUid;
-    coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple!
-        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+    coupleUidValue != null ? coupleUid = coupleUidValue.couple! : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
 
     return _profileRepo.getUserProfileStream(coupleUid);
   }
@@ -109,8 +101,7 @@ class ProfileController extends StateNotifier<bool> {
         error: (error, stackTrace) {
           return "error getUserDataProvider ${_ref.watch(coupleIdProvider)}";
         },
-        loading: () =>
-            "loading getUserDataProvider ${_ref.watch(coupleIdProvider)}");
+        loading: () => "loading getUserDataProvider ${_ref.watch(coupleIdProvider)}");
   }
 
   void createFeedback(contents, imageUrl) async {
@@ -138,9 +129,7 @@ class ProfileController extends StateNotifier<bool> {
     user != null ? uid = user.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
     final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
     String coupleUid;
-    coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple!
-        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+    coupleUidValue != null ? coupleUid = coupleUidValue.couple! : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
     await _profileRepo.updateProfileImage(uid, coupleUid, url);
   }
 
@@ -201,9 +190,7 @@ class ProfileController extends StateNotifier<bool> {
     _profileRepo.updateDisplayName(uid, displayName);
     final coupleUidValue = _ref.watch(getUserDataProvider(uid)).value;
     String coupleUid;
-    coupleUidValue != null
-        ? coupleUid = coupleUidValue.couple!
-        : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
+    coupleUidValue != null ? coupleUid = coupleUidValue.couple! : coupleUid = "PyY5skHRgPJP0CMgI2Qp";
     _profileRepo.updateCoupleDisplayName(coupleUid, displayName);
   }
 

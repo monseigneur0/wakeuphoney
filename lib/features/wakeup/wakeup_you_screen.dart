@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/core/common/common.dart';
 
 import '../profile/profile_controller.dart';
 import 'wakeup_controller.dart';
+import 'wakeup_me_alarm.dart';
 import 'wakeup_write_screen.dart';
 import 'wakeup_status.dart';
 
@@ -26,7 +28,8 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("WakeUpYouScrenn"),
+        centerTitle: false,
+        title: (kDebugMode) ? const Text('WakeUpYouScreeeeeeen') : Text(AppLocalizations.of(context)!.wakeupgom),
       ),
       body: userInfo.when(
           data: (user) {
@@ -75,73 +78,73 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                                   height: Constants.pngSize,
                                   opacity: AlwaysStoppedAnimation<double>(0.3),
                                 ),
-                                WakeUpStatus(AppLocalizations.of(context)!.wakeupyou),
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(Icons.add, size: 50).p(10),
+                                    WakeUpStatus(AppLocalizations.of(context)!.wakeupyou),
+                                  ],
+                                ),
+                                const Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Container(
-                                      child: const Text("사진").p(10),
-                                    ),
-                                    Container(
-                                      child: const Text("글"),
-                                    ),
-                                    Container(
-                                      child: const Text("음성"),
-                                    ),
+                                    NoIconWakeUp(Icons.photo_size_select_actual_outlined),
+                                    NoIconWakeUp(Icons.email_outlined),
+                                    NoIconWakeUp(Icons.voice_chat),
                                   ],
                                 ),
                                 10.heightBox
                               ],
                             )).p(10),
                       ),
-                      GestureDetector(
-                          onTap: () {
-                            context.pushNamed(WakeUpWriteScreen.routeName);
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.6,
-                            height: 300,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: AppColors.rabbitspeak,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-                                ]),
-                            // color: AppColors.rabbitspeak,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black.withOpacity(0.02),
-                                            blurRadius: 5,
-                                            offset: const Offset(4, 4))
-                                      ]),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        AppLocalizations.of(context)!.wakeupyou,
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          // fontFamily: GoogleFonts.anticSlab().fontFamily,
-                                        ),
-                                      ).p(10),
-                                    ],
-                                  ),
-                                ).pSymmetric(h: 10, v: 10),
-                                const Image(
-                                  image: AssetImage('assets/images/sleepingbear.png'),
-                                  height: Constants.pngSize,
-                                ),
-                              ],
-                            ),
-                          )).pSymmetric(h: 15, v: 15),
+                      // GestureDetector(
+                      //     onTap: () {
+                      //       context.pushNamed(WakeUpWriteScreen.routeName);
+                      //     },
+                      //     child: Container(
+                      //       width: MediaQuery.of(context).size.width * 0.6,
+                      //       height: 300,
+                      //       decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(30),
+                      //           color: AppColors.rabbitspeak,
+                      //           boxShadow: [
+                      //             BoxShadow(
+                      //                 color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                      //           ]),
+                      //       // color: AppColors.rabbitspeak,
+                      //       child: Column(
+                      //         mainAxisAlignment: MainAxisAlignment.center,
+                      //         mainAxisSize: MainAxisSize.min,
+                      //         children: [
+                      //           Container(
+                      //             decoration: BoxDecoration(
+                      //                 borderRadius: BorderRadius.circular(15),
+                      //                 color: Colors.white,
+                      //                 boxShadow: [
+                      //                   BoxShadow(
+                      //                       color: Colors.black.withOpacity(0.02),
+                      //                       blurRadius: 5,
+                      //                       offset: const Offset(4, 4))
+                      //                 ]),
+                      //             child: Column(
+                      //               children: [
+                      //                 Text(
+                      //                   AppLocalizations.of(context)!.wakeupyou,
+                      //                   style: const TextStyle(
+                      //                     fontSize: 16,
+                      //                     // fontFamily: GoogleFonts.anticSlab().fontFamily,
+                      //                   ),
+                      //                 ).p(10),
+                      //               ],
+                      //             ),
+                      //           ).pSymmetric(h: 10, v: 10),
+                      //           const Image(
+                      //             image: AssetImage('assets/images/sleepingbear.png'),
+                      //             height: Constants.pngSize,
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     )).pSymmetric(h: 15, v: 15),
                     ],
                   );
                 } else if (wakeUp.isApproved == true) {
@@ -194,5 +197,41 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
             );
           }),
     );
+  }
+}
+
+class NoIconWakeUp extends StatelessWidget {
+  final IconData icon;
+  const NoIconWakeUp(
+    this.icon, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.grey[200],
+        ),
+        child: Icon(icon, size: 25).p(10));
+  }
+}
+
+class IconWakeUp extends StatelessWidget {
+  final IconData icon;
+  const IconWakeUp(
+    this.icon, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: AppColors.myPink.withOpacity(0.7),
+        ),
+        child: Icon(icon, size: 25).p(10));
   }
 }

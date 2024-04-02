@@ -5,21 +5,17 @@ import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/auth/user_model.dart';
 import 'package:wakeuphoney/features/chatgpt/cs_model.dart';
 
-final profileRepositoryProvider =
-    Provider((ref) => ProfileRepo(firestore: ref.watch(firestoreProvider)));
+final profileRepositoryProvider = Provider((ref) => ProfileRepo(firestore: ref.watch(firestoreProvider)));
 
 class ProfileRepo {
   final FirebaseFirestore _firestore;
   ProfileRepo({required FirebaseFirestore firestore}) : _firestore = firestore;
 
-  CollectionReference get _users =>
-      _firestore.collection(FirebaseConstants.usersCollection);
-  CollectionReference get _feedbacks =>
-      _firestore.collection(FirebaseConstants.feedbackCollection);
+  CollectionReference get _users => _firestore.collection(FirebaseConstants.usersCollection);
+  CollectionReference get _feedbacks => _firestore.collection(FirebaseConstants.feedbackCollection);
 
   Stream<UserModel> getUserProfileStream(String uid) {
-    return _users.doc(uid).snapshots().map(
-        (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
+    return _users.doc(uid).snapshots().map((event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
   }
 
   getUserList() {
@@ -52,14 +48,11 @@ class ProfileRepo {
   }
 
   Future<List<Object?>> getFeedbacks() async {
-    return await _feedbacks
-        .get()
-        .then((value) => value.docs.map((e) => e.data()).toList());
+    return await _feedbacks.get().then((value) => value.docs.map((e) => e.data()).toList());
   }
 
   Future<UserModel> getUserInfo(String uid) async {
-    return await _users.doc(uid).get().then(
-        (value) => UserModel.fromMap(value.data() as Map<String, dynamic>));
+    return await _users.doc(uid).get().then((value) => UserModel.fromMap(value.data() as Map<String, dynamic>));
   }
 
   updateProfileImage(String uid, String coupleUid, String url) async {
@@ -76,18 +69,27 @@ class ProfileRepo {
   }
 
   updateGPTMessages(String uid, ChatCompletionModel chatCompletionModel) {
-    _users
-        .doc(uid)
-        .collection("chatGPTMessages")
-        .add(chatCompletionModel.toMap());
+    _users.doc(uid).collection("chatGPTMessages").add(chatCompletionModel.toMap());
+  }
+
+  getAllUserList() async {
+    List<String> userUids = [];
+    QuerySnapshot snapshot = await _users.get();
+    for (var docSnapshot in snapshot.docs) {
+      userUids.add(docSnapshot.id);
+    }
+    return userUids;
+  }
+
+  deleteAllUsers() async {
+    List<String> userUids = await getUserList();
+    for (String uid in userUids) {
+      await _users.doc(uid).delete();
+    }
   }
 
   updateAllUser() {
-    _users
-        .doc("FbCti72DeGQqa0Tyd6oQvyWaQsm2")
-        .collection(FirebaseConstants.wakeUpCollection)
-        .get()
-        .then((value) {
+    _users.doc("FbCti72DeGQqa0Tyd6oQvyWaQsm2").collection(FirebaseConstants.wakeUpCollection).get().then((value) {
       for (var docSnapshot in value.docs) {
         _users
             .doc("FbCti72DeGQqa0Tyd6oQvyWaQsm2")
@@ -96,6 +98,14 @@ class ProfileRepo {
             .delete();
       }
     });
+  }
+
+  Future<void> deleteAllWakeUpCollection(String uid) async {
+    QuerySnapshot snapshot = await _users.doc(uid).collection(FirebaseConstants.wakeUpCollection).get();
+
+    for (DocumentSnapshot docSnapshot in snapshot.docs) {
+      await docSnapshot.reference.delete();
+    }
   }
 
   updateGender(String uid, String gender) {

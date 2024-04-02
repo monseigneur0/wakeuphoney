@@ -117,7 +117,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       // const WakeUpVoiceScreen(),
       // const WakeUpMeScreen(),
       const WakeUpYouScreen(),
-      if (kDebugMode) const WakeUpYouAlarmScreen(),
+      // if (kDebugMode) const WakeUpYouAlarmScreen(),
       // if (kDebugMode) const WakeMeScreen(),
       const WakeUpFeedScreen(),
       // const ListAudio(),
@@ -188,11 +188,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           //     icon: Icon(Icons.home_outlined),
                           //     label: "me",
                           //   ),
-                          if (kDebugMode)
-                            const BottomNavigationBarItem(
-                              icon: Icon(Icons.home_outlined),
-                              label: "you",
-                            ),
+                          // if (kDebugMode)
+                          //   const BottomNavigationBarItem(
+                          //     icon: Icon(Icons.home_outlined),
+                          //     label: "you",
+                          //   ),
                           BottomNavigationBarItem(
                             icon: const Icon(Icons.home_outlined),
                             label: AppLocalizations.of(context)!.feed,

@@ -138,7 +138,12 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
         ),
         if (_amplitude != null) ...[
           const SizedBox(height: 10),
-          Text('Current: ${_amplitude?.current ?? 0.0}'),
+          (_amplitude?.current != null)
+              ? _amplitude!.current < -50
+                  ? const Text("Too low")
+                  : const Text("good")
+              : const Text(""),
+
           // Text('Max: ${_amplitude?.max ?? 0.0}'),
         ],
       ],

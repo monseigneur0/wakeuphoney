@@ -578,9 +578,7 @@ class _WakeUpWriteScreenState extends ConsumerState<WakeUpWriteScreen> {
                                     ),
                                     Recorder(
                                       onStop: (path) {
-                                        if (kDebugMode) {
-                                          logger.d('Recorded file path: $path');
-                                        }
+                                        logger.d('Recorded file path: $path');
                                         setState(() {
                                           audioPath = path;
                                           showPlayer = true;
@@ -613,7 +611,8 @@ class _WakeUpWriteScreenState extends ConsumerState<WakeUpWriteScreen> {
           : GestureDetector(
               onTap: () async {
                 if (_formKey.currentState!.validate()) {
-                  showToast("저장 중이에요");
+                  showToast(AppLocalizations.of(context)!.saving);
+
                   setState(() {
                     isLoading = true;
                   });

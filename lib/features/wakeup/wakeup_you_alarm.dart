@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -9,6 +10,7 @@ import 'package:wakeuphoney/core/common/common.dart';
 import '../profile/profile_controller.dart';
 import 'wakeup_controller.dart';
 import 'wakeup_status.dart';
+import 'wakeup_you_screen.dart';
 
 class WakeUpYouAlarmScreen extends ConsumerStatefulWidget {
   const WakeUpYouAlarmScreen({super.key});
@@ -27,7 +29,8 @@ class _WakeUpYouAlarmScreenState extends ConsumerState<WakeUpYouAlarmScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("WakeUpYouAlarmScreen"),
+        centerTitle: false,
+        title: (kDebugMode) ? const Text('WakeUpYouAlarmScreen') : Text(AppLocalizations.of(context)!.wakeupgom),
       ),
       body: userInfo.when(
           data: (user) {
@@ -76,18 +79,12 @@ class _WakeUpYouAlarmScreenState extends ConsumerState<WakeUpYouAlarmScreen> {
                               opacity: AlwaysStoppedAnimation<double>(0.3),
                             ),
                             WakeUpStatus(AppLocalizations.of(context)!.wakeupyou),
-                            Row(
+                            const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Container(
-                                  child: const Text("사진").p(10),
-                                ),
-                                Container(
-                                  child: const Text("글"),
-                                ),
-                                Container(
-                                  child: const Text("음성"),
-                                ),
+                                NoIconWakeUp(Icons.photo_size_select_actual_outlined),
+                                NoIconWakeUp(Icons.email_outlined),
+                                NoIconWakeUp(Icons.voice_chat),
                               ],
                             ),
                             10.heightBox

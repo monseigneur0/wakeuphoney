@@ -18,6 +18,7 @@ final getALetterforResponseProvider = FutureProvider.autoDispose<WakeUpModel>((r
 
 final getTomorrowWakeUpMeProvider = FutureProvider.autoDispose<WakeUpModel>(
     (ref) => ref.watch(wakeUpControllerProvider.notifier).getTomorrowWakeUpMeProvider());
+
 final getTomorrowWakeUpYouProvider = FutureProvider.autoDispose<WakeUpModel>(
     (ref) => ref.watch(wakeUpControllerProvider.notifier).getTomorrowWakeUpYouProvider());
 
@@ -160,6 +161,21 @@ class WakeUpController extends StateNotifier<bool> {
     auser != null ? uid = auser.uid : uid = "PyY5skHRgPJP0CMgI2Qp";
 
     return _wakeUpRepository.getWakeUpMeAlarm(uid);
+  }
+
+  Stream<List<WakeUpModel>> getWakeUpTomorrowOneAlarm() {
+    final alarms = _ref.watch(wakeUpMeAlarmProvider);
+    alarms.when(
+        data: (alarmList) {
+          return alarmList.where((element) => element.wakeTime.isAfter(DateTime.now()));
+        },
+        error: (error, stack) {
+          logger.e("error: $error, stack: $stack");
+          return const Stream.empty();
+        },
+        loading: () {}); // Add empty loading callback
+
+    throw UnimplementedError(); // Add throw statement at the end
   }
 
   deletePastAlarm() {
