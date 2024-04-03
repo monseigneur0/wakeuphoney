@@ -15,7 +15,6 @@ import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_screen.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_feed_screen.dart';
-import 'package:wakeuphoney/features/wakeup/wakeup_me_screen.dart';
 import 'package:wakeuphoney/practice_home_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -25,7 +24,6 @@ import '../auth/auth_controller.dart';
 import '../match/match_screen.dart';
 import '../profile/profile_controller.dart';
 import '../wakeup/wakeup_me_alarm.dart';
-import '../wakeup/wakeup_me_devscreen.dart';
 import '../wakeup/wakeup_you_alarm.dart';
 import '../wakeup/wakeup_you_screen.dart';
 import 'main_controller.dart';

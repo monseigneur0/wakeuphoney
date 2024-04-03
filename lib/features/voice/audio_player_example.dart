@@ -24,7 +24,7 @@ class AudioPlayer extends StatefulWidget {
 }
 
 class AudioPlayerState extends State<AudioPlayer> {
-  static const double _controlSize = 56;
+  static const double _controlSize = 36;
   static const double _deleteBtnSize = 24;
 
   final _audioPlayer = ap.AudioPlayer()..setReleaseMode(ReleaseMode.stop);
@@ -36,8 +36,7 @@ class AudioPlayerState extends State<AudioPlayer> {
 
   @override
   void initState() {
-    _playerStateChangedSubscription =
-        _audioPlayer.onPlayerComplete.listen((state) async {
+    _playerStateChangedSubscription = _audioPlayer.onPlayerComplete.listen((state) async {
       await stop();
     });
     _positionChangedSubscription = _audioPlayer.onPositionChanged.listen(
@@ -79,8 +78,7 @@ class AudioPlayerState extends State<AudioPlayer> {
                 _buildControl(),
                 _buildSlider(constraints.maxWidth),
                 IconButton(
-                  icon: const Icon(Icons.delete,
-                      color: Color(0xFF73748D), size: _deleteBtnSize),
+                  icon: const Icon(Icons.delete, color: Color(0xFF73748D), size: _deleteBtnSize),
                   onPressed: () {
                     if (_audioPlayer.state == ap.PlayerState.playing) {
                       stop().then((value) => widget.onDelete());
@@ -115,8 +113,7 @@ class AudioPlayerState extends State<AudioPlayer> {
       child: Material(
         color: color,
         child: InkWell(
-          child:
-              SizedBox(width: _controlSize, height: _controlSize, child: icon),
+          child: SizedBox(width: _controlSize, height: _controlSize, child: icon),
           onTap: () {
             if (_audioPlayer.state == ap.PlayerState.playing) {
               pause();
@@ -172,6 +169,5 @@ class AudioPlayerState extends State<AudioPlayer> {
     setState(() {});
   }
 
-  Source get _source =>
-      kIsWeb ? ap.UrlSource(widget.source) : ap.DeviceFileSource(widget.source);
+  Source get _source => kIsWeb ? ap.UrlSource(widget.source) : ap.DeviceFileSource(widget.source);
 }

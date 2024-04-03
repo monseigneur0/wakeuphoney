@@ -23,7 +23,6 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
   RecordState _recordState = RecordState.stop;
   StreamSubscription<Amplitude>? _amplitudeSub;
   Amplitude? _amplitude;
-  final double _amplitudeValue = 4250;
 
   @override
   void initState() {
@@ -177,8 +176,8 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
         color: color,
         child: InkWell(
           child: SizedBox(
-            width: MediaQuery.sizeOf(context).width * 0.2,
-            height: MediaQuery.sizeOf(context).width * 0.2,
+            width: MediaQuery.sizeOf(context).width * 0.1,
+            height: MediaQuery.sizeOf(context).width * 0.1,
             child: SizedBox(width: 56, height: 56, child: icon),
           ),
           onTap: () {
@@ -210,7 +209,7 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
       child: Material(
         color: color,
         child: InkWell(
-          child: SizedBox(width: 56, height: 56, child: icon),
+          child: SizedBox(width: 36, height: 36, child: icon),
           onTap: () {
             (_recordState == RecordState.pause) ? _resume() : _pause();
           },

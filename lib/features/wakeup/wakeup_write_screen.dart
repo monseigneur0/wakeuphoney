@@ -590,6 +590,23 @@ class _WakeUpWriteScreenState extends ConsumerState<WakeUpWriteScreen> {
                     ),
                   ),
                   10.heightBox,
+                  Container(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+                      BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                    ]),
+                    child: Row(
+                      children: [
+                        Text(
+                          "답장을 해야 알람이 다시 울리지 않습니다.",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        Expanded(
+                          child: Container(),
+                        ),
+                        const Icon(Icons.warning_amber)
+                      ],
+                    ).pSymmetric(h: 20, v: 10),
+                  )
                 ],
               ),
               10.heightBox,

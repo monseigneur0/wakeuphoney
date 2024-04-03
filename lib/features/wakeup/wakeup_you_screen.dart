@@ -81,16 +81,16 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Icon(Icons.add, size: 50).p(10),
                                     WakeUpStatus(AppLocalizations.of(context)!.wakeupyou),
+                                    const Icon(Icons.add, size: 40).p(10),
                                   ],
                                 ),
                                 const Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
                                     NoIconWakeUp(Icons.photo_size_select_actual_outlined),
-                                    NoIconWakeUp(Icons.email_outlined),
-                                    NoIconWakeUp(Icons.voice_chat),
+                                    NoIconWakeUp(Icons.mode_edit_outlined),
+                                    NoIconWakeUp(Icons.mic_none_outlined),
                                   ],
                                 ),
                                 10.heightBox

@@ -3,18 +3,14 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
 import 'package:wakeuphoney/core/common/common.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../core/common/loader.dart';
-import '../../core/constants/design_constants.dart';
+
 import '../../core/providers/providers.dart';
-import '../../core/utils.dart';
 import 'wakeup_controller.dart';
 
 class ResponseScreen extends ConsumerStatefulWidget {

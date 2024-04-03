@@ -248,18 +248,12 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                             opacity: AlwaysStoppedAnimation<double>(0.3),
                           ),
                           WakeUpStatus(AppLocalizations.of(context)!.wakeupmenotyet),
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Container(
-                                child: const Text("사진").p(10),
-                              ),
-                              Container(
-                                child: const Text("글"),
-                              ),
-                              Container(
-                                child: const Text("음성"),
-                              ),
+                              NoIconWakeUp(Icons.photo_size_select_actual_outlined),
+                              NoIconWakeUp(Icons.mode_edit_outlined),
+                              NoIconWakeUp(Icons.mic_none_outlined),
                             ],
                           ),
                           10.heightBox
@@ -312,9 +306,9 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              NoAlarmelblock("사진"),
-                              NoAlarmelblock("글"),
-                              NoAlarmelblock("음성"),
+                              NoIconWakeUp(Icons.photo_size_select_actual_outlined),
+                              NoIconWakeUp(Icons.mode_edit_outlined),
+                              NoIconWakeUp(Icons.mic_none_outlined),
                             ],
                           ),
                           10.heightBox
@@ -494,11 +488,11 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                                 ? const NoIconWakeUp(Icons.photo_size_select_actual_outlined)
                                                 : const IconWakeUp(Icons.photo_size_select_actual_outlined),
                                             alarm[index].letter.isEmpty
-                                                ? const NoIconWakeUp(Icons.email_outlined)
-                                                : const IconWakeUp(Icons.email_outlined),
+                                                ? const NoIconWakeUp(Icons.mode_edit_outlined)
+                                                : const IconWakeUp(Icons.mode_edit_outlined),
                                             alarm[index].letterAudio.isEmpty
-                                                ? const NoIconWakeUp(Icons.voice_chat)
-                                                : const IconWakeUp(Icons.voice_chat),
+                                                ? const NoIconWakeUp(Icons.mic_none_outlined)
+                                                : const IconWakeUp(Icons.mic_none_outlined),
                                           ],
                                         ),
                                         10.heightBox

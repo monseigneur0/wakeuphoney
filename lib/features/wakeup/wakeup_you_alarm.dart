@@ -83,8 +83,8 @@ class _WakeUpYouAlarmScreenState extends ConsumerState<WakeUpYouAlarmScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 NoIconWakeUp(Icons.photo_size_select_actual_outlined),
-                                NoIconWakeUp(Icons.email_outlined),
-                                NoIconWakeUp(Icons.voice_chat),
+                                NoIconWakeUp(Icons.mode_edit_outlined),
+                                NoIconWakeUp(Icons.mic_none_outlined),
                               ],
                             ),
                             10.heightBox
