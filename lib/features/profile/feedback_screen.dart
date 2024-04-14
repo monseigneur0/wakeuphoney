@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 
-import '../../core/constants/design_constants.dart';
+import '../../common/constants/app_colors.dart';
 import '../../core/providers/providers.dart';
 import '../../core/utils.dart';
 
@@ -86,17 +86,14 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                     style: const TextStyle(color: Colors.black),
                     decoration: InputDecoration(
                         focusedBorder: const OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.black, width: 2.0),
+                          borderSide: BorderSide(color: Colors.black, width: 2.0),
                         ),
                         enabledBorder: const OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.black, width: 2.0),
+                          borderSide: BorderSide(color: Colors.black, width: 2.0),
                         ),
                         border: const OutlineInputBorder(),
                         labelStyle: const TextStyle(color: Colors.black),
-                        labelText:
-                            'Feedback at ${DateFormat.yMMMd().format(listDateTime[0])}'),
+                        labelText: 'Feedback at ${DateFormat.yMMMd().format(listDateTime[0])}'),
                   ),
                 ),
                 Row(
@@ -104,10 +101,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                   children: [
                     GestureDetector(
                       child: bannerFile != null
-                          ? SizedBox(
-                              height: 30,
-                              width: 30,
-                              child: Image.file(bannerFile!))
+                          ? SizedBox(height: 30, width: 30, child: Image.file(bannerFile!))
                           :
                           // ElevatedButton(
                           //     style: const ButtonStyle(
@@ -125,43 +119,33 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                       },
                     ),
                     ElevatedButton(
-                      style: const ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(AppColors.myPink)),
+                      style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppColors.myPink)),
                       child: const Text('Send'),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           showToast("messgae is saved");
                           final String message = _messgaeController.text;
 
-                          String uniqueFileName =
-                              DateTime.now().toString().replaceAll(' ', '');
+                          String uniqueFileName = DateTime.now().toString().replaceAll(' ', '');
 
                           //Get a reference to storage root
-                          Reference referenceRoot =
-                              FirebaseStorage.instance.ref();
-                          Reference referenceDirImages =
-                              referenceRoot.child('feedbackimages');
+                          Reference referenceRoot = FirebaseStorage.instance.ref();
+                          Reference referenceDirImages = referenceRoot.child('feedbackimages');
 
                           //Create a reference for the image to be stored
-                          Reference referenceImageToUpload =
-                              referenceDirImages.child(uniqueFileName);
+                          Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
 
                           //Handle errors/success
                           try {
                             //Store the file
-                            await referenceImageToUpload
-                                .putFile(File(bannerFile!.path));
+                            await referenceImageToUpload.putFile(File(bannerFile!.path));
                             //Success: get the download URL
-                            imageUrl =
-                                await referenceImageToUpload.getDownloadURL();
+                            imageUrl = await referenceImageToUpload.getDownloadURL();
                           } catch (error) {
                             //Some error occurred
                           }
                           //메세지 작성
-                          ref
-                              .watch(profileControllerProvider.notifier)
-                              .createFeedback(message, imageUrl);
+                          ref.watch(profileControllerProvider.notifier).createFeedback(message, imageUrl);
                         }
                         _messgaeController.clear();
                       },

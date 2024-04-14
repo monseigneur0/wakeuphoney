@@ -3,7 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:wakeuphoney/core/utils.dart';
 
-import '../../main.dart';
+import '../main.dart';
 
 class FcmManager {
   static void requestPermission() {

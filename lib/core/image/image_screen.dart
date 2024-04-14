@@ -7,7 +7,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:logger/logger.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
-import 'package:wakeuphoney/core/common/common.dart';
+import 'package:wakeuphoney/common/common.dart';
 import '../utils.dart';
 
 class ImageScreen extends ConsumerStatefulWidget {

@@ -4,10 +4,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakeuphoney/core/constants/design_constants.dart';
+import 'package:wakeuphoney/common/constants/app_colors.dart';
 import 'package:wakeuphoney/features/auth/auth_controller.dart';
 
-import 'package:wakeuphoney/core/common/common.dart';
+import 'package:wakeuphoney/common/common.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wakeuphoney/features/auth/login_email_screen.dart';
 

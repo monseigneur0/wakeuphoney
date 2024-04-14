@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../core/common/common.dart';
+import '../../common/common.dart';
 import '../../core/providers/providers.dart';
 import '../../core/widgets/alarm_tile.dart';
 import '../alarm/alarm2_shortcut.dart';

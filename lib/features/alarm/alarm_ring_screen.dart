@@ -6,8 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
-import '../../core/common/loader.dart';
-import '../../core/constants/design_constants.dart';
+import '../../common/loader.dart';
+import '../../common/constants/app_colors.dart';
 import '../wakeup/response_screen.dart';
 
 import '../profile/profile_controller.dart';

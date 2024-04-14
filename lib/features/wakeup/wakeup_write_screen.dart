@@ -8,7 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 // import 'package:just_audio/just_audio.dart';
 
 import 'package:wakeuphoney/features/main/main_screen.dart';
-import 'package:wakeuphoney/core/common/common.dart';
+import 'package:wakeuphoney/common/common.dart';
 
 import '../../core/providers/firebase_providers.dart';
 

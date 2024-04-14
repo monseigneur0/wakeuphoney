@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:wakeuphoney/core/common/common.dart';
+import 'package:wakeuphoney/common/common.dart';
 
 import '../../core/widgets/alarm_tile.dart';
 

@@ -4,7 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_model.dart';
 
-import '../../core/constants/firebase_constants.dart';
+import '../../common/constants/firebase_constants.dart';
 import '../../core/providers/firebase_providers.dart';
 
 final wakeUpRepositoryProvider = Provider((ref) => WakeUpRepository(firestore: ref.watch(firestoreProvider)));

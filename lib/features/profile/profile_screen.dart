@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:wakeuphoney/core/common/common.dart';
+import 'package:wakeuphoney/common/common.dart';
 
 import '../../core/image/image_full_screen.dart';
 import '../auth/login_screen.dart';

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const basePath = 'assets/image';
+
 class Constants {
   static const logoPath = 'assets/logo.png';
   static const loginEmotePath = 'assets/loginEmote.png';

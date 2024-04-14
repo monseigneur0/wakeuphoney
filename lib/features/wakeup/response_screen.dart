@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
-import 'package:wakeuphoney/core/common/common.dart';
+import 'package:wakeuphoney/common/common.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/providers/providers.dart';

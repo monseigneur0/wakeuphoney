@@ -1,0 +1,44 @@
+import 'package:flutter/material.dart';
+import 'package:wakeuphoney/common/data/preference/prefs.dart';
+import 'package:wakeuphoney/common/theme/custom_theme_holder.dart';
+import 'package:wakeuphoney/common/theme/custom_theme.dart';
+import 'package:wakeuphoney/common/theme/theme_util.dart';
+
+class CustomThemeApp extends StatefulWidget {
+  final Widget child;
+
+  const CustomThemeApp({Key? key, required this.child}) : super(key: key);
+
+  @override
+  State<CustomThemeApp> createState() => _CustomThemeAppState();
+}
+
+class _CustomThemeAppState extends State<CustomThemeApp> {
+  late CustomTheme theme = savedTheme ?? defaultTheme ?? systemTheme;
+  // final CustomTheme? defaultTheme = App.defaultTheme;
+  final CustomTheme? defaultTheme = CustomTheme.light;
+
+  void handleChangeTheme(CustomTheme theme) {
+    setState(() => this.theme = theme);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomThemeHolder(
+      changeTheme: handleChangeTheme,
+      theme: theme,
+      child: widget.child,
+    );
+  }
+
+  CustomTheme? get savedTheme => Prefs.appTheme.get();
+
+  CustomTheme get systemTheme {
+    switch (ThemeUtil.systemBrightness) {
+      case Brightness.dark:
+        return CustomTheme.dark;
+      case Brightness.light:
+        return CustomTheme.light;
+    }
+  }
+}

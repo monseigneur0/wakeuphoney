@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:wakeuphoney/core/common/common.dart';
+import 'package:wakeuphoney/common/common.dart';
 
 import '../profile/profile_controller.dart';
 import 'wakeup_controller.dart';
@@ -79,6 +79,7 @@ class _WakeUpYouAlarmScreenState extends ConsumerState<WakeUpYouAlarmScreen> {
                               opacity: AlwaysStoppedAnimation<double>(0.3),
                             ),
                             WakeUpStatus(AppLocalizations.of(context)!.wakeupyou),
+                            // WakeUpStatus(Intl.message('wakeupyou')),
                             const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [

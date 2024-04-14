@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:wakeuphoney/core/constants/firebase_constants.dart';
+import 'package:wakeuphoney/common/constants/firebase_constants.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/auth/user_model.dart';
 
@@ -13,13 +13,10 @@ final matchRepositoryProvider = Provider((ref) {
 
 class MatchRepository {
   final FirebaseFirestore _firestore;
-  MatchRepository({required FirebaseFirestore firestore})
-      : _firestore = firestore;
+  MatchRepository({required FirebaseFirestore firestore}) : _firestore = firestore;
 
-  CollectionReference get _users =>
-      _firestore.collection(FirebaseConstants.usersCollection);
-  CollectionReference get _matches =>
-      _firestore.collection(FirebaseConstants.matchCollection);
+  CollectionReference get _users => _firestore.collection(FirebaseConstants.usersCollection);
+  CollectionReference get _matches => _firestore.collection(FirebaseConstants.matchCollection);
 
   var logger = Logger();
 
@@ -69,29 +66,21 @@ class MatchRepository {
     return _matches
         .where("vertifynumber", isEqualTo: honeyCode)
         .snapshots()
-        .map((event) => event.docs
-            .map((e) => MatchModel.fromMap(e.data() as Map<String, dynamic>))
-            .toList()
-            .first);
+        .map((event) => event.docs.map((e) => MatchModel.fromMap(e.data() as Map<String, dynamic>)).toList().first);
   }
 
   Future<MatchModel?> getMatchCodeFuture(String uid, int honeyCode) async {
     try {
       await _matches
-          .where("time",
-              isLessThan: DateTime.now().subtract(const Duration(minutes: 60)))
+          .where("time", isLessThan: DateTime.now().subtract(const Duration(minutes: 60)))
           .get()
           .then((value) => value.docs.forEach((element) {
                 _matches.doc(element.id).delete();
               }));
 
-      final wow =
-          await _matches.where("uid", isEqualTo: uid).get().then((event) {
+      final wow = await _matches.where("uid", isEqualTo: uid).get().then((event) {
         if (event.docs.isNotEmpty) {
-          return event.docs
-              .map((e) => MatchModel.fromMap(e.data() as Map<String, dynamic>))
-              .toList()
-              .first;
+          return event.docs.map((e) => MatchModel.fromMap(e.data() as Map<String, dynamic>)).toList().first;
         }
       });
     } catch (e) {
@@ -132,13 +121,10 @@ class MatchRepository {
     logger.d("matchCoupleIdProcessDone");
 
     //삭제
-    await _matches
-        .where("uid", isEqualTo: uid)
-        .get()
-        .then((value) => value.docs.forEach((element) {
-              _matches.doc(element.id).delete();
-              logger.d(element.id);
-            }));
+    await _matches.where("uid", isEqualTo: uid).get().then((value) => value.docs.forEach((element) {
+          _matches.doc(element.id).delete();
+          logger.d(element.id);
+        }));
   }
 
   Future addFriend(
@@ -169,19 +155,15 @@ class MatchRepository {
     logger.d("matchCoupleIdProcessDone");
 
     //삭제
-    await _matches
-        .where("uid", isEqualTo: uid)
-        .get()
-        .then((value) => value.docs.forEach((element) {
-              _matches.doc(element.id).delete();
-              logger.d(element.id);
-            }));
+    await _matches.where("uid", isEqualTo: uid).get().then((value) => value.docs.forEach((element) {
+          _matches.doc(element.id).delete();
+          logger.d(element.id);
+        }));
   }
 
   Future deleteMatches(String uid) async {
     _matches
-        .where("time",
-            isLessThan: DateTime.now().subtract(const Duration(minutes: 60)))
+        .where("time", isLessThan: DateTime.now().subtract(const Duration(minutes: 60)))
         .get()
         .then((value) => value.docs.forEach((element) {
               _matches.doc(element.id).delete();

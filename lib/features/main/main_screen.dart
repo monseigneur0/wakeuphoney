@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:wakeuphoney/core/common/fcm_manager.dart';
-import 'package:wakeuphoney/core/common/loader.dart';
+import 'package:wakeuphoney/common/fcm_manager.dart';
+import 'package:wakeuphoney/common/loader.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/core/providers/providers.dart';
 
@@ -18,7 +18,7 @@ import 'package:wakeuphoney/features/wakeup/wakeup_feed_screen.dart';
 import 'package:wakeuphoney/practice_home_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../core/constants/design_constants.dart';
+import '../../common/constants/app_colors.dart';
 import '../alarm/alarm_ring_screen.dart';
 import '../auth/auth_controller.dart';
 import '../match/match_screen.dart';

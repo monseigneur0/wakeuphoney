@@ -9,7 +9,7 @@ import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import '../../core/constants/firebase_constants.dart';
+import '../../common/constants/firebase_constants.dart';
 import '../../core/providers/firebase_providers.dart';
 import 'user_model.dart';
 

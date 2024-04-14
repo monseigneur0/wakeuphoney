@@ -1,16 +1,11 @@
 import 'package:alarm/alarm.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:wakeuphoney/core/common/common.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wakeuphoney/common/common.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/date_symbols.dart';
-import 'package:logger/logger.dart';
-import 'package:velocity_x/velocity_x.dart';
-import 'package:wakeuphoney/core/constants/design_constants.dart';
 import 'package:wakeuphoney/features/alarm/alarm_day_settings.dart';
-import 'package:weekday_selector/weekday_selector.dart';
 
 class AlarmEditScreen extends StatefulWidget {
   final AlarmSettings? alarmSettings;

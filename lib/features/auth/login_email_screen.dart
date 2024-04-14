@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wakeuphoney/core/common/loader.dart';
-import 'package:wakeuphoney/core/constants/design_constants.dart';
+import 'package:wakeuphoney/common/loader.dart';
+import 'package:wakeuphoney/common/constants/app_colors.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
 
 import '../../core/utils.dart';

@@ -25,4 +25,6 @@ class AppColors {
   static const Color rabbitspeak = Color(0xFFFDE8CB);
   static const Color rabbitwake = Color(0xFFFCFAF9);
   static const Color rabbitalarm = Color(0xFFFFCFA1);
+
+  static const Color white = Color.fromARGB(255, 236, 236, 236);
 }

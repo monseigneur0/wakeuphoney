@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakeuphoney/core/constants/firebase_constants.dart';
+import 'package:wakeuphoney/common/constants/firebase_constants.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/auth/user_model.dart';
 import 'package:wakeuphoney/features/chatgpt/cs_model.dart';

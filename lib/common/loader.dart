@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants/design_constants.dart';
+import 'constants/app_colors.dart';
 
 class Loader extends StatelessWidget {
   const Loader({super.key});
