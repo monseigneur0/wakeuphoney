@@ -25,7 +25,7 @@ import 'features/profile/profile_screen.dart';
 import 'features/voice/voice_test_screen.dart';
 import 'features/voice/voice_text_screen.dart';
 import 'features/wakeup/response_screen.dart';
-import 'practice_home_screen.dart';
+import 'features/manager/practice_home_screen.dart';
 
 final routerProvider = Provider((ref) {
   final alarmSettings = ref.watch(alarmSettingsProvider);

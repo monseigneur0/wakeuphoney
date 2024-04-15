@@ -5,21 +5,21 @@ import 'package:wakeuphoney/features/main/main_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_write_screen.dart';
 
-import 'core/providers/providers.dart';
-import 'features/auth/auth_controller.dart';
-import 'features/wakeup/response_screen.dart';
-import 'features/profile/profile_screen.dart';
-import 'features/match/match_screen.dart';
-import 'features/auth/auth_repository.dart';
+import '../../core/providers/providers.dart';
+import '../auth/auth_controller.dart';
+import '../wakeup/response_screen.dart';
+import '../profile/profile_screen.dart';
+import '../match/match_screen.dart';
+import '../auth/auth_repository.dart';
 import 'package:go_router/go_router.dart';
 
-import 'features/alarm/alarm_screen.dart';
-import 'features/auth/login_screen.dart';
-import 'features/voice/just_audio_examle.dart';
-import 'features/voice/voice_test_screen.dart';
-import 'features/voice/voice_text_screen.dart';
-import 'features/voice/wakeup_voice_screen.dart';
-import 'features/wakeup/wakeup_me_alarm.dart';
+import '../alarm/alarm_screen.dart';
+import '../auth/login_screen.dart';
+import '../voice/just_audio_examle.dart';
+import '../voice/voice_test_screen.dart';
+import '../voice/voice_text_screen.dart';
+import '../voice/wakeup_voice_screen.dart';
+import '../wakeup/wakeup_me_alarm.dart';
 
 class PracticeHome extends ConsumerStatefulWidget {
   static String routeName = "practice";

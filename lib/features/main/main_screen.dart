@@ -16,7 +16,7 @@ import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/features/auth/login_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_screen.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_feed_screen.dart';
-import 'package:wakeuphoney/practice_home_screen.dart';
+import 'package:wakeuphoney/features/manager/practice_home_screen.dart';
 
 import '../../common/constants/app_colors.dart';
 import '../alarm/alarm_ring_screen.dart';
