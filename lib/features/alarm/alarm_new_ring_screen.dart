@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -45,7 +46,7 @@ class AlarmNewScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              AppLocalizations.of(context)!.wakeupletter,
+                              'wakeupletter'.tr(),
                               style: const TextStyle(fontSize: 25),
                             ),
                           ],

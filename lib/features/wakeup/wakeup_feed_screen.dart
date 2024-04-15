@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -12,7 +12,8 @@ class WakeUpFeedScreen extends ConsumerStatefulWidget {
   const WakeUpFeedScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _WakeUpFeedScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _WakeUpFeedScreenState();
 }
 
 class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
@@ -39,7 +40,7 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
               if (letters.isEmpty) {
                 return Center(
                   child: Text(
-                    AppLocalizations.of(context)!.noletter,
+                    'noletter'.tr(),
                     style: const TextStyle(fontSize: 30),
                   ),
                 );
@@ -71,40 +72,66 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                       color: Colors.white,
                                       boxShadow: [
                                         BoxShadow(
-                                            color: Colors.black.withOpacity(0.1),
+                                            color:
+                                                Colors.black.withOpacity(0.1),
                                             blurRadius: 10,
                                             offset: const Offset(8, 8))
                                       ]),
                                   child: Column(
                                     children: [
                                       Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           user.uid == letters[index].senderUid
                                               ? ClipRRect(
-                                                  borderRadius: BorderRadius.circular(30),
-                                                  child: CachedNetworkImage(width: 45, imageUrl: user.photoURL))
-                                              : ClipRRect(
-                                                  borderRadius: BorderRadius.circular(30),
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
                                                   child: CachedNetworkImage(
-                                                      width: 45, imageUrl: user.couplePhotoURL ?? user.photoURL)),
+                                                      width: 45,
+                                                      imageUrl: user.photoURL))
+                                              : ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  child: CachedNetworkImage(
+                                                      width: 45,
+                                                      imageUrl:
+                                                          user.couplePhotoURL ??
+                                                              user.photoURL)),
                                           10.widthBox,
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               SizedBox(
-                                                width: MediaQuery.of(context).size.width - 120,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    120,
                                                 child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
-                                                    user.uid == letters[index].senderUid
-                                                        ? user.displayName.text.size(14).bold.make()
-                                                        : user.coupleDisplayName!.text.size(14).bold.make(),
+                                                    user.uid ==
+                                                            letters[index]
+                                                                .senderUid
+                                                        ? user.displayName.text
+                                                            .size(14)
+                                                            .bold
+                                                            .make()
+                                                        : user
+                                                            .coupleDisplayName!
+                                                            .text
+                                                            .size(14)
+                                                            .bold
+                                                            .make(),
                                                     Expanded(
                                                       child: Container(),
                                                     ),
                                                     DateFormat("HH:mm")
-                                                        .format(letters[index].wakeTime)
+                                                        .format(letters[index]
+                                                            .wakeTime)
                                                         .toString()
                                                         .text
                                                         .size(10)
@@ -112,32 +139,51 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                                         .pSymmetric(h: 14),
                                                     PopupMenuButton(
                                                       itemBuilder: (context) {
-                                                        if (letters[index].wakeTime.isBefore(DateTime.now())) {
+                                                        if (letters[index]
+                                                            .wakeTime
+                                                            .isBefore(DateTime
+                                                                .now())) {
                                                           return [
                                                             PopupMenuItem(
                                                               onTap: () {
-                                                                showToast(AppLocalizations.of(context)!.nodeletepast);
+                                                                showToast(
+                                                                    'nodeletepast'
+                                                                        .tr());
                                                               },
-                                                              child: Text(AppLocalizations.of(context)!.delete),
+                                                              child: Text(
+                                                                  'delete'
+                                                                      .tr()),
                                                             ),
                                                           ];
                                                         }
                                                         return [
                                                           PopupMenuItem(
                                                             onTap: () {
-                                                              _letterEditController.text = letters[index].letter;
-                                                              _updateLetter(letters[index].wakeUpUid);
+                                                              _letterEditController
+                                                                      .text =
+                                                                  letters[index]
+                                                                      .letter;
+                                                              _updateLetter(
+                                                                  letters[index]
+                                                                      .wakeUpUid);
                                                             },
-                                                            child: Text(AppLocalizations.of(context)!.edit),
+                                                            child: Text(
+                                                                'edit'.tr()),
                                                           ),
                                                           PopupMenuItem(
                                                             onTap: () {
                                                               ref
-                                                                  .watch(wakeUpControllerProvider.notifier)
-                                                                  .letterDelete(letters[index].wakeUpUid);
-                                                              showToast(AppLocalizations.of(context)!.deleted);
+                                                                  .watch(wakeUpControllerProvider
+                                                                      .notifier)
+                                                                  .letterDelete(
+                                                                      letters[index]
+                                                                          .wakeUpUid);
+                                                              showToast(
+                                                                  'deleted'
+                                                                      .tr());
                                                             },
-                                                            child: Text(AppLocalizations.of(context)!.delete),
+                                                            child: Text(
+                                                                'delete'.tr()),
                                                           ),
                                                         ];
                                                       },
@@ -146,9 +192,13 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                                 ),
                                               ),
                                               SizedBox(
-                                                width: MediaQuery.of(context).size.width - 140,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    140,
                                                 child: SelectableText(
-                                                    scrollPhysics: const NeverScrollableScrollPhysics(),
+                                                    scrollPhysics:
+                                                        const NeverScrollableScrollPhysics(),
                                                     letters[index].letter),
                                               )
                                             ],
@@ -158,35 +208,53 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                       letters[index].letterPhoto.isEmpty
                                           ? Container()
                                           : Container(
-                                              width: MediaQuery.of(context).size.width - 70,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  70,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(30),
+                                                borderRadius:
+                                                    BorderRadius.circular(30),
                                                 color: Colors.grey,
                                               ),
                                               clipBehavior: Clip.hardEdge,
                                               child: CachedNetworkImage(
-                                                imageUrl: letters[index].letterPhoto.toString(),
-                                                placeholder: (context, url) => Container(
+                                                imageUrl: letters[index]
+                                                    .letterPhoto
+                                                    .toString(),
+                                                placeholder: (context, url) =>
+                                                    Container(
                                                   height: 70,
                                                 ),
                                                 fit: BoxFit.cover,
-                                                width: MediaQuery.of(context).size.width - 90,
-                                                errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    90,
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        const Icon(Icons.error),
                                               ),
                                             ),
                                       letters[index].answer.isEmpty
                                           ? Container()
                                           : Container(
-                                              width: MediaQuery.of(context).size.width - 90,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  90,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(30),
+                                                borderRadius:
+                                                    BorderRadius.circular(30),
                                                 color: Colors.grey.shade200,
                                                 boxShadow: [
                                                   BoxShadow(
-                                                    color: Colors.grey.withOpacity(0.5),
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
                                                     spreadRadius: 1,
                                                     blurRadius: 1,
-                                                    offset: const Offset(0, 1), // changes position of shadow
+                                                    offset: const Offset(0,
+                                                        1), // changes position of shadow
                                                   ),
                                                 ],
                                               ),
@@ -194,30 +262,61 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                               child: Column(
                                                 children: [
                                                   Row(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
-                                                      user.uid == letters[index].reciverUid
+                                                      user.uid ==
+                                                              letters[index]
+                                                                  .reciverUid
                                                           ? ClipRRect(
-                                                              borderRadius: BorderRadius.circular(25),
-                                                              child: CachedNetworkImage(
-                                                                  width: 40, imageUrl: user.photoURL))
-                                                          : ClipRRect(
-                                                              borderRadius: BorderRadius.circular(25),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          25),
                                                               child: CachedNetworkImage(
                                                                   width: 40,
-                                                                  imageUrl: user.couplePhotoURL ?? user.photoURL)),
+                                                                  imageUrl: user
+                                                                      .photoURL))
+                                                          : ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          25),
+                                                              child: CachedNetworkImage(
+                                                                  width: 40,
+                                                                  imageUrl: user
+                                                                          .couplePhotoURL ??
+                                                                      user.photoURL)),
                                                       Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
-                                                          user.uid == letters[index].reciverUid
-                                                              ? user.displayName.text.size(14).bold.make()
-                                                              : user.coupleDisplayName!.text.size(14).bold.make(),
+                                                          user.uid ==
+                                                                  letters[index]
+                                                                      .reciverUid
+                                                              ? user.displayName
+                                                                  .text
+                                                                  .size(14)
+                                                                  .bold
+                                                                  .make()
+                                                              : user
+                                                                  .coupleDisplayName!
+                                                                  .text
+                                                                  .size(14)
+                                                                  .bold
+                                                                  .make(),
                                                           letters[index]
                                                               .answer
                                                               .text
                                                               .make()
                                                               .box
-                                                              .width(MediaQuery.of(context).size.width - 190)
+                                                              .width(MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width -
+                                                                  190)
                                                               .make(),
                                                         ],
                                                       ).pSymmetric(h: 10),
@@ -225,16 +324,27 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                                                   ),
                                                   5.heightBox,
                                                   Container(
-                                                    width: MediaQuery.of(context).size.width - 90,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width -
+                                                            90,
                                                     clipBehavior: Clip.hardEdge,
                                                     decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(30),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
                                                     ),
-                                                    child: letters[index].answerPhoto.isEmpty
+                                                    child: letters[index]
+                                                            .answerPhoto
+                                                            .isEmpty
                                                         ? Container()
                                                         : CachedNetworkImage(
                                                             fit: BoxFit.fill,
-                                                            imageUrl: letters[index].answerPhoto.toString()),
+                                                            imageUrl: letters[
+                                                                    index]
+                                                                .answerPhoto
+                                                                .toString()),
                                                   ),
                                                 ],
                                               ).p(15),
@@ -256,7 +366,7 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
             error: (error, stack) {
               logger.e(error.toString());
               return Center(
-                child: Text(AppLocalizations.of(context)!.erroruser),
+                child: Text('erroruser'.tr()),
               );
             });
       }, loading: () {
@@ -264,7 +374,7 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
       }, error: (error, stack) {
         logger.e(error.toString());
         return Center(
-          child: Text(AppLocalizations.of(context)!.erroruser),
+          child: Text('erroruser'.tr()),
         );
       }),
     );
@@ -285,7 +395,7 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                   keyboardType: TextInputType.multiline,
                   validator: (value) {
                     if (value == null || value.isEmpty || value == '') {
-                      return AppLocalizations.of(context)!.putsometext;
+                      return 'putsometext'.tr();
                     }
                     return null;
                   },
@@ -301,13 +411,15 @@ class _WakeUpFeedScreenState extends ConsumerState<WakeUpFeedScreen> {
                   ElevatedButton(
                     onPressed: () {
                       if (_formkey.currentState!.validate()) {
-                        showToast(AppLocalizations.of(context)!.letteredited);
-                        ref.watch(wakeUpControllerProvider.notifier).letterEdit(letterId, _letterEditController.text);
+                        showToast('letteredited'.tr());
+                        ref
+                            .watch(wakeUpControllerProvider.notifier)
+                            .letterEdit(letterId, _letterEditController.text);
                         _letterEditController.clear();
                         Navigator.of(context).pop();
                       }
                     },
-                    child: Text(AppLocalizations.of(context)!.edit),
+                    child: Text('edit'.tr()),
                   ),
                 ],
               ),

@@ -1,14 +1,13 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakeuphoney/common/constants/app_colors.dart';
 import 'package:wakeuphoney/features/auth/auth_controller.dart';
 
 import 'package:wakeuphoney/common/common.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:wakeuphoney/features/auth/login_email_screen.dart';
 
 class LoginHome extends ConsumerStatefulWidget {
@@ -27,18 +26,18 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
   @override
   Widget build(BuildContext context) {
     List<String> messageList = [
-      AppLocalizations.of(context)!.hello,
-      AppLocalizations.of(context)!.goodmorning,
-      AppLocalizations.of(context)!.honeywakeup,
-      AppLocalizations.of(context)!.writealetter,
-      AppLocalizations.of(context)!.sendaphoto,
-      AppLocalizations.of(context)!.checktheletter,
-      AppLocalizations.of(context)!.watchthephoto,
-      AppLocalizations.of(context)!.replyletter,
-      AppLocalizations.of(context)!.canyoureply,
-      AppLocalizations.of(context)!.writemorning,
-      AppLocalizations.of(context)!.howareyou,
-      AppLocalizations.of(context)!.imissyou,
+      'hello'.tr(),
+      'goodmorning'.tr(),
+      'honeywakeup'.tr(),
+      'writealetter'.tr(),
+      'sendaphoto'.tr(),
+      'checktheletter'.tr(),
+      'watchthephoto'.tr(),
+      'replyletter'.tr(),
+      'canyoureply'.tr(),
+      'writemorning'.tr(),
+      'howareyou'.tr(),
+      'imissyou'.tr(),
     ];
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
@@ -62,7 +61,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
         //   // ],
         //   backgroundColor: AppColors.myAppBarBackgroundPink,
         //   title: Text(
-        //     AppLocalizations.of(context)!.wakeupgom,
+        //     'wakeupgom'.tr(),
         //   ),
         // ),
         body: SafeArea(
@@ -131,7 +130,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                   Column(
                     children: [
                       Text(
-                        AppLocalizations.of(context)!.snslogin,
+                        'snslogin'.tr(),
                         style: const TextStyle(fontSize: 15),
                       ),
                       const Icon(
@@ -139,7 +138,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                         size: 40,
                       ),
                       Text(
-                        AppLocalizations.of(context)!.snslogin,
+                        'snslogin'.tr(),
                         style: TextStyle(fontSize: 10, color: Colors.grey[200]),
                       ),
                     ],
@@ -151,7 +150,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                   Column(
                     children: [
                       Text(
-                        AppLocalizations.of(context)!.matchprocess,
+                        'matchprocess'.tr(),
                         style: TextStyle(fontSize: 10, color: Colors.grey[200]),
                       ),
                       const Icon(
@@ -159,7 +158,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                         size: 40,
                       ),
                       Text(
-                        AppLocalizations.of(context)!.matchprocess,
+                        'matchprocess'.tr(),
                         style: const TextStyle(fontSize: 15),
                       ),
                     ],
@@ -171,7 +170,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                   Column(
                     children: [
                       Text(
-                        AppLocalizations.of(context)!.wakeupgom,
+                        'wakeupgom'.tr(),
                         style: const TextStyle(fontSize: 15),
                       ),
                       const Icon(
@@ -179,7 +178,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                         size: 40,
                       ),
                       Text(
-                        AppLocalizations.of(context)!.wakeupgom,
+                        'wakeupgom'.tr(),
                         style: TextStyle(fontSize: 10, color: Colors.grey[200]),
                       ),
                     ],
@@ -203,7 +202,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                           width: 35,
                         ),
                         label: Text(
-                          AppLocalizations.of(context)!.applelogin,
+                          'applelogin'.tr(),
                           style: const TextStyle(fontSize: 18, color: Colors.black),
                         ),
                         style: ElevatedButton.styleFrom(
@@ -229,7 +228,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                     width: 35,
                   ),
                   label: Text(
-                    AppLocalizations.of(context)!.googlelogin,
+                    'googlelogin'.tr(),
                     style: const TextStyle(fontSize: 18, color: Colors.black),
                   ),
                   style: ElevatedButton.styleFrom(
@@ -251,7 +250,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                   context.push(EmailLoginScreen.routeURL);
                 },
                 child: Text(
-                  AppLocalizations.of(context)!.emaillogin,
+                  'emaillogin'.tr(),
                 ),
               ),
             ],

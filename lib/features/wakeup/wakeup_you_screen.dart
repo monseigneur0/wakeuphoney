@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
@@ -7,7 +8,6 @@ import 'package:wakeuphoney/common/common.dart';
 
 import '../profile/profile_controller.dart';
 import 'wakeup_controller.dart';
-import 'wakeup_me_alarm.dart';
 import 'wakeup_write_screen.dart';
 import 'wakeup_status.dart';
 
@@ -15,7 +15,8 @@ class WakeUpYouScreen extends ConsumerStatefulWidget {
   const WakeUpYouScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _WakeUpYouScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _WakeUpYouScreenState();
 }
 
 class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
@@ -29,7 +30,9 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: (kDebugMode) ? const Text('WakeUpYouScreeeeeeen') : Text(AppLocalizations.of(context)!.wakeupgom),
+        title: (kDebugMode)
+            ? const Text('WakeUpYouScreeeeeeen')
+            : Text('wakeupgom'.tr()),
       ),
       body: userInfo.when(
           data: (user) {
@@ -39,14 +42,17 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                   return Column(
                     children: [
                       GestureDetector(
-                        onTap: () => context.pushNamed(WakeUpWriteScreen.routeName),
+                        onTap: () =>
+                            context.pushNamed(WakeUpWriteScreen.routeName),
                         child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                                 color: Colors.white,
                                 boxShadow: [
                                   BoxShadow(
-                                      color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 10,
+                                      offset: const Offset(8, 8))
                                 ]),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -66,29 +72,39 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                                       child: Container(),
                                     ),
                                     ImageIcon(
-                                      const AssetImage('assets/alarm-clock.png'),
+                                      const AssetImage(
+                                          'assets/alarm-clock.png'),
                                       size: 29,
                                       color: Colors.grey[400],
                                     ),
-                                    "00:00".text.bold.gray400.size(18).make().pSymmetric(h: 14),
+                                    "00:00"
+                                        .text
+                                        .bold
+                                        .gray400
+                                        .size(18)
+                                        .make()
+                                        .pSymmetric(h: 14),
                                   ],
                                 ),
                                 const Image(
-                                  image: AssetImage('assets/images/sleepingbear.png'),
+                                  image: AssetImage(
+                                      'assets/images/sleepingbear.png'),
                                   height: Constants.pngSize,
                                   opacity: AlwaysStoppedAnimation<double>(0.3),
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    WakeUpStatus(AppLocalizations.of(context)!.wakeupyou),
+                                    WakeUpStatus('wakeupyou'.tr()),
                                     const Icon(Icons.add, size: 40).p(10),
                                   ],
                                 ),
                                 const Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    NoIconWakeUp(Icons.photo_size_select_actual_outlined),
+                                    NoIconWakeUp(Icons
+                                        .photo_size_select_actual_outlined),
                                     NoIconWakeUp(Icons.mode_edit_outlined),
                                     NoIconWakeUp(Icons.mic_none_outlined),
                                   ],
@@ -129,7 +145,7 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                       //             child: Column(
                       //               children: [
                       //                 Text(
-                      //                   AppLocalizations.of(context)!.wakeupyou,
+                      //                   'wakeupyou'.tr(),
                       //                   style: const TextStyle(
                       //                     fontSize: 16,
                       //                     // fontFamily: GoogleFonts.anticSlab().fontFamily,
@@ -152,25 +168,30 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
                       color: AppColors.rabbitspeak,
                       width: MediaQuery.of(context).size.width,
                       // height: MediaQuery.of(context).size.height,
-                      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                        WakeUpStatus(AppLocalizations.of(context)!.wakeupapproved),
-                        const Image(
-                          image: AssetImage('assets/images/rabbitspeak.jpeg'),
-                          height: 220,
-                        )
-                      ]));
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            WakeUpStatus('wakeupapproved'.tr()),
+                            const Image(
+                              image:
+                                  AssetImage('assets/images/rabbitspeak.jpeg'),
+                              height: 220,
+                            )
+                          ]));
                 }
                 return Container(
                     color: AppColors.awakebear,
                     width: MediaQuery.of(context).size.width,
                     // height: MediaQuery.of(context).size.height,
-                    child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      WakeUpStatus(AppLocalizations.of(context)!.wakeupnotapproved),
-                      const Image(
-                        image: AssetImage('assets/images/awakebear.jpeg'),
-                        height: 220,
-                      ),
-                    ]));
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          WakeUpStatus('wakeupnotapproved'.tr()),
+                          const Image(
+                            image: AssetImage('assets/images/awakebear.jpeg'),
+                            height: 220,
+                          ),
+                        ]));
               },
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (err, stack) {
@@ -178,7 +199,7 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
 
                 return Center(
                   child: Text(
-                    AppLocalizations.of(context)!.erroruser,
+                    'erroruser'.tr(),
                     style: const TextStyle(color: Colors.red),
                   ),
                 );
@@ -191,7 +212,7 @@ class _WakeUpYouScreenState extends ConsumerState<WakeUpYouScreen> {
 
             return Center(
               child: Text(
-                AppLocalizations.of(context)!.erroruser,
+                'erroruser'.tr(),
                 style: const TextStyle(color: Colors.red),
               ),
             );

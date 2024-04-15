@@ -1,14 +1,14 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:logger/logger.dart';
+
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/profile/profile_controller.dart';
 import 'package:wakeuphoney/common/common.dart';
-import '../utils.dart';
 
 class ImageScreen extends ConsumerStatefulWidget {
   static String routeName = 'imagescreen';
@@ -80,7 +80,7 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                     context.pop();
                   },
                   child: Text(
-                    AppLocalizations.of(context)!.cancel,
+                    'cancel'.tr(),
                     style: const TextStyle(color: Colors.white, fontSize: 20),
                   )),
               isLoading
@@ -92,29 +92,37 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                             setState(() {
                               isLoading = true;
                             });
-                            showToast(AppLocalizations.of(context)!.saving);
+                            showToast('saving'.tr());
                             String uniqueImageName = DateTime.now().toString();
-                            Reference refRoot = ref.watch(storageProvider).ref();
-                            Reference refDirImage = refRoot.child('profileimages');
-                            Reference refImageToUpload = refDirImage.child(uniqueImageName);
+                            Reference refRoot =
+                                ref.watch(storageProvider).ref();
+                            Reference refDirImage =
+                                refRoot.child('profileimages');
+                            Reference refImageToUpload =
+                                refDirImage.child(uniqueImageName);
                             try {
-                              await refImageToUpload.putFile(File(_croppedFile!.path));
-                              imageUrl = await refImageToUpload.getDownloadURL();
+                              await refImageToUpload
+                                  .putFile(File(_croppedFile!.path));
+                              imageUrl =
+                                  await refImageToUpload.getDownloadURL();
                             } catch (e) {
                               setState(() {
                                 isLoading = false;
                                 logger.e(e.toString());
                               });
                             }
-                            ref.watch(profileControllerProvider.notifier).updateProfileImage(imageUrl);
+                            ref
+                                .watch(profileControllerProvider.notifier)
+                                .updateProfileImage(imageUrl);
                             if (context.mounted) {
                               Navigator.of(context).pop();
-                              showToast(AppLocalizations.of(context)!.saved);
+                              showToast('saved'.tr());
                             }
                           },
                           child: Text(
-                            AppLocalizations.of(context)!.save,
-                            style: const TextStyle(color: Colors.white, fontSize: 20),
+                            'save'.tr(),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 20),
                           ),
                         ),
               if (_croppedFile == null)
@@ -125,7 +133,7 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                       fnCropImage();
                     },
                     backgroundColor: Colors.white,
-                    tooltip: AppLocalizations.of(context)!.crop,
+                    tooltip: 'crop'.tr(),
                     child: const Icon(Icons.crop),
                   ),
                 )
@@ -147,14 +155,14 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
         ],
         uiSettings: [
           AndroidUiSettings(
-            toolbarTitle: AppLocalizations.of(context)!.crop,
+            toolbarTitle: 'crop'.tr(),
             toolbarColor: Colors.deepOrange,
             toolbarWidgetColor: Colors.white,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false,
           ),
           IOSUiSettings(
-            title: AppLocalizations.of(context)!.crop,
+            title: 'crop'.tr(),
             // minimumAspectRatio: 1,
             rotateButtonsHidden: false,
             rotateClockwiseButtonHidden: false,

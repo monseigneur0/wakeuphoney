@@ -1,14 +1,14 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
+
 import 'package:wakeuphoney/features/main/main_screen.dart';
 import 'package:wakeuphoney/common/common.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../core/providers/providers.dart';
 import 'wakeup_controller.dart';
@@ -81,14 +81,16 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                           Container(
                             width: MediaQuery.of(context).size.width,
                             clipBehavior: Clip.hardEdge,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20)),
                             child: letter.letterPhoto.isNotEmpty
                                 ? CachedNetworkImage(
                                     imageUrl: letter.letterPhoto,
                                     placeholder: (context, url) => Container(
                                       height: 70,
                                     ),
-                                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
                                   )
                                 : Container(),
                           ),
@@ -96,7 +98,9 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                             height: 20,
                           ),
                           Container(
-                            decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(20)),
+                            decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(20)),
                             child: Padding(
                               padding: const EdgeInsets.all(15),
                               child: Column(
@@ -122,7 +126,7 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                           height: 50,
                         ),
                         Text(
-                          AppLocalizations.of(context)!.noletter,
+                          'noletter'.tr(),
                           style: const TextStyle(fontSize: 30),
                         ),
                         const SizedBox(
@@ -151,14 +155,17 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                     style: const TextStyle(color: Colors.black),
                     decoration: InputDecoration(
                         focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black, width: 2.0),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 2.0),
                         ),
                         enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black, width: 2.0),
+                          borderSide:
+                              BorderSide(color: Colors.black, width: 2.0),
                         ),
                         border: const OutlineInputBorder(),
                         labelStyle: const TextStyle(color: Colors.black),
-                        labelText: 'message at ${DateFormat.yMMMd().format(listDateTime[0])}'),
+                        labelText:
+                            'message at ${DateFormat.yMMMd().format(listDateTime[0])}'),
                   ),
                 ),
                 Row(
@@ -166,7 +173,10 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                   children: [
                     GestureDetector(
                       child: bannerFile != null
-                          ? SizedBox(height: 30, width: 30, child: Image.file(bannerFile!))
+                          ? SizedBox(
+                              height: 30,
+                              width: 30,
+                              child: Image.file(bannerFile!))
                           :
                           // ElevatedButton(
                           //     style: const ButtonStyle(
@@ -184,38 +194,49 @@ class _ResponseScreenState extends ConsumerState<ResponseScreen> {
                       },
                     ),
                     ElevatedButton(
-                      style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppColors.myPink)),
-                      child: const Text('보내기', style: TextStyle(color: Colors.white)),
+                      style: const ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(AppColors.myPink)),
+                      child: const Text('보내기',
+                          style: TextStyle(color: Colors.white)),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           showToast("messgae is saved");
                           final String message = _messgaeController.text;
 
-                          String uniqueFileName = DateTime.now().toString().replaceAll(' ', '');
+                          String uniqueFileName =
+                              DateTime.now().toString().replaceAll(' ', '');
 
                           //Get a reference to storage root
-                          Reference referenceRoot = FirebaseStorage.instance.ref();
-                          Reference referenceDirImages = referenceRoot.child('responseimages');
+                          Reference referenceRoot =
+                              FirebaseStorage.instance.ref();
+                          Reference referenceDirImages =
+                              referenceRoot.child('responseimages');
 
                           //Create a reference for the image to be stored
-                          Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
+                          Reference referenceImageToUpload =
+                              referenceDirImages.child(uniqueFileName);
 
                           //Handle errors/success
                           if (bannerFile != null) {
                             try {
                               //Store the file
-                              await referenceImageToUpload.putFile(File(bannerFile!.path));
+                              await referenceImageToUpload
+                                  .putFile(File(bannerFile!.path));
                               //Success: get the download URL
-                              imageUrl = await referenceImageToUpload.getDownloadURL();
+                              imageUrl =
+                                  await referenceImageToUpload.getDownloadURL();
                             } catch (error) {
                               //Some error occurred
                               logger.e(error.toString());
                             }
                           }
                           //메세지 작성
-                          ref.watch(getALetterforResponseProvider).whenData((value) => ref
-                              .watch(wakeUpControllerProvider.notifier)
-                              .createResponseLetter(value.wakeUpUid, message, imageUrl));
+                          ref.watch(getALetterforResponseProvider).whenData(
+                              (value) => ref
+                                  .watch(wakeUpControllerProvider.notifier)
+                                  .createResponseLetter(
+                                      value.wakeUpUid, message, imageUrl));
                         }
                         _messgaeController.clear();
                         if (context.mounted) {

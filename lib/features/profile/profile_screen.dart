@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -20,7 +21,8 @@ class CoupleProfileScreen extends ConsumerStatefulWidget {
   const CoupleProfileScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CoupleProfileScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CoupleProfileScreenState();
 }
 
 class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
@@ -66,18 +68,18 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
   @override
   Widget build(BuildContext context) {
     List<String> messageList = [
-      AppLocalizations.of(context)!.hello,
-      AppLocalizations.of(context)!.goodmorning,
-      AppLocalizations.of(context)!.honeywakeup,
-      AppLocalizations.of(context)!.writealetter,
-      AppLocalizations.of(context)!.sendaphoto,
-      AppLocalizations.of(context)!.checktheletter,
-      AppLocalizations.of(context)!.watchthephoto,
-      AppLocalizations.of(context)!.replyletter,
-      AppLocalizations.of(context)!.canyoureply,
-      AppLocalizations.of(context)!.writemorning,
-      AppLocalizations.of(context)!.howareyou,
-      AppLocalizations.of(context)!.imissyou,
+      'hello'.tr(),
+      'goodmorning'.tr(),
+      'honeywakeup'.tr(),
+      'writealetter'.tr(),
+      'sendaphoto'.tr(),
+      'checktheletter'.tr(),
+      'watchthephoto'.tr(),
+      'replyletter'.tr(),
+      'canyoureply'.tr(),
+      'writemorning'.tr(),
+      'howareyou'.tr(),
+      'imissyou'.tr(),
     ];
 
     final userProfileStream = ref.watch(getUserProfileStreamProvider);
@@ -88,7 +90,7 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
         backgroundColor: AppColors.myAppBarBackgroundPink,
         elevation: 0,
         title: Text(
-          AppLocalizations.of(context)!.profile,
+          'profile'.tr(),
         ),
         // const Text(
         //   "Profile",
@@ -127,7 +129,8 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                             padding: const EdgeInsets.all(5.0),
                             child: Text(
                               messageList[randomNum],
-                              style: const TextStyle(color: Colors.black, fontSize: 15),
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 15),
                             ),
                           ),
                         ),
@@ -136,7 +139,8 @@ class _CoupleProfileScreenState extends ConsumerState<CoupleProfileScreen> {
                     AnimatedOpacity(
                       opacity: _visiblebear ? 1.0 : 0.0,
                       duration: const Duration(milliseconds: 0),
-                      child: CustomPaint(painter: Triangle(Colors.grey.shade400)),
+                      child:
+                          CustomPaint(painter: Triangle(Colors.grey.shade400)),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height / 40),
                     IconButton(
@@ -248,7 +252,12 @@ class ProfileImage extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           color: Colors.white,
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 10,
+                offset: const Offset(8, 8))
+          ]),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -260,12 +269,18 @@ class ProfileImage extends StatelessWidget {
                 data: (data) => GestureDetector(
                   onTap: () => context.push(Uri(
                       path: ImageFullScreen.routeURL,
-                      queryParameters: {'filter': data.photoURL, 'herotag': herotag}).toString()),
+                      queryParameters: {
+                        'filter': data.photoURL,
+                        'herotag': herotag
+                      }).toString()),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(60),
                       boxShadow: [
-                        BoxShadow(blurRadius: 10, offset: const Offset(8, 8), color: Colors.black.withOpacity(0.3))
+                        BoxShadow(
+                            blurRadius: 10,
+                            offset: const Offset(8, 8),
+                            color: Colors.black.withOpacity(0.3))
                       ],
                     ),
                     child: ClipRRect(
@@ -279,7 +294,8 @@ class ProfileImage extends StatelessWidget {
                           placeholder: (context, url) => Container(
                             height: 40,
                           ),
-                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
                         ),
                       ),
                     ),
@@ -300,7 +316,9 @@ class ProfileImage extends StatelessWidget {
             ),
             userCoupleProfileStream.when(
               data: (data) => Text(
-                data.displayName.length < 8 ? data.displayName : "${data.displayName.substring(0, 8)}..",
+                data.displayName.length < 8
+                    ? data.displayName
+                    : "${data.displayName.substring(0, 8)}..",
                 style: const TextStyle(
                   fontSize: 24,
                   color: Colors.black,

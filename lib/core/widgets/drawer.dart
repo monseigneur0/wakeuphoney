@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -74,13 +75,14 @@ class ProfileDrawer extends StatelessWidget {
             onTap: () {
               context.pushNamed(AlarmHome.routeName);
             },
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             leading: const Icon(
               Icons.alarm,
               color: Colors.white,
             ),
             title: Text(
-              AppLocalizations.of(context)!.alarms,
+              'alarms'.tr(),
               style: const TextStyle(color: Colors.white),
             ),
           ),
@@ -88,13 +90,14 @@ class ProfileDrawer extends StatelessWidget {
             onTap: () {
               context.pushNamed(FeedbackScreen.routeName);
             },
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             leading: const Icon(
               Icons.feedback_outlined,
               color: Colors.white,
             ),
             title: Text(
-              AppLocalizations.of(context)!.feedback,
+              'feedback'.tr(),
               style: const TextStyle(color: Colors.white),
             ),
           ),
@@ -104,12 +107,12 @@ class ProfileDrawer extends StatelessWidget {
                     showCupertinoDialog(
                       context: context,
                       builder: (context) => CupertinoAlertDialog(
-                        title: Text(AppLocalizations.of(context)!.sure),
-                        content: Text(AppLocalizations.of(context)!.logout),
+                        title: Text('sure'.tr()),
+                        content: Text('logout'.tr()),
                         actions: [
                           CupertinoDialogAction(
                             onPressed: () => Navigator.of(context).pop(),
-                            child: Text(AppLocalizations.of(context)!.no),
+                            child: Text('no'.tr()),
                           ),
                           CupertinoDialogAction(
                             onPressed: () {
@@ -118,16 +121,17 @@ class ProfileDrawer extends StatelessWidget {
                               ref.watch(authRepositoryProvider).logout();
                             },
                             isDestructiveAction: true,
-                            child: Text(AppLocalizations.of(context)!.yes),
+                            child: Text('yes'.tr()),
                           ),
                         ],
                       ),
                     );
                   },
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   leading: const Icon(Icons.exit_to_app),
                   title: Text(
-                    AppLocalizations.of(context)!.logout,
+                    'logout'.tr(),
                     style: const TextStyle(color: Colors.black),
                   ),
                 )
@@ -138,8 +142,8 @@ class ProfileDrawer extends StatelessWidget {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: Text(AppLocalizations.of(context)!.logout),
-                            content: Text(AppLocalizations.of(context)!.sure),
+                            title: Text('logout'.tr()),
+                            content: Text('sure'.tr()),
                             actions: [
                               IconButton(
                                 onPressed: () {
@@ -165,10 +169,11 @@ class ProfileDrawer extends StatelessWidget {
                           );
                         });
                   },
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   leading: const Icon(Icons.exit_to_app),
                   title: Text(
-                    AppLocalizations.of(context)!.logout,
+                    'logout'.tr(),
                     style: const TextStyle(color: Colors.black),
                   ),
                 ),
@@ -183,7 +188,7 @@ class ProfileDrawer extends StatelessWidget {
           //     color: Colors.grey[600],
           //   ),
           //   title: Text(
-          //     AppLocalizations.of(context)!.feedback,
+          //     'feedback'.tr(),
           //     style: TextStyle(color: Colors.grey[600]),
           //   ),
           // ),
@@ -196,12 +201,12 @@ class ProfileDrawer extends StatelessWidget {
                     showCupertinoDialog(
                       context: context,
                       builder: (context) => CupertinoAlertDialog(
-                        title: Text(AppLocalizations.of(context)!.delete),
-                        content: Text(AppLocalizations.of(context)!.deletesure),
+                        title: Text('delete'.tr()),
+                        content: Text('deletesure'.tr()),
                         actions: [
                           CupertinoDialogAction(
                             onPressed: () => Navigator.of(context).pop(),
-                            child: Text(AppLocalizations.of(context)!.no),
+                            child: Text('no'.tr()),
                           ),
                           CupertinoDialogAction(
                             onPressed: () {
@@ -211,16 +216,17 @@ class ProfileDrawer extends StatelessWidget {
                               ref.watch(authRepositoryProvider).deleteUser();
                             },
                             isDestructiveAction: true,
-                            child: Text(AppLocalizations.of(context)!.yes),
+                            child: Text('yes'.tr()),
                           ),
                         ],
                       ),
                     );
                   },
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   leading: const Icon(Icons.exit_to_app),
                   title: Text(
-                    AppLocalizations.of(context)!.delete,
+                    'delete'.tr(),
                     style: const TextStyle(color: Colors.black),
                   ),
                 )
@@ -231,8 +237,8 @@ class ProfileDrawer extends StatelessWidget {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: Text(AppLocalizations.of(context)!.delete),
-                            content: Text(AppLocalizations.of(context)!.deletesure),
+                            title: Text('delete'.tr()),
+                            content: Text('deletesure'.tr()),
                             actions: [
                               IconButton(
                                 onPressed: () {
@@ -246,7 +252,9 @@ class ProfileDrawer extends StatelessWidget {
                               IconButton(
                                 onPressed: () {
                                   context.goNamed(LoginHome.routeName);
-                                  ref.watch(authRepositoryProvider).deleteUser();
+                                  ref
+                                      .watch(authRepositoryProvider)
+                                      .deleteUser();
                                   Navigator.of(context).pop();
                                 },
                                 icon: const Icon(
@@ -258,10 +266,11 @@ class ProfileDrawer extends StatelessWidget {
                           );
                         });
                   },
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   leading: const Icon(Icons.exit_to_app),
                   title: Text(
-                    AppLocalizations.of(context)!.delete,
+                    'delete'.tr(),
                     style: const TextStyle(color: Colors.black),
                   ),
                 ),
@@ -271,12 +280,12 @@ class ProfileDrawer extends StatelessWidget {
           //           showCupertinoDialog(
           //             context: context,
           //             builder: (context) => CupertinoAlertDialog(
-          //               title: Text(AppLocalizations.of(context)!.breakup),
-          //               content: Text(AppLocalizations.of(context)!.deletesure),
+          //               title: Text('breakup'.tr()),
+          //               content: Text('deletesure'.tr()),
           //               actions: [
           //                 CupertinoDialogAction(
           //                   onPressed: () => Navigator.of(context).pop(),
-          //                   child: Text(AppLocalizations.of(context)!.no),
+          //                   child: Text('no'.tr()),
           //                 ),
           //                 CupertinoDialogAction(
           //                   onPressed: () {
@@ -286,7 +295,7 @@ class ProfileDrawer extends StatelessWidget {
           //                         .brokeup();
           //                   },
           //                   isDestructiveAction: true,
-          //                   child: Text(AppLocalizations.of(context)!.yes),
+          //                   child: Text('yes'.tr()),
           //                 ),
           //               ],
           //             ),
@@ -296,7 +305,7 @@ class ProfileDrawer extends StatelessWidget {
           //             const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           //         leading: const Icon(Icons.exit_to_app),
           //         title: Text(
-          //           AppLocalizations.of(context)!.breakup,
+          //           'breakup'.tr(),
           //           style: const TextStyle(color: Colors.black),
           //         ),
           //       )
@@ -307,9 +316,9 @@ class ProfileDrawer extends StatelessWidget {
           //               context: context,
           //               builder: (context) {
           //                 return AlertDialog(
-          //                   title: Text(AppLocalizations.of(context)!.breakup),
+          //                   title: Text('breakup'.tr()),
           //                   content:
-          //                       Text(AppLocalizations.of(context)!.deletesure),
+          //                       Text('deletesure'.tr()),
           //                   actions: [
           //                     IconButton(
           //                       onPressed: () {
@@ -340,7 +349,7 @@ class ProfileDrawer extends StatelessWidget {
           //             const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           //         leading: const Icon(Icons.exit_to_app),
           //         title: Text(
-          //           AppLocalizations.of(context)!.delete,
+          //           'delete'.tr(),
           //           style: const TextStyle(color: Colors.black),
           //         ),
           //       ),

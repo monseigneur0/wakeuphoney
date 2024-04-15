@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:alarm/alarm.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,6 @@ import 'package:wakeuphoney/features/auth/login_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_screen.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_feed_screen.dart';
 import 'package:wakeuphoney/practice_home_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../common/constants/app_colors.dart';
 import '../alarm/alarm_ring_screen.dart';
@@ -24,7 +24,6 @@ import '../auth/auth_controller.dart';
 import '../match/match_screen.dart';
 import '../profile/profile_controller.dart';
 import '../wakeup/wakeup_me_alarm.dart';
-import '../wakeup/wakeup_you_alarm.dart';
 import '../wakeup/wakeup_you_screen.dart';
 import 'main_controller.dart';
 
@@ -162,13 +161,13 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           //   icon: const ImageIcon(
                           //     AssetImage('assets/alarm-clock.png'),
                           //   ),
-                          //   label: AppLocalizations.of(context)!.alarm,
+                          //   label: 'alarm'.tr(),
                           // ),
                           BottomNavigationBarItem(
                             icon: const ImageIcon(
                               AssetImage('assets/alarm-clock.png'),
                             ),
-                            label: AppLocalizations.of(context)!.alarm,
+                            label: 'alarm'.tr(),
                           ),
                           // const BottomNavigationBarItem(
                           //   icon: ImageIcon(
@@ -179,7 +178,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           BottomNavigationBarItem(
                             backgroundColor: AppColors.myPink,
                             icon: const Icon(Icons.local_post_office_outlined),
-                            label: AppLocalizations.of(context)!.write,
+                            label: 'write'.tr(),
                           ),
                           // if (kDebugMode)
                           //   const BottomNavigationBarItem(
@@ -193,11 +192,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           //   ),
                           BottomNavigationBarItem(
                             icon: const Icon(Icons.home_outlined),
-                            label: AppLocalizations.of(context)!.feed,
+                            label: 'feed'.tr(),
                           ),
                           BottomNavigationBarItem(
                             icon: const Icon(Icons.person_outline_rounded),
-                            label: AppLocalizations.of(context)!.profile,
+                            label: 'profile'.tr(),
                           ),
                           if (kDebugMode)
                             const BottomNavigationBarItem(

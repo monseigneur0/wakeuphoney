@@ -30,8 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter
+  # flutter_localizations:
+  #   sdk: flutter
     # version: ^0.2.0
 
   #splash creator
@@ -58,7 +58,7 @@ dependencies:
   eva_icons_flutter: ^3.1.0
   google_fonts: ^4.0.4
   font_awesome_flutter: ^10.6.0
-  # easy_localization: ^3.0.2
+  easy_localization: ^3.0.2
   flutter_cache_manager: ^3.3.0
 
   #ui - widget
@@ -81,7 +81,7 @@ dependencies:
   flutter_animate: ^4.5.0
 
 
-  intl: any
+  # intl: any
   intl_utils: ^2.8.7
 
   # The following adds the Cupertino Icons font to your application.
@@ -183,7 +183,7 @@ flutter_launcher_icons:
 
 # The following section is specific to Flutter packages.
 flutter:
-  generate: true
+  # generate: true
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -193,6 +193,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/translations/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -220,9 +221,9 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-flutter_intl:
-  enabled: true # Required. Must be set to true to activate the package. Default: false
-  class_name: AppLocalizations  # Optional. Sets the name for the generated localization class. Default: S
-  main_locale: en # Optional. Sets the main locale used for generating localization files. Provided value should consist of language code and optional script and country codes separated with underscore (e.g. 'en', 'en_GB', 'zh_Hans', 'zh_Hans_CN'). Default: en
-  arb_dir: lib/l10n # Optional. Sets the directory of your ARB resource files. Provided value should be a valid path on your system. Default: lib/l10n
-  output_dir: lib/generated # Optional. Sets the directory of generated localization files. Provided value should be a valid path on your system. Default: lib/generated
+# flutter_intl:
+#   enabled: true # Required. Must be set to true to activate the package. Default: false
+#   class_name: AppLocalizations  # Optional. Sets the name for the generated localization class. Default: S
+#   main_locale: en # Optional. Sets the main locale used for generating localization files. Provided value should consist of language code and optional script and country codes separated with underscore (e.g. 'en', 'en_GB', 'zh_Hans', 'zh_Hans_CN'). Default: en
+#   arb_dir: lib/l10n # Optional. Sets the directory of your ARB resource files. Provided value should be a valid path on your system. Default: lib/l10n
+#   output_dir: lib/generated # Optional. Sets the directory of generated localization files. Provided value should be a valid path on your system. Default: lib/generated

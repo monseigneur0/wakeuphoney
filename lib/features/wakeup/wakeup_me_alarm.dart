@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -7,12 +8,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../common/common.dart';
-import '../../core/providers/providers.dart';
 import '../../core/widgets/alarm_tile.dart';
 import '../alarm/alarm2_shortcut.dart';
 import '../alarm/alarm_edit_screen.dart';
@@ -27,7 +26,8 @@ class WakeUpMeAlarmScreen extends ConsumerStatefulWidget {
   const WakeUpMeAlarmScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _WakeUpMeAlarmScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _WakeUpMeAlarmScreenState();
 }
 
 class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
@@ -56,8 +56,11 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
       checkAndroidExternalStoragePermission();
     }
 
-    selectedDateTime = DateTime.now().add(const Duration(minutes: 10)).copyWith(second: 0, millisecond: 0);
-    selectedTime = TimeOfDay(hour: selectedDateTime.hour, minute: selectedDateTime.minute);
+    selectedDateTime = DateTime.now()
+        .add(const Duration(minutes: 10))
+        .copyWith(second: 0, millisecond: 0);
+    selectedTime =
+        TimeOfDay(hour: selectedDateTime.hour, minute: selectedDateTime.minute);
     loopAudio = true;
     vibrate = true;
     volume = null;
@@ -134,8 +137,8 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
       loopAudio: loopAudio,
       vibrate: vibrate,
       volume: volume,
-      notificationTitle: AppLocalizations.of(context)!.wakeupgomalarm,
-      notificationBody: AppLocalizations.of(context)!.alarmringletter,
+      notificationTitle: 'wakeupgomalarm'.tr(),
+      notificationBody: 'alarmringletter'.tr(),
       assetAudioPath: audioAssetPath,
       // days: days,
     );
@@ -196,14 +199,18 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: (kDebugMode) ? const Text('Wake Up Me Alarm') : Text(AppLocalizations.of(context)!.wakeupgom),
+        title: (kDebugMode)
+            ? const Text('Wake Up Me Alarm')
+            : Text('wakeupgom'.tr()),
         actions: const [],
       ),
       body: userInfo.when(
         data: (user) {
           return wakeUpMeAlarm.when(
               data: (alarm) {
-                if (user.couple == null || user.couple!.isEmpty || user.couple! == "") {
+                if (user.couple == null ||
+                    user.couple!.isEmpty ||
+                    user.couple! == "") {
                   return Container(
                     child: const Center(
                       child: Text("You don't have a friend yet."),
@@ -216,7 +223,10 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.white,
                           boxShadow: [
-                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 10,
+                                offset: const Offset(8, 8))
                           ]),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -227,7 +237,8 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                 borderRadius: BorderRadius.circular(20),
                                 child: CachedNetworkImage(
                                   width: 45,
-                                  imageUrl: user.couplePhotoURL ?? Constants.userDefault,
+                                  imageUrl: user.couplePhotoURL ??
+                                      Constants.userDefault,
                                 ),
                               ).p(10),
                               user.coupleDisplayName!.text.make(),
@@ -239,7 +250,13 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                 size: 29,
                                 color: Colors.grey[400],
                               ),
-                              "00:00".text.bold.gray400.size(18).make().pSymmetric(h: 14),
+                              "00:00"
+                                  .text
+                                  .bold
+                                  .gray400
+                                  .size(18)
+                                  .make()
+                                  .pSymmetric(h: 14),
                             ],
                           ),
                           const Image(
@@ -247,11 +264,12 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                             height: Constants.pngSize,
                             opacity: AlwaysStoppedAnimation<double>(0.3),
                           ),
-                          WakeUpStatus(AppLocalizations.of(context)!.wakeupmenotyet),
+                          WakeUpStatus('wakeupmenotyet'.tr()),
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              NoIconWakeUp(Icons.photo_size_select_actual_outlined),
+                              NoIconWakeUp(
+                                  Icons.photo_size_select_actual_outlined),
                               NoIconWakeUp(Icons.mode_edit_outlined),
                               NoIconWakeUp(Icons.mic_none_outlined),
                             ],
@@ -263,7 +281,8 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                 if (!alarm.any((element) {
                   /// 하나라도 있으면 트루
                   /// 조건식을 리턴해야해.
-                  return (element.reciverUid == user.uid && element.wakeTime.isAfter(DateTime.now()));
+                  return (element.reciverUid == user.uid &&
+                      element.wakeTime.isAfter(DateTime.now()));
                 })) {
                   logger.d("no alarm");
                   return Container(
@@ -271,7 +290,10 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.white,
                           boxShadow: [
-                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 10,
+                                offset: const Offset(8, 8))
                           ]),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -282,7 +304,8 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                 borderRadius: BorderRadius.circular(20),
                                 child: CachedNetworkImage(
                                   width: 45,
-                                  imageUrl: user.couplePhotoURL ?? Constants.userDefault,
+                                  imageUrl: user.couplePhotoURL ??
+                                      Constants.userDefault,
                                 ),
                               ).p(10),
                               user.coupleDisplayName!.text.make(),
@@ -294,7 +317,13 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                 size: 29,
                                 color: Colors.grey[400],
                               ),
-                              "00:00".text.bold.gray400.size(18).make().pSymmetric(h: 14),
+                              "00:00"
+                                  .text
+                                  .bold
+                                  .gray400
+                                  .size(18)
+                                  .make()
+                                  .pSymmetric(h: 14),
                             ],
                           ),
                           const Image(
@@ -302,11 +331,12 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                             height: Constants.pngSize,
                             opacity: AlwaysStoppedAnimation<double>(0.3),
                           ),
-                          WakeUpStatus(AppLocalizations.of(context)!.wakeupmenotyet),
+                          WakeUpStatus('wakeupmenotyet'.tr()),
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              NoIconWakeUp(Icons.photo_size_select_actual_outlined),
+                              NoIconWakeUp(
+                                  Icons.photo_size_select_actual_outlined),
                               NoIconWakeUp(Icons.mode_edit_outlined),
                               NoIconWakeUp(Icons.mic_none_outlined),
                             ],
@@ -332,9 +362,11 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                   hour: alarms[index].dateTime.hour,
                                   minute: alarms[index].dateTime.minute,
                                 ).format(context),
-                                onPressed: () => navigateToAlarmScreen(alarms[index]),
+                                onPressed: () =>
+                                    navigateToAlarmScreen(alarms[index]),
                                 onDismissed: () {
-                                  Alarm.stop(alarms[index].id).then((_) => loadAlarms());
+                                  Alarm.stop(alarms[index].id)
+                                      .then((_) => loadAlarms());
                                 },
                               );
                             },
@@ -346,44 +378,64 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                           itemBuilder: (context, index) {
                             // logger.d(
                             //     " $index ${alarm.length} ${alarm[index].reciverUid} ${user.uid} ${alarm[index].wakeTime} ${alarm[index].letter}");
-                            if (alarm[index].reciverUid == user.uid && alarm[index].wakeTime.isAfter(DateTime.now())) {
+                            if (alarm[index].reciverUid == user.uid &&
+                                alarm[index].wakeTime.isAfter(DateTime.now())) {
                               logger.d("here");
                               return GestureDetector(
                                 onTap: () {
                                   Platform.isIOS
                                       ? showCupertinoDialog(
                                           context: context,
-                                          builder: (context) => CupertinoAlertDialog(
-                                            title: Text(AppLocalizations.of(context)!.alarm),
-                                            content: Text(AppLocalizations.of(context)!.wakeupmenotapproved),
+                                          builder: (context) =>
+                                              CupertinoAlertDialog(
+                                            title: Text('alarm'.tr()),
+                                            content: Text(
+                                                'wakeupmenotapproved'.tr()),
                                             actions: [
                                               CupertinoDialogAction(
-                                                onPressed: () => Navigator.of(context).pop(),
-                                                child: Text(AppLocalizations.of(context)!.no),
+                                                onPressed: () =>
+                                                    Navigator.of(context).pop(),
+                                                child: Text('no'.tr()),
                                               ),
                                               CupertinoDialogAction(
                                                 onPressed: () {
                                                   Navigator.of(context).pop();
-                                                  ref.watch(wakeUpControllerProvider.notifier).wakeUpAprove(
-                                                      alarm[index].reciverUid,
-                                                      alarm[index].senderUid,
-                                                      alarm[index].wakeUpUid);
-                                                  selectedDateTime = alarm[index].wakeTime;
+                                                  ref
+                                                      .watch(
+                                                          wakeUpControllerProvider
+                                                              .notifier)
+                                                      .wakeUpAprove(
+                                                          alarm[index]
+                                                              .reciverUid,
+                                                          alarm[index]
+                                                              .senderUid,
+                                                          alarm[index]
+                                                              .wakeUpUid);
+                                                  selectedDateTime =
+                                                      alarm[index].wakeTime;
                                                   selectedTime = TimeOfDay(
-                                                      hour: alarm[index].wakeTime.hour,
-                                                      minute: alarm[index].wakeTime.minute);
+                                                      hour: alarm[index]
+                                                          .wakeTime
+                                                          .hour,
+                                                      minute: alarm[index]
+                                                          .wakeTime
+                                                          .minute);
                                                   setState(() {
                                                     loading = true;
                                                     isApproved = true;
                                                   });
                                                   Alarm.set(
-                                                          alarmSettings: buildAlarmSettings(
-                                                              selectedTime, alarm[index].letterAudio))
+                                                          alarmSettings:
+                                                              buildAlarmSettings(
+                                                                  selectedTime,
+                                                                  alarm[index]
+                                                                      .letterAudio))
                                                       .then((res) {});
-                                                  setState(() => loading = false);
+                                                  setState(
+                                                      () => loading = false);
                                                 },
                                                 isDestructiveAction: true,
-                                                child: Text(AppLocalizations.of(context)!.yes),
+                                                child: Text('yes'.tr()),
                                               ),
                                             ],
                                           ),
@@ -393,8 +445,9 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                           context: context,
                                           builder: (context) {
                                             return AlertDialog(
-                                              title: Text(AppLocalizations.of(context)!.alarm),
-                                              content: Text(AppLocalizations.of(context)!.wakeupmenotapproved),
+                                              title: Text('alarm'.tr()),
+                                              content: Text(
+                                                  'wakeupmenotapproved'.tr()),
                                               actions: [
                                                 IconButton(
                                                   onPressed: () {
@@ -407,24 +460,41 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                                 ),
                                                 IconButton(
                                                   onPressed: () {
-                                                    ref.watch(wakeUpControllerProvider.notifier).wakeUpAprove(
-                                                        alarm[index].reciverUid,
-                                                        alarm[index].senderUid,
-                                                        alarm[index].wakeUpUid);
-                                                    selectedDateTime = alarm[index].wakeTime;
+                                                    ref
+                                                        .watch(
+                                                            wakeUpControllerProvider
+                                                                .notifier)
+                                                        .wakeUpAprove(
+                                                            alarm[index]
+                                                                .reciverUid,
+                                                            alarm[index]
+                                                                .senderUid,
+                                                            alarm[index]
+                                                                .wakeUpUid);
+                                                    selectedDateTime =
+                                                        alarm[index].wakeTime;
                                                     selectedTime = TimeOfDay(
-                                                        hour: alarm[index].wakeTime.hour,
-                                                        minute: alarm[index].wakeTime.minute);
+                                                        hour: alarm[index]
+                                                            .wakeTime
+                                                            .hour,
+                                                        minute: alarm[index]
+                                                            .wakeTime
+                                                            .minute);
                                                     setState(() {
                                                       loading = true;
                                                       isApproved = true;
                                                     });
                                                     Alarm.set(
-                                                            alarmSettings: buildAlarmSettings(
-                                                                selectedTime, alarm[index].letterAudio))
+                                                            alarmSettings:
+                                                                buildAlarmSettings(
+                                                                    selectedTime,
+                                                                    alarm[index]
+                                                                        .letterAudio))
                                                         .then((res) {});
-                                                    setState(() => loading = false);
-                                                    context.goNamed(MainScreen.routeName);
+                                                    setState(
+                                                        () => loading = false);
+                                                    context.goNamed(
+                                                        MainScreen.routeName);
                                                   },
                                                   icon: const Icon(
                                                     Icons.done,
@@ -441,7 +511,8 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                         color: Colors.white,
                                         boxShadow: [
                                           BoxShadow(
-                                              color: Colors.black.withOpacity(0.1),
+                                              color:
+                                                  Colors.black.withOpacity(0.1),
                                               blurRadius: 10,
                                               offset: const Offset(8, 8))
                                         ]),
@@ -450,10 +521,12 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                         Row(
                                           children: [
                                             ClipRRect(
-                                              borderRadius: BorderRadius.circular(20),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
                                               child: CachedNetworkImage(
                                                 width: 45,
-                                                imageUrl: user.couplePhotoURL ?? Constants.userDefault,
+                                                imageUrl: user.couplePhotoURL ??
+                                                    Constants.userDefault,
                                               ),
                                             ).p(10),
                                             user.coupleDisplayName!.text.make(),
@@ -461,7 +534,8 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                               child: Container(),
                                             ),
                                             const ImageIcon(
-                                              AssetImage('assets/alarm-clock.png'),
+                                              AssetImage(
+                                                  'assets/alarm-clock.png'),
                                               size: 29,
                                               // color: AppColors.myPink,
                                             ),
@@ -476,23 +550,34 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                           ],
                                         ),
                                         const Image(
-                                          image: AssetImage('assets/images/rabbitwake.png'),
+                                          image: AssetImage(
+                                              'assets/images/rabbitwake.png'),
                                           height: Constants.pngSize,
-                                          opacity: AlwaysStoppedAnimation<double>(0.6),
+                                          opacity:
+                                              AlwaysStoppedAnimation<double>(
+                                                  0.6),
                                         ),
-                                        WakeUpStatus(AppLocalizations.of(context)!.wakeupmenotapproved),
+                                        WakeUpStatus(
+                                            'wakeupmenotapproved'.tr()),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
                                             alarm[index].letterPhoto.isEmpty
-                                                ? const NoIconWakeUp(Icons.photo_size_select_actual_outlined)
-                                                : const IconWakeUp(Icons.photo_size_select_actual_outlined),
+                                                ? const NoIconWakeUp(Icons
+                                                    .photo_size_select_actual_outlined)
+                                                : const IconWakeUp(Icons
+                                                    .photo_size_select_actual_outlined),
                                             alarm[index].letter.isEmpty
-                                                ? const NoIconWakeUp(Icons.mode_edit_outlined)
-                                                : const IconWakeUp(Icons.mode_edit_outlined),
+                                                ? const NoIconWakeUp(
+                                                    Icons.mode_edit_outlined)
+                                                : const IconWakeUp(
+                                                    Icons.mode_edit_outlined),
                                             alarm[index].letterAudio.isEmpty
-                                                ? const NoIconWakeUp(Icons.mic_none_outlined)
-                                                : const IconWakeUp(Icons.mic_none_outlined),
+                                                ? const NoIconWakeUp(
+                                                    Icons.mic_none_outlined)
+                                                : const IconWakeUp(
+                                                    Icons.mic_none_outlined),
                                           ],
                                         ),
                                         10.heightBox
@@ -514,7 +599,7 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
 
                 return Center(
                   child: Text(
-                    AppLocalizations.of(context)!.erroruser,
+                    'erroruser'.tr(),
                     style: const TextStyle(color: Colors.red),
                   ),
                 );
@@ -526,7 +611,7 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
 
           return Center(
             child: Text(
-              AppLocalizations.of(context)!.erroruser,
+              'erroruser'.tr(),
               style: const TextStyle(color: Colors.red),
             ),
           );

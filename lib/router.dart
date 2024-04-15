@@ -11,8 +11,8 @@ import 'package:wakeuphoney/core/image/image_screen.dart';
 import 'package:wakeuphoney/features/main/main_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_edit_screen.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_write_screen.dart';
-import 'package:wakeuphoney/main.dart';
 
+import 'App.dart';
 import 'features/alarm/alarm_ring_screen.dart';
 import 'features/auth/auth_repository.dart';
 import 'features/auth/login_email_screen.dart';
@@ -31,7 +31,7 @@ final routerProvider = Provider((ref) {
   final alarmSettings = ref.watch(alarmSettingsProvider);
   return GoRouter(
     initialLocation: "/main",
-    navigatorKey: WakeUpHoney.navigatorKey,
+    navigatorKey: App.navigatorKey,
     redirect: (context, state) {
       final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
       var logger = Logger();

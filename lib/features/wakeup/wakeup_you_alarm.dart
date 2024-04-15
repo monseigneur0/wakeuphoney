@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:intl/intl.dart';
+
 import 'package:wakeuphoney/common/common.dart';
 
 import '../profile/profile_controller.dart';
@@ -16,7 +15,8 @@ class WakeUpYouAlarmScreen extends ConsumerStatefulWidget {
   const WakeUpYouAlarmScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _WakeUpYouAlarmScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _WakeUpYouAlarmScreenState();
 }
 
 class _WakeUpYouAlarmScreenState extends ConsumerState<WakeUpYouAlarmScreen> {
@@ -30,13 +30,17 @@ class _WakeUpYouAlarmScreenState extends ConsumerState<WakeUpYouAlarmScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: (kDebugMode) ? const Text('WakeUpYouAlarmScreen') : Text(AppLocalizations.of(context)!.wakeupgom),
+        title: (kDebugMode)
+            ? const Text('WakeUpYouAlarmScreen')
+            : Text('wakeupgom'.tr()),
       ),
       body: userInfo.when(
           data: (user) {
             return wakeUpMeAlarm.when(
                 data: (alarm) {
-                  if (user.couple == null || user.couple!.isEmpty || user.couple! == "") {
+                  if (user.couple == null ||
+                      user.couple!.isEmpty ||
+                      user.couple! == "") {
                     return Container(
                       child: const Center(
                         child: Text("You don't have a friend yet."),
@@ -45,10 +49,15 @@ class _WakeUpYouAlarmScreenState extends ConsumerState<WakeUpYouAlarmScreen> {
                   }
                   if (alarm.isEmpty) {
                     return Container(
-                        decoration:
-                            BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
-                          BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-                        ]),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 10,
+                                  offset: const Offset(8, 8))
+                            ]),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -58,7 +67,8 @@ class _WakeUpYouAlarmScreenState extends ConsumerState<WakeUpYouAlarmScreen> {
                                   borderRadius: BorderRadius.circular(20),
                                   child: CachedNetworkImage(
                                     width: 45,
-                                    imageUrl: user.couplePhotoURL ?? Constants.userDefault,
+                                    imageUrl: user.couplePhotoURL ??
+                                        Constants.userDefault,
                                   ),
                                 ).p(10),
                                 user.coupleDisplayName!.text.make(),
@@ -70,7 +80,13 @@ class _WakeUpYouAlarmScreenState extends ConsumerState<WakeUpYouAlarmScreen> {
                                   size: 29,
                                   color: Colors.grey[400],
                                 ),
-                                "00:00".text.bold.gray400.size(18).make().pSymmetric(h: 14),
+                                "00:00"
+                                    .text
+                                    .bold
+                                    .gray400
+                                    .size(18)
+                                    .make()
+                                    .pSymmetric(h: 14),
                               ],
                             ),
                             const Image(
@@ -78,12 +94,13 @@ class _WakeUpYouAlarmScreenState extends ConsumerState<WakeUpYouAlarmScreen> {
                               height: Constants.pngSize,
                               opacity: AlwaysStoppedAnimation<double>(0.3),
                             ),
-                            WakeUpStatus(AppLocalizations.of(context)!.wakeupyou),
+                            WakeUpStatus('wakeupyou'.tr()),
                             // WakeUpStatus(Intl.message('wakeupyou')),
                             const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                NoIconWakeUp(Icons.photo_size_select_actual_outlined),
+                                NoIconWakeUp(
+                                    Icons.photo_size_select_actual_outlined),
                                 NoIconWakeUp(Icons.mode_edit_outlined),
                                 NoIconWakeUp(Icons.mic_none_outlined),
                               ],
@@ -97,7 +114,8 @@ class _WakeUpYouAlarmScreenState extends ConsumerState<WakeUpYouAlarmScreen> {
                     child: ListView.builder(
                       itemCount: alarm.length,
                       itemBuilder: (context, index) {
-                        if (alarm[index].senderUid == user.uid || alarm[index].wakeTime.isAfter(DateTime.now())) {
+                        if (alarm[index].senderUid == user.uid ||
+                            alarm[index].wakeTime.isAfter(DateTime.now())) {
                           //목록 중에 내가 보낸 알람이거나, 아직 시간이 안 지난 알람이면 보여야지?
                           //목록 중에 상대가 보낸거면 여기 보일 필요 없지?
                           //목록 중에 내가 보낸 적 없고 이 시간 이후 다음 설정된 알람이 없으면 꺠워 줘야지? 둘 다 겹쳐야해.
@@ -120,26 +138,37 @@ class _WakeUpYouAlarmScreenState extends ConsumerState<WakeUpYouAlarmScreen> {
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(20),
                                         child: CachedNetworkImage(
-                                            width: 45, imageUrl: user.couplePhotoURL ?? Constants.userDefault),
+                                            width: 45,
+                                            imageUrl: user.couplePhotoURL ??
+                                                Constants.userDefault),
                                       ).p(10),
                                       user.coupleDisplayName!.text.make(),
                                       Expanded(
                                         child: Container(),
                                       ),
                                       ImageIcon(
-                                        const AssetImage('assets/alarm-clock.png'),
+                                        const AssetImage(
+                                            'assets/alarm-clock.png'),
                                         size: 29,
                                         color: Colors.grey[400],
                                       ),
-                                      "00:001".text.bold.gray400.size(18).make().pSymmetric(h: 14),
+                                      "00:001"
+                                          .text
+                                          .bold
+                                          .gray400
+                                          .size(18)
+                                          .make()
+                                          .pSymmetric(h: 14),
                                     ],
                                   ),
                                   const Image(
-                                    image: AssetImage('assets/images/rabbitwake.png'),
+                                    image: AssetImage(
+                                        'assets/images/rabbitwake.png'),
                                     height: Constants.pngSize,
-                                    opacity: AlwaysStoppedAnimation<double>(0.3),
+                                    opacity:
+                                        AlwaysStoppedAnimation<double>(0.3),
                                   ),
-                                  WakeUpStatus(AppLocalizations.of(context)!.wakeupyou),
+                                  WakeUpStatus('wakeupyou'.tr()),
                                   10.heightBox
                                 ],
                               )).p(10);
@@ -162,10 +191,12 @@ class _WakeUpYouAlarmScreenState extends ConsumerState<WakeUpYouAlarmScreen> {
                                     Row(
                                       children: [
                                         ClipRRect(
-                                          borderRadius: BorderRadius.circular(20),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                           child: CachedNetworkImage(
                                             width: 45,
-                                            imageUrl: user.couplePhotoURL ?? Constants.userDefault,
+                                            imageUrl: user.couplePhotoURL ??
+                                                Constants.userDefault,
                                           ),
                                         ).p(10),
                                         user.coupleDisplayName!.text.make(),
@@ -188,11 +219,13 @@ class _WakeUpYouAlarmScreenState extends ConsumerState<WakeUpYouAlarmScreen> {
                                       ],
                                     ),
                                     const Image(
-                                      image: AssetImage('assets/images/rabbitwake.png'),
+                                      image: AssetImage(
+                                          'assets/images/rabbitwake.png'),
                                       height: Constants.pngSize,
-                                      opacity: AlwaysStoppedAnimation<double>(0.6),
+                                      opacity:
+                                          AlwaysStoppedAnimation<double>(0.6),
                                     ),
-                                    WakeUpStatus(AppLocalizations.of(context)!.wakeupmenotapproved),
+                                    WakeUpStatus('wakeupmenotapproved'.tr()),
                                     10.heightBox
                                   ],
                                 )).p(10),
@@ -209,7 +242,7 @@ class _WakeUpYouAlarmScreenState extends ConsumerState<WakeUpYouAlarmScreen> {
 
                   return Center(
                     child: Text(
-                      AppLocalizations.of(context)!.erroruser,
+                      'erroruser'.tr(),
                       style: const TextStyle(color: Colors.red),
                     ),
                   );
@@ -221,7 +254,7 @@ class _WakeUpYouAlarmScreenState extends ConsumerState<WakeUpYouAlarmScreen> {
 
             return Center(
               child: Text(
-                AppLocalizations.of(context)!.erroruser,
+                'erroruser'.tr(),
                 style: const TextStyle(color: Colors.red),
               ),
             );

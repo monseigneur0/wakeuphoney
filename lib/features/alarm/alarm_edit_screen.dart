@@ -1,10 +1,10 @@
 import 'package:alarm/alarm.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:wakeuphoney/common/common.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/date_symbols.dart';
+
+import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/features/alarm/alarm_day_settings.dart';
 
 class AlarmEditScreen extends StatefulWidget {
@@ -155,8 +155,8 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
       loopAudio: loopAudio,
       vibrate: vibrate,
       volume: volume,
-      notificationTitle: AppLocalizations.of(context)!.wakeupgomalarm,
-      notificationBody: AppLocalizations.of(context)!.alarmringletter,
+      notificationTitle: 'wakeupgomalarm'.tr(),
+      notificationBody: 'alarmringletter'.tr(),
       assetAudioPath: assetAudio,
       // days: days,
     );
@@ -195,10 +195,9 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //다만든거
     final locale = Localizations.localeOf(context);
-    final DateSymbols dateSymbols = dateTimeSymbolMap()['$locale'];
-    final textDirection = getTextDirection(locale);
+    // final DateSymbols dateSymbols = dateTimeSymbolMap()['$locale'];
+    // final textDirection = getTextDirection(locale);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       child: Column(
@@ -215,7 +214,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                 child: TextButton(
                   onPressed: () => Navigator.pop(context, false),
                   child: Text(
-                    AppLocalizations.of(context)!.cancel,
+                    'cancel'.tr(),
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(color: AppColors.myPink),
                   ),
                 ).pSymmetric(h: 10, v: 5),
@@ -233,7 +232,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                   child: loading
                       ? const CircularProgressIndicator()
                       : Text(
-                          AppLocalizations.of(context)!.save,
+                          'save'.tr(),
                           style: Theme.of(context).textTheme.titleLarge!.copyWith(color: AppColors.myPink),
                         ),
                 ).pSymmetric(h: 10, v: 5),
@@ -278,7 +277,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context)!.loopalarmaudio,
+                  'loopalarmaudio'.tr(),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Switch(
@@ -296,7 +295,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context)!.vibrate,
+                  'vibrate'.tr(),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Switch(
@@ -314,7 +313,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context)!.customvolume,
+                  'customvolume'.tr(),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Switch(
@@ -357,7 +356,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppLocalizations.of(context)!.sound,
+                  'sound'.tr(),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 if (kDebugMode) Text('wow${assetAudio.split('/').last}'),
@@ -406,7 +405,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
             TextButton(
               onPressed: deleteAlarm,
               child: Text(
-                AppLocalizations.of(context)!.deletealarm,
+                'deletealarm'.tr(),
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.red),
               ),
             ),
@@ -417,9 +416,9 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
   }
 }
 
-TextDirection getTextDirection(Locale locale) {
-  // See GlobalWidgetsLocalizations
-  // TODO: there must be a better way to figure out whether a locale is RTL or LTR
-  const rtlLanguages = ['ar', 'fa', 'he', 'ps', 'sd', 'ur'];
-  return rtlLanguages.contains(locale.languageCode) ? TextDirection.rtl : TextDirection.ltr;
-}
+// TextDirection getTextDirection(Locale locale) {
+//   // See GlobalWidgetsLocalizations
+//   // TODO: there must be a better way to figure out whether a locale is RTL or LTR
+//   const rtlLanguages = ['ar', 'fa', 'he', 'ps', 'sd', 'ur'];
+//   return rtlLanguages.contains(locale.languageCode) ? TextDirection.rtl : TextDirection.ltr;
+// }

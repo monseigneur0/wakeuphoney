@@ -1,9 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:wakeuphoney/common/common.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../common/constants/app_colors.dart';
 import 'login_screen.dart';
 
 class LoginOnboardScreen extends StatelessWidget {
@@ -16,7 +14,7 @@ class LoginOnboardScreen extends StatelessWidget {
     return IntroductionScreen(
       pages: [
         // PageViewModel(
-        //   title: AppLocalizations.of(context)!.wakeupyou,
+        //   title: 'wakeupyou'.tr(),
         //   body: 'This is first page'
         //       'We are making on-boarding screens.'
         //       'It is very interesting!',
@@ -24,7 +22,7 @@ class LoginOnboardScreen extends StatelessWidget {
         //   decoration: getPageDecoration(AppColors.sleepingbear),
         // ),
         // PageViewModel(
-        //   title: AppLocalizations.of(context)!.wakeupnotapproved,
+        //   title: 'wakeupnotapproved'.tr(),
         //   body: 'This is second page'
         //       'We are making on-boarding screens.'
         //       'It is very interesting!',
@@ -32,7 +30,7 @@ class LoginOnboardScreen extends StatelessWidget {
         //   decoration: getPageDecoration(AppColors.awakebear),
         // ),
         PageViewModel(
-          title: AppLocalizations.of(context)!.wakeupyou,
+          title: 'wakeupyou'.tr(),
           body: 'This is third page'
               'We are making on-boarding screens.'
               'It is very interesting!',
@@ -40,7 +38,7 @@ class LoginOnboardScreen extends StatelessWidget {
           decoration: getPageDecoration(AppColors.rabbitwake),
         ),
         PageViewModel(
-          title: AppLocalizations.of(context)!.wakeupmenotapproved,
+          title: 'wakeupmenotapproved'.tr(),
           body: 'This is third page'
               'We are making on-boarding screens.'
               'It is very interesting!',
@@ -48,7 +46,7 @@ class LoginOnboardScreen extends StatelessWidget {
           decoration: getPageDecoration(AppColors.rabbitalarm),
         ),
         // PageViewModel(
-        //   title: AppLocalizations.of(context)!.wakeupapproved,
+        //   title: 'wakeupapproved'.tr(),
         //   body: 'This is third page'
         //       'We are making on-boarding screens.'
         //       'It is very interesting!',
@@ -56,7 +54,7 @@ class LoginOnboardScreen extends StatelessWidget {
         //   decoration: getPageDecoration(AppColors.rabbitspeak),
         // ),
         // PageViewModel(
-        //   title: AppLocalizations.of(context)!.wakeupapproved,
+        //   title: 'wakeupapproved'.tr(),
         //   bodyWidget: const LoginHome(),
         // )
       ],

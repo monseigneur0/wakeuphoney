@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:alarm/alarm.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -144,7 +145,7 @@ class AlarmHomeState extends State<AlarmHome> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context)!.alarms,
+          'alarms'.tr(),
           style: const TextStyle(color: Colors.black),
         ),
         actions: [
@@ -197,7 +198,7 @@ class AlarmHomeState extends State<AlarmHome> {
                       SizedBox(height: MediaQuery.of(context).size.height / 5),
                       Center(
                         child: Text(
-                          AppLocalizations.of(context)!.noalarmset,
+                          'noalarmset'.tr(),
                           style: const TextStyle(
                             fontSize: 30,
                             color: Colors.black,

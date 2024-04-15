@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -39,7 +40,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
         backgroundColor: AppColors.myAppBarBackgroundPink,
         elevation: 0,
         title: Text(
-          AppLocalizations.of(context)!.connectto,
+          'connectto'.tr(),
           style: const TextStyle(color: Colors.black),
         ),
       ),
@@ -63,7 +64,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                     Column(
                       children: [
                         Text(
-                          AppLocalizations.of(context)!.snslogin,
+                          'snslogin'.tr(),
                           style: const TextStyle(fontSize: 15),
                         ),
                         const Icon(
@@ -71,7 +72,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                           size: 40,
                         ),
                         Text(
-                          AppLocalizations.of(context)!.snslogin,
+                          'snslogin'.tr(),
                           style: const TextStyle(fontSize: 10, color: Colors.white),
                         ),
                       ],
@@ -83,7 +84,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                     Column(
                       children: [
                         Text(
-                          AppLocalizations.of(context)!.matchprocess,
+                          'matchprocess'.tr(),
                           style: const TextStyle(fontSize: 10, color: Colors.white),
                         ),
                         const Icon(
@@ -91,7 +92,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                           size: 40,
                         ),
                         Text(
-                          AppLocalizations.of(context)!.matchprocess,
+                          'matchprocess'.tr(),
                           style: const TextStyle(fontSize: 15),
                         ),
                       ],
@@ -103,7 +104,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                     Column(
                       children: [
                         Text(
-                          AppLocalizations.of(context)!.wakeupgom,
+                          'wakeupgom'.tr(),
                           style: const TextStyle(fontSize: 15),
                         ),
                         const Icon(
@@ -111,7 +112,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                           size: 40,
                         ),
                         Text(
-                          AppLocalizations.of(context)!.wakeupgom,
+                          'wakeupgom'.tr(),
                           style: const TextStyle(fontSize: 10, color: Colors.white),
                         ),
                       ],
@@ -122,14 +123,14 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                   height: 20,
                 ),
                 Text(
-                  AppLocalizations.of(context)!.codewritematch,
+                  'codewritematch'.tr(),
                   style: const TextStyle(color: Colors.black),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  AppLocalizations.of(context)!.writealarmcheck,
+                  'writealarmcheck'.tr(),
                   style: const TextStyle(color: Colors.black),
                 ),
                 const SizedBox(
@@ -141,7 +142,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              AppLocalizations.of(context)!.mycode1hour,
+                              'mycode1hour'.tr(),
                               style: const TextStyle(color: Colors.black),
                             ),
                             const SizedBox(
@@ -180,7 +181,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                   height: 20,
                 ),
                 Text(
-                  AppLocalizations.of(context)!.writeothercode,
+                  'writeothercode'.tr(),
                   style: const TextStyle(color: Colors.black),
                 ),
                 const SizedBox(
@@ -272,7 +273,7 @@ class _MatchScreenState extends ConsumerState<MatchScreen> {
                         }
                       },
                       child: Text(
-                        AppLocalizations.of(context)!.connectwith,
+                        'connectwith'.tr(),
                         style: const TextStyle(color: Colors.white),
                       ),
                     ),

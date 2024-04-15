@@ -1,9 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:velocity_x/velocity_x.dart';
-import 'package:wakeuphoney/core/utils.dart';
+import 'package:wakeuphoney/common/common.dart';
 
-import '../main.dart';
+import '../App.dart';
 
 class FcmManager {
   static void requestPermission() {
@@ -25,16 +23,15 @@ class FcmManager {
 
     //Background
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      WakeUpHoney.navigatorKey.currentContext!.showToast(msg: message.notification?.title ?? "no title");
-      // WakeUpHoney.navigatorKey.currentState!.go(message.data['screen']);
+      App.navigatorKey.currentContext!.showToast(msg: message.notification?.title ?? "no title");
+      // App.navigatorKey.currentState!.go(message.data['screen']);
     });
 
     //When app is closed -> initial launch
     final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
-      await sleepUntil(
-          () => WakeUpHoney.navigatorKey.currentContext != null && WakeUpHoney.navigatorKey.currentContext!.mounted);
-      WakeUpHoney.navigatorKey.currentContext!.showToast(msg: initialMessage.notification?.title ?? "no title");
+      await sleepUntil(() => App.navigatorKey.currentContext != null && App.navigatorKey.currentContext!.mounted);
+      App.navigatorKey.currentContext!.showToast(msg: initialMessage.notification?.title ?? "no title");
     }
   }
 }

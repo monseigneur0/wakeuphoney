@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 export 'dart:async';
 
 export 'package:velocity_x/velocity_x.dart';
-export 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 export 'package:go_router/go_router.dart';
 export 'package:logger/logger.dart';
 
