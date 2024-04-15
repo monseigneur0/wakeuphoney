@@ -1,35 +1,36 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakeuphoney/common/common.dart';
-import 'package:wakeuphoney/common/theme/custom_theme_app.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:nav/nav.dart';
+import 'package:wakeuphoney/common/common.dart';
+import 'package:wakeuphoney/router.dart';
 
+import 'common/fcm_manager.dart';
 import 'common/theme/custom_theme.dart';
 import 'features/auth/auth_repository.dart';
-import 'router.dart';
 
-class App extends StatefulWidget {
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
-
+class App extends ConsumerStatefulWidget {
   ///light, dark 테마가 준비되었고, 시스템 테마를 따라가게 하려면 해당 필드를 제거 하시면 됩니다.
   static const defaultTheme = CustomTheme.dark;
   static bool isForeground = true;
+  static final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey();
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   const App({super.key});
 
   @override
-  State<App> createState() => AppState();
+  ConsumerState<App> createState() => AppState();
 }
 
-class AppState extends State<App> with Nav, WidgetsBindingObserver {
-  @override
-  GlobalKey<NavigatorState> get navigatorKey => App.navigatorKey;
+class AppState extends ConsumerState<App> with WidgetsBindingObserver, Nav {
+  final ValueKey<String> _scaffoldKey = const ValueKey<String>('App scaffold');
 
   @override
   void initState() {
     super.initState();
+    FcmManager.requestPermission();
+    FcmManager.initialize();
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -43,20 +44,82 @@ class AppState extends State<App> with Nav, WidgetsBindingObserver {
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
 
-    return CustomThemeApp(
-      child: Builder(builder: (context) {
-        return MaterialApp(
-          navigatorKey: App.navigatorKey,
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          title: 'Image Finder',
-          theme: App.defaultTheme.themeData,
-          home: const ProviderScope(child: WakeUpHoney()),
-        );
-      }),
+    final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
+
+    return MaterialApp.router(
+      scaffoldMessengerKey: App.scaffoldMessengerKey,
+      routerConfig: isLoggedIn ? ref.watch(routerProvider) : ref.watch(logOutRouterProvider),
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      title: 'Image Finder',
+      theme: context.themeType.themeData,
     );
   }
+
+  // late final GoRouter _router = GoRouter(
+  //   navigatorKey: App.navigatorKey,
+  //   routes: <GoRoute>[
+  //     GoRoute(
+  //       path: '/',
+  //       redirect: (_, __) => '/main',
+  //     ),
+  //     GoRoute(
+  //       path: '/signin',
+  //       pageBuilder: (BuildContext context, GoRouterState state) => FadeTransitionPage(
+  //         key: state.pageKey,
+  //         child: Container(
+  //           color: Colors.green,
+  //           child: Center(
+  //             child: RoundButton(
+  //               text: '로그인',
+  //               onTap: () {
+  //                 _auth.signIn('hong', '1234');
+  //               },
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //     GoRoute(
+  //       path: '/main',
+  //       redirect: (_, __) => '/main/home',
+  //     ),
+  //     GoRoute(
+  //       path: '/productPost/:postId',
+  //       redirect: (BuildContext context, GoRouterState state) => '/main/home/${state.pathParameters['postId']}',
+  //     ),
+  //     GoRoute(
+  //       path: '/main/:kind(home|localLife|nearMy|chat|my)',
+  //       pageBuilder: (BuildContext context, GoRouterState state) => FadeTransitionPage(
+  //         key: _scaffoldKey,
+  //         child: MainScreen(
+  //           firstTab: TabItem.find(state.pathParameters['kind']),
+  //         ),
+  //       ),
+  //       routes: <GoRoute>[
+  //         GoRoute(
+  //           path: ':postId',
+  //           builder: (BuildContext context, GoRouterState state) {
+  //             final String postId = state.pathParameters['postId']!;
+  //             if (state.extra != null) {
+  //               final post = state.extra as SimpleProductPost;
+  //               return PostDetailScreenWithRiverpod(
+  //                 int.parse(postId),
+  //                 simpleProductPost: post,
+  //               );
+  //             } else {
+  //               return PostDetailScreenWithRiverpod(int.parse(postId));
+  //             }
+  //           },
+  //         ),
+  //       ],
+  //     ),
+  //   ],
+  //   redirect: _auth.guard,
+  //   refreshListenable: _auth,
+  //   debugLogDiagnostics: true,
+  // );
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -71,50 +134,12 @@ class AppState extends State<App> with Nav, WidgetsBindingObserver {
         break;
       case AppLifecycleState.detached:
         break;
-      case AppLifecycleState.hidden: //Flutter 3.13 이하 버전을 쓰신다면 해당 라인을 삭제해주세요.
+      case AppLifecycleState.hidden:
         break;
     }
     super.didChangeAppLifecycleState(state);
   }
-}
-
-class WakeUpHoney extends ConsumerWidget {
-  const WakeUpHoney({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    FlutterNativeSplash.remove();
-    final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
-
-    String? determineFont(Locale locale) {
-      switch (locale.languageCode) {
-        case 'ko':
-          return GoogleFonts.nanumGothic().fontFamily;
-        case 'en':
-          return GoogleFonts.notoSans().fontFamily;
-        // Add cases for other languages as needed
-        default:
-          return GoogleFonts.raleway().fontFamily; // Use a default for unsupported languages
-      }
-    }
-
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      routerConfig: isLoggedIn ? ref.watch(routerProvider) : ref.watch(logOutRouterProvider),
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: AppColors.myPink,
-        ),
-        appBarTheme: const AppBarTheme(
-          centerTitle: false,
-          color: AppColors.myAppBarBackgroundPink,
-          titleTextStyle: TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-          ),
-        ),
-      ),
-    );
-  }
+  GlobalKey<NavigatorState> get navigatorKey => App.navigatorKey;
 }

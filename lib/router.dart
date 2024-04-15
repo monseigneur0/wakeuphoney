@@ -12,7 +12,7 @@ import 'package:wakeuphoney/features/main/main_screen.dart';
 import 'package:wakeuphoney/features/profile/profile_edit_screen.dart';
 import 'package:wakeuphoney/features/wakeup/wakeup_write_screen.dart';
 
-import 'App.dart';
+import 'app.dart';
 import 'features/alarm/alarm_ring_screen.dart';
 import 'features/auth/auth_repository.dart';
 import 'features/auth/login_email_screen.dart';

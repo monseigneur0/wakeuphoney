@@ -8,9 +8,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:wakeuphoney/App.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wakeuphoney/app.dart';
+import 'package:wakeuphoney/wakeuphoney.dart';
 
 import 'common/data/preference/app_preferences.dart';
+import 'common/data/preference/prefs.dart';
+import 'common/theme/custom_theme.dart';
+import 'common/theme/custom_theme_app.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -52,6 +57,10 @@ void main() async {
     fallbackLocale: const Locale('en'),
     path: 'assets/translations',
     useOnlyLangCode: true,
-    child: const App(),
+    child: CustomThemeApp(
+      child: Builder(builder: (context) {
+        return const ProviderScope(child: App());
+      }),
+    ),
   ));
 }

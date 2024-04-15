@@ -1,7 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:wakeuphoney/common/common.dart';
 
-import '../App.dart';
+import '../app.dart';
 
 class FcmManager {
   static void requestPermission() {

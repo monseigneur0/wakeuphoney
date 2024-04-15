@@ -34,14 +34,23 @@ enum CustomTheme {
 MaterialColor primarySwatchColor = Colors.lightBlue;
 
 ThemeData lightTheme = ThemeData(
-    useMaterial3: true,
-    primarySwatch: primarySwatchColor,
-    visualDensity: VisualDensity.adaptivePlatformDensity,
-    brightness: Brightness.light,
-    // textTheme: CustomGoogleFonts.diphylleiaTextTheme(
-    //   ThemeData(brightness: Brightness.light).textTheme,
-    // ),
-    colorScheme: ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor));
+  useMaterial3: true,
+  primarySwatch: primarySwatchColor,
+  visualDensity: VisualDensity.adaptivePlatformDensity,
+  brightness: Brightness.light,
+  // textTheme: CustomGoogleFonts.diphylleiaTextTheme(
+  //   ThemeData(brightness: Brightness.light).textTheme,
+  // ),
+  colorScheme: ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor),
+  appBarTheme: const AppBarTheme(
+    centerTitle: false,
+    color: AppColors.myAppBarBackgroundPink,
+    titleTextStyle: TextStyle(
+      color: Colors.black,
+      fontSize: 18,
+    ),
+  ),
+);
 
 ThemeData darkTheme = ThemeData(
   useMaterial3: true,

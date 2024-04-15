@@ -1,7 +1,5 @@
-import 'package:wakeuphoney/common/theme/color/abs_theme_colors.dart';
 import 'package:wakeuphoney/common/theme/custom_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:wakeuphoney/common/theme/shadows/abs_theme_shadows.dart';
 
 import '../common.dart';
 
