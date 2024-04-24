@@ -44,6 +44,7 @@ dependencies:
 
   #util
   velocity_x: ^4.1.0
+  flutter_oss_licenses: ^3.0.2
 
   #data
   shared_preferences: ^2.0.15
@@ -195,6 +196,7 @@ flutter:
     - assets/images/
     - assets/images/splash/
     - assets/images/aiphotos/
+    - assets/images/login/
     - assets/translations/
     - assets/sounds/
   #   - images/a_dot_ham.jpeg

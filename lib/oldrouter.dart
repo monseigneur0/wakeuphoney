@@ -11,6 +11,7 @@ import 'package:wakeuphoney/core/image/image_screen.dart';
 import 'package:wakeuphoney/features/oldmain/main_screen.dart';
 import 'package:wakeuphoney/features/oldprofile/profile_edit_screen.dart';
 import 'package:wakeuphoney/features/oldwakeup/wakeup_write_screen.dart';
+import 'package:wakeuphoney/screen/main/main_screen.dart';
 
 import 'app.dart';
 import 'features/oldalarm/alarm_ring_screen.dart';
@@ -30,7 +31,7 @@ import 'features/oldmanager/practice_home_screen.dart';
 final routerProvider = Provider((ref) {
   final alarmSettings = ref.watch(alarmSettingsProvider);
   return GoRouter(
-    initialLocation: "/main",
+    initialLocation: "/maintabs",
     navigatorKey: App.navigatorKey,
     redirect: (context, state) {
       final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
@@ -44,6 +45,11 @@ final routerProvider = Provider((ref) {
       return null;
     },
     routes: [
+      GoRoute(
+        name: MainTabsScreen.routeName,
+        path: MainTabsScreen.routeUrl,
+        builder: (context, state) => const MainTabsScreen(),
+      ),
       GoRoute(
         name: LoginHome.routeName,
         path: LoginHome.routeURL,

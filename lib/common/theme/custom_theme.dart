@@ -42,9 +42,10 @@ ThemeData lightTheme = ThemeData(
   //   ThemeData(brightness: Brightness.light).textTheme,
   // ),
   colorScheme: ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor),
+
   appBarTheme: const AppBarTheme(
     centerTitle: false,
-    color: AppColors.myAppBarBackgroundPink,
+    color: AppColors.white,
     titleTextStyle: TextStyle(
       color: Colors.black,
       fontSize: 18,

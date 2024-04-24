@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/features/oldauth/auth_repository.dart';
 
 import 'common/common.dart';
-import 'router.dart';
+import 'oldrouter.dart';
 
 class WakeUpHoneyApp extends ConsumerWidget {
   const WakeUpHoneyApp({super.key});
@@ -24,12 +24,12 @@ class WakeUpHoneyApp extends ConsumerWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: AppColors.myPink,
+          seedColor: context.appColors.seedColor.getMaterialColorValues[600]!,
         ),
-        appBarTheme: const AppBarTheme(
+        appBarTheme: AppBarTheme(
           centerTitle: false,
-          color: AppColors.myAppBarBackgroundPink,
-          titleTextStyle: TextStyle(
+          color: context.appColors.seedColor.getMaterialColorValues[200],
+          titleTextStyle: const TextStyle(
             color: Colors.black,
             fontSize: 18,
           ),

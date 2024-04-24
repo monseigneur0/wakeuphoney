@@ -39,4 +39,6 @@ class Constants {
   static const bottomNavBarLine = 206;
   static const bottomNavBarHeight = 60;
   static const pngSize = 100.0;
+  static const snsLogin = 70.0;
+  static const snsLoginIcon = 40.0;
 }

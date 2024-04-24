@@ -26,5 +26,23 @@ class AppColors {
   static const Color rabbitwake = Color(0xFFFCFAF9);
   static const Color rabbitalarm = Color(0xFFFFCFA1);
 
+  static const Color seedColor = Color(0xFF120338);
+  static const Color primary = Color(0xFF120338);
+  static const Color primary900 = Color(0xFF120338);
+  static const Color primary800 = Color(0xFF22075E);
+  static const Color primary700 = Color(0xFF391085);
+  static const Color primary600 = Color(0xFF531DAB);
+  static const Color primary500 = Color(0xFF722ED1);
+  static const Color primary400 = Color(0xFF9254DE);
+  static const Color primary300 = Color(0xFFB37FEB);
+  static const Color primary200 = Color(0xFFD3ADF7);
+  static const Color primary100 = Color(0xFFEFDBFF);
+  static const Color primary50 = Color(0xFFF9F0FF);
+
+  static const Color point900 = Color(0xFFA67DE0);
+  static const Color point800 = Color(0xFFB29ECD);
+  static const Color point700 = Color(0xFFDED6EC);
+  static const Color point600 = Color(0xFFF5F2FA);
+
   static const Color white = Color.fromARGB(255, 236, 236, 236);
 }

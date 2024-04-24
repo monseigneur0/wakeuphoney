@@ -74,7 +74,7 @@ void main() async {
       useOnlyLangCode: true,
       child: CustomThemeApp(
         child: Builder(builder: (context) {
-          return const ProviderScope(child: WakeUpHoneyApp());
+          return const ProviderScope(child: App());
         }),
       ),
     ));

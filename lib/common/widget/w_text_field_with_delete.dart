@@ -131,15 +131,17 @@ class TextFieldWithDeleteState extends State<TextFieldWithDelete> {
               onEditingComplete: widget.onEditingComplete,
               style: TextStyle(fontSize: widget.fontSize, fontWeight: widget.fontWeight),
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(left: widget.leftImage == null ? 0 : 30, top: 10, bottom: 14),
+                contentPadding: EdgeInsets.only(left: widget.leftImage == null ? 10 : 30, top: 10, bottom: 14),
                 hintText: widget.texthint,
                 hintStyle: TextStyle(
                     fontSize: widget.fontSize, fontWeight: widget.fontWeight, color: context.appColors.hintText),
-                enabledBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: context.appColors.lessImportant),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: context.appColors.focusedBorder, width: 2),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: context.appColors.seedColor.getMaterialColorValues[600]!, width: 2),
+                  borderRadius: BorderRadius.circular(8),
                 ),
               ),
             ),
