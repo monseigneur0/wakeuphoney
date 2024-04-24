@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_cropper/image_cropper.dart';
 
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
-import 'package:wakeuphoney/features/profile/profile_controller.dart';
+import 'package:wakeuphoney/features/oldprofile/profile_controller.dart';
 import 'package:wakeuphoney/common/common.dart';
 
 class ImageScreen extends ConsumerStatefulWidget {
@@ -94,26 +94,19 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                             });
                             showToast('saving'.tr());
                             String uniqueImageName = DateTime.now().toString();
-                            Reference refRoot =
-                                ref.watch(storageProvider).ref();
-                            Reference refDirImage =
-                                refRoot.child('profileimages');
-                            Reference refImageToUpload =
-                                refDirImage.child(uniqueImageName);
+                            Reference refRoot = ref.watch(storageProvider).ref();
+                            Reference refDirImage = refRoot.child('profileimages');
+                            Reference refImageToUpload = refDirImage.child(uniqueImageName);
                             try {
-                              await refImageToUpload
-                                  .putFile(File(_croppedFile!.path));
-                              imageUrl =
-                                  await refImageToUpload.getDownloadURL();
+                              await refImageToUpload.putFile(File(_croppedFile!.path));
+                              imageUrl = await refImageToUpload.getDownloadURL();
                             } catch (e) {
                               setState(() {
                                 isLoading = false;
                                 logger.e(e.toString());
                               });
                             }
-                            ref
-                                .watch(profileControllerProvider.notifier)
-                                .updateProfileImage(imageUrl);
+                            ref.watch(profileControllerProvider.notifier).updateProfileImage(imageUrl);
                             if (context.mounted) {
                               Navigator.of(context).pop();
                               showToast('saved'.tr());
@@ -121,8 +114,7 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                           },
                           child: Text(
                             'save'.tr(),
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 20),
+                            style: const TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         ),
               if (_croppedFile == null)

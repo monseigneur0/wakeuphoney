@@ -175,7 +175,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "alarmbear10white"
   ios: true
-  image_path: "assets/alarmbear10white.png"
+  image_path: "assets/images/alarmbear10white.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
 
 # For information on the generic Dart part of this file, see the
@@ -193,7 +193,10 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/images/splash/
+    - assets/images/aiphotos/
     - assets/translations/
+    - assets/sounds/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

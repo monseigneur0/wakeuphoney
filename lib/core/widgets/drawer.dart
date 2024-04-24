@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
 
-import '../../features/alarm/alarm_screen.dart';
-import '../../features/auth/auth_controller.dart';
-import '../../features/auth/auth_repository.dart';
-import '../../features/auth/login_screen.dart';
-import '../../features/profile/feedback_screen.dart';
+import '../../features/oldalarm/alarm_screen.dart';
+import '../../features/oldauth/auth_controller.dart';
+import '../../features/oldauth/auth_repository.dart';
+import '../../features/oldauth/login_screen.dart';
+import '../../features/oldprofile/feedback_screen.dart';
 
 class ProfileDrawer extends StatelessWidget {
   const ProfileDrawer({
@@ -33,7 +33,7 @@ class ProfileDrawer extends StatelessWidget {
           IconButton(
             onPressed: () {},
             icon: Image.asset(
-              'assets/alarmbearno.png',
+              'assets/images/alarmbearno.png',
               width: 80,
             ),
             iconSize: 50,
@@ -75,8 +75,7 @@ class ProfileDrawer extends StatelessWidget {
             onTap: () {
               context.pushNamed(AlarmHome.routeName);
             },
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             leading: const Icon(
               Icons.alarm,
               color: Colors.white,
@@ -90,8 +89,7 @@ class ProfileDrawer extends StatelessWidget {
             onTap: () {
               context.pushNamed(FeedbackScreen.routeName);
             },
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             leading: const Icon(
               Icons.feedback_outlined,
               color: Colors.white,
@@ -127,8 +125,7 @@ class ProfileDrawer extends StatelessWidget {
                       ),
                     );
                   },
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   leading: const Icon(Icons.exit_to_app),
                   title: Text(
                     'logout'.tr(),
@@ -169,8 +166,7 @@ class ProfileDrawer extends StatelessWidget {
                           );
                         });
                   },
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   leading: const Icon(Icons.exit_to_app),
                   title: Text(
                     'logout'.tr(),
@@ -222,8 +218,7 @@ class ProfileDrawer extends StatelessWidget {
                       ),
                     );
                   },
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   leading: const Icon(Icons.exit_to_app),
                   title: Text(
                     'delete'.tr(),
@@ -252,9 +247,7 @@ class ProfileDrawer extends StatelessWidget {
                               IconButton(
                                 onPressed: () {
                                   context.goNamed(LoginHome.routeName);
-                                  ref
-                                      .watch(authRepositoryProvider)
-                                      .deleteUser();
+                                  ref.watch(authRepositoryProvider).deleteUser();
                                   Navigator.of(context).pop();
                                 },
                                 icon: const Icon(
@@ -266,8 +259,7 @@ class ProfileDrawer extends StatelessWidget {
                           );
                         });
                   },
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   leading: const Icon(Icons.exit_to_app),
                   title: Text(
                     'delete'.tr(),
