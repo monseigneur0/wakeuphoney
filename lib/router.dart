@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/app.dart';
-import 'package:wakeuphoney/screen/main/main_screen.dart';
+import 'package:wakeuphoney/screen/main/main_tabscreen.dart';
 
 import 'common/common.dart';
 import 'screen/auth/login_tabscreen.dart';

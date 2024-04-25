@@ -41,4 +41,9 @@ class Constants {
   static const pngSize = 100.0;
   static const snsLogin = 70.0;
   static const snsLoginIcon = 40.0;
+
+  static const emptyPagePngWidth = 200.0;
+  static const cardPngWidth = 70.0;
+
+  static const userIcon = 24.0;
 }

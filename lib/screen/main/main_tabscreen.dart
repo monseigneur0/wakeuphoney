@@ -16,7 +16,7 @@ class MainTabsScreen extends ConsumerStatefulWidget {
 }
 
 class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTickerProviderStateMixin {
-  TabItem _currentTab = TabItem.profile;
+  TabItem _currentTab = TabItem.wake;
   final tabs = TabItem.values;
 
   late final List<GlobalKey<NavigatorState>> navigatorKeys =

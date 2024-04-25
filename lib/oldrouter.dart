@@ -11,7 +11,7 @@ import 'package:wakeuphoney/core/image/image_screen.dart';
 import 'package:wakeuphoney/features/oldmain/main_screen.dart';
 import 'package:wakeuphoney/features/oldprofile/profile_edit_screen.dart';
 import 'package:wakeuphoney/features/oldwakeup/wakeup_write_screen.dart';
-import 'package:wakeuphoney/screen/main/main_screen.dart';
+import 'package:wakeuphoney/screen/main/main_tabscreen.dart';
 
 import 'app.dart';
 import 'features/oldalarm/alarm_ring_screen.dart';

@@ -45,7 +45,7 @@ ThemeData lightTheme = ThemeData(
 
   appBarTheme: const AppBarTheme(
     centerTitle: false,
-    color: AppColors.white,
+    color: Colors.white,
     titleTextStyle: TextStyle(
       color: Colors.black,
       fontSize: 18,
