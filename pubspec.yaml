@@ -197,6 +197,7 @@ flutter:
     - assets/images/splash/
     - assets/images/aiphotos/
     - assets/images/login/
+    - assets/images/samples/
     - assets/translations/
     - assets/sounds/
   #   - images/a_dot_ham.jpeg
