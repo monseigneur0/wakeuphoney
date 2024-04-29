@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/widget/w_arrow.dart';
+import 'package:wakeuphoney/features/oldauth/auth_repository.dart';
+import 'package:wakeuphoney/features/oldauth/login_screen.dart';
+import 'package:wakeuphoney/screen/auth/login_tabscreen.dart';
 import 'package:wakeuphoney/screen/main/tabs/profile/single_profile_screen.dart';
 
 class ProfileTabScreen extends StatefulHookConsumerWidget {
@@ -57,14 +60,17 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
           height20,
           Column(
             children: [
-              LinkCard('앱소개', onTap: () {}).pSymmetric(h: 20, v: 10),
-              LinkCard('내 정보 관리', onTap: () {}).pSymmetric(h: 20, v: 10),
-              LinkCard('편지 확인 가능 시간', onTap: () {}).pSymmetric(h: 20, v: 10),
-              LinkCard('고객센터', onTap: () {}).pSymmetric(h: 20, v: 10),
-              LinkCard('버전정보', onTap: () {}).pSymmetric(h: 20, v: 10),
-              LinkCard('개인정보처리방침', onTap: () {}).pSymmetric(h: 20, v: 10),
-              LinkCard('로그아웃', onTap: () {}).pSymmetric(h: 20, v: 10),
-              LinkCard('회원탈퇴', onTap: () {}).pSymmetric(h: 20, v: 10),
+              LinkCard('앱소개', onTap: () {}),
+              LinkCard('내 정보 관리', onTap: () {}),
+              LinkCard('편지 확인 가능 시간', onTap: () {}),
+              LinkCard('고객센터', onTap: () {}),
+              LinkCard('버전정보', version: '1.1.0', onTap: () {}),
+              LinkCard('개인정보처리방침', onTap: () {}),
+              LinkCard('로그아웃', onTap: () {
+                Nav.push(const LoginNewScreen());
+                ref.watch(authRepositoryProvider).logout();
+              }),
+              LinkCard('회원탈퇴', onTap: () {}),
             ],
           )
         ],
@@ -76,9 +82,11 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
 class LinkCard extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
+  final String? version;
   const LinkCard(
     this.title, {
     required this.onTap,
+    this.version,
     super.key,
   });
 
@@ -90,9 +98,9 @@ class LinkCard extends StatelessWidget {
         children: [
           title.text.make(),
           const EmptyExpanded(),
-          const Arrow(),
+          version.isEmptyOrNull ? const Arrow() : version!.text.make(),
         ],
-      ),
+      ).pSymmetric(h: 20, v: 15),
     );
   }
 }

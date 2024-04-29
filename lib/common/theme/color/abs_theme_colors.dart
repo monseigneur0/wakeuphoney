@@ -40,7 +40,7 @@ abstract class AbstractThemeColors {
 
   Color get drawerText => text;
 
-  Color get snackbarBgColor => AppColors.mediumBlue;
+  Color get snackbarBgColor => AppColors.primary400;
 
   Color get blueButtonBackground => AppColors.darkBlue;
 

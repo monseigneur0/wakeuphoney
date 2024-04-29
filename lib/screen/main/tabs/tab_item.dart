@@ -13,7 +13,7 @@ enum TabItem {
   wake(Icons.mail, '깨우기', WakeTabScreen()),
   feed(Icons.toc, '피드', FeedTabScreen()),
   match(Icons.connecting_airports_sharp, '연결', MatchTabScreen()),
-  login(Icons.login, '로그인', LoginScreen()),
+  login(Icons.login, '로그인', LoginNewScreen()),
   profile(Icons.person, '프로필', ProfileTabScreen());
 
   final IconData activeIcon;

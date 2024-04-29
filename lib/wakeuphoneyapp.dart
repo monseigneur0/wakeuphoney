@@ -9,6 +9,7 @@ import 'package:wakeuphoney/features/oldauth/auth_repository.dart';
 import 'common/common.dart';
 import 'oldrouter.dart';
 
+//이전
 class WakeUpHoneyApp extends ConsumerWidget {
   const WakeUpHoneyApp({super.key});
 

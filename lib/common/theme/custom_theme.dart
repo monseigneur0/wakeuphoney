@@ -41,7 +41,8 @@ ThemeData lightTheme = ThemeData(
   // textTheme: CustomGoogleFonts.diphylleiaTextTheme(
   //   ThemeData(brightness: Brightness.light).textTheme,
   // ),
-  colorScheme: ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor),
+  colorScheme:
+      ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor, background: AppColors.myBackground),
 
   appBarTheme: const AppBarTheme(
     centerTitle: false,

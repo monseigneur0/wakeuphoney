@@ -45,5 +45,7 @@ class AppColors {
   static const Color point600 = Color(0xFFF5F2FA);
 
   static const Color white = Color.fromARGB(255, 236, 236, 236);
+  static const Color whiteBackground = Color.fromARGB(255, 255, 255, 255);
   static const Color borderColor = Color.fromARGB(255, 171, 171, 171);
+  static const Color myBackground = Color(0xFFFAFAFA);
 }

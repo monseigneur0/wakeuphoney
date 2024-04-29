@@ -19,30 +19,38 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
       appBar: AppBar(
         title: const Text('편지쓰기'),
       ),
-      body: Column(
-        children: [
-          const EditBox(),
-          height10,
-          Container(
-            // height: 300,
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColors.point700),
-              borderRadius: BorderRadius.circular(8),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            height10,
+            const EditBox(),
+            height10,
+            Container(
+              // height: 300,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: AppColors.whiteBackground,
+                border: Border.all(color: AppColors.point700),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const NameBar(),
+                  const TimeBar(),
+                  height10,
+                  textMessageBox(
+                      '오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ '),
+                  imageBox('assets/images/samples/cherryblossom.png'),
+                ],
+              ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const NameBar(),
-                const TimeBar(),
-                height10,
-                textMessageBox('오늘 놀지~오늘 놀지~오늘 놀지~오늘 놀지~오늘 놀지~오늘 놀지~오늘 놀지~오늘 놀지~오늘 놀지~오늘 놀지~'),
-                imageBox('assets/images/samples/cherryblossom.png'),
-              ],
-            ),
-          ),
-        ],
-      ).pSymmetric(h: 20),
+            height40,
+            height40,
+            height40,
+          ],
+        ).pSymmetric(h: 20),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Nav.push(const WakeWriteScreen());
@@ -55,9 +63,7 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
 
   Widget textMessageBox(String text) {
     return Container(
-      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.point900),
         borderRadius: BorderRadius.circular(8),
       ),
       child: text.text.make(),
@@ -89,6 +95,7 @@ class EditBox extends StatelessWidget {
       // height: 300,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
+        color: AppColors.whiteBackground,
         border: Border.all(color: AppColors.point700),
         borderRadius: BorderRadius.circular(8),
       ),

@@ -5,6 +5,8 @@ import 'package:wakeuphoney/screen/auth/login_tabscreen.dart';
 import '../../common/common.dart';
 
 class LoginOnBoardScreen extends StatelessWidget {
+  static const routeName = "loginonboardnewscreen";
+  static const routeUrl = "/loginonboardnewscreen";
   const LoginOnBoardScreen({super.key});
 
   @override
@@ -33,11 +35,7 @@ class LoginOnBoardScreen extends StatelessWidget {
         ],
         done: const Text('Done'),
         onDone: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const LoginScreen(),
-            ),
-          );
+          context.go(LoginNewScreen.routeUrl);
         },
         next: const Icon(Icons.arrow_forward_ios), // 아이콘도 지정되면 바뀌지 않으므로 const 처리
         nextStyle: const ButtonStyle(),
@@ -46,7 +44,7 @@ class LoginOnBoardScreen extends StatelessWidget {
         skip: const Text('skip'),
         onSkip: () {
           // 로그인 페이지로 이동
-          context.go(LoginScreen.routeUrl);
+          context.go(LoginNewScreen.routeUrl);
         },
 
         // showBackButton = 뒤로가기 버튼 활성화 여부, 첫번째 페이지가 아닐 때 활성화

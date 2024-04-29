@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
-import 'package:wakeuphoney/oldrouter.dart';
+import 'package:wakeuphoney/router.dart';
 
 import 'common/fcm_manager.dart';
 import 'common/theme/custom_theme.dart';
@@ -62,6 +62,7 @@ class AppState extends ConsumerState<App> with WidgetsBindingObserver, Nav {
     final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
 
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: App.scaffoldMessengerKey,
       routerConfig: isLoggedIn ? ref.watch(routerProvider) : ref.watch(logOutRouterProvider),
       localizationsDelegates: context.localizationDelegates,

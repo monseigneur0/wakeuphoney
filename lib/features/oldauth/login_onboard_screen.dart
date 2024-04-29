@@ -18,7 +18,7 @@ class LoginOnboardScreen extends StatelessWidget {
         //   body: 'This is first page'
         //       'We are making on-boarding screens.'
         //       'It is very interesting!',
-        //   image: Image.asset('assets/images/aiphotos/sleepingbear.jpeg'),
+        //   image: Image.asset('assets/images/aiphotos/sleepingbear.png'),
         //   decoration: getPageDecoration(AppColors.sleepingbear),
         // ),
         // PageViewModel(
@@ -26,7 +26,7 @@ class LoginOnboardScreen extends StatelessWidget {
         //   body: 'This is second page'
         //       'We are making on-boarding screens.'
         //       'It is very interesting!',
-        //   image: Image.asset('assets/images/aiphotos/awakebear.jpeg'),
+        //   image: Image.asset('assets/images/aiphotos/awakebear.png'),
         //   decoration: getPageDecoration(AppColors.awakebear),
         // ),
         PageViewModel(
@@ -34,7 +34,7 @@ class LoginOnboardScreen extends StatelessWidget {
           body: 'This is third page'
               'We are making on-boarding screens.'
               'It is very interesting!',
-          image: Image.asset('assets/images/aiphotos/rabbitwake.jpeg'),
+          image: Image.asset('assets/images/aiphotos/rabbitwake.png'),
           decoration: getPageDecoration(AppColors.rabbitwake),
         ),
         PageViewModel(
@@ -42,7 +42,7 @@ class LoginOnboardScreen extends StatelessWidget {
           body: 'This is third page'
               'We are making on-boarding screens.'
               'It is very interesting!',
-          image: Image.asset('assets/images/aiphotos/rabbitalarm.jpeg'),
+          image: Image.asset('assets/images/aiphotos/rabbitalarm.png'),
           decoration: getPageDecoration(AppColors.rabbitalarm),
         ),
         // PageViewModel(
@@ -50,7 +50,7 @@ class LoginOnboardScreen extends StatelessWidget {
         //   body: 'This is third page'
         //       'We are making on-boarding screens.'
         //       'It is very interesting!',
-        //   image: Image.asset('assets/images/aiphotos/rabbitspeak.jpeg'),
+        //   image: Image.asset('assets/images/aiphotos/rabbitspeak.png'),
         //   decoration: getPageDecoration(AppColors.rabbitspeak),
         // ),
         // PageViewModel(

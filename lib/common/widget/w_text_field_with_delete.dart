@@ -160,7 +160,7 @@ class TextFieldWithDeleteState extends State<TextFieldWithDelete> {
                               child: Padding(
                                 padding: EdgeInsets.only(right: widget.deleteRightPadding),
                                 child: SvgPicture.asset(
-                                  '$basePath/icon/delete_x.svg',
+                                  'assets/images/icon/delete_x.svg',
                                   colorFilter: ui.ColorFilter.mode(context.appColors.iconButton, ui.BlendMode.srcIn),
                                 ),
                               ),

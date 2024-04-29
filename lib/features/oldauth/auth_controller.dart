@@ -58,7 +58,7 @@ class AuthController extends AsyncNotifier<void> {
       //   }
       // }
       if (context.mounted) {
-        context.go("/main");
+        context.go("/maintabs");
       }
     }
     // _authRepository.signInWithGoogle().then((value) => value != null

@@ -198,7 +198,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                           ref.watch(authControllerProvider.notifier).signInWithApple(context);
                         },
                         icon: Image.asset(
-                          'assets/apple.png',
+                          'assets/images/apple.png',
                           width: 35,
                         ),
                         label: Text(
@@ -224,7 +224,7 @@ class _LoginHomeState extends ConsumerState<LoginHome> {
                     ref.watch(authControllerProvider.notifier).signInWithGoogle(context);
                   },
                   icon: Image.asset(
-                    'assets/google.png',
+                    'assets/images/google.png',
                     width: 35,
                   ),
                   label: Text(
