@@ -1,10 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/util/app_keyboard_util.dart';
 import 'package:wakeuphoney/common/widget/w_text_field_with_delete.dart';
-import 'package:wakeuphoney/features/oldauth/auth_controller.dart';
+import 'package:wakeuphoney/screen/auth/login_controller.dart';
 import 'package:wakeuphoney/screen/main/main_tabscreen.dart';
 
 //  test123@wakeupgom.com
@@ -25,6 +24,8 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
   final pwdController = TextEditingController();
 
   bool _isLoading = false;
+
+  Logger logger = Logger();
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,7 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                       deleteRightPadding: 5,
                       texthint: "이메일",
                       onEditingComplete: () {
-                        //print(controller.text);
+                        //logger.d(controller.text);
                         //검색 버튼 눌렀을때 처리 //search
                         FocusScope.of(context).nextFocus();
                       },
@@ -62,63 +63,15 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                 children: [
                   Expanded(
                     child: TextFieldWithDelete(
+                      obscureText: true,
                       focusNode: FocusNode(),
                       textInputAction: TextInputAction.done,
                       controller: pwdController,
                       deleteRightPadding: 5,
                       texthint: "비밀번호",
                       onEditingComplete: () async {
-                        //print(controller.text);
-                        //검색 버튼 눌렀을때 처리 //search
-
-                        try {
-                          setState(() {
-                            _isLoading = true;
-                          });
-                          UserCredential userCredential = await FirebaseAuth.instance
-                              .signInWithEmailAndPassword(
-                            email: emailController.text,
-                            password: pwdController.text,
-                          )
-                              .then((value) {
-                            print(value);
-                            value.user!.email == emailController.text
-                                ? Nav.clearAllAndPush(const MainTabsScreen())
-                                : print("이메일 이상함");
-                            setState(() {
-                              _isLoading = false;
-                            });
-                            if (context.mounted) {
-                              Nav.clearAllAndPush(const MainTabsScreen());
-                            }
-
-                            return value;
-                          });
-                        } on FirebaseAuthException catch (e) {
-                          if (e.code == 'user-not-found') {
-                            print("등록되지 않은 이메일입니다.");
-                            if (context.mounted) {
-                              showToast("등록되지 않은 이메일입니다.");
-                            }
-                            setState(() {
-                              _isLoading = false;
-                            });
-                          } else if (e.code == 'wrong-password') {
-                            print("비밀번호가 틀ㅣ니다.");
-
-                            if (context.mounted) {
-                              showToast("비밀번호가 틀립니다.");
-                            }
-                            setState(() {
-                              _isLoading = false;
-                            });
-                          } else {
-                            print(e.code);
-                            setState(() {
-                              _isLoading = false;
-                            });
-                          }
-                        }
+                        //logger.d(controller.text);
+                        await loginProcess(context);
                       },
                     ).pOnly(top: 5),
                   ),
@@ -132,68 +85,33 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary600,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        onPressed: () async {
-                          //로그인 버튼 눌렀을때 처리
+                      child: !_isLoading
+                          ? ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary600,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: () async {
+                                // Login button pressed
 
-                          try {
-                            setState(() {
-                              _isLoading = true;
-                            });
-                            UserCredential userCredential = await FirebaseAuth.instance
-                                .signInWithEmailAndPassword(
-                              email: emailController.text,
-                              password: pwdController.text,
-                            )
-                                .then((value) {
-                              print(value);
-                              // value.user!.email == emailController.text
-                              //     ? Nav.clearAllAndPush(const MainTabsScreen())
-                              //     : print("이메일 이상함");
-                              Nav.push(const MainTabsScreen());
-
-                              setState(() {
-                                _isLoading = false;
-                              });
-                              if (context.mounted) {
-                                Nav.push(const MainTabsScreen());
-                              }
-                              return value;
-                            });
-                          } on FirebaseAuthException catch (e) {
-                            if (e.code == 'user-not-found') {
-                              print("등록되지 않은 이메일입니다.");
-                              if (context.mounted) {
-                                showToast("등록되지 않은 이메일입니다.");
-                              }
-                              setState(() {
-                                _isLoading = false;
-                              });
-                            } else if (e.code == 'wrong-password') {
-                              print("비밀번호가 틀ㅣ니다.");
-
-                              if (context.mounted) {
-                                showToast("비밀번호가 틀립니다.");
-                              }
-                              setState(() {
-                                _isLoading = false;
-                              });
-                            } else {
-                              print(e.code);
-                              setState(() {
-                                _isLoading = false;
-                              });
-                            }
-                          }
-                        },
-                        child: '로그인'.text.color(Colors.white).bold.make(),
-                      ).pOnly(top: 5),
+                                await loginProcess(context);
+                              },
+                              child: '로그인'.text.color(Colors.white).bold.make(),
+                            ).pOnly(top: 5)
+                          : ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary600,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: () async {
+                                //로그인 버튼 눌렀을때 처리
+                              },
+                              child: const Loader(),
+                            ).pOnly(top: 5),
                     ),
                   ),
                 ],
@@ -233,7 +151,7 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                       backgroundColor: Colors.black,
                       company: '애플',
                       onTap: () {
-                        ref.watch(authControllerProvider.notifier).signInWithApple(context);
+                        ref.watch(loginControllerProvider.notifier).signInWithApple(context);
                       }),
                   width20,
                   SnsLogin(
@@ -241,7 +159,7 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                       backgroundColor: Colors.white,
                       company: '구글',
                       onTap: () {
-                        ref.watch(authControllerProvider.notifier).signInWithGoogle(context);
+                        ref.watch(loginControllerProvider.notifier).signInWithGoogle(context);
                       }),
                 ],
               ),
@@ -266,6 +184,26 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> loginProcess(BuildContext context) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    // Attempt login using the provided login controller
+    final userCredential = await ref
+        .watch(loginControllerProvider.notifier)
+        .signInWithEmailAndPassword(context, emailController.text, pwdController.text);
+
+    setState(() {
+      _isLoading = false;
+    });
+    if (userCredential != null) {
+      if (context.mounted) {
+        context.go(MainTabsScreen.routeUrl);
+      }
+    }
   }
 }
 

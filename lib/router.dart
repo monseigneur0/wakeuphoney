@@ -2,6 +2,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/app.dart';
 import 'package:wakeuphoney/screen/auth/login_onboard_screen.dart';
 import 'package:wakeuphoney/screen/auth/login_tabscreen.dart';
+import 'package:wakeuphoney/screen/error/error_page.dart';
 import 'package:wakeuphoney/screen/main/main_tabscreen.dart';
 
 import 'common/common.dart';
@@ -9,6 +10,9 @@ import 'common/common.dart';
 final routerProvider = Provider((ref) {
   return GoRouter(
     initialLocation: "/maintabs",
+    errorBuilder: (context, state) {
+      return ErrorPage(context, state);
+    },
     navigatorKey: App.navigatorKey,
     redirect: (context, state) {
       return null;
@@ -25,6 +29,11 @@ final routerProvider = Provider((ref) {
         path: MainTabsScreen.routeUrl,
         builder: (context, state) => const MainTabsScreen(),
       ),
+      GoRoute(
+        name: LoginNewScreen.routeName,
+        path: LoginNewScreen.routeUrl, //logintabs
+        builder: (context, state) => const LoginNewScreen(),
+      ),
     ],
   );
 });
@@ -40,7 +49,7 @@ final logOutRouterProvider = Provider((ref) {
       ),
       GoRoute(
         name: LoginNewScreen.routeName,
-        path: LoginNewScreen.routeUrl,
+        path: LoginNewScreen.routeUrl, //logintabs
         builder: (context, state) => const LoginNewScreen(),
       ),
       GoRoute(

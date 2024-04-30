@@ -9,6 +9,7 @@ import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/oldauth/auth_repository.dart';
 import 'package:wakeuphoney/features/oldauth/login_screen.dart';
 import 'package:wakeuphoney/features/oldauth/user_model.dart';
+import 'package:wakeuphoney/screen/auth/login_controller.dart';
 
 import '../../core/providers/providers.dart';
 
@@ -58,7 +59,7 @@ class AuthController extends AsyncNotifier<void> {
       //   }
       // }
       if (context.mounted) {
-        context.go("/maintabs");
+        context.go("/main");
       }
     }
     // _authRepository.signInWithGoogle().then((value) => value != null
@@ -104,6 +105,7 @@ class AuthController extends AsyncNotifier<void> {
 
   void logout(BuildContext context) async {
     _authRepository.logout();
+    ref.read(loginStateProvider.notifier).state = false;
     context.go(LoginHome.routeURL);
   }
 

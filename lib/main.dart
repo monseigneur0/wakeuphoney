@@ -9,6 +9,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/app.dart';
+import 'package:wakeuphoney/wakeuphoneyapp.dart';
 
 import 'common/data/preference/app_preferences.dart';
 import 'common/theme/custom_theme_app.dart';
@@ -47,7 +48,7 @@ void main() async {
       child: CustomThemeApp(
         child: Builder(builder: (context) {
           return MaterialApp(
-            home: const ProviderScope(child: App()),
+            home: const ProviderScope(child: WakeUpHoneyApp()),
             navigatorObservers: [
               FirebaseAnalyticsObserver(analytics: analytics),
             ],

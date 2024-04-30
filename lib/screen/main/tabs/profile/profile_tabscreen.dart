@@ -1,11 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/widget/w_arrow.dart';
-import 'package:wakeuphoney/features/oldauth/auth_repository.dart';
-import 'package:wakeuphoney/features/oldauth/login_screen.dart';
+import 'package:wakeuphoney/screen/auth/login_controller.dart';
 import 'package:wakeuphoney/screen/auth/login_tabscreen.dart';
+import 'package:wakeuphoney/screen/main/tabs/match/match_tabscreen.dart';
 import 'package:wakeuphoney/screen/main/tabs/profile/single_profile_screen.dart';
+
+import 'package:wakeuphoney/features/oldmain/main_screen.dart';
 
 class ProfileTabScreen extends StatefulHookConsumerWidget {
   const ProfileTabScreen({super.key});
@@ -21,59 +24,86 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
       appBar: AppBar(
         title: const Text('프로필'),
       ),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Column(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            height20,
+            SizedBox(
+              child: Row(
                 children: [
-                  Tap(
-                    onTap: () => Nav.push(const SingleProfileScreen()),
-                    child: ClipOval(
-                      child: Image.asset(
-                        'assets/images/samples/cherryblossom.png',
-                        width: Constants.pngSize,
-                        height: Constants.pngSize,
-                        fit: BoxFit.cover,
+                  Column(
+                    children: [
+                      Tap(
+                        onTap: () => Nav.push(const SingleProfileScreen()),
+                        child: ClipOval(
+                          child: Image.asset(
+                            'assets/images/samples/cherryblossom.png',
+                            width: Constants.pngSize,
+                            height: Constants.pngSize,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                    ),
+                      const Text('프로필'),
+                    ],
                   ),
-                  const Text('프로필'),
-                ],
-              ),
-              width20,
-              Column(
-                children: [
-                  ClipOval(
-                    child: Image.asset(
-                      'assets/images/samples/cherryblossom.png',
-                      width: Constants.pngSize,
-                      height: Constants.pngSize,
-                      fit: BoxFit.cover,
-                    ),
+                  width20,
+                  Column(
+                    children: [
+                      ClipOval(
+                        child: Image.asset(
+                          'assets/images/samples/cherryblossom.png',
+                          width: Constants.pngSize,
+                          height: Constants.pngSize,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      const Text('프로필2'),
+                    ],
                   ),
-                  const Text('프로필2'),
                 ],
-              ),
-            ],
-          ).pSymmetric(h: 20),
-          height20,
-          Column(
-            children: [
-              LinkCard('앱소개', onTap: () {}),
-              LinkCard('내 정보 관리', onTap: () {}),
-              LinkCard('편지 확인 가능 시간', onTap: () {}),
-              LinkCard('고객센터', onTap: () {}),
-              LinkCard('버전정보', version: '1.1.0', onTap: () {}),
-              LinkCard('개인정보처리방침', onTap: () {}),
-              LinkCard('로그아웃', onTap: () {
-                Nav.push(const LoginNewScreen());
-                ref.watch(authRepositoryProvider).logout();
-              }),
-              LinkCard('회원탈퇴', onTap: () {}),
-            ],
-          )
-        ],
+              ).pSymmetric(h: 20),
+            ),
+            height20,
+            Column(
+              children: [
+                LinkCard('앱소개', onTap: () {}),
+                LinkCard('내 정보 관리', onTap: () {}),
+                LinkCard('편지 확인 가능 시간', onTap: () {}),
+                LinkCard('고객센터', onTap: () {}),
+                LinkCard('버전정보', version: '1.1.0', onTap: () {}),
+                LinkCard('개인정보처리방침', onTap: () {}),
+                LinkCard('로그아웃', onTap: () {
+                  // Nav.push(const LoginNewScreen());
+                  context.go(LoginNewScreen.routeUrl);
+                  ref.watch(loginControllerProvider.notifier).signOut();
+                }),
+                LinkCard('로그인페이지  context.push', onTap: () {
+                  context.push(LoginNewScreen.routeUrl);
+                }),
+                LinkCard('연결끊기', onTap: () {}),
+                LinkCard('회원탈퇴', onTap: () {}),
+                if (kDebugMode)
+                  Row(
+                    children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            Nav.push(const MainScreen());
+                          },
+                          child: '이전 디자인'.text.make()),
+                      ElevatedButton(
+                          onPressed: () {
+                            Nav.push(const MatchTabScreen());
+                          },
+                          child: '현재 디자인'.text.make()),
+                    ],
+                  ),
+              ],
+            ),
+            height30,
+            height30,
+          ],
+        ),
       ),
     );
   }

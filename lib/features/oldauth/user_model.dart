@@ -151,8 +151,7 @@ class UserModel {
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool operator ==(covariant UserModel other) {
@@ -184,5 +183,30 @@ class UserModel {
         creationTime.hashCode ^
         lastSignInTime.hashCode ^
         isLoggedIn.hashCode;
+  }
+
+  UserModel empty() {
+    return UserModel(
+      displayName: '',
+      email: '',
+      photoURL: '',
+      uid: '',
+      couple: '',
+      couples: [],
+      coupleDisplayName: '',
+      couplePhotoURL: '',
+      creationTime: DateTime.now(),
+      lastSignInTime: DateTime.now(),
+      isLoggedIn: false,
+      chatGPTMessageCount: 0,
+      gender: 'male',
+      birthDate: DateTime.now(),
+      location: const GeoPoint(0, 0),
+      wakeUpTime: DateTime.now(),
+      coupleGender: '',
+      coupleBirthDate: null,
+      coupleLocation: null,
+      coupleWakeUpTime: null,
+    );
   }
 }

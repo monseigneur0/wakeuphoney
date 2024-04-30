@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wakeuphoney/common/common.dart';
-
-import 'package:wakeuphoney/screen/auth/login_tabscreen.dart';
 import 'package:wakeuphoney/screen/main/tabs/alarm/alarm_tabscreen.dart';
 import 'package:wakeuphoney/screen/main/tabs/feed/feed_tabscreen.dart';
 import 'package:wakeuphoney/screen/main/tabs/match/match_tabscreen.dart';
@@ -13,7 +11,6 @@ enum TabItem {
   wake(Icons.mail, '깨우기', WakeTabScreen()),
   feed(Icons.toc, '피드', FeedTabScreen()),
   match(Icons.connecting_airports_sharp, '연결', MatchTabScreen()),
-  login(Icons.login, '로그인', LoginNewScreen()),
   profile(Icons.person, '프로필', ProfileTabScreen());
 
   final IconData activeIcon;

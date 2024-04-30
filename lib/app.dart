@@ -5,10 +5,10 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/router.dart';
+import 'package:wakeuphoney/screen/auth/login_repository.dart';
 
 import 'common/fcm_manager.dart';
 import 'common/theme/custom_theme.dart';
-import 'features/oldauth/auth_repository.dart';
 
 class App extends ConsumerStatefulWidget {
   ///light, dark 테마가 준비되었고, 시스템 테마를 따라가게 하려면 해당 필드를 제거 하시면 됩니다.
@@ -59,7 +59,10 @@ class AppState extends ConsumerState<App> with WidgetsBindingObserver, Nav {
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
 
-    final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
+    final isLoggedIn = ref.watch(loginRepositoryProvider).isLoggedIn;
+    Logger logger = Logger();
+    logger.d('isLoggedIn:  $isLoggedIn');
+    // logger.d(DateTime.now());
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
