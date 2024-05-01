@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/util/app_keyboard_util.dart';
+import 'package:wakeuphoney/screen/auth/login_controller.dart';
 
-class MatchTabScreen extends StatefulWidget {
+import 'package:wakeuphoney/screen/main/tabs/match/user_widget.dart';
+
+class MatchTabScreen extends ConsumerStatefulWidget {
+  static const routeName = 'matchtabs';
+  static const routeUrl = '/matchtabs';
   const MatchTabScreen({super.key});
 
   @override
-  State<MatchTabScreen> createState() => _MatchTabScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _MatchTabScreenState();
 }
 
-class _MatchTabScreenState extends State<MatchTabScreen> {
+class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
   @override
   Widget build(BuildContext context) {
     final inviteCodeController = TextEditingController();
     final time = DateTime.now();
+
+    final user = ref.watch(loginControllerProvider);
+
     return Scaffold(
       body: Tap(
         onTap: () => AppKeyboardUtil.hide(context),
@@ -122,6 +131,33 @@ class _MatchTabScreenState extends State<MatchTabScreen> {
                             showToast('연결하기');
                           },
                           child: '연결하기'.text.color(Colors.white).bold.size(16).make(),
+                        ).pOnly(top: 5),
+                      ),
+                    ),
+                  ],
+                ),
+                const UserLoggedInWidget(),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary600,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          onPressed: () {
+                            //로그인 버튼 눌렀을때 처리
+                            showToast('홈가기');
+                            context.go('/main/home');
+                          },
+                          child: '홈가기'.text.color(Colors.white).bold.size(16).make(),
                         ).pOnly(top: 5),
                       ),
                     ),

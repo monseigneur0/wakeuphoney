@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class WakeWriteScreen extends StatefulWidget {
+  static const routeUrl = '/wakewrite';
   const WakeWriteScreen({super.key});
 
   @override

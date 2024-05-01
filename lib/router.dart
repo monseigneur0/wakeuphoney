@@ -1,46 +1,29 @@
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/app.dart';
-import 'package:wakeuphoney/screen/auth/login_onboard_screen.dart';
+
+import 'package:wakeuphoney/common/route/fade_transition.dart';
+import 'package:wakeuphoney/screen/auth/login_controller.dart';
 import 'package:wakeuphoney/screen/auth/login_tabscreen.dart';
 import 'package:wakeuphoney/screen/error/error_page.dart';
 import 'package:wakeuphoney/screen/main/main_tabscreen.dart';
+import 'package:wakeuphoney/screen/main/tabs/feed/feed_detail_scree.dart';
+import 'package:wakeuphoney/screen/main/tabs/tab_item.dart';
 
 import 'common/common.dart';
 
+// final auth = LoginAuth();
+
 final routerProvider = Provider((ref) {
   return GoRouter(
-    initialLocation: "/maintabs",
+    initialLocation: "/main",
     errorBuilder: (context, state) {
       return ErrorPage(context, state);
     },
-    navigatorKey: App.navigatorKey,
-    redirect: (context, state) {
-      return null;
-      // if (!isLoggedIn) {
-      //   if (state.matchedLocation != LoginHome.routeURL) {
-      //     return LoginHome.routeURL;
-      //   }
-      // }
-      // return null;
-    },
-    routes: [
-      GoRoute(
-        name: MainTabsScreen.routeName,
-        path: MainTabsScreen.routeUrl,
-        builder: (context, state) => const MainTabsScreen(),
-      ),
-      GoRoute(
-        name: LoginNewScreen.routeName,
-        path: LoginNewScreen.routeUrl, //logintabs
-        builder: (context, state) => const LoginNewScreen(),
-      ),
-    ],
-  );
-});
-
-final logOutRouterProvider = Provider((ref) {
-  return GoRouter(
-    initialLocation: "/loginonboardnewscreen",
+    // navigatorKey: App.navigatorKey,
+    redirect: ref.watch(loginControllerProvider.notifier).guard,
+    // refreshListenable: auth,
+    debugLogDiagnostics: true,
     routes: [
       GoRoute(
         name: MainTabsScreen.routeName,
@@ -53,9 +36,41 @@ final logOutRouterProvider = Provider((ref) {
         builder: (context, state) => const LoginNewScreen(),
       ),
       GoRoute(
-        name: LoginOnBoardScreen.routeName,
-        path: LoginOnBoardScreen.routeUrl,
-        builder: (context, state) => const LoginOnBoardScreen(),
+        path: '/',
+        redirect: (_, __) => '/main',
+      ),
+      GoRoute(
+        path: '/logintabs',
+        pageBuilder: (BuildContext context, GoRouterState state) => FadeTransitionPage(
+          key: state.pageKey,
+          child: const LoginNewScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/main',
+        redirect: (_, __) => '/main/home',
+      ),
+      GoRoute(
+        path: '/feed/:feedId',
+        redirect: (BuildContext context, GoRouterState state) => '/main/home/${state.pathParameters['feedId']}',
+      ),
+      GoRoute(
+        path: '/main/:kind(home|wake|feed|match|profile)', //home wake feed match profile
+        pageBuilder: (BuildContext context, GoRouterState state) => FadeTransitionPage(
+          key: App.scaffoldKey,
+          child: MainTabsScreen(
+            firstTab: TabItem.find(state.pathParameters['kind']),
+          ),
+        ),
+        routes: <GoRoute>[
+          GoRoute(
+            path: ':feedId',
+            builder: (BuildContext context, GoRouterState state) {
+              final String bookId = state.pathParameters['feedId']!;
+              return FeedDetailScreen(feedId: bookId);
+            },
+          ),
+        ],
       ),
     ],
   );

@@ -34,7 +34,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                   Column(
                     children: [
                       Tap(
-                        onTap: () => Nav.push(const SingleProfileScreen()),
+                        onTap: () => context.go(SingleProfileScreen.routeUrl),
                         child: ClipOval(
                           child: Image.asset(
                             'assets/images/samples/cherryblossom.png',
@@ -74,9 +74,13 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                 LinkCard('버전정보', version: '1.1.0', onTap: () {}),
                 LinkCard('개인정보처리방침', onTap: () {}),
                 LinkCard('로그아웃', onTap: () {
-                  // Nav.push(const LoginNewScreen());
+                  // context.go(LoginNewScreen.routeUrl);
                   context.go(LoginNewScreen.routeUrl);
-                  ref.watch(loginControllerProvider.notifier).signOut();
+                  ref.watch(loginControllerProvider.notifier).signOut(context);
+                }),
+                LinkCard('그냥 로그아웃', onTap: () {
+                  // context.go(LoginNewScreen.routeUrl);
+                  ref.watch(loginControllerProvider.notifier).signJustOut(context);
                 }),
                 LinkCard('로그인페이지  context.push', onTap: () {
                   context.push(LoginNewScreen.routeUrl);
@@ -88,12 +92,12 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                     children: [
                       ElevatedButton(
                           onPressed: () {
-                            Nav.push(const MainScreen());
+                            context.go(MainScreen.routeURL);
                           },
                           child: '이전 디자인'.text.make()),
                       ElevatedButton(
                           onPressed: () {
-                            Nav.push(const MatchTabScreen());
+                            context.go(MatchTabScreen.routeUrl);
                           },
                           child: '현재 디자인'.text.make()),
                     ],

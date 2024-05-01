@@ -30,32 +30,31 @@ void main() async {
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     analytics.logAppOpen();
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-    runApp(EasyLocalization(
-      supportedLocales: const [
-        Locale('en'),
-        Locale('ko'),
-        Locale('zh'),
-        Locale('es'),
-        Locale('fr'),
-        Locale('id'),
-        Locale('ja'),
-        Locale('my'),
-        Locale('pt'),
-      ],
-      fallbackLocale: const Locale('en'),
-      path: 'assets/translations',
-      useOnlyLangCode: true,
-      child: CustomThemeApp(
-        child: Builder(builder: (context) {
-          return MaterialApp(
-            home: const ProviderScope(child: WakeUpHoneyApp()),
-            navigatorObservers: [
-              FirebaseAnalyticsObserver(analytics: analytics),
-            ],
-          );
-        }),
+    runApp(
+      EasyLocalization(
+        supportedLocales: const [
+          Locale('en'),
+          Locale('ko'),
+          Locale('zh'),
+          Locale('es'),
+          Locale('fr'),
+          Locale('id'),
+          Locale('ja'),
+          Locale('my'),
+          Locale('pt'),
+        ],
+        fallbackLocale: const Locale('en'),
+        path: 'assets/translations',
+        useOnlyLangCode: true,
+        child: CustomThemeApp(
+            child: MaterialApp(
+          home: const ProviderScope(child: WakeUpHoneyApp()),
+          navigatorObservers: [
+            FirebaseAnalyticsObserver(analytics: analytics),
+          ],
+        )),
       ),
-    ));
+    );
   } else {
     runApp(EasyLocalization(
       supportedLocales: const [
@@ -72,10 +71,8 @@ void main() async {
       fallbackLocale: const Locale('en'),
       path: 'assets/translations',
       useOnlyLangCode: true,
-      child: CustomThemeApp(
-        child: Builder(builder: (context) {
-          return const ProviderScope(child: App());
-        }),
+      child: const CustomThemeApp(
+        child: ProviderScope(child: App()),
       ),
     ));
   }

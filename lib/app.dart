@@ -14,8 +14,9 @@ class App extends ConsumerStatefulWidget {
   ///light, dark 테마가 준비되었고, 시스템 테마를 따라가게 하려면 해당 필드를 제거 하시면 됩니다.
   static const defaultTheme = CustomTheme.dark;
   static bool isForeground = true;
+
   static final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey();
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+  static ValueKey<String> scaffoldKey = const ValueKey<String>('App scaffold');
 
   const App({super.key});
 
@@ -23,8 +24,7 @@ class App extends ConsumerStatefulWidget {
   ConsumerState<App> createState() => AppState();
 }
 
-class AppState extends ConsumerState<App> with WidgetsBindingObserver, Nav {
-  final ValueKey<String> _scaffoldKey = const ValueKey<String>('App scaffold');
+class AppState extends ConsumerState<App> with WidgetsBindingObserver {
   String _authStatus = 'Unknown';
 
   @override
@@ -62,12 +62,11 @@ class AppState extends ConsumerState<App> with WidgetsBindingObserver, Nav {
     final isLoggedIn = ref.watch(loginRepositoryProvider).isLoggedIn;
     Logger logger = Logger();
     logger.d('isLoggedIn:  $isLoggedIn');
-    // logger.d(DateTime.now());
 
     return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: App.scaffoldMessengerKey,
-      routerConfig: isLoggedIn ? ref.watch(routerProvider) : ref.watch(logOutRouterProvider),
+      routerConfig: ref.watch(routerProvider),
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
@@ -94,9 +93,6 @@ class AppState extends ConsumerState<App> with WidgetsBindingObserver, Nav {
     }
     super.didChangeAppLifecycleState(state);
   }
-
-  @override
-  GlobalKey<NavigatorState> get navigatorKey => App.navigatorKey;
 
   // late final GoRouter _router = GoRouter(
   //   navigatorKey: App.navigatorKey,

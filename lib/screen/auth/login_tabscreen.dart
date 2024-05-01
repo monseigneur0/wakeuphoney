@@ -5,6 +5,7 @@ import 'package:wakeuphoney/common/util/app_keyboard_util.dart';
 import 'package:wakeuphoney/common/widget/w_text_field_with_delete.dart';
 import 'package:wakeuphoney/screen/auth/login_controller.dart';
 import 'package:wakeuphoney/screen/main/main_tabscreen.dart';
+import 'package:wakeuphoney/screen/main/tabs/match/user_widget.dart';
 
 //  test123@wakeupgom.com
 //  tezPib-5qovxu-bydruk
@@ -131,6 +132,8 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                   ),
                 ],
               ),
+              const UserLoggedInWidget(),
+
               height20,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

@@ -185,7 +185,7 @@ class UserModel {
         isLoggedIn.hashCode;
   }
 
-  UserModel empty() {
+  static UserModel empty() {
     return UserModel(
       displayName: '',
       email: '',

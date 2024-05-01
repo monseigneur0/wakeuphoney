@@ -53,7 +53,7 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Nav.push(const WakeWriteScreen());
+          context.push(WakeWriteScreen.routeUrl);
         },
         child: const Icon(Icons.add),
       ),

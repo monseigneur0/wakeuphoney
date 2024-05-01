@@ -32,7 +32,7 @@ final routerProvider = Provider((ref) {
   final alarmSettings = ref.watch(alarmSettingsProvider);
   return GoRouter(
     initialLocation: "/maintabs",
-    navigatorKey: App.navigatorKey,
+    // navigatorKey: App.navigatorKey,
     redirect: (context, state) {
       final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
       var logger = Logger();

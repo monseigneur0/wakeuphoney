@@ -23,15 +23,16 @@ class FcmManager {
 
     //Background
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      App.navigatorKey.currentContext!.showToast(msg: message.notification?.title ?? "no title");
+      App.scaffoldMessengerKey.currentContext!.showToast(msg: message.notification?.title ?? "no title");
       // App.navigatorKey.currentState!.go(message.data['screen']);
     });
 
     //When app is closed -> initial launch
     final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
-      await sleepUntil(() => App.navigatorKey.currentContext != null && App.navigatorKey.currentContext!.mounted);
-      App.navigatorKey.currentContext!.showToast(msg: initialMessage.notification?.title ?? "no title");
+      await sleepUntil(
+          () => App.scaffoldMessengerKey.currentContext != null && App.scaffoldMessengerKey.currentContext!.mounted);
+      App.scaffoldMessengerKey.currentContext!.showToast(msg: initialMessage.notification?.title ?? "no title");
     }
   }
 }

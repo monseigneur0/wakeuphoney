@@ -45,11 +45,11 @@ class LoginRepository {
       logger.d(userCredential);
       //when no user found
       if (userCredential.user!.email != email) {
-        showToast("이메일 이상함");
+        showToast("로그인에 실패했습니다. 이메일 또는 비밀번호를 확인해주세요.");
         return null;
       }
 
-      //new user
+      //new user ?
 
       //existing user
       final user = userCredential.user;
@@ -182,6 +182,11 @@ class LoginRepository {
     await _users.doc(user.uid).set({
       newUser.toMap(),
     });
+  }
+
+  Future<UserModel> getUserById(String uid) async {
+    final user = await _users.doc(uid).get();
+    return UserModel.fromMap(user.data() as Map<String, dynamic>);
   }
 
   void snsLoginExceptionHandling(FirebaseException e) {

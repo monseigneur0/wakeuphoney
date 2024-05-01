@@ -5,27 +5,40 @@ import '../../common/common.dart';
 import 'tabs/tab_item.dart';
 import 'tabs/tab_nav.dart';
 
-class MainTabsScreen extends ConsumerStatefulWidget {
-  static const routeName = 'maintabs';
-  static const routeUrl = '/maintabs';
+final currentTabProvider = StateProvider((ref) => TabItem.home);
 
-  const MainTabsScreen({super.key});
+class MainTabsScreen extends ConsumerStatefulWidget {
+  final TabItem firstTab;
+  static const routeName = 'main';
+  static const routeUrl = '/main';
+
+  const MainTabsScreen({this.firstTab = TabItem.match, super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _MainTabsScreenState();
 }
 
 class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTickerProviderStateMixin {
-  TabItem _currentTab = TabItem.match;
   final tabs = TabItem.values;
-
   late final List<GlobalKey<NavigatorState>> navigatorKeys =
       TabItem.values.map((e) => GlobalKey<NavigatorState>()).toList();
-  Logger logger = Logger();
+
+  TabItem get _currentTab => ref.watch(currentTabProvider);
 
   int get _currentIndex => tabs.indexOf(_currentTab);
 
   GlobalKey<NavigatorState> get _currentTabNavigationKey => navigatorKeys[_currentIndex];
+  @override
+  void didUpdateWidget(covariant MainTabsScreen oldWidget) {
+    if (oldWidget.firstTab != widget.firstTab) {
+      delay(() {
+        ref.read(currentTabProvider.notifier).state = widget.firstTab;
+      }, 0.ms);
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  Logger logger = Logger();
 
   bool get extendBody => true;
 
@@ -33,6 +46,7 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
 
   @override
   Widget build(BuildContext context) {
+    logger.d(_currentTab);
     return PopScope(
       canPop: isRootPage,
       onPopInvoked: _handleBackPressed,
@@ -69,7 +83,7 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
   void _handleBackPressed(bool didPop) {
     if (!didPop) {
       if (_currentTabNavigationKey.currentState?.canPop() == true) {
-        Nav.pop(_currentTabNavigationKey.currentContext!);
+        context.pop(_currentTabNavigationKey.currentContext!);
         return;
       }
 
@@ -117,9 +131,7 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
   }
 
   void _changeTab(int index) {
-    setState(() {
-      _currentTab = tabs[index];
-    });
+    ref.read(currentTabProvider.notifier).state = tabs[index];
   }
 
   BottomNavigationBarItem bottomItem(bool activate, IconData iconData, IconData inActivateIconData, String label) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wakeuphoney/common/common.dart';
 
 class SingleProfileScreen extends StatelessWidget {
+  static const routeUrl = '/singleprofile';
   const SingleProfileScreen({super.key});
 
   @override
@@ -15,7 +16,7 @@ class SingleProfileScreen extends StatelessWidget {
           Column(
             children: [
               Tap(
-                onTap: () => Nav.push(const SingleProfileScreen()),
+                onTap: () {},
                 child: ClipOval(
                   child: Image.asset(
                     'assets/images/samples/cherryblossom.png',

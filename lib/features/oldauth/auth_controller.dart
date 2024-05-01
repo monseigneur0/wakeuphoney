@@ -9,9 +9,6 @@ import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/features/oldauth/auth_repository.dart';
 import 'package:wakeuphoney/features/oldauth/login_screen.dart';
 import 'package:wakeuphoney/features/oldauth/user_model.dart';
-import 'package:wakeuphoney/screen/auth/login_controller.dart';
-
-import '../../core/providers/providers.dart';
 
 final authControllerProvider = AsyncNotifierProvider<AuthController, void>(() => AuthController());
 
@@ -105,7 +102,6 @@ class AuthController extends AsyncNotifier<void> {
 
   void logout(BuildContext context) async {
     _authRepository.logout();
-    ref.read(loginStateProvider.notifier).state = false;
     context.go(LoginHome.routeURL);
   }
 

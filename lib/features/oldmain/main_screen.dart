@@ -29,7 +29,7 @@ import 'main_controller.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   static String routeName = "mainscreen";
-  static String routeURL = "/main";
+  static String routeURL = "/mainscreen";
 
   const MainScreen({super.key});
 
