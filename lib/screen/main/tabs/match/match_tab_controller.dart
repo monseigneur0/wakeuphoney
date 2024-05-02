@@ -22,13 +22,12 @@ class MatchTabController extends AsyncNotifier<void> {
 
   Stream<String> getMatchNumber() {
     //시간 지난 것들 삭제
-    repository.deleteMatch();
+    _repository.deleteMatch();
     //가져오기
-    final String  repository.getMatchNumber(uid);
+    final Stream<String> getNumber = _repository.getMatchNumber(uid);
     //없으면 생성
-    int vertifyNumber = Random().nextInt(900000) + 100000;
 
-    repository.createMatch(uid, vertifyNumber);
-    return repository.getMatchNumber(uid);
+    _repository.createMatch(uid, getNumber);
+    return getNumber;
   }
 }
