@@ -8,6 +8,18 @@ import 'package:wakeuphoney/screen/auth/login_repository.dart';
 import 'package:wakeuphoney/screen/auth/login_tabscreen.dart';
 import 'package:wakeuphoney/screen/main/main_tabscreen.dart';
 
+final getUserFutureProvider = FutureProvider<UserModel>((ref) {
+  return ref.watch(loginControllerProvider.notifier).getUser();
+});
+
+final getUserStreamProvider = StreamProvider<UserModel>((ref) {
+  return ref.watch(loginControllerProvider.notifier).getUserStream();
+});
+
+final uidProvider = Provider<String>((ref) {
+  return ref.watch(loginRepositoryProvider).currentUser!.uid;
+});
+
 final loginControllerProvider = StateNotifierProvider<LoginController, UserModel>((ref) {
   return LoginController(
     loginRepository: ref.watch(loginRepositoryProvider),
@@ -74,6 +86,28 @@ class LoginController extends StateNotifier<UserModel> {
     if (context.mounted) {
       context.go("/maintabs");
     }
+  }
+
+  ///앱 설치 이후 로그아웃 상태. stream에 유저 들고 있지 않음. uid 도 없어
+  ///first login. uid 생성
+  ///main 진입.
+  ///main에는 항상 uid 들고 있어야해. main initialize 할 때 가져오자.main screen을 이 위에 그리자.
+  ///바로 future, stream. 둘 다 가져와서 사용.
+  ///stream에 유저 들고 있음. uid 도 있어
+  ///app open after first login
+  ///app logged in. stream에도 uid 있어. uid는 어디서 가져와야할거아니야. 로컬shared, firestore. future로 가져와있는거 그냥 계속 사용하면 안되나.
+  ///second login
+
+  Future<UserModel> getUser() async {
+    final uid = _loginRepository.currentUser!.uid;
+    final userModel = await _loginRepository.getUserById(uid);
+    return userModel;
+  }
+
+  Stream<UserModel> getUserStream() {
+    final uid = _loginRepository.currentUser!.uid;
+    final userModel = _loginRepository.getUserStreamById(uid);
+    return userModel;
   }
 
   Future<void> setUserByNow(UserCredential userCredential) async {

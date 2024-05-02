@@ -1,11 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/util/app_keyboard_util.dart';
 import 'package:wakeuphoney/screen/auth/login_controller.dart';
+import 'package:wakeuphoney/screen/main/tabs/match/match_tab_controller.dart';
 
 import 'package:wakeuphoney/screen/main/tabs/match/user_widget.dart';
+
+//  test123@wakeupgom.com
+//  tezPib-5qovxu-bydruk
+// when no couple.
 
 class MatchTabScreen extends ConsumerStatefulWidget {
   static const routeName = 'matchtabs';
@@ -22,8 +28,13 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
     final inviteCodeController = TextEditingController();
     final time = DateTime.now();
 
-    final user = ref.watch(loginControllerProvider);
+    final matchNumber = ref.watch(matchNumberProvider);
 
+    /// match model 로딩하고 생성해서 보여주기.
+    /// match model을 가져오고
+    /// uid 는 stateprovider로 관리
+    /// user model에서 couple이 없으면 match
+    ///
     return Scaffold(
       body: Tap(
         onTap: () => AppKeyboardUtil.hide(context),
@@ -137,137 +148,142 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
                       ),
                     ],
                   ),
-                  const UserLoggedInWidget(),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary600,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                  if (kDebugMode)
+                    Column(
+                      children: [
+                        const UserLoggedInWidget(),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.primary600,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    //로그인 버튼 눌렀을때 처리
+                                    showToast('홈가기');
+                                    context.go('/main/home');
+                                  },
+                                  child: '홈가기'.text.color(Colors.white).bold.size(16).make(),
+                                ).pOnly(top: 5),
                               ),
                             ),
-                            onPressed: () {
-                              //로그인 버튼 눌렀을때 처리
-                              showToast('홈가기');
-                              context.go('/main/home');
-                            },
-                            child: '홈가기'.text.color(Colors.white).bold.size(16).make(),
-                          ).pOnly(top: 5),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary600,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.primary600,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    //로그인 버튼 눌렀을때 처리
+                                    showToast('wake홈가기');
+                                    context.go('/main/wake');
+                                  },
+                                  child: 'wake홈가기'.text.color(Colors.white).bold.size(16).make(),
+                                ).pOnly(top: 5),
                               ),
                             ),
-                            onPressed: () {
-                              //로그인 버튼 눌렀을때 처리
-                              showToast('wake홈가기');
-                              context.go('/main/wake');
-                            },
-                            child: 'wake홈가기'.text.color(Colors.white).bold.size(16).make(),
-                          ).pOnly(top: 5),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary600,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.primary600,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    //로그인 버튼 눌렀을때 처리
+                                    showToast('홈가기');
+                                    context.go('/main/feed');
+                                  },
+                                  child: 'feed가기'.text.color(Colors.white).bold.size(16).make(),
+                                ).pOnly(top: 5),
                               ),
                             ),
-                            onPressed: () {
-                              //로그인 버튼 눌렀을때 처리
-                              showToast('홈가기');
-                              context.go('/main/feed');
-                            },
-                            child: 'feed가기'.text.color(Colors.white).bold.size(16).make(),
-                          ).pOnly(top: 5),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary600,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.primary600,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    //로그인 버튼 눌렀을때 처리
+                                    showToast('홈가기');
+                                    context.go('/main/feed');
+                                  },
+                                  child: 'feed가기'.text.color(Colors.white).bold.size(16).make(),
+                                ).pOnly(top: 5),
                               ),
                             ),
-                            onPressed: () {
-                              //로그인 버튼 눌렀을때 처리
-                              showToast('홈가기');
-                              context.go('/main/feed');
-                            },
-                            child: 'feed가기'.text.color(Colors.white).bold.size(16).make(),
-                          ).pOnly(top: 5),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary600,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.primary600,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    //로그인 버튼 눌렀을때 처리
+                                    showToast('홈가기');
+                                    context.go('/main/feed');
+                                  },
+                                  child: 'feed가기'.text.color(Colors.white).bold.size(16).make(),
+                                ).pOnly(top: 5),
                               ),
                             ),
-                            onPressed: () {
-                              //로그인 버튼 눌렀을때 처리
-                              showToast('홈가기');
-                              context.go('/main/feed');
-                            },
-                            child: 'feed가기'.text.color(Colors.white).bold.size(16).make(),
-                          ).pOnly(top: 5),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
                 ],
               ),
             ],

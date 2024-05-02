@@ -184,9 +184,19 @@ class LoginRepository {
     });
   }
 
+  String getUidByFirebaseAuth() {
+    final user = _firebaseAuth.currentUser;
+    return user!.uid;
+  }
+
   Future<UserModel> getUserById(String uid) async {
     final user = await _users.doc(uid).get();
     return UserModel.fromMap(user.data() as Map<String, dynamic>);
+  }
+
+  Stream<UserModel> getUserStreamById(String uid) {
+    final user = _users.doc(uid).snapshots();
+    return user.map((event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
   }
 
   void snsLoginExceptionHandling(FirebaseException e) {

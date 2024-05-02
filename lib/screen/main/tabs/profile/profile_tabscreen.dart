@@ -78,13 +78,18 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                   context.go(LoginNewScreen.routeUrl);
                   ref.watch(loginControllerProvider.notifier).signOut(context);
                 }),
-                LinkCard('그냥 로그아웃', onTap: () {
-                  // context.go(LoginNewScreen.routeUrl);
-                  ref.watch(loginControllerProvider.notifier).signJustOut(context);
-                }),
-                LinkCard('로그인페이지  context.push', onTap: () {
-                  context.push(LoginNewScreen.routeUrl);
-                }),
+                if (kDebugMode)
+                  Column(
+                    children: [
+                      LinkCard('그냥 로그아웃', onTap: () {
+                        // context.go(LoginNewScreen.routeUrl);
+                        ref.watch(loginControllerProvider.notifier).signJustOut(context);
+                      }),
+                      LinkCard('로그인페이지  context.push', onTap: () {
+                        context.push(LoginNewScreen.routeUrl);
+                      }),
+                    ],
+                  ),
                 LinkCard('연결끊기', onTap: () {}),
                 LinkCard('회원탈퇴', onTap: () {}),
                 if (kDebugMode)
