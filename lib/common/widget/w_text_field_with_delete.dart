@@ -27,6 +27,7 @@ class TextFieldWithDelete extends StatefulWidget {
   final VoidCallback? onEditingComplete;
   final TextInputAction? textInputAction;
   final Function()? onTapDelete;
+  final Function(String)? onChanged;
 
   const TextFieldWithDelete(
       {Key? key,
@@ -50,7 +51,8 @@ class TextFieldWithDelete extends StatefulWidget {
       this.leftImage,
       this.onTapDelete,
       this.showMaxCount,
-      this.autofocus})
+      this.autofocus,
+      this.onChanged})
       : super(key: key);
 
   @override
@@ -129,12 +131,12 @@ class TextFieldWithDeleteState extends State<TextFieldWithDelete> {
               textInputAction: widget.textInputAction,
               inputFormatters: widget.inputFormatters,
               onEditingComplete: widget.onEditingComplete,
+              onChanged: widget.onChanged,
               style: TextStyle(fontSize: widget.fontSize, fontWeight: widget.fontWeight),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.only(left: widget.leftImage == null ? 10 : 30, top: 10, bottom: 14),
                 hintText: widget.texthint,
-                hintStyle: TextStyle(
-                    fontSize: widget.fontSize, fontWeight: widget.fontWeight, color: context.appColors.hintText),
+                hintStyle: TextStyle(fontSize: widget.fontSize, fontWeight: widget.fontWeight, color: context.appColors.hintText),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: context.appColors.lessImportant),
                   borderRadius: BorderRadius.circular(8),

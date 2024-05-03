@@ -54,8 +54,8 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
     final user = ref.watch(getUserFutureProvider);
     // final user = ref.watch(getUserStreamProvider);
     final uid = ref.watch(uidProvider);
-    logger.d(uid);
-    logger.d(_currentTab);
+    // logger.d(uid);
+    // logger.d(_currentTab);
     return PopScope(
         canPop: isRootPage,
         onPopInvoked: _handleBackPressed,

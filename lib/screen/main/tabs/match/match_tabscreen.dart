@@ -4,8 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/util/app_keyboard_util.dart';
+import 'package:wakeuphoney/common/widget/w_text_field_with_delete.dart';
 import 'package:wakeuphoney/screen/auth/login_controller.dart';
 import 'package:wakeuphoney/screen/main/tabs/match/match_tab_controller.dart';
+import 'package:wakeuphoney/screen/main/tabs/match/match_tab_repository.dart';
 
 import 'package:wakeuphoney/screen/main/tabs/match/user_widget.dart';
 
@@ -23,12 +25,23 @@ class MatchTabScreen extends ConsumerStatefulWidget {
 }
 
 class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
+  late final match;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      // match = ref.read(matchNumberProvider);
+    });
+  }
+
+  Logger logger = Logger();
+
   @override
   Widget build(BuildContext context) {
     final inviteCodeController = TextEditingController();
-    final time = DateTime.now();
 
-    final matchNumber = ref.watch(matchNumberProvider);
+    // final matchNumber = ref.watch(matchNumberProvider);
 
     /// match model 로딩하고 생성해서 보여주기.
     /// match model을 가져오고
@@ -49,26 +62,42 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  '내 초대코드${time.toString()}'.text.fontWeight(FontWeight.w600).make(),
-                  height5,
-                  Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: AppColors.primary600,
-                        width: 1,
+                  if (kDebugMode)
+                    ElevatedButton(
+                        onPressed: () {
+                          ref.read(matchTabRepositoryProvider).deleteAllMatch();
+                        },
+                        child: 'delete all match'.text.make()),
+                  ref.watch(futureMatchNumberProvider).when(
+                        data: (match) {
+                          return Column(
+                            children: [
+                              '내 초대코드${match.time.toString()}'.text.fontWeight(FontWeight.w600).make(),
+                              height5,
+                              Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: AppColors.primary600,
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    SelectableText(
+                                      match.vertifynumber.toString(),
+                                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                    ).pSymmetric(h: 10, v: 10),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                        error: (error, stackTrace) => 'Error: $error'.text.make(),
+                        loading: () => const CircularProgressIndicator(),
                       ),
-                    ),
-                    child: Row(
-                      children: [
-                        const SelectableText(
-                          '123456',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                        ).pSymmetric(h: 10, v: 10),
-                      ],
-                    ),
-                  ),
                   height20,
                   '상대방 초대코드'.text.fontWeight(FontWeight.w600).make(),
                   height5,
@@ -83,6 +112,7 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
                   height10,
                   TextFormField(
                     controller: inviteCodeController,
+                    keyboardType: TextInputType.number,
                     focusNode: FocusNode(),
                     style: const TextStyle(
                       color: AppColors.black,
@@ -114,7 +144,7 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
                     validator: (value) {
                       if (value.isEmptyOrNull) {
                         return '초대코드를 입력해주세요';
-                      } else if (value!.length > 5) {
+                      } else if (value!.length > 6) {
                         //stream 생성
                         return '초대코드를 다시 확인해주세요';
                       }
@@ -122,6 +152,23 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
                     },
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                   ),
+                  TextFieldWithDelete(
+                    textInputAction: TextInputAction.next,
+                    controller: inviteCodeController,
+                    keyboardType: TextInputType.number,
+                    deleteRightPadding: 5,
+                    texthint: "초대코드를 입력해주세요",
+                    onChanged: (p0) {
+                      logger.d(inviteCodeController.text);
+                      if (p0.length == 6) {
+                        // stream 생성
+                        ref.read(matchTabControllerProvider.notifier).checkMatchProcess(inviteCodeController.text);
+                      }
+                    },
+                    onEditingComplete: () {
+                      logger.d(inviteCodeController.text);
+                    },
+                  ).pOnly(top: 5),
                   height20,
                   Row(
                     children: [

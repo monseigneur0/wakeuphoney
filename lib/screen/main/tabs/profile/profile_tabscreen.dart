@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/widget/w_arrow.dart';
+import 'package:wakeuphoney/features/oldmatch/match_screen.dart';
 import 'package:wakeuphoney/screen/auth/login_controller.dart';
 import 'package:wakeuphoney/screen/auth/login_tabscreen.dart';
 import 'package:wakeuphoney/screen/main/tabs/match/match_tabscreen.dart';
@@ -87,6 +88,12 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                       }),
                       LinkCard('로그인페이지  context.push', onTap: () {
                         context.push(LoginNewScreen.routeUrl);
+                      }),
+                      LinkCard('MatchScreen', onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const MatchScreen()),
+                        );
                       }),
                     ],
                   ),
