@@ -62,15 +62,10 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (kDebugMode)
-                    ElevatedButton(
-                        onPressed: () {
-                          ref.read(matchTabRepositoryProvider).deleteAllMatch();
-                        },
-                        child: 'delete all match'.text.make()),
                   ref.watch(futureMatchNumberProvider).when(
                         data: (match) {
                           return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               '내 초대코드${match.time.toString()}'.text.fontWeight(FontWeight.w600).make(),
                               height5,
@@ -109,49 +104,48 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
                   //   texthint: "초대코드를 입력해주세요",
                   //   onEditingComplete: () async {},
                   // ),
-                  height10,
-                  TextFormField(
-                    controller: inviteCodeController,
-                    keyboardType: TextInputType.number,
-                    focusNode: FocusNode(),
-                    style: const TextStyle(
-                      color: AppColors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: '초대코드를 입력해주세요',
-                      hintStyle: const TextStyle(
-                        color: AppColors.middleGrey,
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(
-                          color: AppColors.middleGrey,
-                          width: 1,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(
-                          color: AppColors.primary600,
-                          width: 1,
-                        ),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value.isEmptyOrNull) {
-                        return '초대코드를 입력해주세요';
-                      } else if (value!.length > 6) {
-                        //stream 생성
-                        return '초대코드를 다시 확인해주세요';
-                      }
-                      return null;
-                    },
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                  ),
+                  // TextFormField(
+                  //   controller: inviteCodeController,
+                  //   keyboardType: TextInputType.number,
+                  //   focusNode: FocusNode(),
+                  //   style: const TextStyle(
+                  //     color: AppColors.black,
+                  //     fontSize: 14,
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  //   decoration: InputDecoration(
+                  //     hintText: '초대코드를 입력해주세요',
+                  //     hintStyle: const TextStyle(
+                  //       color: AppColors.middleGrey,
+                  //       fontSize: 14,
+                  //       fontWeight: FontWeight.normal,
+                  //     ),
+                  //     border: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(10),
+                  //       borderSide: const BorderSide(
+                  //         color: AppColors.middleGrey,
+                  //         width: 1,
+                  //       ),
+                  //     ),
+                  //     focusedBorder: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(10),
+                  //       borderSide: const BorderSide(
+                  //         color: AppColors.primary600,
+                  //         width: 1,
+                  //       ),
+                  //     ),
+                  //   ),
+                  //   validator: (value) {
+                  //     if (value.isEmptyOrNull) {
+                  //       return '초대코드를 입력해주세요';
+                  //     } else if (value!.length > 6) {
+                  //       //stream 생성
+                  //       return '초대코드를 다시 확인해주세요';
+                  //     }
+                  //     return null;
+                  //   },
+                  //   autovalidateMode: AutovalidateMode.onUserInteraction,
+                  // ),
                   TextFieldWithDelete(
                     textInputAction: TextInputAction.next,
                     controller: inviteCodeController,
@@ -195,6 +189,12 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
                       ),
                     ],
                   ),
+                  if (kDebugMode)
+                    ElevatedButton(
+                        onPressed: () {
+                          ref.read(matchTabRepositoryProvider).deleteAllMatch();
+                        },
+                        child: 'delete all match'.text.make()),
                   if (kDebugMode)
                     Column(
                       children: [

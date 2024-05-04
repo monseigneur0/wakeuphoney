@@ -31,7 +31,7 @@ import 'features/oldmanager/practice_home_screen.dart';
 final routerProvider = Provider((ref) {
   final alarmSettings = ref.watch(alarmSettingsProvider);
   return GoRouter(
-    initialLocation: "/maintabs",
+    initialLocation: "/mainscreen",
     // navigatorKey: App.navigatorKey,
     redirect: (context, state) {
       final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
@@ -82,8 +82,7 @@ final routerProvider = Provider((ref) {
         pageBuilder: (context, state) => CustomTransitionPage<void>(
           key: state.pageKey,
           child: const AlarmHome(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-              FadeTransition(opacity: animation, child: child),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child),
         ),
       ),
       GoRoute(
@@ -148,8 +147,7 @@ final routerProvider = Provider((ref) {
         pageBuilder: (context, state) => CustomTransitionPage<void>(
           key: state.pageKey,
           child: const ImageScreen(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-              FadeTransition(opacity: animation, child: child),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child),
         ),
       ),
       GoRoute(
@@ -165,8 +163,7 @@ final routerProvider = Provider((ref) {
             imageURL: state.uri.queryParameters['filter']!,
             herotag: state.uri.queryParameters['herotag']!,
           ),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-              FadeTransition(opacity: animation, child: child),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation, child: child),
         ),
       ),
     ],
