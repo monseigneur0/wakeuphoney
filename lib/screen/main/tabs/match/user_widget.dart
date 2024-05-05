@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
+import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/screen/auth/login_controller.dart';
 
 class UserLoggedInWidget extends ConsumerStatefulWidget {
@@ -16,8 +17,16 @@ class _UserLoggedInWidgetState extends ConsumerState<UserLoggedInWidget> {
     final user = ref.watch(loginControllerProvider);
     Logger logger = Logger();
     logger.d("user: ${user.toMap().toString()}");
-    return Container(
-      child: user.displayName.text.make(),
+    final userModel = ref.watch(userModelProvider);
+    return Column(
+      children: [
+        Container(
+          child: user.displayName.text.make(),
+        ),
+        Container(
+          child: userModel!.displayName.text.make(),
+        ),
+      ],
     );
   }
 }

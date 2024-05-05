@@ -5,6 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/util/app_keyboard_util.dart';
 import 'package:wakeuphoney/common/widget/w_text_field_with_delete.dart';
+import 'package:wakeuphoney/common/widget/w_text_form_field.dart';
+import 'package:wakeuphoney/features/oldmatch/match_model.dart';
 import 'package:wakeuphoney/screen/auth/login_controller.dart';
 import 'package:wakeuphoney/screen/main/tabs/match/match_tab_controller.dart';
 import 'package:wakeuphoney/screen/main/tabs/match/match_tab_repository.dart';
@@ -67,35 +69,40 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              '내 초대코드${match.time.toString()}'.text.fontWeight(FontWeight.w600).make(),
+                              MyInviteCode(match),
+                              height20,
+                              '상대방 초대코드'.text.fontWeight(FontWeight.w600).make(),
                               height5,
-                              Container(
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: AppColors.primary600,
-                                    width: 1,
-                                  ),
-                                ),
-                                child: Row(
-                                  children: [
-                                    SelectableText(
-                                      match.vertifynumber.toString(),
-                                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                    ).pSymmetric(h: 10, v: 10),
-                                  ],
-                                ),
-                              ),
+                              TextFieldWithDelete(
+                                textInputAction: TextInputAction.next,
+                                controller: inviteCodeController,
+                                keyboardType: TextInputType.number,
+                                deleteRightPadding: 5,
+                                texthint: "초대코드를 입력해주세요",
+                                onChanged: (value) {
+                                  logger.d(inviteCodeController.text);
+                                  if (inviteCodeController.text == match.vertifynumber.toString()) {
+                                    logger.d('same code error');
+                                    context.showSnackbar('상대방 초대코드를 입력해주세요.');
+                                    return '초대코드가 일치합니다.'.text.make(); // Return error message
+                                  }
+                                  if (value.length == 6) {
+                                    ref.read(matchTabControllerProvider.notifier).checkMatchProcess(inviteCodeController.text);
+                                  }
+                                },
+                                onEditingComplete: () {
+                                  logger.d('onEditingComplete checkMatchProcess');
+
+                                  ref.read(matchTabControllerProvider.notifier).checkMatchProcess(inviteCodeController.text);
+                                },
+                              ).pOnly(top: 5),
                             ],
                           );
                         },
                         error: (error, stackTrace) => 'Error: $error'.text.make(),
                         loading: () => const CircularProgressIndicator(),
                       ),
-                  height20,
-                  '상대방 초대코드'.text.fontWeight(FontWeight.w600).make(),
-                  height5,
+
                   // TextFieldWithDelete(
                   //   controller: inviteCodeController,
                   //   focusNode: FocusNode(),
@@ -146,23 +153,7 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
                   //   },
                   //   autovalidateMode: AutovalidateMode.onUserInteraction,
                   // ),
-                  TextFieldWithDelete(
-                    textInputAction: TextInputAction.next,
-                    controller: inviteCodeController,
-                    keyboardType: TextInputType.number,
-                    deleteRightPadding: 5,
-                    texthint: "초대코드를 입력해주세요",
-                    onChanged: (p0) {
-                      logger.d(inviteCodeController.text);
-                      if (p0.length == 6) {
-                        // stream 생성
-                        ref.read(matchTabControllerProvider.notifier).checkMatchProcess(inviteCodeController.text);
-                      }
-                    },
-                    onEditingComplete: () {
-                      logger.d(inviteCodeController.text);
-                    },
-                  ).pOnly(top: 5),
+
                   height20,
                   Row(
                     children: [
@@ -189,15 +180,21 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
                       ),
                     ],
                   ),
-                  if (kDebugMode)
-                    ElevatedButton(
-                        onPressed: () {
-                          ref.read(matchTabRepositoryProvider).deleteAllMatch();
-                        },
-                        child: 'delete all match'.text.make()),
+
                   if (kDebugMode)
                     Column(
                       children: [
+                        height40,
+                        ElevatedButton(
+                            onPressed: () {
+                              ref.read(matchTabRepositoryProvider).deleteAllMatch();
+                            },
+                            child: 'delete all match'.text.make()),
+                        ElevatedButton(
+                            onPressed: () {
+                              ref.read(matchTabControllerProvider.notifier).breakUp();
+                            },
+                            child: 'break up'.text.make()),
                         const UserLoggedInWidget(),
                         Row(
                           children: [
@@ -242,10 +239,10 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
                                   ),
                                   onPressed: () {
                                     //로그인 버튼 눌렀을때 처리
-                                    showToast('wake홈가기');
+                                    showToast('wake가기');
                                     context.go('/main/wake');
                                   },
-                                  child: 'wake홈가기'.text.color(Colors.white).bold.size(16).make(),
+                                  child: 'wake가기'.text.color(Colors.white).bold.size(16).make(),
                                 ).pOnly(top: 5),
                               ),
                             ),
@@ -337,6 +334,43 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
           ).pSymmetric(h: 20),
         ),
       ),
+    );
+  }
+}
+
+class MyInviteCode extends StatelessWidget {
+  final MatchModel match;
+  const MyInviteCode(
+    this.match, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        '내 초대코드${match.time.toString()}'.text.fontWeight(FontWeight.w600).make(),
+        height5,
+        Container(
+          height: 50,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: AppColors.primary600,
+              width: 1,
+            ),
+          ),
+          child: Row(
+            children: [
+              SelectableText(
+                match.vertifynumber.toString(),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ).pSymmetric(h: 10, v: 10),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

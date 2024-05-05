@@ -6,14 +6,17 @@ import '../../common/common.dart';
 import 'tabs/tab_item.dart';
 import 'tabs/tab_nav.dart';
 
-final currentTabProvider = StateProvider((ref) => TabItem.home);
+final currentTabProvider = StateProvider((ref) => TabItem.alarm);
 
 class MainTabsScreen extends ConsumerStatefulWidget {
   final TabItem firstTab;
   static const routeName = 'main';
   static const routeUrl = '/main';
 
-  const MainTabsScreen({this.firstTab = TabItem.match, super.key});
+  const MainTabsScreen({
+    this.firstTab = TabItem.match,
+    super.key,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _MainTabsScreenState();
@@ -89,7 +92,7 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
         }));
   }
 
-  bool get isRootPage => _currentTab == TabItem.home && _currentTabNavigationKey.currentState?.canPop() == false;
+  bool get isRootPage => _currentTab == TabItem.alarm && _currentTabNavigationKey.currentState?.canPop() == false;
 
   IndexedStack get pages => IndexedStack(
       index: _currentIndex,
@@ -110,8 +113,8 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
         return;
       }
 
-      if (_currentTab != TabItem.home) {
-        _changeTab(tabs.indexOf(TabItem.home));
+      if (_currentTab != TabItem.alarm) {
+        _changeTab(tabs.indexOf(TabItem.alarm));
       }
     }
   }

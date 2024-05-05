@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/app.dart';
+import 'package:wakeuphoney/auth.dart';
 
 import 'package:wakeuphoney/common/route/fade_transition.dart';
 import 'package:wakeuphoney/screen/auth/login_controller.dart';
 import 'package:wakeuphoney/screen/auth/login_tabscreen.dart';
 import 'package:wakeuphoney/screen/error/error_page.dart';
 import 'package:wakeuphoney/screen/main/main_tabscreen.dart';
+import 'package:wakeuphoney/screen/main/tabs/alarm/alarm_tabscreen.dart';
 import 'package:wakeuphoney/screen/main/tabs/feed/feed_detail_scree.dart';
+import 'package:wakeuphoney/screen/main/tabs/feed/feed_tabscreen.dart';
 import 'package:wakeuphoney/screen/main/tabs/tab_item.dart';
+import 'package:wakeuphoney/screen/main/tabs/wake/wake_tabscreen.dart';
+import 'package:wakeuphoney/screen/main/tabs/wake/wake_write_screen.dart';
 
 import 'common/common.dart';
 
-// final auth = LoginAuth();
+final auth = LoginAuth();
 
 final routerProvider = Provider((ref) {
   return GoRouter(
@@ -22,7 +27,7 @@ final routerProvider = Provider((ref) {
     },
     // navigatorKey: App.navigatorKey,
     redirect: ref.watch(loginControllerProvider.notifier).guard,
-    // refreshListenable: auth,
+    refreshListenable: auth,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -34,6 +39,26 @@ final routerProvider = Provider((ref) {
         name: LoginNewScreen.routeName,
         path: LoginNewScreen.routeUrl, //logintabs
         builder: (context, state) => const LoginNewScreen(),
+      ),
+      GoRoute(
+        name: AlarmTabScreen.routeName,
+        path: AlarmTabScreen.routeUrl, //logintabs
+        builder: (context, state) => const AlarmTabScreen(),
+      ),
+      GoRoute(
+        name: WakeTabScreen.routeName,
+        path: WakeTabScreen.routeUrl, //logintabs
+        builder: (context, state) => const WakeTabScreen(),
+      ),
+      GoRoute(
+        name: FeedTabScreen.routeName,
+        path: FeedTabScreen.routeUrl, //logintabs
+        builder: (context, state) => const FeedTabScreen(),
+      ),
+      GoRoute(
+        name: WakeWriteScreen.routeName,
+        path: WakeWriteScreen.routeUrl, //logintabs
+        builder: (context, state) => const WakeWriteScreen(),
       ),
       GoRoute(
         path: '/',

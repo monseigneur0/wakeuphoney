@@ -7,7 +7,7 @@ import 'package:wakeuphoney/screen/main/tabs/profile/profile_tabscreen.dart';
 import 'package:wakeuphoney/screen/main/tabs/wake/wake_tabscreen.dart';
 
 enum TabItem {
-  home(Icons.alarm, '알람', AlarmTabScreen()),
+  alarm(Icons.alarm, '알람', AlarmTabScreen()),
   wake(Icons.mail, '깨우기', WakeTabScreen()),
   feed(Icons.toc, '피드', FeedTabScreen()),
   match(Icons.connecting_airports_sharp, '연결', MatchTabScreen()),
@@ -18,11 +18,10 @@ enum TabItem {
   final String tabName;
   final Widget firstPage;
 
-  const TabItem(this.activeIcon, this.tabName, this.firstPage, {IconData? inActiveIcon})
-      : inActiveIcon = inActiveIcon ?? activeIcon;
+  const TabItem(this.activeIcon, this.tabName, this.firstPage, {IconData? inActiveIcon}) : inActiveIcon = inActiveIcon ?? activeIcon;
 
   static TabItem find(String? name) {
-    return values.asNameMap()[name] ?? TabItem.home;
+    return values.asNameMap()[name] ?? TabItem.alarm;
   }
 
   BottomNavigationBarItem toNavigationBarItem(BuildContext context, {required bool isActivated}) {
@@ -30,9 +29,7 @@ enum TabItem {
         icon: Icon(
           key: ValueKey(tabName),
           isActivated ? activeIcon : inActiveIcon,
-          color: isActivated
-              ? context.appColors.seedColor.getMaterialColorValues[600]
-              : context.appColors.iconButtonInactivate,
+          color: isActivated ? context.appColors.seedColor.getMaterialColorValues[600] : context.appColors.iconButtonInactivate,
         ),
         label: tabName);
   }

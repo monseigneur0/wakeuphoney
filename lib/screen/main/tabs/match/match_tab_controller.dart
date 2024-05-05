@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
+import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/features/oldmatch/match_model.dart';
 import 'package:wakeuphoney/screen/auth/login_controller.dart';
 import 'package:wakeuphoney/screen/main/tabs/match/match_tab_repository.dart';
@@ -35,6 +36,7 @@ class MatchTabController extends AsyncNotifier<void> {
   void checkMatchProcess(String matchCode) async {
     //text input
     int honeyCode = int.parse(matchCode);
+
     //check if exist
     final match = await _repository.checkMatchWithCode(honeyCode, uid);
     logger.d("match : $match");
@@ -53,5 +55,14 @@ class MatchTabController extends AsyncNotifier<void> {
     }
 
     return;
+  }
+
+  void breakUp() {
+    logger.d("breakup$uid");
+    _repository.breakUp(uid);
+    final coupleUid = ref.read(userModelProvider)!.couple.toString();
+
+    logger.d("breakup$coupleUid");
+    _repository.breakUp(coupleUid);
   }
 }

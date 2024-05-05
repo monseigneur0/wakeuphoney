@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wakeuphoney/auth.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/router.dart';
 import 'package:wakeuphoney/screen/auth/login_repository.dart';
@@ -26,6 +27,8 @@ class App extends ConsumerStatefulWidget {
 
 class AppState extends ConsumerState<App> with WidgetsBindingObserver {
   String _authStatus = 'Unknown';
+
+  final auth = LoginAuth();
 
   @override
   void initState() {
@@ -67,15 +70,18 @@ class AppState extends ConsumerState<App> with WidgetsBindingObserver {
     ///user는 main tabs에서 모든게 시작되기 때문에 main tabs 에서 stream builder 만든다.
     ///alarm을 initialize 하기위한 statefulwidget이 필요하다. 한번 위에서 감싸줄필요가 있다.
 
-    return MaterialApp.router(
-      scaffoldMessengerKey: App.scaffoldMessengerKey,
-      routerConfig: ref.watch(routerProvider),
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      title: 'WakeupBear',
-      theme: context.themeType.themeData,
+    return LoginAuthScope(
+      notifier: auth,
+      child: MaterialApp.router(
+        scaffoldMessengerKey: App.scaffoldMessengerKey,
+        routerConfig: ref.watch(routerProvider),
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        title: 'WakeupBear',
+        theme: context.themeType.themeData,
+      ),
     );
   }
 

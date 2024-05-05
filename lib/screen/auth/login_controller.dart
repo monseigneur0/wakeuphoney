@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:wakeuphoney/common/common.dart';
+import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/features/oldauth/user_model.dart';
 import 'package:wakeuphoney/screen/auth/login_repository.dart';
 import 'package:wakeuphoney/screen/auth/login_tabscreen.dart';
 import 'package:wakeuphoney/screen/main/main_tabscreen.dart';
 
 final getUserFutureProvider = FutureProvider<UserModel>((ref) {
+  ref.watch(loginRepositoryProvider).currentUser;
   return ref.watch(loginControllerProvider.notifier).getUser();
 });
 
@@ -101,6 +103,7 @@ class LoginController extends StateNotifier<UserModel> {
   Future<UserModel> getUser() async {
     final uid = _loginRepository.currentUser!.uid;
     final userModel = await _loginRepository.getUserById(uid);
+    ref.watch(userModelProvider.notifier).state = userModel;
     return userModel;
   }
 

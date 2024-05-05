@@ -6,6 +6,8 @@ import 'package:wakeuphoney/common/widget/normal_button.dart';
 import 'package:wakeuphoney/screen/main/tabs/wake/wake_write_screen.dart';
 
 class WakeTabScreen extends StatefulHookConsumerWidget {
+  static const routeName = 'wake';
+  static const routeUrl = '/wake';
   const WakeTabScreen({super.key});
 
   @override

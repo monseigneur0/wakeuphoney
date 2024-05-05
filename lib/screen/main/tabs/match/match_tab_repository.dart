@@ -54,6 +54,10 @@ class MatchTabRepository {
     });
   }
 
+  void breakUp(String uid) {
+    _users.doc(uid).update({"couples": []});
+  }
+
   MatchModel createMatch(String uid, int vertifyNumber) {
     logger.d('Match number created: $vertifyNumber');
     final time = DateTime.now();
@@ -67,7 +71,7 @@ class MatchTabRepository {
   }
 
   void deleteMatchAfterAHour() {
-    _match.where('time', isLessThan: DateTime.now().subtract(const Duration(minutes: 5))).get().then((snapshot) {
+    _match.where('time', isLessThan: DateTime.now().subtract(const Duration(minutes: 60))).get().then((snapshot) {
       if (snapshot.docs.isNotEmpty) {
         for (final doc in snapshot.docs) {
           logger.d('Deleting old match: ${doc.id}');
