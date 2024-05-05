@@ -4,6 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/util/app_keyboard_util.dart';
+import 'package:wakeuphoney/common/widget/normal_button.dart';
+import 'package:wakeuphoney/common/widget/w_main_button.dart';
 import 'package:wakeuphoney/common/widget/w_text_field_with_delete.dart';
 import 'package:wakeuphoney/common/widget/w_text_form_field.dart';
 import 'package:wakeuphoney/features/oldmatch/match_model.dart';
@@ -155,32 +157,14 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
                   // ),
 
                   height20,
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary600,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            onPressed: () {
-                              //로그인 버튼 눌렀을때 처리
-                              showToast('연결하기');
-                            },
-                            child: '연결하기'.text.color(Colors.white).bold.size(16).make(),
-                          ).pOnly(top: 5),
-                        ),
-                      ),
-                    ],
+                  const MainButton('연결하기'),
+                  NormalButton(
+                    text: '연결하기',
+                    onPressed: () {
+                      //로그인 버튼 눌렀을때 처리
+                      showToast('연결하기');
+                    },
                   ),
-
                   if (kDebugMode)
                     Column(
                       children: [
