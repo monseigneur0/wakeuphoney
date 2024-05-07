@@ -142,8 +142,8 @@ class _WakeUpWriteScreenState extends ConsumerState<WakeUpWriteScreen> {
         selectedTime = _time.toTimeOfDay();
       });
     }
-    logger.d(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().add(const Duration(days: 1)).day,
-        selectedTime.hour, selectedTime.minute));
+    logger.d(
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().add(const Duration(days: 1)).day, selectedTime.hour, selectedTime.minute));
   }
 
   void saveWakeUp() async {
@@ -230,9 +230,7 @@ class _WakeUpWriteScreenState extends ConsumerState<WakeUpWriteScreen> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-                          ]),
+                          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
                       child: Text(
                         selectedTime.format(context),
                         style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.black, fontSize: 30),
@@ -241,9 +239,10 @@ class _WakeUpWriteScreenState extends ConsumerState<WakeUpWriteScreen> {
                   ),
                   10.heightBox,
                   Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
-                      BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-                    ]),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
                     child: ExpansionTile(
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                       title: "알람 상세 설정".text.make(),
@@ -256,10 +255,10 @@ class _WakeUpWriteScreenState extends ConsumerState<WakeUpWriteScreen> {
                       },
                       children: [
                         Container(
-                          decoration:
-                              BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
-                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-                          ]),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+                              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -300,10 +299,10 @@ class _WakeUpWriteScreenState extends ConsumerState<WakeUpWriteScreen> {
                               : const SizedBox(),
                         ),
                         Container(
-                          decoration:
-                              BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
-                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-                          ]),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+                              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -319,10 +318,10 @@ class _WakeUpWriteScreenState extends ConsumerState<WakeUpWriteScreen> {
                           ).pSymmetric(h: 20),
                         ).pSymmetric(h: 10, v: 5),
                         Container(
-                          decoration:
-                              BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
-                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-                          ]),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+                              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -339,10 +338,10 @@ class _WakeUpWriteScreenState extends ConsumerState<WakeUpWriteScreen> {
                         ).pSymmetric(h: 10, v: 5),
                         10.heightBox,
                         Container(
-                          decoration:
-                              BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
-                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-                          ]),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+                              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -466,12 +465,7 @@ class _WakeUpWriteScreenState extends ConsumerState<WakeUpWriteScreen> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
                                     color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
-                                          blurRadius: 10,
-                                          offset: const Offset(8, 8))
-                                    ]),
+                                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
                                 child: Row(
                                   children: [
                                     Text(
@@ -495,12 +489,7 @@ class _WakeUpWriteScreenState extends ConsumerState<WakeUpWriteScreen> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
                                     color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black.withOpacity(0.1),
-                                          blurRadius: 10,
-                                          offset: const Offset(8, 8))
-                                    ]),
+                                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
                                 child: Row(
                                   children: [
                                     Text(
@@ -528,9 +517,7 @@ class _WakeUpWriteScreenState extends ConsumerState<WakeUpWriteScreen> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-                          ]),
+                          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
                       child:
                           // showAudio
                           //     ? Row(
@@ -591,9 +578,10 @@ class _WakeUpWriteScreenState extends ConsumerState<WakeUpWriteScreen> {
                   ),
                   10.heightBox,
                   Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
-                      BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-                    ]),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
                     child: Row(
                       children: [
                         Text(
@@ -666,8 +654,8 @@ class _WakeUpWriteScreenState extends ConsumerState<WakeUpWriteScreen> {
                     }
                   }
                   ref.watch(wakeUpControllerProvider.notifier).createWakeUp(
-                      DateTime(DateTime.now().year, DateTime.now().month,
-                          DateTime.now().add(const Duration(days: 1)).day, selectedTime.hour, selectedTime.minute),
+                      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().add(const Duration(days: 1)).day, selectedTime.hour,
+                          selectedTime.minute),
                       _letterController.text,
                       imageUrl,
                       audioUrl,

@@ -106,7 +106,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                   },
                 ),
               ),
-              '음량'.text.size(14).make(),
+              '음량'.text.fontWeight(FontWeight.w500).size(16).make(),
               height5,
               Container(
                   decoration: BoxDecoration(
@@ -141,7 +141,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        '알람 반복'.text.size(14).make(),
+                        '알람 반복'.text.make(),
                         Switch(
                           inactiveThumbColor: AppColors.whiteBackground,
                           trackOutlineColor: MaterialStateColor.resolveWith((states) {
@@ -161,7 +161,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        '진동'.text.size(14).make(),
+                        '진동'.text.make(),
                         Switch(
                           inactiveThumbColor: AppColors.whiteBackground,
                           trackOutlineColor: MaterialStateColor.resolveWith((states) {
@@ -181,7 +181,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        '알람 기본 음악'.text.size(14).make(),
+                        '알람 기본 음악'.text.make(),
                         DropdownButton(
                           value: assetAudio,
                           items: const [
@@ -226,7 +226,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                 ).pSymmetric(h: 20, v: 1),
               ),
               height10,
-              '내용'.text.size(14).make(),
+              '내용'.text.make(),
               height5,
               Container(
                   decoration: BoxDecoration(
