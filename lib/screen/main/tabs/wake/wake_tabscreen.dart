@@ -20,6 +20,14 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('편지쓰기'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.push(WakeWriteScreen.routeUrl);
+            },
+            icon: const Icon(Icons.add),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(

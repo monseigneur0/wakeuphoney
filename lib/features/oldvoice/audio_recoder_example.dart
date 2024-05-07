@@ -167,7 +167,7 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
       color = Colors.red.withOpacity(0.1);
     } else {
       final theme = Theme.of(context);
-      icon = Icon(Icons.mic, color: theme.primaryColor, size: 30);
+      icon = const Icon(Icons.mic, size: 25);
       color = theme.primaryColor.withOpacity(0.1);
     }
 
@@ -175,11 +175,7 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
       child: Material(
         color: color,
         child: InkWell(
-          child: SizedBox(
-            width: MediaQuery.sizeOf(context).width * 0.1,
-            height: MediaQuery.sizeOf(context).width * 0.1,
-            child: SizedBox(width: 56, height: 56, child: icon),
-          ),
+          child: icon,
           onTap: () {
             (_recordState != RecordState.stop) ? _stop() : _start();
           },

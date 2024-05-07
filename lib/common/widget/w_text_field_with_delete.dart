@@ -28,32 +28,34 @@ class TextFieldWithDelete extends StatefulWidget {
   final TextInputAction? textInputAction;
   final Function()? onTapDelete;
   final Function(String)? onChanged;
+  final bool? isBorder;
 
-  const TextFieldWithDelete(
-      {Key? key,
-      this.focusNode,
-      required this.controller,
-      this.obscureText = false,
-      this.error = false,
-      this.errorMessage,
-      this.fontSize = 14,
-      this.fontWeight = FontWeight.normal,
-      this.textInputAction,
-      this.deleteRightPadding = 0,
-      this.errorMessageMarginTop = 0,
-      this.hideUnderline = false,
-      this.enabled = true,
-      this.inputFormatters,
-      this.texthint,
-      this.keyboardType,
-      this.onEditingComplete,
-      this.validatorCallback,
-      this.leftImage,
-      this.onTapDelete,
-      this.showMaxCount,
-      this.autofocus,
-      this.onChanged})
-      : super(key: key);
+  const TextFieldWithDelete({
+    Key? key,
+    this.focusNode,
+    required this.controller,
+    this.obscureText = false,
+    this.error = false,
+    this.errorMessage,
+    this.fontSize = 14,
+    this.fontWeight = FontWeight.normal,
+    this.textInputAction,
+    this.deleteRightPadding = 0,
+    this.errorMessageMarginTop = 0,
+    this.hideUnderline = false,
+    this.enabled = true,
+    this.inputFormatters,
+    this.texthint,
+    this.keyboardType,
+    this.onEditingComplete,
+    this.validatorCallback,
+    this.leftImage,
+    this.onTapDelete,
+    this.showMaxCount,
+    this.autofocus,
+    this.onChanged,
+    this.isBorder,
+  }) : super(key: key);
 
   @override
   TextFieldWithDeleteState createState() => TextFieldWithDeleteState();
@@ -132,19 +134,26 @@ class TextFieldWithDeleteState extends State<TextFieldWithDelete> {
               inputFormatters: widget.inputFormatters,
               onEditingComplete: widget.onEditingComplete,
               onChanged: widget.onChanged,
+              minLines: 1,
+              maxLines: 10,
               style: TextStyle(fontSize: widget.fontSize, fontWeight: widget.fontWeight),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.only(left: widget.leftImage == null ? 10 : 30, top: 10, bottom: 14),
                 hintText: widget.texthint,
                 hintStyle: TextStyle(fontSize: widget.fontSize, fontWeight: widget.fontWeight, color: context.appColors.hintText),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: context.appColors.lessImportant),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: context.appColors.seedColor.getMaterialColorValues[600]!, width: 2),
-                  borderRadius: BorderRadius.circular(8),
-                ),
+                border: widget.isBorder ?? true ? InputBorder.none : null,
+                enabledBorder: widget.isBorder ?? true
+                    ? OutlineInputBorder(
+                        borderSide: BorderSide(color: context.appColors.lessImportant),
+                        borderRadius: BorderRadius.circular(8),
+                      )
+                    : InputBorder.none, // Remove the enabled border
+                focusedBorder: widget.isBorder ?? true
+                    ? OutlineInputBorder(
+                        borderSide: const BorderSide(color: AppColors.primary600, width: 2),
+                        borderRadius: BorderRadius.circular(8),
+                      )
+                    : InputBorder.none, // Remove the focused border
               ),
             ),
             Positioned.fill(
