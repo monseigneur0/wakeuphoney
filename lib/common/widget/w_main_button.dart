@@ -30,7 +30,9 @@ class MainButton extends StatelessWidget {
               onPressed: () {
                 //로그인 버튼 눌렀을때 처리
                 showToast(buttonName);
-                onPressed;
+                if (onPressed != null) {
+                  onPressed!();
+                }
               },
               child: buttonName.text.color(Colors.white).bold.size(16).make(),
             ).pOnly(top: 5),

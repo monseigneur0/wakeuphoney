@@ -90,29 +90,6 @@ class MatchTabRepository {
     });
   }
 
-  // Future<void> checkMatchProcess(int honeyCode, String uid) {
-  //   // Add a return statement at the end
-  //   return Future(() {
-  //     _match.where('vertifynumber', isEqualTo: honeyCode).snapshots().map((snapshot) {
-  //       //null 아니면 성공
-  //       if (snapshot.docs.isNotEmpty) {
-  //         logger.d('Match found: ${snapshot.docs.first.id}');
-
-  //         //성공이면 uid 리턴 서로 집어넣기
-  //         final coupleuid = snapshot.docs.first.get('uid');
-  //         _users.doc(uid).update({
-  //           'couples': [coupleuid],
-  //         });
-  //         _users.doc(coupleuid).update({
-  //           'couples': [uid],
-  //         });
-
-  //         return MatchModel.fromMap(snapshot.docs.first.data() as Map<String, dynamic>);
-  //       }
-  //       return null;
-  //     });
-  //   });
-  // }
   Future<bool> checkMatchWithCode(int honeyCode, String uid) async {
     return _match.where('vertifynumber', isEqualTo: honeyCode).get().then((value) {
       if (value.docs.isNotEmpty) {

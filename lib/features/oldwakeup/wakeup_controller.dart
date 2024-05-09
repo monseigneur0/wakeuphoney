@@ -3,7 +3,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
-import 'package:wakeuphoney/features/oldwakeup/wakeup_alarm_model.dart';
 
 import '../../core/providers/firebase_providers.dart';
 import '../oldauth/auth_controller.dart';
