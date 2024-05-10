@@ -107,9 +107,12 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
   }
 
   void uploadVoiceToStorage() async {
-    Reference refVoiceToUpload =
-        ref.read(storageProvider).ref().child(FirebaseConstants.alarmVoice).child(DateTime.now().toString());
+    setState(() {
+      isLoading = true;
+    });
     if (audioPath != null) {
+      Reference refVoiceToUpload =
+          ref.read(storageProvider).ref().child(FirebaseConstants.alarmVoice).child(DateTime.now().toString());
       try {
         await refVoiceToUpload.putFile(File(audioPath!));
         ref.read(voiceUrlProvider.notifier).state = await refVoiceToUpload.getDownloadURL();
@@ -118,10 +121,10 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
         logger.e("Error uploading image or no image file selected");
         logger.e(e.toString());
       }
+      setState(() {
+        isLoading = false;
+      });
     }
-    setState(() {
-      isLoading = false;
-    });
   }
 
   @override
@@ -197,21 +200,24 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                     child: showPlayer
                         ? Row(
                             children: [
-                              '음성 재생'.text.color(AppColors.grey500).size(16).bold.make(),
+                              '알람 소리 재생'.text.color(AppColors.grey500).size(16).bold.make(),
                               const EmptyExpanded(),
                               Center(
-                                child: AudioPlayer(
-                                  source: audioPath!,
-                                  onDelete: () {
-                                    setState(() => showPlayer = false);
-                                  },
-                                ),
+                                child: isLoading
+                                    ? const Loader()
+                                    : AudioPlayer(
+                                        source: audioPath!,
+                                        onDelete: () {
+                                          setState(() => showPlayer = false);
+                                          //delete at server
+                                        },
+                                      ),
                               )
                             ],
                           ).pOnly(left: 20, top: 10, bottom: 10)
                         : Row(
                             children: [
-                              '음성 녹음'.text.color(AppColors.grey500).size(16).bold.make(),
+                              '알람 소리 녹음'.text.color(AppColors.grey500).size(16).bold.make(),
                               const EmptyExpanded(),
                               Recorder(
                                 onStop: (path) {
@@ -220,6 +226,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                                     audioPath = path;
                                     showPlayer = true;
                                   });
+                                  if (!kDebugMode) uploadVoiceToStorage();
                                 },
                               ),
                             ],
@@ -258,6 +265,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                                             useAlbum = false;
                                             letterImageFile = null;
                                             showToast('사진을 삭제했습니다.');
+                                            // delete at server
                                           }),
                                       child: isLoading ? const Loader() : const Icon(Icons.cancel)),
                                 ],
@@ -303,6 +311,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                                             useAlbum = false;
                                             letterImageFile = null;
                                             showToast('사진을 삭제했습니다.');
+                                            //delete at server
                                           }),
                                       child: isLoading ? const Loader() : const Icon(Icons.cancel)),
                                 ],
@@ -465,20 +474,6 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                   }
                 },
               ),
-              if (kDebugMode)
-                MainButton(
-                  '깨우기',
-                  onPressed: () {
-                    if (context.mounted) {
-                      // context.go('/main/wake');
-                      showToast('saved'.tr());
-                      // logger.d('go to /main/wake');
-                      //text, voice, photo, alarm 전달
-                      logger.d('friendid${ref.read(userModelProvider)!.couples!.first}');
-                      // _letterController.clear();
-                    }
-                  },
-                ),
               height40,
             ],
           ).pSymmetric(h: 20),

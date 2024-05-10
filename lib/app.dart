@@ -64,7 +64,7 @@ class AppState extends ConsumerState<App> with WidgetsBindingObserver {
 
     final isLoggedIn = ref.watch(loginRepositoryProvider).isLoggedIn;
     Logger logger = Logger();
-    logger.d('isLoggedIn:  $isLoggedIn');
+    // logger.d('isLoggedIn:  $isLoggedIn');
 
     ///앱의 최상단. app 이전과 main tabs 이후로 나뉜다.
     ///user는 main tabs에서 모든게 시작되기 때문에 main tabs 에서 stream builder 만든다.

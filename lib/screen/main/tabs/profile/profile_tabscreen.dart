@@ -73,6 +73,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                 LinkCard('편지 확인 가능 시간', onTap: () {}),
                 LinkCard('고객센터', onTap: () {}),
                 LinkCard('버전정보', version: '1.1.0', onTap: () {}),
+                LinkCard('오픈소스', version: '1.1.0', onTap: () {}),
                 LinkCard('개인정보처리방침', onTap: () {}),
                 LinkCard('로그아웃', onTap: () {
                   // context.go(LoginNewScreen.routeUrl);

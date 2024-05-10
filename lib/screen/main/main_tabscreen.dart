@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/screen/auth/login_controller.dart';
 
 import '../../common/common.dart';
@@ -24,7 +25,8 @@ class MainTabsScreen extends ConsumerStatefulWidget {
 
 class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTickerProviderStateMixin {
   final tabs = TabItem.values;
-  late final List<GlobalKey<NavigatorState>> navigatorKeys = TabItem.values.map((e) => GlobalKey<NavigatorState>()).toList();
+  late final List<GlobalKey<NavigatorState>> navigatorKeys =
+      TabItem.values.map((e) => GlobalKey<NavigatorState>()).toList();
 
   TabItem get _currentTab => ref.watch(currentTabProvider);
 
@@ -57,12 +59,19 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
     final user = ref.watch(getUserFutureProvider);
     // final user = ref.watch(getUserStreamProvider);
     final uid = ref.watch(uidProvider);
-    // logger.d(uid);
-    // logger.d(_currentTab);
+
     return PopScope(
         canPop: isRootPage,
         onPopInvoked: _handleBackPressed,
         child: user.when(data: (user) {
+          //여기서 이러지 마
+          // if (user.couples!.isNotEmpty) {
+          //   logger.d('user.couples!.isNotEmpty ${user.couples!.isNotEmpty}');
+          //   ref.read(getUserByUidProvider(user.couples!.first)).whenData((value) {
+          //     ref.read(friendUserModelProvider.notifier).state = value;
+          //     logger.d("ref.read(friendUserModelProvider.notifier).state = value$value");
+          //   });
+          // }
           return Scaffold(
             extendBody: extendBody, //bottomNavigationBar 아래 영역 까지 그림
             // drawer: const MenuDrawer(),

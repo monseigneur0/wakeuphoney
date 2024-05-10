@@ -138,12 +138,11 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
         if (_amplitude != null) ...[
           const SizedBox(height: 10),
           (_amplitude?.current != null)
-              ? _amplitude!.current < -50
+              ? _amplitude!.current < -20
                   ? const Text("Too low")
                   : const Text("good")
               : const Text(""),
-
-          // Text('Max: ${_amplitude?.max ?? 0.0}'),
+          if (kDebugMode) Text(' ${_amplitude!.current}'),
         ],
       ],
     );
@@ -245,7 +244,12 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
     _timer?.cancel();
 
     _timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
-      setState(() => _recordDuration++);
+      setState(() {
+        _recordDuration++;
+        if (_recordDuration >= 600) {
+          _stop();
+        }
+      });
     });
   }
 }

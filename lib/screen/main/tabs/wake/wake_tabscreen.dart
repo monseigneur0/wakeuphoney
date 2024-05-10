@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/widget/normal_button.dart';
+import 'package:wakeuphoney/core/providers/providers.dart';
+import 'package:wakeuphoney/features/oldauth/user_model.dart';
 import 'package:wakeuphoney/screen/main/tabs/wake/wake_model.dart';
 import 'package:wakeuphoney/screen/main/tabs/wake/wake_write_screen.dart';
 
@@ -20,6 +22,7 @@ class WakeTabScreen extends StatefulHookConsumerWidget {
 class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userModelProvider);
     final myWake = ref.watch(wakeListStreamProvider);
     return Scaffold(
       appBar: AppBar(
@@ -47,40 +50,13 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
                 separatorBuilder: (context, index) => height10,
                 itemCount: wake.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: AppColors.whiteBackground,
-                      border: Border.all(color: AppColors.point700),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text('오전 07:31'),
-                        DateFormat('hh:mm a').format(wake[index]!.wakeTime).toString().text.bold.make(),
-                        Image.asset('assets/images/aiphotos/awakebear.png', width: Constants.cardPngWidth),
-                        '상대가 승락하면 깨울 수 있어요!'.text.bold.make(),
-                        height10,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            NormalButton(
-                              text: '취소하기',
-                              onPressed: () {
-                                ref.read(wakeControllerProvider.notifier).deleteWakeUp(wake[index]!.wakeUid);
-                              },
-                              isPreferred: false,
-                            ),
-                            width10,
-                            NormalButton(
-                              text: '수정하기',
-                              onPressed: () {},
-                            ),
-                          ],
-                        ),
+                  return Column(
+                    children: [
+                      if (wake[index].isApproved == false) ...[
+                        WakeAcceptBox(ref, wake[index]),
                       ],
-                    ),
+                      FeedBox(user!, wake[index]),
+                    ],
                   );
                 }),
           ).pSymmetric(h: 20);
@@ -99,26 +75,48 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
+}
 
-  Widget textMessageBox(String text) {
+class WakeAcceptBox extends StatelessWidget {
+  final WidgetRef ref;
+  final WakeModel wake;
+  const WakeAcceptBox(this.ref, this.wake, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
+        color: AppColors.whiteBackground,
+        border: Border.all(color: AppColors.point700),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: text.text.make(),
-    );
-  }
-
-  Widget imageBox(String s) {
-    return Container(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        clipBehavior: Clip.hardEdge,
-        child: Image.asset(
-          s,
-          fit: BoxFit.contain,
-        ),
-      ).pSymmetric(v: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          DateFormat('a hh:mm').format(wake.wakeTime).toString().text.bold.color(AppColors.primary700).make(),
+          Image.asset('assets/images/aiphotos/awakebear.png', width: Constants.cardPngWidth),
+          '상대가 승락하면 깨울 수 있어요!'.text.bold.make(),
+          height10,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              NormalButton(
+                text: '취소하기',
+                onPressed: () {
+                  ref.read(wakeControllerProvider.notifier).deleteWakeUp(wake.wakeUid);
+                },
+                isPreferred: false,
+              ),
+              // width10,
+              // NormalButton(
+              //   text: '수정하기',
+              //   onPressed: () {},
+              // ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -129,12 +127,14 @@ class TextMessageBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: text.text.make(),
-    );
+    return text.isEmpty
+        ? Container()
+        : Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: text.text.make(),
+          );
   }
 }
 
@@ -144,21 +144,27 @@ class ImageBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        clipBehavior: Clip.hardEdge,
-        child: Image.asset(
-          s,
-          fit: BoxFit.contain,
-        ),
-      ).pSymmetric(v: 20),
-    );
+    return s.isEmpty
+        ? Container()
+        : Container(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              clipBehavior: Clip.hardEdge,
+              child: Image.asset(
+                s,
+                fit: BoxFit.contain,
+              ),
+            ).pSymmetric(v: 20),
+          );
   }
 }
 
 class FeedBox extends StatelessWidget {
-  const FeedBox({
+  final UserModel user;
+  final WakeModel wake;
+  const FeedBox(
+    this.user,
+    this.wake, {
     super.key,
   });
 
@@ -172,15 +178,14 @@ class FeedBox extends StatelessWidget {
         border: Border.all(color: AppColors.point700),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          NameBar(),
-          TimeBar(),
+          NameBar(user),
+          TimeBar(wake.wakeTime),
           height10,
-          TextMessageBox(
-              '오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ 오늘 놀자~ '),
-          ImageBox('assets/images/samples/cherryblossom.png'),
+          TextMessageBox(wake.message),
+          ImageBox(wake.messagePhoto),
         ],
       ),
     );
@@ -287,23 +292,35 @@ class EmptyBox extends StatelessWidget {
 }
 
 class TimeBar extends StatelessWidget {
-  const TimeBar({
+  final DateTime wakeTime;
+  const TimeBar(
+    this.wakeTime, {
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       children: [
-        Text('오전 07:31'),
-        Icon(Icons.mic),
+        DateFormat('a hh:mm').format(wakeTime).text.bold.color(AppColors.primary700).make(),
+        width5,
+        const CircleAvatar(
+          backgroundColor: Colors.black,
+          radius: 15,
+          child: Icon(
+            Icons.mic,
+            color: Colors.white,
+          ),
+        ),
       ],
     );
   }
 }
 
 class NameBar extends StatelessWidget {
-  const NameBar({
+  final UserModel user;
+  const NameBar(
+    this.user, {
     super.key,
   });
 
@@ -316,7 +333,7 @@ class NameBar extends StatelessWidget {
           child: Image.asset('assets/images/alarmbearno.png', width: Constants.userIcon),
         ),
         width5,
-        '이영희'.text.bold.make(),
+        user.displayName.text.bold.make(),
         emptyExpanded,
         PopupMenuButton(
           itemBuilder: (context) {

@@ -49,3 +49,4 @@ final selectedDateTime = StateProvider<DateTime>(
 final userModelofMeStateProvider = StateProvider<UserModel?>((ref) => null);
 
 final userModelProvider = StateProvider<UserModel?>((ref) => null);
+final friendUserModelProvider = StateProvider<UserModel?>((ref) => null);

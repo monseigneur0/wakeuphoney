@@ -81,11 +81,11 @@ class WakeController extends AsyncNotifier<void> {
     }
   }
 
-  Future<List<WakeModel?>> fetchWakeList() {
+  Future<List<WakeModel>> fetchWakeList() {
     return _repository.fetchWakeList(uid);
   }
 
-  Stream<List<WakeModel?>> fetchWakeListStream() {
+  Stream<List<WakeModel>> fetchWakeListStream() {
     return _repository.fetchWakeListStream(uid);
   }
 

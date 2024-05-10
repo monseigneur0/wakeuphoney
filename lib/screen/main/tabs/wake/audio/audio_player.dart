@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart' as ap;
 import 'package:audioplayers/audioplayers.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -89,7 +90,11 @@ class AudioPlayerState extends State<AudioPlayer> {
                 ),
               ],
             ),
-            Text('${_duration ?? 0.0}'),
+            // Text('${_duration ?? 0.0}'),
+            if (_duration != null)
+              Text(
+                DateFormat('m:ss').format(DateTime.fromMillisecondsSinceEpoch(_duration!.inMilliseconds)),
+              )
           ],
         );
       },

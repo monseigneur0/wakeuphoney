@@ -9,6 +9,10 @@ import 'package:wakeuphoney/screen/auth/login_repository.dart';
 import 'package:wakeuphoney/screen/auth/login_tabscreen.dart';
 import 'package:wakeuphoney/screen/main/main_tabscreen.dart';
 
+final getUserByUidProvider = FutureProvider.family<UserModel, String>((ref, uid) {
+  return ref.watch(loginRepositoryProvider).getUserById(uid);
+});
+
 final getUserFutureProvider = FutureProvider<UserModel>((ref) {
   ref.watch(loginRepositoryProvider).currentUser;
   return ref.watch(loginControllerProvider.notifier).getUser();
