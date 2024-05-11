@@ -18,13 +18,16 @@ class _UserLoggedInWidgetState extends ConsumerState<UserLoggedInWidget> {
     Logger logger = Logger();
     logger.d("user: ${user.toMap().toString()}");
     final userModel = ref.watch(userModelProvider);
+    if (userModel == null) {
+      return const CircularProgressIndicator();
+    }
     return Column(
       children: [
         Container(
           child: user.displayName.text.make(),
         ),
         Container(
-          child: userModel!.displayName.text.make(),
+          child: userModel.displayName.text.make(),
         ),
       ],
     );

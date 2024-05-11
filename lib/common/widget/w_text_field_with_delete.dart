@@ -135,7 +135,8 @@ class TextFieldWithDeleteState extends State<TextFieldWithDelete> {
               onEditingComplete: widget.onEditingComplete,
               onChanged: widget.onChanged,
               minLines: 1,
-              maxLines: 10,
+              // maxLines: widget.isBorder ?? false ? 10 : null,
+              //함부로 막 추가하면 이전껄 못쓴다....
               style: TextStyle(fontSize: widget.fontSize, fontWeight: widget.fontWeight),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.only(left: widget.leftImage == null ? 10 : 30, top: 10, bottom: 14),
