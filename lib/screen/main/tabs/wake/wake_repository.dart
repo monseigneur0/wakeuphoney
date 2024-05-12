@@ -52,4 +52,12 @@ class WakeRepository {
       logger.e(e.toString());
     }
   }
+
+  acceptWakeUp(String uid, String wakeUid) {
+    try {
+      _users.doc(uid).collection(FirebaseConstants.alarmCollection).doc(wakeUid).update({'isApproved': true});
+    } catch (e) {
+      logger.e(e.toString());
+    }
+  }
 }

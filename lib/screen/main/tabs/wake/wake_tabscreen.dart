@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -55,6 +57,7 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
                       if (wake[index].isApproved == false) ...[
                         WakeAcceptBox(ref, wake[index]),
                       ],
+                      // height5,
                       FeedBox(user!, wake[index]),
                     ],
                   );
@@ -96,25 +99,26 @@ class WakeAcceptBox extends StatelessWidget {
         children: [
           DateFormat('a hh:mm').format(wake.wakeTime).toString().text.bold.color(AppColors.primary700).make(),
           Image.asset('assets/images/aiphotos/awakebear.png', width: Constants.cardPngWidth),
-          '상대가 승락하면 깨울 수 있어요!'.text.bold.make(),
+          if (!wake.isApproved) '상대가 승락하면 깨울 수 있어요!'.text.bold.make(),
           height10,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              NormalButton(
-                text: '취소하기',
-                onPressed: () {
-                  ref.read(wakeControllerProvider.notifier).deleteWakeUp(wake.wakeUid);
-                },
-                isPreferred: false,
-              ),
-              // width10,
-              // NormalButton(
-              //   text: '수정하기',
-              //   onPressed: () {},
-              // ),
-            ],
-          ),
+          if (!wake.isApproved)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                NormalButton(
+                  text: '취소하기',
+                  onPressed: () {
+                    ref.read(wakeControllerProvider.notifier).deleteWakeUp(wake.wakeUid);
+                  },
+                  isPreferred: false,
+                ),
+                // width10,
+                // NormalButton(
+                //   text: '수정하기',
+                //   onPressed: () {},
+                // ),
+              ],
+            ),
         ],
       ),
     );
@@ -130,8 +134,11 @@ class TextMessageBox extends StatelessWidget {
     return text.isEmpty
         ? Container()
         : Container(
+            padding: const EdgeInsets.all(15),
+            width: context.deviceWidth - 80,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: AppColors.point900),
             ),
             child: text.text.make(),
           );
@@ -148,13 +155,47 @@ class ImageBox extends StatelessWidget {
         ? Container()
         : Container(
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
               clipBehavior: Clip.hardEdge,
-              child: Image.asset(
+              child: Image.network(
                 s,
                 fit: BoxFit.contain,
               ),
-            ).pSymmetric(v: 20),
+            ),
+          );
+  }
+}
+
+class ImageBlurBox extends StatelessWidget {
+  final String s;
+  const ImageBlurBox(this.s, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return s.isEmpty
+        ? Container()
+        : Stack(
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.network(
+                  s,
+                  fit: BoxFit.cover,
+                  width: context.deviceWidth - 80,
+                  height: context.deviceWidth - 80,
+                ),
+              ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
+                  child: SizedBox(
+                    width: context.deviceWidth - 80,
+                    height: context.deviceWidth - 80,
+                  ),
+                ),
+              ),
+            ],
           );
   }
 }
@@ -182,9 +223,10 @@ class FeedBox extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           NameBar(user),
-          TimeBar(wake.wakeTime),
+          TimeBar(wake),
           height10,
           TextMessageBox(wake.message),
+          height10,
           ImageBox(wake.messagePhoto),
         ],
       ),
@@ -292,9 +334,9 @@ class EmptyBox extends StatelessWidget {
 }
 
 class TimeBar extends StatelessWidget {
-  final DateTime wakeTime;
+  final WakeModel wake;
   const TimeBar(
-    this.wakeTime, {
+    this.wake, {
     super.key,
   });
 
@@ -302,16 +344,20 @@ class TimeBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        DateFormat('a hh:mm').format(wakeTime).text.bold.color(AppColors.primary700).make(),
+        DateFormat('a').format(wake.wakeTime).text.color(AppColors.primary700).make(),
         width5,
-        const CircleAvatar(
-          backgroundColor: Colors.black,
-          radius: 15,
-          child: Icon(
-            Icons.mic,
-            color: Colors.white,
+        DateFormat('hh:mm').format(wake.wakeTime).text.bold.size(20).color(AppColors.primary700).make(),
+        width5,
+        if (wake.messageAudio.isNotEmpty)
+          const CircleAvatar(
+            backgroundColor: Colors.black,
+            radius: 13,
+            child: Icon(
+              Icons.mic,
+              color: Colors.white,
+              size: 20,
+            ),
           ),
-        ),
       ],
     );
   }

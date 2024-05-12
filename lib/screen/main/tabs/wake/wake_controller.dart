@@ -56,6 +56,7 @@ class WakeController extends AsyncNotifier<void> {
         androidFullScreenIntent: true,
         isDeleted: false,
         isApproved: false,
+        isRejected: false,
         senderUid: uid,
         message: message,
         messagePhoto: ref.read(imageUrlProvider),
@@ -93,5 +94,11 @@ class WakeController extends AsyncNotifier<void> {
     _repository.deleteWakeUp(uid, wakeUid);
     _repository.deleteWakeUp(user.couples!.first, wakeUid);
     showToast('알람이 삭제되었습니다.');
+  }
+
+  void acceptWakeUp(String wakeUid) {
+    _repository.acceptWakeUp(uid, wakeUid);
+    _repository.acceptWakeUp(user.couples!.first, wakeUid);
+    showToast('알람이 승인되었습니다.');
   }
 }

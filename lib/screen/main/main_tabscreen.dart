@@ -25,8 +25,7 @@ class MainTabsScreen extends ConsumerStatefulWidget {
 
 class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTickerProviderStateMixin {
   final tabs = TabItem.values;
-  late final List<GlobalKey<NavigatorState>> navigatorKeys =
-      TabItem.values.map((e) => GlobalKey<NavigatorState>()).toList();
+  late final List<GlobalKey<NavigatorState>> navigatorKeys = TabItem.values.map((e) => GlobalKey<NavigatorState>()).toList();
 
   TabItem get _currentTab => ref.watch(currentTabProvider);
 
@@ -75,6 +74,7 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
           return Scaffold(
             extendBody: extendBody, //bottomNavigationBar 아래 영역 까지 그림
             // drawer: const MenuDrawer(),
+            // backgroundColor: AppColors.myBackground,
             body: Container(
               color: context.appColors.seedColor.getMaterialColorValues[200],
               padding: EdgeInsets.only(bottom: extendBody ? 60 - bottomNavigationBarBorderRadius : 0),

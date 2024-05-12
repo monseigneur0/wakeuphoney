@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
@@ -18,17 +19,39 @@ class _UserLoggedInWidgetState extends ConsumerState<UserLoggedInWidget> {
     Logger logger = Logger();
     logger.d("user: ${user.toMap().toString()}");
     final userModel = ref.watch(userModelProvider);
+    final userfuture = ref.watch(getUserFutureProvider);
     if (userModel == null) {
-      return const CircularProgressIndicator();
+      return Container();
     }
     return Column(
       children: [
-        Container(
-          child: user.displayName.text.make(),
+        if (kDebugMode)
+          Container(
+            child: user.displayName.text.make(),
+          ),
+        if (kDebugMode)
+          Container(
+            child: userModel.displayName.text.make(),
+          ),
+        Column(
+          children: [
+            if (kDebugMode)
+              Container(
+                child: userfuture.when(
+                  data: (user) {
+                    return user.toMap().toString().text.make();
+                  },
+                  loading: () {
+                    return const CircularProgressIndicator();
+                  },
+                  error: (error, stackTrace) {
+                    return error.toString().text.make();
+                  },
+                ),
+              ),
+          ],
         ),
-        Container(
-          child: userModel.displayName.text.make(),
-        ),
+        Container(),
       ],
     );
   }

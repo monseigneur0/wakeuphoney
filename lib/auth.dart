@@ -1,5 +1,9 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wakeuphoney/screen/auth/login_controller.dart';
+import 'package:wakeuphoney/screen/auth/login_tabscreen.dart';
 
 class LoginAuth extends ChangeNotifier {
   bool _signedIn = true;
@@ -54,4 +58,47 @@ class LoginAuthScope extends InheritedNotifier<LoginAuth> {
 
   /// Gets the [LoginAuth] above the context.
   static LoginAuth of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<LoginAuthScope>()!.notifier!;
+}
+
+final authLoginProvider = StateProvider<LoginAuth>((ref) {
+  return LoginAuth();
+});
+
+class LoginAuthRiverpodScope extends ConsumerWidget {
+  final LoginController loginController;
+  final Widget child;
+
+  const LoginAuthRiverpodScope({
+    Key? key,
+    required this.loginController,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ref.watch(loginControllerProvider.notifier).signedIn
+        ? child
+        : Navigator(
+            onGenerateRoute: (routeSettings) => MaterialPageRoute(
+              settings: routeSettings,
+              builder: (context) => const LoginNewScreen(), // Replace with your login screen
+            ),
+          );
+  }
+
+  // static LoginAuthScope of(BuildContext context) {
+
+  //   final scope = ProviderScope.containerOf(context, listen: false).read<LoginAuthScope>(); // Use the 'containerOf' method instead of 'nearestAncestorWidget'
+  //   if (scope == null) {
+  //     throw Exception("LoginAuthScope not found in the widget tree");
+  //   }
+  //   return scope;
+  // }
+  static LoginAuthScope of(BuildContext context) {
+    final scope = context.findAncestorWidgetOfExactType<LoginAuthScope>();
+    if (scope == null) {
+      throw Exception("LoginAuthScope not found in the widget tree");
+    }
+    return scope;
+  }
 }

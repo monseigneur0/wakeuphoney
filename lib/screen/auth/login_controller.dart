@@ -76,7 +76,7 @@ class LoginController extends StateNotifier<UserModel> {
     await setUserByNow(userCredential);
 
     if (context.mounted) {
-      context.go("/maintabs");
+      context.go("/main");
     }
   }
 
@@ -90,7 +90,7 @@ class LoginController extends StateNotifier<UserModel> {
     await setUserByNow(userCredential);
 
     if (context.mounted) {
-      context.go("/maintabs");
+      context.go("/main");
     }
   }
 
@@ -108,6 +108,7 @@ class LoginController extends StateNotifier<UserModel> {
     final uid = _loginRepository.currentUser!.uid;
     final userModel = await _loginRepository.getUserById(uid);
     ref.watch(userModelProvider.notifier).state = userModel;
+    ref.read(loginControllerProvider.notifier).state = userModel;
     return userModel;
   }
 

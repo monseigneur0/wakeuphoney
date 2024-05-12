@@ -19,6 +19,7 @@ class WakeModel {
   final bool androidFullScreenIntent;
   final bool isDeleted;
   final bool isApproved;
+  final bool isRejected;
   final DateTime? approveTime;
 
   //message send
@@ -53,6 +54,7 @@ class WakeModel {
     required this.androidFullScreenIntent,
     required this.isDeleted,
     required this.isApproved,
+    required this.isRejected,
     this.approveTime,
     required this.senderUid,
     required this.message,
@@ -84,6 +86,7 @@ class WakeModel {
     bool? androidFullScreenIntent,
     bool? isDeleted,
     bool? isApproved,
+    bool? isRejected,
     DateTime? approveTime,
     String? senderUid,
     String? message,
@@ -114,6 +117,7 @@ class WakeModel {
       androidFullScreenIntent: androidFullScreenIntent ?? this.androidFullScreenIntent,
       isDeleted: isDeleted ?? this.isDeleted,
       isApproved: isApproved ?? this.isApproved,
+      isRejected: isRejected ?? this.isRejected,
       approveTime: approveTime ?? this.approveTime,
       senderUid: senderUid ?? this.senderUid,
       message: message ?? this.message,
@@ -147,6 +151,7 @@ class WakeModel {
       'androidFullScreenIntent': androidFullScreenIntent,
       'isDeleted': isDeleted,
       'isApproved': isApproved,
+      'isRejected': isRejected,
       'approveTime': approveTime,
       'senderUid': senderUid,
       'message': message,
@@ -180,6 +185,7 @@ class WakeModel {
       androidFullScreenIntent: map['androidFullScreenIntent'] as bool,
       isDeleted: map['isDeleted'] as bool,
       isApproved: map['isApproved'] as bool,
+      isRejected: map['isRejected'] as bool,
       approveTime: map['approveTime']?.toDate(),
       senderUid: map['senderUid'] as String,
       message: map['message'] as String,
@@ -201,7 +207,7 @@ class WakeModel {
 
   @override
   String toString() {
-    return 'WakeModel(wakeUid: $wakeUid, createdTime: $createdTime, modifiedTimes: $modifiedTimes, alarmId: $alarmId, wakeTime: $wakeTime, assetAudioPath: $assetAudioPath, loopAudio: $loopAudio, vibrate: $vibrate, volume: $volume, fadeDuration: $fadeDuration, notificationTitle: $notificationTitle, notificationBody: $notificationBody, enableNotificationOnKill: $enableNotificationOnKill, androidFullScreenIntent: $androidFullScreenIntent, isDeleted: $isDeleted, isApproved: $isApproved, approveTime: $approveTime, senderUid: $senderUid, message: $message, messagePhoto: $messagePhoto, messageAudio: $messageAudio, messageVideo: $messageVideo, reciverUid: $reciverUid, answerTime: $answerTime, answer: $answer, answerPhoto: $answerPhoto, answerAudio: $answerAudio, answerVideo: $answerVideo)';
+    return 'WakeModel(wakeUid: $wakeUid, createdTime: $createdTime, modifiedTimes: $modifiedTimes, alarmId: $alarmId, wakeTime: $wakeTime, assetAudioPath: $assetAudioPath, loopAudio: $loopAudio, vibrate: $vibrate, volume: $volume, fadeDuration: $fadeDuration, notificationTitle: $notificationTitle, notificationBody: $notificationBody, enableNotificationOnKill: $enableNotificationOnKill, androidFullScreenIntent: $androidFullScreenIntent, isDeleted: $isDeleted, isApproved: $isApproved, isRejected: $isRejected, approveTime: $approveTime, senderUid: $senderUid, message: $message, messagePhoto: $messagePhoto, messageAudio: $messageAudio, messageVideo: $messageVideo, reciverUid: $reciverUid, answerTime: $answerTime, answer: $answer, answerPhoto: $answerPhoto, answerAudio: $answerAudio, answerVideo: $answerVideo)';
   }
 
   @override
@@ -224,6 +230,7 @@ class WakeModel {
         other.androidFullScreenIntent == androidFullScreenIntent &&
         other.isDeleted == isDeleted &&
         other.isApproved == isApproved &&
+        other.isRejected == isRejected &&
         other.approveTime == approveTime &&
         other.senderUid == senderUid &&
         other.message == message &&
@@ -256,6 +263,7 @@ class WakeModel {
         androidFullScreenIntent.hashCode ^
         isDeleted.hashCode ^
         isApproved.hashCode ^
+        isRejected.hashCode ^
         approveTime.hashCode ^
         senderUid.hashCode ^
         message.hashCode ^
@@ -288,6 +296,7 @@ class WakeModel {
       androidFullScreenIntent: true,
       isDeleted: false,
       isApproved: false,
+      isRejected: false,
       senderUid: "",
       message: "",
       messagePhoto: "",

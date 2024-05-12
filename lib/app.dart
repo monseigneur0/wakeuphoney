@@ -5,7 +5,9 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/auth.dart';
 import 'package:wakeuphoney/common/common.dart';
+import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/router.dart';
+import 'package:wakeuphoney/screen/auth/login_controller.dart';
 import 'package:wakeuphoney/screen/auth/login_repository.dart';
 
 import 'common/fcm_manager.dart';
@@ -28,7 +30,7 @@ class App extends ConsumerStatefulWidget {
 class AppState extends ConsumerState<App> with WidgetsBindingObserver {
   String _authStatus = 'Unknown';
 
-  final auth = LoginAuth();
+  // final auth = LoginAuth();
 
   @override
   void initState() {
@@ -69,6 +71,8 @@ class AppState extends ConsumerState<App> with WidgetsBindingObserver {
     ///앱의 최상단. app 이전과 main tabs 이후로 나뉜다.
     ///user는 main tabs에서 모든게 시작되기 때문에 main tabs 에서 stream builder 만든다.
     ///alarm을 initialize 하기위한 statefulwidget이 필요하다. 한번 위에서 감싸줄필요가 있다.
+
+    final auth = ref.watch(authLoginProvider);
 
     return LoginAuthScope(
       notifier: auth,
