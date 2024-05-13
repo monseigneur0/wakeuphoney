@@ -7,14 +7,14 @@ import 'package:wakeuphoney/app.dart';
 import 'package:wakeuphoney/features/oldalarm/alarm_edit_screen.dart';
 import 'package:wakeuphoney/features/oldalarm/alarm_ring_screen.dart';
 
-class AlarmFuction extends StatefulWidget {
-  const AlarmFuction({super.key});
+class AlarmFunction extends StatefulWidget {
+  const AlarmFunction({super.key});
 
   @override
-  State<AlarmFuction> createState() => _AlarmFuctionState();
+  State<AlarmFunction> createState() => _AlarmFunctionState();
 }
 
-class _AlarmFuctionState extends State<AlarmFuction> {
+class _AlarmFunctionState extends State<AlarmFunction> {
   late List<AlarmSettings> alarms;
   static StreamSubscription? subscription;
 
@@ -30,10 +30,10 @@ class _AlarmFuctionState extends State<AlarmFuction> {
       subscription?.cancel();
     }
 
-    loadAlarms();
-    subscription ??= Alarm.ringStream.stream.listen(
-      (alarmSettings) => navigateToRingScreen(alarmSettings),
-    );
+    // loadAlarms();
+    // subscription ??= Alarm.ringStream.stream.listen(
+    //   (alarmSettings) => navigateToRingScreen(alarmSettings),
+    // );
   }
 
   void loadAlarms() {

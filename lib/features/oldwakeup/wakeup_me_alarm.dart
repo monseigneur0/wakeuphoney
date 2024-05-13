@@ -39,7 +39,7 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
   bool isApproved = false;
   late DateTime selectedDateTime;
   late TimeOfDay selectedTime;
-  late String audioAssetPath = 'assets/images/marimba.mp3';
+  late String audioAssetPath = 'assets/sounds/marimba.mp3';
   late bool loopAudio;
   late bool vibrate;
   late double? volume;
@@ -61,7 +61,7 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
     vibrate = true;
     volume = null;
     showNotification = true;
-    assetAudio = 'assets/images/marimba.mp3';
+    assetAudio = 'assets/sounds/marimba.mp3';
 
     loadAlarms();
     if (subscription != null) {
@@ -214,9 +214,7 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-                          ]),
+                          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -269,9 +267,7 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-                          ]),
+                          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -363,22 +359,16 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                               CupertinoDialogAction(
                                                 onPressed: () {
                                                   Navigator.of(context).pop();
-                                                  ref.watch(wakeUpControllerProvider.notifier).wakeUpAprove(
-                                                      alarm[index].reciverUid,
-                                                      alarm[index].senderUid,
-                                                      alarm[index].wakeUpUid);
+                                                  ref
+                                                      .watch(wakeUpControllerProvider.notifier)
+                                                      .wakeUpAprove(alarm[index].reciverUid, alarm[index].senderUid, alarm[index].wakeUpUid);
                                                   selectedDateTime = alarm[index].wakeTime;
-                                                  selectedTime = TimeOfDay(
-                                                      hour: alarm[index].wakeTime.hour,
-                                                      minute: alarm[index].wakeTime.minute);
+                                                  selectedTime = TimeOfDay(hour: alarm[index].wakeTime.hour, minute: alarm[index].wakeTime.minute);
                                                   setState(() {
                                                     loading = true;
                                                     isApproved = true;
                                                   });
-                                                  Alarm.set(
-                                                          alarmSettings: buildAlarmSettings(
-                                                              selectedTime, alarm[index].letterAudio))
-                                                      .then((res) {});
+                                                  Alarm.set(alarmSettings: buildAlarmSettings(selectedTime, alarm[index].letterAudio)).then((res) {});
                                                   setState(() => loading = false);
                                                 },
                                                 isDestructiveAction: true,
@@ -406,21 +396,16 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                                 ),
                                                 IconButton(
                                                   onPressed: () {
-                                                    ref.watch(wakeUpControllerProvider.notifier).wakeUpAprove(
-                                                        alarm[index].reciverUid,
-                                                        alarm[index].senderUid,
-                                                        alarm[index].wakeUpUid);
+                                                    ref
+                                                        .watch(wakeUpControllerProvider.notifier)
+                                                        .wakeUpAprove(alarm[index].reciverUid, alarm[index].senderUid, alarm[index].wakeUpUid);
                                                     selectedDateTime = alarm[index].wakeTime;
-                                                    selectedTime = TimeOfDay(
-                                                        hour: alarm[index].wakeTime.hour,
-                                                        minute: alarm[index].wakeTime.minute);
+                                                    selectedTime = TimeOfDay(hour: alarm[index].wakeTime.hour, minute: alarm[index].wakeTime.minute);
                                                     setState(() {
                                                       loading = true;
                                                       isApproved = true;
                                                     });
-                                                    Alarm.set(
-                                                            alarmSettings: buildAlarmSettings(
-                                                                selectedTime, alarm[index].letterAudio))
+                                                    Alarm.set(alarmSettings: buildAlarmSettings(selectedTime, alarm[index].letterAudio))
                                                         .then((res) {});
                                                     setState(() => loading = false);
                                                     context.goNamed(MainScreen.routeName);
@@ -438,12 +423,7 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(20),
                                         color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: Colors.black.withOpacity(0.1),
-                                              blurRadius: 10,
-                                              offset: const Offset(8, 8))
-                                        ]),
+                                        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
                                     child: Column(
                                       children: [
                                         Row(
@@ -464,14 +444,7 @@ class _WakeUpMeAlarmScreenState extends ConsumerState<WakeUpMeAlarmScreen> {
                                               size: 29,
                                               // color: AppColors.myPink,
                                             ),
-                                            DateFormat("HH:mm")
-                                                .format(alarm[index].wakeTime)
-                                                .toString()
-                                                .text
-                                                .bold
-                                                .size(18)
-                                                .make()
-                                                .pSymmetric(h: 14),
+                                            DateFormat("HH:mm").format(alarm[index].wakeTime).toString().text.bold.size(18).make().pSymmetric(h: 14),
                                           ],
                                         ),
                                         const Image(

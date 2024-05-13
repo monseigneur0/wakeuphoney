@@ -1,3 +1,5 @@
+import 'package:alarm/model/alarm_settings.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:wakeuphoney/features/oldauth/user_model.dart';
@@ -31,8 +33,7 @@ final dateTimeStateProvider = StateProvider<List<DateTime>>((ref) => List<DateTi
 final dateTimeNotTodayStateProvider = StateProvider<List<DateTime>>((ref) => List<DateTime>.generate(
       100,
       (index) => DateTime.now()
-          .add(Duration(
-              seconds: 24 * 60 * 60 - DateTime.now().hour * 3600 - DateTime.now().minute * 60 - DateTime.now().second))
+          .add(Duration(seconds: 24 * 60 * 60 - DateTime.now().hour * 3600 - DateTime.now().minute * 60 - DateTime.now().second))
           .add(Duration(days: index)),
     ));
 
@@ -42,11 +43,24 @@ final selectedDate = StateProvider(
   ),
 );
 
-final selectedDateTime = StateProvider<DateTime>(
-  (ref) => DateTime.now(),
-);
-
 final userModelofMeStateProvider = StateProvider<UserModel?>((ref) => null);
 
 final userModelProvider = StateProvider<UserModel?>((ref) => null);
 final friendUserModelProvider = StateProvider<UserModel?>((ref) => null);
+
+//alarm providers
+final selectedDateTime = StateProvider<DateTime>((ref) => DateTime.now());
+final selectedTime = StateProvider<TimeOfDay>((ref) => TimeOfDay.now());
+
+final alarmSettingsProvider = StateProvider<AlarmSettings>((ref) => AlarmSettings(
+      id: 0,
+      dateTime: DateTime.now(),
+      assetAudioPath: 'assets/sounds/alarm.mp3',
+      loopAudio: true,
+      notificationTitle: 'Alarm',
+      notificationBody: 'Wake up!',
+    ));
+
+final loopAudioProvider = StateProvider<bool>((ref) => false);
+final vibrateProvider = StateProvider<bool>((ref) => false);
+final volumeProvider = StateProvider<double?>((ref) => 0.8);
