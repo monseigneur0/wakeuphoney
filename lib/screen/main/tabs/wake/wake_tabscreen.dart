@@ -7,6 +7,7 @@ import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/widget/normal_button.dart';
 import 'package:wakeuphoney/core/providers/providers.dart';
 import 'package:wakeuphoney/features/oldauth/user_model.dart';
+import 'package:wakeuphoney/screen/main/tabs/alarm/feedbox.dart';
 import 'package:wakeuphoney/screen/main/tabs/wake/wake_model.dart';
 import 'package:wakeuphoney/screen/main/tabs/wake/wake_write_screen.dart';
 
@@ -197,40 +198,6 @@ class ImageBlurBox extends StatelessWidget {
               ),
             ],
           );
-  }
-}
-
-class FeedBox extends StatelessWidget {
-  final UserModel user;
-  final WakeModel wake;
-  const FeedBox(
-    this.user,
-    this.wake, {
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // height: 300,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppColors.whiteBackground,
-        border: Border.all(color: AppColors.point700),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          NameBar(user),
-          TimeBar(wake),
-          height10,
-          TextMessageBox(wake.message),
-          height10,
-          ImageBox(wake.messagePhoto),
-        ],
-      ),
-    );
   }
 }
 
