@@ -5,10 +5,10 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/auth.dart';
 import 'package:wakeuphoney/common/common.dart';
-import 'package:wakeuphoney/core/providers/firebase_providers.dart';
+import 'package:wakeuphoney/common/providers/firebase_providers.dart';
 import 'package:wakeuphoney/router.dart';
-import 'package:wakeuphoney/screen/auth/login_controller.dart';
-import 'package:wakeuphoney/screen/auth/login_repository.dart';
+import 'package:wakeuphoney/auth/login_controller.dart';
+import 'package:wakeuphoney/auth/login_repository.dart';
 
 import 'common/fcm_manager.dart';
 import 'common/theme/custom_theme.dart';

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakeuphoney/screen/auth/login_controller.dart';
-import 'package:wakeuphoney/screen/auth/login_tabscreen.dart';
+import 'package:wakeuphoney/auth/login_controller.dart';
+import 'package:wakeuphoney/auth/login_tabscreen.dart';
 
 class LoginAuth extends ChangeNotifier {
   bool _signedIn = true;

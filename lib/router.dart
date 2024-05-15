@@ -4,16 +4,16 @@ import 'package:wakeuphoney/app.dart';
 import 'package:wakeuphoney/auth.dart';
 
 import 'package:wakeuphoney/common/route/fade_transition.dart';
-import 'package:wakeuphoney/screen/auth/login_controller.dart';
-import 'package:wakeuphoney/screen/auth/login_tabscreen.dart';
-import 'package:wakeuphoney/screen/error/error_page.dart';
-import 'package:wakeuphoney/screen/main/main_tabscreen.dart';
-import 'package:wakeuphoney/screen/main/tabs/alarm/alarm_tabscreen.dart';
-import 'package:wakeuphoney/screen/main/tabs/feed/feed_detail_scree.dart';
-import 'package:wakeuphoney/screen/main/tabs/feed/feed_tabscreen.dart';
-import 'package:wakeuphoney/screen/main/tabs/tab_item.dart';
-import 'package:wakeuphoney/screen/main/tabs/wake/wake_tabscreen.dart';
-import 'package:wakeuphoney/screen/main/tabs/wake/wake_write_screen.dart';
+import 'package:wakeuphoney/auth/login_controller.dart';
+import 'package:wakeuphoney/auth/login_tabscreen.dart';
+import 'package:wakeuphoney/common/error/error_page.dart';
+import 'package:wakeuphoney/main/main_tabscreen.dart';
+import 'package:wakeuphoney/tabs/alarm/alarm_tabscreen.dart';
+import 'package:wakeuphoney/tabs/feed/feed_detail_scree.dart';
+import 'package:wakeuphoney/tabs/feed/feed_tabscreen.dart';
+import 'package:wakeuphoney/tabs/tab_item.dart';
+import 'package:wakeuphoney/tabs/wake/wake_tabscreen.dart';
+import 'package:wakeuphoney/tabs/wake/wake_write_screen.dart';
 
 import 'common/common.dart';
 

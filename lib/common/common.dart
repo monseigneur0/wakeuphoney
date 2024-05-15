@@ -33,7 +33,7 @@ export 'widget/w_tap.dart';
 export 'constants/constants.dart';
 export 'constants/app_colors.dart';
 export 'constants/firebase_constants.dart';
-export '../core/utils.dart';
+export 'utils.dart';
 export 'error_text.dart';
 export 'loader.dart';
 // import 'package:just_audio/just_audio.dart';
