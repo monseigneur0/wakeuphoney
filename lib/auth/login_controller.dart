@@ -164,15 +164,3 @@ class LoginController extends StateNotifier<UserModel> {
     return null;
   }
 }
-// /// An inherited notifier to host [LoginAuth] for the subtree.
-// class LoginAuthScope extends InheritedNotifier<LoginController> {
-//   /// Creates a [LoginControllerScope].
-//   const LoginAuthScope({
-//     required LoginController super.notifier,
-//     required super.child,
-//     super.key,
-//   });
-
-//   /// Gets the [LoginController] above the context.
-//   static LoginController of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<LoginAuthScope>()!.notifier!;
-// }
