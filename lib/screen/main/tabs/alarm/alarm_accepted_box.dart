@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
-import 'package:wakeuphoney/features/oldauth/user_model.dart';
+import 'package:wakeuphoney/screen/auth/user_model.dart';
 import 'package:wakeuphoney/screen/main/tabs/wake/wake_model.dart';
 
 class AcceptedBox extends ConsumerWidget {

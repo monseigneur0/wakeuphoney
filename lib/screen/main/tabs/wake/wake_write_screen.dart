@@ -6,15 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/util/app_keyboard_util.dart';
 import 'package:wakeuphoney/common/widget/w_main_button.dart';
 import 'package:wakeuphoney/common/widget/w_text_field_with_delete.dart';
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/core/providers/providers.dart';
-import 'package:wakeuphoney/features/oldwakeup/wakeup_write_screen.dart';
-import 'package:wakeuphoney/screen/main/main_tabscreen.dart';
 import 'package:wakeuphoney/screen/main/tabs/wake/wake_controller.dart';
 
 import 'audio/audio_player.dart';
@@ -89,8 +86,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
   }
 
   void uploadImageToStorage() async {
-    Reference refImageToUpload =
-        ref.read(storageProvider).ref().child(FirebaseConstants.alarmImage).child(DateTime.now().toString());
+    Reference refImageToUpload = ref.read(storageProvider).ref().child(FirebaseConstants.alarmImage).child(DateTime.now().toString());
     if (letterImageFile != null) {
       try {
         await refImageToUpload.putFile(File(letterImageFile!.path));
@@ -111,8 +107,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
       isLoading = true;
     });
     if (audioPath != null) {
-      Reference refVoiceToUpload =
-          ref.read(storageProvider).ref().child(FirebaseConstants.alarmVoice).child(DateTime.now().toString());
+      Reference refVoiceToUpload = ref.read(storageProvider).ref().child(FirebaseConstants.alarmVoice).child(DateTime.now().toString());
       try {
         await refVoiceToUpload.putFile(File(audioPath!));
         ref.read(voiceUrlProvider.notifier).state = await refVoiceToUpload.getDownloadURL();
@@ -142,12 +137,12 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              kDebugMode
-                  ? Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const WakeUpWriteScreen()),
-                    )
-                  : null;
+              // kDebugMode
+              //     ? Navigator.push(
+              //         context,
+              //         MaterialPageRoute(builder: (context) => const WakeUpWriteScreen()),
+              //       )
+              //     : null;
             },
             icon: const Icon(Icons.save),
           )
@@ -467,9 +462,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                   if (context.mounted) {
                     context.go('/main/wake');
                     //text, voice, photo, alarm 전달
-                    ref
-                        .read(wakeControllerProvider.notifier)
-                        .createWakeUp(_letterController.text, selectedTime, volume, vibrate, assetAudio);
+                    ref.read(wakeControllerProvider.notifier).createWakeUp(_letterController.text, selectedTime, volume, vibrate, assetAudio);
                     _letterController.clear();
                   }
                 },

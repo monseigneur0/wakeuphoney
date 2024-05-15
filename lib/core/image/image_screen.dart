@@ -7,7 +7,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_cropper/image_cropper.dart';
 
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
-import 'package:wakeuphoney/features/oldprofile/profile_controller.dart';
 import 'package:wakeuphoney/common/common.dart';
 
 class ImageScreen extends ConsumerStatefulWidget {
@@ -106,7 +105,7 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                                 logger.e(e.toString());
                               });
                             }
-                            ref.watch(profileControllerProvider.notifier).updateProfileImage(imageUrl);
+                            // ref.watch(profileControllerProvider.notifier).updateProfileImage(imageUrl);
                             if (context.mounted) {
                               Navigator.of(context).pop();
                               showToast('saved'.tr());

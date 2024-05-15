@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wakeuphoney/common/common.dart';
-import 'package:wakeuphoney/features/oldauth/user_model.dart';
+import 'package:wakeuphoney/screen/auth/user_model.dart';
 
 class EmptyAlarm extends StatelessWidget {
   const EmptyAlarm({

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'package:wakeuphoney/features/oldauth/user_model.dart';
+import 'package:wakeuphoney/screen/auth/user_model.dart';
 import 'package:wakeuphoney/screen/user/user_repository.dart';
 
 class UserController extends AsyncNotifier<void> {

@@ -117,22 +117,17 @@ class ChatCompletionModel {
 
   ChatCompletionModel.fromJson(Map<String, dynamic> json) {
     model = json['model'];
-    messages = List.from(json['messages'])
-        .map((e) => ChatGPTMessageModel.fromJson(e))
-        .toList();
+    messages = List.from(json['messages']).map((e) => ChatGPTMessageModel.fromJson(e)).toList();
     stream = json['stream'];
   }
   @override
-  String toString() =>
-      'ChatCompletionModel(model: $model, messages: $messages, stream: $stream)';
+  String toString() => 'ChatCompletionModel(model: $model, messages: $messages, stream: $stream)';
 
   @override
   bool operator ==(covariant ChatCompletionModel other) {
     if (identical(this, other)) return true;
 
-    return other.model == model &&
-        listEquals(other.messages, messages) &&
-        other.stream == stream;
+    return other.model == model && listEquals(other.messages, messages) && other.stream == stream;
   }
 
   @override

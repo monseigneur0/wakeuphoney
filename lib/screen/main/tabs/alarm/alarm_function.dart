@@ -4,8 +4,8 @@ import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wakeuphoney/app.dart';
-import 'package:wakeuphoney/features/oldalarm/alarm_edit_screen.dart';
-import 'package:wakeuphoney/features/oldalarm/alarm_ring_screen.dart';
+import 'package:wakeuphoney/screen/main/tabs/alarm/alarm_edit_screen.dart';
+import 'package:wakeuphoney/screen/main/tabs/alarm/alarm_ring_screen.dart';
 
 class AlarmFunction extends StatefulWidget {
   const AlarmFunction({super.key});

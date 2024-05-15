@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wakeuphoney/common/constants/app_colors.dart';
 import 'package:wakeuphoney/common/widget/w_height_and_width.dart';
-import 'package:wakeuphoney/features/oldauth/user_model.dart';
+import 'package:wakeuphoney/screen/auth/user_model.dart';
 import 'package:wakeuphoney/screen/main/tabs/wake/wake_model.dart';
 import 'package:wakeuphoney/screen/main/tabs/wake/wake_tabscreen.dart';
 

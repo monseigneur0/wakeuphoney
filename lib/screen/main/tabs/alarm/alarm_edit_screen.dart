@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 
 import 'package:wakeuphoney/common/common.dart';
-import 'package:wakeuphoney/features/oldalarm/alarm_day_settings.dart';
 
 class AlarmEditScreen extends StatefulWidget {
   final AlarmSettings? alarmSettings;
@@ -29,7 +28,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
 
   late List<bool> days;
 
-  late AlarmDaySettings alarmDaySettings = AlarmDaySettings(alarmSettings: widget.alarmSettings);
+  // late AlarmDaySettings alarmDaySettings = AlarmDaySettings(alarmSettings: widget.alarmSettings);
 
   late TimeOfDay selectedTime;
   late Time _time;
@@ -48,7 +47,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
       vibrate = true;
       volume = null;
       showNotification = true;
-      assetAudio = 'assets/sounds/marimba.mp3';
+      assetAudio = 'assets/marimba.mp3';
       days = <bool>[
         true,
         false,
@@ -67,8 +66,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
       loopAudio = widget.alarmSettings!.loopAudio;
       vibrate = widget.alarmSettings!.vibrate;
       volume = widget.alarmSettings!.volume;
-      showNotification =
-          widget.alarmSettings!.notificationTitle.isNotEmpty && widget.alarmSettings!.notificationBody.isNotEmpty;
+      showNotification = widget.alarmSettings!.notificationTitle.isNotEmpty && widget.alarmSettings!.notificationBody.isNotEmpty;
       assetAudio = widget.alarmSettings!.assetAudioPath;
       // days = widget.alarmSettings!.days;
     }
@@ -208,9 +206,10 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
-                  BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-                ]),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
                 child: TextButton(
                   onPressed: () => Navigator.pop(context, false),
                   child: Text(
@@ -224,9 +223,10 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.black.withOpacity(0.8)),
               ),
               Container(
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
-                  BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-                ]),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
                 child: TextButton(
                   onPressed: saveAlarm,
                   child: loading
@@ -244,9 +244,10 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
             onTap: pickTime,
             child: Container(
               padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
-                BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-              ]),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white,
+                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
               child: Text(
                 selectedTime.format(context),
                 style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.black, fontSize: 30),
@@ -270,9 +271,10 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
           //   textDirection: textDirection,
           // ),
           Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
-              BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-            ]),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -288,9 +290,10 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
             ).pSymmetric(h: 20, v: 10),
           ),
           Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
-              BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-            ]),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -306,9 +309,10 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
             ).pSymmetric(h: 20, v: 10),
           ),
           Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
-              BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-            ]),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -349,9 +353,10 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                 : const SizedBox(),
           ),
           Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
-              BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
-            ]),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white,
+                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -364,35 +369,35 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                   value: assetAudio,
                   items: const [
                     DropdownMenuItem<String>(
-                      value: 'assets/sounds/marimba.mp3',
+                      value: 'assets/marimba.mp3',
                       child: Text('Marimba'),
                     ),
                     DropdownMenuItem<String>(
-                      value: 'assets/sounds/nature.mp3',
+                      value: 'assets/nature.mp3',
                       child: Text('Nature'),
                     ),
                     DropdownMenuItem<String>(
-                      value: 'assets/sounds/childhood.mp3',
+                      value: 'assets/childhood.mp3',
                       child: Text('Childhood'),
                     ),
                     DropdownMenuItem<String>(
-                      value: 'assets/sounds/happylife.mp3',
+                      value: 'assets/happylife.mp3',
                       child: Text('Happy Life'),
                     ),
                     DropdownMenuItem<String>(
-                      value: 'assets/sounds/mozart.mp3',
+                      value: 'assets/mozart.mp3',
                       child: Text('Mozart'),
                     ),
                     DropdownMenuItem<String>(
-                      value: 'assets/sounds/nokia.mp3',
+                      value: 'assets/nokia.mp3',
                       child: Text('Nokia'),
                     ),
                     DropdownMenuItem<String>(
-                      value: 'assets/sounds/one_piece.mp3',
+                      value: 'assets/one_piece.mp3',
                       child: Text('One Piece'),
                     ),
                     DropdownMenuItem<String>(
-                      value: 'assets/sounds/star_wars.mp3',
+                      value: 'assets/star_wars.mp3',
                       child: Text('Star Wars'),
                     ),
                   ],

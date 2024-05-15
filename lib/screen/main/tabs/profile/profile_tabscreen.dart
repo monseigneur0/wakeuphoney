@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/widget/w_arrow.dart';
-import 'package:wakeuphoney/features/oldmatch/match_screen.dart';
 import 'package:wakeuphoney/screen/auth/login_controller.dart';
 import 'package:wakeuphoney/screen/auth/login_tabscreen.dart';
 import 'package:wakeuphoney/screen/main/tabs/match/match_tabscreen.dart';
 import 'package:wakeuphoney/screen/main/tabs/profile/single_profile_screen.dart';
-
-import 'package:wakeuphoney/features/oldmain/main_screen.dart';
+import 'package:wakeuphoney/screen/opensource/s_opensource.dart';
 
 class ProfileTabScreen extends StatefulHookConsumerWidget {
   const ProfileTabScreen({super.key});
@@ -73,7 +71,13 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                 LinkCard('편지 확인 가능 시간', onTap: () {}),
                 LinkCard('고객센터', onTap: () {}),
                 LinkCard('버전정보', version: '1.1.0', onTap: () {}),
-                LinkCard('오픈소스', version: '1.1.0', onTap: () {}),
+                LinkCard('오픈소스', onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const OpensourceScreen(),
+                      ));
+                }),
                 LinkCard('개인정보처리방침', onTap: () {}),
                 LinkCard('로그아웃', onTap: () {
                   // context.go(LoginNewScreen.routeUrl);
@@ -90,12 +94,6 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                       LinkCard('로그인페이지  context.push', onTap: () {
                         context.push(LoginNewScreen.routeUrl);
                       }),
-                      LinkCard('MatchScreen', onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const MatchScreen()),
-                        );
-                      }),
                     ],
                   ),
                 LinkCard('연결끊기', onTap: () {}),
@@ -103,11 +101,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                 if (kDebugMode)
                   Row(
                     children: [
-                      ElevatedButton(
-                          onPressed: () {
-                            context.go(MainScreen.routeURL);
-                          },
-                          child: '이전 디자인'.text.make()),
+                      ElevatedButton(onPressed: () {}, child: '이전 디자인'.text.make()),
                       ElevatedButton(
                           onPressed: () {
                             context.go(MatchTabScreen.routeUrl);

@@ -5,8 +5,8 @@ import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:wakeuphoney/core/widgets/alarm_tile.dart';
-import 'package:wakeuphoney/features/oldalarm/alarm_edit_screen.dart';
-import 'package:wakeuphoney/features/oldalarm/alarm_ring_screen.dart';
+import 'package:wakeuphoney/screen/main/tabs/alarm/alarm_edit_screen.dart';
+import 'package:wakeuphoney/screen/main/tabs/alarm/alarm_ring_screen.dart';
 
 class AlarmManager extends StatefulWidget {
   const AlarmManager({super.key});

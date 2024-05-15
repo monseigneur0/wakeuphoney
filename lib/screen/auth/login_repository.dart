@@ -4,7 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:wakeuphoney/common/common.dart';
-import 'package:wakeuphoney/features/oldauth/user_model.dart';
+import 'package:wakeuphoney/screen/auth/user_model.dart';
 
 import '../../core/providers/firebase_providers.dart';
 

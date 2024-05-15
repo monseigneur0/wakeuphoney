@@ -10,7 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/widget/normal_button.dart';
 import 'package:wakeuphoney/core/providers/providers.dart';
-import 'package:wakeuphoney/features/oldauth/user_model.dart';
+import 'package:wakeuphoney/screen/auth/user_model.dart';
 import 'package:wakeuphoney/screen/main/tabs/wake/wake_controller.dart';
 import 'package:wakeuphoney/screen/main/tabs/wake/wake_model.dart';
 

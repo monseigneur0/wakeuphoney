@@ -1,15 +1,16 @@
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:wakeuphoney/core/providers/firebase_providers.dart';
 import 'package:wakeuphoney/core/utils.dart';
-import 'package:wakeuphoney/features/oldchatgpt/cs_model.dart';
-import 'package:http/http.dart' as http;
-import 'package:wakeuphoney/features/oldprofile/profile_controller.dart';
 
-import '../../core/providers/firebase_providers.dart';
+// import 'package:wakeuphoney/features/oldprofile/profile_controller.dart';
+import 'package:wakeuphoney/screen/auth/login_controller.dart';
+import 'package:wakeuphoney/screen/main/tabs/customer/cs_model.dart';
 
 class CustomerServiceScreen extends ConsumerStatefulWidget {
   static const routeName = "customerservice";
@@ -52,8 +53,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
       vsync: this,
       duration: const Duration(milliseconds: 2500),
     );
-    _characterCount = StepTween(begin: 0, end: _currentString.length)
-        .animate(CurvedAnimation(parent: _animationController, curve: Curves.easeIn));
+    _characterCount = StepTween(begin: 0, end: _currentString.length).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeIn));
     _animationController.addListener(() {
       setState(() {});
     });
@@ -110,7 +110,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
           // _scrollDown();
         });
       }
-      ref.watch(profileControllerProvider.notifier).updateGPTMessages(openAiModel);
+      // ref.watch(profileControllerProvider.notifier).updateGPTMessages(openAiModel);
     }
   }
 
@@ -218,7 +218,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
           ),
           Builder(
             builder: (context) {
-              final userState = ref.watch(getMyUserInfoProvider);
+              final userState = ref.watch(getUserFutureProvider);
               return userState.when(
                 data: (user) {
                   if (user.chatGPTMessageCount == 0) {
@@ -324,7 +324,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
                               messageText = _messageTextController.text.trim();
                               _messageTextController.clear();
 
-                              ref.watch(profileControllerProvider.notifier).updateGPTCount();
+                              // ref.watch(profileControllerProvider.notifier).updateGPTCount();
                               if (user.chatGPTMessageCount != 0) {
                                 await requestChat(messageText);
                               } else {

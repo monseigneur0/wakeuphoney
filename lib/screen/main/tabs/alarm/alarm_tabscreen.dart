@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
 
 import 'package:wakeuphoney/core/providers/providers.dart';
-import 'package:wakeuphoney/features/oldauth/user_model.dart';
+import 'package:wakeuphoney/screen/auth/user_model.dart';
 import 'package:wakeuphoney/screen/main/tabs/alarm/alarm_accept_box.dart';
 import 'package:wakeuphoney/screen/main/tabs/alarm/alarm_accepted_box.dart';
 import 'package:wakeuphoney/screen/main/tabs/alarm/alarm_empty.dart';

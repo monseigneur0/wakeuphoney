@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/core/providers/providers.dart';
-import 'package:wakeuphoney/features/oldauth/user_model.dart';
+import 'package:wakeuphoney/screen/auth/user_model.dart';
 import 'package:wakeuphoney/screen/auth/login_controller.dart';
 import 'package:wakeuphoney/screen/main/tabs/wake/wake_repository.dart';
 

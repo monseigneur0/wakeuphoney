@@ -3,11 +3,8 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
-
 import 'package:wakeuphoney/core/providers/firebase_providers.dart';
-import 'package:wakeuphoney/features/oldauth/user_model.dart';
-import 'package:wakeuphoney/features/oldmatch/match_model.dart';
-import 'package:wakeuphoney/screen/auth/login_controller.dart';
+import 'package:wakeuphoney/screen/main/tabs/match/match_model.dart';
 
 final matchTabRepositoryProvider = Provider((ref) => MatchTabRepository(firestore: ref.watch(firestoreProvider)));
 

@@ -5,12 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
-
-import '../../features/oldalarm/alarm_screen.dart';
-import '../../features/oldauth/auth_controller.dart';
-import '../../features/oldauth/auth_repository.dart';
-import '../../features/oldauth/login_screen.dart';
-import '../../features/oldprofile/feedback_screen.dart';
+import 'package:wakeuphoney/core/providers/providers.dart';
+import 'package:wakeuphoney/screen/auth/login_controller.dart';
 
 class ProfileDrawer extends StatelessWidget {
   const ProfileDrawer({
@@ -24,7 +20,7 @@ class ProfileDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     var logger = Logger();
 
-    final userprofile = ref.watch(getMyUserDataProvider);
+    final userprofile = ref.watch(getUserFutureProvider);
     return Drawer(
       backgroundColor: Colors.grey[600],
       child: ListView(
@@ -73,7 +69,7 @@ class ProfileDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              context.pushNamed(AlarmHome.routeName);
+              // context.pushNamed(AlarmHome.routeName);
             },
             contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             leading: const Icon(
@@ -87,7 +83,7 @@ class ProfileDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              context.pushNamed(FeedbackScreen.routeName);
+              // context.pushNamed(FeedbackScreen.routeName);
             },
             contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             leading: const Icon(
@@ -115,8 +111,8 @@ class ProfileDrawer extends StatelessWidget {
                           CupertinoDialogAction(
                             onPressed: () {
                               Navigator.of(context).pop();
-                              context.goNamed(LoginHome.routeName);
-                              ref.watch(authRepositoryProvider).logout();
+                              // context.goNamed(LoginHome.routeName);
+                              // ref.watch(authRepositoryProvider).logout();
                             },
                             isDestructiveAction: true,
                             child: Text('yes'.tr()),
@@ -153,8 +149,8 @@ class ProfileDrawer extends StatelessWidget {
                               ),
                               IconButton(
                                 onPressed: () {
-                                  context.goNamed(LoginHome.routeName);
-                                  ref.watch(authRepositoryProvider).logout();
+                                  // context.goNamed(LoginHome.routeName);
+                                  // ref.watch(authRepositoryProvider).logout();
                                   Navigator.of(context).pop();
                                 },
                                 icon: const Icon(
@@ -175,7 +171,7 @@ class ProfileDrawer extends StatelessWidget {
                 ),
           // ListTile(
           //   onTap: () {
-          //     context.pushNamed(PracticeHome.routeName);
+          // context.pushNamed(PracticeHome.routeName);
           //   },
           //   contentPadding:
           //       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -207,9 +203,9 @@ class ProfileDrawer extends StatelessWidget {
                           CupertinoDialogAction(
                             onPressed: () {
                               Navigator.of(context).pop();
-                              context.goNamed(LoginHome.routeName);
+                              // context.goNamed(LoginHome.routeName);
 
-                              ref.watch(authRepositoryProvider).deleteUser();
+                              // ref.watch(authRepositoryProvider).deleteUser();
                             },
                             isDestructiveAction: true,
                             child: Text('yes'.tr()),
@@ -246,8 +242,8 @@ class ProfileDrawer extends StatelessWidget {
                               ),
                               IconButton(
                                 onPressed: () {
-                                  context.goNamed(LoginHome.routeName);
-                                  ref.watch(authRepositoryProvider).deleteUser();
+                                  // context.goNamed(LoginHome.routeName);
+                                  // ref.watch(authRepositoryProvider).deleteUser();
                                   Navigator.of(context).pop();
                                 },
                                 icon: const Icon(

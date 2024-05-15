@@ -10,6 +10,7 @@ import 'w_opensource_item.dart';
 /// 아래의 명령어를 통해서, 주기적으로 라이센스 json을 최신화 해주세요.
 /// flutter pub run flutter_oss_licenses:generate.dart -o assets/json/licenses.json --json
 /// dart pub run flutter_oss_licenses:generate.dart -o assets/json/licenses.json --json
+/// dart run flutter_oss_licenses:generate.dart -o assets/json/licenses.json --json
 class OpensourceScreen extends StatefulWidget {
   const OpensourceScreen({super.key});
 

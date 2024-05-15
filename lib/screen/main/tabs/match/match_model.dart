@@ -37,16 +37,13 @@ class MatchModel {
   }
 
   @override
-  String toString() =>
-      'MatchModel(uid: $uid, time: $time, vertifynumber: $vertifynumber)';
+  String toString() => 'MatchModel(uid: $uid, time: $time, vertifynumber: $vertifynumber)';
 
   @override
   bool operator ==(covariant MatchModel other) {
     if (identical(this, other)) return true;
 
-    return other.uid == uid &&
-        other.time == time &&
-        other.vertifynumber == vertifynumber;
+    return other.uid == uid && other.time == time && other.vertifynumber == vertifynumber;
   }
 
   @override

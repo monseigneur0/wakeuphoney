@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/core/providers/providers.dart';
-import 'package:wakeuphoney/features/oldauth/user_model.dart';
+import 'package:wakeuphoney/screen/auth/user_model.dart';
 import 'package:wakeuphoney/screen/auth/login_repository.dart';
 import 'package:wakeuphoney/screen/auth/login_tabscreen.dart';
 import 'package:wakeuphoney/screen/main/main_tabscreen.dart';

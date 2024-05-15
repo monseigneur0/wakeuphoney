@@ -1,8 +1,9 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/core/providers/providers.dart';
-import 'package:wakeuphoney/features/oldmatch/match_model.dart';
+
 import 'package:wakeuphoney/screen/auth/login_controller.dart';
+import 'package:wakeuphoney/screen/main/tabs/match/match_model.dart';
 import 'package:wakeuphoney/screen/main/tabs/match/match_tab_repository.dart';
 
 final futureMatchNumberProvider = FutureProvider<MatchModel>((ref) {

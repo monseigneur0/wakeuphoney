@@ -44,7 +44,6 @@ dependencies:
 
   #util
   velocity_x: ^4.1.0
-  flutter_oss_licenses: ^3.0.2
 
   #data
   shared_preferences: ^2.0.15
@@ -170,8 +169,16 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+
   flutter_launcher_icons: ^0.13.1
+  flutter_lints: ^2.0.0
+  # retrofit_generator: '5.0.0'
+  # build_runner: '2.3.3'
+  json_serializable: ^6.6.1
+  # isar_generator: 3.1.0
+  mock_web_server: ^5.0.0-nullsafety.1
+  flutter_oss_licenses: ^2.0.1
+  test: ^1.22.0
 
 flutter_launcher_icons:
   android: "alarmbear10white"
@@ -201,6 +208,7 @@ flutter:
     - assets/images/icon/
     - assets/translations/
     - assets/sounds/
+    - assets/json/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

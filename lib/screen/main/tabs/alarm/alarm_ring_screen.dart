@@ -1,17 +1,14 @@
 import 'package:alarm/alarm.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
-import '../../common/loader.dart';
-import '../../common/constants/app_colors.dart';
-import '../oldwakeup/response_screen.dart';
-
-import '../oldprofile/profile_controller.dart';
-import '../oldwakeup/wakeup_controller.dart';
+import 'package:wakeuphoney/common/common.dart';
+import 'package:wakeuphoney/screen/auth/login_controller.dart';
+import 'package:wakeuphoney/screen/main/tabs/wake/wake_controller.dart';
 
 class AlarmRingScreen extends ConsumerWidget {
   static String routeName = "alarmring";
@@ -27,9 +24,8 @@ class AlarmRingScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     Logger logger = Logger();
 
-    // final getALetter = ref.watch(getALetterProvider);
-    final getAWakeUp = ref.watch(getAWakeUpProvider);
-    final hasCoupleId = ref.watch(getUserProfileStreamProvider);
+    final getALetter = ref.watch(wakeListStreamProvider);
+    final hasCoupleId = ref.watch(getUserStreamProvider);
 
     return Scaffold(
       body: SafeArea(
@@ -46,7 +42,7 @@ class AlarmRingScreen extends ConsumerWidget {
                 //   dateList100.first,
                 //   style: const TextStyle(fontSize: 10),
                 // ),
-                getAWakeUp.when(
+                getALetter.when(
                   data: (letter) {
                     return Padding(
                       padding: const EdgeInsets.all(10.0),
@@ -56,9 +52,9 @@ class AlarmRingScreen extends ConsumerWidget {
                             width: MediaQuery.of(context).size.width,
                             clipBehavior: Clip.hardEdge,
                             decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                            child: letter.letterPhoto.isNotEmpty
+                            child: letter.first.messagePhoto.isNotEmpty
                                 ? CachedNetworkImage(
-                                    imageUrl: letter.letterPhoto,
+                                    imageUrl: letter.first.messagePhoto,
                                     placeholder: (context, url) => Container(
                                       height: 70,
                                     ),
@@ -76,7 +72,7 @@ class AlarmRingScreen extends ConsumerWidget {
                               child: Column(
                                 children: [
                                   Text(
-                                    letter.letter,
+                                    letter.first.message,
                                     style: const TextStyle(fontSize: 25),
                                   ),
                                 ],
@@ -147,11 +143,10 @@ class AlarmRingScreen extends ConsumerWidget {
                             data.couple == ""
                                 ? Container()
                                 : ElevatedButton(
-                                    style:
-                                        const ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppColors.myPink)),
+                                    style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppColors.myPink)),
                                     onPressed: () {
                                       Alarm.stop(alarmSettings.id);
-                                      context.goNamed(ResponseScreen.routeName);
+                                      // context.goNamed(ResponseScreen.routeName);
                                     },
                                     child: Padding(
                                       padding: EdgeInsets.all(MediaQuery.of(context).size.width / 15),
