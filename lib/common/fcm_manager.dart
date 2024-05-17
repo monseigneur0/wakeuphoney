@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:wakeuphoney/common/common.dart';
+import 'package:wakeuphoney/common/providers/providers.dart';
 
 import '../app.dart';
 
@@ -8,9 +9,18 @@ class FcmManager {
     FirebaseMessaging.instance.requestPermission();
   }
 
-  static void initialize() async {
+  static Future<String> getPushToken() async {
     final token = await FirebaseMessaging.instance.getToken();
-    // print(token);
+    if (token != null) {
+      return token;
+    }
+    return '';
+  }
+
+  static void initialize() async {
+    Logger logger = Logger();
+    final token = await FirebaseMessaging.instance.getToken();
+    logger.d(token);
 
     //Foreground
     FirebaseMessaging.onMessage.listen((message) {
@@ -18,6 +28,8 @@ class FcmManager {
       if (title == null) {
         return;
       }
+      logger.d(title);
+
       showToast(title);
     });
 

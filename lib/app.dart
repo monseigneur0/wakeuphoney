@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/auth.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/providers/firebase_providers.dart';
+import 'package:wakeuphoney/common/providers/providers.dart';
 import 'package:wakeuphoney/router.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
 import 'package:wakeuphoney/auth/login_repository.dart';
@@ -36,7 +37,7 @@ class AppState extends ConsumerState<App> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     FcmManager.requestPermission();
-    FcmManager.initialize();
+    FcmManager.initialize;
     WidgetsBinding.instance.addObserver(this);
     initPlugin();
   }
