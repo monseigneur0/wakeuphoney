@@ -93,7 +93,9 @@ class AlarmList extends StatelessWidget {
               children: [
                 wake.isApproved ? AcceptedBox(user, wake) : AcceptBox(user, wake),
                 height10,
-                (wake.wakeTime.isAfter(DateTime.now())) ? FeedBlurBox(user, wake) : FeedBox(user, wake),
+                //feed box 는 오직 알람이 이미 울렸고 승인된 경우
+                //blur box 는 알람이 울릴 예정이고 승인되지 않은 경우 울렸더라도 승인되지 않는경우
+                (wake.wakeTime.isBefore(DateTime.now()) && wake.isApproved) ? FeedBox(user, wake) : FeedBlurBox(user, wake),
               ],
             ),
           );

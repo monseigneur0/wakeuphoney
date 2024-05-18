@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
@@ -132,7 +133,25 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                   ),
                 ],
               ),
-              const UserLoggedInWidget(),
+              if (kDebugMode)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    SizedBox(
+                      height: 30,
+                      child: TextButton(
+                          onPressed: () {
+                            // context.showToast(msg: '회원가입 준비 중입니다.');
+                            // showToast('회원가입 준비 중입니다.');
+                            context.showSnackbar('회원가입 준비 중입니다. \nSNS로그인을 이용해주세요.');
+                            ref.read(loginControllerProvider.notifier).signInWithManager(context);
+                          },
+                          child: '관리자계정'.text.size(10).color(context.appColors.lessImportant).make()),
+                    ),
+                  ],
+                ),
+
+              if (kDebugMode) const UserLoggedInWidget(),
 
               height20,
               Row(

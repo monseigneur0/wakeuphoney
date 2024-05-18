@@ -2,13 +2,14 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/widget/normal_button.dart';
 import 'package:wakeuphoney/common/providers/providers.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
-import 'package:wakeuphoney/tabs/alarm/feed_blur_box.dart';
+
 import 'package:wakeuphoney/tabs/alarm/feedbox.dart';
 import 'package:wakeuphoney/tabs/wake/wake_model.dart';
 import 'package:wakeuphoney/tabs/wake/wake_write_screen.dart';
@@ -57,9 +58,7 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
                 itemBuilder: (context, index) {
                   return Column(
                     children: [
-                      if (wake[index].isApproved == false) ...[
-                        WakeAcceptBox(ref, wake[index]),
-                      ],
+                      if (wake[index].isApproved == false && wake[index].wakeTime.isAfter(DateTime.now())) WakeAcceptBox(ref, wake[index]),
                       // height5,
                       FeedBox(user!, wake[index]),
                     ],
@@ -227,7 +226,7 @@ class TextMessageBlurBox extends StatelessWidget {
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
                           child: const SizedBox(
-                            width: 95,
+                            width: 85,
                             height: 20,
                           ),
                         ),
@@ -244,11 +243,10 @@ class TextMessageBlurBox extends StatelessWidget {
                         ),
                       ),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
                           child: const SizedBox(
-                            width: 95,
+                            width: 85,
                             height: 20,
                           ),
                         ),
@@ -373,7 +371,7 @@ class TimeBar extends StatelessWidget {
         width5,
         DateFormat('hh:mm').format(wake.wakeTime).text.bold.size(20).color(AppColors.primary700).make(),
         width5,
-        wake.wakeTime.toString().text.make(),
+        if (kDebugMode) wake.wakeTime.toString().text.make(),
         width5,
         if (wake.messageAudio.isNotEmpty)
           const CircleAvatar(

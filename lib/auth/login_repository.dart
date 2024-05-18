@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:wakeuphoney/auth/login_type.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
 
@@ -86,7 +87,7 @@ class LoginRepository {
       //new user
       if (userCredential.additionalUserInfo!.isNewUser) {
         final user = userCredential.user;
-        await createNewUser(user);
+        await createNewUser(user, LoginType.apple);
 
         return userCredential;
       }
@@ -107,7 +108,6 @@ class LoginRepository {
     }
   }
 
-  //google login
   Future<UserCredential?> signInWithGoogle() async {
     try {
       // Trigger the authentication flow
@@ -128,7 +128,7 @@ class LoginRepository {
       //new user
       if (userCredential.additionalUserInfo!.isNewUser) {
         final user = userCredential.user;
-        await createNewUser(user);
+        await createNewUser(user, LoginType.google);
 
         return userCredential;
       }
@@ -149,18 +149,27 @@ class LoginRepository {
     }
   }
 
-  //sign out
+//  test123@wakeupgom.com
+//  tezPib-5qovxu-bydruk
+  signInWithManager() async {
+    final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
+      email: "test123@wakeupgom.com",
+      password: "tezPib-5qovxu-bydruk",
+    );
+  }
+
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
     await _googleSignIn.signOut();
   }
 
-  Future<void> createNewUser(User? user) async {
+  Future<void> createNewUser(User? user, LoginType loginType) async {
     final newUser = UserModel(
       displayName: user!.displayName ?? "",
       email: user.email ?? "",
       photoURL: user.photoURL ?? "",
       uid: user.uid,
+      loginType: loginType,
       couple: "",
       couples: [],
       creationTime: DateTime.now(),

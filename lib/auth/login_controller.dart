@@ -94,6 +94,19 @@ class LoginController extends StateNotifier<UserModel> {
     }
   }
 
+  void signInWithManager(BuildContext context) async {
+    final userCredential = await _loginRepository.signInWithManager();
+    if (userCredential == null) {
+      return;
+    }
+
+    await setUserByNow(userCredential);
+
+    if (context.mounted) {
+      context.go("/main");
+    }
+  }
+
   ///앱 설치 이후 로그아웃 상태. stream에 유저 들고 있지 않음. uid 도 없어
   ///first login. uid 생성
   ///main 진입.

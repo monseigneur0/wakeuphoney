@@ -2,12 +2,14 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:wakeuphoney/auth/login_type.dart';
 
 class UserModel {
   final String displayName;
   final String email;
   final String photoURL;
   final String uid;
+  final LoginType? loginType;
 
   final String gender;
   final DateTime birthDate;
@@ -34,6 +36,7 @@ class UserModel {
     required this.email,
     required this.photoURL,
     required this.uid,
+    this.loginType,
     this.couple,
     this.couples,
     this.coupleDisplayName,
@@ -57,6 +60,7 @@ class UserModel {
     String? email,
     String? photoURL,
     String? uid,
+    LoginType? loginType,
     String? couple,
     List? couples,
     String? coupleDisplayName,
@@ -79,6 +83,7 @@ class UserModel {
       email: email ?? this.email,
       photoURL: photoURL ?? this.photoURL,
       uid: uid ?? this.uid,
+      loginType: loginType ?? this.loginType,
       couple: couple ?? this.couple,
       couples: couples ?? this.couples,
       coupleDisplayName: coupleDisplayName ?? this.coupleDisplayName,
@@ -105,6 +110,7 @@ class UserModel {
       'email': email,
       'photoURL': photoURL,
       'uid': uid,
+      'loginType': loginType,
       'couple': couple,
       'couples': couples,
       'coupleDisplayName': coupleDisplayName,
@@ -130,6 +136,7 @@ class UserModel {
       email: map['email'] as String,
       photoURL: map['photoURL'] as String,
       uid: map['uid'] as String,
+      loginType: map['loginType'] as LoginType?,
       couple: map['couple'] as String,
       couples: List.from((map['couples'] as List)),
       coupleDisplayName: map['coupleDisplayName'] as String,
@@ -161,6 +168,7 @@ class UserModel {
         other.email == email &&
         other.photoURL == photoURL &&
         other.uid == uid &&
+        other.loginType == loginType &&
         other.couple == couple &&
         listEquals(other.couples, couples) &&
         other.coupleDisplayName == coupleDisplayName &&
@@ -176,6 +184,7 @@ class UserModel {
         email.hashCode ^
         photoURL.hashCode ^
         uid.hashCode ^
+        loginType.hashCode ^
         couple.hashCode ^
         couples.hashCode ^
         coupleDisplayName.hashCode ^
@@ -191,6 +200,7 @@ class UserModel {
       email: '',
       photoURL: '',
       uid: '',
+      loginType: LoginType.email,
       couple: '',
       couples: [],
       coupleDisplayName: '',
