@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wakeuphoney/common/common.dart';
+import 'package:wakeuphoney/common/providers/firebase_providers.dart';
 import 'package:wakeuphoney/common/widget/w_arrow.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
 import 'package:wakeuphoney/auth/login_tabscreen.dart';
@@ -19,6 +21,8 @@ class ProfileTabScreen extends StatefulHookConsumerWidget {
 class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
   @override
   Widget build(BuildContext context) {
+    final analytics = ref.watch(analyticsProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('프로필'),
@@ -66,7 +70,10 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
             height20,
             Column(
               children: [
-                LinkCard('앱소개', onTap: () {}),
+                LinkCard('앱소개', onTap: () {
+                  launchUrlString("https://sweetgom.com/5");
+                  analytics.logSelectContent(contentType: "go", itemId: "appinfoonline");
+                }),
                 LinkCard('내 정보 관리', onTap: () {}),
                 LinkCard('편지 확인 가능 시간', onTap: () {}),
                 LinkCard('고객센터', onTap: () {}),
@@ -78,7 +85,10 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                         builder: (context) => const OpensourceScreen(),
                       ));
                 }),
-                LinkCard('개인정보처리방침', onTap: () {}),
+                LinkCard('개인정보처리방침', onTap: () {
+                  launchUrlString('https://sweetgom.com/4');
+                  analytics.logSelectContent(contentType: "go", itemId: "appinfopolicy");
+                }),
                 LinkCard('로그아웃', onTap: () {
                   // context.go(LoginNewScreen.routeUrl);
                   context.go(LoginNewScreen.routeUrl);

@@ -44,8 +44,8 @@ class AlarmTabScreen extends ConsumerWidget {
           return SingleChildScrollView(
             child: Column(
               children: [
-                AlarmList(ref, alarm: alarm, user: user),
                 if (kDebugMode) const AlarmManager(),
+                AlarmList(ref, alarm: alarm, user: user),
               ],
             ),
           );
