@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -7,6 +8,7 @@ import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/widget/normal_button.dart';
 import 'package:wakeuphoney/common/providers/providers.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
+import 'package:wakeuphoney/tabs/alarm/feed_blur_box.dart';
 import 'package:wakeuphoney/tabs/alarm/feedbox.dart';
 import 'package:wakeuphoney/tabs/wake/wake_model.dart';
 import 'package:wakeuphoney/tabs/wake/wake_write_screen.dart';
@@ -201,6 +203,62 @@ class ImageBlurBox extends StatelessWidget {
   }
 }
 
+class TextMessageBlurBox extends StatelessWidget {
+  final String text;
+  const TextMessageBlurBox(this.text, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return text.isEmpty
+        ? Container()
+        : Container(
+            padding: const EdgeInsets.all(15),
+            width: context.deviceWidth - 80,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: AppColors.point900),
+            ),
+            child: (text.length < 10)
+                ? Stack(
+                    children: [
+                      Text(text),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                          child: const SizedBox(
+                            width: 95,
+                            height: 20,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : Stack(
+                    children: [
+                      Text(
+                        '${text.substring(0, 10)}...',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                          child: const SizedBox(
+                            width: 95,
+                            height: 20,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+          );
+  }
+}
+
 class EditBox extends StatelessWidget {
   final List<WakeModel?> wake;
   final WidgetRef ref;
@@ -315,6 +373,8 @@ class TimeBar extends StatelessWidget {
         width5,
         DateFormat('hh:mm').format(wake.wakeTime).text.bold.size(20).color(AppColors.primary700).make(),
         width5,
+        wake.wakeTime.toString().text.make(),
+        width5,
         if (wake.messageAudio.isNotEmpty)
           const CircleAvatar(
             backgroundColor: Colors.black,
@@ -343,7 +403,15 @@ class NameBar extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(8),
-          child: Image.asset('assets/images/alarmbearno.png', width: Constants.userIcon),
+          child: CachedNetworkImage(
+            width: Constants.userIcon,
+            imageUrl: user.photoURL,
+            fit: BoxFit.fill,
+            placeholder: (context, url) => Container(
+              height: 40,
+            ),
+          ),
+          // Image.asset('assets/images/alarmbearno.png', width: Constants.userIcon),
         ),
         width5,
         user.displayName.text.bold.make(),

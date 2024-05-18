@@ -9,6 +9,7 @@ import 'package:wakeuphoney/tabs/alarm/alarm_accept_box.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_accepted_box.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_empty.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_manager.dart';
+import 'package:wakeuphoney/tabs/alarm/feed_blur_box.dart';
 import 'package:wakeuphoney/tabs/alarm/feedbox.dart';
 import 'package:wakeuphoney/tabs/wake/wake_controller.dart';
 import 'package:wakeuphoney/tabs/wake/wake_model.dart';
@@ -31,26 +32,39 @@ class AlarmTabScreen extends ConsumerWidget {
       return const CircularProgressIndicator();
     }
     final myAlarm = ref.watch(wakeListStreamProvider);
-    return myAlarm.when(
-      data: (alarm) {
-        if (alarm.isEmpty) {
-          return EmptyAlarm(user: user);
-        }
-        return Column(
-          children: [
-            const AlarmManager(),
-            AlarmList(ref, alarm: alarm, user: user),
-          ],
-        );
-      },
-      error: streamError, // Define the 'error' variable
-      //나중에 글로벌 에러 핸들링으로 변경
-      loading: () => const CircularProgressIndicator(), // Define the 'loading' variable
-      // 나ㅇ에 글로벌 로딩 페이지으로 변경
+    return Scaffold(
+      appBar: AppBar(
+        title: '알람'.text.make(),
+      ),
+      body: myAlarm.when(
+        data: (alarm) {
+          if (alarm.isEmpty) {
+            return EmptyAlarm(user: user);
+          }
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                AlarmList(ref, alarm: alarm, user: user),
+                if (kDebugMode) const AlarmManager(),
+              ],
+            ),
+          );
+        },
+        error: streamError, // Define the 'error' variable
+        //나중에 글로벌 에러 핸들링으로 변경
+        loading: () => const CircularProgressIndicator(), // Define the 'loading' variable
+        // 나ㅇ에 글로벌 로딩 페이지으로 변경
+      ),
     );
   }
 
-  Widget streamError(error, stackTrace) => Text('Error: $error');
+  Widget streamError(error, stackTrace) {
+    Logger logger = Logger();
+    logger.e(
+      'Error: $error Stack Trace: $stackTrace',
+    );
+    return Text('Error: $error');
+  }
 }
 
 class AlarmList extends StatelessWidget {
@@ -79,7 +93,7 @@ class AlarmList extends StatelessWidget {
               children: [
                 wake.isApproved ? AcceptedBox(user, wake) : AcceptBox(user, wake),
                 height10,
-                FeedBox(user, wake),
+                (wake.wakeTime.isAfter(DateTime.now())) ? FeedBlurBox(user, wake) : FeedBox(user, wake),
               ],
             ),
           );

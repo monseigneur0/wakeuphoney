@@ -5,10 +5,10 @@ import 'package:wakeuphoney/auth/user_model.dart';
 import 'package:wakeuphoney/tabs/wake/wake_model.dart';
 import 'package:wakeuphoney/tabs/wake/wake_tabscreen.dart';
 
-class FeedBox extends StatelessWidget {
+class FeedBlurBox extends StatelessWidget {
   final UserModel user;
   final WakeModel wake;
-  const FeedBox(
+  const FeedBlurBox(
     this.user,
     this.wake, {
     super.key,
@@ -29,9 +29,9 @@ class FeedBox extends StatelessWidget {
           NameBar(user),
           TimeBar(wake),
           height10,
-          TextMessageBox(wake.message),
+          TextMessageBlurBox(wake.message),
           height10,
-          ImageBox(wake.messagePhoto),
+          ImageBlurBox(wake.messagePhoto),
         ],
       ),
     );

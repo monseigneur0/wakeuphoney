@@ -36,9 +36,13 @@ class WakeRepository {
 
   Stream<List<WakeModel>> fetchWakeListStream(String uid) {
     try {
-      return _users.doc(uid).collection(FirebaseConstants.alarmCollection).snapshots().map(
-            (wakeUpSnapShot) => wakeUpSnapShot.docs.map((e) => WakeModel.fromMap(e.data())).toList(),
-          );
+      return _users
+          .doc(uid)
+          .collection(FirebaseConstants.alarmCollection)
+          .where('reciverUid', isEqualTo: uid)
+          .orderBy('wakeTime', descending: true)
+          .snapshots()
+          .map((wakeUpSnapShot) => wakeUpSnapShot.docs.map((e) => WakeModel.fromMap(e.data())).toList());
     } catch (e) {
       logger.e(e.toString());
       return Stream.error(e);

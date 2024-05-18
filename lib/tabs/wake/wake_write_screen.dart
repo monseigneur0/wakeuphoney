@@ -86,7 +86,8 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
   }
 
   void uploadImageToStorage() async {
-    Reference refImageToUpload = ref.read(storageProvider).ref().child(FirebaseConstants.alarmImage).child(DateTime.now().toString());
+    Reference refImageToUpload =
+        ref.read(storageProvider).ref().child(FirebaseConstants.alarmImage).child(DateTime.now().toString());
     if (letterImageFile != null) {
       try {
         await refImageToUpload.putFile(File(letterImageFile!.path));
@@ -107,7 +108,8 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
       isLoading = true;
     });
     if (audioPath != null) {
-      Reference refVoiceToUpload = ref.read(storageProvider).ref().child(FirebaseConstants.alarmVoice).child(DateTime.now().toString());
+      Reference refVoiceToUpload =
+          ref.read(storageProvider).ref().child(FirebaseConstants.alarmVoice).child(DateTime.now().toString());
       try {
         await refVoiceToUpload.putFile(File(audioPath!));
         ref.read(voiceUrlProvider.notifier).state = await refVoiceToUpload.getDownloadURL();
@@ -162,6 +164,10 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                   initialDateTime: DateTime.now(),
                   onDateTimeChanged: (DateTime newDateTime) {
                     // Do something with the selected time
+                    if (newDateTime.isBefore(DateTime.now())) {
+                      newDateTime = newDateTime.add(const Duration(days: 1));
+                    }
+                    selectedTime = TimeOfDay(hour: newDateTime.hour, minute: newDateTime.minute);
                   },
                 ),
               ),
@@ -462,7 +468,9 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                   if (context.mounted) {
                     context.go('/main/wake');
                     //text, voice, photo, alarm 전달
-                    ref.read(wakeControllerProvider.notifier).createWakeUp(_letterController.text, selectedTime, volume, vibrate, assetAudio);
+                    ref
+                        .read(wakeControllerProvider.notifier)
+                        .createWakeUp(_letterController.text, selectedTime, volume, vibrate, assetAudio);
                     _letterController.clear();
                   }
                 },
