@@ -31,7 +31,7 @@ class AlarmTabScreen extends ConsumerWidget {
     if (user == null) {
       return const CircularProgressIndicator();
     }
-    final myAlarm = ref.watch(wakeListStreamProvider);
+    final myAlarm = ref.watch(alarmListStreamProvider);
     return Scaffold(
       appBar: AppBar(
         title: '알람'.text.make(),
@@ -91,7 +91,11 @@ class AlarmList extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                wake.isApproved ? AcceptedBox(user, wake) : AcceptBox(user, wake),
+                wake.wakeTime.isBefore(DateTime.now())
+                    ? Container()
+                    : wake.isApproved
+                        ? AcceptedBox(user, wake)
+                        : AcceptBox(user, wake),
                 height10,
                 //feed box 는 오직 알람이 이미 울렸고 승인된 경우
                 //blur box 는 알람이 울릴 예정이고 승인되지 않은 경우 울렸더라도 승인되지 않는경우

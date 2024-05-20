@@ -1,3 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
@@ -18,6 +23,10 @@ final wakeListStreamProvider = StreamProvider.autoDispose((ref) {
   return ref.watch(wakeControllerProvider.notifier).fetchWakeListStream();
 });
 
+final alarmListStreamProvider = StreamProvider.autoDispose((ref) {
+  return ref.watch(wakeControllerProvider.notifier).fetchAlarmListStream();
+});
+
 class WakeController extends AsyncNotifier<void> {
   late final WakeRepository _repository;
 
@@ -29,6 +38,53 @@ class WakeController extends AsyncNotifier<void> {
   @override
   FutureOr<void> build() {
     _repository = ref.read(wakeRepositoryProvider);
+  }
+
+  Future<String?> createFCM(String fcmToken) async {
+    try {
+      String accessToken =
+          'ya29.a0AXooCgt597xw4EZu7JtCL0C5cTU6YSQFvPBwTIwLD0mzAH3JjrIDlHBN4gHe7UsxVnsMTGeei6s8lxzqQLnzyXMLHn95N9dMr8VQFGkQtDP-wGcsbspW4CeOJzL5-hsI9Xh0Q1SDzVKsd7hnb7h0kDO5auuuTVbxVyavaCgYKAVUSAQ4SFQHGX2MiiFtkXl8dAkgqJD7GOwhgpA0171';
+      http.Response response = await http.post(
+          Uri.parse(
+            "https://fcm.googleapis.com/v1/projects/wakeuphoneys2/messages:send",
+          ),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $accessToken',
+          },
+          body: json.encode({
+            "message": {
+              "token": fcmToken,
+              // "topic": "user_uid",
+
+              "notification": {
+                "title": "FCM Test Title",
+                "body": "FCM Test Body",
+              },
+              "data": {
+                "click_action": "FCM Test Click Action",
+              },
+              "android": {
+                "notification": {
+                  "click_action": "Android Click Action",
+                }
+              },
+              "apns": {
+                "payload": {
+                  "aps": {"category": "Message Category", "content-available": 1}
+                }
+              }
+            }
+          }));
+      if (response.statusCode == 200) {
+        logger.d(response.body);
+        return null;
+      } else {
+        return "Faliure";
+      }
+    } on HttpException catch (error) {
+      return error.message;
+    }
   }
 
   void createWakeUp(String message, TimeOfDay selectedTime, volume, vibrate, assetAudio) {
@@ -84,6 +140,10 @@ class WakeController extends AsyncNotifier<void> {
 
   Future<List<WakeModel>> fetchWakeList() {
     return _repository.fetchWakeList(uid);
+  }
+
+  Stream<List<WakeModel>> fetchAlarmListStream() {
+    return _repository.fetchAlarmListStream(uid);
   }
 
   Stream<List<WakeModel>> fetchWakeListStream() {

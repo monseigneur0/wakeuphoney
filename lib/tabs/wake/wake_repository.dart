@@ -39,6 +39,21 @@ class WakeRepository {
       return _users
           .doc(uid)
           .collection(FirebaseConstants.alarmCollection)
+          .where('senderUid', isEqualTo: uid)
+          .orderBy('wakeTime', descending: true)
+          .snapshots()
+          .map((wakeUpSnapShot) => wakeUpSnapShot.docs.map((e) => WakeModel.fromMap(e.data())).toList());
+    } catch (e) {
+      logger.e(e.toString());
+      return Stream.error(e);
+    }
+  }
+
+  Stream<List<WakeModel>> fetchAlarmListStream(String uid) {
+    try {
+      return _users
+          .doc(uid)
+          .collection(FirebaseConstants.alarmCollection)
           .where('reciverUid', isEqualTo: uid)
           .orderBy('wakeTime', descending: true)
           .snapshots()

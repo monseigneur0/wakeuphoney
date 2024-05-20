@@ -1,6 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:wakeuphoney/common/common.dart';
-import 'package:wakeuphoney/common/providers/providers.dart';
 
 import '../app.dart';
 
@@ -19,6 +18,7 @@ class FcmManager {
 
   static void initialize() async {
     Logger logger = Logger();
+    logger.d('initialize');
     final token = await FirebaseMessaging.instance.getToken();
     logger.d(token);
 
@@ -42,8 +42,7 @@ class FcmManager {
     //When app is closed -> initial launch
     final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
-      await sleepUntil(
-          () => App.scaffoldMessengerKey.currentContext != null && App.scaffoldMessengerKey.currentContext!.mounted);
+      await sleepUntil(() => App.scaffoldMessengerKey.currentContext != null && App.scaffoldMessengerKey.currentContext!.mounted);
       App.scaffoldMessengerKey.currentContext!.showToast(msg: initialMessage.notification?.title ?? "no title");
     }
   }

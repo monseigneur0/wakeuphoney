@@ -10,6 +10,7 @@ class UserModel {
   final String photoURL;
   final String uid;
   final LoginType? loginType;
+  final String? fcmToken;
 
   final String gender;
   final DateTime birthDate;
@@ -37,6 +38,7 @@ class UserModel {
     required this.photoURL,
     required this.uid,
     this.loginType,
+    this.fcmToken,
     this.couple,
     this.couples,
     this.coupleDisplayName,
@@ -60,6 +62,7 @@ class UserModel {
     String? email,
     String? photoURL,
     String? uid,
+    String? fcmToken,
     LoginType? loginType,
     String? couple,
     List? couples,
@@ -84,6 +87,7 @@ class UserModel {
       photoURL: photoURL ?? this.photoURL,
       uid: uid ?? this.uid,
       loginType: loginType ?? this.loginType,
+      fcmToken: fcmToken ?? this.fcmToken,
       couple: couple ?? this.couple,
       couples: couples ?? this.couples,
       coupleDisplayName: coupleDisplayName ?? this.coupleDisplayName,
@@ -111,6 +115,7 @@ class UserModel {
       'photoURL': photoURL,
       'uid': uid,
       'loginType': loginType,
+      'fcmToken': fcmToken,
       'couple': couple,
       'couples': couples,
       'coupleDisplayName': coupleDisplayName,
@@ -137,6 +142,7 @@ class UserModel {
       photoURL: map['photoURL'] as String,
       uid: map['uid'] as String,
       loginType: map['loginType'] as LoginType?,
+      fcmToken: map['fcmToken'] as String?,
       couple: map['couple'] as String,
       couples: List.from((map['couples'] as List)),
       coupleDisplayName: map['coupleDisplayName'] as String,
@@ -169,6 +175,7 @@ class UserModel {
         other.photoURL == photoURL &&
         other.uid == uid &&
         other.loginType == loginType &&
+        other.fcmToken == fcmToken &&
         other.couple == couple &&
         listEquals(other.couples, couples) &&
         other.coupleDisplayName == coupleDisplayName &&
@@ -185,6 +192,7 @@ class UserModel {
         photoURL.hashCode ^
         uid.hashCode ^
         loginType.hashCode ^
+        fcmToken.hashCode ^
         couple.hashCode ^
         couples.hashCode ^
         coupleDisplayName.hashCode ^
@@ -201,6 +209,7 @@ class UserModel {
       photoURL: '',
       uid: '',
       loginType: LoginType.email,
+      fcmToken: '',
       couple: '',
       couples: [],
       coupleDisplayName: '',

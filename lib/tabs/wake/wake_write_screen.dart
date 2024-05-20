@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
+import 'package:wakeuphoney/common/fcm_manager.dart';
 import 'package:wakeuphoney/common/util/app_keyboard_util.dart';
 import 'package:wakeuphoney/common/widget/w_main_button.dart';
 import 'package:wakeuphoney/common/widget/w_text_field_with_delete.dart';
@@ -464,15 +465,50 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                   : MainButton(
                       '깨우기',
                       onPressed: () {
+                        setState(() {
+                          isLoading = true;
+                        });
                         if (context.mounted) {
                           context.go('/main/wake');
                           //text, voice, photo, alarm 전달
                           ref.read(wakeControllerProvider.notifier).createWakeUp(_letterController.text, selectedTime, volume, vibrate, assetAudio);
                           _letterController.clear();
                         }
+                        setState(() {
+                          isLoading = false;
+                        });
                       },
                     ),
               height40,
+              MainButton(
+                '메세지',
+                onPressed: () async {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  //text, voice, photo, alarm 전달
+                  await ref.read(wakeControllerProvider.notifier).createFCM(
+                      "eRHDhP9ZTAa_FkGQ095Qfk:APA91bG4pmERkimNgc5kVSxgUPjEOFZQCtcC0uCuDjEkMnshovNfUS8ZFuovan05sdGP4TNWd8ofiFVIZOvXUg01qtEfp7DDVHc6Y57kMWRx9K5zc8BOOfLpo6rCkskaiOkiVPuj7ZSr");
+                  setState(() {
+                    isLoading = false;
+                  });
+                },
+              ),
+              MainButton(
+                'token',
+                onPressed: () async {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  //text, voice, photo, alarm 전달
+
+                  final token = await FcmManager.getPushToken();
+                  logger.d(token.toString());
+                  setState(() {
+                    isLoading = false;
+                  });
+                },
+              ),
             ],
           ).pSymmetric(h: 20),
         ),

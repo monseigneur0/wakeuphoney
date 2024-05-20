@@ -30,6 +30,7 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
   Widget build(BuildContext context) {
     final user = ref.watch(userModelProvider);
     final myWake = ref.watch(wakeListStreamProvider);
+    Logger logger = Logger();
     return Scaffold(
       appBar: AppBar(
         title: const Text('편지쓰기'),
@@ -66,7 +67,11 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
                 }),
           ).pSymmetric(h: 20);
         },
-        error: (error, stackTrace) => Text('Error: $error'), // Define the 'error' variable
+        error: (error, stackTrace) {
+          logger.d('Error: $error Stack Trace: $stackTrace');
+
+          return Text('Error: $error');
+        }, // Define the 'error' variable
         //나중에 글로벌 에러 핸들링으로 변경
         loading: () => const CircularProgressIndicator(), // Define the 'loading' variable
         // 나ㅇ에 글로벌 로딩 페이지으로 변경
@@ -415,6 +420,7 @@ class NameBar extends StatelessWidget {
         user.displayName.text.bold.make(),
         emptyExpanded,
         PopupMenuButton(
+          icon: const Icon(Icons.more_vert),
           itemBuilder: (context) {
             return [
               PopupMenuItem(
