@@ -148,7 +148,12 @@ class LoginController extends StateNotifier<UserModel> {
     state = UserModel.empty();
   }
 
-//현재 이 앱은 notifiyListeners()를 사용하지 않고 있음 그냥 항상 이동해줘야함. 하지만 다시 돌아올 수는 없겠지
+  void updateFcmToken(String token) {
+    state = state.copyWith(fcmToken: token);
+    _loginRepository.updateFcmToken(token);
+  }
+
+//현재 이 앱은 notifiyListeners()를 사용하지 않고 있음 그냥 항상 이동해줘야함. 하지만 다시 돌아올 수는 없겠지 작동여부확인필요
   void signJustOut(BuildContext context) async {
     await _loginRepository.signOut();
     // if (context.mounted) {
@@ -157,7 +162,7 @@ class LoginController extends StateNotifier<UserModel> {
     state = UserModel.empty();
   }
 
-//stetesetaefw
+//stete set aefw작동여부확인필요
   String? guard(BuildContext context, GoRouterState state) {
     final bool signedIn = _loginRepository.isLoggedIn;
 

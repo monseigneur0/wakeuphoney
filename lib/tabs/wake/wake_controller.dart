@@ -87,6 +87,56 @@ class WakeController extends AsyncNotifier<void> {
     }
   }
 
+  Future<String?> createFriendFCM(String title, String body) async {
+    try {
+      String accessToken =
+          'ya29.a0AXooCgs-Ypi5_vfBA6ALAl-zHErL4h_wiSkKPV5n-XLFs6AXRaOtclaabwPv0Xbc0eEXUolMroo5kT96sIhNkE98GWFN2zf7ZDpqjA350_T2a-6UMkiMm-QHspf8NGUEeiOuHiXg0aw-OgOPxFe_Ina4EbARqElf5ORN_AaCgYKAZQSAQ4SFQHGX2MitPak9Bps_XKOdFSIWgotQA0173';
+      http.Response response = await http.post(
+          Uri.parse(
+            "https://fcm.googleapis.com/v1/projects/wakeuphoneys2/messages:send",
+          ),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $accessToken',
+          },
+          body: json.encode({
+            "message": {
+              "token": ref.read(friendUserModelProvider)?.fcmToken ?? "",
+              // "topic": "user_uid",
+
+              "notification": {
+                "title": title,
+                "body": body,
+              },
+              "data": {
+                "click_action": "FCM Test Click Action",
+              },
+              "android": {
+                "notification": {
+                  "click_action": "Android Click Action",
+                }
+              },
+              "apns": {
+                "payload": {
+                  "aps": {
+                    "category": "Message Category",
+                    "content-available": 1,
+                  }
+                }
+              }
+            }
+          }));
+      if (response.statusCode == 200) {
+        logger.d(response.body);
+        return null;
+      } else {
+        return "Faliure";
+      }
+    } on HttpException catch (error) {
+      return error.message;
+    }
+  }
+
   void createWakeUp(String message, TimeOfDay selectedTime, volume, vibrate, assetAudio) {
     final now = DateTime.now();
 

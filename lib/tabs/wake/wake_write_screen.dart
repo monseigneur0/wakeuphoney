@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/fcm_manager.dart';
 import 'package:wakeuphoney/common/util/app_keyboard_util.dart';
@@ -131,6 +131,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.read(userModelProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('깨워볼까요?'),
@@ -472,6 +473,9 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                           context.go('/main/wake');
                           //text, voice, photo, alarm 전달
                           ref.read(wakeControllerProvider.notifier).createWakeUp(_letterController.text, selectedTime, volume, vibrate, assetAudio);
+                          ref
+                              .read(wakeControllerProvider.notifier)
+                              .createFriendFCM(user?.couples?.first, "${_letterController.text.substring(0, 5)}...");
                           _letterController.clear();
                         }
                         setState(() {

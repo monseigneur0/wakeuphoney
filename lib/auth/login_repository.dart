@@ -273,4 +273,14 @@ class LoginRepository {
         showToast(e.code);
     }
   }
+
+  Future<void> updateFcmToken(String? token) async {
+    if (token == null) {
+      return;
+    }
+    final user = _firebaseAuth.currentUser;
+    await _users.doc(user!.uid).update({
+      "fcmToken": token,
+    });
+  }
 }

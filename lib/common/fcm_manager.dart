@@ -1,4 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wakeuphoney/auth/login_controller.dart';
 import 'package:wakeuphoney/common/common.dart';
 
 import '../app.dart';
@@ -16,11 +18,15 @@ class FcmManager {
     return '';
   }
 
-  static void initialize() async {
+  static void initialize(WidgetRef ref) async {
     Logger logger = Logger();
-    logger.d('initialize');
+    logger.d('FcmManager initialize');
     final token = await FirebaseMessaging.instance.getToken();
     logger.d(token);
+    if (token != null) {
+      ref.read(loginControllerProvider.notifier).updateFcmToken(token);
+      logger.d('fcm token updated');
+    }
 
     //Foreground
     FirebaseMessaging.onMessage.listen((message) {

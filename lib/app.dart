@@ -37,7 +37,7 @@ class AppState extends ConsumerState<App> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     FcmManager.requestPermission();
-    FcmManager.initialize;
+    FcmManager.initialize(ref);
     WidgetsBinding.instance.addObserver(this);
     initPlugin();
   }
