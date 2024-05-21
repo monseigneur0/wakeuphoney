@@ -143,7 +143,7 @@ class AlarmRingScreen extends ConsumerWidget {
                             data.couple == ""
                                 ? Container()
                                 : ElevatedButton(
-                                    style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppColors.myPink)),
+                                    style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppColors.primary600)),
                                     onPressed: () {
                                       Alarm.stop(alarmSettings.id);
                                       // context.goNamed(ResponseScreen.routeName);

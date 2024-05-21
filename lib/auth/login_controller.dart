@@ -7,14 +7,19 @@ import 'package:wakeuphoney/common/providers/providers.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
 import 'package:wakeuphoney/auth/login_repository.dart';
 import 'package:wakeuphoney/auth/login_tabscreen.dart';
-import 'package:wakeuphoney/main/main_tabscreen.dart';
+import 'package:wakeuphoney/tabs/main_tabscreen.dart';
 
 final getUserByUidProvider = FutureProvider.family<UserModel, String>((ref, uid) {
   return ref.watch(loginRepositoryProvider).getUserById(uid);
 });
 
-final getUserFutureProvider = FutureProvider<UserModel>((ref) {
+final getUserFutureProvider = FutureProvider<UserModel>((ref) async {
   ref.watch(loginRepositoryProvider).currentUser;
+  // ref.read(friendUserModelProvider.notifier).state = ref.read(getUserByUidProvider('couple'));
+  final user = await ref.read(loginControllerProvider.notifier).getUser();
+  if (user.couples!.isNotEmpty) {
+    ref.read(friendUserModelProvider.notifier).state = await ref.watch(loginRepositoryProvider).getUserById(user.couples!.first);
+  }
   return ref.watch(loginControllerProvider.notifier).getUser();
 });
 
@@ -120,7 +125,7 @@ class LoginController extends StateNotifier<UserModel> {
   Future<UserModel> getUser() async {
     final uid = _loginRepository.currentUser!.uid;
     final userModel = await _loginRepository.getUserById(uid);
-    ref.watch(userModelProvider.notifier).state = userModel;
+    ref.read(userModelProvider.notifier).state = userModel;
     ref.read(loginControllerProvider.notifier).state = userModel;
     return userModel;
   }
@@ -180,5 +185,9 @@ class LoginController extends StateNotifier<UserModel> {
 
     // no redirect
     return null;
+  }
+
+  void updateProfileImage(String imageUrl) {
+    _loginRepository.updateProfileImage(imageUrl);
   }
 }

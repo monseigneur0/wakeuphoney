@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/providers/providers.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
 
 import '../common/common.dart';
-import '../tabs/tab_item.dart';
-import '../tabs/tab_nav.dart';
+import 'tab_item.dart';
+import 'tab_nav.dart';
 
 final currentTabProvider = StateProvider((ref) => TabItem.alarm);
 
@@ -180,6 +181,7 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
   }
 
   void _handleOnTapNavigationBarItem(int index) {
+    HapticFeedback.vibrate();
     final oldTab = _currentTab;
     final targetTab = tabs[index];
     if (oldTab == targetTab) {

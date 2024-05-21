@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/app.dart';
 import 'package:wakeuphoney/auth.dart';
+import 'package:wakeuphoney/common/image/image_screen.dart';
 
 import 'package:wakeuphoney/common/route/fade_transition.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
 import 'package:wakeuphoney/auth/login_tabscreen.dart';
 import 'package:wakeuphoney/common/error/error_page.dart';
-import 'package:wakeuphoney/main/main_tabscreen.dart';
+import 'package:wakeuphoney/tabs/main_tabscreen.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_tabscreen.dart';
 import 'package:wakeuphoney/tabs/feed/feed_detail_scree.dart';
 import 'package:wakeuphoney/tabs/feed/feed_tabscreen.dart';
@@ -59,6 +60,11 @@ final routerProvider = Provider((ref) {
         name: WakeWriteScreen.routeName,
         path: WakeWriteScreen.routeUrl, //logintabs
         builder: (context, state) => const WakeWriteScreen(),
+      ),
+      GoRoute(
+        name: ImageScreen.routeName,
+        path: ImageScreen.routeUrl, //logintabs
+        builder: (context, state) => const ImageScreen(),
       ),
       GoRoute(
         path: '/',

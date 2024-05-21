@@ -33,13 +33,17 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
     Logger logger = Logger();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('편지쓰기'),
+        title: const Text('깨우기'),
         actions: [
           IconButton(
             onPressed: () {
               context.push(WakeWriteScreen.routeUrl);
             },
-            icon: const Icon(Icons.add),
+            icon: Image.asset(
+              'assets/images/alarm-clock.png',
+              width: 30,
+              color: AppColors.primary600,
+            ),
           ),
         ],
       ),
@@ -104,9 +108,9 @@ class WakeAcceptBox extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          DateFormat('a hh:mm').format(wake.wakeTime).toString().text.bold.color(AppColors.primary700).make(),
+          DateFormat('a hh:mm').format(wake.wakeTime).toString().text.medium.color(AppColors.primary700).make(),
           Image.asset('assets/images/aiphotos/awakebear.png', width: Constants.cardPngWidth),
-          if (!wake.isApproved) '상대가 승락하면 깨울 수 있어요!'.text.bold.make(),
+          if (!wake.isApproved) '상대가 승락하면 깨울 수 있어요!'.text.medium.make(),
           height10,
           if (!wake.isApproved)
             Row(
@@ -147,7 +151,7 @@ class TextMessageBox extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: AppColors.point900),
             ),
-            child: text.text.make(),
+            child: text.selectableText.normal.make(),
           );
   }
 }
@@ -231,7 +235,7 @@ class TextMessageBlurBox extends StatelessWidget {
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
                           child: const SizedBox(
-                            width: 85,
+                            width: 150,
                             height: 20,
                           ),
                         ),
@@ -251,7 +255,7 @@ class TextMessageBlurBox extends StatelessWidget {
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
                           child: const SizedBox(
-                            width: 85,
+                            width: 150,
                             height: 20,
                           ),
                         ),
@@ -293,9 +297,9 @@ class EditBox extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text('오전 07:31'),
-                  DateFormat('hh:mm a').format(wake[index]!.wakeTime).toString().text.bold.make(),
+                  DateFormat('hh:mm a').format(wake[index]!.wakeTime).toString().text.medium.make(),
                   Image.asset('assets/images/aiphotos/awakebear.png', width: Constants.cardPngWidth),
-                  '상대가 승락하면 깨울 수 있어요!'.text.bold.make(),
+                  '상대가 승락하면 깨울 수 있어요!'.text.medium.make(),
                   height10,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -341,7 +345,7 @@ class EmptyBox extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset('assets/images/aiphotos/awakebear.png', width: Constants.cardPngWidth),
-          ' 깨울 수 있어요!'.text.bold.make(),
+          ' 깨울 수 있어요!'.text.medium.make(),
           height10,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -374,13 +378,13 @@ class TimeBar extends StatelessWidget {
       children: [
         DateFormat('a').format(wake.wakeTime).text.color(AppColors.primary700).make(),
         width5,
-        DateFormat('hh:mm').format(wake.wakeTime).text.bold.size(20).color(AppColors.primary700).make(),
+        DateFormat('hh:mm').format(wake.wakeTime).text.medium.size(20).color(AppColors.primary700).make(),
         width5,
         if (kDebugMode) wake.wakeTime.toString().text.make(),
         width5,
         if (wake.messageAudio.isNotEmpty)
           const CircleAvatar(
-            backgroundColor: Colors.black,
+            backgroundColor: AppColors.grey900,
             radius: 13,
             child: Icon(
               Icons.mic,
@@ -417,7 +421,7 @@ class NameBar extends StatelessWidget {
           // Image.asset('assets/images/alarmbearno.png', width: Constants.userIcon),
         ),
         width5,
-        user.displayName.text.bold.make(),
+        user.displayName.text.medium.make(),
         emptyExpanded,
         PopupMenuButton(
           icon: const Icon(Icons.more_vert),

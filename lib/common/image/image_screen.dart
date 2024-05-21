@@ -5,13 +5,15 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:wakeuphoney/auth/login_controller.dart';
 
 import 'package:wakeuphoney/common/providers/firebase_providers.dart';
 import 'package:wakeuphoney/common/common.dart';
+import 'package:wakeuphoney/common/providers/providers.dart';
 
 class ImageScreen extends ConsumerStatefulWidget {
   static String routeName = 'imagescreen';
-  static String routeURL = '/imagescreen';
+  static String routeUrl = '/imagescreen';
   const ImageScreen({super.key});
 
   @override
@@ -49,6 +51,7 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.read(userModelProvider);
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
@@ -106,6 +109,8 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                               });
                             }
                             // ref.watch(profileControllerProvider.notifier).updateProfileImage(imageUrl);
+                            ref.read(loginControllerProvider.notifier).updateProfileImage(imageUrl);
+                            // ref.read(loginControllerProvider.notifier).state = user.copyWith(photoURL: imageUrl);
                             if (context.mounted) {
                               Navigator.of(context).pop();
                               showToast('saved'.tr());
@@ -129,7 +134,9 @@ class _ImageScreenState extends ConsumerState<ImageScreen> {
                   ),
                 )
             ],
-          )
+          ),
+          height40,
+          height40,
         ],
       ),
     );

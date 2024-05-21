@@ -5,6 +5,7 @@ import 'package:wakeuphoney/common/providers/providers.dart';
 import 'package:wakeuphoney/common/util/app_keyboard_util.dart';
 import 'package:wakeuphoney/common/widget/w_main_button.dart';
 import 'package:wakeuphoney/common/widget/w_text_field_with_delete.dart';
+import 'package:wakeuphoney/tabs/friend/friend_tabscreen.dart';
 import 'package:wakeuphoney/tabs/match/match_model.dart';
 import 'package:wakeuphoney/tabs/match/match_tab_controller.dart';
 
@@ -48,7 +49,7 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
     ///
     return Scaffold(
       body: user!.couples!.isNotEmpty
-          ? const OnUpdating()
+          ? const FriendTabScreen()
           : Tap(
               onTap: () => AppKeyboardUtil.hide(context),
               child: SingleChildScrollView(
@@ -57,13 +58,7 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
                   children: [
                     Image.asset('assets/images/login/cloud.png'),
                     Image.asset('assets/images/login/linkcouple.png'),
-                    '서로의 초대코드를 입력하면 \n연결돼요!'
-                        .text
-                        .color(AppColors.primary600)
-                        .size(20)
-                        .bold
-                        .align(TextAlign.center)
-                        .make(),
+                    '서로의 초대코드를 입력하면 \n연결돼요!'.text.color(AppColors.primary600).size(20).medium.align(TextAlign.center).make(),
                     height30,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,17 +86,13 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
                                           return '초대코드가 일치합니다.'.text.make(); // Return error message
                                         }
                                         if (value.length == 6) {
-                                          ref
-                                              .read(matchTabControllerProvider.notifier)
-                                              .checkMatchProcess(inviteCodeController.text);
+                                          ref.read(matchTabControllerProvider.notifier).checkMatchProcess(inviteCodeController.text);
                                         }
                                       },
                                       onEditingComplete: () {
                                         logger.d('onEditingComplete checkMatchProcess');
 
-                                        ref
-                                            .read(matchTabControllerProvider.notifier)
-                                            .checkMatchProcess(inviteCodeController.text);
+                                        ref.read(matchTabControllerProvider.notifier).checkMatchProcess(inviteCodeController.text);
                                       },
                                     ).pOnly(top: 5),
                                   ],
@@ -134,7 +125,7 @@ class MyInviteCode extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        '내 초대코드${match.time.toString()}'.text.fontWeight(FontWeight.w600).make(),
+        '내 초대코드${match.time.toString()}'.text.medium.make(),
         height5,
         Container(
           height: 50,
@@ -147,30 +138,11 @@ class MyInviteCode extends StatelessWidget {
           ),
           child: Row(
             children: [
-              SelectableText(
-                match.vertifynumber.toString(),
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ).pSymmetric(h: 10, v: 10),
+              match.vertifynumber.toString().selectableText.lg.medium.make().pSymmetric(h: 10, v: 10),
             ],
           ),
         ),
       ],
-    );
-  }
-}
-
-class OnUpdating extends StatelessWidget {
-  const OnUpdating({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          '더 많은 친구를 깨울 수 있도록 준비 중입니다.'.text.make(),
-        ],
-      ),
     );
   }
 }

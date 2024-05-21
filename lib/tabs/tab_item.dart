@@ -8,9 +8,9 @@ import 'package:wakeuphoney/tabs/wake/wake_tabscreen.dart';
 
 enum TabItem {
   alarm(Icons.alarm, '알람', AlarmTabScreen()),
-  wake(Icons.mail, '깨우기', WakeTabScreen()),
-  feed(Icons.toc, '피드', FeedTabScreen()),
-  match(Icons.connecting_airports_sharp, '연결', MatchTabScreen()),
+  wake(Icons.airline_seat_individual_suite_sharp, '깨우기', WakeTabScreen()),
+  // feed(Icons.toc, '피드', FeedTabScreen()),
+  match(Icons.connecting_airports_sharp, '친구', MatchTabScreen()),
   profile(Icons.person, '프로필', ProfileTabScreen());
 
   final IconData activeIcon;

@@ -18,7 +18,7 @@ class OpensourceItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          package.name.text.size(20).bold.make().pOnly(left: 20, bottom: 8),
+          package.name.text.size(20).medium.make().pOnly(left: 20, bottom: 8),
           package.description.text.size(14).make().pOnly(left: 20, bottom: 8, right: 20),
           if (package.authors.isNotEmpty) (package.authors.join(", ")).text.size(14).make().pOnly(left: 20, top: 12),
           if (isNotBlank(package.homepage)) (package.homepage ?? "").text.make().pOnly(left: 20, top: 15),

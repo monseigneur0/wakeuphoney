@@ -279,8 +279,21 @@ class LoginRepository {
       return;
     }
     final user = _firebaseAuth.currentUser;
-    await _users.doc(user!.uid).update({
+    if (user == null) {
+      return;
+    }
+    await _users.doc(user.uid).update({
       "fcmToken": token,
+    });
+  }
+
+  updateProfileImage(String imageUrl) async {
+    final user = _firebaseAuth.currentUser;
+    if (user == null) {
+      return;
+    }
+    await _users.doc(user.uid).update({
+      "photoURL": imageUrl,
     });
   }
 }

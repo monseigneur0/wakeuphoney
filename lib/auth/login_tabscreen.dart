@@ -5,7 +5,7 @@ import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/util/app_keyboard_util.dart';
 import 'package:wakeuphoney/common/widget/w_text_field_with_delete.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
-import 'package:wakeuphoney/main/main_tabscreen.dart';
+import 'package:wakeuphoney/tabs/main_tabscreen.dart';
 import 'package:wakeuphoney/tabs/match/user_widget.dart';
 
 //  test123@wakeupgom.com
@@ -100,7 +100,7 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
 
                                 await loginProcess(context);
                               },
-                              child: '로그인'.text.color(Colors.white).bold.make(),
+                              child: '로그인'.text.color(Colors.white).medium.make(),
                             ).pOnly(top: 5)
                           : ElevatedButton(
                               style: ElevatedButton.styleFrom(
@@ -143,8 +143,8 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                           onPressed: () {
                             // context.showToast(msg: '회원가입 준비 중입니다.');
                             // showToast('회원가입 준비 중입니다.');
-                            context.showSnackbar('회원가입 준비 중입니다. \nSNS로그인을 이용해주세요.');
                             ref.read(loginControllerProvider.notifier).signInWithManager(context);
+                            context.go("/main");
                           },
                           child: '관리자계정'.text.size(10).color(context.appColors.lessImportant).make()),
                     ),

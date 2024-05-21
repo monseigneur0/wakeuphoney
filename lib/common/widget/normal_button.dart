@@ -19,9 +19,7 @@ class NormalButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: isPreferred ? AppColors.primary600 : Colors.white,
       ),
-      child: isPreferred
-          ? text.text.size(16).white.bold.make().p(10)
-          : text.text.size(16).color(AppColors.primary600).bold.make().p(10),
+      child: isPreferred ? text.text.lg.white.medium.make().p(10) : text.text.lg.color(AppColors.primary600).medium.make().p(10),
     );
   }
 }

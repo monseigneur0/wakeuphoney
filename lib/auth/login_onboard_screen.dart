@@ -60,7 +60,7 @@ class LoginOnBoardScreen extends StatelessWidget {
       titleTextStyle: TextStyle(
         // 타이틀 텍스트 스타일
         fontSize: 28,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w600,
         color: AppColors.primary600,
       ),
       bodyTextStyle: TextStyle(

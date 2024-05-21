@@ -34,7 +34,7 @@ class MainButton extends StatelessWidget {
                   onPressed!();
                 }
               },
-              child: buttonName.text.color(Colors.white).bold.size(16).make(),
+              child: buttonName.text.color(Colors.white).semiBold.lg.make(),
             ).pOnly(top: 5),
           ),
         ),

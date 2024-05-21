@@ -1,15 +1,17 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:wakeuphoney/common/common.dart';
-import 'package:wakeuphoney/common/providers/firebase_providers.dart';
-import 'package:wakeuphoney/common/widget/w_arrow.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
 import 'package:wakeuphoney/auth/login_tabscreen.dart';
-import 'package:wakeuphoney/tabs/match/match_tabscreen.dart';
-import 'package:wakeuphoney/tabs/profile/single_profile_screen.dart';
+import 'package:wakeuphoney/common/common.dart';
+import 'package:wakeuphoney/common/image/image_full_screen.dart';
+import 'package:wakeuphoney/common/image/image_screen.dart';
+import 'package:wakeuphoney/common/providers/firebase_providers.dart';
+import 'package:wakeuphoney/common/providers/providers.dart';
+import 'package:wakeuphoney/common/widget/w_arrow.dart';
 import 'package:wakeuphoney/opensource/s_opensource.dart';
+import 'package:wakeuphoney/tabs/customer/cs_service_screen.dart';
+import 'package:wakeuphoney/tabs/friend/friend_tabscreen.dart';
 
 class ProfileTabScreen extends StatefulHookConsumerWidget {
   const ProfileTabScreen({super.key});
@@ -22,6 +24,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
   @override
   Widget build(BuildContext context) {
     final analytics = ref.watch(analyticsProvider);
+    final user = ref.watch(userModelProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -37,33 +40,37 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                   Column(
                     children: [
                       Tap(
-                        onTap: () => context.go(SingleProfileScreen.routeUrl),
-                        child: ClipOval(
-                          child: Image.asset(
-                            'assets/images/samples/cherryblossom.png',
-                            width: Constants.pngSize,
-                            height: Constants.pngSize,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      const Text('프로필'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ImageFullScreen(
+                                    imageURL: user.photoURL,
+                                    herotag: 'profileImage',
+                                  ),
+                                ));
+                          },
+                          child: profileImage(
+                            user!,
+                            herotag: 'profileImage',
+                          )),
+                      user.displayName.text.make(),
                     ],
                   ),
-                  width20,
-                  Column(
-                    children: [
-                      ClipOval(
-                        child: Image.asset(
-                          'assets/images/samples/cherryblossom.png',
-                          width: Constants.pngSize,
-                          height: Constants.pngSize,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      const Text('프로필2'),
-                    ],
-                  ),
+                  // width20,
+                  // Column(
+                  //   children: [
+                  //     ClipOval(
+                  //       child: Image.asset(
+                  //         'assets/images/samples/cherryblossom.png',
+                  //         width: Constants.pngSize,
+                  //         height: Constants.pngSize,
+                  //         fit: BoxFit.cover,
+                  //       ),
+                  //     ),
+                  //     const Text('프로필2'),
+                  //   ],
+                  // ),
                 ],
               ).pSymmetric(h: 20),
             ),
@@ -76,7 +83,13 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                 }),
                 LinkCard('내 정보 관리', onTap: () {}),
                 LinkCard('편지 확인 가능 시간', onTap: () {}),
-                LinkCard('고객센터', onTap: () {}),
+                LinkCard('고객센터', onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CustomerServiceScreen(),
+                      ));
+                }),
                 LinkCard('버전정보', version: '1.1.0', onTap: () {}),
                 LinkCard('오픈소스', onTap: () {
                   Navigator.push(
@@ -92,33 +105,12 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                 LinkCard('로그아웃', onTap: () {
                   // context.go(LoginNewScreen.routeUrl);
                   context.go(LoginNewScreen.routeUrl);
-                  ref.watch(loginControllerProvider.notifier).signOut(context);
+                  ref.read(loginControllerProvider.notifier).signOut(context);
                 }),
-                if (kDebugMode)
-                  Column(
-                    children: [
-                      LinkCard('그냥 로그아웃', onTap: () {
-                        // context.go(LoginNewScreen.routeUrl);
-                        ref.watch(loginControllerProvider.notifier).signJustOut(context);
-                      }),
-                      LinkCard('로그인페이지  context.push', onTap: () {
-                        context.push(LoginNewScreen.routeUrl);
-                      }),
-                    ],
-                  ),
-                LinkCard('연결끊기', onTap: () {}),
+                // LinkCard('연결끊기', onTap: () {
+                //   ref.read(matchTabControllerProvider.notifier).breakUp();
+                // }),
                 LinkCard('회원탈퇴', onTap: () {}),
-                if (kDebugMode)
-                  Row(
-                    children: [
-                      ElevatedButton(onPressed: () {}, child: '이전 디자인'.text.make()),
-                      ElevatedButton(
-                          onPressed: () {
-                            context.go(MatchTabScreen.routeUrl);
-                          },
-                          child: '현재 디자인'.text.make()),
-                    ],
-                  ),
               ],
             ),
             height30,

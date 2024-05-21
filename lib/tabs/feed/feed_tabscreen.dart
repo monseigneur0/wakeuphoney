@@ -67,7 +67,7 @@ class _FeedTabScreenState extends ConsumerState<FeedTabScreen> {
                             showToast('홈가기');
                             context.go('/main/home');
                           },
-                          child: '홈가기'.text.color(Colors.white).bold.size(16).make(),
+                          child: '홈가기'.text.color(Colors.white).medium.lg.make(),
                         ).pOnly(top: 5),
                       ),
                     ),
@@ -93,7 +93,7 @@ class _FeedTabScreenState extends ConsumerState<FeedTabScreen> {
                             showToast('wake가기');
                             context.go('/main/wake');
                           },
-                          child: 'wake가기'.text.color(Colors.white).bold.size(16).make(),
+                          child: 'wake가기'.text.color(Colors.white).medium.lg.make(),
                         ).pOnly(top: 5),
                       ),
                     ),
@@ -119,7 +119,7 @@ class _FeedTabScreenState extends ConsumerState<FeedTabScreen> {
                             showToast('홈가기');
                             context.go('/main/feed');
                           },
-                          child: 'feed가기'.text.color(Colors.white).bold.size(16).make(),
+                          child: 'feed가기'.text.color(Colors.white).medium.lg.make(),
                         ).pOnly(top: 5),
                       ),
                     ),
@@ -145,7 +145,7 @@ class _FeedTabScreenState extends ConsumerState<FeedTabScreen> {
                             showToast('홈가기');
                             context.go('/main/feed');
                           },
-                          child: 'feed가기'.text.color(Colors.white).bold.size(16).make(),
+                          child: 'feed가기'.text.color(Colors.white).medium.lg.make(),
                         ).pOnly(top: 5),
                       ),
                     ),
@@ -171,7 +171,7 @@ class _FeedTabScreenState extends ConsumerState<FeedTabScreen> {
                             showToast('홈가기');
                             context.go('/main/feed');
                           },
-                          child: 'feed가기'.text.color(Colors.white).bold.size(16).make(),
+                          child: 'feed가기'.text.color(Colors.white).medium.lg.make(),
                         ).pOnly(top: 5),
                       ),
                     ),

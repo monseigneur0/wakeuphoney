@@ -13,6 +13,7 @@ import 'package:wakeuphoney/tabs/alarm/feed_blur_box.dart';
 import 'package:wakeuphoney/tabs/alarm/feedbox.dart';
 import 'package:wakeuphoney/tabs/wake/wake_controller.dart';
 import 'package:wakeuphoney/tabs/wake/wake_model.dart';
+import 'package:wakeuphoney/tabs/wake/wake_tabscreen.dart';
 
 /// 이 페이지의 역할
 /// 알람을 수락하고 등록하는 페이지
@@ -31,29 +32,32 @@ class AlarmTabScreen extends ConsumerWidget {
     if (user == null) {
       return const CircularProgressIndicator();
     }
+    if (friend == null) {
+      return const CircularProgressIndicator();
+    }
     final myAlarm = ref.watch(alarmListStreamProvider);
     return Scaffold(
       appBar: AppBar(
         title: '알람'.text.make(),
       ),
-      body: myAlarm.when(
-        data: (alarm) {
-          if (alarm.isEmpty) {
-            return EmptyAlarm(user: user);
-          }
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                if (kDebugMode) const AlarmManager(),
-                AlarmList(ref, alarm: alarm, user: user),
-              ],
-            ),
-          );
-        },
-        error: streamError, // Define the 'error' variable
-        //나중에 글로벌 에러 핸들링으로 변경
-        loading: () => const CircularProgressIndicator(), // Define the 'loading' variable
-        // 나ㅇ에 글로벌 로딩 페이지으로 변경
+      body: SingleChildScrollView(
+        child: myAlarm.when(
+          data: (alarm) {
+            if (alarm.isEmpty) {
+              return const Center(
+                child: EmptyBox(),
+              );
+            }
+            return Center(
+              // if (kDebugMode) const AlarmManager(),
+              child: AlarmList(ref, alarm: alarm, user: friend),
+            );
+          },
+          error: streamError, // Define the 'error' variable
+          //나중에 글로벌 에러 핸들링으로 변경
+          loading: () => const CircularProgressIndicator(), // Define the 'loading' variable
+          // 나ㅇ에 글로벌 로딩 페이지으로 변경
+        ),
       ),
     );
   }

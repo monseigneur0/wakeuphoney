@@ -89,9 +89,9 @@ class _AcceptBoxState extends ConsumerState<AcceptBox> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        DateFormat('a hh:mm').format(widget.wake.wakeTime).toString().text.bold.color(AppColors.primary700).make(),
+        DateFormat('a hh:mm').format(widget.wake.wakeTime).toString().text.medium.color(AppColors.primary700).make(),
         Image.asset('assets/images/aiphotos/awakebear.png', width: Constants.cardPngWidth),
-        '이때 깨워줄게요!'.text.bold.make(),
+        '이때 깨워줄게요!'.text.medium.make(),
         height10,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

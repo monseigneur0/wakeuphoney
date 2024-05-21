@@ -8,7 +8,6 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:wakeuphoney/common/providers/firebase_providers.dart';
 import 'package:wakeuphoney/common/utils.dart';
 
-// import 'package:wakeuphoney/features/oldprofile/profile_controller.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
 import 'package:wakeuphoney/tabs/customer/cs_model.dart';
 
@@ -162,7 +161,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
                         children: [
                           Text(
                             text,
-                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
                           ),
                           const CircleAvatar(
                             radius: 8,
@@ -186,7 +185,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    "일어나곰".text.bold.make(),
+                                    "일어나곰".text.medium.make(),
                                     SelectableText(_historyList[index].content),
                                   ],
                                 ),
@@ -201,7 +200,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    "사용자".text.bold.make(),
+                                    "사용자".text.medium.make(),
                                     SelectableText(_historyList[index].content),
                                   ],
                                 ),

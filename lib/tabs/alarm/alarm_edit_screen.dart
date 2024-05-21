@@ -214,7 +214,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                   onPressed: () => Navigator.pop(context, false),
                   child: Text(
                     'cancel'.tr(),
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: AppColors.myPink),
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: AppColors.primary600),
                   ),
                 ).pSymmetric(h: 10, v: 5),
               ),
@@ -233,7 +233,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                       ? const CircularProgressIndicator()
                       : Text(
                           'save'.tr(),
-                          style: Theme.of(context).textTheme.titleLarge!.copyWith(color: AppColors.myPink),
+                          style: Theme.of(context).textTheme.titleLarge!.copyWith(color: AppColors.primary600),
                         ),
                 ).pSymmetric(h: 10, v: 5),
               )

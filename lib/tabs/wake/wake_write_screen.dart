@@ -201,7 +201,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                     child: showPlayer
                         ? Row(
                             children: [
-                              '알람 소리 재생'.text.color(AppColors.grey500).size(16).bold.make(),
+                              '알람 소리 재생'.text.color(AppColors.grey500).lg.medium.make(),
                               const EmptyExpanded(),
                               Center(
                                 child: isLoading
@@ -218,7 +218,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                           ).pOnly(left: 20, top: 10, bottom: 10)
                         : Row(
                             children: [
-                              '알람 소리 녹음'.text.color(AppColors.grey500).size(16).bold.make(),
+                              '알람 소리 녹음'.text.color(AppColors.grey500).lg.medium.make(),
                               const EmptyExpanded(),
                               Recorder(
                                 onStop: (path) {
@@ -246,7 +246,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                             decoration: containerBoxDecoration(),
                             child: Row(
                               children: [
-                                '카메라'.text.color(AppColors.grey500).size(16).bold.make(),
+                                '카메라'.text.color(AppColors.grey500).lg.medium.make(),
                                 const EmptyExpanded(),
                                 const Icon(Icons.camera_alt),
                               ],
@@ -259,7 +259,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                             children: [
                               Row(
                                 children: [
-                                  '카메라'.text.color(AppColors.grey500).size(16).bold.make(),
+                                  '카메라'.text.color(AppColors.grey500).lg.medium.make(),
                                   const EmptyExpanded(),
                                   Tap(
                                       onTap: () => setState(() {
@@ -292,7 +292,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                             ),
                             child: Row(
                               children: [
-                                '앨범'.text.color(AppColors.grey500).size(16).bold.make(),
+                                '앨범'.text.color(AppColors.grey500).lg.medium.make(),
                                 const EmptyExpanded(),
                                 const Icon(Icons.photo_library),
                               ],
@@ -305,7 +305,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                             children: [
                               Row(
                                 children: [
-                                  '앨범'.text.color(AppColors.grey500).size(16).bold.make(),
+                                  '앨범'.text.color(AppColors.grey500).lg.medium.make(),
                                   const EmptyExpanded(),
                                   Tap(
                                       onTap: () => setState(() {
@@ -328,7 +328,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                   decoration: containerBoxDecoration(),
                   child: ExpansionTile(
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                      title: '알람 상세 설정'.text.color(AppColors.grey500).size(16).bold.make(),
+                      title: '알람 상세 설정'.text.color(AppColors.grey500).lg.medium.make(),
                       backgroundColor: AppColors.whiteBackground,
                       controller: _expansionTileController,
                       onExpansionChanged: (value) {},
@@ -484,35 +484,37 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                       },
                     ),
               height40,
-              MainButton(
-                '메세지',
-                onPressed: () async {
-                  setState(() {
-                    isLoading = true;
-                  });
-                  //text, voice, photo, alarm 전달
-                  await ref.read(wakeControllerProvider.notifier).createFCM(
-                      "eRHDhP9ZTAa_FkGQ095Qfk:APA91bG4pmERkimNgc5kVSxgUPjEOFZQCtcC0uCuDjEkMnshovNfUS8ZFuovan05sdGP4TNWd8ofiFVIZOvXUg01qtEfp7DDVHc6Y57kMWRx9K5zc8BOOfLpo6rCkskaiOkiVPuj7ZSr");
-                  setState(() {
-                    isLoading = false;
-                  });
-                },
-              ),
-              MainButton(
-                'token',
-                onPressed: () async {
-                  setState(() {
-                    isLoading = true;
-                  });
-                  //text, voice, photo, alarm 전달
+              if (kDebugMode)
+                MainButton(
+                  '메세지',
+                  onPressed: () async {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    //text, voice, photo, alarm 전달
+                    await ref.read(wakeControllerProvider.notifier).createFCM(
+                        "eRHDhP9ZTAa_FkGQ095Qfk:APA91bG4pmERkimNgc5kVSxgUPjEOFZQCtcC0uCuDjEkMnshovNfUS8ZFuovan05sdGP4TNWd8ofiFVIZOvXUg01qtEfp7DDVHc6Y57kMWRx9K5zc8BOOfLpo6rCkskaiOkiVPuj7ZSr");
+                    setState(() {
+                      isLoading = false;
+                    });
+                  },
+                ),
+              if (kDebugMode)
+                MainButton(
+                  'token',
+                  onPressed: () async {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    //text, voice, photo, alarm 전달
 
-                  final token = await FcmManager.getPushToken();
-                  logger.d(token.toString());
-                  setState(() {
-                    isLoading = false;
-                  });
-                },
-              ),
+                    final token = await FcmManager.getPushToken();
+                    logger.d(token.toString());
+                    setState(() {
+                      isLoading = false;
+                    });
+                  },
+                ),
             ],
           ).pSymmetric(h: 20),
         ),

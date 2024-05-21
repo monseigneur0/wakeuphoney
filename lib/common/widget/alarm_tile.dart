@@ -38,7 +38,7 @@ class AlarmTile extends StatelessWidget {
             padding: const EdgeInsets.only(top: 15, bottom: 15, left: 20),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
-                color: AppColors.myAppBarBackgroundPink,
+                color: AppColors.primary400,
                 boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.3), blurRadius: 10, offset: const Offset(8, 8))]),
             // decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
             child: Row(

@@ -1,6 +1,7 @@
 import 'package:wakeuphoney/common/theme/color/abs_theme_colors.dart';
 import 'package:wakeuphoney/common/theme/color/dark_app_colors.dart';
 import 'package:wakeuphoney/common/theme/color/light_app_colors.dart';
+import 'package:wakeuphoney/common/theme/custom_google_font.dart';
 import 'package:wakeuphoney/common/theme/shadows/abs_theme_shadows.dart';
 import 'package:wakeuphoney/common/theme/shadows/dart_app_shadows.dart';
 import 'package:wakeuphoney/common/theme/shadows/light_app_shadows.dart';
@@ -42,13 +43,13 @@ ThemeData lightTheme = ThemeData(
   //   ThemeData(brightness: Brightness.light).textTheme,
   // ),
   colorScheme: ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor, background: AppColors.myBackground),
-
   appBarTheme: const AppBarTheme(
     centerTitle: false,
     color: AppColors.myBackground,
     titleTextStyle: TextStyle(
-      color: Colors.black,
+      color: AppColors.grey900,
       fontSize: 18,
+      fontWeight: FontWeight.w600,
     ),
   ),
 );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wakeuphoney/common/common.dart';
-import 'package:wakeuphoney/main/main_tabscreen.dart';
+import 'package:wakeuphoney/tabs/main_tabscreen.dart';
 
 class ErrorPage extends StatelessWidget {
   final BuildContext context;
