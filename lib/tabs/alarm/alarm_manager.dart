@@ -6,10 +6,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wakeuphoney/common/widget/alarm_tile.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_edit_screen.dart';
+import 'package:wakeuphoney/tabs/alarm/alarm_ring_sample.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_ring_screen.dart';
 
 class AlarmManager extends StatefulWidget {
-  const AlarmManager({super.key});
+  final AlarmSettings alarmSettings;
+
+  const AlarmManager({
+    super.key,
+    required this.alarmSettings,
+  });
 
   @override
   State<AlarmManager> createState() => _AlarmManagerState();
@@ -35,7 +41,7 @@ class _AlarmManagerState extends State<AlarmManager> {
     await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
+          builder: (context) => AlarmRingSampleScreen(alarmSettings: alarmSettings),
         ));
     loadAlarms();
   }

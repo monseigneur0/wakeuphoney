@@ -13,6 +13,7 @@ import 'package:wakeuphoney/common/widget/w_arrow.dart';
 import 'package:wakeuphoney/opensource/s_opensource.dart';
 import 'package:wakeuphoney/tabs/customer/cs_service_screen.dart';
 import 'package:wakeuphoney/tabs/friend/friend_tabscreen.dart';
+import 'package:wakeuphoney/tabs/profile/myprofile_tabscreen.dart';
 
 class ProfileTabScreen extends StatefulHookConsumerWidget {
   const ProfileTabScreen({super.key});
@@ -86,7 +87,9 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                   launchUrlString("https://sweetgom.com/5");
                   analytics.logSelectContent(contentType: "go", itemId: "appinfoonline");
                 }),
-                LinkCard('내 정보 관리', onTap: () {}),
+                LinkCard('내 정보 관리', onTap: () {
+                  context.push(MyProfileTabScreen.routeUrl);
+                }),
                 LinkCard('편지 확인 가능 시간', onTap: () {}),
                 LinkCard('고객센터', onTap: () {
                   Navigator.push(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wakeuphoney/app.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_edit_screen.dart';
+import 'package:wakeuphoney/tabs/alarm/alarm_ring_sample.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_ring_screen.dart';
 
 class AlarmFunction extends StatefulWidget {
@@ -47,7 +48,7 @@ class _AlarmFunctionState extends State<AlarmFunction> {
     await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => AlarmRingScreen(alarmSettings: alarmSettings),
+          builder: (context) => AlarmRingSampleScreen(alarmSettings: alarmSettings),
         ));
     loadAlarms();
     // await Navigator.of(context).push(

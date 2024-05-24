@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/app.dart';
 import 'package:wakeuphoney/auth.dart';
 import 'package:wakeuphoney/common/image/image_screen.dart';
+import 'package:wakeuphoney/common/providers/providers.dart';
 
 import 'package:wakeuphoney/common/route/fade_transition.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
@@ -14,6 +15,7 @@ import 'package:wakeuphoney/tabs/alarm/alarm_tabscreen.dart';
 import 'package:wakeuphoney/tabs/feed/feed_detail_scree.dart';
 import 'package:wakeuphoney/tabs/feed/feed_tabscreen.dart';
 import 'package:wakeuphoney/tabs/manager/manager_screen.dart';
+import 'package:wakeuphoney/tabs/profile/myprofile_tabscreen.dart';
 import 'package:wakeuphoney/tabs/tab_item.dart';
 import 'package:wakeuphoney/tabs/wake/wake_tabscreen.dart';
 import 'package:wakeuphoney/tabs/wake/wake_write_screen.dart';
@@ -23,6 +25,7 @@ import 'common/common.dart';
 final auth = LoginAuth();
 
 final routerProvider = Provider((ref) {
+  final alarmSettings = ref.watch(alarmSettingsProvider);
   return GoRouter(
     initialLocation: "/main",
     errorBuilder: (context, state) {
@@ -76,7 +79,14 @@ final routerProvider = Provider((ref) {
       GoRoute(
         name: AlarmRingSampleScreen.routeName,
         path: AlarmRingSampleScreen.routeUrl, //logintabs
-        builder: (context, state) => const AlarmRingSampleScreen(),
+        builder: (context, state) => AlarmRingSampleScreen(
+          alarmSettings: alarmSettings,
+        ),
+      ),
+      GoRoute(
+        name: MyProfileTabScreen.routeName,
+        path: MyProfileTabScreen.routeUrl, //logintabs
+        builder: (context, state) => const MyProfileTabScreen(),
       ),
       GoRoute(
         path: '/',

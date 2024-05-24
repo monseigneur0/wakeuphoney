@@ -1,3 +1,4 @@
+import 'package:alarm/model/alarm_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
@@ -12,7 +13,12 @@ import 'package:wakeuphoney/tabs/wake/wake_tabscreen.dart';
 class AlarmRingSampleScreen extends ConsumerWidget {
   static String routeName = "alarmringsample";
   static String routeUrl = "/alarmringsample";
-  const AlarmRingSampleScreen({super.key});
+  final AlarmSettings alarmSettings;
+
+  const AlarmRingSampleScreen({
+    super.key,
+    required this.alarmSettings,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
