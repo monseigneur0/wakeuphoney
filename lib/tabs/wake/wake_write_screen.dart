@@ -13,6 +13,7 @@ import 'package:wakeuphoney/common/widget/w_main_button.dart';
 import 'package:wakeuphoney/common/widget/w_text_field_with_delete.dart';
 import 'package:wakeuphoney/common/providers/firebase_providers.dart';
 import 'package:wakeuphoney/common/providers/providers.dart';
+import 'package:wakeuphoney/tabs/alarm/alarm_ring_sample.dart';
 import 'package:wakeuphoney/tabs/wake/wake_controller.dart';
 
 import 'audio/audio_player.dart';
@@ -139,12 +140,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              // kDebugMode
-              //     ? Navigator.push(
-              //         context,
-              //         MaterialPageRoute(builder: (context) => const WakeUpWriteScreen()),
-              //       )
-              //     : null;
+              kDebugMode ? context.push(AlarmRingSampleScreen.routeUrl) : null;
             },
             icon: const Icon(Icons.save),
           )

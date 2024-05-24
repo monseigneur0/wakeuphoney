@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -77,6 +78,10 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
             height20,
             Column(
               children: [
+                if (kDebugMode || user.uid == 'WvELgU4cO6gOeyzfu92j3k9vuBH2')
+                  LinkCard('매니저', onTap: () {
+                    context.push('/manager');
+                  }),
                 LinkCard('앱소개', onTap: () {
                   launchUrlString("https://sweetgom.com/5");
                   analytics.logSelectContent(contentType: "go", itemId: "appinfoonline");

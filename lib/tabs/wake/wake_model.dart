@@ -309,4 +309,68 @@ class WakeModel {
       answerVideo: "",
     );
   }
+
+  static WakeModel empty() {
+    return WakeModel(
+      wakeUid: "",
+      createdTime: DateTime.now(),
+      modifiedTimes: DateTime.now(),
+      alarmId: 10,
+      wakeTime: DateTime.now(),
+      assetAudioPath: "assets/marimba.mp3",
+      loopAudio: false,
+      vibrate: false,
+      volume: 0.8,
+      fadeDuration: 0.1,
+      notificationTitle: "Alarm",
+      notificationBody: "Alarm rings",
+      enableNotificationOnKill: true,
+      androidFullScreenIntent: true,
+      isDeleted: false,
+      isApproved: false,
+      isRejected: false,
+      senderUid: "",
+      message: "",
+      messagePhoto: "",
+      messageAudio: "",
+      messageVideo: "",
+      reciverUid: "",
+      answer: "",
+      answerPhoto: "",
+      answerAudio: "",
+      answerVideo: "",
+    );
+  }
+
+  static WakeModel sample() {
+    return WakeModel(
+      wakeUid: "",
+      createdTime: DateTime.now(),
+      modifiedTimes: DateTime.now(),
+      alarmId: 10,
+      wakeTime: DateTime.now(),
+      assetAudioPath: "assets/marimba.mp3",
+      loopAudio: false,
+      vibrate: false,
+      volume: 0.8,
+      fadeDuration: 0.1,
+      notificationTitle: "Alarm",
+      notificationBody: "Alarm rings",
+      enableNotificationOnKill: true,
+      androidFullScreenIntent: true,
+      isDeleted: false,
+      isApproved: false,
+      isRejected: false,
+      senderUid: "",
+      message: "",
+      messagePhoto: "",
+      messageAudio: "",
+      messageVideo: "",
+      reciverUid: "",
+      answer: "",
+      answerPhoto: "",
+      answerAudio: "",
+      answerVideo: "",
+    );
+  }
 }

@@ -10,8 +10,8 @@ enum TabItem {
   alarm(Icons.alarm, '알람', AlarmTabScreen()),
   wake(Icons.airline_seat_individual_suite_sharp, '깨우기', WakeTabScreen()),
   // feed(Icons.toc, '피드', FeedTabScreen()),
-  match(Icons.connecting_airports_sharp, '친구', MatchTabScreen()),
-  profile(Icons.person, '프로필', ProfileTabScreen());
+  profile(Icons.person, '프로필', ProfileTabScreen()),
+  match(Icons.connecting_airports_sharp, '친구', MatchTabScreen());
 
   final IconData activeIcon;
   final IconData inActiveIcon;

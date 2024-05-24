@@ -8,10 +8,12 @@ import 'package:wakeuphoney/common/route/fade_transition.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
 import 'package:wakeuphoney/auth/login_tabscreen.dart';
 import 'package:wakeuphoney/common/error/error_page.dart';
+import 'package:wakeuphoney/tabs/alarm/alarm_ring_sample.dart';
 import 'package:wakeuphoney/tabs/main_tabscreen.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_tabscreen.dart';
 import 'package:wakeuphoney/tabs/feed/feed_detail_scree.dart';
 import 'package:wakeuphoney/tabs/feed/feed_tabscreen.dart';
+import 'package:wakeuphoney/tabs/manager/manager_screen.dart';
 import 'package:wakeuphoney/tabs/tab_item.dart';
 import 'package:wakeuphoney/tabs/wake/wake_tabscreen.dart';
 import 'package:wakeuphoney/tabs/wake/wake_write_screen.dart';
@@ -65,6 +67,16 @@ final routerProvider = Provider((ref) {
         name: ImageScreen.routeName,
         path: ImageScreen.routeUrl, //logintabs
         builder: (context, state) => const ImageScreen(),
+      ),
+      GoRoute(
+        name: ManagerScreen.routeName,
+        path: ManagerScreen.routeUrl, //logintabs
+        builder: (context, state) => const ManagerScreen(),
+      ),
+      GoRoute(
+        name: AlarmRingSampleScreen.routeName,
+        path: AlarmRingSampleScreen.routeUrl, //logintabs
+        builder: (context, state) => const AlarmRingSampleScreen(),
       ),
       GoRoute(
         path: '/',

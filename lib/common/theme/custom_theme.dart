@@ -42,6 +42,10 @@ ThemeData lightTheme = ThemeData(
   // textTheme: CustomGoogleFonts.diphylleiaTextTheme(
   //   ThemeData(brightness: Brightness.light).textTheme,
   // ),
+  textTheme: ThemeData(brightness: Brightness.light).textTheme.apply(
+        fontFamily: 'Pretendard',
+      ),
+
   colorScheme: ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor, background: AppColors.myBackground),
   appBarTheme: const AppBarTheme(
     centerTitle: false,
@@ -50,6 +54,7 @@ ThemeData lightTheme = ThemeData(
       color: AppColors.grey900,
       fontSize: 18,
       fontWeight: FontWeight.w600,
+      fontFamily: 'Pretendard',
     ),
   ),
 );
