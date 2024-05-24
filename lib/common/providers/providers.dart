@@ -34,8 +34,7 @@ final dateTimeStateProvider = StateProvider<List<DateTime>>((ref) => List<DateTi
 final dateTimeNotTodayStateProvider = StateProvider<List<DateTime>>((ref) => List<DateTime>.generate(
       100,
       (index) => DateTime.now()
-          .add(Duration(
-              seconds: 24 * 60 * 60 - DateTime.now().hour * 3600 - DateTime.now().minute * 60 - DateTime.now().second))
+          .add(Duration(seconds: 24 * 60 * 60 - DateTime.now().hour * 3600 - DateTime.now().minute * 60 - DateTime.now().second))
           .add(Duration(days: index)),
     ));
 
@@ -67,3 +66,4 @@ final loopAudioProvider = StateProvider<bool>((ref) => false);
 final vibrateProvider = StateProvider<bool>((ref) => false);
 final volumeProvider = StateProvider<double?>((ref) => 0.8);
 final pushTokenProvider = StateProvider<String>((ref) => '');
+final wakeIdProvider = StateProvider<String>((ref) => '');

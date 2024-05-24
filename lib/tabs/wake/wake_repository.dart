@@ -79,4 +79,18 @@ class WakeRepository {
       logger.e(e.toString());
     }
   }
+
+  reply(String uid, String wakeUid, String reply, String imageUrl, String voiceUrl, String videoUrl) {
+    try {
+      _users.doc(uid).collection(FirebaseConstants.alarmCollection).doc(wakeUid).update({
+        'answer': reply,
+        'answerTime': DateTime.now(),
+        'answerPhoto': imageUrl,
+        'answerAudio': voiceUrl,
+        'answerVideo': videoUrl,
+      });
+    } catch (e) {
+      logger.e(e.toString());
+    }
+  }
 }

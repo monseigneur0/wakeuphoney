@@ -9,6 +9,7 @@ import 'package:wakeuphoney/common/route/fade_transition.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
 import 'package:wakeuphoney/auth/login_tabscreen.dart';
 import 'package:wakeuphoney/common/error/error_page.dart';
+import 'package:wakeuphoney/tabs/alarm/alarm_reply_screen.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_ring_sample.dart';
 import 'package:wakeuphoney/tabs/main_tabscreen.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_tabscreen.dart';
@@ -87,6 +88,11 @@ final routerProvider = Provider((ref) {
         name: MyProfileTabScreen.routeName,
         path: MyProfileTabScreen.routeUrl, //logintabs
         builder: (context, state) => const MyProfileTabScreen(),
+      ),
+      GoRoute(
+        name: AlarmReplyScreen.routeName,
+        path: AlarmReplyScreen.routeUrl, //logintabs
+        builder: (context, state) => const AlarmReplyScreen(),
       ),
       GoRoute(
         path: '/',

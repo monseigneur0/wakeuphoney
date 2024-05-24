@@ -362,7 +362,7 @@ class WakeModel {
       isApproved: false,
       isRejected: false,
       senderUid: "",
-      message: "",
+      message: "알람 메세지를 작성해보세요. 사진, 음성, 비디오도 가능합니다.",
       messagePhoto: "",
       messageAudio: "",
       messageVideo: "",

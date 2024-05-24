@@ -5,6 +5,7 @@ import 'package:wakeuphoney/auth/user_model.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/providers/providers.dart';
 import 'package:wakeuphoney/common/widget/normal_button.dart';
+import 'package:wakeuphoney/tabs/alarm/alarm_reply_screen.dart';
 import 'package:wakeuphoney/tabs/friend/friend_tabscreen.dart';
 import 'package:wakeuphoney/tabs/wake/wake_controller.dart';
 import 'package:wakeuphoney/tabs/wake/wake_model.dart';
@@ -25,6 +26,7 @@ class AlarmRingSampleScreen extends ConsumerWidget {
     final myAlarm = ref.watch(alarmListStreamProvider);
     final friend = ref.watch(friendUserModelProvider);
     Logger logger = Logger();
+    bool isSample = false;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -38,7 +40,11 @@ class AlarmRingSampleScreen extends ConsumerWidget {
                 final now = DateTime.now();
                 final ringingAlarm = alarm.firstWhere(
                   (a) => a.wakeTime.isBefore(now),
-                  orElse: () => WakeModel.sample(),
+                  orElse: () {
+                    isSample = true;
+
+                    return WakeModel.sample();
+                  },
                 );
                 logger.d('ringingAlarm: $ringingAlarm');
                 return Column(
@@ -61,7 +67,7 @@ class AlarmRingSampleScreen extends ConsumerWidget {
                     height10,
                     ImageBox(ringingAlarm.messagePhoto),
                     height40,
-                    CoupleButton(ref), //버튼 위치는 항상 고정해야하지 않을까
+                    WakeModel.sample() == ringingAlarm ? Container() : CoupleButton(ref, ringingAlarm), //버튼 위치는 항상 고정해야하지 않을까
                   ],
                 ).pSymmetric(v: 10, h: 20);
               }
@@ -87,7 +93,8 @@ class AlarmRingSampleScreen extends ConsumerWidget {
 
 class CoupleButton extends StatelessWidget {
   final WidgetRef ref;
-  const CoupleButton(this.ref, {super.key});
+  final WakeModel wake;
+  const CoupleButton(this.ref, this.wake, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +116,8 @@ class CoupleButton extends StatelessWidget {
           child: NormalButton(
             onPressed: () {
               // ref.read(wakeControllerProvider.notifier).rejectWake();
-              // context.push(FriendTabScreen.routeUrl);
+              context.push(AlarmReplyScreen.routeUrl);
+              ref.read(wakeIdProvider.notifier).state = wake.wakeUid.toString();
             },
             text: '답장하러 가기',
           ),

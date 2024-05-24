@@ -296,4 +296,24 @@ class LoginRepository {
       "photoURL": imageUrl,
     });
   }
+
+  updateGender(String gender) async {
+    final user = _firebaseAuth.currentUser;
+    if (user == null) {
+      return;
+    }
+    await _users.doc(user.uid).update({
+      "gender": gender,
+    });
+  }
+
+  updateBirthday(DateTime birthDate) async {
+    final user = _firebaseAuth.currentUser;
+    if (user == null) {
+      return;
+    }
+    await _users.doc(user.uid).update({
+      "birthDate": birthDate,
+    });
+  }
 }

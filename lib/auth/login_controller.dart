@@ -20,7 +20,8 @@ final getUserFutureProvider = FutureProvider<UserModel>((ref) async {
   if (user.couples!.isNotEmpty) {
     ref.read(friendUserModelProvider.notifier).state = await ref.watch(loginRepositoryProvider).getUserById(user.couples!.first);
   }
-  return ref.watch(loginControllerProvider.notifier).getUser();
+  ref.watch(loginControllerProvider);
+  return user;
 });
 
 final getUserStreamProvider = StreamProvider<UserModel>((ref) {
@@ -189,5 +190,18 @@ class LoginController extends StateNotifier<UserModel> {
 
   void updateProfileImage(String imageUrl) {
     _loginRepository.updateProfileImage(imageUrl);
+  }
+
+  void updateGender(int gender) {
+    if (gender == 1) {
+      _loginRepository.updateGender('male');
+    }
+    if (gender == 1) {
+      _loginRepository.updateGender('female');
+    }
+  }
+
+  void updateBirthday(DateTime birthDate) {
+    _loginRepository.updateBirthday(birthDate);
   }
 }

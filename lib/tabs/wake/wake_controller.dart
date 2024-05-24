@@ -211,4 +211,9 @@ class WakeController extends AsyncNotifier<void> {
     _repository.acceptWakeUp(user.couples!.first, wakeUid);
     showToast('알람이 승인되었습니다.');
   }
+
+  void reply(String wakeUid, String reply, String imageUrl, String voiceUrl, String videoUrl) {
+    _repository.reply(uid, wakeUid, reply, imageUrl, voiceUrl, videoUrl);
+    showToast('답장이 전송되었습니다.');
+  }
 }
