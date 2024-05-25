@@ -1,4 +1,6 @@
+import 'package:alarm/alarm.dart';
 import 'package:alarm/model/alarm_settings.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
@@ -51,11 +53,10 @@ class AlarmRingSampleScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     height40,
-                    height40,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TimeBar(ringingAlarm),
+                        TimeBarBig(ringingAlarm),
                       ],
                     ),
                     height10,
@@ -66,7 +67,10 @@ class AlarmRingSampleScreen extends ConsumerWidget {
                     TextMessageBox(ringingAlarm.message),
                     height10,
                     ImageBox(ringingAlarm.messagePhoto),
+
                     height40,
+                    const InfoBox(),
+                    height10,
                     WakeModel.sample() == ringingAlarm ? Container() : CoupleButton(ref, ringingAlarm, alarmSettings), //버튼 위치는 항상 고정해야하지 않을까
                   ],
                 ).pSymmetric(v: 10, h: 20);
@@ -88,6 +92,30 @@ class AlarmRingSampleScreen extends ConsumerWidget {
       'Error: $error Stack Trace: $stackTrace',
     );
     return Text('Error: $error');
+  }
+}
+
+class InfoBox extends StatelessWidget {
+  const InfoBox({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.grey200,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          children: [
+            '답장을 해 주세요.'.text.medium.make(),
+            height10,
+            '다시 알림 선택시 10분 후 다시 울립니다.'.text.medium.make(),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -116,6 +144,20 @@ class CoupleButton extends StatelessWidget {
           child: MainButtonDisabled(
             '다시 알림',
             onPressed: () {
+              // Alarm.stop(alarmSettings.id);
+              final now = DateTime.now();
+              Alarm.set(
+                alarmSettings: alarmSettings.copyWith(
+                  dateTime: DateTime(
+                    now.year,
+                    now.month,
+                    now.day,
+                    now.hour,
+                    now.minute,
+                  ).add(const Duration(minutes: 10)),
+                ),
+              ).then((_) => Navigator.pop(context));
+
               // ref.read(wakeControllerProvider.notifier).approveWake();
               // //stop alarm
               // Alarm.stop; and restart alarm
@@ -134,6 +176,38 @@ class CoupleButton extends StatelessWidget {
             },
           ),
         ),
+      ],
+    );
+  }
+}
+
+class TimeBarBig extends StatelessWidget {
+  final WakeModel wake;
+  const TimeBarBig(
+    this.wake, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        DateFormat('a').format(wake.wakeTime).text.size(24).medium.color(AppColors.primary700).make(),
+        width5,
+        DateFormat('hh:mm').format(wake.wakeTime).text.size(32).semiBold.color(AppColors.primary700).make(),
+        width5,
+        // if (kDebugMode) wake.wakeTime.toString().text.make(),
+        width5,
+        if (wake.messageAudio.isNotEmpty)
+          const CircleAvatar(
+            backgroundColor: AppColors.grey900,
+            radius: 13,
+            child: Icon(
+              Icons.mic,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
       ],
     );
   }
