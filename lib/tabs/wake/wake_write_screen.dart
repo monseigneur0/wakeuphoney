@@ -57,9 +57,11 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
   bool useAlbum = false;
   bool useCamera = false;
 
+  //upload loading
   bool isLoading = false;
 
   final TextEditingController _letterController = TextEditingController();
+  final textEditingFucus = FocusNode();
 
   final ExpansionTileController _expansionTileController = ExpansionTileController();
 
@@ -170,25 +172,29 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
               height10,
               '내용'.text.make(),
               height5,
-              Container(
-                  decoration: containerBoxDecoration(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      TextFieldWithDelete(
-                        isBorder: false,
-                        controller: _letterController,
-                        onChanged: (p0) {
-                          if (_letterController.text.length > 300) {
-                            _letterController.text = _letterController.text.substring(0, 300);
-                          }
-                          setState(() {});
-                        },
-                      ),
-                      height30,
-                      '${_letterController.text.length}/300자'.text.color(AppColors.grey500).make(),
-                    ],
-                  ).pSymmetric(h: 20, v: 10)),
+              Tap(
+                onTap: () => FocusScope.of(context).requestFocus(textEditingFucus),
+                child: Container(
+                    decoration: containerBoxDecoration(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        TextFieldWithDelete(
+                          isBorder: false,
+                          controller: _letterController,
+                          focusNode: textEditingFucus,
+                          onChanged: (p0) {
+                            if (_letterController.text.length > 300) {
+                              _letterController.text = _letterController.text.substring(0, 300);
+                            }
+                            setState(() {});
+                          },
+                        ),
+                        height30,
+                        '${_letterController.text.length}/300자'.text.color(AppColors.grey500).make(),
+                      ],
+                    ).pSymmetric(h: 10, v: 10)),
+              ),
               height10,
               Tap(
                 onTap: () => context.showSnackbar('목소리로 깨워보세요!\n알람음 대신 녹음한 목소리로 깨워드립니다.'),

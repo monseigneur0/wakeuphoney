@@ -5,6 +5,8 @@ import 'package:wakeuphoney/auth/user_model.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/providers/providers.dart';
 import 'package:wakeuphoney/common/widget/normal_button.dart';
+import 'package:wakeuphoney/common/widget/w_main_button.dart';
+import 'package:wakeuphoney/common/widget/w_main_button_disabled.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_reply_screen.dart';
 import 'package:wakeuphoney/tabs/friend/friend_tabscreen.dart';
 import 'package:wakeuphoney/tabs/wake/wake_controller.dart';
@@ -26,7 +28,7 @@ class AlarmRingSampleScreen extends ConsumerWidget {
     final myAlarm = ref.watch(alarmListStreamProvider);
     final friend = ref.watch(friendUserModelProvider);
     Logger logger = Logger();
-    bool isSample = false;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -41,8 +43,6 @@ class AlarmRingSampleScreen extends ConsumerWidget {
                 final ringingAlarm = alarm.firstWhere(
                   (a) => a.wakeTime.isBefore(now),
                   orElse: () {
-                    isSample = true;
-
                     return WakeModel.sample();
                   },
                 );
@@ -67,7 +67,7 @@ class AlarmRingSampleScreen extends ConsumerWidget {
                     height10,
                     ImageBox(ringingAlarm.messagePhoto),
                     height40,
-                    WakeModel.sample() == ringingAlarm ? Container() : CoupleButton(ref, ringingAlarm), //버튼 위치는 항상 고정해야하지 않을까
+                    WakeModel.sample() == ringingAlarm ? Container() : CoupleButton(ref, ringingAlarm, alarmSettings), //버튼 위치는 항상 고정해야하지 않을까
                   ],
                 ).pSymmetric(v: 10, h: 20);
               }
@@ -94,32 +94,44 @@ class AlarmRingSampleScreen extends ConsumerWidget {
 class CoupleButton extends StatelessWidget {
   final WidgetRef ref;
   final WakeModel wake;
-  const CoupleButton(this.ref, this.wake, {super.key});
+  final AlarmSettings alarmSettings;
+  const CoupleButton(this.ref, this.wake, this.alarmSettings, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
+        // Expanded(
+        //   child: ElevatedButton(
+        //     onPressed: () {
+        //       // ref.read(wakeControllerProvider.notifier).approveWake();
+        //       // //stop alarm
+        //       // Alarm.stop;
+        //       // context.push(WakeTabScreen.routeUrl);
+        //     },
+        //     child: '다시 알림'.text.make(),
+        //   ),
+        // ),
         Expanded(
-          child: ElevatedButton(
+          child: MainButtonDisabled(
+            '다시 알림',
             onPressed: () {
               // ref.read(wakeControllerProvider.notifier).approveWake();
               // //stop alarm
-              // Alarm.stop;
+              // Alarm.stop; and restart alarm
               // context.push(WakeTabScreen.routeUrl);
             },
-            child: '다시 알림'.text.make(),
           ),
         ),
         width10,
         Expanded(
-          child: NormalButton(
+          child: MainButton(
+            '답장하러 가기',
             onPressed: () {
               // ref.read(wakeControllerProvider.notifier).rejectWake();
               context.push(AlarmReplyScreen.routeUrl);
               ref.read(wakeIdProvider.notifier).state = wake.wakeUid.toString();
             },
-            text: '답장하러 가기',
           ),
         ),
       ],
