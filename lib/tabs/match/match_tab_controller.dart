@@ -59,11 +59,11 @@ class MatchTabController extends AsyncNotifier<void> {
   }
 
   void breakUp() {
-    logger.d("breakup$uid");
+    logger.d("breakup $uid");
     _repository.breakUp(uid);
     final coupleUid = ref.read(userModelProvider)!.couple.toString();
 
-    logger.d("breakup$coupleUid");
+    logger.d("breakup $coupleUid");
     _repository.breakUp(coupleUid);
   }
 }

@@ -316,4 +316,39 @@ class LoginRepository {
       "birthDate": birthDate,
     });
   }
+
+  deleteUser(String uid) async {
+    //delete in firebase auth
+    final user = _firebaseAuth.currentUser;
+    if (user == null) {
+      return;
+    }
+    await user.delete();
+    await _users.doc(uid).delete();
+  }
+
+  updateGPTcount() async {
+    final user = _firebaseAuth.currentUser;
+    if (user == null) {
+      return;
+    }
+    //all users update chatGPTMessageCount to 10
+
+    List<String> userUids = getUserList();
+    for (String uid in userUids) {
+      await _users.doc(uid).update({
+        "chatGPTMessageCount": 10,
+      });
+    }
+  }
+
+  List<String> getUserList() {
+    List<String> userlist = [];
+    _users.get().then((value) {
+      for (var docSnapshot in value.docs) {
+        userlist.add(docSnapshot.id);
+      }
+    });
+    return userlist;
+  }
 }

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
 
@@ -33,7 +36,9 @@ class AlarmTabScreen extends ConsumerWidget {
       return const CircularProgressIndicator();
     }
     if (friend == null) {
-      return const CircularProgressIndicator();
+      return const Center(
+        child: NoFriendBox(),
+      );
     }
     final myAlarm = ref.watch(alarmListStreamProvider);
     return Scaffold(
@@ -50,10 +55,10 @@ class AlarmTabScreen extends ConsumerWidget {
             }
             return Center(
               // if (kDebugMode) const AlarmManager(),
-              child: AlarmList(ref, alarm: alarm, user: friend),
+              child: AlarmList(ref, alarm: alarm, user: friend ?? user),
             );
           },
-          error: streamError, // Define the 'error' variable
+          error: (error, stackTrace) => StreamError(error, stackTrace),
           //나중에 글로벌 에러 핸들링으로 변경
           loading: () => const CircularProgressIndicator(), // Define the 'loading' variable
           // 나ㅇ에 글로벌 로딩 페이지으로 변경
@@ -61,30 +66,58 @@ class AlarmTabScreen extends ConsumerWidget {
       ),
     );
   }
-
-  Widget streamError(error, stackTrace) {
-    Logger logger = Logger();
-    logger.e(
-      'Error: $error Stack Trace: $stackTrace',
-    );
-    return Text('Error: $error');
-  }
 }
 
-class AlarmList extends StatelessWidget {
+class AlarmList extends StatefulWidget {
   final List<WakeModel> alarm;
   final UserModel user;
   final WidgetRef ref;
   const AlarmList(this.ref, {required this.alarm, required this.user, super.key});
 
   @override
+  State<AlarmList> createState() => _AlarmListState();
+}
+
+class _AlarmListState extends State<AlarmList> {
+  final String iOSIdAlarm = 'ca-app-pub-5897230132206634/3120978311';
+  final String androidIdAlarm = 'ca-app-pub-5897230132206634/5879003590';
+  BannerAd? _bannerAd;
+  @override
+  void initState() {
+    super.initState();
+
+    BannerAd(
+      size: AdSize.banner,
+      adUnitId: Platform.isIOS ? iOSIdAlarm : androidIdAlarm,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          // logger.d('Failed to load a banner ad: ${err.message}');
+          ad.dispose();
+        },
+      ),
+      request: const AdRequest(),
+    ).load();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: (kDebugMode) ? context.deviceHeight - 190 : context.deviceHeight - 100,
       child: ListView.builder(
-        itemCount: alarm.length,
+        itemCount: widget.alarm.length,
         itemBuilder: (context, index) {
-          final wake = alarm[index];
+          final wake = widget.alarm[index];
           return Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -98,12 +131,22 @@ class AlarmList extends StatelessWidget {
                 wake.wakeTime.isBefore(DateTime.now())
                     ? Container()
                     : wake.isApproved
-                        ? AcceptedBox(user, wake)
-                        : AcceptBox(user, wake),
+                        ? AcceptedBox(widget.user, wake)
+                        : AcceptBox(widget.user, wake),
                 height10,
                 //feed box 는 오직 알람이 이미 울렸고 승인된 경우
                 //blur box 는 알람이 울릴 예정이고 승인되지 않은 경우 울렸더라도 승인되지 않는경우
-                (wake.wakeTime.isBefore(DateTime.now()) && wake.isApproved) ? FeedBox(user, wake) : FeedBlurBox(user, wake),
+                (wake.wakeTime.isBefore(DateTime.now()) && wake.isApproved) ? FeedBox(widget.user, wake) : FeedBlurBox(widget.user, wake),
+                if (index == 0)
+                  if (_bannerAd != null)
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height > 800 ? 120 : 80,
+                        child: AdWidget(ad: _bannerAd!),
+                      ),
+                    ),
               ],
             ),
           );

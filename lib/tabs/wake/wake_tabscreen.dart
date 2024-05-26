@@ -11,6 +11,7 @@ import 'package:wakeuphoney/common/providers/providers.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
 
 import 'package:wakeuphoney/tabs/alarm/feedbox.dart';
+import 'package:wakeuphoney/tabs/match/match_tabscreen.dart';
 import 'package:wakeuphoney/tabs/wake/wake_model.dart';
 import 'package:wakeuphoney/tabs/wake/wake_write_screen.dart';
 
@@ -30,6 +31,15 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
   Widget build(BuildContext context) {
     final user = ref.watch(userModelProvider);
     final myWake = ref.watch(wakeListStreamProvider);
+    final friend = ref.watch(friendUserModelProvider);
+    if (user == null) {
+      return const CircularProgressIndicator();
+    }
+    if (friend == null) {
+      return const Center(
+        child: NoFriendBox(),
+      );
+    }
     Logger logger = Logger();
     return Scaffold(
       appBar: AppBar(
@@ -65,7 +75,7 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
                     children: [
                       if (wake[index].isApproved == false && wake[index].wakeTime.isAfter(DateTime.now())) WakeAcceptBox(ref, wake[index]),
                       // height5,
-                      FeedBox(user!, wake[index]),
+                      FeedBox(user, wake[index]),
                     ],
                   );
                 }),
@@ -109,7 +119,7 @@ class WakeAcceptBox extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           DateFormat('a hh:mm').format(wake.wakeTime).toString().text.medium.color(AppColors.primary700).make(),
-          Image.asset('assets/images/aiphotos/awakebear.png', width: Constants.cardPngWidth),
+          Image.asset('assets/images/wakeupbear/wakeupbearsleep.png', width: Constants.cardPngWidth),
           if (!wake.isApproved) '상대가 승락하면 깨울 수 있어요!'.text.medium.make(),
           height10,
           if (!wake.isApproved)
@@ -298,7 +308,7 @@ class EditBox extends StatelessWidget {
                 children: [
                   const Text('오전 07:31'),
                   DateFormat('hh:mm a').format(wake[index]!.wakeTime).toString().text.medium.make(),
-                  Image.asset('assets/images/aiphotos/awakebear.png', width: Constants.cardPngWidth),
+                  Image.asset('assets/images/wakeupbear/wakeupbearsleep.png', width: Constants.cardPngWidth),
                   '상대가 승락하면 깨울 수 있어요!'.text.medium.make(),
                   height10,
                   Row(
@@ -326,6 +336,46 @@ class EditBox extends StatelessWidget {
   }
 }
 
+class NoFriendBox extends StatelessWidget {
+  const NoFriendBox({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // height: 300,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.whiteBackground,
+        border: Border.all(color: AppColors.point700),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          height40,
+          Image.asset('assets/images/wakeupbear/wakeupbearsleep.png', width: context.deviceWidth / 2),
+          '친구를 등록해 주세요.'.text.medium.make(),
+          height10,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              width10,
+              NormalButton(
+                text: '등록하기',
+                onPressed: () {
+                  context.push(MatchTabScreen.routeUrl);
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class EmptyBox extends StatelessWidget {
   const EmptyBox({
     super.key,
@@ -344,7 +394,8 @@ class EmptyBox extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset('assets/images/aiphotos/awakebear.png', width: Constants.cardPngWidth),
+          height40,
+          Image.asset('assets/images/wakeupbear/wakeupbearsleep.png', width: context.deviceWidth / 2),
           ' 깨울 수 있어요!'.text.medium.make(),
           height10,
           Row(

@@ -38,6 +38,7 @@ export 'error_text.dart';
 export 'loader.dart';
 // import 'package:just_audio/just_audio.dart';
 export 'package:uuid/uuid.dart';
+export 'error/stream_error.dart';
 
 const defaultFontStyle = GoogleFonts.ptSerif;
 

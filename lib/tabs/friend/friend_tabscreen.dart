@@ -7,6 +7,7 @@ import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/providers/providers.dart';
 import 'package:wakeuphoney/common/widget/normal_button.dart';
 import 'package:wakeuphoney/common/widget/w_main_button.dart';
+import 'package:wakeuphoney/common/widget/w_main_button_disabled.dart';
 import 'package:wakeuphoney/tabs/match/match_tab_controller.dart';
 
 class FriendTabScreen extends ConsumerWidget {
@@ -29,7 +30,8 @@ class FriendTabScreen extends ConsumerWidget {
             height30,
             infobox(friend),
             height20,
-            disconnectButton(ref),
+            // disconnectButton(ref),
+            height40,
             height40,
             height40,
             height40,
@@ -41,17 +43,23 @@ class FriendTabScreen extends ConsumerWidget {
 }
 
 Widget profileImage(UserModel friend, {String? herotag}) {
-  return ClipRRect(
-    borderRadius: BorderRadius.circular(100),
-    child: Hero(
-      tag: herotag ?? friend.uid,
-      child: CachedNetworkImage(
-        imageUrl: friend.photoURL,
-        width: 100,
-        placeholder: (context, url) => const CircularProgressIndicator(),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
+  return Stack(
+    alignment: Alignment.center,
+    children: [
+      Image.asset('assets/images/wakeupbear/wakeupbearprofile.png', width: 115),
+      ClipRRect(
+        borderRadius: BorderRadius.circular(100),
+        child: Hero(
+          tag: herotag ?? friend.uid,
+          child: CachedNetworkImage(
+            imageUrl: friend.photoURL,
+            width: 100,
+            placeholder: (context, url) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+          ),
+        ),
       ),
-    ),
+    ],
   );
 }
 
@@ -91,7 +99,7 @@ Widget infobox(UserModel friend) {
 }
 
 Widget disconnectButton(WidgetRef ref) {
-  return MainButton(
+  return MainButtonDisabled(
     '친구 끊기',
     onPressed: () {
       ref.read(matchTabControllerProvider.notifier).breakUp();

@@ -10,7 +10,7 @@ import 'line_chart.dart';
 
 class BitcoinScreen extends StatefulWidget {
   static const routeName = 'bitcoin';
-  static const routeURL = '/bitcoin';
+  static const routeUrl = '/bitcoin';
   const BitcoinScreen({super.key});
 
   @override
@@ -67,11 +67,7 @@ class _BitcoinScreenState extends State<BitcoinScreen> {
             AnimatedNumberText(
               priceText,
               textStyle: const TextStyle(
-                  fontSize: 50,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  textBaseline: null,
-                  decoration: TextDecoration.none),
+                  fontSize: 50, fontWeight: FontWeight.bold, color: Colors.white, textBaseline: null, decoration: TextDecoration.none),
               duration: 50.microseconds,
             ),
             LineChartWidget(

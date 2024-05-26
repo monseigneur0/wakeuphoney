@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
@@ -13,6 +14,7 @@ import 'package:wakeuphoney/common/widget/w_arrow.dart';
 import 'package:wakeuphoney/opensource/s_opensource.dart';
 import 'package:wakeuphoney/tabs/customer/cs_service_screen.dart';
 import 'package:wakeuphoney/tabs/friend/friend_tabscreen.dart';
+import 'package:wakeuphoney/tabs/match/match_tab_controller.dart';
 import 'package:wakeuphoney/tabs/profile/myprofile_tabscreen.dart';
 
 class ProfileTabScreen extends StatefulHookConsumerWidget {
@@ -98,7 +100,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                         builder: (context) => const CustomerServiceScreen(),
                       ));
                 }),
-                LinkCard('버전정보', version: '1.1.0', onTap: () {}),
+                LinkCard('버전정보', info: '1.1.0', onTap: () {}),
                 LinkCard('오픈소스', onTap: () {
                   Navigator.push(
                       context,
@@ -110,6 +112,9 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                   launchUrlString('https://sweetgom.com/4');
                   analytics.logSelectContent(contentType: "go", itemId: "appinfopolicy");
                 }),
+                LinkCard('로그인 정보', info: user.loginType == null ? '없음' : user.loginType.toString(), onTap: () {
+                  context.showSnackbar('로그인 정보: ${user.loginType}\n이메일 정보: ${user.email}');
+                }),
                 LinkCard('로그아웃', onTap: () {
                   // context.go(LoginNewScreen.routeUrl);
                   context.go(LoginNewScreen.routeUrl);
@@ -118,7 +123,14 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                 // LinkCard('연결끊기', onTap: () {
                 //   ref.read(matchTabControllerProvider.notifier).breakUp();
                 // }),
-                LinkCard('회원탈퇴', onTap: () {}),
+
+                LinkCard('친구 끊기', onTap: () {
+                  ref.read(matchTabControllerProvider.notifier).breakUp();
+                }),
+                LinkCard('회원탈퇴', onTap: () {
+                  ref.read(matchTabControllerProvider.notifier).breakUp();
+                  ref.read(loginControllerProvider.notifier).deleteUser();
+                }),
               ],
             ),
             height30,
@@ -133,11 +145,11 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
 class LinkCard extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
-  final String? version;
+  final String? info;
   const LinkCard(
     this.title, {
     required this.onTap,
-    this.version,
+    this.info,
     super.key,
   });
 
@@ -149,7 +161,7 @@ class LinkCard extends StatelessWidget {
         children: [
           title.text.make(),
           const EmptyExpanded(),
-          version.isEmptyOrNull ? const Arrow() : version!.text.make(),
+          info.isEmptyOrNull ? const Arrow() : info!.text.make(),
         ],
       ).pSymmetric(h: 20, v: 15),
     );

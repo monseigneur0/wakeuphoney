@@ -96,7 +96,7 @@ class _AlarmReplyScreenState extends ConsumerState<AlarmReplyScreen> {
               children: [
                 height40,
                 height40,
-                Image.asset('assets/images/aiphotos/awakebear.png', width: Constants.cardPngWidth),
+                Image.asset('assets/images/wakeupbear/wakeupbearsleep.png', width: Constants.cardPngWidth),
                 height10,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,

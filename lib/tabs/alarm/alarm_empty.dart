@@ -33,7 +33,7 @@ class EmptyAlarm extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              "assets/images/aiphotos/awakebear.png",
+              "assets/images/wakeupbear/wakeupbearsleep.png",
               width: Constants.emptyPagePngWidth,
             ),
             height20,

@@ -90,7 +90,7 @@ class _AcceptBoxState extends ConsumerState<AcceptBox> {
     return Column(
       children: [
         DateFormat('a hh:mm').format(widget.wake.wakeTime).toString().text.medium.color(AppColors.primary700).make(),
-        Image.asset('assets/images/aiphotos/awakebear.png', width: Constants.cardPngWidth),
+        Image.asset('assets/images/wakeupbear/wakeupbearsleep.png', width: Constants.cardPngWidth),
         '이때 깨워줄게요!'.text.medium.make(),
         height10,
         Row(

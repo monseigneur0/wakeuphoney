@@ -32,6 +32,22 @@ class FeedBox extends StatelessWidget {
           TextMessageBox(wake.message),
           height10,
           ImageBox(wake.messagePhoto),
+          if (wake.answer.isNotEmpty)
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.whiteBackground,
+                border: Border.all(color: AppColors.point700),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                children: [
+                  height10,
+                  TextMessageBox(wake.answer),
+                  height10,
+                  ImageBox(wake.answerPhoto),
+                ],
+              ),
+            ),
         ],
       ),
     );

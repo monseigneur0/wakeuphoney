@@ -177,7 +177,7 @@ class LoginController extends StateNotifier<UserModel> {
 
     // Go to /signin if the user is not signed in
     if (!signedIn && !signingIn) {
-      return '/logintabs';
+      return '/loginonboardnewscreen';
     }
     // Go to /books if the user is signed in and tries to go to /signin.
     else if (signedIn && signingIn) {
@@ -196,12 +196,22 @@ class LoginController extends StateNotifier<UserModel> {
     if (gender == 1) {
       _loginRepository.updateGender('male');
     }
-    if (gender == 1) {
+    if (gender == 2) {
       _loginRepository.updateGender('female');
     }
   }
 
   void updateBirthday(DateTime birthDate) {
     _loginRepository.updateBirthday(birthDate);
+  }
+
+  void deleteUser() {
+    final uid = _loginRepository.currentUser!.uid;
+
+    _loginRepository.deleteUser(uid);
+  }
+
+  void updateGPTcount() {
+    _loginRepository.updateGPTcount();
   }
 }

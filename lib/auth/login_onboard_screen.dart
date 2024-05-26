@@ -15,23 +15,29 @@ class LoginOnBoardScreen extends StatelessWidget {
       body: IntroductionScreen(
         pages: [
           PageViewModel(
-            image: Image.asset('assets/images/aiphotos/rabbitwake.png'),
-            title: '상대를 깨울 수 있어요!',
-            body: '버튼 하나로 알람 보내기',
+            image: Image.asset(
+              'assets/images/wakeupbear/wakeupbearsleep.png',
+              width: context.deviceWidth / 3 * 2,
+            ),
+            title: '자고 있는 친구를 깨워봐요',
+            body: '친구가 알람 소리를 듣고 일어날 수 있을까요?',
             decoration: getPageDecoration(context),
           ),
           PageViewModel(
-            image: Image.asset('assets/images/aiphotos/rabbitalarm.png'),
-            title: '상대를 깨울 수 있어요!',
+            image: Image.asset(
+              'assets/images/wakeupbear/wakeupbearready.png',
+              width: context.deviceWidth / 3 * 2,
+            ),
+            title: '깨울 준비를 해 볼까요?',
             body: '버튼 하나로 알람 보내기',
             decoration: getPageDecoration(context),
           ),
-          PageViewModel(
-            image: Image.asset('assets/images/aiphotos/rabbitalarm.png'),
-            title: '상대를 깨울 수 있어요!',
-            body: '버튼 하나로 알람 보내기',
-            decoration: getPageDecoration(context),
-          ),
+          // PageViewModel(
+          //   image: Image.asset('assets/images/aiphotos/rabbitalarm.png'),
+          //   title: '상대를 깨울 수 있어요!',
+          //   body: '버튼 하나로 알람 보내기',
+          //   decoration: getPageDecoration(context),
+          // ),
         ],
         done: const Text('Done'),
         onDone: () {

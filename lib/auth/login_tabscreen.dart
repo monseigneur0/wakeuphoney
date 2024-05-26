@@ -5,6 +5,7 @@ import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/util/app_keyboard_util.dart';
 import 'package:wakeuphoney/common/widget/w_text_field_with_delete.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
+import 'package:wakeuphoney/common/widget/w_text_form_field.dart';
 import 'package:wakeuphoney/tabs/main_tabscreen.dart';
 import 'package:wakeuphoney/tabs/match/user_widget.dart';
 
@@ -40,8 +41,8 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(height: context.deviceHeight / 6),
-              Image.asset('assets/images/alarmbearno.png', width: context.deviceWidth / 3),
+              Container(height: context.deviceHeight / 5),
+              Image.asset('assets/images/wakeupbear/wakeupbear.png', width: context.deviceWidth / 3),
               height20,
               Row(
                 children: [
@@ -64,7 +65,7 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
               Row(
                 children: [
                   Expanded(
-                    child: TextFieldWithDelete(
+                    child: TextFormFieldWithDelete(
                       obscureText: true,
                       focusNode: FocusNode(),
                       textInputAction: TextInputAction.done,

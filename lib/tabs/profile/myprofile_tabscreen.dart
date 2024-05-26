@@ -18,29 +18,40 @@ class MyProfileTabScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userModelProvider);
+    // final user = ref.watch(userModelProvider);
+    final userStream = ref.watch(getUserStreamProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('내 프로필'),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            height40,
-            height40,
-            _profileImage(user!),
-            height10,
-            user.displayName.text.lg.medium.make(),
-            height30,
-            infobox(user, ref, context),
-            height20,
-            // disconnectButton(ref),
-            height40,
-            height40,
-            height40,
-          ],
-        ).pSymmetric(v: 10, h: 20),
+        child: userStream.when(
+          data: (user) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                height40,
+                height40,
+                _profileImage(user),
+                height10,
+                user.displayName.text.lg.medium.make(),
+                height30,
+                infobox(user, ref, context),
+                height20,
+                // disconnectButton(ref),
+                height40,
+                height40,
+                height40,
+              ],
+            ).pSymmetric(v: 10, h: 20);
+          },
+          error: (error, stackTrace) => StreamError(error, stackTrace),
+
+          //나중에 글로벌 에러 핸들링으로 변경
+          loading: () => const CircularProgressIndicator(), // Define the 'loading' variable
+          // 나ㅇ에 글로벌 로딩 페이지으로 변경
+        ),
       ),
     );
   }

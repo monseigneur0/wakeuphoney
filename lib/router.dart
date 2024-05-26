@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/app.dart';
 import 'package:wakeuphoney/auth.dart';
+import 'package:wakeuphoney/auth/login_onboard_screen.dart';
 import 'package:wakeuphoney/common/image/image_screen.dart';
 import 'package:wakeuphoney/common/providers/providers.dart';
 
@@ -11,11 +12,13 @@ import 'package:wakeuphoney/auth/login_tabscreen.dart';
 import 'package:wakeuphoney/common/error/error_page.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_reply_screen.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_ring_sample.dart';
+import 'package:wakeuphoney/tabs/bitcoin/bitcoin_screen.dart';
 import 'package:wakeuphoney/tabs/main_tabscreen.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_tabscreen.dart';
 import 'package:wakeuphoney/tabs/feed/feed_detail_scree.dart';
 import 'package:wakeuphoney/tabs/feed/feed_tabscreen.dart';
 import 'package:wakeuphoney/tabs/manager/manager_screen.dart';
+import 'package:wakeuphoney/tabs/match/match_tabscreen.dart';
 import 'package:wakeuphoney/tabs/profile/myprofile_tabscreen.dart';
 import 'package:wakeuphoney/tabs/tab_item.dart';
 import 'package:wakeuphoney/tabs/wake/wake_tabscreen.dart';
@@ -44,55 +47,70 @@ final routerProvider = Provider((ref) {
       ),
       GoRoute(
         name: LoginNewScreen.routeName,
-        path: LoginNewScreen.routeUrl, //logintabs
+        path: LoginNewScreen.routeUrl,
         builder: (context, state) => const LoginNewScreen(),
       ),
       GoRoute(
+        name: LoginOnBoardScreen.routeName,
+        path: LoginOnBoardScreen.routeUrl,
+        builder: (context, state) => const LoginOnBoardScreen(),
+      ),
+      GoRoute(
         name: AlarmTabScreen.routeName,
-        path: AlarmTabScreen.routeUrl, //logintabs
+        path: AlarmTabScreen.routeUrl,
         builder: (context, state) => const AlarmTabScreen(),
       ),
       GoRoute(
         name: WakeTabScreen.routeName,
-        path: WakeTabScreen.routeUrl, //logintabs
+        path: WakeTabScreen.routeUrl,
         builder: (context, state) => const WakeTabScreen(),
       ),
       GoRoute(
         name: FeedTabScreen.routeName,
-        path: FeedTabScreen.routeUrl, //logintabs
+        path: FeedTabScreen.routeUrl,
         builder: (context, state) => const FeedTabScreen(),
       ),
       GoRoute(
         name: WakeWriteScreen.routeName,
-        path: WakeWriteScreen.routeUrl, //logintabs
+        path: WakeWriteScreen.routeUrl,
         builder: (context, state) => const WakeWriteScreen(),
       ),
       GoRoute(
         name: ImageScreen.routeName,
-        path: ImageScreen.routeUrl, //logintabs
+        path: ImageScreen.routeUrl,
         builder: (context, state) => const ImageScreen(),
       ),
       GoRoute(
         name: ManagerScreen.routeName,
-        path: ManagerScreen.routeUrl, //logintabs
+        path: ManagerScreen.routeUrl,
         builder: (context, state) => const ManagerScreen(),
       ),
       GoRoute(
+        name: BitcoinScreen.routeName,
+        path: BitcoinScreen.routeUrl,
+        builder: (context, state) => const BitcoinScreen(),
+      ),
+      GoRoute(
         name: AlarmRingSampleScreen.routeName,
-        path: AlarmRingSampleScreen.routeUrl, //logintabs
+        path: AlarmRingSampleScreen.routeUrl,
         builder: (context, state) => AlarmRingSampleScreen(
           alarmSettings: alarmSettings,
         ),
       ),
       GoRoute(
         name: MyProfileTabScreen.routeName,
-        path: MyProfileTabScreen.routeUrl, //logintabs
+        path: MyProfileTabScreen.routeUrl,
         builder: (context, state) => const MyProfileTabScreen(),
       ),
       GoRoute(
         name: AlarmReplyScreen.routeName,
-        path: AlarmReplyScreen.routeUrl, //logintabs
+        path: AlarmReplyScreen.routeUrl,
         builder: (context, state) => const AlarmReplyScreen(),
+      ),
+      GoRoute(
+        name: MatchTabScreen.routeName,
+        path: MatchTabScreen.routeUrl,
+        builder: (context, state) => const MatchTabScreen(),
       ),
       GoRoute(
         path: '/',
@@ -105,10 +123,10 @@ final routerProvider = Provider((ref) {
           child: const LoginNewScreen(),
         ),
       ),
-      GoRoute(
-        path: '/main',
-        redirect: (_, __) => '/main/home',
-      ),
+      // GoRoute(
+      //   path: '/main',
+      //   redirect: (_, __) => '/main/home',
+      // ),
       GoRoute(
         path: '/feed/:feedId',
         redirect: (BuildContext context, GoRouterState state) => '/main/home/${state.pathParameters['feedId']}',
