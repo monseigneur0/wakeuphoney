@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/common/common.dart';
@@ -135,7 +136,7 @@ class MyInviteCode extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        '내 초대코드${match.time.toString()}'.text.medium.make(),
+        '내 초대코드 1시간 유효 (${DateFormat('HH:mm').format(match.time).toString()})'.text.medium.make(),
         height5,
         Container(
           height: 50,
