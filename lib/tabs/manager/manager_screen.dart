@@ -44,6 +44,7 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
             ),
             'Check Font Family'.text.size(16).make(),
             'Check Font Family'.text.size(16).fontFamily('Pretendard').make(),
+            const UserLoggedInWidget(),
             const Text(
               'Check Font Family',
               style: TextStyle(

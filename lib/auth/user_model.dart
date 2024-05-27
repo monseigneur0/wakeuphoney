@@ -153,7 +153,7 @@ class UserModel {
       coupleDisplayName: map['coupleDisplayName'] as String,
       couplePhotoURL: map['couplePhotoURL'] as String,
       creationTime: (map['creationTime']).toDate(),
-      matchedDateTime: (map['matchedDateTime']).toDate(),
+      matchedDateTime: (map['matchedDateTime'])?.toDate(),
       lastSignInTime: (map['lastSignInTime']).toDate(),
       isLoggedIn: map['isLoggedIn'] as bool,
       chatGPTMessageCount: map['chatGPTMessageCount'] as int,

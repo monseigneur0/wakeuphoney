@@ -26,7 +26,8 @@ class MainTabsScreen extends ConsumerStatefulWidget {
 
 class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTickerProviderStateMixin {
   final tabs = TabItem.values;
-  late final List<GlobalKey<NavigatorState>> navigatorKeys = TabItem.values.map((e) => GlobalKey<NavigatorState>()).toList();
+  late final List<GlobalKey<NavigatorState>> navigatorKeys =
+      TabItem.values.map((e) => GlobalKey<NavigatorState>()).toList();
 
   TabItem get _currentTab => ref.watch(currentTabProvider);
 
@@ -181,7 +182,7 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
   }
 
   void _handleOnTapNavigationBarItem(int index) {
-    HapticFeedback.vibrate();
+    HapticFeedback.lightImpact();
     final oldTab = _currentTab;
     final targetTab = tabs[index];
     if (oldTab == targetTab) {
