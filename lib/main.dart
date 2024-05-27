@@ -25,7 +25,7 @@ void main() async {
 
   await Alarm.init(showDebugLogs: true);
 
-  if (!kDebugMode) {
+  if (kDebugMode) {
     runApp(EasyLocalization(
       supportedLocales: const [
         Locale('en'),

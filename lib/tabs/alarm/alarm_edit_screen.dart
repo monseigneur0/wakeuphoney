@@ -358,7 +358,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                   'sound'.tr(),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                if (!kDebugMode) Text('wow${assetAudio.split('/').last}'),
+                if (kDebugMode) Text('wow${assetAudio.split('/').last}'),
                 DropdownButton(
                   value: assetAudio,
                   items: const [

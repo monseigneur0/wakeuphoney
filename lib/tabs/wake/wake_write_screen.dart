@@ -142,10 +142,10 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
         title: const Text('깨워볼까요?'),
         backgroundColor: AppColors.myBackground,
         actions: [
-          !kDebugMode
+          kDebugMode
               ? IconButton(
                   onPressed: () {
-                    !kDebugMode ? context.push(AlarmRingSampleScreen.routeUrl) : null;
+                    kDebugMode ? context.push(AlarmRingSampleScreen.routeUrl) : null;
                   },
                   icon: const Icon(Icons.save),
                 )
@@ -233,7 +233,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                                     audioPath = path;
                                     showPlayer = true;
                                   });
-                                  if (!!kDebugMode) uploadVoiceToStorage();
+                                  if (!kDebugMode) uploadVoiceToStorage();
                                 },
                               ),
                             ],
@@ -492,7 +492,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                       },
                     ),
               height40,
-              if (!kDebugMode)
+              if (kDebugMode)
                 MainButton(
                   '메세지',
                   onPressed: () async {
@@ -507,7 +507,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                     });
                   },
                 ),
-              if (!kDebugMode)
+              if (kDebugMode)
                 MainButton(
                   'token',
                   onPressed: () async {

@@ -64,7 +64,7 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
         _startTimer();
       }
     } catch (e) {
-      if (!kDebugMode) {
+      if (kDebugMode) {
         print(e);
       }
     }
@@ -142,7 +142,7 @@ class _RecorderState extends State<Recorder> with AudioRecorderMixin {
                   ? const Text("Too low")
                   : const Text("good")
               : const Text(""),
-          if (!kDebugMode) Text(' ${_amplitude!.current}'),
+          if (kDebugMode) Text(' ${_amplitude!.current}'),
         ],
       ],
     );

@@ -56,7 +56,7 @@ class AlarmTabScreen extends ConsumerWidget {
               );
             }
             return Center(
-              // if (!kDebugMode) const AlarmManager(),
+              // if (kDebugMode) const AlarmManager(),
               child: AlarmList(ref, alarm: alarm, user: friend ?? user),
             );
           },
@@ -115,7 +115,7 @@ class _AlarmListState extends State<AlarmList> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: (!kDebugMode) ? context.deviceHeight - 190 : context.deviceHeight - 100,
+      height: (kDebugMode) ? context.deviceHeight - 190 : context.deviceHeight - 100,
       child: ListView.builder(
         itemCount: widget.alarm.length,
         itemBuilder: (context, index) {

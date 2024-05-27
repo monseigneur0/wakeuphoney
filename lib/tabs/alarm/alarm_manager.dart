@@ -70,7 +70,7 @@ class _AlarmManagerState extends State<AlarmManager> {
 
   @override
   Widget build(BuildContext context) {
-    return !!kDebugMode
+    return !kDebugMode
         ? Container()
         : SizedBox(
             height: 100,

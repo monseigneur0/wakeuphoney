@@ -80,7 +80,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
             height20,
             Column(
               children: [
-                if (!kDebugMode || user!.uid == 'WvELgU4cO6gOeyzfu92j3k9vuBH2')
+                if (kDebugMode || user!.uid == 'WvELgU4cO6gOeyzfu92j3k9vuBH2')
                   LinkCard('매니저', onTap: () {
                     context.push('/manager');
                   }),
@@ -99,7 +99,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                         builder: (context) => const CustomerServiceScreen(),
                       ));
                 }),
-                LinkCard('버전정보', info: '1.1.0', onTap: () {}),
+                LinkCard('버전정보', info: '1.1.1', onTap: () {}),
                 LinkCard('오픈소스', onTap: () {
                   Navigator.push(
                       context,

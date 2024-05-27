@@ -439,7 +439,7 @@ class TimeBar extends StatelessWidget {
         width5,
         DateFormat('hh:mm').format(wake.wakeTime).text.medium.size(20).color(AppColors.primary700).make(),
         width5,
-        // if (!kDebugMode) wake.wakeTime.toString().text.make(),
+        // if (kDebugMode) wake.wakeTime.toString().text.make(),
         width5,
         if (wake.messageAudio.isNotEmpty)
           const CircleAvatar(
