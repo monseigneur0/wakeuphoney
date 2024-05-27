@@ -25,11 +25,20 @@ class LoginOnBoardScreen extends StatelessWidget {
           ),
           PageViewModel(
             image: Image.asset(
+              'assets/images/wakeupbear/wakeupbearbefore.png',
+              width: context.deviceWidth / 3 * 2,
+            ),
+            title: '깜짝 놀랄 수도 있어요',
+            body: '사진, 텍스트 메세지, \n음성 메세지로 하고 싶은 말을 전해보세요',
+            decoration: getPageDecoration(context),
+          ),
+          PageViewModel(
+            image: Image.asset(
               'assets/images/wakeupbear/wakeupbearready.png',
               width: context.deviceWidth / 3 * 2,
             ),
             title: '깨울 준비를 해 볼까요?',
-            body: '버튼 하나로 알람 보내기',
+            body: '초대코드를 통해 친구와 연결해봐요',
             decoration: getPageDecoration(context),
           ),
           // PageViewModel(

@@ -23,10 +23,14 @@ class ImageFullScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-            title: '탭하여 변경하기'.text.color(Colors.white).make(), backgroundColor: Colors.black, iconTheme: const IconThemeData(color: Colors.white)),
+            title: '탭하여 변경하기'.text.color(Colors.white).make(),
+            backgroundColor: Colors.black,
+            iconTheme: const IconThemeData(color: Colors.white)),
         backgroundColor: Colors.black,
         body: Tap(
           onTap: () {
+            Navigator.pop(context);
+
             context.push(ImageScreen.routeUrl);
           },
           child: Column(

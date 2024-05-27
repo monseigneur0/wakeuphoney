@@ -32,35 +32,34 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('프로필'),
+        title: const Text('설정'),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            height20,
             SizedBox(
-              child: Row(
+              child: const Row(
                 children: [
-                  Column(
-                    children: [
-                      Tap(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ImageFullScreen(
-                                    imageURL: user.photoURL,
-                                    herotag: 'profileImage',
-                                  ),
-                                ));
-                          },
-                          child: profileImage(
-                            user!,
-                            herotag: 'profileImage',
-                          )),
-                      user.displayName.text.make(),
-                    ],
-                  ),
+                  // Column(
+                  //   children: [
+                  //     Tap(
+                  //         onTap: () {
+                  //           Navigator.push(
+                  //               context,
+                  //               MaterialPageRoute(
+                  //                 builder: (context) => ImageFullScreen(
+                  //                   imageURL: user.photoURL,
+                  //                   herotag: 'profileImage',
+                  //                 ),
+                  //               ));
+                  //         },
+                  //         child: profileImage(
+                  //           user!,
+                  //           herotag: 'profileImage',
+                  //         )),
+                  //     user.displayName.text.make(),
+                  //   ],
+                  // ),
                   // width20,
                   // Column(
                   //   children: [
@@ -81,7 +80,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
             height20,
             Column(
               children: [
-                if (kDebugMode || user.uid == 'WvELgU4cO6gOeyzfu92j3k9vuBH2')
+                if (!kDebugMode || user!.uid == 'WvELgU4cO6gOeyzfu92j3k9vuBH2')
                   LinkCard('매니저', onTap: () {
                     context.push('/manager');
                   }),
@@ -112,7 +111,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                   launchUrlString('https://sweetgom.com/4');
                   analytics.logSelectContent(contentType: "go", itemId: "appinfopolicy");
                 }),
-                LinkCard('로그인 정보', info: user.loginType == null ? '없음' : user.loginType.toString(), onTap: () {
+                LinkCard('로그인 정보', info: user!.loginType == null ? '없음' : user.loginType.toString(), onTap: () {
                   context.showSnackbar('로그인 정보: ${user.loginType}\n이메일 정보: ${user.email}');
                 }),
                 LinkCard('로그아웃', onTap: () {

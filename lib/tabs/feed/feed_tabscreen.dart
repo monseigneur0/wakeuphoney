@@ -23,7 +23,7 @@ class _FeedTabScreenState extends ConsumerState<FeedTabScreen> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          if (kDebugMode)
+          if (!kDebugMode)
             Column(
               children: [
                 height40,

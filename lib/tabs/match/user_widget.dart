@@ -25,17 +25,17 @@ class _UserLoggedInWidgetState extends ConsumerState<UserLoggedInWidget> {
     }
     return Column(
       children: [
-        if (kDebugMode)
+        if (!kDebugMode)
           Container(
             child: user.displayName.text.make(),
           ),
-        if (kDebugMode)
+        if (!kDebugMode)
           Container(
             child: userModel.displayName.text.make(),
           ),
         Column(
           children: [
-            if (kDebugMode)
+            if (!kDebugMode)
               Container(
                 child: userfuture.when(
                   data: (user) {

@@ -43,16 +43,23 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
     Logger logger = Logger();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('깨우기'),
+        title: '알람을 설정해보세요'.text.lg.make(),
         actions: [
-          IconButton(
-            onPressed: () {
-              context.push(WakeWriteScreen.routeUrl);
-            },
-            icon: Image.asset(
-              'assets/images/alarm-clock.png',
-              width: 30,
-              color: AppColors.primary600,
+          Transform.translate(
+            offset: const Offset(-5, 0),
+            child: IconButton(
+              onPressed: () {
+                context.push(WakeWriteScreen.routeUrl);
+              },
+              // icon: Image.asset(
+              //   'assets/images/alarm-clock.png',
+              //   width: 30,
+              //   color: AppColors.primary600,
+              icon: const Icon(
+                Icons.add,
+                size: 30,
+                color: AppColors.primary600,
+              ),
             ),
           ),
         ],
@@ -73,7 +80,8 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
                 itemBuilder: (context, index) {
                   return Column(
                     children: [
-                      if (wake[index].isApproved == false && wake[index].wakeTime.isAfter(DateTime.now())) WakeAcceptBox(ref, wake[index]),
+                      if (wake[index].isApproved == false && wake[index].wakeTime.isAfter(DateTime.now()))
+                        WakeAcceptBox(ref, wake[index]),
                       // height5,
                       FeedBox(user, wake[index]),
                     ],
@@ -431,7 +439,7 @@ class TimeBar extends StatelessWidget {
         width5,
         DateFormat('hh:mm').format(wake.wakeTime).text.medium.size(20).color(AppColors.primary700).make(),
         width5,
-        // if (kDebugMode) wake.wakeTime.toString().text.make(),
+        // if (!kDebugMode) wake.wakeTime.toString().text.make(),
         width5,
         if (wake.messageAudio.isNotEmpty)
           const CircleAvatar(

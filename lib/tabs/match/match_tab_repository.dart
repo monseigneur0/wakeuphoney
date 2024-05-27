@@ -109,9 +109,11 @@ class MatchTabRepository {
     try {
       _users.doc(uid).update({
         'couples': FieldValue.arrayUnion([coupleId]),
+        'matchedDateTime': DateTime.now(),
       });
       _users.doc(coupleId).update({
         'couples': FieldValue.arrayUnion([uid]),
+        'matchedDateTime': DateTime.now(),
       });
     } catch (error) {
       // Handle the error here

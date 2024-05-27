@@ -58,7 +58,13 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
                   children: [
                     Image.asset('assets/images/login/cloud.png'),
                     Image.asset('assets/images/login/linkcouple.png'),
-                    '서로의 초대코드를 입력하면 \n연결돼요!'.text.color(AppColors.primary600).size(20).medium.align(TextAlign.center).make(),
+                    '서로의 초대코드를 입력하면 \n연결돼요!'
+                        .text
+                        .color(AppColors.primary600)
+                        .size(20)
+                        .medium
+                        .align(TextAlign.center)
+                        .make(),
                     height30,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,13 +92,17 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
                                           return '초대코드가 일치합니다.'.text.make(); // Return error message
                                         }
                                         if (value.length == 6) {
-                                          ref.read(matchTabControllerProvider.notifier).checkMatchProcess(inviteCodeController.text);
+                                          ref
+                                              .read(matchTabControllerProvider.notifier)
+                                              .checkMatchProcess(inviteCodeController.text);
                                         }
                                       },
                                       onEditingComplete: () {
                                         logger.d('onEditingComplete checkMatchProcess');
 
-                                        ref.read(matchTabControllerProvider.notifier).checkMatchProcess(inviteCodeController.text);
+                                        ref
+                                            .read(matchTabControllerProvider.notifier)
+                                            .checkMatchProcess(inviteCodeController.text);
                                       },
                                     ).pOnly(top: 5),
                                   ],

@@ -90,7 +90,8 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
   }
 
   void uploadImageToStorage() async {
-    Reference refImageToUpload = ref.read(storageProvider).ref().child(FirebaseConstants.alarmImage).child(DateTime.now().toString());
+    Reference refImageToUpload =
+        ref.read(storageProvider).ref().child(FirebaseConstants.alarmImage).child(DateTime.now().toString());
     if (letterImageFile != null) {
       try {
         await refImageToUpload.putFile(File(letterImageFile!.path));
@@ -111,7 +112,8 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
       isLoading = true;
     });
     if (audioPath != null) {
-      Reference refVoiceToUpload = ref.read(storageProvider).ref().child(FirebaseConstants.alarmVoice).child(DateTime.now().toString());
+      Reference refVoiceToUpload =
+          ref.read(storageProvider).ref().child(FirebaseConstants.alarmVoice).child(DateTime.now().toString());
       try {
         await refVoiceToUpload.putFile(File(audioPath!));
         ref.read(voiceUrlProvider.notifier).state = await refVoiceToUpload.getDownloadURL();
@@ -140,12 +142,14 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
         title: const Text('깨워볼까요?'),
         backgroundColor: AppColors.myBackground,
         actions: [
-          IconButton(
-            onPressed: () {
-              kDebugMode ? context.push(AlarmRingSampleScreen.routeUrl) : null;
-            },
-            icon: const Icon(Icons.save),
-          )
+          !kDebugMode
+              ? IconButton(
+                  onPressed: () {
+                    !kDebugMode ? context.push(AlarmRingSampleScreen.routeUrl) : null;
+                  },
+                  icon: const Icon(Icons.save),
+                )
+              : Container(),
         ],
       ),
       body: Tap(
@@ -229,7 +233,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                                     audioPath = path;
                                     showPlayer = true;
                                   });
-                                  if (!kDebugMode) uploadVoiceToStorage();
+                                  if (!!kDebugMode) uploadVoiceToStorage();
                                 },
                               ),
                             ],
@@ -474,7 +478,9 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                         if (context.mounted) {
                           context.go('/main/wake');
                           //text, voice, photo, alarm 전달
-                          ref.read(wakeControllerProvider.notifier).createWakeUp(_letterController.text, selectedTime, volume, vibrate, assetAudio);
+                          ref
+                              .read(wakeControllerProvider.notifier)
+                              .createWakeUp(_letterController.text, selectedTime, volume, vibrate, assetAudio);
                           ref
                               .read(wakeControllerProvider.notifier)
                               .createFriendFCM(user?.couples?.first, "${_letterController.text.substring(0, 5)}...");
@@ -486,7 +492,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                       },
                     ),
               height40,
-              if (kDebugMode)
+              if (!kDebugMode)
                 MainButton(
                   '메세지',
                   onPressed: () async {
@@ -501,7 +507,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                     });
                   },
                 ),
-              if (kDebugMode)
+              if (!kDebugMode)
                 MainButton(
                   'token',
                   onPressed: () async {

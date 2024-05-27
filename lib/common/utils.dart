@@ -27,7 +27,7 @@ Future<XFile?> selectGalleryImage() async {
     source: ImageSource.gallery,
     maxHeight: 1080,
     maxWidth: 1080,
-    imageQuality: 15,
+    imageQuality: 30,
   );
 
   return res;
@@ -39,7 +39,7 @@ Future<XFile?> takeCameraImage() async {
     source: ImageSource.camera,
     maxHeight: 1080,
     maxWidth: 1080,
-    imageQuality: 15,
+    imageQuality: 30,
   );
 
   return res;

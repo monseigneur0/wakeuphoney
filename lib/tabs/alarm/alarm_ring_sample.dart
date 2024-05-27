@@ -71,7 +71,9 @@ class AlarmRingSampleScreen extends ConsumerWidget {
                     height40,
                     const InfoBox(),
                     height10,
-                    WakeModel.sample() == ringingAlarm ? Container() : CoupleButton(ref, ringingAlarm, alarmSettings), //버튼 위치는 항상 고정해야하지 않을까
+                    WakeModel.sample() == ringingAlarm
+                        ? Container()
+                        : CoupleButton(ref, ringingAlarm, alarmSettings), //버튼 위치는 항상 고정해야하지 않을까
                   ],
                 ).pSymmetric(v: 10, h: 20);
               }
@@ -196,7 +198,7 @@ class TimeBarBig extends StatelessWidget {
         width5,
         DateFormat('hh:mm').format(wake.wakeTime).text.size(32).semiBold.color(AppColors.primary700).make(),
         width5,
-        // if (kDebugMode) wake.wakeTime.toString().text.make(),
+        // if (!kDebugMode) wake.wakeTime.toString().text.make(),
         width5,
         if (wake.messageAudio.isNotEmpty)
           const CircleAvatar(

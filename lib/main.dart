@@ -26,6 +26,26 @@ void main() async {
   await Alarm.init(showDebugLogs: true);
 
   if (!kDebugMode) {
+    runApp(EasyLocalization(
+      supportedLocales: const [
+        Locale('en'),
+        Locale('ko'),
+        Locale('zh'),
+        Locale('es'),
+        Locale('fr'),
+        Locale('id'),
+        Locale('ja'),
+        Locale('my'),
+        Locale('pt'),
+      ],
+      fallbackLocale: const Locale('en'),
+      path: 'assets/translations',
+      useOnlyLangCode: true,
+      child: const CustomThemeApp(
+        child: ProviderScope(child: AlarmFunction()),
+      ),
+    ));
+  } else {
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     analytics.logAppOpen();
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
@@ -54,25 +74,5 @@ void main() async {
         )),
       ),
     );
-  } else {
-    runApp(EasyLocalization(
-      supportedLocales: const [
-        Locale('en'),
-        Locale('ko'),
-        Locale('zh'),
-        Locale('es'),
-        Locale('fr'),
-        Locale('id'),
-        Locale('ja'),
-        Locale('my'),
-        Locale('pt'),
-      ],
-      fallbackLocale: const Locale('en'),
-      path: 'assets/translations',
-      useOnlyLangCode: true,
-      child: const CustomThemeApp(
-        child: ProviderScope(child: AlarmFunction()),
-      ),
-    ));
   }
 }

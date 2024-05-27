@@ -66,7 +66,8 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
       loopAudio = widget.alarmSettings!.loopAudio;
       vibrate = widget.alarmSettings!.vibrate;
       volume = widget.alarmSettings!.volume;
-      showNotification = widget.alarmSettings!.notificationTitle.isNotEmpty && widget.alarmSettings!.notificationBody.isNotEmpty;
+      showNotification =
+          widget.alarmSettings!.notificationTitle.isNotEmpty && widget.alarmSettings!.notificationBody.isNotEmpty;
       assetAudio = widget.alarmSettings!.assetAudioPath;
       // days = widget.alarmSettings!.days;
     }
@@ -206,10 +207,9 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+                  BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                ]),
                 child: TextButton(
                   onPressed: () => Navigator.pop(context, false),
                   child: Text(
@@ -223,10 +223,9 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.black.withOpacity(0.8)),
               ),
               Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+                  BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+                ]),
                 child: TextButton(
                   onPressed: saveAlarm,
                   child: loading
@@ -244,10 +243,9 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
             onTap: pickTime,
             child: Container(
               padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
-                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+                BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+              ]),
               child: Text(
                 selectedTime.format(context),
                 style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.black, fontSize: 30),
@@ -271,10 +269,9 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
           //   textDirection: textDirection,
           // ),
           Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+              BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+            ]),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -290,10 +287,9 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
             ).pSymmetric(h: 20, v: 10),
           ),
           Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+              BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+            ]),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -309,10 +305,9 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
             ).pSymmetric(h: 20, v: 10),
           ),
           Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+              BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+            ]),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -353,10 +348,9 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                 : const SizedBox(),
           ),
           Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.white, boxShadow: [
+              BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))
+            ]),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -364,7 +358,7 @@ class _AlarmEditScreenState extends State<AlarmEditScreen> {
                   'sound'.tr(),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                if (kDebugMode) Text('wow${assetAudio.split('/').last}'),
+                if (!kDebugMode) Text('wow${assetAudio.split('/').last}'),
                 DropdownButton(
                   value: assetAudio,
                   items: const [

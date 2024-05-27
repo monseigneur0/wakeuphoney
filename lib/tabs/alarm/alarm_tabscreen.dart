@@ -33,7 +33,9 @@ class AlarmTabScreen extends ConsumerWidget {
     final user = ref.watch(userModelProvider);
     final friend = ref.watch(friendUserModelProvider);
     if (user == null) {
-      return const CircularProgressIndicator();
+      return Center(
+        child: Image.asset('assets/images/wakeupbear/wakeupbear.png'),
+      );
     }
     if (friend == null) {
       return const Center(
@@ -43,7 +45,7 @@ class AlarmTabScreen extends ConsumerWidget {
     final myAlarm = ref.watch(alarmListStreamProvider);
     return Scaffold(
       appBar: AppBar(
-        title: '알람'.text.make(),
+        title: '예약된 알람을 확인하세요'.text.lg.make(),
       ),
       body: SingleChildScrollView(
         child: myAlarm.when(
@@ -54,7 +56,7 @@ class AlarmTabScreen extends ConsumerWidget {
               );
             }
             return Center(
-              // if (kDebugMode) const AlarmManager(),
+              // if (!kDebugMode) const AlarmManager(),
               child: AlarmList(ref, alarm: alarm, user: friend ?? user),
             );
           },
@@ -113,7 +115,7 @@ class _AlarmListState extends State<AlarmList> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: (kDebugMode) ? context.deviceHeight - 190 : context.deviceHeight - 100,
+      height: (!kDebugMode) ? context.deviceHeight - 190 : context.deviceHeight - 100,
       child: ListView.builder(
         itemCount: widget.alarm.length,
         itemBuilder: (context, index) {
@@ -136,7 +138,9 @@ class _AlarmListState extends State<AlarmList> {
                 height10,
                 //feed box 는 오직 알람이 이미 울렸고 승인된 경우
                 //blur box 는 알람이 울릴 예정이고 승인되지 않은 경우 울렸더라도 승인되지 않는경우
-                (wake.wakeTime.isBefore(DateTime.now()) && wake.isApproved) ? FeedBox(widget.user, wake) : FeedBlurBox(widget.user, wake),
+                (wake.wakeTime.isBefore(DateTime.now()) && wake.isApproved)
+                    ? FeedBox(widget.user, wake)
+                    : FeedBlurBox(widget.user, wake),
                 if (index == 0)
                   if (_bannerAd != null)
                     Align(

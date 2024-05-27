@@ -28,6 +28,7 @@ class UserModel {
   final DateTime? coupleWakeUpTime;
 
   final DateTime creationTime;
+  final DateTime? matchedDateTime;
   final DateTime lastSignInTime;
   final bool isLoggedIn;
 
@@ -44,6 +45,7 @@ class UserModel {
     this.coupleDisplayName,
     this.couplePhotoURL,
     required this.creationTime,
+    this.matchedDateTime,
     required this.lastSignInTime,
     required this.isLoggedIn,
     required this.chatGPTMessageCount,
@@ -69,6 +71,7 @@ class UserModel {
     String? coupleDisplayName,
     String? couplePhotoURL,
     DateTime? creationTime,
+    DateTime? matchedDateTime,
     DateTime? lastSignInTime,
     bool? isLoggedIn,
     int? chatGPTMessageCount,
@@ -93,6 +96,7 @@ class UserModel {
       coupleDisplayName: coupleDisplayName ?? this.coupleDisplayName,
       couplePhotoURL: couplePhotoURL ?? this.couplePhotoURL,
       creationTime: creationTime ?? this.creationTime,
+      matchedDateTime: matchedDateTime ?? this.matchedDateTime,
       lastSignInTime: lastSignInTime ?? this.lastSignInTime,
       isLoggedIn: isLoggedIn ?? this.isLoggedIn,
       chatGPTMessageCount: chatGPTMessageCount ?? this.chatGPTMessageCount,
@@ -121,6 +125,7 @@ class UserModel {
       'coupleDisplayName': coupleDisplayName,
       'couplePhotoURL': couplePhotoURL,
       'creationTime': creationTime,
+      'matchedDateTime': matchedDateTime,
       'lastSignInTime': lastSignInTime,
       'isLoggedIn': isLoggedIn,
       'chatGPTMessageCount': chatGPTMessageCount,
@@ -148,6 +153,7 @@ class UserModel {
       coupleDisplayName: map['coupleDisplayName'] as String,
       couplePhotoURL: map['couplePhotoURL'] as String,
       creationTime: (map['creationTime']).toDate(),
+      matchedDateTime: (map['matchedDateTime']).toDate(),
       lastSignInTime: (map['lastSignInTime']).toDate(),
       isLoggedIn: map['isLoggedIn'] as bool,
       chatGPTMessageCount: map['chatGPTMessageCount'] as int,
@@ -181,6 +187,7 @@ class UserModel {
         other.coupleDisplayName == coupleDisplayName &&
         other.couplePhotoURL == couplePhotoURL &&
         other.creationTime == creationTime &&
+        other.matchedDateTime == matchedDateTime &&
         other.lastSignInTime == lastSignInTime &&
         other.isLoggedIn == isLoggedIn;
   }
@@ -198,6 +205,7 @@ class UserModel {
         coupleDisplayName.hashCode ^
         couplePhotoURL.hashCode ^
         creationTime.hashCode ^
+        matchedDateTime.hashCode ^
         lastSignInTime.hashCode ^
         isLoggedIn.hashCode;
   }
@@ -215,6 +223,7 @@ class UserModel {
       coupleDisplayName: '',
       couplePhotoURL: '',
       creationTime: DateTime.now(),
+      matchedDateTime: DateTime.now(),
       lastSignInTime: DateTime.now(),
       isLoggedIn: false,
       chatGPTMessageCount: 0,

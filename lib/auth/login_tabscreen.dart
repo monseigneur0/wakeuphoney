@@ -134,7 +134,7 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                   ),
                 ],
               ),
-              if (kDebugMode)
+              if (!kDebugMode)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -152,7 +152,7 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                   ],
                 ),
 
-              if (kDebugMode) const UserLoggedInWidget(),
+              if (!kDebugMode) const UserLoggedInWidget(),
 
               height20,
               Row(
@@ -187,7 +187,7 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                 ],
               ),
               height40,
-              // if (kDebugMode)
+              // if (!kDebugMode)
               //   Row(
               //     children: [
               //       ElevatedButton(
@@ -215,8 +215,9 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
     });
 
     // Attempt login using the provided login controller
-    final userCredential =
-        await ref.watch(loginControllerProvider.notifier).signInWithEmailAndPassword(context, emailController.text, pwdController.text);
+    final userCredential = await ref
+        .watch(loginControllerProvider.notifier)
+        .signInWithEmailAndPassword(context, emailController.text, pwdController.text);
 
     setState(() {
       _isLoading = false;
