@@ -59,7 +59,8 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
                   children: [
                     Image.asset('assets/images/login/cloud.png'),
                     Image.asset('assets/images/login/linkcouple.png'),
-                    '서로의 초대코드를 입력하면 \n연결돼요!'
+                    "Enter each other's invitation codes to connect!"
+                        .tr()
                         .text
                         .color(AppColors.primary600)
                         .size(20)
@@ -77,43 +78,61 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
                                   children: [
                                     MyInviteCode(match),
                                     height20,
-                                    '상대방 초대코드'.text.fontWeight(FontWeight.w600).make(),
+                                    "friend's invitation code"
+                                        .tr()
+                                        .text
+                                        .fontWeight(FontWeight.w600)
+                                        .make(),
                                     height5,
                                     TextFieldWithDelete(
                                       textInputAction: TextInputAction.next,
                                       controller: inviteCodeController,
                                       keyboardType: TextInputType.number,
                                       deleteRightPadding: 5,
-                                      texthint: "초대코드를 입력해주세요",
+                                      texthint:
+                                          "Please enter the invitation code"
+                                              .tr(),
                                       onChanged: (value) {
                                         logger.d(inviteCodeController.text);
-                                        if (inviteCodeController.text == match.vertifynumber.toString()) {
+                                        if (inviteCodeController.text ==
+                                            match.vertifynumber.toString()) {
                                           logger.d('same code error');
-                                          context.showSnackbar('상대방 초대코드를 입력해주세요.');
-                                          return '초대코드가 일치합니다.'.text.make(); // Return error message
+                                          context.showSnackbar(
+                                              "Please enter the invitation code"
+                                                  .tr());
+                                          return 'Invitation code matched.'
+                                              .tr()
+                                              .text
+                                              .make(); // Return error message
                                         }
                                         if (value.length == 6) {
                                           ref
-                                              .read(matchTabControllerProvider.notifier)
-                                              .checkMatchProcess(inviteCodeController.text);
+                                              .read(matchTabControllerProvider
+                                                  .notifier)
+                                              .checkMatchProcess(
+                                                  inviteCodeController.text);
                                         }
                                       },
                                       onEditingComplete: () {
-                                        logger.d('onEditingComplete checkMatchProcess');
+                                        logger.d(
+                                            'onEditingComplete checkMatchProcess');
 
                                         ref
-                                            .read(matchTabControllerProvider.notifier)
-                                            .checkMatchProcess(inviteCodeController.text);
+                                            .read(matchTabControllerProvider
+                                                .notifier)
+                                            .checkMatchProcess(
+                                                inviteCodeController.text);
                                       },
                                     ).pOnly(top: 5),
                                   ],
                                 );
                               },
-                              error: (error, stackTrace) => 'Error: $error'.text.make(),
+                              error: (error, stackTrace) =>
+                                  'Error: $error'.text.make(),
                               loading: () => const CircularProgressIndicator(),
                             ),
                         height20,
-                        const MainButton('연결하기'),
+                        MainButton('Connect'.tr()),
                       ],
                     ),
                   ],
@@ -136,7 +155,10 @@ class MyInviteCode extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        '내 초대코드 1시간 유효 (${DateFormat('HH:mm').format(match.time).toString()})'.text.medium.make(),
+        '내 초대코드 1시간 유효 (${DateFormat('HH:mm').format(match.time).toString()})'
+            .text
+            .medium
+            .make(),
         height5,
         Container(
           height: 50,
@@ -149,7 +171,13 @@ class MyInviteCode extends StatelessWidget {
           ),
           child: Row(
             children: [
-              match.vertifynumber.toString().selectableText.lg.medium.make().pSymmetric(h: 10, v: 10),
+              match.vertifynumber
+                  .toString()
+                  .selectableText
+                  .lg
+                  .medium
+                  .make()
+                  .pSymmetric(h: 10, v: 10),
             ],
           ),
         ),

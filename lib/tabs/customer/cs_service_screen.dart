@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/providers/firebase_providers.dart';
 import 'package:wakeuphoney/common/utils.dart';
 
@@ -18,10 +19,12 @@ class CustomerServiceScreen extends ConsumerStatefulWidget {
   const CustomerServiceScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CustomerServiceScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CustomerServiceScreenState();
 }
 
-class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> with SingleTickerProviderStateMixin {
+class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
+    with SingleTickerProviderStateMixin {
   final TextEditingController _messageTextController = TextEditingController();
   String messageText = "";
   final ScrollController _messageListController = ScrollController();
@@ -31,7 +34,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
   String apiKey = "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";
   String streamText = "";
 
-  static const String _kStrings = "일어나곰 고객센터";
+  static final String _kStrings = "WakeupBear Customer Center".tr();
   String get _currentString => _kStrings;
 
   late Animation<int> _characterCount;
@@ -52,7 +55,8 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
       vsync: this,
       duration: const Duration(milliseconds: 2500),
     );
-    _characterCount = StepTween(begin: 0, end: _currentString.length).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeIn));
+    _characterCount = StepTween(begin: 0, end: _currentString.length).animate(
+        CurvedAnimation(parent: _animationController, curve: Curves.easeIn));
     _animationController.addListener(() {
       setState(() {});
     });
@@ -130,7 +134,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("고객센터")),
+      appBar: AppBar(title: Text("Customer Center".tr())),
       body: SafeArea(
         child: Column(children: [
           Align(
@@ -156,12 +160,14 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
                 ? AnimatedBuilder(
                     animation: _characterCount,
                     builder: (context, child) {
-                      String text = _currentString.substring(0, _characterCount.value);
+                      String text =
+                          _currentString.substring(0, _characterCount.value);
                       return Row(
                         children: [
                           Text(
                             text,
-                            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 24),
                           ),
                           const CircleAvatar(
                             radius: 8,
@@ -185,7 +191,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    "일어나곰".text.medium.make(),
+                                    "WakeupBear".tr().text.medium.make(),
                                     SelectableText(_historyList[index].content),
                                   ],
                                 ),
@@ -200,7 +206,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    "사용자".text.medium.make(),
+                                    "user".tr().text.medium.make(),
                                     SelectableText(_historyList[index].content),
                                   ],
                                 ),
@@ -233,15 +239,17 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
                             ),
                             child: TextFormField(
                               controller: _messageTextController,
-                              decoration: const InputDecoration(
-                                hintText: '궁금한게 있어요.',
+                              decoration: InputDecoration(
+                                hintText: 'I have a question.'.tr(),
                                 border: InputBorder.none,
                               ),
                               validator: (value) {
-                                if (value == null || value.isEmpty || value == "") {
-                                  return '궁금한 점을 입력해주세요.';
+                                if (value == null ||
+                                    value.isEmpty ||
+                                    value == "") {
+                                  return 'Please enter your question.'.tr();
                                 } else if (value.length > 200) {
-                                  return '내용이 너무 길어요';
+                                  return 'The content is too long.'.tr();
                                 }
                                 return null;
                               },
@@ -250,9 +258,13 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
                         ),
                         IconButton(
                           iconSize: 42,
-                          icon: isLoading ? const CircularProgressIndicator() : const Icon(Icons.sick_outlined),
+                          icon: isLoading
+                              ? const CircularProgressIndicator()
+                              : const Icon(Icons.sick_outlined),
                           onPressed: () async {
-                            showToast("현재 고객센터 사용이 불가합니다.");
+                            showToast(
+                                "Customer center is currently unavailable."
+                                    .tr());
                           },
                         ),
                       ],
@@ -288,15 +300,17 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
                             ),
                             child: TextFormField(
                               controller: _messageTextController,
-                              decoration: const InputDecoration(
-                                hintText: '궁금한게 있어요.',
+                              decoration: InputDecoration(
+                                hintText: 'I have a question.'.tr(),
                                 border: InputBorder.none,
                               ),
                               validator: (value) {
-                                if (value == null || value.isEmpty || value == "") {
-                                  return '궁금한 점을 입력해주세요.';
+                                if (value == null ||
+                                    value.isEmpty ||
+                                    value == "") {
+                                  return 'Please enter your question.'.tr();
                                 } else if (value.length > 200) {
-                                  return '내용이 너무 길어요';
+                                  return 'The content is too long.'.tr();
                                 }
                                 return null;
                               },
@@ -305,9 +319,12 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
                         ),
                         IconButton(
                           iconSize: 42,
-                          icon: isLoading ? const CircularProgressIndicator() : const Icon(Icons.arrow_circle_up),
+                          icon: isLoading
+                              ? const CircularProgressIndicator()
+                              : const Icon(Icons.arrow_circle_up),
                           onPressed: () async {
-                            if (_messageTextController.text.isEmpty || isLoading) return;
+                            if (_messageTextController.text.isEmpty ||
+                                isLoading) return;
 
                             setState(() {
                               isLoading = true; // Set the loading state to true
@@ -315,7 +332,8 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
                                 role: "user",
                                 content: _messageTextController.text.trim(),
                               ));
-                              _historyList.add(ChatGPTMessageModel(role: "assistant", content: ""));
+                              _historyList.add(ChatGPTMessageModel(
+                                  role: "assistant", content: ""));
                               logger.d(_historyList);
                             });
 
@@ -327,16 +345,18 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
                               if (user.chatGPTMessageCount != 0) {
                                 await requestChat(messageText);
                               } else {
-                                showToast("현재 고객센터 사용이 불가합니다.");
+                                showToast(
+                                    "Customer center is currently unavailable.");
                               }
 
                               streamText = "";
                               final analytics = ref.watch(analyticsProvider);
-                              analytics.logEvent(name: "use chatgpt", parameters: {
+                              analytics
+                                  .logEvent(name: "use chatgpt", parameters: {
                                 "message": messageText,
                               });
                             } catch (e) {
-                              print(e);
+                              logger.e(e);
                             } finally {
                               setState(() {
                                 // isLoading = false; // Set the loading state back to false

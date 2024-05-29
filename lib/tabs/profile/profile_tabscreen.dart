@@ -1,19 +1,18 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:wakeuphoney/auth/login_controller.dart';
-import 'package:wakeuphoney/auth/login_tabscreen.dart';
+
 import 'package:wakeuphoney/common/common.dart';
-import 'package:wakeuphoney/common/image/image_full_screen.dart';
-import 'package:wakeuphoney/common/image/image_screen.dart';
 import 'package:wakeuphoney/common/providers/firebase_providers.dart';
 import 'package:wakeuphoney/common/providers/providers.dart';
 import 'package:wakeuphoney/common/widget/w_arrow.dart';
+
+import 'package:wakeuphoney/auth/login_controller.dart';
+import 'package:wakeuphoney/auth/login_tabscreen.dart';
 import 'package:wakeuphoney/opensource/s_opensource.dart';
 import 'package:wakeuphoney/tabs/customer/cs_service_screen.dart';
-import 'package:wakeuphoney/tabs/friend/friend_tabscreen.dart';
 import 'package:wakeuphoney/tabs/match/match_tab_controller.dart';
 import 'package:wakeuphoney/tabs/profile/myprofile_tabscreen.dart';
 
@@ -21,7 +20,8 @@ class ProfileTabScreen extends StatefulHookConsumerWidget {
   const ProfileTabScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ProfileTabScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _ProfileTabScreenState();
 }
 
 class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
@@ -32,7 +32,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('설정'),
+        title: Text('settings'.tr()),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -49,13 +49,13 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                   //               MaterialPageRoute(
                   //                 builder: (context) => ImageFullScreen(
                   //                   imageURL: user.photoURL,
-                  //                   herotag: 'profileImage',
+                  //                   herotag: 'profileImage'.tr(),
                   //                 ),
                   //               ));
                   //         },
                   //         child: profileImage(
                   //           user!,
-                  //           herotag: 'profileImage',
+                  //           herotag: 'profileImage'.tr(),
                   //         )),
                   //     user.displayName.text.make(),
                   //   ],
@@ -65,7 +65,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                   //   children: [
                   //     ClipOval(
                   //       child: Image.asset(
-                  //         'assets/images/samples/cherryblossom.png',
+                  //         'assets/images/samples/cherryblossom.png'.tr(),
                   //         width: Constants.pngSize,
                   //         height: Constants.pngSize,
                   //         fit: BoxFit.cover,
@@ -81,40 +81,47 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
             Column(
               children: [
                 if (kDebugMode || user!.uid == 'WvELgU4cO6gOeyzfu92j3k9vuBH2')
-                  LinkCard('매니저', onTap: () {
+                  LinkCard('WakeupBear'.tr(), onTap: () {
                     context.push('/manager');
                   }),
-                LinkCard('앱소개', onTap: () {
+                LinkCard('App Introduction'.tr(), onTap: () {
                   launchUrlString("https://sweetgom.com/5");
-                  analytics.logSelectContent(contentType: "go", itemId: "appinfoonline");
+                  analytics.logSelectContent(
+                      contentType: "go", itemId: "appinfoonline");
                 }),
-                LinkCard('내 정보 관리', onTap: () {
+                LinkCard('My account information'.tr(), onTap: () {
                   context.push(MyProfileTabScreen.routeUrl);
                 }),
-                LinkCard('편지 확인 가능 시간', onTap: () {}),
-                LinkCard('고객센터', onTap: () {
+                LinkCard('Wake confirmation time', onTap: () {}),
+                LinkCard('Customer Center'.tr(), onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const CustomerServiceScreen(),
                       ));
                 }),
-                LinkCard('버전정보', info: '1.1.1', onTap: () {}),
-                LinkCard('오픈소스', onTap: () {
+                LinkCard('App Version Information'.tr(),
+                    info: '1.1.1', onTap: () {}),
+                LinkCard('Open Source'.tr(), onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const OpensourceScreen(),
                       ));
                 }),
-                LinkCard('개인정보처리방침', onTap: () {
+                LinkCard('Privacy Policy'.tr(), onTap: () {
                   launchUrlString('https://sweetgom.com/4');
-                  analytics.logSelectContent(contentType: "go", itemId: "appinfopolicy");
+                  analytics.logSelectContent(
+                      contentType: "go", itemId: "appinfopolicy");
                 }),
-                LinkCard('로그인 정보', info: user!.loginType == null ? '없음' : user.loginType.toString(), onTap: () {
-                  context.showSnackbar('로그인 정보: ${user.loginType}\n이메일 정보: ${user.email}');
+                LinkCard('login information',
+                    info: user!.loginType == null
+                        ? 'null'.tr()
+                        : user.loginType.toString(), onTap: () {
+                  context.showSnackbar(
+                      '로그인 정보: ${user.loginType}\n이메일 정보: ${user.email}');
                 }),
-                LinkCard('로그아웃', onTap: () {
+                LinkCard('Signout'.tr(), onTap: () {
                   // context.go(LoginNewScreen.routeUrl);
                   context.go(LoginNewScreen.routeUrl);
                   ref.read(loginControllerProvider.notifier).signOut(context);
@@ -123,10 +130,10 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                 //   ref.read(matchTabControllerProvider.notifier).breakUp();
                 // }),
 
-                LinkCard('친구 끊기', onTap: () {
+                LinkCard('dissconect friend'.tr(), onTap: () {
                   ref.read(matchTabControllerProvider.notifier).breakUp();
                 }),
-                LinkCard('회원탈퇴', onTap: () {
+                LinkCard('delete user'.tr(), onTap: () {
                   ref.read(matchTabControllerProvider.notifier).breakUp();
                   ref.read(loginControllerProvider.notifier).deleteUser();
                 }),
@@ -158,9 +165,9 @@ class LinkCard extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          title.text.make(),
+          title.tr().text.make(),
           const EmptyExpanded(),
-          info.isEmptyOrNull ? const Arrow() : info!.text.make(),
+          info.isEmptyOrNull ? const Arrow() : info!.tr().text.make(),
         ],
       ).pSymmetric(h: 20, v: 15),
     );

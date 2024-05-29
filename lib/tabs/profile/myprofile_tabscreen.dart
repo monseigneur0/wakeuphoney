@@ -6,8 +6,6 @@ import 'package:wakeuphoney/auth/login_controller.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/providers/firebase_providers.dart';
-import 'package:wakeuphoney/common/providers/providers.dart';
-import 'package:wakeuphoney/common/widget/normal_button.dart';
 import 'package:wakeuphoney/common/widget/w_main_button.dart';
 import 'package:wakeuphoney/tabs/match/match_tab_controller.dart';
 
@@ -23,7 +21,7 @@ class MyProfileTabScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('내 프로필'),
+        title: Text('myProfile'.tr()),
       ),
       body: SingleChildScrollView(
         child: userStream.when(
@@ -49,7 +47,8 @@ class MyProfileTabScreen extends ConsumerWidget {
           error: (error, stackTrace) => StreamError(error, stackTrace),
 
           //나중에 글로벌 에러 핸들링으로 변경
-          loading: () => const CircularProgressIndicator(), // Define the 'loading' variable
+          loading: () =>
+              const CircularProgressIndicator(), // Define the 'loading' variable
           // 나ㅇ에 글로벌 로딩 페이지으로 변경
         ),
       ),
@@ -95,7 +94,9 @@ Widget infobox(UserModel friend, WidgetRef ref, BuildContext context) {
                     lastDate: DateTime.now(),
                   ).then((value) {
                     if (value != null) {
-                      ref.read(loginControllerProvider.notifier).updateBirthday(value);
+                      ref
+                          .read(loginControllerProvider.notifier)
+                          .updateBirthday(value);
                       // analytics.logSelectContent(
                       //     contentType: 'birthday', itemId: 'editbirthday');
                     }
@@ -103,8 +104,19 @@ Widget infobox(UserModel friend, WidgetRef ref, BuildContext context) {
                 },
                 child: Column(
                   children: [
-                    '생일'.text.lg.medium.color(AppColors.primary600).make(),
-                    DateFormat.yMMMMd().format(friend.birthDate).toString().text.lg.make(),
+                    'Birthday'
+                        .tr()
+                        .text
+                        .lg
+                        .medium
+                        .color(AppColors.primary600)
+                        .make(),
+                    DateFormat.yMMMMd()
+                        .format(friend.birthDate)
+                        .toString()
+                        .text
+                        .lg
+                        .make(),
                     //make it to update birthdate
                   ],
                 ),
@@ -132,17 +144,32 @@ Widget infobox(UserModel friend, WidgetRef ref, BuildContext context) {
                               onTap: () {
                                 final analytics = ref.read(analyticsProvider);
                                 Navigator.pop(context);
-                                ref.read(loginControllerProvider.notifier).updateGender(1);
-                                analytics.logSelectContent(contentType: "gender", itemId: "editgender");
+                                ref
+                                    .read(loginControllerProvider.notifier)
+                                    .updateGender(1);
+                                analytics.logSelectContent(
+                                    contentType: "gender",
+                                    itemId: "editgender");
                               },
                               child: Container(
                                       height: 60,
-                                      width: MediaQuery.of(context).size.width - 100,
+                                      width: MediaQuery.of(context).size.width -
+                                          100,
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                           color: Colors.white,
-                                          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
-                                      child: Center(child: Text('male'.tr(), style: const TextStyle(fontSize: 24))))
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: Colors.black
+                                                    .withOpacity(0.1),
+                                                blurRadius: 10,
+                                                offset: const Offset(8, 8))
+                                          ]),
+                                      child: Center(
+                                          child: Text('male'.tr(),
+                                              style: const TextStyle(
+                                                  fontSize: 24))))
                                   .pSymmetric(v: 10),
                             ),
                             const SizedBox(
@@ -151,16 +178,30 @@ Widget infobox(UserModel friend, WidgetRef ref, BuildContext context) {
                             GestureDetector(
                               onTap: () {
                                 Navigator.pop(context);
-                                ref.read(loginControllerProvider.notifier).updateGender(2);
+                                ref
+                                    .read(loginControllerProvider.notifier)
+                                    .updateGender(2);
                               },
                               child: Container(
                                       height: 60,
-                                      width: MediaQuery.of(context).size.width - 100,
+                                      width: MediaQuery.of(context).size.width -
+                                          100,
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                           color: Colors.white,
-                                          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(8, 8))]),
-                                      child: Center(child: Text('female'.tr(), style: const TextStyle(fontSize: 24))).p(5))
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: Colors.black
+                                                    .withOpacity(0.1),
+                                                blurRadius: 10,
+                                                offset: const Offset(8, 8))
+                                          ]),
+                                      child: Center(
+                                              child: Text('female'.tr(),
+                                                  style: const TextStyle(
+                                                      fontSize: 24)))
+                                          .p(5))
                                   .pSymmetric(v: 10),
                             ),
                           ],
@@ -169,8 +210,16 @@ Widget infobox(UserModel friend, WidgetRef ref, BuildContext context) {
                 },
                 child: Column(
                   children: [
-                    '성별'.text.lg.medium.color(AppColors.primary600).make(),
-                    (friend.gender == 'female') ? '여성'.text.lg.make() : '남성'.text.lg.make(),
+                    'female'
+                        .tr()
+                        .text
+                        .lg
+                        .medium
+                        .color(AppColors.primary600)
+                        .make(),
+                    (friend.gender == 'female')
+                        ? 'female'.tr().text.lg.make()
+                        : 'male'.tr().text.lg.make(),
                   ],
                 ),
               ),
@@ -184,7 +233,7 @@ Widget infobox(UserModel friend, WidgetRef ref, BuildContext context) {
 
 Widget disconnectButton(WidgetRef ref) {
   return MainButton(
-    '친구 끊기',
+    'disconnect friend'.tr(),
     onPressed: () {
       ref.read(matchTabControllerProvider.notifier).breakUp();
     },

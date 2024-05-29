@@ -63,7 +63,8 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
   final TextEditingController _letterController = TextEditingController();
   final textEditingFucus = FocusNode();
 
-  final ExpansionTileController _expansionTileController = ExpansionTileController();
+  final ExpansionTileController _expansionTileController =
+      ExpansionTileController();
 
   void takePhotoAndGetImage() async {
     final letterCameraPicked = await takeCameraImage();
@@ -90,12 +91,16 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
   }
 
   void uploadImageToStorage() async {
-    Reference refImageToUpload =
-        ref.read(storageProvider).ref().child(FirebaseConstants.alarmImage).child(DateTime.now().toString());
+    Reference refImageToUpload = ref
+        .read(storageProvider)
+        .ref()
+        .child(FirebaseConstants.alarmImage)
+        .child(DateTime.now().toString());
     if (letterImageFile != null) {
       try {
         await refImageToUpload.putFile(File(letterImageFile!.path));
-        ref.read(imageUrlProvider.notifier).state = await refImageToUpload.getDownloadURL();
+        ref.read(imageUrlProvider.notifier).state =
+            await refImageToUpload.getDownloadURL();
         logger.d(ref.read(imageUrlProvider));
       } catch (e) {
         logger.e("Error uploading image or no image file selected");
@@ -112,11 +117,15 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
       isLoading = true;
     });
     if (audioPath != null) {
-      Reference refVoiceToUpload =
-          ref.read(storageProvider).ref().child(FirebaseConstants.alarmVoice).child(DateTime.now().toString());
+      Reference refVoiceToUpload = ref
+          .read(storageProvider)
+          .ref()
+          .child(FirebaseConstants.alarmVoice)
+          .child(DateTime.now().toString());
       try {
         await refVoiceToUpload.putFile(File(audioPath!));
-        ref.read(voiceUrlProvider.notifier).state = await refVoiceToUpload.getDownloadURL();
+        ref.read(voiceUrlProvider.notifier).state =
+            await refVoiceToUpload.getDownloadURL();
         logger.d(ref.read(voiceUrlProvider));
       } catch (e) {
         logger.e("Error uploading image or no image file selected");
@@ -139,13 +148,15 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
     final user = ref.read(userModelProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('깨워볼까요?'),
+        title: Text('wake up your friend?'.tr()),
         backgroundColor: AppColors.myBackground,
         actions: [
           kDebugMode
               ? IconButton(
                   onPressed: () {
-                    kDebugMode ? context.push(AlarmRingSampleScreen.routeUrl) : null;
+                    kDebugMode
+                        ? context.push(AlarmRingSampleScreen.routeUrl)
+                        : null;
                   },
                   icon: const Icon(Icons.save),
                 )
@@ -169,15 +180,17 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                     if (newDateTime.isBefore(DateTime.now())) {
                       newDateTime = newDateTime.add(const Duration(days: 1));
                     }
-                    selectedTime = TimeOfDay(hour: newDateTime.hour, minute: newDateTime.minute);
+                    selectedTime = TimeOfDay(
+                        hour: newDateTime.hour, minute: newDateTime.minute);
                   },
                 ),
               ),
               height10,
-              '내용'.text.make(),
+              'Contents'.text.make(),
               height5,
               Tap(
-                onTap: () => FocusScope.of(context).requestFocus(textEditingFucus),
+                onTap: () =>
+                    FocusScope.of(context).requestFocus(textEditingFucus),
                 child: Container(
                     decoration: containerBoxDecoration(),
                     child: Column(
@@ -189,25 +202,35 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                           focusNode: textEditingFucus,
                           onChanged: (p0) {
                             if (_letterController.text.length > 300) {
-                              _letterController.text = _letterController.text.substring(0, 300);
+                              _letterController.text =
+                                  _letterController.text.substring(0, 300);
                             }
                             setState(() {});
                           },
                         ),
                         height30,
-                        '${_letterController.text.length}/300자'.text.color(AppColors.grey500).make(),
+                        '${_letterController.text.length}/300'
+                            .text
+                            .color(AppColors.grey500)
+                            .make(),
                       ],
                     ).pSymmetric(h: 10, v: 10)),
               ),
               height10,
               Tap(
-                onTap: () => context.showSnackbar('목소리로 깨워보세요!\n알람음 대신 녹음한 목소리로 깨워드립니다.'),
+                onTap: () => context.showSnackbar(
+                    'Wake them up with your voice!\n Wake them up with your recorded voice instead of the alarm sound.'),
                 child: Container(
                     decoration: containerBoxDecoration(),
                     child: showPlayer
                         ? Row(
                             children: [
-                              '알람 소리 재생'.text.color(AppColors.grey500).lg.medium.make(),
+                              'Play alarm sound'
+                                  .text
+                                  .color(AppColors.grey500)
+                                  .lg
+                                  .medium
+                                  .make(),
                               const EmptyExpanded(),
                               Center(
                                 child: isLoading
@@ -224,7 +247,13 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                           ).pOnly(left: 20, top: 10, bottom: 10)
                         : Row(
                             children: [
-                              '알람 소리 녹음'.text.color(AppColors.grey500).lg.medium.make(),
+                              'Record alarm sound'
+                                  .tr()
+                                  .text
+                                  .color(AppColors.grey500)
+                                  .lg
+                                  .medium
+                                  .make(),
                               const EmptyExpanded(),
                               Recorder(
                                 onStop: (path) {
@@ -246,13 +275,18 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                       ? Tap(
                           onTap: () {
                             takePhotoAndGetImage();
-                            showToast('사진을 찍어주세요.');
+                            showToast('Take a picture.'.tr());
                           },
                           child: Container(
                             decoration: containerBoxDecoration(),
                             child: Row(
                               children: [
-                                '카메라'.text.color(AppColors.grey500).lg.medium.make(),
+                                '카메라'
+                                    .text
+                                    .color(AppColors.grey500)
+                                    .lg
+                                    .medium
+                                    .make(),
                                 const EmptyExpanded(),
                                 const Icon(Icons.camera_alt),
                               ],
@@ -265,16 +299,23 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                             children: [
                               Row(
                                 children: [
-                                  '카메라'.text.color(AppColors.grey500).lg.medium.make(),
+                                  'camera'
+                                      .text
+                                      .color(AppColors.grey500)
+                                      .lg
+                                      .medium
+                                      .make(),
                                   const EmptyExpanded(),
                                   Tap(
                                       onTap: () => setState(() {
                                             useAlbum = false;
                                             letterImageFile = null;
-                                            showToast('사진을 삭제했습니다.');
+                                            showToast('Photo deleted.');
                                             // delete at server
                                           }),
-                                      child: isLoading ? const Loader() : const Icon(Icons.cancel)),
+                                      child: isLoading
+                                          ? const Loader()
+                                          : const Icon(Icons.cancel)),
                                 ],
                               ).pSymmetric(h: 20, v: 10),
                               Image.file(letterImageFile!)
@@ -288,7 +329,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                       ? Tap(
                           onTap: () {
                             selecAlbumImage();
-                            showToast('사진을 선택해주세요.');
+                            showToast('please choose a photo'.tr());
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -298,7 +339,13 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                             ),
                             child: Row(
                               children: [
-                                '앨범'.text.color(AppColors.grey500).lg.medium.make(),
+                                'album'
+                                    .tr()
+                                    .text
+                                    .color(AppColors.grey500)
+                                    .lg
+                                    .medium
+                                    .make(),
                                 const EmptyExpanded(),
                                 const Icon(Icons.photo_library),
                               ],
@@ -311,16 +358,24 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                             children: [
                               Row(
                                 children: [
-                                  '앨범'.text.color(AppColors.grey500).lg.medium.make(),
+                                  'album'
+                                      .tr()
+                                      .text
+                                      .color(AppColors.grey500)
+                                      .lg
+                                      .medium
+                                      .make(),
                                   const EmptyExpanded(),
                                   Tap(
                                       onTap: () => setState(() {
                                             useAlbum = false;
                                             letterImageFile = null;
-                                            showToast('사진을 삭제했습니다.');
+                                            showToast('Photo deleted.'.tr());
                                             //delete at server
                                           }),
-                                      child: isLoading ? const Loader() : const Icon(Icons.cancel)),
+                                      child: isLoading
+                                          ? const Loader()
+                                          : const Icon(Icons.cancel)),
                                 ],
                               ).pSymmetric(h: 20, v: 10),
                               Image.file(letterImageFile!)
@@ -333,8 +388,15 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
               Container(
                   decoration: containerBoxDecoration(),
                   child: ExpansionTile(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                      title: '알람 상세 설정'.text.color(AppColors.grey500).lg.medium.make(),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      title: 'alarm settings'
+                          .tr()
+                          .text
+                          .color(AppColors.grey500)
+                          .lg
+                          .medium
+                          .make(),
                       backgroundColor: AppColors.whiteBackground,
                       controller: _expansionTileController,
                       onExpansionChanged: (value) {},
@@ -360,12 +422,14 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                             const Divider(height: 1, color: AppColors.grey200),
                             Row(
                               children: [
-                                '알람 반복'.text.make(),
+                                'Repeat alarm'.tr().text.make(),
                                 const EmptyExpanded(),
                                 Switch(
                                   inactiveThumbColor: AppColors.whiteBackground,
-                                  trackOutlineColor: MaterialStateColor.resolveWith((states) {
-                                    switch (states.contains(MaterialState.selected)) {
+                                  trackOutlineColor:
+                                      MaterialStateColor.resolveWith((states) {
+                                    switch (states
+                                        .contains(MaterialState.selected)) {
                                       case true:
                                         return AppColors.primary600;
                                       case false:
@@ -373,19 +437,22 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                                     }
                                   }),
                                   value: loopAudio,
-                                  onChanged: (value) => setState(() => loopAudio = value),
+                                  onChanged: (value) =>
+                                      setState(() => loopAudio = value),
                                 ),
                               ],
                             ),
                             const Divider(height: 1, color: AppColors.grey200),
                             Row(
                               children: [
-                                '진동'.text.make(),
+                                'vibrate'.tr().text.make(),
                                 const EmptyExpanded(),
                                 Switch(
                                   inactiveThumbColor: AppColors.whiteBackground,
-                                  trackOutlineColor: MaterialStateColor.resolveWith((states) {
-                                    switch (states.contains(MaterialState.selected)) {
+                                  trackOutlineColor:
+                                      MaterialStateColor.resolveWith((states) {
+                                    switch (states
+                                        .contains(MaterialState.selected)) {
                                       case true:
                                         return AppColors.primary600;
                                       case false:
@@ -393,7 +460,8 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                                     }
                                   }),
                                   value: vibrate,
-                                  onChanged: (value) => setState(() => vibrate = value),
+                                  onChanged: (value) =>
+                                      setState(() => vibrate = value),
                                 ),
                               ],
                             ),
@@ -401,7 +469,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                '알람 기본 음악'.text.make(),
+                                'Default alarm music'.tr().text.make(),
                                 DropdownButton(
                                   value: assetAudio,
                                   items: const [
@@ -438,7 +506,8 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                                       child: Text('Star Wars'),
                                     ),
                                   ],
-                                  onChanged: (value) => setState(() => assetAudio = value!),
+                                  onChanged: (value) =>
+                                      setState(() => assetAudio = value!),
                                 ),
                               ],
                             ),
@@ -468,9 +537,9 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
               //   ).pSymmetric(h: 20, v: 10),
               // ),
               isLoading
-                  ? const MainButton('업로드 중', onPressed: null)
+                  ? MainButton('Uploading...'.tr(), onPressed: null)
                   : MainButton(
-                      '깨우기',
+                      'Wake up'.tr(),
                       onPressed: () {
                         setState(() {
                           isLoading = true;
@@ -480,10 +549,12 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
                           //text, voice, photo, alarm 전달
                           ref
                               .read(wakeControllerProvider.notifier)
-                              .createWakeUp(_letterController.text, selectedTime, volume, vibrate, assetAudio);
+                              .createWakeUp(_letterController.text,
+                                  selectedTime, volume, vibrate, assetAudio);
                           ref
                               .read(wakeControllerProvider.notifier)
-                              .createFriendFCM(user?.couples?.first, "${_letterController.text.substring(0, 5)}...");
+                              .createFriendFCM(user?.couples?.first,
+                                  "${_letterController.text.substring(0, 5)}...");
                           _letterController.clear();
                         }
                         setState(() {
@@ -494,7 +565,7 @@ class _WakeWriteScreenState extends ConsumerState<WakeWriteScreen> {
               height40,
               if (kDebugMode)
                 MainButton(
-                  '메세지',
+                  'message'.tr(),
                   onPressed: () async {
                     setState(() {
                       isLoading = true;

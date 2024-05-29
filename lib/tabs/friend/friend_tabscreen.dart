@@ -73,7 +73,7 @@ class FriendTabScreen extends ConsumerWidget {
               height10,
               // user.displayName.text.lg.medium.make(),
               height30,
-              '서로 연결된지'.text.xl2.medium.make(),
+              'has been'.tr().text.xl2.medium.make(),
               // infobox(user),
               height20,
 
@@ -85,15 +85,16 @@ class FriendTabScreen extends ConsumerWidget {
                       // border: Border.all(color: AppColors.primary600),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: '${DateTime(now.year, now.month, now.day + 1).difference(user.matchedDateTime!).inDays + 1}'
-                        .text
-                        .xl4
-                        .bold
-                        .color(AppColors.primary600)
-                        .make(),
+                    child:
+                        '${DateTime(now.year, now.month, now.day + 1).difference(user.matchedDateTime!).inDays + 1}'
+                            .text
+                            .xl4
+                            .bold
+                            .color(AppColors.primary600)
+                            .make(),
                   ),
                   width5,
-                  '일이 지났어요'.text.xl2.medium.make(),
+                  'days'.tr().text.xl2.medium.make(),
                 ],
               ),
               height10,
@@ -147,8 +148,13 @@ Widget infobox(UserModel friend) {
           flex: 1,
           child: Column(
             children: [
-              '생일'.text.lg.medium.color(AppColors.primary600).make(),
-              DateFormat.yMMMMd().format(friend.birthDate).toString().text.lg.make(),
+              'Birthaday'.text.lg.medium.color(AppColors.primary600).make(),
+              DateFormat.yMMMMd()
+                  .format(friend.birthDate)
+                  .toString()
+                  .text
+                  .lg
+                  .make(),
             ],
           ),
         ),
@@ -158,8 +164,10 @@ Widget infobox(UserModel friend) {
           flex: 1,
           child: Column(
             children: [
-              '성별'.text.lg.medium.color(AppColors.primary600).make(),
-              (friend.gender == 'female') ? '여성'.text.lg.make() : '남성'.text.lg.make(),
+              'Gender'.tr().text.lg.medium.color(AppColors.primary600).make(),
+              (friend.gender == 'female')
+                  ? 'Female'.tr().text.lg.make()
+                  : 'Male'.tr().text.lg.make(),
             ],
           ),
         ),
@@ -170,7 +178,7 @@ Widget infobox(UserModel friend) {
 
 Widget disconnectButton(WidgetRef ref) {
   return MainButtonDisabled(
-    '친구 끊기',
+    'disconnect friend'.tr(),
     onPressed: () {
       ref.read(matchTabControllerProvider.notifier).breakUp();
     },

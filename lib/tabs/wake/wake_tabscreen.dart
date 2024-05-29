@@ -2,14 +2,12 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakeuphoney/common/common.dart';
-import 'package:wakeuphoney/common/widget/normal_button.dart';
-import 'package:wakeuphoney/common/providers/providers.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
-
+import 'package:wakeuphoney/common/common.dart';
+import 'package:wakeuphoney/common/providers/providers.dart';
+import 'package:wakeuphoney/common/widget/normal_button.dart';
 import 'package:wakeuphoney/tabs/alarm/feedbox.dart';
 import 'package:wakeuphoney/tabs/match/match_tabscreen.dart';
 import 'package:wakeuphoney/tabs/wake/wake_model.dart';
@@ -43,7 +41,7 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
     Logger logger = Logger();
     return Scaffold(
       appBar: AppBar(
-        title: '알람을 설정해보세요'.text.lg.make(),
+        title: 'Try setting an alarm.'.tr().text.lg.make(),
         actions: [
           Transform.translate(
             offset: const Offset(-5, 0),
@@ -80,7 +78,8 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
                 itemBuilder: (context, index) {
                   return Column(
                     children: [
-                      if (wake[index].isApproved == false && wake[index].wakeTime.isAfter(DateTime.now()))
+                      if (wake[index].isApproved == false &&
+                          wake[index].wakeTime.isAfter(DateTime.now()))
                         WakeAcceptBox(ref, wake[index]),
                       // height5,
                       FeedBox(user, wake[index]),
@@ -95,7 +94,8 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
           return Text('Error: $error');
         }, // Define the 'error' variable
         //나중에 글로벌 에러 핸들링으로 변경
-        loading: () => const CircularProgressIndicator(), // Define the 'loading' variable
+        loading: () =>
+            const CircularProgressIndicator(), // Define the 'loading' variable
         // 나ㅇ에 글로벌 로딩 페이지으로 변경
       )),
       floatingActionButton: FloatingActionButton(
@@ -126,18 +126,28 @@ class WakeAcceptBox extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          DateFormat('a hh:mm').format(wake.wakeTime).toString().text.medium.color(AppColors.primary700).make(),
-          Image.asset('assets/images/wakeupbear/wakeupbearsleep.png', width: Constants.cardPngWidth),
-          if (!wake.isApproved) '상대가 승락하면 깨울 수 있어요!'.text.medium.make(),
+          DateFormat('a hh:mm')
+              .format(wake.wakeTime)
+              .toString()
+              .text
+              .medium
+              .color(AppColors.primary700)
+              .make(),
+          Image.asset('assets/images/wakeupbear/wakeupbearsleep.png',
+              width: Constants.cardPngWidth),
+          if (!wake.isApproved)
+            'You can wake them up if they accept!'.tr().text.medium.make(),
           height10,
           if (!wake.isApproved)
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 NormalButton(
-                  text: '취소하기',
+                  text: 'cancel'.tr(),
                   onPressed: () {
-                    ref.read(wakeControllerProvider.notifier).deleteWakeUp(wake.wakeUid);
+                    ref
+                        .read(wakeControllerProvider.notifier)
+                        .deleteWakeUp(wake.wakeUid);
                   },
                   isPreferred: false,
                 ),
@@ -315,23 +325,35 @@ class EditBox extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text('오전 07:31'),
-                  DateFormat('hh:mm a').format(wake[index]!.wakeTime).toString().text.medium.make(),
-                  Image.asset('assets/images/wakeupbear/wakeupbearsleep.png', width: Constants.cardPngWidth),
-                  '상대가 승락하면 깨울 수 있어요!'.text.medium.make(),
+                  DateFormat('hh:mm a')
+                      .format(wake[index]!.wakeTime)
+                      .toString()
+                      .text
+                      .medium
+                      .make(),
+                  Image.asset('assets/images/wakeupbear/wakeupbearsleep.png',
+                      width: Constants.cardPngWidth),
+                  'You can wake them up if they accept!'
+                      .tr()
+                      .text
+                      .medium
+                      .make(),
                   height10,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       NormalButton(
-                        text: '취소하기',
+                        text: 'cancel'.tr(),
                         onPressed: () {
-                          ref.read(wakeControllerProvider.notifier).deleteWakeUp(wake[index]!.wakeUid);
+                          ref
+                              .read(wakeControllerProvider.notifier)
+                              .deleteWakeUp(wake[index]!.wakeUid);
                         },
                         isPreferred: false,
                       ),
                       width10,
                       NormalButton(
-                        text: '수정하기',
+                        text: 'edit'.tr(),
                         onPressed: () {},
                       ),
                     ],
@@ -363,15 +385,16 @@ class NoFriendBox extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           height40,
-          Image.asset('assets/images/wakeupbear/wakeupbearsleep.png', width: context.deviceWidth / 2),
-          '친구를 등록해 주세요.'.text.medium.make(),
+          Image.asset('assets/images/wakeupbear/wakeupbearsleep.png',
+              width: context.deviceWidth / 2),
+          'Please register your friend.'.tr().text.medium.make(),
           height10,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               width10,
               NormalButton(
-                text: '등록하기',
+                text: 'Register'.tr(),
                 onPressed: () {
                   context.push(MatchTabScreen.routeUrl);
                 },
@@ -403,15 +426,16 @@ class EmptyBox extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           height40,
-          Image.asset('assets/images/wakeupbear/wakeupbearsleep.png', width: context.deviceWidth / 2),
-          ' 깨울 수 있어요!'.text.medium.make(),
+          Image.asset('assets/images/wakeupbear/wakeupbearsleep.png',
+              width: context.deviceWidth / 2),
+          'You can wake them up!'.text.medium.make(),
           height10,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               width10,
               NormalButton(
-                text: '깨우기',
+                text: 'Wake Up',
                 onPressed: () {
                   context.push(WakeWriteScreen.routeUrl);
                 },
@@ -435,9 +459,19 @@ class TimeBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        DateFormat('a').format(wake.wakeTime).text.color(AppColors.primary700).make(),
+        DateFormat('a')
+            .format(wake.wakeTime)
+            .text
+            .color(AppColors.primary700)
+            .make(),
         width5,
-        DateFormat('hh:mm').format(wake.wakeTime).text.medium.size(20).color(AppColors.primary700).make(),
+        DateFormat('hh:mm')
+            .format(wake.wakeTime)
+            .text
+            .medium
+            .size(20)
+            .color(AppColors.primary700)
+            .make(),
         width5,
         // if (kDebugMode) wake.wakeTime.toString().text.make(),
         width5,

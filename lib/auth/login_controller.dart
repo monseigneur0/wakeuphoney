@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,7 +10,8 @@ import 'package:wakeuphoney/auth/login_repository.dart';
 import 'package:wakeuphoney/auth/login_tabscreen.dart';
 import 'package:wakeuphoney/tabs/main_tabscreen.dart';
 
-final getUserByUidProvider = FutureProvider.family<UserModel, String>((ref, uid) {
+final getUserByUidProvider =
+    FutureProvider.family<UserModel, String>((ref, uid) {
   return ref.watch(loginRepositoryProvider).getUserById(uid);
 });
 
@@ -18,8 +20,9 @@ final getUserFutureProvider = FutureProvider<UserModel>((ref) async {
   // ref.read(friendUserModelProvider.notifier).state = ref.read(getUserByUidProvider('couple'));
   final user = await ref.read(loginControllerProvider.notifier).getUser();
   if (user.couples!.isNotEmpty) {
-    ref.read(friendUserModelProvider.notifier).state =
-        await ref.watch(loginRepositoryProvider).getUserById(user.couples!.first);
+    ref.read(friendUserModelProvider.notifier).state = await ref
+        .watch(loginRepositoryProvider)
+        .getUserById(user.couples!.first);
   }
   ref.watch(loginControllerProvider);
   return user;
@@ -33,7 +36,8 @@ final uidProvider = Provider<String>((ref) {
   return ref.watch(loginRepositoryProvider).currentUser!.uid;
 });
 
-final loginControllerProvider = StateNotifierProvider<LoginController, UserModel>((ref) {
+final loginControllerProvider =
+    StateNotifierProvider<LoginController, UserModel>((ref) {
   return LoginController(
     loginRepository: ref.watch(loginRepositoryProvider),
     ref: ref,
@@ -53,10 +57,12 @@ class LoginController extends StateNotifier<UserModel> {
   bool get signedIn => _loginRepository.isLoggedIn;
 
   //email login
-  Future<UserCredential?> signInWithEmailAndPassword(BuildContext context, String email, String password) async {
-    final userCredential = await _loginRepository.signInWithEmailAndPassword(email, password);
+  Future<UserCredential?> signInWithEmailAndPassword(
+      BuildContext context, String email, String password) async {
+    final userCredential =
+        await _loginRepository.signInWithEmailAndPassword(email, password);
     if (userCredential == null) {
-      showToast("로그인에 실패했습니다. 이메일 또는 비밀번호를 확인해주세요.");
+      showToast('loginFail'.tr());
       return null;
     }
     //existing user
@@ -139,7 +145,8 @@ class LoginController extends StateNotifier<UserModel> {
   }
 
   Future<void> setUserByNow(UserCredential userCredential) async {
-    final userModelByNow = await _loginRepository.getUserById(userCredential.user!.uid);
+    final userModelByNow =
+        await _loginRepository.getUserById(userCredential.user!.uid);
     state = userModelByNow;
   }
 
@@ -191,7 +198,8 @@ class LoginController extends StateNotifier<UserModel> {
 
   void updateProfileImage(String imageUrl) {
     _loginRepository.updateProfileImage(imageUrl);
-    ref.read(userModelProvider.notifier).state = state.copyWith(photoURL: imageUrl);
+    ref.read(userModelProvider.notifier).state =
+        state.copyWith(photoURL: imageUrl);
   }
 
   void updateGender(int gender) {

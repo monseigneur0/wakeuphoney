@@ -9,7 +9,7 @@ class SingleProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: '내 정보 관리'.text.make(),
+        title: 'my info'.tr().text.make(),
       ),
       body: Column(
         children: [
@@ -26,7 +26,7 @@ class SingleProfileScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const Text('프로필'),
+              Text('Profile'.tr()),
             ],
           ),
         ],

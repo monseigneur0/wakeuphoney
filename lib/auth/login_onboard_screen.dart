@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:wakeuphoney/auth/login_tabscreen.dart';
@@ -19,8 +20,8 @@ class LoginOnBoardScreen extends StatelessWidget {
               'assets/images/wakeupbear/wakeupbearsleep.png',
               width: context.deviceWidth / 3 * 2,
             ),
-            title: '자고 있는 친구를 깨워봐요',
-            body: '친구가 알람 소리를 듣고 일어날 수 있을까요?',
+            title: 'Wake up your sleeping friend'.tr(),
+            body: 'Will your friend hear the alarm and wake up?'.tr(),
             decoration: getPageDecoration(context),
           ),
           PageViewModel(
@@ -28,8 +29,9 @@ class LoginOnBoardScreen extends StatelessWidget {
               'assets/images/wakeupbear/wakeupbearbefore.png',
               width: context.deviceWidth / 3 * 2,
             ),
-            title: '깜짝 놀랄 수도 있어요',
-            body: '사진, 텍스트 메세지, \n음성 메세지로 하고 싶은 말을 전해보세요',
+            title: 'They might be surprised!'.tr(),
+            body:
+                'Send a message with a picture, \ntext, or voice message.'.tr(),
             decoration: getPageDecoration(context),
           ),
           PageViewModel(
@@ -37,8 +39,8 @@ class LoginOnBoardScreen extends StatelessWidget {
               'assets/images/wakeupbear/wakeupbearready.png',
               width: context.deviceWidth / 3 * 2,
             ),
-            title: '깨울 준비를 해 볼까요?',
-            body: '초대코드를 통해 친구와 연결해봐요',
+            title: "Let's try preparing to wake them up!".tr(),
+            body: 'Link with Code'.tr(),
             decoration: getPageDecoration(context),
           ),
           // PageViewModel(
@@ -48,15 +50,16 @@ class LoginOnBoardScreen extends StatelessWidget {
           //   decoration: getPageDecoration(context),
           // ),
         ],
-        done: const Text('Done'),
+        done: Text('signIn'.tr()),
         onDone: () {
           context.go(LoginNewScreen.routeUrl);
         },
-        next: const Icon(Icons.arrow_forward_ios), // 아이콘도 지정되면 바뀌지 않으므로 const 처리
+        next:
+            const Icon(Icons.arrow_forward_ios), // 아이콘도 지정되면 바뀌지 않으므로 const 처리
         nextStyle: const ButtonStyle(),
 
         showSkipButton: true,
-        skip: const Text('skip'),
+        skip: Text('Skip'.tr()),
         onSkip: () {
           // 로그인 페이지로 이동
           context.go(LoginNewScreen.routeUrl);

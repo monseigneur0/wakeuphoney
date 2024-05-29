@@ -45,7 +45,7 @@ class AlarmTabScreen extends ConsumerWidget {
     final myAlarm = ref.watch(alarmListStreamProvider);
     return Scaffold(
       appBar: AppBar(
-        title: '예약된 알람을 확인하세요'.text.lg.make(),
+        title: 'Check the scheduled alarm'.tr().text.lg.make(),
       ),
       body: SingleChildScrollView(
         child: myAlarm.when(
@@ -57,12 +57,14 @@ class AlarmTabScreen extends ConsumerWidget {
             }
             return Center(
               // if (kDebugMode) const AlarmManager(),
-              child: AlarmList(ref, alarm: alarm, user: friend ?? user),
+              child: AlarmList(ref, alarm: alarm, user: friend),
             );
           },
           error: (error, stackTrace) => StreamError(error, stackTrace),
           //나중에 글로벌 에러 핸들링으로 변경
-          loading: () => const CircularProgressIndicator(), // Define the 'loading' variable
+          loading: () => Center(
+            child: Image.asset('assets/images/wakeupbear/wakeupbear.png'),
+          ), // Define the 'loading' variable
           // 나ㅇ에 글로벌 로딩 페이지으로 변경
         ),
       ),
@@ -74,7 +76,8 @@ class AlarmList extends StatefulWidget {
   final List<WakeModel> alarm;
   final UserModel user;
   final WidgetRef ref;
-  const AlarmList(this.ref, {required this.alarm, required this.user, super.key});
+  const AlarmList(this.ref,
+      {required this.alarm, required this.user, super.key});
 
   @override
   State<AlarmList> createState() => _AlarmListState();
@@ -115,7 +118,9 @@ class _AlarmListState extends State<AlarmList> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: (kDebugMode) ? context.deviceHeight - 190 : context.deviceHeight - 100,
+      height: (kDebugMode)
+          ? context.deviceHeight - 190
+          : context.deviceHeight - 100,
       child: ListView.builder(
         itemCount: widget.alarm.length,
         itemBuilder: (context, index) {
@@ -147,7 +152,8 @@ class _AlarmListState extends State<AlarmList> {
                       alignment: Alignment.bottomCenter,
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height > 800 ? 120 : 80,
+                        height:
+                            MediaQuery.of(context).size.height > 800 ? 120 : 80,
                         child: AdWidget(ad: _bannerAd!),
                       ),
                     ),

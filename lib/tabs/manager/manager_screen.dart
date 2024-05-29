@@ -5,7 +5,7 @@ import 'package:wakeuphoney/auth/login_controller.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/widget/w_main_button.dart';
 import 'package:wakeuphoney/tabs/bitcoin/bitcoin_screen.dart';
-import 'package:wakeuphoney/tabs/match/user_widget.dart';
+import 'package:wakeuphoney/auth/user_widget.dart';
 
 class ManagerScreen extends ConsumerStatefulWidget {
   static const String routeName = 'manager';

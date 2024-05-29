@@ -13,7 +13,8 @@ import 'package:wakeuphoney/tabs/wake/wake_repository.dart';
 
 import 'wake_model.dart';
 
-final wakeControllerProvider = AsyncNotifierProvider<WakeController, void>(() => WakeController());
+final wakeControllerProvider =
+    AsyncNotifierProvider<WakeController, void>(() => WakeController());
 
 final fetchWakeListProvider = FutureProvider.autoDispose((ref) {
   return ref.watch(wakeControllerProvider.notifier).fetchWakeList();
@@ -71,7 +72,10 @@ class WakeController extends AsyncNotifier<void> {
               },
               "apns": {
                 "payload": {
-                  "aps": {"category": "Message Category", "content-available": 1}
+                  "aps": {
+                    "category": "Message Category",
+                    "content-available": 1
+                  }
                 }
               }
             }
@@ -137,10 +141,12 @@ class WakeController extends AsyncNotifier<void> {
     }
   }
 
-  void createWakeUp(String message, TimeOfDay selectedTime, volume, vibrate, assetAudio) {
+  void createWakeUp(
+      String message, TimeOfDay selectedTime, volume, vibrate, assetAudio) {
     final now = DateTime.now();
 
-    DateTime wakeTime = DateTime(now.year, now.month, now.day, selectedTime.hour, selectedTime.minute, 0, 0);
+    DateTime wakeTime = DateTime(now.year, now.month, now.day,
+        selectedTime.hour, selectedTime.minute, 0, 0);
     if (wakeTime.isBefore(DateTime.now())) {
       wakeTime = wakeTime.add(const Duration(days: 1));
     }
@@ -157,7 +163,7 @@ class WakeController extends AsyncNotifier<void> {
         volume: volume,
         fadeDuration: 0.1,
         notificationTitle: "알람이 울려요",
-        notificationBody: "확인해보세요",
+        notificationBody: "알람을 확인해주세요.",
         enableNotificationOnKill: true,
         androidFullScreenIntent: true,
         isDeleted: false,
@@ -176,15 +182,16 @@ class WakeController extends AsyncNotifier<void> {
 
     final successcreateWakeUp = _repository.createWakeUp(uid, wakeModel);
     if (successcreateWakeUp) {
-      showToast('알람이 성공적으로 설정되었습니다.');
+      showToast('Alarm set successfully.'.tr());
     } else {
-      showToast('알람 설정에 실패했습니다. 다시 시도해주세요.');
+      showToast('Alarm setting failed. Please try again.'.tr());
     }
-    final successcreateWakeUpFriend = _repository.createWakeUp(user.couples!.first, wakeModel);
+    final successcreateWakeUpFriend =
+        _repository.createWakeUp(user.couples!.first, wakeModel);
     if (successcreateWakeUpFriend) {
-      showToast('알람이 성공적으로 설정되었습니다.');
+      showToast('Alarm set successfully.'.tr());
     } else {
-      showToast('알람 설정에 실패했습니다. 다시 시도해주세요.');
+      showToast('Alarm setting failed. Please try again.'.tr());
     }
   }
 
@@ -203,17 +210,18 @@ class WakeController extends AsyncNotifier<void> {
   void deleteWakeUp(String wakeUid) {
     _repository.deleteWakeUp(uid, wakeUid);
     _repository.deleteWakeUp(user.couples!.first, wakeUid);
-    showToast('알람이 삭제되었습니다.');
+    showToast('Alarm deleted.'.tr());
   }
 
   void acceptWakeUp(String wakeUid) {
     _repository.acceptWakeUp(uid, wakeUid);
     _repository.acceptWakeUp(user.couples!.first, wakeUid);
-    showToast('알람이 승인되었습니다.');
+    showToast('Alarm accepted.'.tr());
   }
 
-  void reply(String wakeUid, String reply, String imageUrl, String voiceUrl, String videoUrl) {
+  void reply(String wakeUid, String reply, String imageUrl, String voiceUrl,
+      String videoUrl) {
     _repository.reply(uid, wakeUid, reply, imageUrl, voiceUrl, videoUrl);
-    showToast('답장이 전송되었습니다.');
+    showToast('Reply sent.'.tr());
   }
 }

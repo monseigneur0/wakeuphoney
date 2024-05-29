@@ -26,8 +26,7 @@ class MainTabsScreen extends ConsumerStatefulWidget {
 
 class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTickerProviderStateMixin {
   final tabs = TabItem.values;
-  late final List<GlobalKey<NavigatorState>> navigatorKeys =
-      TabItem.values.map((e) => GlobalKey<NavigatorState>()).toList();
+  late final List<GlobalKey<NavigatorState>> navigatorKeys = TabItem.values.map((e) => GlobalKey<NavigatorState>()).toList();
 
   TabItem get _currentTab => ref.watch(currentTabProvider);
 
@@ -95,9 +94,16 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
             ),
           );
         }, loading: () {
-          return const Scaffold(
+          return Scaffold(
             body: Center(
-              child: CircularProgressIndicator(),
+              child: SizedBox(
+                width: 100,
+                height: 100,
+                child: Image.asset(
+                  'assets/images/wakeupbear/wakeupbear512.png',
+                  scale: 0.2,
+                ),
+              ),
             ),
           );
         }));

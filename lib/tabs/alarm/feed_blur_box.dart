@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
 import 'package:wakeuphoney/tabs/wake/wake_model.dart';
@@ -17,7 +19,7 @@ class FeedBlurBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tap(
       onTap: () {
-        showToast('알람이 울리고 확인할 수 있어요.');
+        showToast('The alarm will ring and you can check it.'.tr());
       },
       child: Container(
         // height: 300,

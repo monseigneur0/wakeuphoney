@@ -1,12 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakeuphoney/common/common.dart';
-import 'package:wakeuphoney/tabs/alarm/blur_practice.dart';
 
+import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/tabs/match/match_tab_controller.dart';
 import 'package:wakeuphoney/tabs/match/match_tab_repository.dart';
-import 'package:wakeuphoney/tabs/match/user_widget.dart';
+import 'package:wakeuphoney/auth/user_widget.dart';
 
 class FeedTabScreen extends StatefulHookConsumerWidget {
   static const routeName = 'feed';
@@ -37,15 +36,6 @@ class _FeedTabScreenState extends ConsumerState<FeedTabScreen> {
                       ref.read(matchTabControllerProvider.notifier).breakUp();
                     },
                     child: 'break up'.text.make()),
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const BlurPractice(),
-                          ));
-                    },
-                    child: 'to go blur pracktive'.text.make()),
                 const UserLoggedInWidget(),
                 Row(
                   children: [

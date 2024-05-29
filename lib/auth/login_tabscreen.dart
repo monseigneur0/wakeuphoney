@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -7,7 +8,7 @@ import 'package:wakeuphoney/common/widget/w_text_field_with_delete.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
 import 'package:wakeuphoney/common/widget/w_text_form_field.dart';
 import 'package:wakeuphoney/tabs/main_tabscreen.dart';
-import 'package:wakeuphoney/tabs/match/user_widget.dart';
+import 'package:wakeuphoney/auth/user_widget.dart';
 
 //  test123@wakeupgom.com
 //  tezPib-5qovxu-bydruk
@@ -42,7 +43,8 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(height: context.deviceHeight / 5),
-              Image.asset('assets/images/wakeupbear/wakeupbear.png', width: context.deviceWidth / 3),
+              Image.asset('assets/images/wakeupbear/wakeupbear.png',
+                  width: context.deviceWidth / 3),
               height20,
               Row(
                 children: [
@@ -51,7 +53,7 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                       textInputAction: TextInputAction.next,
                       controller: emailController,
                       deleteRightPadding: 5,
-                      texthint: "이메일",
+                      texthint: 'email'.tr(),
                       onEditingComplete: () {
                         //logger.d(controller.text);
                         //검색 버튼 눌렀을때 처리 //search
@@ -71,7 +73,7 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                       textInputAction: TextInputAction.done,
                       controller: pwdController,
                       deleteRightPadding: 5,
-                      texthint: "비밀번호",
+                      texthint: 'password'.tr(),
                       onEditingComplete: () async {
                         //logger.d(controller.text);
                         await loginProcess(context);
@@ -101,7 +103,12 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
 
                                 await loginProcess(context);
                               },
-                              child: '로그인'.text.color(Colors.white).medium.make(),
+                              child: 'signIn'
+                                  .tr()
+                                  .text
+                                  .color(Colors.white)
+                                  .medium
+                                  .make(),
                             ).pOnly(top: 5)
                           : ElevatedButton(
                               style: ElevatedButton.styleFrom(
@@ -128,9 +135,14 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                         onPressed: () {
                           // context.showToast(msg: '회원가입 준비 중입니다.');
                           // showToast('회원가입 준비 중입니다.');
-                          context.showSnackbar('회원가입 준비 중입니다. \nSNS로그인을 이용해주세요.');
+                          context.showSnackbar('readySignUp'.tr());
                         },
-                        child: '회원가입하러가기'.text.size(10).color(context.appColors.lessImportant).make()),
+                        child: 'goToSignUp'
+                            .tr()
+                            .text
+                            .size(10)
+                            .color(context.appColors.lessImportant)
+                            .make()),
                   ),
                 ],
               ),
@@ -144,10 +156,17 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                           onPressed: () {
                             // context.showToast(msg: '회원가입 준비 중입니다.');
                             // showToast('회원가입 준비 중입니다.');
-                            ref.read(loginControllerProvider.notifier).signInWithManager(context);
-                            context.go("/main");
+                            ref
+                                .read(loginControllerProvider.notifier)
+                                .signInWithManager(context);
+                            context.go('/main');
                           },
-                          child: '관리자계정'.text.size(10).color(context.appColors.lessImportant).make()),
+                          child: '관리자계정'
+                              .tr()
+                              .text
+                              .size(10)
+                              .color(context.appColors.lessImportant)
+                              .make()),
                     ),
                   ],
                 ),
@@ -158,11 +177,19 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(child: Container(height: 1, color: context.appColors.middleImportant)),
+                  Expanded(
+                      child: Container(
+                          height: 1, color: context.appColors.middleImportant)),
                   width10,
-                  'SNS 계정으로 로그인'.text.color(context.appColors.justImportant).make(),
+                  'Login with SNS account'
+                      .tr()
+                      .text
+                      .color(context.appColors.justImportant)
+                      .make(),
                   width10,
-                  Expanded(child: Container(height: 1, color: context.appColors.middleImportant)),
+                  Expanded(
+                      child: Container(
+                          height: 1, color: context.appColors.middleImportant)),
                 ],
               ),
               height20,
@@ -172,17 +199,21 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                   SnsLogin(
                       image: 'assets/images/apple-128.png',
                       backgroundColor: Colors.black,
-                      company: '애플',
+                      company: 'Apple',
                       onTap: () {
-                        ref.watch(loginControllerProvider.notifier).signInWithApple(context);
+                        ref
+                            .watch(loginControllerProvider.notifier)
+                            .signInWithApple(context);
                       }),
                   width20,
                   SnsLogin(
                       image: 'assets/images/google.png',
                       backgroundColor: Colors.white,
-                      company: '구글',
+                      company: 'Google',
                       onTap: () {
-                        ref.watch(loginControllerProvider.notifier).signInWithGoogle(context);
+                        ref
+                            .watch(loginControllerProvider.notifier)
+                            .signInWithGoogle(context);
                       }),
                 ],
               ),
@@ -194,12 +225,12 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
               //           onPressed: () {
               //             Nav.push(const MainScreen());
               //           },
-              //           child: '이전 디자인'.text.make()),
+              //           child: '이전 디자인'.tr().text.make()),
               //       ElevatedButton(
               //           onPressed: () {
               //             Nav.push(const MatchTabScreen());
               //           },
-              //           child: '이전 디자인'.text.make()),
+              //           child: '이전 디자인'.tr().text.make()),
               //     ],
               //   ),
             ],
@@ -217,7 +248,8 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
     // Attempt login using the provided login controller
     final userCredential = await ref
         .watch(loginControllerProvider.notifier)
-        .signInWithEmailAndPassword(context, emailController.text, pwdController.text);
+        .signInWithEmailAndPassword(
+            context, emailController.text, pwdController.text);
 
     setState(() {
       _isLoading = false;
@@ -252,7 +284,8 @@ class SnsLogin extends StatelessWidget {
         child: Container(
             decoration: BoxDecoration(
               color: backgroundColor,
-              borderRadius: const BorderRadius.all(Radius.circular(Constants.snsLogin / 2)),
+              borderRadius: const BorderRadius.all(
+                  Radius.circular(Constants.snsLogin / 2)),
               border: Border.all(color: context.appColors.middleImportant),
             ),
             width: Constants.snsLogin,
