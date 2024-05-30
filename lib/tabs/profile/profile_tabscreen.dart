@@ -20,8 +20,7 @@ class ProfileTabScreen extends StatefulHookConsumerWidget {
   const ProfileTabScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _ProfileTabScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ProfileTabScreenState();
 }
 
 class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
@@ -86,8 +85,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                   }),
                 LinkCard('App Introduction'.tr(), onTap: () {
                   launchUrlString("https://sweetgom.com/5");
-                  analytics.logSelectContent(
-                      contentType: "go", itemId: "appinfoonline");
+                  analytics.logSelectContent(contentType: "go", itemId: "appinfoonline");
                 }),
                 LinkCard('My account information'.tr(), onTap: () {
                   context.push(MyProfileTabScreen.routeUrl);
@@ -100,8 +98,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                         builder: (context) => const CustomerServiceScreen(),
                       ));
                 }),
-                LinkCard('App Version Information'.tr(),
-                    info: '1.1.1', onTap: () {}),
+                LinkCard('App Version Information'.tr(), info: '1.1.1', onTap: () {}),
                 LinkCard('Open Source'.tr(), onTap: () {
                   Navigator.push(
                       context,
@@ -111,15 +108,11 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                 }),
                 LinkCard('Privacy Policy'.tr(), onTap: () {
                   launchUrlString('https://sweetgom.com/4');
-                  analytics.logSelectContent(
-                      contentType: "go", itemId: "appinfopolicy");
+                  analytics.logSelectContent(contentType: "go", itemId: "appinfopolicy");
                 }),
-                LinkCard('login information',
-                    info: user!.loginType == null
-                        ? 'null'.tr()
-                        : user.loginType.toString(), onTap: () {
-                  context.showSnackbar(
-                      '로그인 정보: ${user.loginType}\n이메일 정보: ${user.email}');
+                LinkCard('login information', info: user!.loginType == null ? 'null'.tr() : user.loginType.toString(),
+                    onTap: () {
+                  context.showSnackbar('로그인 정보: ${user.loginType}\n이메일 정보: ${user.email}');
                 }),
                 LinkCard('Signout'.tr(), onTap: () {
                   // context.go(LoginNewScreen.routeUrl);
@@ -130,7 +123,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                 //   ref.read(matchTabControllerProvider.notifier).breakUp();
                 // }),
 
-                LinkCard('dissconect friend'.tr(), onTap: () {
+                LinkCard('disconnect friend'.tr(), onTap: () {
                   ref.read(matchTabControllerProvider.notifier).breakUp();
                 }),
                 LinkCard('delete user'.tr(), onTap: () {

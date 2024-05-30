@@ -50,8 +50,8 @@
 		5865F1FE2A2EF830005587BB /* mozart.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = mozart.mp3; sourceTree = "<group>"; };
 		5865F1FF2A2EF830005587BB /* nokia.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = nokia.mp3; sourceTree = "<group>"; };
 		5865F2002A2EF830005587BB /* one_piece.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = one_piece.mp3; sourceTree = "<group>"; };
-		5878CBC72A7500CB00D38A71 /* childhood.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = childhood.mp3; path = ../../assets/childhood.mp3; sourceTree = "<group>"; };
-		5878CBC82A7500CB00D38A71 /* happylife.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = happylife.mp3; path = ../../assets/happylife.mp3; sourceTree = "<group>"; };
+		5878CBC72A7500CB00D38A71 /* childhood.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = childhood.mp3; path = ../../assets/sounds/childhood.mp3; sourceTree = "<group>"; };
+		5878CBC82A7500CB00D38A71 /* happylife.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = happylife.mp3; path = ../../assets/sounds/happylife.mp3; sourceTree = "<group>"; };
 		58B751F32ABB752500D5D244 /* RunnerProfile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RunnerProfile.entitlements; sourceTree = "<group>"; };
 		58C2BD3F2B67E2A300B4DBD6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
 		58C2BD412B67E2AC00B4DBD6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = en; path = en.lproj/Info.plist; sourceTree = "<group>"; };

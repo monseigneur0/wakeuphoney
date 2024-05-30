@@ -20,8 +20,8 @@ class LoginOnBoardScreen extends StatelessWidget {
               'assets/images/wakeupbear/wakeupbearsleep.png',
               width: context.deviceWidth / 3 * 2,
             ),
-            title: 'Wake up your sleeping friend'.tr(),
-            body: 'Will your friend hear the alarm and wake up?'.tr(),
+            title: 'wakeUpYourSleepingFriend'.tr(),
+            body: 'friendHearTheAlarm'.tr(),
             decoration: getPageDecoration(context),
           ),
           PageViewModel(
@@ -29,9 +29,8 @@ class LoginOnBoardScreen extends StatelessWidget {
               'assets/images/wakeupbear/wakeupbearbefore.png',
               width: context.deviceWidth / 3 * 2,
             ),
-            title: 'They might be surprised!'.tr(),
-            body:
-                'Send a message with a picture, \ntext, or voice message.'.tr(),
+            title: 'surprised'.tr(),
+            body: 'sendAMessage'.tr(),
             decoration: getPageDecoration(context),
           ),
           PageViewModel(
@@ -39,8 +38,8 @@ class LoginOnBoardScreen extends StatelessWidget {
               'assets/images/wakeupbear/wakeupbearready.png',
               width: context.deviceWidth / 3 * 2,
             ),
-            title: "Let's try preparing to wake them up!".tr(),
-            body: 'Link with Code'.tr(),
+            title: 'preparingWakeThemUp'.tr(),
+            body: 'linkWithCode'.tr(),
             decoration: getPageDecoration(context),
           ),
           // PageViewModel(
@@ -54,8 +53,7 @@ class LoginOnBoardScreen extends StatelessWidget {
         onDone: () {
           context.go(LoginNewScreen.routeUrl);
         },
-        next:
-            const Icon(Icons.arrow_forward_ios), // 아이콘도 지정되면 바뀌지 않으므로 const 처리
+        next: const Icon(Icons.arrow_forward_ios), // 아이콘도 지정되면 바뀌지 않으므로 const 처리
         nextStyle: const ButtonStyle(),
 
         showSkipButton: true,

@@ -43,8 +43,7 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(height: context.deviceHeight / 5),
-              Image.asset('assets/images/wakeupbear/wakeupbear.png',
-                  width: context.deviceWidth / 3),
+              Image.asset('assets/images/wakeupbear/wakeupbear.png', width: context.deviceWidth / 3),
               height20,
               Row(
                 children: [
@@ -103,12 +102,7 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
 
                                 await loginProcess(context);
                               },
-                              child: 'signIn'
-                                  .tr()
-                                  .text
-                                  .color(Colors.white)
-                                  .medium
-                                  .make(),
+                              child: 'signIn'.tr().text.color(Colors.white).medium.make(),
                             ).pOnly(top: 5)
                           : ElevatedButton(
                               style: ElevatedButton.styleFrom(
@@ -137,12 +131,7 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                           // showToast('회원가입 준비 중입니다.');
                           context.showSnackbar('readySignUp'.tr());
                         },
-                        child: 'goToSignUp'
-                            .tr()
-                            .text
-                            .size(10)
-                            .color(context.appColors.lessImportant)
-                            .make()),
+                        child: 'goToSignUp'.tr().text.size(10).color(context.appColors.lessImportant).make()),
                   ),
                 ],
               ),
@@ -156,17 +145,10 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                           onPressed: () {
                             // context.showToast(msg: '회원가입 준비 중입니다.');
                             // showToast('회원가입 준비 중입니다.');
-                            ref
-                                .read(loginControllerProvider.notifier)
-                                .signInWithManager(context);
+                            ref.read(loginControllerProvider.notifier).signInWithManager(context);
                             context.go('/main');
                           },
-                          child: '관리자계정'
-                              .tr()
-                              .text
-                              .size(10)
-                              .color(context.appColors.lessImportant)
-                              .make()),
+                          child: '관리자계정'.tr().text.size(10).color(context.appColors.lessImportant).make()),
                     ),
                   ],
                 ),
@@ -177,19 +159,11 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                      child: Container(
-                          height: 1, color: context.appColors.middleImportant)),
+                  Expanded(child: Container(height: 1, color: context.appColors.middleImportant)),
                   width10,
-                  'Login with SNS account'
-                      .tr()
-                      .text
-                      .color(context.appColors.justImportant)
-                      .make(),
+                  'loginWithSNSAccount'.tr().text.color(context.appColors.justImportant).make(),
                   width10,
-                  Expanded(
-                      child: Container(
-                          height: 1, color: context.appColors.middleImportant)),
+                  Expanded(child: Container(height: 1, color: context.appColors.middleImportant)),
                 ],
               ),
               height20,
@@ -197,23 +171,19 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SnsLogin(
-                      image: 'assets/images/apple-128.png',
+                      image: 'assets/images/icon/apple-128.png',
                       backgroundColor: Colors.black,
                       company: 'Apple',
                       onTap: () {
-                        ref
-                            .watch(loginControllerProvider.notifier)
-                            .signInWithApple(context);
+                        ref.watch(loginControllerProvider.notifier).signInWithApple(context);
                       }),
                   width20,
                   SnsLogin(
-                      image: 'assets/images/google.png',
+                      image: 'assets/images/icon/google.png',
                       backgroundColor: Colors.white,
                       company: 'Google',
                       onTap: () {
-                        ref
-                            .watch(loginControllerProvider.notifier)
-                            .signInWithGoogle(context);
+                        ref.watch(loginControllerProvider.notifier).signInWithGoogle(context);
                       }),
                 ],
               ),
@@ -248,8 +218,7 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
     // Attempt login using the provided login controller
     final userCredential = await ref
         .watch(loginControllerProvider.notifier)
-        .signInWithEmailAndPassword(
-            context, emailController.text, pwdController.text);
+        .signInWithEmailAndPassword(context, emailController.text, pwdController.text);
 
     setState(() {
       _isLoading = false;
@@ -284,8 +253,7 @@ class SnsLogin extends StatelessWidget {
         child: Container(
             decoration: BoxDecoration(
               color: backgroundColor,
-              borderRadius: const BorderRadius.all(
-                  Radius.circular(Constants.snsLogin / 2)),
+              borderRadius: const BorderRadius.all(Radius.circular(Constants.snsLogin / 2)),
               border: Border.all(color: context.appColors.middleImportant),
             ),
             width: Constants.snsLogin,

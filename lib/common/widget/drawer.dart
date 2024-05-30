@@ -29,7 +29,7 @@ class ProfileDrawer extends StatelessWidget {
           IconButton(
             onPressed: () {},
             icon: Image.asset(
-              'assets/images/alarmbearno.png',
+              'assets/images/wakeupbear/wakeupbear.png',
               width: 80,
             ),
             iconSize: 50,

@@ -19,7 +19,7 @@ class SingleProfileScreen extends StatelessWidget {
                 onTap: () {},
                 child: ClipOval(
                   child: Image.asset(
-                    'assets/images/samples/cherryblossom.png',
+                    'assets/images/wakeupbear/wakeupbear.png',
                     width: Constants.pngSize,
                     height: Constants.pngSize,
                     fit: BoxFit.cover,
