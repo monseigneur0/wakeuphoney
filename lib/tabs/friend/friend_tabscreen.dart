@@ -18,6 +18,13 @@ class FriendTabScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userModelProvider);
     final friend = ref.watch(friendUserModelProvider);
+    if (friend == null) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     final now = DateTime.now();
     return Scaffold(
       // appBar: AppBar(
@@ -64,7 +71,7 @@ class FriendTabScreen extends ConsumerWidget {
                   ),
                   Column(
                     children: [
-                      profileImage(friend!),
+                      profileImage(friend),
                       friend.displayName.text.lg.medium.make(),
                     ],
                   ),
@@ -85,13 +92,12 @@ class FriendTabScreen extends ConsumerWidget {
                       // border: Border.all(color: AppColors.primary600),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child:
-                        '${DateTime(now.year, now.month, now.day + 1).difference(user.matchedDateTime!).inDays + 1}'
-                            .text
-                            .xl4
-                            .bold
-                            .color(AppColors.primary600)
-                            .make(),
+                    child: '${DateTime(now.year, now.month, now.day + 1).difference(user.matchedDateTime!).inDays + 1}'
+                        .text
+                        .xl4
+                        .bold
+                        .color(AppColors.primary600)
+                        .make(),
                   ),
                   width5,
                   'days'.tr().text.xl2.medium.make(),
@@ -149,12 +155,7 @@ Widget infobox(UserModel friend) {
           child: Column(
             children: [
               'Birthaday'.text.lg.medium.color(AppColors.primary600).make(),
-              DateFormat.yMMMMd()
-                  .format(friend.birthDate)
-                  .toString()
-                  .text
-                  .lg
-                  .make(),
+              DateFormat.yMMMMd().format(friend.birthDate).toString().text.lg.make(),
             ],
           ),
         ),
@@ -165,9 +166,7 @@ Widget infobox(UserModel friend) {
           child: Column(
             children: [
               'Gender'.tr().text.lg.medium.color(AppColors.primary600).make(),
-              (friend.gender == 'female')
-                  ? 'Female'.tr().text.lg.make()
-                  : 'Male'.tr().text.lg.make(),
+              (friend.gender == 'female') ? 'Female'.tr().text.lg.make() : 'Male'.tr().text.lg.make(),
             ],
           ),
         ),

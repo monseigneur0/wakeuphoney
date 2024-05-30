@@ -10,8 +10,7 @@ final futureMatchNumberProvider = FutureProvider<MatchModel>((ref) {
   return ref.watch(matchTabControllerProvider.notifier).getFutureMatchNumber();
 });
 
-final matchTabControllerProvider =
-    AsyncNotifierProvider<MatchTabController, void>(() => MatchTabController());
+final matchTabControllerProvider = AsyncNotifierProvider<MatchTabController, void>(() => MatchTabController());
 
 class MatchTabController extends AsyncNotifier<void> {
   late final MatchTabRepository _repository;
@@ -52,7 +51,6 @@ class MatchTabController extends AsyncNotifier<void> {
     //실패하면 실패 메시지
     if (match == false) {
       logger.d("match : $match,  Future.value(null) : ${Future.value(null)}");
-
       showToast("Matching failed. Please try again.".tr());
     }
 
@@ -66,5 +64,6 @@ class MatchTabController extends AsyncNotifier<void> {
 
     logger.d("breakup $coupleUid");
     _repository.breakUp(coupleUid);
+    ref.read(friendUserModelProvider.notifier).state = null;
   }
 }
