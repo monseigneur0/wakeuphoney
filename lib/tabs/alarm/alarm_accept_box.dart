@@ -91,13 +91,13 @@ class _AcceptBoxState extends ConsumerState<AcceptBox> {
       children: [
         DateFormat('a hh:mm').format(widget.wake.wakeTime).toString().text.medium.color(AppColors.primary700).make(),
         Image.asset('assets/images/wakeupbear/wakeupbearsleep.png', width: Constants.cardPngWidth),
-        '이때 깨워줄게요!'.text.medium.make(),
+        'I will wake you up at'.tr().text.medium.make(),
         height10,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             NormalButton(
-              text: '거절하기',
+              text: 'no'.tr(),
               onPressed: () {
                 ref.read(wakeControllerProvider.notifier).deleteWakeUp(widget.wake.wakeUid);
               },
@@ -105,12 +105,14 @@ class _AcceptBoxState extends ConsumerState<AcceptBox> {
             ),
             width10,
             NormalButton(
-              text: '승낙하기',
+              text: 'yes'.tr(),
               onPressed: () {
                 ref.read(wakeControllerProvider.notifier).acceptWakeUp(widget.wake.wakeUid);
                 ref.read(selectedDateTime.notifier).state = widget.wake.wakeTime;
-                ref.read(selectedTime.notifier).state = TimeOfDay(hour: widget.wake.wakeTime.hour, minute: widget.wake.wakeTime.minute);
-                Alarm.set(alarmSettings: buildAlarmSettings(ref.read(selectedTime.notifier).state, widget.wake.messageAudio));
+                ref.read(selectedTime.notifier).state =
+                    TimeOfDay(hour: widget.wake.wakeTime.hour, minute: widget.wake.wakeTime.minute);
+                Alarm.set(
+                    alarmSettings: buildAlarmSettings(ref.read(selectedTime.notifier).state, widget.wake.messageAudio));
               },
             ),
           ],

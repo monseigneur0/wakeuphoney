@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wakeuphoney/auth/user_model.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/providers/firebase_providers.dart';
 import 'package:wakeuphoney/tabs/match/match_model.dart';
@@ -87,15 +88,15 @@ class MatchTabRepository {
     });
   }
 
-  Future<bool> checkMatchWithCode(int honeyCode, String uid) async {
+  Future<String> checkMatchWithCode(int honeyCode, String uid) async {
     return _match.where('vertifynumber', isEqualTo: honeyCode).get().then((value) {
       if (value.docs.isNotEmpty) {
         _match.doc(value.docs.first.id).delete();
         final coupleUid = MatchModel.fromMap(value.docs.first.data() as Map<String, dynamic>).uid;
         matchCoupleIdProcessDone(uid, coupleUid);
-        return true;
+        return coupleUid;
       } else {
-        return false;
+        return "";
       }
     }).catchError((error) {
       // Handle the error here
@@ -120,5 +121,10 @@ class MatchTabRepository {
       logger.e('Error matching couple IDs: $error');
       throw ('Error matching couple IDs');
     }
+  }
+
+  Future<UserModel> getUserById(String uid) async {
+    final user = await _users.doc(uid).get();
+    return UserModel.fromMap(user.data() as Map<String, dynamic>);
   }
 }

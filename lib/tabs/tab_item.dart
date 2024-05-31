@@ -7,11 +7,11 @@ import 'package:wakeuphoney/tabs/profile/profile_tabscreen.dart';
 import 'package:wakeuphoney/tabs/wake/wake_tabscreen.dart';
 
 enum TabItem {
-  alarm(Icons.list, '리스트', AlarmTabScreen()),
-  wake(Icons.alarm, '알람설정', WakeTabScreen()),
+  alarm(Icons.list, 'List', AlarmTabScreen()),
+  wake(Icons.alarm, 'Alarm', WakeTabScreen()),
   // feed(Icons.toc, '피드', FeedTabScreen()),
-  match(Icons.person, '친구', MatchTabScreen()),
-  profile(Icons.settings, '설정', ProfileTabScreen());
+  match(Icons.person, 'Friend', MatchTabScreen()),
+  profile(Icons.settings, 'Settings', ProfileTabScreen());
 
   final IconData activeIcon;
   final IconData inActiveIcon;

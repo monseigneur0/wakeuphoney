@@ -171,7 +171,7 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SnsLogin(
-                      image: 'assets/images/icon/apple-128.png',
+                      image: 'assets/images/login/apple-128.png',
                       backgroundColor: Colors.black,
                       company: 'Apple',
                       onTap: () {
@@ -179,7 +179,7 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                       }),
                   width20,
                   SnsLogin(
-                      image: 'assets/images/icon/google.png',
+                      image: 'assets/images/login/google.png',
                       backgroundColor: Colors.white,
                       company: 'Google',
                       onTap: () {

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -124,7 +127,57 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                 // }),
 
                 LinkCard('disconnect friend'.tr(), onTap: () {
-                  ref.read(matchTabControllerProvider.notifier).breakUp();
+                  Platform.isIOS
+                      ? showCupertinoDialog(
+                          context: context,
+                          builder: (context) => CupertinoAlertDialog(
+                                title: Text('disconnect friend'.tr()),
+                                content: Text('disconnect friend'.tr()),
+                                actions: [
+                                  CupertinoDialogAction(
+                                    onPressed: () => Navigator.of(context).pop(),
+                                    child: Text('no'.tr()),
+                                  ),
+                                  CupertinoDialogAction(
+                                    onPressed: () {
+                                      ref.read(matchTabControllerProvider.notifier).breakUp();
+                                      Navigator.of(context).pop();
+                                    },
+                                    isDestructiveAction: true,
+                                    child: Text('yes'.tr()),
+                                  ),
+                                ],
+                              ))
+                      : showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('disconnect friend'.tr()),
+                              content: Text('disconnect friend'.tr()),
+                              actions: [
+                                IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: const Icon(
+                                    Icons.cancel,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    ref.read(matchTabControllerProvider.notifier).breakUp();
+                                    Navigator.of(context).pop();
+                                  },
+                                  icon: const Icon(
+                                    Icons.done,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                              ],
+                            );
+                          });
                 }),
                 LinkCard('delete user'.tr(), onTap: () {
                   ref.read(matchTabControllerProvider.notifier).breakUp();

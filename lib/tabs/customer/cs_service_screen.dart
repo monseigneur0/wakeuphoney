@@ -19,12 +19,10 @@ class CustomerServiceScreen extends ConsumerStatefulWidget {
   const CustomerServiceScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _CustomerServiceScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CustomerServiceScreenState();
 }
 
-class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
-    with SingleTickerProviderStateMixin {
+class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> with SingleTickerProviderStateMixin {
   final TextEditingController _messageTextController = TextEditingController();
   String messageText = "";
   final ScrollController _messageListController = ScrollController();
@@ -55,8 +53,8 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
       vsync: this,
       duration: const Duration(milliseconds: 2500),
     );
-    _characterCount = StepTween(begin: 0, end: _currentString.length).animate(
-        CurvedAnimation(parent: _animationController, curve: Curves.easeIn));
+    _characterCount = StepTween(begin: 0, end: _currentString.length)
+        .animate(CurvedAnimation(parent: _animationController, curve: Curves.easeIn));
     _animationController.addListener(() {
       setState(() {});
     });
@@ -160,14 +158,12 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
                 ? AnimatedBuilder(
                     animation: _characterCount,
                     builder: (context, child) {
-                      String text =
-                          _currentString.substring(0, _characterCount.value);
+                      String text = _currentString.substring(0, _characterCount.value);
                       return Row(
                         children: [
                           Text(
                             text,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 24),
+                            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
                           ),
                           const CircleAvatar(
                             radius: 8,
@@ -244,9 +240,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
                                 border: InputBorder.none,
                               ),
                               validator: (value) {
-                                if (value == null ||
-                                    value.isEmpty ||
-                                    value == "") {
+                                if (value == null || value.isEmpty || value == "") {
                                   return 'Please enter your question.'.tr();
                                 } else if (value.length > 200) {
                                   return 'The content is too long.'.tr();
@@ -258,13 +252,9 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
                         ),
                         IconButton(
                           iconSize: 42,
-                          icon: isLoading
-                              ? const CircularProgressIndicator()
-                              : const Icon(Icons.sick_outlined),
+                          icon: isLoading ? const CircularProgressIndicator() : const Icon(Icons.sick_outlined),
                           onPressed: () async {
-                            showToast(
-                                "Customer center is currently unavailable."
-                                    .tr());
+                            showToast("Customer center is currently unavailable.".tr());
                           },
                         ),
                       ],
@@ -305,9 +295,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
                                 border: InputBorder.none,
                               ),
                               validator: (value) {
-                                if (value == null ||
-                                    value.isEmpty ||
-                                    value == "") {
+                                if (value == null || value.isEmpty || value == "") {
                                   return 'Please enter your question.'.tr();
                                 } else if (value.length > 200) {
                                   return 'The content is too long.'.tr();
@@ -319,12 +307,9 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
                         ),
                         IconButton(
                           iconSize: 42,
-                          icon: isLoading
-                              ? const CircularProgressIndicator()
-                              : const Icon(Icons.arrow_circle_up),
+                          icon: isLoading ? const CircularProgressIndicator() : const Icon(Icons.arrow_circle_up),
                           onPressed: () async {
-                            if (_messageTextController.text.isEmpty ||
-                                isLoading) return;
+                            if (_messageTextController.text.isEmpty || isLoading) return;
 
                             setState(() {
                               isLoading = true; // Set the loading state to true
@@ -332,8 +317,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
                                 role: "user",
                                 content: _messageTextController.text.trim(),
                               ));
-                              _historyList.add(ChatGPTMessageModel(
-                                  role: "assistant", content: ""));
+                              _historyList.add(ChatGPTMessageModel(role: "assistant", content: ""));
                               logger.d(_historyList);
                             });
 
@@ -345,14 +329,12 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
                               if (user.chatGPTMessageCount != 0) {
                                 await requestChat(messageText);
                               } else {
-                                showToast(
-                                    "Customer center is currently unavailable.");
+                                showToast("Customer center is currently unavailable.");
                               }
 
                               streamText = "";
                               final analytics = ref.watch(analyticsProvider);
-                              analytics
-                                  .logEvent(name: "use chatgpt", parameters: {
+                              analytics.logEvent(name: "use chatgpt", parameters: {
                                 "message": messageText,
                               });
                             } catch (e) {
@@ -370,7 +352,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen>
                   );
                 },
                 loading: () => const CircularProgressIndicator(),
-                error: (error, stackTrace) => Text('Error: $error'),
+                error: (error, stackTrace) => StreamError(error, stackTrace),
               );
             },
           )

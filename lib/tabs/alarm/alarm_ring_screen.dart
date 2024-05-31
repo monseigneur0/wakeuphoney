@@ -52,16 +52,14 @@ class AlarmRingScreen extends ConsumerWidget {
                           Container(
                             width: MediaQuery.of(context).size.width,
                             clipBehavior: Clip.hardEdge,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20)),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
                             child: letter.first.messagePhoto.isNotEmpty
                                 ? CachedNetworkImage(
                                     imageUrl: letter.first.messagePhoto,
                                     placeholder: (context, url) => Container(
                                       height: 70,
                                     ),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
+                                    errorWidget: (context, url, error) => const Icon(Icons.error),
                                   )
                                 : Container(),
                           ),
@@ -69,9 +67,7 @@ class AlarmRingScreen extends ConsumerWidget {
                             height: 20,
                           ),
                           Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(20)),
+                            decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(20)),
                             child: Padding(
                               padding: const EdgeInsets.all(15),
                               child: Column(
@@ -132,20 +128,16 @@ class AlarmRingScreen extends ConsumerWidget {
                             ElevatedButton(
                               style: const ButtonStyle(
                                 iconSize: MaterialStatePropertyAll(30),
-                                backgroundColor:
-                                    MaterialStatePropertyAll(Colors.grey),
+                                backgroundColor: MaterialStatePropertyAll(Colors.grey),
                               ),
                               onPressed: () {
-                                Alarm.stop(alarmSettings.id)
-                                    .then((_) => Navigator.pop(context));
+                                Alarm.stop(alarmSettings.id).then((_) => Navigator.pop(context));
                               },
                               child: Padding(
-                                padding: EdgeInsets.all(
-                                    MediaQuery.of(context).size.width / 15),
+                                padding: EdgeInsets.all(MediaQuery.of(context).size.width / 15),
                                 child: const Text(
                                   "종료하기",
-                                  style: TextStyle(
-                                      fontSize: 25, color: Colors.white),
+                                  style: TextStyle(fontSize: 25, color: Colors.white),
                                 ),
                               ),
                             ),
@@ -153,17 +145,13 @@ class AlarmRingScreen extends ConsumerWidget {
                                 ? Container()
                                 : ElevatedButton(
                                     style: const ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStatePropertyAll(
-                                                AppColors.primary600)),
+                                        backgroundColor: MaterialStatePropertyAll(AppColors.primary600)),
                                     onPressed: () {
                                       Alarm.stop(alarmSettings.id);
                                       // context.goNamed(ResponseScreen.routeName);
                                     },
                                     child: Padding(
-                                      padding: EdgeInsets.all(
-                                          MediaQuery.of(context).size.width /
-                                              15),
+                                      padding: EdgeInsets.all(MediaQuery.of(context).size.width / 15),
                                       child: const Text(
                                         "답장하기",
                                         style: TextStyle(
@@ -178,7 +166,7 @@ class AlarmRingScreen extends ConsumerWidget {
                       ],
                     );
                   },
-                  error: (error, stackTrace) => Container(),
+                  error: (error, stackTrace) => StreamError(error, stackTrace),
                   loading: () => const Loader(),
                 ),
               ],
