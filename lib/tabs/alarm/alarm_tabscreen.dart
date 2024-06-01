@@ -17,6 +17,7 @@ import 'package:wakeuphoney/tabs/alarm/feedbox.dart';
 import 'package:wakeuphoney/tabs/wake/wake_controller.dart';
 import 'package:wakeuphoney/tabs/wake/wake_model.dart';
 import 'package:wakeuphoney/tabs/wake/wake_tabscreen.dart';
+import 'package:wakeuphoney/tabs/wake/wake_write_screen.dart';
 
 /// 이 페이지의 역할
 /// 알람을 수락하고 등록하는 페이지
@@ -38,9 +39,7 @@ class AlarmTabScreen extends ConsumerWidget {
       );
     }
     if (friend == null) {
-      return const Center(
-        child: NoFriendBox(),
-      );
+      return const NoFriendBox();
     }
     final myAlarm = ref.watch(alarmListStreamProvider);
     return Scaffold(
@@ -76,8 +75,7 @@ class AlarmList extends StatefulWidget {
   final List<WakeModel> alarm;
   final UserModel user;
   final WidgetRef ref;
-  const AlarmList(this.ref,
-      {required this.alarm, required this.user, super.key});
+  const AlarmList(this.ref, {required this.alarm, required this.user, super.key});
 
   @override
   State<AlarmList> createState() => _AlarmListState();
@@ -118,9 +116,7 @@ class _AlarmListState extends State<AlarmList> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: (kDebugMode)
-          ? context.deviceHeight - 190
-          : context.deviceHeight - 100,
+      height: (kDebugMode) ? context.deviceHeight - 190 : context.deviceHeight - 100,
       child: ListView.builder(
         itemCount: widget.alarm.length,
         itemBuilder: (context, index) {
@@ -143,17 +139,14 @@ class _AlarmListState extends State<AlarmList> {
                 height10,
                 //feed box 는 오직 알람이 이미 울렸고 승인된 경우
                 //blur box 는 알람이 울릴 예정이고 승인되지 않은 경우 울렸더라도 승인되지 않는경우
-                (wake.wakeTime.isBefore(DateTime.now()) && wake.isApproved)
-                    ? FeedBox(widget.user, wake)
-                    : FeedBlurBox(widget.user, wake),
+                (wake.wakeTime.isBefore(DateTime.now()) && wake.isApproved) ? FeedBox(widget.user, wake) : FeedBlurBox(widget.user, wake),
                 if (index == 0)
                   if (_bannerAd != null)
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width,
-                        height:
-                            MediaQuery.of(context).size.height > 800 ? 120 : 80,
+                        height: MediaQuery.of(context).size.height > 800 ? 120 : 80,
                         child: AdWidget(ad: _bannerAd!),
                       ),
                     ),

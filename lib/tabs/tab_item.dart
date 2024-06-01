@@ -18,8 +18,7 @@ enum TabItem {
   final String tabName;
   final Widget firstPage;
 
-  const TabItem(this.activeIcon, this.tabName, this.firstPage, {IconData? inActiveIcon})
-      : inActiveIcon = inActiveIcon ?? activeIcon;
+  const TabItem(this.activeIcon, this.tabName, this.firstPage, {IconData? inActiveIcon}) : inActiveIcon = inActiveIcon ?? activeIcon;
 
   static TabItem find(String? name) {
     return values.asNameMap()[name] ?? TabItem.alarm;
@@ -30,10 +29,8 @@ enum TabItem {
         icon: Icon(
           key: ValueKey(tabName),
           isActivated ? activeIcon : inActiveIcon,
-          color: isActivated
-              ? context.appColors.seedColor.getMaterialColorValues[600]
-              : context.appColors.iconButtonInactivate,
+          color: isActivated ? context.appColors.seedColor.getMaterialColorValues[600] : context.appColors.iconButtonInactivate,
         ),
-        label: tabName);
+        label: tabName.tr());
   }
 }

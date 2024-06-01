@@ -351,4 +351,14 @@ class LoginRepository {
     });
     return userlist;
   }
+
+  updateDisplayName(String displayName) async {
+    final user = _firebaseAuth.currentUser;
+    if (user == null) {
+      return;
+    }
+    await _users.doc(user.uid).update({
+      "displayName": displayName,
+    });
+  }
 }

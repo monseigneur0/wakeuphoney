@@ -19,8 +19,7 @@ final getUserFutureProvider = FutureProvider<UserModel>((ref) async {
   // ref.read(friendUserModelProvider.notifier).state = ref.read(getUserByUidProvider('couple'));
   final user = await ref.read(loginControllerProvider.notifier).getUser();
   if (user.couples!.isNotEmpty) {
-    ref.read(friendUserModelProvider.notifier).state =
-        await ref.watch(loginRepositoryProvider).getUserById(user.couples!.first);
+    ref.read(friendUserModelProvider.notifier).state = await ref.watch(loginRepositoryProvider).getUserById(user.couples!.first);
   }
   ref.watch(loginControllerProvider);
   return user;
@@ -221,5 +220,10 @@ class LoginController extends StateNotifier<UserModel> {
 
   void updateGPTcount() {
     _loginRepository.updateGPTcount();
+  }
+
+  void updateDisplayName(String displayName) {
+    _loginRepository.updateDisplayName(displayName);
+    ref.read(userModelProvider.notifier).state = state.copyWith(displayName: displayName);
   }
 }

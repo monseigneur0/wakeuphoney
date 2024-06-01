@@ -10,6 +10,7 @@ import 'package:wakeuphoney/common/widget/normal_button.dart';
 import 'package:wakeuphoney/common/widget/w_main_button.dart';
 import 'package:wakeuphoney/common/widget/w_main_button_disabled.dart';
 import 'package:wakeuphoney/tabs/match/match_tab_controller.dart';
+import 'package:wakeuphoney/tabs/profile/myprofile_tabscreen.dart';
 
 class FriendTabScreen extends ConsumerWidget {
   const FriendTabScreen({super.key});
@@ -53,14 +54,15 @@ class FriendTabScreen extends ConsumerWidget {
                 children: [
                   Tap(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ImageFullScreen(
-                              imageURL: user.photoURL,
-                              herotag: 'profileImage',
-                            ),
-                          ));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => ImageFullScreen(
+                      //         imageURL: user.photoURL,
+                      //         herotag: 'profileImage',
+                      //       ),
+                      //     ));
+                      context.push(MyProfileTabScreen.routeUrl);
                     },
                     child: Column(
                       children: [
@@ -120,14 +122,14 @@ class FriendTabScreen extends ConsumerWidget {
 }
 
 Widget profileImage(UserModel friend, {String? herotag}) {
-  return Stack(
-    alignment: Alignment.center,
-    children: [
-      Image.asset('assets/images/wakeupbear/wakeupbearprofile.png', width: 115),
-      ClipRRect(
-        borderRadius: BorderRadius.circular(100),
-        child: Hero(
-          tag: herotag ?? friend.uid,
+  return Hero(
+    tag: herotag ?? friend.uid,
+    child: Stack(
+      alignment: Alignment.center,
+      children: [
+        Image.asset('assets/images/wakeupbear/wakeupbearprofile.png', width: 115),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(100),
           child: CachedNetworkImage(
             imageUrl: friend.photoURL,
             width: 100,
@@ -135,8 +137,8 @@ Widget profileImage(UserModel friend, {String? herotag}) {
             errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
         ),
-      ),
-    ],
+      ],
+    ),
   );
 }
 

@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
@@ -34,78 +33,99 @@ class _WakeTabScreenState extends ConsumerState<WakeTabScreen> {
       return const CircularProgressIndicator();
     }
     if (friend == null) {
-      return const Center(
-        child: NoFriendBox(),
-      );
+      return const NoFriendBox();
     }
     Logger logger = Logger();
-    return Scaffold(
-      appBar: AppBar(
-        title: 'Try setting an alarm.'.tr().text.lg.make(),
-        actions: [
-          Transform.translate(
-            offset: const Offset(-5, 0),
-            child: IconButton(
-              onPressed: () {
-                context.push(WakeWriteScreen.routeUrl);
-              },
-              // icon: Image.asset(
-              //   'assets/images/alarm-clock.png',
-              //   width: 30,
-              //   color: AppColors.primary600,
-              icon: const Icon(
-                Icons.add,
-                size: 30,
-                color: AppColors.primary600,
-              ),
+    return Material(
+      child: Stack(
+        children: [
+          Scaffold(
+            appBar: AppBar(
+              title: 'Try setting an alarm.'.tr().text.lg.make(),
+              actions: [
+                Transform.translate(
+                  offset: const Offset(-5, 0),
+                  child: IconButton(
+                    onPressed: () {
+                      context.push(WakeWriteScreen.routeUrl);
+                    },
+                    // icon: Image.asset(
+                    //   'assets/images/alarm-clock.png',
+                    //   width: 30,
+                    //   color: AppColors.primary600,
+                    icon: const Icon(
+                      Icons.add,
+                      size: 30,
+                      color: AppColors.primary600,
+                    ),
+                  ),
+                ),
+              ],
             ),
+            body: SingleChildScrollView(
+                child: myWake.when(
+              data: (wake) {
+                if (wake.isEmpty) {
+                  return const Center(
+                    child: EmptyBox(),
+                  );
+                }
+                return SizedBox(
+                  height: context.deviceHeight * 0.8,
+                  child: ListView.separated(
+                      separatorBuilder: (context, index) => height10,
+                      itemCount: wake.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            if (wake[index].isApproved == false && wake[index].wakeTime.isAfter(DateTime.now())) WakeAcceptBox(ref, wake[index]),
+                            // height5,
+                            FeedBox(user, wake[index]),
+                          ],
+                        );
+                      }),
+                ).pSymmetric(h: 20);
+              },
+              error: (error, stackTrace) {
+                logger.d('Error: $error Stack Trace: $stackTrace');
+
+                return Text('Error: $error');
+              }, // Define the 'error' variable
+              //나중에 글로벌 에러 핸들링으로 변경
+              loading: () => const CircularProgressIndicator(), // Define the 'loading' variable
+              // 나ㅇ에 글로벌 로딩 페이지으로 변경
+            )),
+            // floatingActionButton: FloatingActionButton(
+            //   onPressed: () {
+            //     context.push(WakeWriteScreen.routeUrl);
+            //   },
+            //   child: const Icon(Icons.add),
+            // ),
+            // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           ),
+          const FloatingAlarmButton(),
         ],
       ),
-      body: SingleChildScrollView(
-          child: myWake.when(
-        data: (wake) {
-          if (wake.isEmpty) {
-            return const Center(
-              child: EmptyBox(),
-            );
-          }
-          return SizedBox(
-            height: context.deviceHeight * 0.8,
-            child: ListView.separated(
-                separatorBuilder: (context, index) => height10,
-                itemCount: wake.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      if (wake[index].isApproved == false &&
-                          wake[index].wakeTime.isAfter(DateTime.now()))
-                        WakeAcceptBox(ref, wake[index]),
-                      // height5,
-                      FeedBox(user, wake[index]),
-                    ],
-                  );
-                }),
-          ).pSymmetric(h: 20);
-        },
-        error: (error, stackTrace) {
-          logger.d('Error: $error Stack Trace: $stackTrace');
-
-          return Text('Error: $error');
-        }, // Define the 'error' variable
-        //나중에 글로벌 에러 핸들링으로 변경
-        loading: () =>
-            const CircularProgressIndicator(), // Define the 'loading' variable
-        // 나ㅇ에 글로벌 로딩 페이지으로 변경
-      )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.push(WakeWriteScreen.routeUrl);
-        },
-        child: const Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
+  }
+}
+
+class FloatingAlarmButton extends ConsumerWidget {
+  const FloatingAlarmButton({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Align(
+        alignment: Alignment.bottomRight,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 70),
+          child: FloatingActionButton(
+            onPressed: () {
+              context.push(WakeWriteScreen.routeUrl);
+            },
+            child: const Icon(Icons.add),
+          ),
+        ));
   }
 }
 
@@ -126,17 +146,9 @@ class WakeAcceptBox extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          DateFormat('a hh:mm')
-              .format(wake.wakeTime)
-              .toString()
-              .text
-              .medium
-              .color(AppColors.primary700)
-              .make(),
-          Image.asset('assets/images/wakeupbear/wakeupbearsleep.png',
-              width: Constants.cardPngWidth),
-          if (!wake.isApproved)
-            'You can wake them up if they accept!'.tr().text.medium.make(),
+          DateFormat('a hh:mm').format(wake.wakeTime).toString().text.medium.color(AppColors.primary700).make(),
+          Image.asset('assets/images/wakeupbear/wakeupbearsleep.png', width: Constants.cardPngWidth),
+          if (!wake.isApproved) 'You can wake them up if they accept!'.tr().text.medium.make(),
           height10,
           if (!wake.isApproved)
             Row(
@@ -145,9 +157,7 @@ class WakeAcceptBox extends StatelessWidget {
                 NormalButton(
                   text: 'cancel'.tr(),
                   onPressed: () {
-                    ref
-                        .read(wakeControllerProvider.notifier)
-                        .deleteWakeUp(wake.wakeUid);
+                    ref.read(wakeControllerProvider.notifier).deleteWakeUp(wake.wakeUid);
                   },
                   isPreferred: false,
                 ),
@@ -325,19 +335,9 @@ class EditBox extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text('오전 07:31'),
-                  DateFormat('hh:mm a')
-                      .format(wake[index]!.wakeTime)
-                      .toString()
-                      .text
-                      .medium
-                      .make(),
-                  Image.asset('assets/images/wakeupbear/wakeupbearsleep.png',
-                      width: Constants.cardPngWidth),
-                  'You can wake them up if they accept!'
-                      .tr()
-                      .text
-                      .medium
-                      .make(),
+                  DateFormat('hh:mm a').format(wake[index]!.wakeTime).toString().text.medium.make(),
+                  Image.asset('assets/images/wakeupbear/wakeupbearsleep.png', width: Constants.cardPngWidth),
+                  'You can wake them up if they accept!'.tr().text.medium.make(),
                   height10,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -345,9 +345,7 @@ class EditBox extends StatelessWidget {
                       NormalButton(
                         text: 'cancel'.tr(),
                         onPressed: () {
-                          ref
-                              .read(wakeControllerProvider.notifier)
-                              .deleteWakeUp(wake[index]!.wakeUid);
+                          ref.read(wakeControllerProvider.notifier).deleteWakeUp(wake[index]!.wakeUid);
                         },
                         isPreferred: false,
                       ),
@@ -373,35 +371,41 @@ class NoFriendBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // height: 300,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppColors.whiteBackground,
-        border: Border.all(color: AppColors.point700),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          height40,
-          Image.asset('assets/images/wakeupbear/wakeupbearsleep.png',
-              width: context.deviceWidth / 2),
-          'Please register your friend.'.tr().text.medium.make(),
-          height10,
-          Row(
+    return Scaffold(
+      body: Center(
+        child: Container(
+          // height: 300,
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: AppColors.whiteBackground,
+            border: Border.all(color: AppColors.point700),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              width10,
-              NormalButton(
-                text: 'Register'.tr(),
-                onPressed: () {
-                  context.push(MatchTabScreen.routeUrl);
-                },
+              Image.asset('assets/images/wakeupbear/wakeupbearsleep.png', width: context.deviceWidth / 2),
+              'Please register your friend.'.tr().text.medium.make(),
+              height10,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  width10,
+                  NormalButton(
+                    text: 'Register'.tr(),
+                    onPressed: () {
+                      context.push(MatchTabScreen.routeUrl);
+                    },
+                  ),
+                ],
               ),
+              height40,
+              height40,
+              height40,
+              height40,
             ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -426,8 +430,7 @@ class EmptyBox extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           height40,
-          Image.asset('assets/images/wakeupbear/wakeupbearsleep.png',
-              width: context.deviceWidth / 2),
+          Image.asset('assets/images/wakeupbear/wakeupbearsleep.png', width: context.deviceWidth / 2),
           'You can wake them up!'.text.medium.make(),
           height10,
           Row(
@@ -459,19 +462,9 @@ class TimeBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        DateFormat('a')
-            .format(wake.wakeTime)
-            .text
-            .color(AppColors.primary700)
-            .make(),
+        DateFormat('a').format(wake.wakeTime).text.color(AppColors.primary700).make(),
         width5,
-        DateFormat('hh:mm')
-            .format(wake.wakeTime)
-            .text
-            .medium
-            .size(20)
-            .color(AppColors.primary700)
-            .make(),
+        DateFormat('hh:mm').format(wake.wakeTime).text.medium.size(20).color(AppColors.primary700).make(),
         width5,
         // if (kDebugMode) wake.wakeTime.toString().text.make(),
         width5,
