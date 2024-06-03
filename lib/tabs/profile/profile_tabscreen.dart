@@ -101,7 +101,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                         builder: (context) => const CustomerServiceScreen(),
                       ));
                 }),
-                LinkCard('App Version Information'.tr(), info: '1.1.1', onTap: () {}),
+                LinkCard('App Version Information'.tr(), info: '1.1.2', onTap: () {}),
                 LinkCard('Open Source'.tr(), onTap: () {
                   Navigator.push(
                       context,
