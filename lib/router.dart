@@ -10,6 +10,7 @@ import 'package:wakeuphoney/common/route/fade_transition.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
 import 'package:wakeuphoney/auth/login_tabscreen.dart';
 import 'package:wakeuphoney/common/error/error_page.dart';
+import 'package:wakeuphoney/tabs/alarm/alarm_function.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_reply_screen.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_ring_sample.dart';
 import 'package:wakeuphoney/tabs/bitcoin/bitcoin_screen.dart';
@@ -96,6 +97,11 @@ final routerProvider = Provider((ref) {
         builder: (context, state) => AlarmRingSampleScreen(
           alarmSettings: alarmSettings,
         ),
+      ),
+      GoRoute(
+        name: AlarmFunction.routeName,
+        path: AlarmFunction.routeUrl,
+        builder: (context, state) => const AlarmFunction(),
       ),
       GoRoute(
         name: MyProfileTabScreen.routeName,

@@ -7,8 +7,11 @@ import 'package:wakeuphoney/app.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_edit_screen.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_ring_sample.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_ring_screen.dart';
+import 'package:wakeuphoney/tabs/main_tabscreen.dart';
 
 class AlarmFunction extends StatefulWidget {
+  static const routeName = 'alarmFuction';
+  static const routeUrl = '/alarmFuction';
   const AlarmFunction({super.key});
 
   @override
@@ -31,10 +34,10 @@ class _AlarmFunctionState extends State<AlarmFunction> {
       subscription?.cancel();
     }
 
-    // loadAlarms();
-    // subscription ??= Alarm.ringStream.stream.listen(
-    //   (alarmSettings) => navigateToRingScreen(alarmSettings),
-    // );
+    loadAlarms();
+    subscription ??= Alarm.ringStream.stream.listen(
+      (alarmSettings) => navigateToRingScreen(alarmSettings),
+    );
   }
 
   void loadAlarms() {
@@ -50,6 +53,7 @@ class _AlarmFunctionState extends State<AlarmFunction> {
         MaterialPageRoute(
           builder: (context) => AlarmRingSampleScreen(alarmSettings: alarmSettings),
         ));
+
     loadAlarms();
     // await Navigator.of(context).push(
     //   MaterialPageRoute(
@@ -104,6 +108,6 @@ class _AlarmFunctionState extends State<AlarmFunction> {
 
   @override
   Widget build(BuildContext context) {
-    return const App();
+    return Container();
   }
 }

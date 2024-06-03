@@ -81,7 +81,7 @@
   "Go to reply": "前往回复",
   "Check the scheduled alarm": "查看已设定的闹钟",
   "The alarm will ring and you can check it.": "闹钟会响起,你可以查看它",
-  "left a message": "给你留下闹钟信息了",
+  "left a message": "{}给你留下闹钟信息了",
   "Wake Wake Wake Wake Wake Wake Wake Wake Wake ": "叫醒叫醒叫醒叫醒叫醒叫醒叫醒叫醒叫醒",
   "Alarm set successfully.": "闹钟设置成功", 
   "Alarm setting failed. Please try again.": "闹钟设置失败,请重试",
@@ -105,6 +105,7 @@
   "album": "相册",
   "please choose a photo": "请选择照片",
   "alarm settings": "闹钟设置",
+  "You can wake them up if they accept!": "如果他们接受,你可以叫醒他们!",
   "ProfileProfileProfileProfileProfileProfileProfile": "个人资料个人资料个人资料个人资料个人资料个人资料",
   "myProfile": "我的个人资料",
   "Name": "姓名",

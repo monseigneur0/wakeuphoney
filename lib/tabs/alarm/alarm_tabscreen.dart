@@ -4,20 +4,18 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakeuphoney/common/common.dart';
-
-import 'package:wakeuphoney/common/providers/providers.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
+import 'package:wakeuphoney/common/common.dart';
+import 'package:wakeuphoney/common/providers/providers.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_accept_box.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_accepted_box.dart';
-import 'package:wakeuphoney/tabs/alarm/alarm_empty.dart';
+import 'package:wakeuphoney/tabs/alarm/alarm_function.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_manager.dart';
 import 'package:wakeuphoney/tabs/alarm/feed_blur_box.dart';
 import 'package:wakeuphoney/tabs/alarm/feedbox.dart';
 import 'package:wakeuphoney/tabs/wake/wake_controller.dart';
 import 'package:wakeuphoney/tabs/wake/wake_model.dart';
 import 'package:wakeuphoney/tabs/wake/wake_tabscreen.dart';
-import 'package:wakeuphoney/tabs/wake/wake_write_screen.dart';
 
 /// 이 페이지의 역할
 /// 알람을 수락하고 등록하는 페이지
@@ -34,8 +32,17 @@ class AlarmTabScreen extends ConsumerWidget {
     final user = ref.watch(userModelProvider);
     final friend = ref.watch(friendUserModelProvider);
     if (user == null) {
-      return Center(
-        child: Image.asset('assets/images/wakeupbear/wakeupbear.png'),
+      return Scaffold(
+        body: Center(
+          child: SizedBox(
+            width: 100,
+            height: 100,
+            child: Image.asset(
+              'assets/images/wakeupbear/wakeupbear512.png',
+              scale: 0.2,
+            ),
+          ),
+        ),
       );
     }
     if (friend == null) {
@@ -54,10 +61,14 @@ class AlarmTabScreen extends ConsumerWidget {
                 child: EmptyBox(),
               );
             }
-            return Center(
-              // if (kDebugMode) const AlarmManager(),
-              child: AlarmList(ref, alarm: alarm, user: friend),
-            );
+            return Column(children: [
+              if (kDebugMode)
+                AlarmManager(
+                  alarmSettings: ref.read(alarmSettingsProvider),
+                ),
+              const AlarmFunction(),
+              AlarmList(ref, alarm: alarm, user: friend),
+            ]);
           },
           error: (error, stackTrace) => StreamError(error, stackTrace),
           //나중에 글로벌 에러 핸들링으로 변경

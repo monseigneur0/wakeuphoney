@@ -81,7 +81,7 @@
   "Go to reply": "Ir a Responder",
   "Check the scheduled alarm": "Revisa la alarma programada",
   "The alarm will ring and you can check it.": "Sonará la alarma y podrás revisarla.",
-  "left a message": "te dejó un mensaje de alarma",
+  "left a message": "{}te dejó un mensaje de alarma",
   "Wake Wake Wake Wake Wake Wake Wake Wake Wake ": "Despierta Despierta Despierta Despierta Despierta Despierta Despierta Despierta Despierta ",
   "Alarm set successfully.": "Alarma configurada con éxito.",
   "Alarm setting failed. Please try again.": "Falló al configurar la alarma. Por favor inténtalo de nuevo.",
@@ -105,6 +105,7 @@
   "album": "Álbum",
   "please choose a photo": "Por favor elige una foto",
   "alarm settings": "configuración de alarmas",
+  "You can wake them up if they accept!": "¡Puedes despertarlos si aceptan!",
   "ProfileProfileProfileProfileProfileProfileProfile": "PerfilPerfilPerfilPerfilPerfilPerfilPerfil",
   "myProfile": "Mi perfil",
   "Name": "Nombre",

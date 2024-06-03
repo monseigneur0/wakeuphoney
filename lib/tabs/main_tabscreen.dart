@@ -26,8 +26,7 @@ class MainTabsScreen extends ConsumerStatefulWidget {
 
 class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTickerProviderStateMixin {
   final tabs = TabItem.values;
-  late final List<GlobalKey<NavigatorState>> navigatorKeys =
-      TabItem.values.map((e) => GlobalKey<NavigatorState>()).toList();
+  late final List<GlobalKey<NavigatorState>> navigatorKeys = TabItem.values.map((e) => GlobalKey<NavigatorState>()).toList();
 
   TabItem get _currentTab => ref.watch(currentTabProvider);
 
@@ -62,9 +61,10 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
     final uid = ref.watch(uidProvider);
 
     return PopScope(
-        canPop: isRootPage,
-        onPopInvoked: _handleBackPressed,
-        child: user.when(data: (user) {
+      canPop: isRootPage,
+      onPopInvoked: _handleBackPressed,
+      child: user.when(
+        data: (user) {
           //여기서 이러지 마
           // if (user.couples!.isNotEmpty) {
           //   logger.d('user.couples!.isNotEmpty ${user.couples!.isNotEmpty}');
@@ -87,7 +87,8 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
             ),
             bottomNavigationBar: _buildBottomNavigationBar(context),
           );
-        }, error: (error, stackTrace) {
+        },
+        error: (error, stackTrace) {
           // Handle the error here
           logger.e(
             'Error: $error $stackTrace',
@@ -97,7 +98,8 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
               child: Text('Error: $error'),
             ),
           );
-        }, loading: () {
+        },
+        loading: () {
           return Scaffold(
             body: Center(
               child: SizedBox(
@@ -110,7 +112,9 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
               ),
             ),
           );
-        }));
+        },
+      ),
+    );
   }
 
   bool get isRootPage => _currentTab == TabItem.alarm && _currentTabNavigationKey.currentState?.canPop() == false;

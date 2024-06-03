@@ -146,7 +146,7 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                             // context.showToast(msg: '회원가입 준비 중입니다.');
                             // showToast('회원가입 준비 중입니다.');
                             ref.read(loginControllerProvider.notifier).signInWithManager(context);
-                            context.go('/main');
+                            context.go('/alarm');
                           },
                           child: '관리자계정'.tr().text.size(10).color(context.appColors.lessImportant).make()),
                     ),
@@ -216,9 +216,8 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
     });
 
     // Attempt login using the provided login controller
-    final userCredential = await ref
-        .watch(loginControllerProvider.notifier)
-        .signInWithEmailAndPassword(context, emailController.text, pwdController.text);
+    final userCredential =
+        await ref.watch(loginControllerProvider.notifier).signInWithEmailAndPassword(context, emailController.text, pwdController.text);
 
     setState(() {
       _isLoading = false;

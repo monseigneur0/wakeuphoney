@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
-
-import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
+import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/tabs/wake/wake_model.dart';
 import 'package:wakeuphoney/tabs/wake/wake_tabscreen.dart';
 

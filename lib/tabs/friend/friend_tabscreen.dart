@@ -1,13 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
 import 'package:wakeuphoney/common/common.dart';
-import 'package:wakeuphoney/common/image/image_full_screen.dart';
 import 'package:wakeuphoney/common/providers/providers.dart';
-import 'package:wakeuphoney/common/widget/normal_button.dart';
-import 'package:wakeuphoney/common/widget/w_main_button.dart';
 import 'package:wakeuphoney/common/widget/w_main_button_disabled.dart';
 import 'package:wakeuphoney/tabs/match/match_tab_controller.dart';
 import 'package:wakeuphoney/tabs/profile/myprofile_tabscreen.dart';
@@ -94,7 +90,7 @@ class FriendTabScreen extends ConsumerWidget {
                       // border: Border.all(color: AppColors.primary600),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: '${DateTime(now.year, now.month, now.day + 1).difference(user.matchedDateTime!).inDays + 1}'
+                    child: '${DateTime(now.year, now.month, now.day + 1).difference(user.matchedDateTime ?? DateTime.now()).inDays + 1}'
                         .text
                         .xl4
                         .bold

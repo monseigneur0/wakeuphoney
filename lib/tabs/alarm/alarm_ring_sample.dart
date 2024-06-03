@@ -60,15 +60,9 @@ class AlarmRingSampleScreen extends ConsumerWidget {
                       ],
                     ),
                     height10,
-                    profileImage(friend ?? UserModel.empty()),
+                    // profileImage(friend ?? UserModel.empty()),
                     height10,
-                    '{} left a message'
-                        .tr(args: [
-                          friend?.displayName ?? UserModel.empty().displayName
-                        ])
-                        .text
-                        .medium
-                        .make(),
+                    'left a message'.tr(args: [friend?.displayName ?? UserModel.empty().displayName]).text.medium.make(),
                     height20,
                     TextMessageBox(ringingAlarm.message),
                     height10,
@@ -77,18 +71,14 @@ class AlarmRingSampleScreen extends ConsumerWidget {
                     height40,
                     const InfoBox(),
                     height10,
-                    WakeModel.sample() == ringingAlarm
-                        ? Container()
-                        : CoupleButton(ref, ringingAlarm,
-                            alarmSettings), //버튼 위치는 항상 고정해야하지 않을까
+                    WakeModel.sample() == ringingAlarm ? Container() : CoupleButton(ref, ringingAlarm, alarmSettings), //버튼 위치는 항상 고정해야하지 않을까
                   ],
                 ).pSymmetric(v: 10, h: 20);
               }
             },
             error: streamError, // Define the 'error' variable
             //나중에 글로벌 에러 핸들링으로 변경
-            loading: () =>
-                const CircularProgressIndicator(), // Define the 'loading' variable
+            loading: () => const CircularProgressIndicator(), // Define the 'loading' variable
             // 나ㅇ에 글로벌 로딩 페이지으로 변경
           ),
         ),
@@ -121,11 +111,7 @@ class InfoBox extends StatelessWidget {
           children: [
             'Please reply.'.tr().text.medium.make(),
             height10,
-            'If you select snooze, it will ring again in 10 minutes.'
-                .tr()
-                .text
-                .medium
-                .make(),
+            'If you select snooze, it will ring again in 10 minutes.'.tr().text.medium.make(),
           ],
         ),
       ),
@@ -182,8 +168,9 @@ class CoupleButton extends StatelessWidget {
         width10,
         Expanded(
           child: MainButton(
-            'Go to reply',
+            'Go to reply'.tr(),
             onPressed: () {
+              Alarm.stop(alarmSettings.id);
               // ref.read(wakeControllerProvider.notifier).rejectWake();
               context.push(AlarmReplyScreen.routeUrl);
               ref.read(wakeIdProvider.notifier).state = wake.wakeUid.toString();
@@ -206,21 +193,9 @@ class TimeBarBig extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        DateFormat('a')
-            .format(wake.wakeTime)
-            .text
-            .size(24)
-            .medium
-            .color(AppColors.primary700)
-            .make(),
+        DateFormat('a').format(wake.wakeTime).text.size(24).medium.color(AppColors.primary700).make(),
         width5,
-        DateFormat('hh:mm')
-            .format(wake.wakeTime)
-            .text
-            .size(32)
-            .semiBold
-            .color(AppColors.primary700)
-            .make(),
+        DateFormat('hh:mm').format(wake.wakeTime).text.size(32).semiBold.color(AppColors.primary700).make(),
         width5,
         // if (kDebugMode) wake.wakeTime.toString().text.make(),
         width5,

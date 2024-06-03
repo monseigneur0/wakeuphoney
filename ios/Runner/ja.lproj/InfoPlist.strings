@@ -5,7 +5,7 @@
   Created by 김탁호 on 2024/01/25.
   
 */
-"CFBundleDisplayName" = "起きて熊";
+"CFBundleDisplayName" = "WakeupBear";
 "NSCameraUsageDescription" = "手紙に画像をアップロードするためにカメラへのアクセスが必要です。";
 "NSMicrophoneUsageDescription" = "手紙に音声を録音するためにマイクへのアクセスが必要です。";
 "NSPhotoLibraryUsageDescription" = "手紙に画像をアップロードするために写真アルバムへのアクセスが必要です。";

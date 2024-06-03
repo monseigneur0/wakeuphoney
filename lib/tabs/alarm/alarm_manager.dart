@@ -23,18 +23,18 @@ class AlarmManager extends StatefulWidget {
 
 class _AlarmManagerState extends State<AlarmManager> {
   late List<AlarmSettings> alarms;
-  static StreamSubscription? subscription;
+  // static StreamSubscription? subscription;
 
   @override
   void initState() {
     super.initState();
     loadAlarms();
-    if (subscription != null) {
-      subscription?.cancel();
-    }
-    subscription ??= Alarm.ringStream.stream.listen(
-      (alarmSettings) => navigateToRingScreen(alarmSettings),
-    );
+    // if (subscription != null) {
+    //   subscription?.cancel();
+    // }
+    // subscription ??= Alarm.ringStream.stream.listen(
+    //   (alarmSettings) => navigateToRingScreen(alarmSettings),
+    // );
   }
 
   Future<void> navigateToRingScreen(AlarmSettings alarmSettings) async {

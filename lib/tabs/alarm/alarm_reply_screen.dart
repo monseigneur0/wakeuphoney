@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,12 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/providers/firebase_providers.dart';
 import 'package:wakeuphoney/common/providers/providers.dart';
-import 'package:wakeuphoney/common/widget/normal_button.dart';
-import 'package:wakeuphoney/common/widget/w_long_button.dart';
 import 'package:wakeuphoney/common/widget/w_main_button.dart';
 import 'package:wakeuphoney/common/widget/w_main_button_disabled.dart';
-import 'package:wakeuphoney/common/widget/w_menu_button.dart';
-import 'package:wakeuphoney/common/widget/w_round_button.dart';
 import 'package:wakeuphoney/common/widget/w_text_field_with_delete.dart';
 import 'package:wakeuphoney/tabs/wake/wake_controller.dart';
 import 'package:wakeuphoney/tabs/wake/wake_model.dart';
@@ -64,16 +59,11 @@ class _AlarmReplyScreenState extends ConsumerState<AlarmReplyScreen> {
   }
 
   void uploadImageToStorage() async {
-    Reference refImageToUpload = ref
-        .read(storageProvider)
-        .ref()
-        .child(FirebaseConstants.alarmImage)
-        .child(DateTime.now().toString());
+    Reference refImageToUpload = ref.read(storageProvider).ref().child(FirebaseConstants.alarmImage).child(DateTime.now().toString());
     if (letterImageFile != null) {
       try {
         await refImageToUpload.putFile(File(letterImageFile!.path));
-        ref.read(imageUrlProvider.notifier).state =
-            await refImageToUpload.getDownloadURL();
+        ref.read(imageUrlProvider.notifier).state = await refImageToUpload.getDownloadURL();
         logger.d(ref.read(imageUrlProvider));
       } catch (e) {
         logger.e("Error uploading image or no image file selected");
@@ -102,8 +92,7 @@ class _AlarmReplyScreenState extends ConsumerState<AlarmReplyScreen> {
               children: [
                 height40,
                 height40,
-                Image.asset('assets/images/wakeupbear/wakeupbearsleep.png',
-                    width: Constants.cardPngWidth),
+                Image.asset('assets/images/wakeupbear/wakeupbearsleep.png', width: Constants.cardPngWidth),
                 height10,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -113,8 +102,7 @@ class _AlarmReplyScreenState extends ConsumerState<AlarmReplyScreen> {
                 ),
                 height10,
                 Tap(
-                  onTap: () =>
-                      FocusScope.of(context).requestFocus(textEditingFucus),
+                  onTap: () => FocusScope.of(context).requestFocus(textEditingFucus),
                   child: Container(
                       decoration: containerBoxDecoration(),
                       child: Column(
@@ -126,17 +114,13 @@ class _AlarmReplyScreenState extends ConsumerState<AlarmReplyScreen> {
                             focusNode: textEditingFucus,
                             onChanged: (p0) {
                               if (_letterController.text.length > 300) {
-                                _letterController.text =
-                                    _letterController.text.substring(0, 300);
+                                _letterController.text = _letterController.text.substring(0, 300);
                               }
                               setState(() {});
                             },
                           ),
                           height30,
-                          '${_letterController.text.length}/300'
-                              .text
-                              .color(AppColors.grey500)
-                              .make(),
+                          '${_letterController.text.length}/300'.text.color(AppColors.grey500).make(),
                         ],
                       ).pSymmetric(h: 10, v: 10)),
                 ),
@@ -151,13 +135,7 @@ class _AlarmReplyScreenState extends ConsumerState<AlarmReplyScreen> {
                           decoration: containerBoxDecoration(),
                           child: Row(
                             children: [
-                              'Camera'
-                                  .tr()
-                                  .text
-                                  .color(AppColors.grey500)
-                                  .lg
-                                  .medium
-                                  .make(),
+                              'Camera'.tr().text.color(AppColors.grey500).lg.medium.make(),
                               const EmptyExpanded(),
                               const Icon(Icons.camera_alt),
                             ],
@@ -170,13 +148,7 @@ class _AlarmReplyScreenState extends ConsumerState<AlarmReplyScreen> {
                           children: [
                             Row(
                               children: [
-                                'Camera'
-                                    .tr()
-                                    .text
-                                    .color(AppColors.grey500)
-                                    .lg
-                                    .medium
-                                    .make(),
+                                'Camera'.tr().text.color(AppColors.grey500).lg.medium.make(),
                                 const EmptyExpanded(),
                                 Tap(
                                     onTap: () => setState(() {
@@ -184,9 +156,7 @@ class _AlarmReplyScreenState extends ConsumerState<AlarmReplyScreen> {
                                           showToast('Photo deleted.');
                                           // delete at server
                                         }),
-                                    child: isLoading
-                                        ? const Loader()
-                                        : const Icon(Icons.cancel)),
+                                    child: isLoading ? const Loader() : const Icon(Icons.cancel)),
                               ],
                             ).pSymmetric(h: 20, v: 10),
                             Image.file(letterImageFile!)
@@ -198,8 +168,7 @@ class _AlarmReplyScreenState extends ConsumerState<AlarmReplyScreen> {
                     ? isLoading
                         ? MainButton('Uploading....'.tr(), onPressed: () {})
                         : MainButtonDisabled('Reply.'.tr(), onPressed: () {
-                            context
-                                .showSnackbar('Please enter content to reply');
+                            context.showSnackbar('Please enter content to reply');
                           })
                     : MainButton(
                         'Reply.'.tr(),
@@ -221,8 +190,7 @@ class _AlarmReplyScreenState extends ConsumerState<AlarmReplyScreen> {
                           final image = ref.read(imageUrlProvider);
                           final voice = ref.read(voiceUrlProvider);
                           final video = ref.read(videoUrlProvider);
-                          ref.read(wakeControllerProvider.notifier).reply(wake,
-                              _letterController.text, image, voice, video);
+                          ref.read(wakeControllerProvider.notifier).reply(wake, _letterController.text, image, voice, video);
                           Navigator.of(context).pop();
                         },
                       ),
