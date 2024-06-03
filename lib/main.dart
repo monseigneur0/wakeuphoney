@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -66,13 +67,9 @@ void main() async {
         fallbackLocale: const Locale('en'),
         path: 'assets/translations',
         useOnlyLangCode: true,
-        child: CustomThemeApp(
-            child: MaterialApp(
-          home: const ProviderScope(child: MaterialApp(debugShowCheckedModeBanner: false, home: App())),
-          navigatorObservers: [
-            FirebaseAnalyticsObserver(analytics: analytics),
-          ],
-        )),
+        child: CustomThemeApp(child: Builder(builder: (context) {
+          return const ProviderScope(child: App());
+        })),
       ),
     );
   }
