@@ -1,15 +1,11 @@
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/auth.dart';
-import 'package:wakeuphoney/common/common.dart';
-import 'package:wakeuphoney/common/providers/firebase_providers.dart';
-import 'package:wakeuphoney/common/providers/providers.dart';
-import 'package:wakeuphoney/router.dart';
-import 'package:wakeuphoney/auth/login_controller.dart';
 import 'package:wakeuphoney/auth/login_repository.dart';
+import 'package:wakeuphoney/common/common.dart';
+import 'package:wakeuphoney/router.dart';
 
 import 'common/fcm_manager.dart';
 import 'common/theme/custom_theme.dart';

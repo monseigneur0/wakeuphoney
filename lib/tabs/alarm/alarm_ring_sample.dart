@@ -1,16 +1,12 @@
 import 'package:alarm/alarm.dart';
-import 'package:alarm/model/alarm_settings.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/providers/providers.dart';
-import 'package:wakeuphoney/common/widget/normal_button.dart';
 import 'package:wakeuphoney/common/widget/w_main_button.dart';
 import 'package:wakeuphoney/common/widget/w_main_button_disabled.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_reply_screen.dart';
-import 'package:wakeuphoney/tabs/friend/friend_tabscreen.dart';
 import 'package:wakeuphoney/tabs/wake/wake_controller.dart';
 import 'package:wakeuphoney/tabs/wake/wake_model.dart';
 import 'package:wakeuphoney/tabs/wake/wake_tabscreen.dart';

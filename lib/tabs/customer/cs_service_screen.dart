@@ -1,15 +1,12 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:logger/logger.dart';
-import 'package:velocity_x/velocity_x.dart';
+import 'package:http/http.dart' as http;
+import 'package:wakeuphoney/auth/login_controller.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/providers/firebase_providers.dart';
-import 'package:wakeuphoney/common/utils.dart';
-
-import 'package:wakeuphoney/auth/login_controller.dart';
+import 'package:wakeuphoney/passwords.dart';
 import 'package:wakeuphoney/tabs/customer/cs_model.dart';
 
 class CustomerServiceScreen extends ConsumerStatefulWidget {
@@ -29,7 +26,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
   Logger logger = Logger();
 
   final List<ChatGPTMessageModel> _historyList = List.empty(growable: true);
-  String apiKey = "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";
+  String apiKey = Passwords.chatGPTapiKey;
   String streamText = "";
 
   static final String _kStrings = "WakeupBear Customer Center".tr();
@@ -53,8 +50,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
       vsync: this,
       duration: const Duration(milliseconds: 2500),
     );
-    _characterCount = StepTween(begin: 0, end: _currentString.length)
-        .animate(CurvedAnimation(parent: _animationController, curve: Curves.easeIn));
+    _characterCount = StepTween(begin: 0, end: _currentString.length).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeIn));
     _animationController.addListener(() {
       setState(() {});
     });
@@ -79,7 +75,7 @@ class _CustomerServiceScreenState extends ConsumerState<CustomerServiceScreen> w
         ChatGPTMessageModel(
           role: "system",
           content:
-              "You are a customer service representative. Only answer about WakeUpBear which is a alarm app for couples. Never talk about anything else the app use. Don't tell them  i am ai. I am Takho Kim. WakeUpBear engineer. Max tokens is set to 200. so be aware of the number fo tokens you use. shorten your answer in 200 tokens. In Korean this app name is '일어나곰' and in Japanese it is '起きてくま'.",
+              "You are a customer service representative. Only answer about WakeupBear which is a alarm app for couples. Never talk about anything else the app use. Don't tell them  i am ai. I am Takho Kim. WakeupBear engineer. Max tokens is set to 200. so be aware of the number fo tokens you use. shorten your answer in 200 tokens. In Korean this app name is '일어나곰' and in Japanese it is '起きてくま'.",
         ),
         ..._historyList,
       ],

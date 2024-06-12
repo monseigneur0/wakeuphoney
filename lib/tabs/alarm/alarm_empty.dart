@@ -1,7 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
+import 'package:wakeuphoney/common/common.dart';
 
 class EmptyAlarm extends StatelessWidget {
   const EmptyAlarm({
@@ -40,19 +39,9 @@ class EmptyAlarm extends StatelessWidget {
             height20,
             user.couples != null
                 ? user.couples!.isEmpty
-                    ? 'connet to friend'.text.size(18).medium.make()
-                    : "Your friend hasn't woken you up yet"
-                        .tr()
-                        .text
-                        .size(18)
-                        .medium
-                        .make()
-                : 'loginFailTryAgain'
-                    .text
-                    .color(Colors.red)
-                    .size(18)
-                    .medium
-                    .make(),
+                    ? 'connet to friend'.tr().text.size(18).medium.make()
+                    : "Your friend hasn't woken you up yet".tr().text.size(18).medium.make()
+                : 'loginFailTryAgain'.tr().text.color(Colors.red).size(18).medium.make(),
             height40,
           ],
         ),

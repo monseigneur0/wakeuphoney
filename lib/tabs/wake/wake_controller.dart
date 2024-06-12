@@ -9,12 +9,12 @@ import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/providers/providers.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
+import 'package:wakeuphoney/passwords.dart';
 import 'package:wakeuphoney/tabs/wake/wake_repository.dart';
 
 import 'wake_model.dart';
 
-final wakeControllerProvider =
-    AsyncNotifierProvider<WakeController, void>(() => WakeController());
+final wakeControllerProvider = AsyncNotifierProvider<WakeController, void>(() => WakeController());
 
 final fetchWakeListProvider = FutureProvider.autoDispose((ref) {
   return ref.watch(wakeControllerProvider.notifier).fetchWakeList();
@@ -43,8 +43,7 @@ class WakeController extends AsyncNotifier<void> {
 
   Future<String?> createFCM(String fcmToken) async {
     try {
-      String accessToken =
-          'ya29.a0AXooCgt597xw4EZu7JtCL0C5cTU6YSQFvPBwTIwLD0mzAH3JjrIDlHBN4gHe7UsxVnsMTGeei6s8lxzqQLnzyXMLHn95N9dMr8VQFGkQtDP-wGcsbspW4CeOJzL5-hsI9Xh0Q1SDzVKsd7hnb7h0kDO5auuuTVbxVyavaCgYKAVUSAQ4SFQHGX2MiiFtkXl8dAkgqJD7GOwhgpA0171';
+      String accessToken = Passwords.accesstoken1;
       http.Response response = await http.post(
           Uri.parse(
             "https://fcm.googleapis.com/v1/projects/wakeuphoneys2/messages:send",
@@ -72,10 +71,7 @@ class WakeController extends AsyncNotifier<void> {
               },
               "apns": {
                 "payload": {
-                  "aps": {
-                    "category": "Message Category",
-                    "content-available": 1
-                  }
+                  "aps": {"category": "Message Category", "content-available": 1}
                 }
               }
             }
@@ -93,8 +89,7 @@ class WakeController extends AsyncNotifier<void> {
 
   Future<String?> createFriendFCM(String title, String body) async {
     try {
-      String accessToken =
-          'ya29.a0AXooCgs-Ypi5_vfBA6ALAl-zHErL4h_wiSkKPV5n-XLFs6AXRaOtclaabwPv0Xbc0eEXUolMroo5kT96sIhNkE98GWFN2zf7ZDpqjA350_T2a-6UMkiMm-QHspf8NGUEeiOuHiXg0aw-OgOPxFe_Ina4EbARqElf5ORN_AaCgYKAZQSAQ4SFQHGX2MitPak9Bps_XKOdFSIWgotQA0173';
+      String accessToken = Passwords.accesstoken2;
       http.Response response = await http.post(
           Uri.parse(
             "https://fcm.googleapis.com/v1/projects/wakeuphoneys2/messages:send",
@@ -141,12 +136,10 @@ class WakeController extends AsyncNotifier<void> {
     }
   }
 
-  void createWakeUp(
-      String message, TimeOfDay selectedTime, volume, vibrate, assetAudio) {
+  void createWakeUp(String message, TimeOfDay selectedTime, volume, vibrate, assetAudio) {
     final now = DateTime.now();
 
-    DateTime wakeTime = DateTime(now.year, now.month, now.day,
-        selectedTime.hour, selectedTime.minute, 0, 0);
+    DateTime wakeTime = DateTime(now.year, now.month, now.day, selectedTime.hour, selectedTime.minute, 0, 0);
     if (wakeTime.isBefore(DateTime.now())) {
       wakeTime = wakeTime.add(const Duration(days: 1));
     }
@@ -186,8 +179,7 @@ class WakeController extends AsyncNotifier<void> {
     } else {
       showToast('Alarm setting failed. Please try again.'.tr());
     }
-    final successcreateWakeUpFriend =
-        _repository.createWakeUp(user.couples!.first, wakeModel);
+    final successcreateWakeUpFriend = _repository.createWakeUp(user.couples!.first, wakeModel);
     if (successcreateWakeUpFriend) {
       showToast('Alarm set successfully.'.tr());
     } else {
@@ -219,8 +211,7 @@ class WakeController extends AsyncNotifier<void> {
     showToast('Alarm accepted.'.tr());
   }
 
-  void reply(String wakeUid, String reply, String imageUrl, String voiceUrl,
-      String videoUrl) {
+  void reply(String wakeUid, String reply, String imageUrl, String voiceUrl, String videoUrl) {
     _repository.reply(uid, wakeUid, reply, imageUrl, voiceUrl, videoUrl);
     showToast('Reply sent.'.tr());
   }

@@ -3,11 +3,8 @@ import 'dart:async';
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:wakeuphoney/app.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_edit_screen.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_ring_sample.dart';
-import 'package:wakeuphoney/tabs/alarm/alarm_ring_screen.dart';
-import 'package:wakeuphoney/tabs/main_tabscreen.dart';
 
 class AlarmFunction extends StatefulWidget {
   static const routeName = 'alarmFuction';

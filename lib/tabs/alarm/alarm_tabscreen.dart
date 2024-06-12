@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/providers/providers.dart';
+import 'package:wakeuphoney/passwords.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_accept_box.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_accepted_box.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_function.dart';
@@ -93,8 +94,8 @@ class AlarmList extends StatefulWidget {
 }
 
 class _AlarmListState extends State<AlarmList> {
-  final String iOSIdAlarm = 'ca-app-pub-5897230132206634/3120978311';
-  final String androidIdAlarm = 'ca-app-pub-5897230132206634/5879003590';
+  final String iOSIdAlarm = Passwords.adMobAlarmios;
+  final String androidIdAlarm = Passwords.adMobAlarmAndroid;
   BannerAd? _bannerAd;
   @override
   void initState() {

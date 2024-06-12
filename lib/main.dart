@@ -12,6 +12,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/app.dart';
+import 'package:wakeuphoney/passwords.dart';
 // import 'package:wakeuphoney/tabs/alarm/alarm_function.dart';
 
 import 'common/data/preference/app_preferences.dart';
@@ -34,9 +35,7 @@ void main() async {
   //Remove this method to stop OneSignal Debugging
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
 
-  Platform.isIOS
-      ? OneSignal.initialize("1329eb2a-6f68-409a-bf9f-1fdc984691f7")
-      : OneSignal.initialize("a4ca2128-ce73-42ab-be21-96fdf16fcdce");
+  Platform.isIOS ? OneSignal.initialize(Passwords.oneSignalios) : OneSignal.initialize(Passwords.oneSignalAndroid);
 
   if (kDebugMode) {
     runApp(EasyLocalization(
