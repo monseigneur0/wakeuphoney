@@ -25,17 +25,16 @@ class App extends ConsumerStatefulWidget {
 }
 
 class AppState extends ConsumerState<App> with WidgetsBindingObserver {
-  String _authStatus = 'Unknown';
+  final String _authStatus = 'Unknown';
 
   // final auth = LoginAuth();
 
   @override
   void initState() {
     super.initState();
-    FcmManager.requestPermission();
     FcmManager.initialize(ref);
     WidgetsBinding.instance.addObserver(this);
-    initPlugin();
+    // initPlugin();
   }
 
   @override
@@ -44,18 +43,18 @@ class AppState extends ConsumerState<App> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  Future<void> initPlugin() async {
-    final TrackingStatus status = await AppTrackingTransparency.trackingAuthorizationStatus;
-    setState(() => _authStatus = '$status');
-    // If the system can show an authorization request dialog
-    if (status == TrackingStatus.notDetermined) {
-      // Request system's tracking authorization dialog
-      final TrackingStatus status = await AppTrackingTransparency.requestTrackingAuthorization();
-      setState(() => _authStatus = '$status');
-    }
+  // Future<void> initPlugin() async {
+  //   final TrackingStatus status = await AppTrackingTransparency.trackingAuthorizationStatus;
+  //   setState(() => _authStatus = '$status');
+  //   // If the system can show an authorization request dialog
+  //   if (status == TrackingStatus.notDetermined) {
+  //     // Request system's tracking authorization dialog
+  //     final TrackingStatus status = await AppTrackingTransparency.requestTrackingAuthorization();
+  //     setState(() => _authStatus = '$status');
+  //   }
 
-    final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
-  }
+  //   final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
+  // }
 
   @override
   Widget build(BuildContext context) {

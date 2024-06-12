@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wakeuphoney/common/common.dart';
+import 'package:wakeuphoney/common/fcm_manager.dart';
 import 'package:wakeuphoney/common/widget/normal_button.dart';
 import 'package:wakeuphoney/common/providers/providers.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
@@ -107,12 +108,12 @@ class _AcceptBoxState extends ConsumerState<AcceptBox> {
             NormalButton(
               text: 'yes'.tr(),
               onPressed: () {
+                FcmManager.requestPermission();
+
                 ref.read(wakeControllerProvider.notifier).acceptWakeUp(widget.wake.wakeUid);
                 ref.read(selectedDateTime.notifier).state = widget.wake.wakeTime;
-                ref.read(selectedTime.notifier).state =
-                    TimeOfDay(hour: widget.wake.wakeTime.hour, minute: widget.wake.wakeTime.minute);
-                Alarm.set(
-                    alarmSettings: buildAlarmSettings(ref.read(selectedTime.notifier).state, widget.wake.messageAudio));
+                ref.read(selectedTime.notifier).state = TimeOfDay(hour: widget.wake.wakeTime.hour, minute: widget.wake.wakeTime.minute);
+                Alarm.set(alarmSettings: buildAlarmSettings(ref.read(selectedTime.notifier).state, widget.wake.messageAudio));
               },
             ),
           ],

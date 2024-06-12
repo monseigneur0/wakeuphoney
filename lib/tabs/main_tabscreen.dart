@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakeuphoney/common/providers/providers.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
 
 import '../common/common.dart';
@@ -59,7 +59,7 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
     final user = ref.watch(getUserFutureProvider);
     // final user = ref.watch(getUserStreamProvider);
     final uid = ref.watch(uidProvider);
-
+    OneSignal.login(uid);
     return PopScope(
       canPop: isRootPage,
       onPopInvoked: _handleBackPressed,
@@ -73,6 +73,7 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
           //     logger.d("ref.read(friendUserModelProvider.notifier).state = value$value");
           //   });
           // }
+
           return Scaffold(
             extendBody: extendBody, //bottomNavigationBar 아래 영역 까지 그림
             // drawer: const MenuDrawer(),

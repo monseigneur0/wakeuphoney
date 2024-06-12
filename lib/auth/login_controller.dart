@@ -1,13 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import 'package:wakeuphoney/common/common.dart';
-import 'package:wakeuphoney/common/providers/providers.dart';
-import 'package:wakeuphoney/auth/user_model.dart';
 import 'package:wakeuphoney/auth/login_repository.dart';
 import 'package:wakeuphoney/auth/login_tabscreen.dart';
+import 'package:wakeuphoney/auth/user_model.dart';
+import 'package:wakeuphoney/common/common.dart';
+import 'package:wakeuphoney/common/providers/providers.dart';
 import 'package:wakeuphoney/tabs/main_tabscreen.dart';
 
 final getUserByUidProvider = FutureProvider.family<UserModel, String>((ref, uid) {

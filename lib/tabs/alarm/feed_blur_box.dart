@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/tabs/wake/wake_model.dart';
@@ -15,6 +16,13 @@ class FeedBlurBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (wake.message.length > 10) {
+      OneSignal.User.addTagWithKey("alarmtext", '${wake.message.substring(0, 10)}...');
+    }
+    if (wake.message.isNotEmpty || wake.message.length < 10) {
+      OneSignal.User.addTagWithKey("alarmtext", '${wake.message}...');
+    }
+
     return Tap(
       onTap: () {
         showToast('The alarm will ring and you can check it.'.tr());

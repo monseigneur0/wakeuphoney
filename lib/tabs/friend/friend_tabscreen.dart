@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/providers/providers.dart';
@@ -15,6 +16,8 @@ class FriendTabScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userModelProvider);
     final friend = ref.watch(friendUserModelProvider);
+    Logger logger = Logger();
+    logger.d("initialize friend tab");
     if (friend == null) {
       return const Scaffold(
         body: Center(
@@ -23,6 +26,9 @@ class FriendTabScreen extends ConsumerWidget {
       );
     }
     final now = DateTime.now();
+    OneSignal.User.addTagWithKey("name", user?.displayName ?? '');
+    OneSignal.User.addTagWithKey("friend", friend.displayName);
+
     return Scaffold(
       // appBar: AppBar(
       //   title: const Text('친구'),

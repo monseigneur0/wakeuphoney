@@ -1,3 +1,4 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
@@ -9,12 +10,25 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class FcmManager {
   static void requestPermission() {
-    FirebaseMessaging.instance.requestPermission();
+    // FirebaseMessaging.instance.requestPermission();
+    requestPermissionOneSignal();
+    initPlugin();
   }
 
   static void requestPermissionOneSignal() {
     // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
     OneSignal.Notifications.requestPermission(true);
+  }
+
+  static Future<void> initPlugin() async {
+    final TrackingStatus status = await AppTrackingTransparency.trackingAuthorizationStatus;
+    // If the system can show an authorization request dialog
+    if (status == TrackingStatus.notDetermined) {
+      // Request system's tracking authorization dialog
+      final TrackingStatus status = await AppTrackingTransparency.requestTrackingAuthorization();
+    }
+
+    final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
   }
 
   static Future<String> getPushToken() async {
@@ -55,8 +69,7 @@ class FcmManager {
     //When app is closed -> initial launch
     final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
-      await sleepUntil(
-          () => App.scaffoldMessengerKey.currentContext != null && App.scaffoldMessengerKey.currentContext!.mounted);
+      await sleepUntil(() => App.scaffoldMessengerKey.currentContext != null && App.scaffoldMessengerKey.currentContext!.mounted);
       App.scaffoldMessengerKey.currentContext!.showToast(msg: initialMessage.notification?.title ?? "no title");
     }
   }
