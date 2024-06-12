@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:alarm/alarm.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -5,16 +7,18 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wakeuphoney/app.dart';
-import 'package:wakeuphoney/tabs/alarm/alarm_function.dart';
+// import 'package:wakeuphoney/tabs/alarm/alarm_function.dart';
 
 import 'common/data/preference/app_preferences.dart';
 import 'common/theme/custom_theme_app.dart';
 import 'firebase_options.dart';
+
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +30,13 @@ void main() async {
   MobileAds.instance.initialize();
 
   await Alarm.init(showDebugLogs: true);
+
+  //Remove this method to stop OneSignal Debugging
+  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+
+  Platform.isIOS
+      ? OneSignal.initialize("1329eb2a-6f68-409a-bf9f-1fdc984691f7")
+      : OneSignal.initialize("a4ca2128-ce73-42ab-be21-96fdf16fcdce");
 
   if (kDebugMode) {
     runApp(EasyLocalization(

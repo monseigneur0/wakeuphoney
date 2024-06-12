@@ -5,9 +5,16 @@ import 'package:wakeuphoney/common/common.dart';
 
 import '../app.dart';
 
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+
 class FcmManager {
   static void requestPermission() {
     FirebaseMessaging.instance.requestPermission();
+  }
+
+  static void requestPermissionOneSignal() {
+    // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+    OneSignal.Notifications.requestPermission(true);
   }
 
   static Future<String> getPushToken() async {
@@ -48,7 +55,8 @@ class FcmManager {
     //When app is closed -> initial launch
     final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
-      await sleepUntil(() => App.scaffoldMessengerKey.currentContext != null && App.scaffoldMessengerKey.currentContext!.mounted);
+      await sleepUntil(
+          () => App.scaffoldMessengerKey.currentContext != null && App.scaffoldMessengerKey.currentContext!.mounted);
       App.scaffoldMessengerKey.currentContext!.showToast(msg: initialMessage.notification?.title ?? "no title");
     }
   }
