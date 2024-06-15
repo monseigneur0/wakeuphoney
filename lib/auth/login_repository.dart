@@ -6,6 +6,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:wakeuphoney/auth/login_type.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
+import 'package:wakeuphoney/passwords.dart';
 
 import '../common/providers/firebase_providers.dart';
 
@@ -149,12 +150,10 @@ class LoginRepository {
     }
   }
 
-//  test123@wakeupgom.com
-//  tezPib-5qovxu-bydruk
   signInWithManager() async {
     final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
-      email: "test123@wakeupgom.com",
-      password: "tezPib-5qovxu-bydruk",
+      email: Passwords.managerEmail,
+      password: Passwords.managerpassword,
     );
   }
 

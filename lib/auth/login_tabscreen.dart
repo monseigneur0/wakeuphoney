@@ -10,10 +10,6 @@ import 'package:wakeuphoney/common/widget/w_text_form_field.dart';
 import 'package:wakeuphoney/tabs/main_tabscreen.dart';
 import 'package:wakeuphoney/auth/user_widget.dart';
 
-//  test123@wakeupgom.com
-//  tezPib-5qovxu-bydruk
-// takho@wakeup.com
-// !
 class LoginNewScreen extends ConsumerStatefulWidget {
   static const routeName = 'logintabs';
   static const routeUrl = '/logintabs';

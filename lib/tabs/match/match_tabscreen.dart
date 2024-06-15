@@ -10,10 +10,7 @@ import 'package:wakeuphoney/tabs/friend/friend_tabscreen.dart';
 import 'package:wakeuphoney/tabs/match/match_model.dart';
 import 'package:wakeuphoney/tabs/match/match_tab_controller.dart';
 
-//  test123@wakeupgom.com
-//  tezPib-5qovxu-bydruk
 // when no couple.
-
 class MatchTabScreen extends ConsumerStatefulWidget {
   static const routeName = 'matchtabs';
   static const routeUrl = '/matchtabs';
@@ -99,9 +96,7 @@ class _MatchTabScreenState extends ConsumerState<MatchTabScreen> {
                                       return 'Invitation code matched.'.tr().text.make(); // Return error message
                                     }
                                     if (value.length == 6) {
-                                      ref
-                                          .read(matchTabControllerProvider.notifier)
-                                          .checkMatchProcess(inviteCodeController.text);
+                                      ref.read(matchTabControllerProvider.notifier).checkMatchProcess(inviteCodeController.text);
                                       setState(() {});
                                     }
                                   },
