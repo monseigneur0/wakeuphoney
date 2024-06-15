@@ -90,7 +90,7 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
             MainButton(
               'update user info',
               onPressed: () {
-                ref.read(loginControllerProvider.notifier).updateGPTcount();
+                // ref.read(loginControllerProvider.notifier).updateGPTcount();
               },
             ),
             MainButton(
