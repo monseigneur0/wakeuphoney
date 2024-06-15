@@ -27,31 +27,35 @@ class TextFieldWithDelete extends StatefulWidget {
   final VoidCallback? onEditingComplete;
   final TextInputAction? textInputAction;
   final Function()? onTapDelete;
+  final Function(String)? onChanged;
+  final bool? isBorder;
 
-  const TextFieldWithDelete(
-      {Key? key,
-      this.focusNode,
-      required this.controller,
-      this.obscureText = false,
-      this.error = false,
-      this.errorMessage,
-      this.fontSize = 14,
-      this.fontWeight = FontWeight.normal,
-      this.textInputAction,
-      this.deleteRightPadding = 0,
-      this.errorMessageMarginTop = 0,
-      this.hideUnderline = false,
-      this.enabled = true,
-      this.inputFormatters,
-      this.texthint,
-      this.keyboardType,
-      this.onEditingComplete,
-      this.validatorCallback,
-      this.leftImage,
-      this.onTapDelete,
-      this.showMaxCount,
-      this.autofocus})
-      : super(key: key);
+  const TextFieldWithDelete({
+    Key? key,
+    this.focusNode,
+    required this.controller,
+    this.obscureText = false,
+    this.error = false,
+    this.errorMessage,
+    this.fontSize = 14,
+    this.fontWeight = FontWeight.normal,
+    this.textInputAction,
+    this.deleteRightPadding = 0,
+    this.errorMessageMarginTop = 0,
+    this.hideUnderline = false,
+    this.enabled = true,
+    this.inputFormatters,
+    this.texthint,
+    this.keyboardType,
+    this.onEditingComplete,
+    this.validatorCallback,
+    this.leftImage,
+    this.onTapDelete,
+    this.showMaxCount,
+    this.autofocus,
+    this.onChanged,
+    this.isBorder,
+  }) : super(key: key);
 
   @override
   TextFieldWithDeleteState createState() => TextFieldWithDeleteState();
@@ -129,18 +133,29 @@ class TextFieldWithDeleteState extends State<TextFieldWithDelete> {
               textInputAction: widget.textInputAction,
               inputFormatters: widget.inputFormatters,
               onEditingComplete: widget.onEditingComplete,
+              onChanged: widget.onChanged,
+              // minLines: 1,
+              // maxLines: widget.isBorder ?? false ? 10 : null,
+              maxLines: widget.isBorder ?? false ? 10 : null,
+              //함부로 막 추가하면 이전껄 못쓴다....
               style: TextStyle(fontSize: widget.fontSize, fontWeight: widget.fontWeight),
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(left: widget.leftImage == null ? 0 : 30, top: 10, bottom: 14),
+                contentPadding: EdgeInsets.only(left: widget.leftImage == null ? 10 : 30, top: 10, bottom: 14, right: 15),
                 hintText: widget.texthint,
-                hintStyle: TextStyle(
-                    fontSize: widget.fontSize, fontWeight: widget.fontWeight, color: context.appColors.hintText),
-                enabledBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: context.appColors.focusedBorder, width: 2),
-                ),
+                hintStyle: TextStyle(fontSize: widget.fontSize, fontWeight: widget.fontWeight, color: context.appColors.hintText),
+                border: widget.isBorder ?? true ? InputBorder.none : null,
+                enabledBorder: widget.isBorder ?? true
+                    ? OutlineInputBorder(
+                        borderSide: BorderSide(color: context.appColors.lessImportant),
+                        borderRadius: BorderRadius.circular(8),
+                      )
+                    : InputBorder.none, // Remove the enabled border
+                focusedBorder: widget.isBorder ?? true
+                    ? OutlineInputBorder(
+                        borderSide: const BorderSide(color: AppColors.primary600, width: 2),
+                        borderRadius: BorderRadius.circular(8),
+                      )
+                    : InputBorder.none, // Remove the focused border
               ),
             ),
             Positioned.fill(
@@ -158,7 +173,7 @@ class TextFieldWithDeleteState extends State<TextFieldWithDelete> {
                               child: Padding(
                                 padding: EdgeInsets.only(right: widget.deleteRightPadding),
                                 child: SvgPicture.asset(
-                                  '$basePath/icon/delete_x.svg',
+                                  'assets/images/icon/delete_x.svg',
                                   colorFilter: ui.ColorFilter.mode(context.appColors.iconButton, ui.BlendMode.srcIn),
                                 ),
                               ),

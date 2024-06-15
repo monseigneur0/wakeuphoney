@@ -1,199 +1,159 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:logger/logger.dart';
+import 'package:wakeuphoney/app.dart';
+import 'package:wakeuphoney/auth.dart';
+import 'package:wakeuphoney/auth/login_onboard_screen.dart';
+import 'package:wakeuphoney/common/image/image_screen.dart';
+import 'package:wakeuphoney/common/providers/providers.dart';
 
-import 'package:wakeuphoney/features/alarm/alarm_new_ring_screen.dart';
-import 'package:wakeuphoney/features/alarm/alarm_screen.dart';
-import 'package:wakeuphoney/features/auth/login_onboard_screen.dart';
-import 'package:wakeuphoney/features/bitcoin/bitcoin_screen.dart';
-import 'package:wakeuphoney/core/image/image_screen.dart';
-import 'package:wakeuphoney/features/main/main_screen.dart';
-import 'package:wakeuphoney/features/profile/profile_edit_screen.dart';
-import 'package:wakeuphoney/features/wakeup/wakeup_write_screen.dart';
+import 'package:wakeuphoney/common/route/fade_transition.dart';
+import 'package:wakeuphoney/auth/login_controller.dart';
+import 'package:wakeuphoney/auth/login_tabscreen.dart';
+import 'package:wakeuphoney/common/error/error_page.dart';
+import 'package:wakeuphoney/tabs/alarm/alarm_function.dart';
+import 'package:wakeuphoney/tabs/alarm/alarm_reply_screen.dart';
+import 'package:wakeuphoney/tabs/alarm/alarm_ring_sample.dart';
+import 'package:wakeuphoney/tabs/bitcoin/bitcoin_screen.dart';
+import 'package:wakeuphoney/tabs/main_tabscreen.dart';
+import 'package:wakeuphoney/tabs/alarm/alarm_tabscreen.dart';
+import 'package:wakeuphoney/tabs/feed/feed_detail_scree.dart';
+import 'package:wakeuphoney/tabs/feed/feed_tabscreen.dart';
+import 'package:wakeuphoney/tabs/manager/manager_screen.dart';
+import 'package:wakeuphoney/tabs/match/match_tabscreen.dart';
+import 'package:wakeuphoney/tabs/profile/myprofile_tabscreen.dart';
+import 'package:wakeuphoney/tabs/tab_item.dart';
+import 'package:wakeuphoney/tabs/wake/wake_tabscreen.dart';
+import 'package:wakeuphoney/tabs/wake/wake_write_screen.dart';
 
-import 'app.dart';
-import 'features/alarm/alarm_ring_screen.dart';
-import 'features/auth/auth_repository.dart';
-import 'features/auth/login_email_screen.dart';
-import 'features/auth/login_screen.dart';
-import 'features/chatgpt/cs_screen.dart';
-import 'core/image/image_full_screen.dart';
-import 'features/match/match_screen.dart';
-import 'features/profile/feedback_screen.dart';
-import 'features/profile/profile_screen.dart';
-import 'features/voice/voice_test_screen.dart';
-import 'features/voice/voice_text_screen.dart';
-import 'features/wakeup/response_screen.dart';
-import 'features/manager/practice_home_screen.dart';
+import 'common/common.dart';
+
+final auth = LoginAuth();
 
 final routerProvider = Provider((ref) {
   final alarmSettings = ref.watch(alarmSettingsProvider);
   return GoRouter(
     initialLocation: "/main",
-    navigatorKey: App.navigatorKey,
-    redirect: (context, state) {
-      final isLoggedIn = ref.watch(authRepositoryProvider).isLoggedIn;
-      var logger = Logger();
-      // logger.d("isLoggedIn $isLoggedIn");
-      if (!isLoggedIn) {
-        if (state.matchedLocation != LoginHome.routeURL) {
-          return LoginHome.routeURL;
-        }
-      }
-      return null;
+    errorBuilder: (context, state) {
+      return ErrorPage(context, state);
     },
+    // navigatorKey: App.navigatorKey,
+    redirect: ref.watch(loginControllerProvider.notifier).guard,
+    refreshListenable: auth,
+    debugLogDiagnostics: true,
     routes: [
       GoRoute(
-        name: LoginHome.routeName,
-        path: LoginHome.routeURL,
-        builder: (context, state) => const LoginHome(),
+        name: MainTabsScreen.routeName,
+        path: MainTabsScreen.routeUrl,
+        builder: (context, state) => const MainTabsScreen(),
       ),
       GoRoute(
-        name: LoginOnboardScreen.routeName,
-        path: LoginOnboardScreen.routeURL,
-        builder: (context, state) => const LoginOnboardScreen(),
+        name: LoginNewScreen.routeName,
+        path: LoginNewScreen.routeUrl,
+        builder: (context, state) => const LoginNewScreen(),
       ),
       GoRoute(
-        name: AlarmRingScreen.routeName,
-        path: AlarmRingScreen.routeURL,
-        builder: (context, state) => AlarmRingScreen(alarmSettings: alarmSettings),
+        name: LoginOnBoardScreen.routeName,
+        path: LoginOnBoardScreen.routeUrl,
+        builder: (context, state) => const LoginOnBoardScreen(),
       ),
       GoRoute(
-        name: PracticeHome.routeName,
-        path: PracticeHome.routeURL,
-        builder: (context, state) => const PracticeHome(),
+        name: AlarmTabScreen.routeName,
+        path: AlarmTabScreen.routeUrl,
+        builder: (context, state) => const AlarmTabScreen(),
       ),
       GoRoute(
-        name: AlarmNewScreen.routeName,
-        path: AlarmNewScreen.routeURL,
-        builder: (context, state) => const AlarmNewScreen(),
+        name: WakeTabScreen.routeName,
+        path: WakeTabScreen.routeUrl,
+        builder: (context, state) => const WakeTabScreen(),
       ),
       GoRoute(
-        name: AlarmHome.routeName,
-        path: AlarmHome.routeURL,
-        builder: (context, state) => const AlarmHome(),
-        pageBuilder: (context, state) => CustomTransitionPage<void>(
-          key: state.pageKey,
-          child: const AlarmHome(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-              FadeTransition(opacity: animation, child: child),
-        ),
+        name: FeedTabScreen.routeName,
+        path: FeedTabScreen.routeUrl,
+        builder: (context, state) => const FeedTabScreen(),
       ),
       GoRoute(
-        name: ResponseScreen.routeName,
-        path: ResponseScreen.routeURL,
-        builder: (context, state) => const ResponseScreen(),
-      ),
-      GoRoute(
-        name: CoupleProfileScreen.routeName,
-        path: CoupleProfileScreen.routeURL,
-        builder: (context, state) => const CoupleProfileScreen(),
-      ),
-      GoRoute(
-        name: FeedbackScreen.routeName,
-        path: FeedbackScreen.routeURL,
-        builder: (context, state) => const FeedbackScreen(),
-      ),
-      GoRoute(
-        name: MatchScreen.routeName,
-        path: MatchScreen.routeURL,
-        builder: (context, state) => const MatchScreen(),
-      ),
-      GoRoute(
-        name: MainScreen.routeName,
-        path: MainScreen.routeURL,
-        builder: (context, state) => const MainScreen(),
-      ),
-      GoRoute(
-        name: ProfileEditScreen.routeName,
-        path: ProfileEditScreen.routeURL,
-        builder: (context, state) => const ProfileEditScreen(),
-      ),
-      GoRoute(
-        name: CustomerServiceScreen.routeName,
-        path: CustomerServiceScreen.routeURL,
-        builder: (context, state) => const CustomerServiceScreen(),
-      ),
-      GoRoute(
-        name: MyApp.routeName,
-        path: MyApp.routeURL,
-        builder: (context, state) => const MyApp(),
-      ),
-      GoRoute(
-        name: MyApptest.routeName,
-        path: MyApptest.routeURL,
-        builder: (context, state) => const MyApptest(),
-      ),
-      GoRoute(
-        name: WakeUpWriteScreen.routeName,
-        path: WakeUpWriteScreen.routeURL,
-        builder: (context, state) => const WakeUpWriteScreen(),
-      ),
-      GoRoute(
-        name: BitcoinScreen.routeName,
-        path: BitcoinScreen.routeURL,
-        builder: (context, state) => const BitcoinScreen(),
+        name: WakeWriteScreen.routeName,
+        path: WakeWriteScreen.routeUrl,
+        builder: (context, state) => const WakeWriteScreen(),
       ),
       GoRoute(
         name: ImageScreen.routeName,
-        path: ImageScreen.routeURL,
+        path: ImageScreen.routeUrl,
         builder: (context, state) => const ImageScreen(),
-        pageBuilder: (context, state) => CustomTransitionPage<void>(
-          key: state.pageKey,
-          child: const ImageScreen(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-              FadeTransition(opacity: animation, child: child),
+      ),
+      GoRoute(
+        name: ManagerScreen.routeName,
+        path: ManagerScreen.routeUrl,
+        builder: (context, state) => const ManagerScreen(),
+      ),
+      GoRoute(
+        name: BitcoinScreen.routeName,
+        path: BitcoinScreen.routeUrl,
+        builder: (context, state) => const BitcoinScreen(),
+      ),
+      GoRoute(
+        name: AlarmRingSampleScreen.routeName,
+        path: AlarmRingSampleScreen.routeUrl,
+        builder: (context, state) => AlarmRingSampleScreen(
+          alarmSettings: alarmSettings,
         ),
       ),
       GoRoute(
-        name: ImageFullScreen.routeName,
-        path: ImageFullScreen.routeURL,
-        builder: (context, state) => ImageFullScreen(
-          imageURL: state.uri.queryParameters['filter']!,
-          herotag: state.uri.queryParameters['herotag']!,
-        ),
-        pageBuilder: (context, state) => CustomTransitionPage<void>(
+        name: AlarmFunction.routeName,
+        path: AlarmFunction.routeUrl,
+        builder: (context, state) => const AlarmFunction(),
+      ),
+      GoRoute(
+        name: MyProfileTabScreen.routeName,
+        path: MyProfileTabScreen.routeUrl,
+        builder: (context, state) => const MyProfileTabScreen(),
+      ),
+      GoRoute(
+        name: AlarmReplyScreen.routeName,
+        path: AlarmReplyScreen.routeUrl,
+        builder: (context, state) => const AlarmReplyScreen(),
+      ),
+      GoRoute(
+        name: MatchTabScreen.routeName,
+        path: MatchTabScreen.routeUrl,
+        builder: (context, state) => const MatchTabScreen(),
+      ),
+      GoRoute(
+        path: '/',
+        redirect: (_, __) => '/main',
+      ),
+      GoRoute(
+        path: '/logintabs',
+        pageBuilder: (BuildContext context, GoRouterState state) => FadeTransitionPage(
           key: state.pageKey,
-          child: ImageFullScreen(
-            imageURL: state.uri.queryParameters['filter']!,
-            herotag: state.uri.queryParameters['herotag']!,
+          child: const LoginNewScreen(),
+        ),
+      ),
+      // GoRoute(
+      //   path: '/main',
+      //   redirect: (_, __) => '/main/home',
+      // ),
+      GoRoute(
+        path: '/feed/:feedId',
+        redirect: (BuildContext context, GoRouterState state) => '/main/home/${state.pathParameters['feedId']}',
+      ),
+      GoRoute(
+        path: '/main/:kind(home|wake|feed|match|profile)', //home wake feed match profile
+        pageBuilder: (BuildContext context, GoRouterState state) => FadeTransitionPage(
+          key: App.scaffoldKey,
+          child: MainTabsScreen(
+            firstTab: TabItem.find(state.pathParameters['kind']),
           ),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-              FadeTransition(opacity: animation, child: child),
         ),
-      ),
-    ],
-  );
-});
-final logOutRouterProvider = Provider((ref) {
-  return GoRouter(
-    initialLocation: "/loginonboardscreen",
-    routes: [
-      GoRoute(
-        name: LoginHome.routeName,
-        path: LoginHome.routeURL,
-        builder: (context, state) => const LoginHome(),
-      ),
-      GoRoute(
-        name: LoginOnboardScreen.routeName,
-        path: LoginOnboardScreen.routeURL,
-        builder: (context, state) => const LoginOnboardScreen(),
-      ),
-      GoRoute(
-        name: PracticeHome.routeName,
-        path: PracticeHome.routeURL,
-        builder: (context, state) => const PracticeHome(),
-      ),
-      GoRoute(
-        name: MainScreen.routeName,
-        path: MainScreen.routeURL,
-        builder: (context, state) => const MainScreen(),
-      ),
-      GoRoute(
-        name: EmailLoginScreen.routeName,
-        path: EmailLoginScreen.routeURL,
-        builder: (context, state) => const EmailLoginScreen(),
+        routes: <GoRoute>[
+          GoRoute(
+            path: ':feedId',
+            builder: (BuildContext context, GoRouterState state) {
+              final String bookId = state.pathParameters['feedId']!;
+              return FeedDetailScreen(feedId: bookId);
+            },
+          ),
+        ],
       ),
     ],
   );

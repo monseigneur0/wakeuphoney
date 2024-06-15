@@ -5,7 +5,7 @@
   Created by 김탁호 on 2024/01/25.
   
 */
-"CFBundleDisplayName" = "BangunBeruang";
+"CFBundleDisplayName" = "WakeupBear";
 "NSCameraUsageDescription" = "Akses ke kamera diperlukan untuk memuat naik gambar ke dalam surat.";
 "NSMicrophoneUsageDescription" = "Akses ke mikrofon diperlukan untuk merakam suara untuk surat.";
 "NSPhotoLibraryUsageDescription" = "Akses ke album foto diperlukan untuk memuat naik gambar ke dalam surat.";

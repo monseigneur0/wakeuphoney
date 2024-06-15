@@ -7,9 +7,9 @@ export 'package:velocity_x/velocity_x.dart';
 export 'package:go_router/go_router.dart';
 export 'package:logger/logger.dart';
 
-// export 'package:easy_localization/easy_localization.dart';
+export 'package:easy_localization/easy_localization.dart';
 export 'package:flutter_svg/flutter_svg.dart';
-export 'package:nav/nav.dart';
+// export 'package:nav/nav.dart';
 export 'package:quiver/strings.dart';
 export 'package:flutter_animate/flutter_animate.dart';
 
@@ -33,11 +33,12 @@ export 'widget/w_tap.dart';
 export 'constants/constants.dart';
 export 'constants/app_colors.dart';
 export 'constants/firebase_constants.dart';
-export '../core/utils.dart';
+export 'utils.dart';
 export 'error_text.dart';
 export 'loader.dart';
 // import 'package:just_audio/just_audio.dart';
 export 'package:uuid/uuid.dart';
+export 'error/stream_error.dart';
 
 const defaultFontStyle = GoogleFonts.ptSerif;
 

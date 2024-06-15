@@ -1,16 +1,53 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wakeuphoney/auth/login_controller.dart';
 import 'package:wakeuphoney/common/common.dart';
 
 import '../app.dart';
 
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+
 class FcmManager {
   static void requestPermission() {
-    FirebaseMessaging.instance.requestPermission();
+    // FirebaseMessaging.instance.requestPermission();
+    requestPermissionOneSignal();
+    initPlugin();
   }
 
-  static void initialize() async {
+  static void requestPermissionOneSignal() {
+    // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+    OneSignal.Notifications.requestPermission(true);
+  }
+
+  static Future<void> initPlugin() async {
+    final TrackingStatus status = await AppTrackingTransparency.trackingAuthorizationStatus;
+    // If the system can show an authorization request dialog
+    if (status == TrackingStatus.notDetermined) {
+      // Request system's tracking authorization dialog
+      final TrackingStatus status = await AppTrackingTransparency.requestTrackingAuthorization();
+    }
+
+    final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
+  }
+
+  static Future<String> getPushToken() async {
     final token = await FirebaseMessaging.instance.getToken();
-    // print(token);
+    if (token != null) {
+      return token;
+    }
+    return '';
+  }
+
+  static void initialize(WidgetRef ref) async {
+    Logger logger = Logger();
+    logger.d('FcmManager initialize');
+    final token = await FirebaseMessaging.instance.getToken();
+    logger.d(token);
+    if (token != null) {
+      ref.read(loginControllerProvider.notifier).updateFcmToken(token);
+      logger.d('fcm token updated');
+    }
 
     //Foreground
     FirebaseMessaging.onMessage.listen((message) {
@@ -18,20 +55,22 @@ class FcmManager {
       if (title == null) {
         return;
       }
+      logger.d(title);
+
       showToast(title);
     });
 
     //Background
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      App.navigatorKey.currentContext!.showToast(msg: message.notification?.title ?? "no title");
+      App.scaffoldMessengerKey.currentContext!.showToast(msg: message.notification?.title ?? "no title");
       // App.navigatorKey.currentState!.go(message.data['screen']);
     });
 
     //When app is closed -> initial launch
     final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
-      await sleepUntil(() => App.navigatorKey.currentContext != null && App.navigatorKey.currentContext!.mounted);
-      App.navigatorKey.currentContext!.showToast(msg: initialMessage.notification?.title ?? "no title");
+      await sleepUntil(() => App.scaffoldMessengerKey.currentContext != null && App.scaffoldMessengerKey.currentContext!.mounted);
+      App.scaffoldMessengerKey.currentContext!.showToast(msg: initialMessage.notification?.title ?? "no title");
     }
   }
 }
