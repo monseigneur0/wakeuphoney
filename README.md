@@ -1,16 +1,21 @@
-# wakeuphoney
+# WakeupBear
 
-A new Flutter project.
+서로 깨워주는 알람 앱
 
-## Getting Started
+ios : https://apps.apple.com/kr/app/%EC%9D%BC%EC%96%B4%EB%82%98%EA%B3%B0/id6456038866
+andorid : https://play.google.com/store/apps/details?id=com.wakeuptaco.wakeuphoney&hl=ko
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+ ## 개발환경
+ Flutter + Firebase
+ Riverpod 상태관리
+ 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+ ## 주요기능 
+ Apple login
+ Google login
+ 친구 연결
+ 친구 알람 만들기
+ 피드 보기
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+ 
