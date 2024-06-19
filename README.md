@@ -1,16 +1,50 @@
-# wakeuphoney
+# WakeupBear
 
-A new Flutter project.
+서로 깨워주는 알람 앱
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+알람 앱은 저도 여러가지 써보긴 했지만 그렇게 큰 발전이 있기 힘들다고 생각했습니다. 사람들은 알람앱의 역할을 그저 깨워주는 것이라고 생각하기 때문이죠. 깨워준다기 보다 그냥 설정한 시간에 소리가 나는 것. 이게 전부죠. 
 
-A few resources to get you started if this is your first Flutter project:
+니체인지 기억은 정확하지 않지만 이 분도 자기 하인에게 자신을 무조건 깨우라고. 아무리 자신이 일어나는 것을 싫어해도 깨우라고 했던 것을 보면 정말 아침에 일어나는 것이 모든 사람에게 쉬운 일은 아닌 것같습니다. 노량진에서는 아침에 그저 일어난 것을 확인하는 스터디도 있다고 합니다. 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+아침에 잘 일어나는 것은 시대를 초월해서 중요한 것 같습니다. 
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+그럼 서로 깨워주는 것이 중요할까
+
+그렇게 까지 사람들에게 와 닿을까? 솔직한 생각으로는 꼭 필요한 앱은 아니고, 한번쯤 장난삼아 해보기는 재밌겠다. 휴가나온 군인에게 친구들이 기상 나팔 소리로 장난치는 것처럼. 만우절처럼 가끔가다 한번 장난쳐보면 재밌겠다. 또 예약 메세지 같은 느낌이 있어서 미리 작성해 놓은 것이 보이면 좋겠다.
+
+한번쯤 사용해보면 재밌겠다. 반드시 필요하지는 않지만 쓰면 재미있을 것 같은 앱. 다만 나중에 좀 후회할거같습니다. 이때는 수요를 미리 알아보고 한 것은 아니기에 또 그런 수요를 찾을 방법도 모르기에 우선 맨땅에 해딩을 해 봅니다.
+
+
+ios : https://apps.apple.com/kr/app/%EC%9D%BC%EC%96%B4%EB%82%98%EA%B3%B0/id6456038866
+
+andorid : https://play.google.com/store/apps/details?id=com.wakeuptaco.wakeuphoney&hl=ko
+
+
+
+
+
+ ## 개발환경
+ Flutter + Firebase
+ 
+ Riverpod 상태관리
+ 
+ 
+
+ ## 주요기능 
+ Apple login
+ 
+ Google login
+ 
+ 친구 연결
+ 
+ 친구 알람 만들기
+ 
+ 피드 보기
+ 
+ chatGPT api 연동으로 고객센터 챗봇 개발
+
+
+ 
+
+ 
