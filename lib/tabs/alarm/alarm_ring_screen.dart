@@ -1,13 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
-
 import 'package:alarm/alarm.dart';
+import 'package:alarm/model/alarm_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
+import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/tabs/wake/wake_controller.dart';
 
 //not using
@@ -144,8 +142,7 @@ class AlarmRingScreen extends ConsumerWidget {
                             data.couple == ""
                                 ? Container()
                                 : ElevatedButton(
-                                    style: const ButtonStyle(
-                                        backgroundColor: MaterialStatePropertyAll(AppColors.primary600)),
+                                    style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppColors.primary600)),
                                     onPressed: () {
                                       Alarm.stop(alarmSettings.id);
                                       // context.goNamed(ResponseScreen.routeName);

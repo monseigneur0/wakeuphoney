@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:alarm/alarm.dart';
+import 'package:alarm/model/alarm_settings.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:wakeuphoney/common/widget/alarm_tile.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_edit_screen.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_ring_sample.dart';
-import 'package:wakeuphoney/tabs/alarm/alarm_ring_screen.dart';
 
 class AlarmManager extends StatefulWidget {
   final AlarmSettings alarmSettings;
@@ -47,18 +47,18 @@ class _AlarmManagerState extends State<AlarmManager> {
   }
 
   Future<void> navigateToAlarmScreen(AlarmSettings? settings) async {
-    final res = await showModalBottomSheet<bool?>(
-      context: context,
-      isScrollControlled: true,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      builder: (context) {
-        return FractionallySizedBox(
-          heightFactor: 0.7,
-          child: AlarmEditScreen(alarmSettings: settings),
-        );
-      },
-    );
-    if (res != null && res == true) loadAlarms();
+    // final res = await showModalBottomSheet<bool?>(
+    //   context: context,
+    //   isScrollControlled: true,
+    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+    //   builder: (context) {
+    //     return FractionallySizedBox(
+    //       heightFactor: 0.7,
+    //       child: AlarmEditScreen(alarmSettings: settings),
+    //     );
+    //   },
+    // );
+    // if (res != null && res == true) loadAlarms();
   }
 
   void loadAlarms() {
