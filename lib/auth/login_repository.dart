@@ -88,7 +88,7 @@ class LoginRepository {
       //new user
       if (userCredential.additionalUserInfo!.isNewUser) {
         final user = userCredential.user;
-        await createNewUser(user, LoginType.apple);
+        await createNewUser(user, 'apple');
 
         return userCredential;
       }
@@ -129,7 +129,7 @@ class LoginRepository {
       //new user
       if (userCredential.additionalUserInfo!.isNewUser) {
         final user = userCredential.user;
-        await createNewUser(user, LoginType.google);
+        await createNewUser(user, 'google');
 
         return userCredential;
       }
@@ -162,7 +162,7 @@ class LoginRepository {
     await _googleSignIn.signOut();
   }
 
-  Future<void> createNewUser(User? user, LoginType loginType) async {
+  Future<void> createNewUser(User? user, String loginType) async {
     final newUser = UserModel(
       displayName: user!.displayName ?? "",
       email: user.email ?? "",

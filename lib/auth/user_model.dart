@@ -9,7 +9,7 @@ class UserModel {
   final String email;
   final String photoURL;
   final String uid;
-  final LoginType? loginType;
+  final String? loginType;
   final String? fcmToken;
 
   final String gender;
@@ -65,7 +65,7 @@ class UserModel {
     String? photoURL,
     String? uid,
     String? fcmToken,
-    LoginType? loginType,
+    String? loginType,
     String? couple,
     List? couples,
     String? coupleDisplayName,
@@ -146,7 +146,7 @@ class UserModel {
       email: map['email'] as String,
       photoURL: map['photoURL'] as String,
       uid: map['uid'] as String,
-      loginType: map['loginType'] as LoginType?,
+      loginType: map['loginType'] as String?,
       fcmToken: map['fcmToken'] as String?,
       couple: map['couple'] as String,
       couples: List.from((map['couples'] as List)),
@@ -216,7 +216,7 @@ class UserModel {
       email: '',
       photoURL: '',
       uid: '',
-      loginType: LoginType.email,
+      loginType: 'email',
       fcmToken: '',
       couple: '',
       couples: [],
