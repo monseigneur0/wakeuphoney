@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/util/local_json.dart';
 
