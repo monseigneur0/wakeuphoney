@@ -101,7 +101,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                         builder: (context) => const CustomerServiceScreen(),
                       ));
                 }),
-                LinkCard('App Version Information'.tr(), info: '1.1.2', onTap: () {}),
+                LinkCard('App Version Information'.tr(), info: '1.1.7', onTap: () {}),
                 LinkCard('Open Source'.tr(), onTap: () {
                   Navigator.push(
                       context,
@@ -113,8 +113,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                   launchUrlString('https://sweetgom.com/4');
                   analytics.logSelectContent(contentType: "go", itemId: "appinfopolicy");
                 }),
-                LinkCard('login information', info: user!.loginType == null ? 'null'.tr() : user.loginType.toString(),
-                    onTap: () {
+                LinkCard('login information', info: user!.loginType == null ? 'null'.tr() : user.loginType.toString(), onTap: () {
                   context.showSnackbar('로그인 정보: ${user.loginType}\n이메일 정보: ${user.email}');
                 }),
                 LinkCard('Signout'.tr(), onTap: () {
