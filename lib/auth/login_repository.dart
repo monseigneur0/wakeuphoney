@@ -186,10 +186,9 @@ class LoginRepository {
       coupleLocation: const GeoPoint(0, 0),
       coupleWakeUpTime: DateTime.now(),
     );
-
-    await _users.doc(user.uid).set({
-      newUser.toMap(),
-    });
+    await _users.doc(user.uid).set(
+          newUser.toMap(),
+        );
   }
 
   String getUidByFirebaseAuth() {
@@ -281,9 +280,9 @@ class LoginRepository {
     if (user == null) {
       return;
     }
-    await _users.doc(user.uid).update({
-      "fcmToken": token,
-    });
+    // await _users.doc(user.uid).update({
+    //   "fcmToken": token,
+    // });
   }
 
   updateProfileImage(String imageUrl) async {
@@ -322,7 +321,7 @@ class LoginRepository {
     if (user == null) {
       return;
     }
-    await user.delete();
+    await user.delete(); //error
     await _users.doc(uid).delete();
   }
 

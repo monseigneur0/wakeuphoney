@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:wakeuphoney/auth/login_controller.dart';
+import 'package:wakeuphoney/common/widget/w_main_button.dart';
 
 import '../common/common.dart';
 import 'tab_item.dart';
@@ -95,9 +96,19 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
             'Error: $error $stackTrace',
           );
           return Scaffold(
-            body: Center(
-              child: Text('Error: $error'),
-            ),
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Error: $error'),
+                MainButton(
+                  'refresh',
+                  onPressed: () {
+                    ref.read(loginControllerProvider.notifier).deleteUser();
+                    ref.read(loginControllerProvider.notifier).signOut(context);
+                  },
+                )
+              ],
+            ).pSymmetric(h: 20),
           );
         },
         loading: () {
