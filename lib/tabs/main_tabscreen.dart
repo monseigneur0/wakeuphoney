@@ -1,3 +1,4 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -54,6 +55,24 @@ class _MainTabsScreenState extends ConsumerState<MainTabsScreen> with SingleTick
   ///앱의 최상단. app 이전과 main tabs 이후로 나뉜다.
   ///user는 main tabs에서 모든게 시작되기 때문에 main tabs 에서 stream builder 만든다.
   ///커플이 생기면 match tab 제거는 나중에 생각하자.
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initPlugin();
+  }
+
+  static Future<void> initPlugin() async {
+    final TrackingStatus status = await AppTrackingTransparency.trackingAuthorizationStatus;
+    // If the system can show an authorization request dialog
+    if (status == TrackingStatus.notDetermined) {
+      // Request system's tracking authorization dialog
+      final TrackingStatus status = await AppTrackingTransparency.requestTrackingAuthorization();
+    }
+
+    final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
+  }
 
   @override
   Widget build(BuildContext context) {

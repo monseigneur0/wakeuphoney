@@ -211,7 +211,7 @@ class LoginController extends StateNotifier<UserModel> {
   }
 
   void deleteUser() {
-    final uid = _loginRepository.currentUser!.uid;
+    final uid = _loginRepository.currentUser!.uid; //error
 
     _loginRepository.deleteUser(uid);
   }
