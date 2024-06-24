@@ -6,6 +6,7 @@ import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/widget/w_main_button.dart';
 import 'package:wakeuphoney/tabs/bitcoin/bitcoin_screen.dart';
 import 'package:wakeuphoney/auth/user_widget.dart';
+import 'package:wakeuphoney/tabs/manager/manage_user_screen.dart';
 
 class ManagerScreen extends ConsumerStatefulWidget {
   static const String routeName = 'manager';
@@ -39,6 +40,12 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            MainButton(
+              'ManageUserScreen',
+              onPressed: () {
+                context.go(ManageUserScreen.routeUrl);
+              },
+            ),
             const Center(
               child: Text('Manager Screen'),
             ),

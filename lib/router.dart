@@ -18,6 +18,7 @@ import 'package:wakeuphoney/tabs/main_tabscreen.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_tabscreen.dart';
 import 'package:wakeuphoney/tabs/feed/feed_detail_scree.dart';
 import 'package:wakeuphoney/tabs/feed/feed_tabscreen.dart';
+import 'package:wakeuphoney/tabs/manager/manage_user_screen.dart';
 import 'package:wakeuphoney/tabs/manager/manager_screen.dart';
 import 'package:wakeuphoney/tabs/match/match_tabscreen.dart';
 import 'package:wakeuphoney/tabs/profile/myprofile_tabscreen.dart';
@@ -85,6 +86,11 @@ final routerProvider = Provider((ref) {
         name: ManagerScreen.routeName,
         path: ManagerScreen.routeUrl,
         builder: (context, state) => const ManagerScreen(),
+      ),
+      GoRoute(
+        name: ManageUserScreen.routeName,
+        path: ManageUserScreen.routeUrl,
+        builder: (context, state) => const ManageUserScreen(),
       ),
       GoRoute(
         name: BitcoinScreen.routeName,

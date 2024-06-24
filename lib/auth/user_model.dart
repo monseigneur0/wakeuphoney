@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import 'package:wakeuphoney/auth/login_type.dart';
 
 class UserModel {
   final String displayName;
