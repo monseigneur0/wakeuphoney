@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:wakeuphoney/auth/login_tabscreen.dart';
@@ -65,7 +64,7 @@ class LoginOnBoardScreen extends StatelessWidget {
 
         // showBackButton = 뒤로가기 버튼 활성화 여부, 첫번째 페이지가 아닐 때 활성화
         showBackButton: false,
-        back: const Icon(Icons.arrow_back_ios), // 아이콘도 지정되면 바뀌지 않으므로 const 처리,
+        back: const Icon(Icons.arrow_back_ios),
         backStyle: const ButtonStyle(),
       ),
     );

@@ -43,7 +43,7 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
             MainButton(
               'ManageUserScreen',
               onPressed: () {
-                context.go(ManageUserScreen.routeUrl);
+                context.push(ManageUserScreen.routeUrl);
               },
             ),
             const Center(

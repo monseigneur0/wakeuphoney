@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:wakeuphoney/auth/login_type.dart';
+
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/auth/user_model.dart';
 import 'package:wakeuphoney/passwords.dart';
@@ -50,8 +50,6 @@ class LoginRepository {
         showToast("로그인에 실패했습니다. 이메일 또는 비밀번호를 확인해주세요.");
         return null;
       }
-
-      //new user ?
 
       //existing user
       final user = userCredential.user;
@@ -160,13 +158,20 @@ class LoginRepository {
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
     await _googleSignIn.signOut();
+    final user = currentUser;
+
+    await _users.doc(user!.uid).update({
+      "isLoggedIn": false,
+      "lastSignInTime": DateTime.now(),
+    });
   }
 
   Future<void> createNewUser(User? user, String loginType) async {
     final newUser = UserModel(
       displayName: user!.displayName ?? "",
       email: user.email ?? "",
-      photoURL: user.photoURL ?? "",
+      photoURL: user.photoURL ??
+          "https://firebasestorage.googleapis.com/v0/b/wakeuphoneys2.appspot.com/o/profileimages%2F2024-05-27%2018:14:18.281411?alt=media&token=f021e72f-23a9-43b0-bfb0-a1ec47047d49",
       uid: user.uid,
       loginType: loginType,
       couple: "",
@@ -189,11 +194,6 @@ class LoginRepository {
     await _users.doc(user.uid).set(
           newUser.toMap(),
         );
-  }
-
-  String getUidByFirebaseAuth() {
-    final user = _firebaseAuth.currentUser;
-    return user!.uid;
   }
 
   Future<UserModel> getUserById(String uid) async {
@@ -280,9 +280,9 @@ class LoginRepository {
     if (user == null) {
       return;
     }
-    // await _users.doc(user.uid).update({
-    //   "fcmToken": token,
-    // });
+    await _users.doc(user.uid).update({
+      "fcmToken": token,
+    });
   }
 
   updateProfileImage(String imageUrl) async {
@@ -323,6 +323,7 @@ class LoginRepository {
     }
     await user.delete(); //error
     await _users.doc(uid).delete();
+    //if has friend, delete this friend
   }
 
   updateGPTcount() async {

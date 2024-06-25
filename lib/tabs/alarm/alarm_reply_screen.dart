@@ -194,12 +194,6 @@ class _AlarmReplyScreenState extends ConsumerState<AlarmReplyScreen> {
                           Navigator.of(context).pop();
                         },
                       ),
-
-                // NormalButton(text: 'NormalButton.'.tr() onPressed: () {}),
-                // RoundButton(text: 'RoundButton', onTap: () {}),
-                // LongButton(title: 'LongButton', onTap: () {}),
-                // MainButton('MainButton', onPressed: () {}),
-                // MenuButton????('text', onTap: () {}),
               ],
             ).pSymmetric(h: 20),
           ),

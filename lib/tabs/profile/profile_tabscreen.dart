@@ -41,42 +41,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
           children: [
             SizedBox(
               child: const Row(
-                children: [
-                  // Column(
-                  //   children: [
-                  //     Tap(
-                  //         onTap: () {
-                  //           Navigator.push(
-                  //               context,
-                  //               MaterialPageRoute(
-                  //                 builder: (context) => ImageFullScreen(
-                  //                   imageURL: user.photoURL,
-                  //                   herotag: 'profileImage'.tr(),
-                  //                 ),
-                  //               ));
-                  //         },
-                  //         child: profileImage(
-                  //           user!,
-                  //           herotag: 'profileImage'.tr(),
-                  //         )),
-                  //     user.displayName.text.make(),
-                  //   ],
-                  // ),
-                  // width20,
-                  // Column(
-                  //   children: [
-                  //     ClipOval(
-                  //       child: Image.asset(
-                  //         'assets/images/samples/cherryblossom.png'.tr(),
-                  //         width: Constants.pngSize,
-                  //         height: Constants.pngSize,
-                  //         fit: BoxFit.cover,
-                  //       ),
-                  //     ),
-                  //     const Text('프로필2'),
-                  //   ],
-                  // ),
-                ],
+                children: [],
               ).pSymmetric(h: 20),
             ),
             height20,
@@ -101,7 +66,7 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                         builder: (context) => const CustomerServiceScreen(),
                       ));
                 }),
-                LinkCard('App Version Information'.tr(), info: '1.1.7', onTap: () {}),
+                LinkCard('App Version Information'.tr(), info: '1.1.9', onTap: () {}),
                 LinkCard('Open Source'.tr(), onTap: () {
                   Navigator.push(
                       context,
@@ -117,14 +82,9 @@ class _ProfileTabScreenState extends ConsumerState<ProfileTabScreen> {
                   context.showSnackbar('로그인 정보: ${user.loginType}\n이메일 정보: ${user.email}');
                 }),
                 LinkCard('Signout'.tr(), onTap: () {
-                  // context.go(LoginNewScreen.routeUrl);
                   context.go(LoginNewScreen.routeUrl);
                   ref.read(loginControllerProvider.notifier).signOut(context);
                 }),
-                // LinkCard('연결끊기', onTap: () {
-                //   ref.read(matchTabControllerProvider.notifier).breakUp();
-                // }),
-
                 LinkCard('disconnect friend'.tr(), onTap: () {
                   Platform.isIOS
                       ? showCupertinoDialog(

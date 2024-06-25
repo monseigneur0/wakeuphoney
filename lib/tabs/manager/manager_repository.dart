@@ -7,7 +7,7 @@ import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/providers/firebase_providers.dart';
 import 'package:wakeuphoney/tabs/match/match_model.dart';
 
-final matchTabRepositoryProvider = Provider((ref) => ManagerRepsoitory(firestore: ref.watch(firestoreProvider)));
+final managerRepositoryProvider = Provider((ref) => ManagerRepsoitory(firestore: ref.watch(firestoreProvider)));
 
 class ManagerRepsoitory {
   final FirebaseFirestore _firestore;
@@ -27,6 +27,44 @@ class ManagerRepsoitory {
   ///
   ///
   ///
+
+  void createNewUser() {
+    logger.d('createNewUser');
+    const String useruid = 'ucQsGIdNjRPrz7slFHGidNoNLyq2';
+    final newUser = UserModel(
+      displayName: 'name',
+      email: 'email',
+      photoURL: '',
+      uid: useruid,
+      loginType: 'sns',
+      couple: "",
+      couples: [],
+      creationTime: DateTime.now(),
+      lastSignInTime: DateTime.now(),
+      isLoggedIn: true,
+      chatGPTMessageCount: 0,
+      gender: "male",
+      birthDate: DateTime.now(),
+      location: const GeoPoint(0, 0),
+      wakeUpTime: DateTime.now(),
+      coupleDisplayName: "",
+      couplePhotoURL: "",
+      coupleGender: "",
+      coupleBirthDate: DateTime.now(),
+      coupleLocation: const GeoPoint(0, 0),
+      coupleWakeUpTime: DateTime.now(),
+    );
+    _users.doc(useruid).set(
+          newUser.toMap(),
+        );
+  }
+
+  Future<List<UserModel>> getRecentUser() async {
+    final recentUser = await _users.where('creationTime', isGreaterThan: DateTime.now().subtract(const Duration(days: 7))).get();
+    return recentUser.docs.map((e) => UserModel.fromMap(e.data() as Map<String, dynamic>)).toList();
+  }
+
+/////////////////////////////
 
   Future<MatchModel> getFutureMatchNumber(String uid) {
     try {

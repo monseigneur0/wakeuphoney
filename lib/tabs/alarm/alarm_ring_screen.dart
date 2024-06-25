@@ -1,17 +1,20 @@
 import 'package:alarm/alarm.dart';
 import 'package:alarm/model/alarm_settings.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wakeuphoney/auth/login_controller.dart';
+import 'package:wakeuphoney/auth/user_model.dart';
 import 'package:wakeuphoney/common/common.dart';
+import 'package:wakeuphoney/common/providers/providers.dart';
+import 'package:wakeuphoney/common/widget/w_main_button.dart';
+import 'package:wakeuphoney/common/widget/w_main_button_disabled.dart';
+import 'package:wakeuphoney/tabs/alarm/alarm_reply_screen.dart';
 import 'package:wakeuphoney/tabs/wake/wake_controller.dart';
+import 'package:wakeuphoney/tabs/wake/wake_model.dart';
+import 'package:wakeuphoney/tabs/wake/wake_tabscreen.dart';
 
-//not using
 class AlarmRingScreen extends ConsumerWidget {
-  static String routeName = "alarmring";
-  static String routeURL = "/alarmring";
+  static String routeName = "alarmringsample";
+  static String routeUrl = "/alarmringsample";
   final AlarmSettings alarmSettings;
 
   const AlarmRingScreen({
@@ -21,156 +24,189 @@ class AlarmRingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final myAlarm = ref.watch(alarmListStreamProvider);
+    final friend = ref.watch(friendUserModelProvider);
     Logger logger = Logger();
-
-    final getALetter = ref.watch(wakeListStreamProvider);
-    final hasCoupleId = ref.watch(getUserStreamProvider);
 
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  DateFormat("yyyy년 MM월 dd일").format(DateTime.now()),
-                  style: const TextStyle(fontSize: 40),
-                ),
-                // Text(
-                //   dateList100.first,
-                //   style: const TextStyle(fontSize: 10),
-                // ),
-                getALetter.when(
-                  data: (letter) {
-                    return Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            clipBehavior: Clip.hardEdge,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                            child: letter.first.messagePhoto.isNotEmpty
-                                ? CachedNetworkImage(
-                                    imageUrl: letter.first.messagePhoto,
-                                    placeholder: (context, url) => Container(
-                                      height: 70,
-                                    ),
-                                    errorWidget: (context, url, error) => const Icon(Icons.error),
-                                  )
-                                : Container(),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(20)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    letter.first.message,
-                                    style: const TextStyle(fontSize: 25),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
+          child: myAlarm.when(
+            data: (alarm) {
+              if (alarm.isEmpty) {
+                return const Center(
+                  child: EmptyBox(),
+                );
+              } else {
+                final now = DateTime.now();
+                final ringingAlarm = alarm.firstWhere(
+                  (a) => a.wakeTime.isBefore(now),
+                  orElse: () {
+                    return WakeModel.sample();
                   },
-                  error: (error, stackTrace) {
-                    // logger.d("error");
+                );
+                logger.d('ringingAlarm: $ringingAlarm');
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    height40,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TimeBarBig(ringingAlarm),
+                      ],
+                    ),
+                    height10,
+                    // profileImage(friend ?? UserModel.empty()),
+                    height10,
+                    'left a message'.tr(args: [friend?.displayName ?? UserModel.empty().displayName]).text.medium.make(),
+                    height20,
+                    TextMessageBox(ringingAlarm.message),
+                    height10,
+                    ImageBox(ringingAlarm.messagePhoto),
 
-                    return const Column(
-                      children: [
-                        SizedBox(
-                          height: 50,
-                        ),
-                        Text(
-                          "받은 편지가 없어요...",
-                          style: TextStyle(fontSize: 30),
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                      ],
-                    );
-                  },
-                  loading: () => const Loader(),
-                ),
-                hasCoupleId.when(
-                  data: (data) {
-                    return Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(40.0),
-                          child: CachedNetworkImage(
-                            width: 80,
-                            imageUrl: data.couplePhotoURL ?? data.photoURL,
-                            fit: BoxFit.fill,
-                            placeholder: (context, url) => Container(
-                              height: 40,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            ElevatedButton(
-                              style: const ButtonStyle(
-                                iconSize: MaterialStatePropertyAll(30),
-                                backgroundColor: MaterialStatePropertyAll(Colors.grey),
-                              ),
-                              onPressed: () {
-                                Alarm.stop(alarmSettings.id).then((_) => Navigator.pop(context));
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.all(MediaQuery.of(context).size.width / 15),
-                                child: const Text(
-                                  "종료하기",
-                                  style: TextStyle(fontSize: 25, color: Colors.white),
-                                ),
-                              ),
-                            ),
-                            data.couple == ""
-                                ? Container()
-                                : ElevatedButton(
-                                    style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(AppColors.primary600)),
-                                    onPressed: () {
-                                      Alarm.stop(alarmSettings.id);
-                                      // context.goNamed(ResponseScreen.routeName);
-                                    },
-                                    child: Padding(
-                                      padding: EdgeInsets.all(MediaQuery.of(context).size.width / 15),
-                                      child: const Text(
-                                        "답장하기",
-                                        style: TextStyle(
-                                          fontSize: 25,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                          ],
-                        )
-                      ],
-                    );
-                  },
-                  error: (error, stackTrace) => StreamError(error, stackTrace),
-                  loading: () => const Loader(),
-                ),
-              ],
-            ),
+                    height40,
+                    const InfoBox(),
+                    height10,
+                    WakeModel.sample() == ringingAlarm ? Container() : CoupleButton(ref, ringingAlarm, alarmSettings), //버튼 위치는 항상 고정해야하지 않을까
+                  ],
+                ).pSymmetric(v: 10, h: 20);
+              }
+            },
+            error: streamError, // Define the 'error' variable
+            //나중에 글로벌 에러 핸들링으로 변경
+            loading: () => const CircularProgressIndicator(), // Define the 'loading' variable
+            // 나ㅇ에 글로벌 로딩 페이지으로 변경
           ),
         ),
       ),
+    );
+  }
+
+  Widget streamError(error, stackTrace) {
+    Logger logger = Logger();
+    logger.e(
+      'Error: $error Stack Trace: $stackTrace',
+    );
+    return Text('Error: $error');
+  }
+}
+
+class InfoBox extends StatelessWidget {
+  const InfoBox({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.grey200,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          children: [
+            'Please reply.'.tr().text.medium.make(),
+            height10,
+            'If you select snooze, it will ring again in 10 minutes.'.tr().text.medium.make(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CoupleButton extends StatelessWidget {
+  final WidgetRef ref;
+  final WakeModel wake;
+  final AlarmSettings alarmSettings;
+  const CoupleButton(this.ref, this.wake, this.alarmSettings, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        // Expanded(
+        //   child: ElevatedButton(
+        //     onPressed: () {
+        //       // ref.read(wakeControllerProvider.notifier).approveWake();
+        //       // //stop alarm
+        //       // Alarm.stop;
+        //       // context.push(WakeTabScreen.routeUrl);
+        //     },
+        //     child: '다시 알림'.text.make(),
+        //   ),
+        // ),
+        Expanded(
+          child: MainButtonDisabled(
+            'Snooze'.tr(),
+            onPressed: () {
+              // Alarm.stop(alarmSettings.id);
+              final now = DateTime.now();
+              Alarm.set(
+                alarmSettings: alarmSettings.copyWith(
+                  dateTime: DateTime(
+                    now.year,
+                    now.month,
+                    now.day,
+                    now.hour,
+                    now.minute,
+                  ).add(const Duration(minutes: 10)),
+                ),
+              ).then((_) => Navigator.pop(context));
+
+              // ref.read(wakeControllerProvider.notifier).approveWake();
+              // //stop alarm
+              // Alarm.stop; and restart alarm
+              // context.push(WakeTabScreen.routeUrl);
+            },
+          ),
+        ),
+        width10,
+        Expanded(
+          child: MainButton(
+            'Go to reply'.tr(),
+            onPressed: () {
+              Alarm.stop(alarmSettings.id);
+              // ref.read(wakeControllerProvider.notifier).rejectWake();
+              context.push(AlarmReplyScreen.routeUrl);
+              ref.read(wakeIdProvider.notifier).state = wake.wakeUid.toString();
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class TimeBarBig extends StatelessWidget {
+  final WakeModel wake;
+  const TimeBarBig(
+    this.wake, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        DateFormat('a').format(wake.wakeTime).text.size(24).medium.color(AppColors.primary700).make(),
+        width5,
+        DateFormat('hh:mm').format(wake.wakeTime).text.size(32).semiBold.color(AppColors.primary700).make(),
+        width5,
+        // if (kDebugMode) wake.wakeTime.toString().text.make(),
+        width5,
+        if (wake.messageAudio.isNotEmpty)
+          const CircleAvatar(
+            backgroundColor: AppColors.grey900,
+            radius: 13,
+            child: Icon(
+              Icons.mic,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
+      ],
     );
   }
 }

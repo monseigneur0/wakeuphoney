@@ -17,7 +17,7 @@ class FriendTabScreen extends ConsumerWidget {
     final user = ref.watch(userModelProvider);
     final friend = ref.watch(friendUserModelProvider);
     Logger logger = Logger();
-    logger.d("initialize friend tab");
+
     if (friend == null) {
       return const Scaffold(
         body: Center(
@@ -132,12 +132,14 @@ Widget profileImage(UserModel friend, {String? herotag}) {
         Image.asset('assets/images/wakeupbear/wakeupbearprofile.png', width: 115),
         ClipRRect(
           borderRadius: BorderRadius.circular(100),
-          child: CachedNetworkImage(
-            imageUrl: friend.photoURL,
-            width: 100,
-            placeholder: (context, url) => const CircularProgressIndicator(),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-          ),
+          child: friend.photoURL.isNotEmpty
+              ? CachedNetworkImage(
+                  imageUrl: friend.photoURL,
+                  width: 100,
+                  placeholder: (context, url) => const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                )
+              : Image.asset('assets/images/icon/human.png', width: 100),
         ),
       ],
     ),

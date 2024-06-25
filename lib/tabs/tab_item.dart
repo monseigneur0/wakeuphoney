@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/tabs/alarm/alarm_tabscreen.dart';
-import 'package:wakeuphoney/tabs/feed/feed_tabscreen.dart';
+
 import 'package:wakeuphoney/tabs/match/match_tabscreen.dart';
 import 'package:wakeuphoney/tabs/profile/profile_tabscreen.dart';
 import 'package:wakeuphoney/tabs/wake/wake_tabscreen.dart';

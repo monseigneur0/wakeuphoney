@@ -1,7 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import 'package:wakeuphoney/common/common.dart';
 import 'package:wakeuphoney/common/util/app_keyboard_util.dart';
 import 'package:wakeuphoney/common/widget/w_text_field_with_delete.dart';
@@ -148,9 +148,7 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                     ),
                   ],
                 ),
-
               if (kDebugMode) const UserLoggedInWidget(),
-
               height20,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -184,21 +182,6 @@ class _LoginNewScreenState extends ConsumerState<LoginNewScreen> {
                 ],
               ),
               height40,
-              // if (kDebugMode)
-              //   Row(
-              //     children: [
-              //       ElevatedButton(
-              //           onPressed: () {
-              //             Nav.push(const MainScreen());
-              //           },
-              //           child: '이전 디자인'.tr().text.make()),
-              //       ElevatedButton(
-              //           onPressed: () {
-              //             Nav.push(const MatchTabScreen());
-              //           },
-              //           child: '이전 디자인'.tr().text.make()),
-              //     ],
-              //   ),
             ],
           ).pSymmetric(h: 20),
         ),
