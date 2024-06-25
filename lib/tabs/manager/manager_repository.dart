@@ -18,7 +18,7 @@ class ManagerRepsoitory {
 
   Logger logger = Logger();
 
-  //////여기서부터 이전꺼 이썌기야 좀 적당히 해라
+  /////
   /// firebase 에서 모든 유저 및 데이터 정보 가져오기 예를 들면 유저가 alarm 정보 가지고 있으면 가져오기
   ///
   ///
